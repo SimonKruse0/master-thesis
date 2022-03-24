@@ -1,10 +1,17 @@
 import matplotlib.pyplot as plt
+import matplotlib.gridspec as gridspec
+
 import numpy as np
+plt.rcParams.update({
+    "text.usetex": True,
+    "font.family": "serif",
+    "font.serif": ["Palatino"],
+})
 
 
-class plot_surrogate:
-    def __init__(self, ax) -> None:
-        self.ax = ax
+class PlottingClass:
+    def __init__(self) -> None:
+        pass
 
     def plot_regression_gaussian_approx(self,gs,name = False, num_grid_points = 1000):
         assert self._X.shape[1] == 1   #Can only plot 1D functions
@@ -29,7 +36,7 @@ class plot_surrogate:
         if self.model.name != "numpyro neural network":
             return
         Xgrid = np.linspace(*self.bounds[0], num_grid_points)
-        Ymu, Y_CI = self.predict(Xgrid, gaussian_approx = False)
+        Ymu, Y_CI = self.predict(Xgrid[:,None], gaussian_approx = False)
         ax1 = plt.subplot(gs[0])
         ax1.plot(self._X,self._Y, "kx")  # plot all observed data
         ax1.fill_between(Xgrid, Y_CI[0], Y_CI[1],
