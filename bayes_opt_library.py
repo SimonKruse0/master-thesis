@@ -1,5 +1,6 @@
 import numpy as np
 from scipy.optimize import minimize
+from scipy.stats import norm
 
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
@@ -23,23 +24,78 @@ import time
 import os
 
 
-class bayesian_optimization:
-    def __init__(self, objectivefunction, regression_model,X_init,Y_init, gridspec = None) -> None:
-        self.obj_fun = objectivefunction
-        self.model = regression_model
-        self._X = X_init #OBS: should X be stored here or in the model?!
-        self._Y = Y_init
-        self.f_best = np.min(Y_init) # incumbent np.min(Y) or np.min(E[Y]) ??
-        self.model.fit(X_init,Y_init) #fit the model
-        self.bounds = ((0,1),)
-        self.gs = gridspec #for plotting
+try:
+    from pybnn import bohamiann
+except ImportError:
+    raise ImportError(
+        """
+        This module is missing required dependencies. Try running
+        pip install git+https://github.com/automl/pybnn.git
+        Refer to https://github.com/automl/pybnn for further information.
+    """
+    )
 
-    # OBS put plot functioner i plot_class!
-    def plot_regression_gaussian_approx(self,gs,num_grid_points = 1000):
-        assert self.model.X.shape[1] == 1   #Can only plot 1D functions
+import torch
+import torch.nn as nn
+
+
+def get_default_network(input_dimensionality: int) -> torch.nn.Module:
+    class AppendLayer(nn.Module):
+        def __init__(self, bias=True, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            if bias:
+                self.bias = nn.Parameter(torch.Tensor(1, 1))
+            else:
+                self.register_parameter("bias", None)
+
+        def forward(self, x):
+            return torch.cat((x, self.bias * torch.ones_like(x)), dim=1)
+
+    def init_weights(module):
+        if type(module) == AppendLayer:
+            nn.init.constant_(module.bias, val=np.log(1e-3))
+        elif type(module) == nn.Linear:
+            nn.init.kaiming_normal_(module.weight, mode="fan_in", nonlinearity="linear")
+            nn.init.constant_(module.bias, val=0.0)
+
+    return nn.Sequential(
+        nn.Linear(input_dimensionality, 50), nn.Tanh(), nn.Linear(50, 50), nn.Tanh(), nn.Linear(50, 1), AppendLayer()
+    ).apply(init_weights)
+
+
+class BOHAMIANN:
+    def __init__(self,num_steps = 5000,num_burnin = 2000, keep_every=50, lr=1e-2) -> None:
+        self.model = bohamiann.Bohamiann(get_network=get_default_network)
+        assert num_steps>num_burnin #since num_burnin
+        self.num_steps = num_steps
+        self.num_burnin = num_burnin
+        self.keep_every=keep_every 
+        self.lr=lr
+        self.name = "BOHAMIANN"
+        self.latex_architecture = "nn.Linear(input_dimensionality, 50), nn.Tanh(), nn.Linear(50, 50), nn.Tanh(), nn.Linear(50, 1), AppendLayer()"
+    
+    def fit(self, X, Y):
+        if self.model.sampled_weights == []:
+            print("-- inital traning -- \t regression model = BOHAMIAN")
+        self.model.train(
+            X, Y, num_steps=self.num_steps, num_burn_in_steps=self.num_burnin, 
+            lr= self.lr, keep_every=self.keep_every, verbose=True
+        )
+
+    def predict(self,X_test):
+        assert X_test.ndim == 2
+        m, v = self.model.predict(X_test)
+        return m, np.sqrt(v), None
+
+class plot_surrogate:
+    def __init__(self) -> None:
+        pass
+
+    def plot_regression_gaussian_approx(self,gs,name = False, num_grid_points = 1000):
+        assert self._X.shape[1] == 1   #Can only plot 1D functions
 
         Xgrid = np.linspace(*self.bounds[0], num_grid_points)
-        Ymu, Ysigma = self.predict(Xgrid)
+        Ymu, Ysigma = self.predict(Xgrid[:,None])
 
         ax1 = plt.subplot(gs[0])
         ax1.plot(self._X,self._Y, "kx")  # plot all observed data
@@ -47,11 +103,16 @@ class bayesian_optimization:
         ax1.fill_between(Xgrid, Ymu - 2*Ysigma, Ymu + 2*Ysigma,
                         color="C0", alpha=0.3, label=r"$E[y]\pm 2  \sqrt{Var[y]}$")  # plot uncertainty intervals
         ax1.set_xlim(*self.bounds[0])
-        #ax1.set_ylim(-0.5+np.min(self._Y), 0.5+0.5+np.max(self._Y))
-        ax1.set_title(self.model.latex_architecture)
+        ax1.set_ylim(-0.7+np.min(self._Y), 0.5+0.7+np.max(self._Y))
+        if name:
+            ax1.set_title(self.model.name)
+        else:
+            ax1.set_title(self.model.latex_architecture)
         ax1.legend(loc=2)
 
     def plot_regression_credible_interval(self,gs,num_grid_points = 1000):
+        if self.model.name != "numpyro neural network":
+            return
         Xgrid = np.linspace(*self.bounds[0], num_grid_points)
         Ymu, Y_CI = self.predict(Xgrid, gaussian_approx = False)
         ax1 = plt.subplot(gs[0])
@@ -80,16 +141,41 @@ class bayesian_optimization:
         ax2.legend(loc=1)
         return x_max
 
+    def plot_surrogate_and_expected_improvement(self,subplot_spec,name = False, return_x_next=True):
+        gs = gridspec.GridSpecFromSubplotSpec(2, 1, subplot_spec=subplot_spec)
+        self.plot_regression_gaussian_approx(gs, name = name)
+        self.plot_regression_credible_interval(gs)
+        x_next = self.plot_expected_improvement(gs)
+        if return_x_next:
+            return x_next
+    
+
+class bayesian_optimization(plot_surrogate):
+    def __init__(self, objectivefunction, regression_model,X_init,Y_init, gridspec = None) -> None:
+        self.obj_fun = objectivefunction
+        self.model = regression_model
+        #X_init = X_init[:,None]
+        self._X = X_init #OBS: should X be stored here or in the model?!
+        self._Y = Y_init
+        self.f_best = np.min(Y_init) # incumbent np.min(Y) or np.min(E[Y]) ??
+        self.model.fit(X_init,Y_init)
+        #self.model.fit(X_init,Y_init) #fit the model
+        self.bounds = ((0,1),)
+        super().__init__(gridspec)
+
+    # OBS put plot functioner i plot_class!
+
     def predict(self,X, gaussian_approx = True):
         if gaussian_approx:
-            Y_mu,Y_sigma,_ = self.model.predict4(X)
+            Y_mu,Y_sigma,_ = self.model.predict(X)
             return Y_mu,Y_sigma
         else:
-            Y_mu,_,Y_CI = self.model.predict4(X)
+            Y_mu,_,Y_CI = self.model.predict(X)
             return Y_mu,Y_CI
 
     def expected_improvement(self,X,xi=0.01):
-        mu, sigma = self.predict(X)
+        print("OBS X[:,None] might fail in largers dims!")
+        mu, sigma = self.predict(X[:,None]) #Partial afledt. Pytorch. 
         imp = -mu - self.f_best - xi
         Z = imp/sigma
         EI = (imp*norm.cdf(Z) + sigma*norm.pdf(Z))
@@ -102,7 +188,6 @@ class bayesian_optimization:
         _,nx = self.model.X.shape
 
         def min_obj(x):
-           # x = x[:,None]
             EI = self.expected_improvement(x)
             return -EI
         # Find the best optimum by starting from n_restart different random points.
@@ -124,7 +209,7 @@ class bayesian_optimization:
 
 
 class numpyro_neural_network:
-    def __init__(self, hidden_units = 10, num_warmup=1000, num_samples = 2000, num_chains=1):
+    def __init__(self, hidden_units = 10, num_warmup=1000, num_samples = 2000, num_chains=1, keep_every = 50):
         self.kernel = None 
         #self.nonlin = lambda x: jnp.tanh(x)
         self.hidden_units = hidden_units
@@ -132,13 +217,14 @@ class numpyro_neural_network:
         self.hidden_units_bias_variance = 1 
         self.obs_variance = 0.01
         self.obs_variance_prior = 0 #Obs E[sigma] = 1/lambda
-        self.target_accept_prob = 0.8
+        self.target_accept_prob = 0.6
         self.num_warmup = num_warmup
         self.num_samples = num_samples
         self.num_chains = num_chains
+        self.keep_every = keep_every
         #self.rng_key = rng_key
         #self.rng_key_predict = rng_key_predict
-        self.name = f"BNN_{self.hidden_units_variance}_{self.hidden_units_bias_variance}"
+        self.name = f"numpyro neural network"
         self.latex_architecture = r"$\theta_{\mu} \sim \mathcal{N}(0,{self.hidden_units_variance})$"
         self.samples = None
         # self.data = 
@@ -195,12 +281,12 @@ class numpyro_neural_network:
         return z3, sigma_obs
     
     def fit(self, X, Y): #run_inference
-        try:
-            X.shape[1]
-        except:
-            X = X[:,None]
+        # try:
+        #     X.shape[1]
+        # except:
+        #     X = X[:,None]
         if self.samples is None:
-            print("-- initial fitting --")
+            print("-- inital traning -- \t regression model = numpyro BNN")
         start = time.time()
         kernel = NUTS(self.model, target_accept_prob=self.target_accept_prob)
         mcmc = MCMC(
@@ -213,11 +299,14 @@ class numpyro_neural_network:
         mcmc.run(self.rng_key, X, Y)
         mcmc.print_summary()
         print("\nMCMC elapsed time:", time.time() - start)
-        self.samples = mcmc.get_samples()
+        samples = mcmc.get_samples()
+        for random_variable in samples:
+            samples[random_variable] = samples[random_variable][::self.keep_every]
+        self.samples = samples
         self.X = X
         self.y = Y
 
-    def predict4(self,X_test,CI=[5.0, 95.0]):
+    def predict(self,X_test,CI=[5.0, 95.0]):
         try:
             X_test.shape[1]
         except:
@@ -250,7 +339,7 @@ class numpyro_neural_network:
         
         return model_trace["Y"]["value"]
 
-    def predict(self,X_test,rng_key_predict,CI=[5.0, 95.0]): #obs check om dette kan implementeres med predictive class
+    def predict0(self,X_test,rng_key_predict,CI=[5.0, 95.0]): #obs check om dette kan implementeres med predictive class
         vmap_args = (
             self.samples,
             random.split(rng_key_predict, self.num_samples * self.num_chains),
@@ -269,24 +358,25 @@ def obj_fun(x):
 #import pickle
 
 if __name__ == "__main__":
+    plt.figure(figsize=(12, 8))
+    outer_gs = gridspec.GridSpec(2, 1)
 
     bounds = np.array([[0,1]])
     #datasize = int(input("Enter number of datapoints: "))
     datasize = 20
     np.random.seed(2)
     X_sample =  np.random.uniform(*bounds[0],size = datasize)
+    X_sample = X_sample[:,None]
     Y_sample = obj_fun(X_sample)
-
-    plt.figure(figsize=(12, 8))
-    outer_gs = gridspec.GridSpec(1, 1)
+    
+    BOHAMIANN_regression = BOHAMIANN(num_steps = 3000,num_burnin = 2000)
+    BO_BOHAMIANN = bayesian_optimization(obj_fun, BOHAMIANN_regression,X_sample,Y_sample)
     gs = gridspec.GridSpecFromSubplotSpec(2, 1, subplot_spec=outer_gs[0])
+    x_next = BO_BOHAMIANN.plot_surrogate_and_expected_improvement(outer_gs[0], name = True)
 
-    BNN = numpyro_neural_network(num_chains = 4, num_warmup= 1000, num_samples=2000)
+    BNN = numpyro_neural_network(num_chains = 4, num_warmup= 2000, num_samples=1000, keep_every = 50)
     BO_BNN = bayesian_optimization(obj_fun, BNN,X_sample,Y_sample, gridspec = gs)
-
-    BO_BNN.plot_regression_gaussian_approx(gs)
-    BO_BNN.plot_regression_credible_interval(gs)
-    x_next = BO_BNN.plot_expected_improvement(gs)
+    x_next = BO_BNN.plot_surrogate_and_expected_improvement(outer_gs[1], name = True)
     plt.show()
     
     # print(x_next)
