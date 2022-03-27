@@ -8,65 +8,67 @@ plt.rcParams.update({
     "font.serif": ["Palatino"],
 })
 
+class OptimizationStruct:
+    def __init__(self) -> None:
+        self.x_next = None
+        self.x_next = self.x_next
+        self.max_EI = None
+        self.Xgrid = None
+        self.EI_of_Xgrid = None
+        self.bounds = None
+    def her():
+        pass
 
 class PlottingClass:
     def __init__(self) -> None:
         pass
 
-    def plot_regression_gaussian_approx(self,gs,name = False, num_grid_points = 1000):
+    def plot_regression_gaussian_approx(self,ax,Xgrid,show_name = False):
         assert self._X.shape[1] == 1   #Can only plot 1D functions
 
-        Xgrid = np.linspace(*self.bounds[0], num_grid_points)
+        #Xgrid = np.linspace(*self.bounds[0], num_grid_points)
         Ymu, Ysigma = self.predict(Xgrid[:,None])
 
-        ax1 = plt.subplot(gs[0])
-        ax1.plot(self._X,self._Y, "kx")  # plot all observed data
-        ax1.plot(Xgrid, Ymu, "red", lw=2)  # plot predictive mean
-        ax1.fill_between(Xgrid, Ymu - 2*Ysigma, Ymu + 2*Ysigma,
+        ax.plot(self._X,self._Y, "kx")  # plot all observed data
+        ax.plot(Xgrid, Ymu, "red", lw=2)  # plot predictive mean
+        ax.fill_between(Xgrid, Ymu - 2*Ysigma, Ymu + 2*Ysigma,
                         color="C0", alpha=0.3, label=r"$E[y]\pm 2  \sqrt{Var[y]}$")  # plot uncertainty intervals
-        ax1.set_xlim(*self.bounds[0])
-        ax1.set_ylim(-0.7+np.min(self._Y), 0.5+0.7+np.max(self._Y))
-        if name:
-            ax1.set_title(self.model.name)
+        ax.set_xlim(*self.bounds[0])
+        ax.set_ylim(-0.7+np.min(self._Y), 0.5+0.7+np.max(self._Y))
+        if show_name:
+            ax.set_title(self.model.name)
         else:
-            ax1.set_title(self.model.latex_architecture)
-        ax1.legend(loc=2)
+            ax.set_title(self.model.latex_architecture)
+        ax.legend(loc=2)
 
-    def plot_regression_credible_interval(self,gs,num_grid_points = 1000):
+    def plot_regression_credible_interval(self,ax,Xgrid):
         if self.model.name != "numpyro neural network":
             return
-        Xgrid = np.linspace(*self.bounds[0], num_grid_points)
         Ymu, Y_CI = self.predict(Xgrid[:,None], gaussian_approx = False)
-        ax1 = plt.subplot(gs[0])
-        ax1.plot(self._X,self._Y, "kx")  # plot all observed data
-        ax1.fill_between(Xgrid, Y_CI[0], Y_CI[1],
-                                color="black", alpha=0.3, label=r"90\% credible interval")  # plot uncertainty intervals
-        ax1.legend(loc=2)
 
-    def plot_expected_improvement(self,gs,num_grid_points = 1000):
-        ax2 = plt.subplot(gs[1])
-        Xgrid = np.linspace(*self.bounds[0], num_grid_points)
-        
+        ax.plot(self._X,self._Y, "kx")  # plot all observed data
+        ax.fill_between(Xgrid, Y_CI[0], Y_CI[1],
+                                color="black", alpha=0.3, label=r"90\% credible interval")  # plot uncertainty intervals
+        ax.legend(loc=2)
+
+    def plot_expected_improvement(self,ax,opt:OptimizationStruct):
+        if opt.EI_of_Xgrid is None:
+            opt.EI_of_Xgrid = self.expected_improvement(opt.Xgrid)
         ## plot the acquisition function ##
-        EI = self.expected_improvement(Xgrid)
-        ax2.plot(Xgrid, EI) 
+        ax.plot(opt.Xgrid, opt.EI_of_Xgrid) 
 
         ## plot the new candidate point ##
-        
-        #x_max,max_EI = find_a_candidate(model,f_best) #slow way
-        x_id = np.argmax(EI) #fast way
-        x_max = Xgrid[x_id]
-        max_EI = EI[x_id]
-        ax2.plot(x_max, max_EI, "^", markersize=10,label=f"x_max = {x_max:.2f}")
-        ax2.set_xlim(*self.bounds[0])
-        ax2.set_ylabel("Acquisition Function")
-        ax2.legend(loc=1)
-        return x_max
+        ax.plot(opt.x_next, opt.max_EI, "^", markersize=10,label=f"x_next = {opt.x_next:.2f}")
+        ax.set_xlim(*self.bounds[0])
+        ax.set_ylabel("Acquisition Function")
+        ax.legend(loc=1)
 
-    def plot_surrogate_and_expected_improvement(self,subplot_spec,name = False, return_x_next=True):
+    def plot_surrogate_and_expected_improvement(self,subplot_spec,opt:OptimizationStruct, show_name = False, return_x_next=True):
+        if opt.Xgrid is None:
+            opt.Xgrid = np.linspace(*self.bounds[0], 1000)
         gs = gridspec.GridSpecFromSubplotSpec(2, 1, subplot_spec=subplot_spec)
-        self.plot_regression_gaussian_approx(gs, name = name)
-        self.plot_regression_credible_interval(gs)
-        x_next = self.plot_expected_improvement(gs)
-        if return_x_next:
-            return x_next
+        ax1 = plt.subplot(gs[0])
+        ax2 = plt.subplot(gs[1])
+        self.plot_regression_gaussian_approx(ax1,opt.Xgrid, show_name = show_name)
+        self.plot_regression_credible_interval(ax1,opt.Xgrid)
+        self.plot_expected_improvement(ax2,opt)

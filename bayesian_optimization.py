@@ -5,10 +5,11 @@ from scipy.stats import norm
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 
-from utils import PlottingClass
+from utils import PlottingClass, OptimizationStruct
 from numpyro_neural_network import NumpyroNeuralNetwork #JAX
 from bohamiann import BOHAMIANN #Torch
 
+PLOT_NR = 0
 
 class BayesianOptimization(PlottingClass):
     def __init__(self, objectivefunction, regression_model,X_init,Y_init) -> None:
@@ -22,8 +23,6 @@ class BayesianOptimization(PlottingClass):
 
         print(f"\n-- initial training -- \t {self.model.name}")
         self.model.fit(X_init,Y_init)
-
-    # OBS put plot functioner i plot_class!
 
     def predict(self,X, gaussian_approx = True):
         if gaussian_approx:
@@ -41,10 +40,22 @@ class BayesianOptimization(PlottingClass):
         EI = (imp*norm.cdf(Z) + sigma*norm.pdf(Z))
         return EI
 
+    def find_a_candidate_on_grid(self, Xgrid):
+        EI = self.expected_improvement(Xgrid)
+        x_id = np.argmax(EI)
+
+        opt = OptimizationStruct()  #insert results in struct
+        opt.x_next           = Xgrid[x_id]
+        opt.max_EI          = EI[x_id]
+        opt.EI_of_Xgrid     = EI
+        opt.Xgrid           = Xgrid
+
+        return opt
+
     def find_a_candidate(self):
         n_restarts = 1
-        x_next = np.nan
-        max_EI = 1e-5
+        x_next = None
+        max_EI = 0
         _,nx = self._X.shape
 
         def min_obj(x):
@@ -55,26 +66,55 @@ class BayesianOptimization(PlottingClass):
         for x0 in np.random.uniform(self.bounds[0][0], self.bounds[0][1],
                                     size=(n_restarts, nx)):
             res = minimize(min_obj, x0=x0,bounds=self.bounds, method='Nelder-Mead')        
-            if -res.fun > max_EI:
-                max_EI = res.fun
+            max_EI_temp = -res.fun #negating since it is minimizing
+            
+            if max_EI_temp > max_EI:
+                max_EI = max_EI_temp
                 x_next = res.x
-        return x_next,max_EI
+        
+        assert x_next == None
 
-    def optimization_step(self,x_next = None):
-        if x_next is not None:
-            y_next = self.obj_fun(x_next)
-            self._X = np.vstack((self._X, x_next))
+        opt = OptimizationStruct() #insert results in struct
+        opt.x_next = x_next[0]
+        opt.max_EI = max_EI
+
+        return opt
+
+    def optimization_step(self,opt:OptimizationStruct,
+                                use_grid_optimization=False,
+                                plot_step = False):
+        if opt.x_next is not None:
+            y_next = self.obj_fun(opt.x_next)
+            self._X = np.vstack((self._X, opt.x_next))
             self._Y = np.vstack((self._Y, y_next))
             self.model.fit(self._X,self._Y)
-        x_next, max_EI = self.find_a_candidate()
-        return x_next,max_EI
+        if use_grid_optimization:
+            if opt.Xgrid is None:
+                opt.Xgrid = np.linspace(*self.bounds[0], 1000)
+            opt = self.find_a_candidate_on_grid(opt.Xgrid)
+        else:
+            opt = self.find_a_candidate()
 
-    def optimize(self,num_steps:int):
-        x_next = None
+        if plot_step:
+            global PLOT_NR
+            fig = plt.figure()
+            ax = plt.subplot()
+            self.plot_surrogate_and_expected_improvement(ax,opt)
+            plt.savefig(f"master-thesis/figures/{self.model.name}_x{PLOT_NR}.png")
+            PLOT_NR = PLOT_NR+1
+            fig.close()
+        return opt
+
+    def optimize(self,num_steps:int, 
+                        use_grid_optimization = False,
+                        plot_steps = False):
+        opt = OptimizationStruct()
         for i in range(num_steps):
             print(f"-- finding x{i+1} --",end="\n")
-            x_next,_ = self.optimization_step(x_next)
-            print(f"-- x{i+1} = {x_next[0]:.2f} --")
+            opt = self.optimization_step(opt,use_grid_optimization = use_grid_optimization,
+                                plot_step = plot_steps)
+            print(f"-- x{i+1} = {opt.x_next:.2f} --")
+        
         Best_Y_id = np.argmin(self._Y)
         Best_X = self._X[Best_Y_id]
         Best_Y = self._Y[Best_Y_id]
@@ -92,22 +132,18 @@ if __name__ == "__main__":
 
     bounds = np.array([[0,1]])
     #datasize = int(input("Enter number of datapoints: "))
-    datasize = 20
+    datasize = 5
     np.random.seed(2)
     X_sample =  np.random.uniform(*bounds[0],size = datasize)
     X_sample = X_sample[:,None]
     Y_sample = obj_fun(X_sample)
-    
-    BOHAMIANN_regression = BOHAMIANN(num_warmup = 200, num_samples = 300)
+
+    BOHAMIANN_regression = BOHAMIANN(num_warmup = 5000, num_samples = 5000)
     BO_BOHAMIANN = BayesianOptimization(obj_fun, BOHAMIANN_regression,X_sample,Y_sample)
-    #x_next = BO_BOHAMIANN.plot_surrogate_and_expected_improvement(outer_gs[0], name = True)
-
-    NNN = NumpyroNeuralNetwork(num_chains = 4, num_warmup= 200, num_samples=100, keep_every = 50)
-    BO_BNN = BayesianOptimization(obj_fun, NNN,X_sample,Y_sample)
-    #x_next = BO_BNN.plot_surrogate_and_expected_improvement(outer_gs[1], name = True)
-    #plt.show()
+    BO_BOHAMIANN.optimize(10, plot_steps = True,use_grid_optimization=True)
     
-    BO_BNN.optimize(10)
-    BO_BOHAMIANN.optimize(10)
-
+    NNN = NumpyroNeuralNetwork(num_chains = 4, num_warmup= 2000, num_samples=1000, keep_every = 50)
+    BO_BNN = BayesianOptimization(obj_fun, NNN,X_sample,Y_sample)
+    BO_BNN.optimize(10, plot_steps = True, use_grid_optimization=True)
+    
 
