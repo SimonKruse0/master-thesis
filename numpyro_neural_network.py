@@ -12,7 +12,7 @@ import time
 import os
 
 class NumpyroNeuralNetwork:
-    def __init__(self, hidden_units = 10, num_warmup=1000, num_samples = 2000, num_chains=1, keep_every = 50):
+    def __init__(self, hidden_units = 10, num_warmup=1000, num_samples = 2000, num_chains=1, num_keep_samples = 50):
         self.kernel = None 
         #self.nonlin = lambda x: jnp.tanh(x)
         self.hidden_units = hidden_units
@@ -24,7 +24,8 @@ class NumpyroNeuralNetwork:
         self.num_warmup = num_warmup
         self.num_samples = num_samples
         self.num_chains = num_chains
-        self.keep_every = keep_every
+        self.num_keep_samples = num_keep_samples
+        #self.keep_every = keep_every
         #self.rng_key = rng_key
         #self.rng_key_predict = rng_key_predict
         self.name = f"numpyro neural network"
@@ -99,8 +100,9 @@ class NumpyroNeuralNetwork:
             mcmc.print_summary()
             print("\nMCMC elapsed time:", time.time() - start)
         samples = mcmc.get_samples()
+        keep_every = self.num_samples//self.num_keep_samples
         for random_variable in samples:
-            samples[random_variable] = samples[random_variable][::self.keep_every]
+            samples[random_variable] = samples[random_variable][::keep_every]
         self.samples = samples
         self.X = X
         self.y = Y
