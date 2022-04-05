@@ -14,12 +14,22 @@ pyro.set_rng_seed(1)
 
 
 class GaussianProcess:
-    def __init__(self, X=None, y=None) -> None:
-        self.gpmodel = gp.models.GPRegression(X, y, gp.kernels.Matern52(input_dim=1),
-                                 noise=torch.tensor(0.1), jitter=1.0e-4)
+    def __init__(self,noise=0.01, X=None, y=None) -> None:
         self.name = "Gaussian Process"
         self.latex_architecture = r"gp.kernels.Matern52"
+        self.gpmodel = None
+        self.noise = noise
+
+    def model(self,input_dim):
+        X,y = None, None
+        self.gpmodel = gp.models.GPRegression(X, y, gp.kernels.Matern52(input_dim = input_dim), #input_dim = input_dim
+                                 noise=torch.tensor(self.noise), jitter=1.0e-4)
+
+
     def fit(self, X, Y):
+        if self.gpmodel is None:
+            input_dim = X.shape[1]
+            self.model(input_dim)
         X = torch.tensor(X) # incorporate new evaluation
         Y = torch.tensor(Y.squeeze())
         self.gpmodel.set_data(X, Y)

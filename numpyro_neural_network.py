@@ -24,10 +24,7 @@ class NumpyroNeuralNetwork:
         self.num_warmup = num_warmup
         self.num_samples = num_samples
         self.num_chains = num_chains
-        self.num_keep_samples = num_keep_samples
-        #self.keep_every = keep_every
-        #self.rng_key = rng_key
-        #self.rng_key_predict = rng_key_predict
+        self.keep_every = num_samples//num_keep_samples
         self.name = f"numpyro neural network"
         self.latex_architecture = r"$\theta_{\mu} \sim \mathcal{N}(0,{self.hidden_units_variance})$"
         self.samples = None
@@ -100,14 +97,13 @@ class NumpyroNeuralNetwork:
             mcmc.print_summary()
             print("\nMCMC elapsed time:", time.time() - start)
         samples = mcmc.get_samples()
-        keep_every = self.num_samples//self.num_keep_samples
         for random_variable in samples:
-            samples[random_variable] = samples[random_variable][::keep_every]
+            samples[random_variable] = samples[random_variable][::self.keep_every]
         self.samples = samples
         self.X = X
         self.y = Y
 
-    def predict(self,X_test,CI=[5.0, 95.0]):
+    def predict(self,X_test,CI=[5.0, 95.0]): #TODO: Make a numpy model, which should be easier to compute predictions!!?
         assert X_test.ndim == 2
         predictive = Predictive(self.model, posterior_samples=self.samples, return_sites = ["Y"])
         y_pred = predictive(self.rng_key_predict, X_test, Y=None)["Y"]
