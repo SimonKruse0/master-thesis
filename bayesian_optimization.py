@@ -6,14 +6,12 @@ from scipy.stats import norm
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 
-from utils import PlottingClass, OptimizationStruct, uniform_grid
-from numpyro_neural_network import NumpyroNeuralNetwork #JAX
-from gaussian_process_regression import GaussianProcess
-from bohamiann import BOHAMIANN #Torch
+from src.utils import PlottingClass, OptimizationStruct, uniform_grid
+from src.regression_models.numpyro_neural_network import NumpyroNeuralNetwork #JAX
+from src.regression_models.gaussian_process_regression import GaussianProcess
+from src.regression_models.bohamiann import BOHAMIANN #Torch
 
 PLOT_NR = 0
-
-
 
 class BayesianOptimization(PlottingClass):
     def __init__(self, objectivefunction, regression_model,bounds, X_init,Y_init) -> None:
@@ -175,6 +173,18 @@ class BayesianOptimization(PlottingClass):
         self._Y = np.vstack((self._Y, y_next))
         return self._X[self.n_initial_points:], self._Y[self.n_initial_points:]
 
+
+    # def save_output(self, it):
+
+    #     data = dict()
+    #     data["optimization_overhead"] = self.time_overhead[it]
+    #     data["runtime"] = self.runtime[it]
+    #     data["incumbent"] = self.incumbents[it]
+    #     data["incumbents_value"] = self.incumbents_values[it]
+    #     data["time_func_eval"] = self.time_func_evals[it]
+    #     data["iteration"] = it
+
+    #     json.dump(data, open(os.path.join(self.output_path, "robo_iter_%d.json" % it), "w"))
 def obj_fun(x): 
     return 0.5 * (np.sign(x-0.5) + 1)+np.sin(100*x)*0.1
 
@@ -189,19 +199,13 @@ if __name__ == "__main__":
     datasize = 5
     np.random.seed(2)
     X_sample =  np.random.uniform(*bounds,size = (datasize,1))
-    #X_sample = X_sample[:,None]
     Y_sample = obj_fun(X_sample)
 
-    # GP_regression = GaussianProcess()
-    # BO_GP = BayesianOptimization(obj_fun, GP_regression,bounds,X_sample,Y_sample)
-    # BO_GP.optimize(10, plot_steps = True,use_grid_optimization=True)
-
-    # BOHAMIANN_regression = BOHAMIANN(num_warmup = 5000, num_samples = 5000)
-    # BO_BOHAMIANN = BayesianOptimization(obj_fun, BOHAMIANN_regression,bounds,X_sample,Y_sample)
-    # BO_BOHAMIANN.optimize(10, plot_steps = True,use_grid_optimization=True)
-    
-    NNN = NumpyroNeuralNetwork(num_chains = 4, num_warmup= 200, num_samples=200, num_keep_samples= 50)
-    BO_BNN = BayesianOptimization(obj_fun, NNN,bounds,X_sample,Y_sample)
+    GP_regression = GaussianProcess(noise = 0)
+    # BOHAMIANN_regression = BOHAMIANN(num_warmup = 5000, num_samples = 5000)  
+    #NNN_regression = NumpyroNeuralNetwork(num_chains = 4, num_warmup= 200, num_samples=200, num_keep_samples= 50)
+    regression_model = GP_regression
+    BO_BNN = BayesianOptimization(obj_fun, regression_model,bounds,X_sample,Y_sample)
     BO_BNN.optimize(10, plot_steps = True, type="grid")
     print(BO_BNN.get_optimization_hist())
 

@@ -74,7 +74,7 @@ class RegressionValidation():
         data["n_train_points_list"] = self.n_train_points_list
         data["n_test_points"] = self.n_test_points
         data["mean_uncertainty_quantification"] = self.mean_uncertainty_quantification
-        data["mean_abs_pred_error"] = self.mean_abs_pred_error
+        data["mean_abs_pred_error"] = [a.astype(float) for a in self.mean_abs_pred_error] #Num pyro gave float32
 
         filename = f"{self.model.name}_{self.problem_name}_dim_{self.problem_size}_seed_{self.seednr}.json"
         json.dump(data, open(os.path.join(output_path, filename), "w"))

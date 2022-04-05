@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from numpy import abs, sum, sign, arange, atleast_2d, cos, pi
-from scr.benchmark_class import Benchmark
+from .benchmark_class import Benchmark
 
 # (Continuous, Differentiable, Separable,Non-Scalable, Unimodal)
 class Zirilli(Benchmark):

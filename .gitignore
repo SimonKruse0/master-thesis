@@ -1,1 +1,14 @@
 data
+figures
+figures2d
+__pycache__/benchmark_problems.cpython-38.pyc
+__pycache__/bohamiann.cpython-38.pyc
+__pycache__/gaussian_process_regression.cpython-38.pyc
+__pycache__/numpyro_neural_network.cpython-38.pyc
+__pycache__/utils.cpython-38.pyc
+src/__pycache__/benchmark_class.cpython-38.pyc
+src/__pycache__/benchmark_problems.cpython-38.pyc
+src/__pycache__/utils.cpython-38.pyc
+src/regression_models/__pycache__/bohamiann.cpython-38.pyc
+src/regression_models/__pycache__/gaussian_process_regression.cpython-38.pyc
+src/regression_models/__pycache__/numpyro_neural_network.cpython-38.pyc

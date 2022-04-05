@@ -2,14 +2,11 @@ from atexit import register
 import numpy as np
 from pymoo.factory import get_problem
 from bayesian_optimization import BayesianOptimization
-from numpyro_neural_network import NumpyroNeuralNetwork
-from gaussian_process_regression import GaussianProcess
-from bohamiann import BOHAMIANN
+from ..src.regression_models.numpyro_neural_network import NumpyroNeuralNetwork
+from ..src.regression_models.gaussian_process_regression import GaussianProcess
+from ..src.regression_models.bohamiann import BOHAMIANN
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.gridspec as gridspec
-from utils import RegressionValidation
-
 
 n_var = 2
 problem = get_problem("rosenbrock", n_var=n_var)
