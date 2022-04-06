@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from numpy import abs, sum, sign, arange, atleast_2d, cos, pi
 from .benchmark_class import Benchmark
+from scipy.optimize import rosen
 
 # (Continuous, Differentiable, Separable,Non-Scalable, Unimodal)
 class Zirilli(Benchmark):
@@ -112,3 +113,37 @@ class Weierstrass(Benchmark):
         t2 = self.N * sum(a ** k.T * cos(pi * b ** k.T))
 
         return sum(sum(t1, axis=0)) - t2
+
+
+class Rosenbrock(Benchmark):
+
+    r"""
+    Rosenbrock objective function.
+    This class defines the Rosenbrock [1]_ global optimization problem. This is a
+    multimodal minimization problem defined as follows:
+    .. math::
+       f_{\text{Rosenbrock}}(x) = \sum_{i=1}^{n-1} [100(x_i^2
+       - x_{i+1})^2 + (x_i - 1)^2]
+    Here, :math:`n` represents the number of dimensions and
+    :math:`x_i \in [-5, 10]` for :math:`i = 1, ..., n`.
+    *Global optimum*: :math:`f(x) = 0` for :math:`x_i = 1` for
+    :math:`i = 1, ..., n`
+    .. [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark Functions
+    For Global Optimization Problems Int. Journal of Mathematical Modelling
+    and Numerical Optimisation, 2013, 4, 150-194.
+    """
+
+    def __init__(self, dimensions=2):
+        Benchmark.__init__(self, dimensions)
+
+        self._bounds = list(zip([-30.] * self.N, [30.0] * self.N))
+        self.custom_bounds = [(-2, 2), (-2, 2)]
+
+        self.global_optimum = [[1 for _ in range(self.N)]]
+        self.fglob = 0.0
+        self.change_dimensionality = True
+
+    def fun(self, x, *args):
+        self.nfev += 1
+
+        return rosen(x)
