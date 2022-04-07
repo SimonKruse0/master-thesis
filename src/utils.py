@@ -7,6 +7,7 @@ from scipy.stats import norm
 import json
 import os
 import numpy as np
+from datetime import datetime
 
 plt.rcParams.update({
     "text.usetex": True,
@@ -44,7 +45,7 @@ class RegressionValidation():
         if use_random_seed:
             np.random.seed(self.seednr)
         n = n_train+n_test
-        X = np.random.uniform(*self.bounds[0], size=[n,self.problem_size])
+        X = np.random.uniform(*self.bounds[0], size=[n,self.problem_size]) #OBS small hack, fails if bounds are not the same
         y = []
         for i in range(n):
             y.append(self.problem.fun(X[i,:]))
@@ -75,8 +76,8 @@ class RegressionValidation():
         data["n_test_points"] = self.n_test_points
         data["mean_uncertainty_quantification"] = self.mean_uncertainty_quantification
         data["mean_abs_pred_error"] = [a.astype(float) for a in self.mean_abs_pred_error] #Num pyro gave float32
-
-        filename = f"{self.model.name}_{self.problem_name}_dim_{self.problem_size}_seed_{self.seednr}.json"
+        time = datetime.today().strftime('%Y-%m-%d-%H_%M')
+        filename = f"{self.model.name}_{self.problem_name}_dim_{self.problem_size}_seed_{self.seednr}_time_{time}.json"
         json.dump(data, open(os.path.join(output_path, filename), "w"))
 
 
@@ -182,3 +183,20 @@ class PlottingClass:
         #plt.show()
         # if fig_name:
         #     fig.savefig(f"{fig_name}.pdf")
+
+
+def normalize(X, mean=None, std=None):
+    #zero_mean_unit_var_normalization
+    if mean is None:
+        mean = np.mean(X, axis=0)
+    if std is None:
+        std = np.std(X, axis=0)
+
+    X_normalized = (X - mean) / std
+
+    return X_normalized, mean, std
+
+
+def denormalize(X_normalized, mean, std):
+    #zero_mean_unit_var_denormalization
+    return X_normalized * std + mean

@@ -5,6 +5,8 @@ from numpyro import sample
 from numpyro.infer import MCMC, NUTS,Predictive
 import numpy as np
 
+from ..utils import normalize, denormalize
+
 from jax import vmap
 import jax.numpy as jnp
 import jax.random as random
@@ -83,6 +85,10 @@ class NumpyroNeuralNetwork:
     
     def fit(self, X, Y, verbose = False): #run_inference
         assert X.ndim == 2
+
+        X_, self.x_mean, self.x_std = normalize(X)
+        Y_, self.y_mean, self.y_std = normalize(Y)
+
         start = time.time()
         kernel = NUTS(self.model, target_accept_prob=self.target_accept_prob)
         mcmc = MCMC(
@@ -92,7 +98,7 @@ class NumpyroNeuralNetwork:
             num_chains=self.num_chains,
             progress_bar=False if "NUMPYRO_SPHINXBUILD" in os.environ else True,
         )
-        mcmc.run(self.rng_key, X, Y)
+        mcmc.run(self.rng_key, X_, Y_)
         if verbose:
             mcmc.print_summary()
             print("\nMCMC elapsed time:", time.time() - start)
@@ -100,14 +106,19 @@ class NumpyroNeuralNetwork:
         for random_variable in samples:
             samples[random_variable] = samples[random_variable][::self.keep_every]
         self.samples = samples
-        self.X = X
-        self.y = Y
+        # self.X = X
+        # self.y = Y
 
     def predict(self,X_test,CI=[5.0, 95.0]): #TODO: Make a numpy model, which should be easier to compute predictions!!?
         assert X_test.ndim == 2
+
+        X_test_, *_ = normalize(X_test, self.x_mean, self.x_std)
+
         predictive = Predictive(self.model, posterior_samples=self.samples, return_sites = ["Y"])
-        y_pred = predictive(self.rng_key_predict, X_test, Y=None)["Y"]
-        y_pred = y_pred.squeeze()
+        y_pred_ = predictive(self.rng_key_predict, X_test_, Y=None)["Y"]
+        y_pred_ = y_pred_.squeeze()
+        y_pred = denormalize(y_pred_, self.y_mean, self.y_std)
+
         mean_prediction = jnp.mean(y_pred, axis=0)
         percentiles = np.percentile(y_pred,CI , axis=0)
         std_deviation = np.std(y_pred , axis=0)

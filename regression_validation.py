@@ -19,12 +19,12 @@ regression_model = [BOHAMIANN_regression,GP_regression, NNN_regression]
 n_train_array = [int(x) for x in np.logspace(1, 2.5, 5)]
 n_test = 10000
 
-problem = problems[1]
-for random_seed in np.random.randint(9999, size=2):
-    for i in range(3):
-        print(regression_model[i].name, f"{type(problem).__name__}")
-        RV = RegressionValidation(problem, regression_model[i], random_seed)
-        RV.train_test_loop(n_train_array, n_test)
-        RV.save_regression_validation_results("master-thesis/data")
-        #print(RV.mean_abs_pred_error, RV.mean_uncertainty_quantification)
+for problem in problems[2:]:
+    for random_seed in np.random.randint(9999, size=2):
+        for i in range(3):
+            print(regression_model[i].name, f"{type(problem).__name__}")
+            RV = RegressionValidation(problem, regression_model[i], random_seed)
+            RV.train_test_loop(n_train_array, n_test)
+            RV.save_regression_validation_results("master-thesis/data")
+            #print(RV.mean_abs_pred_error, RV.mean_uncertainty_quantification)
 
