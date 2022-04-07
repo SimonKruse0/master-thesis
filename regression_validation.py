@@ -4,11 +4,11 @@ from src.regression_models.gaussian_process_regression import GaussianProcess
 from src.regression_models.bohamiann import BOHAMIANN
 import numpy as np
 from src.utils import RegressionValidation
-from src.benchmark_problems import Zirilli, Weierstrass, Rosen
+from src.benchmark_problems import Zirilli, Weierstrass, Rosenbrock
 
 
 #prob = Zirilli(dimensions = 2)
-problem = Weierstrass(dimensions = 2)
+problems = [Weierstrass(dimensions = 2), Zirilli(dimensions = 2), Rosenbrock(dimensions=2), Rosenbrock(dimensions=10)]
 
 BOHAMIANN_regression = BOHAMIANN(num_warmup = 200, num_samples = 300, num_keep_samples= 100)
 GP_regression = GaussianProcess(noise = 0)
@@ -17,9 +17,10 @@ NNN_regression = NumpyroNeuralNetwork(num_chains = 4, num_warmup= 200, num_sampl
 regression_model = [BOHAMIANN_regression,GP_regression, NNN_regression]
 
 n_train_array = [int(x) for x in np.logspace(1, 2.5, 5)]
-n_test = 100
+n_test = 10000
 
-for random_seed in np.random.randint(9999, size=1):
+problem = problems[1]
+for random_seed in np.random.randint(9999, size=2):
     for i in range(3):
         print(regression_model[i].name, f"{type(problem).__name__}")
         RV = RegressionValidation(problem, regression_model[i], random_seed)
