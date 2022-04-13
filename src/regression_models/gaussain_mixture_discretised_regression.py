@@ -72,6 +72,7 @@ class DiscretizedRegression():
                 maxdist = np.abs(self.levels[i+1]-self.levels[i-1])/2
             except:
                 maxdist = 0.1
+            #maxdist = 0.1
             distance[distance>maxdist] = 2
             eps =0.1# 0.9#0.5 #max is 1
             rep = np.floor(1/(eps+distance)).squeeze().astype("int")
@@ -80,7 +81,7 @@ class DiscretizedRegression():
             if (X_lvl.shape[0]<4):
                 self.bgm_list.append(None)
                 continue
-            bgm = BayesianGaussianMixture(n_components=4,
+            bgm = BayesianGaussianMixture(n_components=6,
                                     covariance_type = "tied",
                                     weight_concentration_prior = 100000, 
                                     weight_concentration_prior_type="dirichlet_distribution").fit(X_lvl)
@@ -104,11 +105,11 @@ class DiscretizedRegression():
             mask = masking==i
             pdf_data_none[i,mask] = pdf_data[i,mask]
             x_none[mask] = x[mask]
-            plt.fill_between(x, pdf_data_none[i]/normlization+self.levels[i], self.levels[i], color="blue",  alpha = 0.5)
+            plt.fill_between(x, pdf_data_none[i]/normlization+self.levels[i], self.levels[i], color=f"C{i}",  alpha = 0.8)
             plt.plot(x_none,np.repeat(self.levels[i], len(x_none)), color="red")
         
         for i in range(pdf_data.shape[0]):
-            plt.fill_between(x, pdf_data[i]/normlization+self.levels[i], self.levels[i],color="gray", alpha = 0.3)
+            plt.fill_between(x, pdf_data[i]/normlization+self.levels[i], self.levels[i],color=f"C{i}", alpha = 0.2)
 
         plt.show()
 
