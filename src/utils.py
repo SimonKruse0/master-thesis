@@ -100,11 +100,12 @@ class PlottingClass:
         if show_name:
             ax.set_title(self.model.name)
         else:
-            ax.set_title(self.model.latex_architecture)
+            #ax.set_title(self.model.latex_architecture)
+            pass
         ax.legend(loc=2)
 
     def plot_regression_credible_interval(self,ax,Xgrid):
-        if self.model.name != "numpyro neural network":
+        if self.model.name != "numpyro neural network" and self.model.name!="Gaussian Mixture Regression":
             return
         #Ymu, Y_CI = self.predict(Xgrid[:,None], gaussian_approx = False)
         Ymu, Y_CI = self.predict(Xgrid, gaussian_approx = False)

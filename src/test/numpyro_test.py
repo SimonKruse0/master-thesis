@@ -1,7 +1,7 @@
 # import os
 # print(os.getcwd())
 
-from regression_models.numpyro_neural_network import NumpyroNeuralNetwork
+from ..regression_models.numpyro_neural_network import NumpyroNeuralNetwork
 import numpy as np
 
 NNN_regression = NumpyroNeuralNetwork(num_chains = 4, num_warmup= 200, num_samples=200, num_keep_samples= 50)

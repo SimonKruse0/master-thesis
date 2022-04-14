@@ -1,4 +1,5 @@
 from datetime import datetime
+import os
 import numpy as np
 from scipy.optimize import minimize
 from scipy.stats import norm
@@ -10,6 +11,7 @@ from src.utils import PlottingClass, OptimizationStruct, uniform_grid
 from src.regression_models.numpyro_neural_network import NumpyroNeuralNetwork #JAX
 from src.regression_models.gaussian_process_regression import GaussianProcess
 from src.regression_models.bohamiann import BOHAMIANN #Torch
+from src.regression_models.gaussian_mixture_regression2 import GMRegression
 
 PLOT_NR = 0
 
@@ -25,6 +27,7 @@ class BayesianOptimization(PlottingClass):
         self.bounds = bounds
         self.n_initial_points , self.nX = X_init.shape
         self.opt: OptimizationStruct = None
+        self.fig_folder = None
 
         print(f"\n-- initial training -- \t {self.model.name}")
         self.model.fit(X_init,Y_init)
@@ -134,12 +137,20 @@ class BayesianOptimization(PlottingClass):
             if self.nX != 1:
                 print(f"ERROR: plotting is not available for dim = {self.nX}")
             else:
+                if self.fig_folder is None:
+                    self.fig_folder = input("Folder name: ")
+                    try:
+                        path = os.path.join(os.getcwd(),f"master-thesis/figures/{fig_folder}")
+                        os.mkdir(path)
+                    except:
+                        print(f"{self.fig_folder} already exists")
+
                 global PLOT_NR
                 fig = plt.figure()
                 ax = plt.subplot()
-                self.plot_surrogate_and_expected_improvement(ax,opt)
+                self.plot_surrogate_and_expected_improvement(ax,opt, show_name=True)
                 Timestamp = datetime.today().strftime('%m%d_%H%M')
-                plt.savefig(f"master-thesis/figures/{self.model.name}_x{PLOT_NR}_{Timestamp}.png")
+                plt.savefig(f"master-thesis/figures/{self.fig_folder}/{self.model.name}_x{PLOT_NR}_{Timestamp}.png")
                 PLOT_NR = PLOT_NR+1
                 plt.close(fig)
         
@@ -191,8 +202,6 @@ def obj_fun(x):
 #import pickle
 
 if __name__ == "__main__":
-    plt.figure(figsize=(12, 8))
-    outer_gs = gridspec.GridSpec(2, 1)
 
     bounds = [0,1]
     #datasize = int(input("Enter number of datapoints: "))
@@ -202,10 +211,20 @@ if __name__ == "__main__":
     Y_sample = obj_fun(X_sample)
 
     GP_regression = GaussianProcess(noise = 0)
-    # BOHAMIANN_regression = BOHAMIANN(num_warmup = 5000, num_samples = 5000)  
-    #NNN_regression = NumpyroNeuralNetwork(num_chains = 4, num_warmup= 200, num_samples=200, num_keep_samples= 50)
-    regression_model = GP_regression
-    BO_BNN = BayesianOptimization(obj_fun, regression_model,bounds,X_sample,Y_sample)
-    BO_BNN.optimize(10, plot_steps = True, type="grid")
-    print(BO_BNN.get_optimization_hist())
+    BOHAMIANN_regression = BOHAMIANN(num_warmup = 200, num_samples = 400)  
+    NNN_regression = NumpyroNeuralNetwork(num_chains = 4, num_warmup= 200, num_samples=200, num_keep_samples= 50)
+    GM_regression = GMRegression()
+    
+    regression_model = [GP_regression,BOHAMIANN_regression,NNN_regression, GM_regression]
+    # BO_BNN = BayesianOptimization(obj_fun, regression_model[1],bounds,X_sample,Y_sample)
+    # BO_BNN.optimize(10, plot_steps = True, type="grid")
+    # print(BO_BNN.get_optimization_hist())
 
+    ### plot all regressions next to each other. ###
+    plt.figure(figsize=(12, 8))
+    outer_gs = gridspec.GridSpec(1, 4)
+    for i in range(4):
+        BO_BNN = BayesianOptimization(obj_fun, regression_model[i],bounds,X_sample,Y_sample)
+        opt = BO_BNN.optimization_step()
+        BO_BNN.plot_surrogate_and_expected_improvement(outer_gs[i],opt, show_name=True)
+    plt.show()
