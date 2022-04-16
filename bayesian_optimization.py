@@ -205,7 +205,7 @@ if __name__ == "__main__":
 
     bounds = [0,1]
     #datasize = int(input("Enter number of datapoints: "))
-    datasize = 5
+    datasize = 10
     np.random.seed(2)
     X_sample =  np.random.uniform(*bounds,size = (datasize,1))
     Y_sample = obj_fun(X_sample)
@@ -213,9 +213,9 @@ if __name__ == "__main__":
     GP_regression = GaussianProcess(noise = 0)
     BOHAMIANN_regression = BOHAMIANN(num_warmup = 200, num_samples = 400)  
     NNN_regression = NumpyroNeuralNetwork(num_chains = 4, num_warmup= 200, num_samples=200, num_keep_samples= 50)
-    GM_regression = GMRegression()
+    mixture_regression = GMRegression()
     
-    regression_model = [GP_regression,BOHAMIANN_regression,NNN_regression, GM_regression]
+    regression_model = [mixture_regression, GP_regression,BOHAMIANN_regression,NNN_regression]
     # BO_BNN = BayesianOptimization(obj_fun, regression_model[1],bounds,X_sample,Y_sample)
     # BO_BNN.optimize(10, plot_steps = True, type="grid")
     # print(BO_BNN.get_optimization_hist())

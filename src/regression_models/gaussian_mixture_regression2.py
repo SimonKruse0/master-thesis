@@ -1,14 +1,16 @@
+from cProfile import label
 from gmr import GMM, plot_error_ellipses
 from gmr.mvn import MVN
 import numpy as np
 import matplotlib.pyplot as plt
 import math
+from ..utils import normalize, denormalize
 
 def sigmoid(x):
   return 1 / (1 + math.exp(-x))
 
 class GMM_bayesian(GMM):
-    def condition(self, indices, x,manipulate_test_bounds = None):
+    def condition(self, indices, x,manipulate_test_bounds = []):
         """Conditional distribution over given indices.
         Returns
         -------
@@ -35,13 +37,18 @@ class GMM_bayesian(GMM):
         ## Simon Change
         if manipulate_test_bounds is not None:
             #OK alt det her er ligegyldigt man kan bare sætte alpha = 0.999?
-            test_bound = (-0.2,1.2) #OBS!!
-            X = np.vstack([np.repeat(x,100),np.linspace(*test_bound, 100)]).T
+            test_bound = manipulate_test_bounds#(-0.2,1.2) #OBS!!
+            N_points = 300
+            if np.atleast_2d(x).shape[1]==1:
+                X = np.vstack([np.repeat(x,N_points),np.linspace(*test_bound, N_points)]).T
+            else:
+                X = np.hstack([np.repeat(x,N_points, axis=0),np.linspace(*test_bound, N_points)[:,None]])
+
             alpha = np.sum(self.to_probability_density(X))*(test_bound[1]-test_bound[0])/100
             #alpha = sigmoid(-0.5+alpha*10000)
             #alpha = 0.999999999999999
-            if alpha>1:
-                print(alpha)
+            # if alpha>1:
+            #     print(alpha)
             #     print("HEj", alpha)
             #     alpha = 1
         else:
@@ -51,7 +58,7 @@ class GMM_bayesian(GMM):
         #for k in range(self.n_components+1):
         for k in range(self.n_components):
             if k == self.n_components: #last element, i.e. prior dist. 
-                mvn = MVN(mean=np.array([x[0],0]), covariance=np.eye(2)/10)
+                mvn = MVN(mean=np.array([x[0],0]), covariance=np.eye(x.shape[1]+1)/10)
             else:
                 mvn = MVN(mean=self.means[k], covariance=self.covariances[k],
                         random_state=self.random_state)
@@ -122,29 +129,40 @@ class GMRegression():
         self.name = "Gaussian Mixture Regression"
 
     def fit(self, X, Y):
-        N = X.shape[0]
-        XY_train = np.column_stack((X, Y))
+        N, self.nX = X.shape
+        nXY = self.nX+1
+        X_, self.x_mean, self.x_std = normalize(X)
+        Y_, self.y_mean, self.y_std = normalize(Y)
+        XY_train = np.column_stack((X_, Y_))
+
         self.model = GMM_bayesian(
         n_components=N, priors=np.repeat(1/N, N), means=XY_train,
-        covariances=np.repeat([np.eye(2)/10000], N, axis=0))
+        covariances=np.repeat([np.eye(nXY)/10000], N, axis=0))
 
     def predict(self,X_test, CI=[0.05,0.95]):
-        print(X_test.shape)
+        #print(X_test.shape)
+        X_test_, *_ = normalize(X_test, self.x_mean, self.x_std)
         mean, percentiles,std_deviation  = [], [], []
-        for x in X_test:
-            conditional_gmm, alpha = self.model.condition([0], [x], manipulate_test_bounds = True)
-            y_given_x_samples = conditional_gmm.sample(n_samples=2000)
+        test_bounds = 0+np.array([-2,2])*1
+        for i,x in enumerate(X_test_):
+            if i%10 ==0:
+                print(f"Points tested {100*i/X_test_.shape[0]:0.1f}%", end="\r")
+            
+            conditional_gmm, alpha = self.model.condition(np.arange(self.nX), [x], manipulate_test_bounds = test_bounds)
+            y_given_x_samples = conditional_gmm.sample(n_samples=200)
+            
+            y_given_x_samples = denormalize(y_given_x_samples, self.y_mean, self.y_std)
             mean.append(np.mean(y_given_x_samples))
             percentiles.append(np.quantile(y_given_x_samples,CI ))
             std_deviation.append(np.std(y_given_x_samples))
-        
+        print("")
         return np.array(mean),np.array(std_deviation).T,np.array(percentiles).T
 
 def obj_fun(x): 
     return 0.5 * (np.sign(x-0.5) + 1)+np.sin(100*x)*0.1
 if __name__ == "__main__":
 
-    N = 40
+    N = 20
     np.random.seed(20) #weird thing happening!
     np.random.seed(1)
     x =  np.random.uniform(0,1,size = (N,1))
@@ -179,8 +197,9 @@ if __name__ == "__main__":
     plt.fill_between(x_test_list, *CI.T,color="blue", alpha=0.2)
     plt.fill_between(x_test_list, *CI1.T,color="blue", alpha=0.2)
     plt.fill_between(x_test_list, *CI2.T,color="blue",alpha=0.2)
-    #plt.plot(x_test_list, alpha_list)
+    plt.plot(x_test_list, alpha_list, label="alpha")
     ax.scatter(x, y, s=3, color="black")
     ax.set_xlabel("x")
     ax.set_ylabel("y")
+    plt.legend()
     plt.show()
