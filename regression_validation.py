@@ -10,6 +10,7 @@ from src.benchmark_problems import Zirilli, Weierstrass, Rosenbrock
 
 import os
 from datetime import datetime
+data_path = "master-thesis/data" #"data" 
 
 #prob = Zirilli(dimensions = 2)
 problems = [Weierstrass(dimensions = 2), Zirilli(dimensions = 2), Rosenbrock(dimensions=2), Rosenbrock(dimensions=10)]
@@ -27,7 +28,7 @@ n_test = 100
 run_name = datetime.today().strftime('%m%d_%H%M')
 
 try:
-    path = os.path.join(os.getcwd(),f"master-thesis/data/{run_name}")
+    path = os.path.join(os.getcwd(),f"{data_path}/{run_name}")
     os.mkdir(path)
 except:
     print(f"Couldn't create {path}")
@@ -38,6 +39,6 @@ for problem in problems[2:]:
             print(regression_model[i].name, f"{type(problem).__name__}")
             RV = RegressionValidation(problem, regression_model[i], random_seed)
             RV.train_test_loop(n_train_array, n_test)
-            RV.save_regression_validation_results(f"master-thesis/data/{run_name}")
+            RV.save_regression_validation_results(f"{data_path}/{run_name}")
             #print(RV.mean_abs_pred_error, RV.mean_uncertainty_quantification)
 
