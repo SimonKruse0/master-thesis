@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from numpy import abs, sum, sign, arange, atleast_2d, cos, pi
+from numpy import exp,floor, repeat,size,sqrt, tril, sin,abs, sum, sign, arange, atleast_2d, cos, pi, asarray
+import numpy as np
 from .benchmark_class import Benchmark
 from scipy.optimize import rosen
 
