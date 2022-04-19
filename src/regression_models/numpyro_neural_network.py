@@ -14,7 +14,7 @@ import time
 import os
 
 class NumpyroNeuralNetwork:
-    def __init__(self, hidden_units = 10, num_warmup=1000, num_samples = 2000, num_chains=1, num_keep_samples = 50):
+    def __init__(self, hidden_units = 10, num_warmup=1000, num_samples = 2000, num_chains=1, num_keep_samples = 50, extra_name=""):
         self.kernel = None 
         #self.nonlin = lambda x: jnp.tanh(x)
         self.hidden_units = hidden_units
@@ -27,7 +27,7 @@ class NumpyroNeuralNetwork:
         self.num_samples = num_samples
         self.num_chains = num_chains
         self.keep_every = num_samples//num_keep_samples
-        self.name = f"numpyro neural network"
+        self.name = f"numpyro neural network{extra_name}"
         self.latex_architecture = r"$\theta_{\mu} \sim \mathcal{N}(0,{self.hidden_units_variance})$"
         self.samples = None
         self.params = f"layers = 3, hidden_units = {hidden_units}, num_warmup = {num_warmup},\

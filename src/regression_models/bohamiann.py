@@ -37,14 +37,14 @@ def get_default_network(input_dimensionality: int) -> torch.nn.Module:
 
 
 class BOHAMIANN:
-    def __init__(self,num_warmup=1000, num_samples = 2000, num_keep_samples=50, lr=1e-2) -> None:
+    def __init__(self,num_warmup=1000, num_samples = 2000, num_keep_samples=50, lr=1e-2, extra_name="") -> None:
         self.model = bohamiann.Bohamiann(get_network=get_default_network)
         #assert num_steps>num_burnin #since num_burnin
         self.num_steps = num_samples+num_warmup
         self.num_burnin = num_warmup
         self.keep_every=num_samples//num_keep_samples
         self.lr=lr
-        self.name = "BOHAMIANN"
+        self.name = f"BOHAMIANN{extra_name}"
         self.latex_architecture = "nn.Linear(input_dimensionality, 50), nn.Tanh(), nn.Linear(50, 50), nn.Tanh(), nn.Linear(50, 1), AppendLayer()"
         self.params = f"layers = 3, hidden_units = 50, num_warmup = {num_warmup},\
                             num_samples = {num_samples}"

@@ -14,3 +14,7 @@ src/regression_models/__pycache__/gaussian_process_regression.cpython-38.pyc
 src/regression_models/__pycache__/numpyro_neural_network.cpython-38.pyc
 src/__pycache__/common.cpython-38.pyc
 src/regression_models/__pycache__/gaussian_mixture_regression2.cpython-38.pyc
+env
+Output*
+Error*
+*cpython-38.pyc
