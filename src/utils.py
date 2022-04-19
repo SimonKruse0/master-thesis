@@ -76,6 +76,10 @@ class RegressionValidation():
         data["n_test_points"] = self.n_test_points
         data["mean_uncertainty_quantification"] = self.mean_uncertainty_quantification
         data["mean_abs_pred_error"] = [a.astype(float) for a in self.mean_abs_pred_error] #Num pyro gave float32
+        data["problem_name"] = self.problem_name
+        data["problem dim"] = self.problem_size
+        data["model_name"] = self.model.name
+        data["params"] = self.model.params
         time = datetime.today().strftime('%Y-%m-%d-%H_%M')
         filename = f"{self.model.name}_{self.problem_name}_dim_{self.problem_size}_seed_{self.seednr}_time_{time}.json"
         json.dump(data, open(os.path.join(output_path, filename), "w"))
