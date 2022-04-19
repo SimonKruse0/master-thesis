@@ -14,8 +14,8 @@ pyro.set_rng_seed(1)
 
 
 class GaussianProcess:
-    def __init__(self,noise=0.01, X=None, y=None) -> None:
-        self.name = "Gaussian Process"
+    def __init__(self,noise=0.01, X=None, y=None, extra_name="") -> None:
+        self.name = f"Gaussian Process{extra_name}"
         self.latex_architecture = r"gp.kernels.Matern52"
         self.gpmodel = None
         self.noise = noise
