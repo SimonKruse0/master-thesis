@@ -30,6 +30,8 @@ class NumpyroNeuralNetwork:
         self.name = f"numpyro neural network"
         self.latex_architecture = r"$\theta_{\mu} \sim \mathcal{N}(0,{self.hidden_units_variance})$"
         self.samples = None
+        self.params = f"layers = 3, hidden_units = {hidden_units}, num_warmup = {num_warmup},\
+                            num_samples = {num_samples}, num_chains = {num_chains}"
         # self.data = 
 
         text_observation = r"$y \sim \mathcal{N}(f_{\theta}(x),\sigma),$"

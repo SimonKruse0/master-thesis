@@ -19,6 +19,7 @@ class GaussianProcess:
         self.latex_architecture = r"gp.kernels.Matern52"
         self.gpmodel = None
         self.noise = noise
+        self.params = f"noise = {noise}, only 1 dim params!"
 
     def model(self,input_dim):
         X,y = None, None
@@ -47,6 +48,7 @@ class GaussianProcess:
         lengthscale = transform_to(constraint)(lengthscale_unconstrained).detach().numpy()
         variance = transform_to(constraint)(variance_unconstrained).detach().numpy()
         self.latex_architecture = f"gp.kernels.Matern52, lengthscale = {lengthscale:.2f}, var = {variance:.2f}"
+        self.params = ", ".join([self.params,self.latex_architecture])
 
     def predict(self, X_test):
         X_test = torch.tensor(X_test)

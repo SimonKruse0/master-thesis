@@ -127,6 +127,7 @@ class GMRegression():
     def __init__(self) -> None:
         self.model = None
         self.name = "Gaussian Mixture Regression"
+        self.params = ""
 
     def fit(self, X, Y):
         N, self.nX = X.shape

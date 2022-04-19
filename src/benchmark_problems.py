@@ -5,6 +5,118 @@ from .benchmark_class import Benchmark
 from scipy.optimize import rosen
 
 #Whitley #Ackley01, #Cola, #Corana, #Hartmann6 #Hartmann3
+#Corana, CosineMixture
+
+class Step(Benchmark):
+
+    r"""
+    Step objective function.
+    This class defines the Step [1]_ global optimization problem. This
+    is a multimodal minimization problem defined as follows:
+    .. math::
+        f_{\text{Step}}(x) = \sum_{i=1}^{n} \left ( \lfloor x_i
+                             + 0.5 \rfloor \right )^2
+    Here, :math:`n` represents the number of dimensions and
+    :math:`x_i \in [-100, 100]` for :math:`i = 1, ..., n`.
+    *Global optimum*: :math:`f(x) = 0` for :math:`x_i = 0.5` for
+    :math:`i = 1, ..., n`
+    .. [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark Functions
+    For Global Optimization Problems Int. Journal of Mathematical Modelling
+    and Numerical Optimisation, 2013, 4, 150-194.
+    """
+
+    def __init__(self, dimensions=2):
+        Benchmark.__init__(self, dimensions)
+        self._bounds = list(zip([-100.0] * self.N,
+                           [100.0] * self.N))
+        self.custom_bounds = ([-5, 5], [-5, 5])
+
+        self.global_optimum = [[0. for _ in range(self.N)]]
+        self.fglob = 0.0
+        self.change_dimensionality = True
+
+    def fun(self, x, *args):
+        self.nfev += 1
+
+        return sum(floor(abs(x)))
+
+#Discontinuous, Non-Differentiable, Separable, Scalable, Multimodal
+class CosineMixture(Benchmark):
+    r"""
+    Cosine Mixture objective function.
+    This class defines the Cosine Mixture global optimization problem. This
+    is a multimodal minimization problem defined as follows:
+    .. math::
+        f_{\text{CosineMixture}}(x) = -0.1 \sum_{i=1}^n \cos(5 \pi x_i)
+        - \sum_{i=1}^n x_i^2
+    Here, :math:`n` represents the number of dimensions and :math:`x_i \in
+    [-1, 1]` for :math:`i = 1, ..., N`.
+    *Global optimum*: :math:`f(x) = -0.1N` for :math:`x_i = 0` for
+    :math:`i = 1, ..., N`
+    .. [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark Functions
+    For Global Optimization Problems Int. Journal of Mathematical Modelling
+    and Numerical Optimisation, 2013, 4, 150-194.
+    TODO, Jamil #38 has wrong minimum and wrong fglob. I plotted it.
+    -(x**2) term is always negative if x is negative.
+     cos(5 * pi * x) is equal to -1 for x=-1.
+    """
+
+    def __init__(self, dimensions=2):
+        Benchmark.__init__(self, dimensions)
+
+        self.change_dimensionality = True
+        self._bounds = list(zip([-1.0] * self.N, [1.0] * self.N))
+
+        self.global_optimum = [[-1. for _ in range(self.N)]]
+        self.fglob = -0.9 * self.N
+
+    def fun(self, x, *args):
+        self.nfev += 1
+
+        return -0.1 * sum(cos(5.0 * pi * x)) - sum(x ** 2.0)
+
+
+#Discontinuous, Non-Differentiable, Separable, Scalable, Multimodal)
+class Corana(Benchmark):
+    r"""
+    Corana objective function.
+    This class defines the Corana [1]_ global optimization problem. This
+    is a multimodal minimization problem defined as follows:
+    .. math::
+        f_{\text{Corana}}(x) = \begin{cases} \sum_{i=1}^n 0.15 d_i
+        [z_i - 0.05\textrm{sgn}(z_i)]^2 & \textrm{if }|x_i-z_i| < 0.05 \\
+        d_ix_i^2 & \textrm{otherwise}\end{cases}
+    Where, in this exercise:
+    .. math::
+        z_i = 0.2 \lfloor |x_i/s_i|+0.49999\rfloor\textrm{sgn}(x_i),
+        d_i=(1,1000,10,100, ...)
+    with :math:`x_i \in [-5, 5]` for :math:`i = 1, ..., 4`.
+    *Global optimum*: :math:`f(x) = 0` for :math:`x_i = 0` for
+    :math:`i = 1, ..., 4`
+    ..[1] Gavana, A. Global Optimization Benchmarks and AMPGO retrieved 2015
+    """
+
+    def __init__(self, dimensions=4):
+        Benchmark.__init__(self, dimensions)
+
+        self._bounds = list(zip([-5.0] * self.N, [5.0] * self.N))
+
+        self.global_optimum = [[0 for _ in range(self.N)]]
+        self.fglob = 0.0
+
+    def fun(self, x, *args):
+        self.nfev += 1
+
+        d = [1., 1000., 10., 100.]
+        r = 0
+        for j in range(4):
+            zj = floor(abs(x[j] / 0.2) + 0.49999) * sign(x[j]) * 0.2
+            if abs(x[j] - zj) < 0.05:
+                r += 0.15 * ((zj - 0.05 * sign(zj)) ** 2) * d[j]
+            else:
+                r += d[j] * x[j] * x[j]
+        return r
+
 
 class Hartmann3(Benchmark):
 
