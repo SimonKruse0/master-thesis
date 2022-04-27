@@ -25,6 +25,7 @@ problems += [Weierstrass(dimensions = x) for x in [2,3,5,10]]
 problems += [Katsuura(dimensions = x) for x in [2,3,5,10]]
 problems += [Schwefel26(dimensions = x) for x in [2,3,5,10]]
 
+problems = [Katsuura(dimensions = 10)]
 
 random.seed()
 random.shuffle(problems)
@@ -38,7 +39,7 @@ NNN_regression = NumpyroNeuralNetwork(num_chains = 4, num_warmup= 2000, num_samp
 mixture_regression = GMRegression()
 
 regression_models = [mixture_regression,BOHAMIANN_regression_fast,GP_regression,GP_regression_noise,BOHAMIANN_regression,NNN_regression_fast, NNN_regression]
-
+random.shuffle(regression_models)
 
 ## unit test ###
 # for problem in problems:

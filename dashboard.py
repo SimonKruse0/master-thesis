@@ -5,7 +5,7 @@ import dash_core_components as dcc
 import plotly.express as px
 from dash.dependencies import Input, Output
 from src.analysis_helpers import get_data2, get_names
-
+import numpy as np
 
 
 app = dash.Dash()
@@ -15,7 +15,12 @@ names = [{"label":x, 'value': x} for x in get_names()]
 app.layout = html.Div(id = 'parent', children = [
     html.H1(id = 'H1', children = 'Regression Analysis', style = {'textAlign':'center',\
                                             'marginTop':10,'marginBottom':10}),
-
+        dcc.RadioItems(
+            ['means', 'all data'],
+            'means',
+            inline=True,
+            id ="means"
+        ),
         dcc.Dropdown( id = 'dropdown',
         options = names,
         value = 'Step2_dim_5'),
@@ -64,8 +69,10 @@ def ls(name):
 @app.callback([Output(component_id='bar_plot', component_property= 'figure'),
                 Output(component_id='data_origin', component_property = "children"),
                 Output(component_id='data_origin2', component_property = "children")],
-              [Input(component_id='dropdown', component_property= 'value')])
-def analysis_regression_performance_plotly(problem):
+              [Input(component_id='dropdown', component_property= 'value', 
+              ),Input(component_id='means', component_property= 'value',
+              )])
+def analysis_regression_performance_plotly(problem, means):
     print_file_paths = True
     data_list,name_list, problem_name, file_path_list, file_path_list2 = get_data2(problem, use_exact_name=True)
 
@@ -74,16 +81,41 @@ def analysis_regression_performance_plotly(problem):
     data2 = dict()
     data3 = dict()
     name_visted = []
-    for data, name in zip(data_list,name_list):
-        if name in name_visted:
-            data2[name]+=["None"]
-            data3[name]+=["None"]
-            data2[name]+=(data["n_train_points_list"])
-            data3[name]+=(data[type])
-        else:
-            data2[name] = data["n_train_points_list"]
-            data3[name] = data[type]
-            name_visted.append(name)
+
+    if means == "means":
+        print("bling")
+        for data, name in zip(data_list,name_list):
+            print(len(data[type]) ,len(data["n_train_points_list"]))
+            if len(data[type]) != 9:
+                continue
+            if len(data[type])!= len(data["n_train_points_list"]):
+                print("error: not same sizes")
+                return
+            if name in name_visted:
+                data3[name]+=(data[type])
+                
+            else:
+                data2[name] = data["n_train_points_list"]
+                data3[name] = data[type]
+                name_visted.append(name)
+        
+        for name in name_visted:
+            tmp = np.atleast_2d(np.array(data3[name]))
+            data3[name] = np.mean(tmp, axis=0)
+            #print(data3[name])
+            #print(name,data3[name])
+
+    else:
+        for data, name in zip(data_list,name_list):
+            if name in name_visted:
+                data2[name]+=["None"]
+                data3[name]+=["None"]
+                data2[name]+=(data["n_train_points_list"])
+                data3[name]+=(data[type])
+            else:
+                data2[name] = data["n_train_points_list"]
+                data3[name] = data[type]
+                name_visted.append(name)
 
     fig = go.Figure()
     for name in name_visted:
@@ -109,8 +141,10 @@ def analysis_regression_performance_plotly(problem):
     return fig, text, text_raw
 
 @app.callback(Output(component_id='bar_plot2', component_property= 'figure'),
-              [Input(component_id='dropdown', component_property= 'value')])
-def analysis_regression_performance_plotly(problem):
+              [Input(component_id='dropdown', component_property= 'value', 
+              ),Input(component_id='means', component_property= 'value',
+              )])
+def analysis_regression_performance_plotly(problem,means):
     data_list,name_list, problem_name, *_ = get_data2(problem, use_exact_name=True)
 
     type ="mean_uncertainty_quantification"
@@ -118,16 +152,39 @@ def analysis_regression_performance_plotly(problem):
     data2 = dict()
     data3 = dict()
     name_visted = []
-    for data, name in zip(data_list,name_list):
-        if name in name_visted:
-            data2[name]+=["None"]
-            data3[name]+=["None"]
-            data2[name]+=(data["n_train_points_list"])
-            data3[name]+=(data[type])
-        else:
-            data2[name] = data["n_train_points_list"]
-            data3[name] = data[type]
-            name_visted.append(name)
+
+    if means == "means":
+
+        for data, name in zip(data_list,name_list):
+            if len(data[type]) != 9: #KÆMPE HACK
+                print("#KÆMPE HACK")
+                continue
+            if name in name_visted:
+                data3[name]+=(data[type])
+                
+            else:
+                data2[name] = data["n_train_points_list"]
+                data3[name] = data[type]
+                name_visted.append(name)
+        
+        for name in name_visted:
+            tmp = np.atleast_2d(np.array(data3[name]))
+            data3[name] = np.mean(tmp, axis=0)
+            #print(data3[name])
+            #print(name,data3[name])
+
+    else:
+
+        for data, name in zip(data_list,name_list):
+            if name in name_visted:
+                data2[name]+=["None"]
+                data3[name]+=["None"]
+                data2[name]+=(data["n_train_points_list"])
+                data3[name]+=(data[type])
+            else:
+                data2[name] = data["n_train_points_list"]
+                data3[name] = data[type]
+                name_visted.append(name)
 
     fig = go.Figure()
     for name in name_visted:
