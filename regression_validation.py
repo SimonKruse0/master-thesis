@@ -14,6 +14,8 @@ from src.go_benchmark_functions.go_funcs_R import Rastrigin
 from src.go_benchmark_functions.go_funcs_W import Weierstrass
 from src.go_benchmark_functions.go_funcs_K import Katsuura
 
+from src.analysis_helpers import include_true_values
+
 import os
 from datetime import datetime
 
@@ -25,7 +27,7 @@ problems += [Weierstrass(dimensions = x) for x in [2,3,5,10]]
 problems += [Katsuura(dimensions = x) for x in [2,3,5,10]]
 problems += [Schwefel26(dimensions = x) for x in [2,3,5,10]]
 
-problems = [Katsuura(dimensions = 10)]
+#problems = [Katsuura(dimensions = 10)]
 
 random.seed()
 random.shuffle(problems)
@@ -40,6 +42,9 @@ mixture_regression = GMRegression()
 
 regression_models = [mixture_regression,BOHAMIANN_regression_fast,GP_regression,GP_regression_noise,BOHAMIANN_regression,NNN_regression_fast, NNN_regression]
 random.shuffle(regression_models)
+
+## Data enrichment ##
+#include_true_values(problems, remove_min_n_test=True)
 
 ## unit test ###
 # for problem in problems:
@@ -77,4 +82,5 @@ for problem in problems:
                 RV.save_regression_validation_results(f"{path}")
             except:
                 print(f"ERROR: Could not train {regression_model.name} on {type(problem).__name__} in dim {problem.N}")
+
 

@@ -27,7 +27,8 @@ def uniform_grid(bound, n_var, points_pr_dim=100):# -> np.ndarray():
     all_axis = np.repeat(np.linspace(*bound, points_pr_dim)[None,:],n_var, axis=0)
     return np.array([x_i.flatten() for x_i in np.meshgrid(*all_axis)]).T
 
-
+def jsonize_array(array):
+    return [a.astype(float) for a in array]
 
 
 class RegressionValidation():
@@ -69,11 +70,17 @@ class RegressionValidation():
             self.mean_uncertainty_quantification.append(np.mean(norm.pdf(Z_pred)))
             print(n_train)
 
+            self.Y_mu = Y_mu
+            self.Y_sigma = Y_sigma
+
     def save_regression_validation_results(self, output_path):
 
         data = dict()
         data["n_train_points_list"] = self.n_train_points_list
         data["n_test_points"] = self.n_test_points
+        data["y_test"] = jsonize_array(self.test_y)
+        data["y_pred"] = jsonize_array(self.Y_mu)
+        data["y_sigma"] = jsonize_array(self.Y_sigma)
         data["mean_uncertainty_quantification"] = self.mean_uncertainty_quantification
         data["mean_abs_pred_error"] = [a.astype(float) for a in self.mean_abs_pred_error] #Num pyro gave float32
         data["problem_name"] = self.problem_name

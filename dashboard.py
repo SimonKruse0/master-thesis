@@ -11,7 +11,7 @@ import numpy as np
 app = dash.Dash()
 
 names = [{"label":x, 'value': x} for x in get_names()]
-
+LETTER = "W"
 app.layout = html.Div(id = 'parent', children = [
     html.H1(id = 'H1', children = 'Regression Analysis', style = {'textAlign':'center',\
                                             'marginTop':10,'marginBottom':10}),
@@ -26,6 +26,9 @@ app.layout = html.Div(id = 'parent', children = [
         value = 'Step2_dim_5'),
         dcc.Graph(id = 'bar_plot'),
         dcc.Graph(id = 'bar_plot2'),
+        html.Div(id="link"),
+        html.Div(id="link2"),
+        #html.A(children='link_replace_letter',href=f"https://infinity77.net/global_optimization/test_functions_nd_{LETTER}.html"),
         html.H2(id = "data_origin", children = 'Data collected from:', style = {"color":"red"}),
         html.H5(id = "data_origin2",style = {'textAlign':'left',\
                                             'marginTop':10,'marginBottom':10})
@@ -203,6 +206,19 @@ def analysis_regression_performance_plotly(problem,means):
 
     return fig
 
+
+@app.callback([Output(component_id='link', component_property= 'children'),
+                Output(component_id='link2', component_property= 'children')],
+              [Input(component_id='dropdown', component_property= 'value', 
+              )])
+def functionLINK(name):
+    print(name)
+    link1 = html.A(children='link_letter',href=f"https://infinity77.net/global_optimization/test_functions_nd_{name[0]}.html")
+    fullname = name.split("_")[0]
+    link2 = html.A(children='link_function',
+    href=f"https://infinity77.net/global_optimization/test_functions_nd_{name[0]}.html#go_benchmark.{fullname}",
+    target='_blank')
+    return link1,link2
 
 if __name__ == '__main__': 
     app.run_server()
