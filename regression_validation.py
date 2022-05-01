@@ -21,13 +21,13 @@ from datetime import datetime
 
 #prob = Zirilli(dimensions = 2)
 #problems = [Weierstrass(dimensions = 2), Zirilli(dimensions = 2), Rosenbrock(dimensions=2), Rosenbrock(dimensions=10)]
-#problems = [Step2(dimensions = 1), Step2(dimensions = 3), Step2(dimensions = 5), Step2(dimensions=10)]
-dims = [2,3,5,10]
-dims = [1]
-problems = [Rastrigin(dimensions = x) for x in dims]
-problems += [Weierstrass(dimensions = x) for x in dims]
-problems += [Katsuura(dimensions = x) for x in dims]
-problems += [Schwefel26(dimensions = x) for x in dims]
+problems = [Step2(dimensions = 1), Step2(dimensions = 3), Step2(dimensions = 5), Step2(dimensions=10)]
+# dims = [2,3,5,10]
+# dims = [1]
+# problems = [Rastrigin(dimensions = x) for x in dims]
+# problems += [Weierstrass(dimensions = x) for x in dims]
+# problems += [Katsuura(dimensions = x) for x in dims]
+# problems += [Schwefel26(dimensions = x) for x in dims]
 
 
 
