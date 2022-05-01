@@ -12,10 +12,33 @@ import pyro.contrib.gp as gp
 assert pyro.__version__.startswith('1.8.0')
 pyro.set_rng_seed(1)
 
+from sklearn.gaussian_process.kernels import Matern
+from sklearn.gaussian_process import GaussianProcessRegressor
 
-class GaussianProcess:
+class GaussianProcess_sklearn:
+    def __init__(self, extra_name="") -> None:
+        kernel = Matern(length_scale=1.0, length_scale_bounds=(1e-05, 100000.0), nu=1.5)
+        self.model = GaussianProcessRegressor(kernel=kernel, alpha=1e-10, 
+                            optimizer='fmin_l_bfgs_b', 
+                            n_restarts_optimizer=200, 
+                            normalize_y=True)
+    
+        self.name = f"Gaussian Process{extra_name} - sklearn"
+        self.latex_architecture = r"gp.kernels.Matern52"
+
+    def fit(self, X,Y):
+        self.model.fit(X,Y)
+        self.params = f"noise = {self.model.get_params()}, only 1 dim params!"
+    
+    def predict(self, X_test):
+        mu, sigma = self.model.predict(X_test, return_std=True)
+        return mu.squeeze(), sigma, None
+    
+
+
+class GaussianProcess_pyro:
     def __init__(self,noise=0.01, X=None, y=None, extra_name="") -> None:
-        self.name = f"Gaussian Process{extra_name}"
+        self.name = f"Gaussian Process{extra_name} - pyro"
         self.latex_architecture = r"gp.kernels.Matern52"
         self.gpmodel = None
         self.noise = noise
@@ -25,7 +48,6 @@ class GaussianProcess:
         X,y = None, None
         self.gpmodel = gp.models.GPRegression(X, y, gp.kernels.Matern52(input_dim = input_dim), #input_dim = input_dim
                                  noise=torch.tensor(self.noise), jitter=1.0e-4)
-
 
     def fit(self, X, Y):
         if self.gpmodel is None:
@@ -55,3 +77,6 @@ class GaussianProcess:
         mu, variance = self.gpmodel(X_test, full_cov=False, noiseless=False)
         sigma = variance.sqrt()
         return mu.detach().numpy(),sigma.detach().numpy(),None
+
+
+

@@ -1,6 +1,6 @@
 import numpy as np
 from src.regression_models.numpyro_neural_network import NumpyroNeuralNetwork
-from src.regression_models.gaussian_process_regression import GaussianProcess
+from src.regression_models.gaussian_process_regression import GaussianProcess_sklearn
 from src.regression_models.bohamiann import BOHAMIANN
 from src.regression_models.gaussian_mixture_regression2 import GMRegression
 
@@ -22,10 +22,14 @@ from datetime import datetime
 #prob = Zirilli(dimensions = 2)
 #problems = [Weierstrass(dimensions = 2), Zirilli(dimensions = 2), Rosenbrock(dimensions=2), Rosenbrock(dimensions=10)]
 #problems = [Step2(dimensions = 1), Step2(dimensions = 3), Step2(dimensions = 5), Step2(dimensions=10)]
-problems = [Rastrigin(dimensions = x) for x in [2,3,5,10]]
-problems += [Weierstrass(dimensions = x) for x in [2,3,5,10]]
-problems += [Katsuura(dimensions = x) for x in [2,3,5,10]]
-problems += [Schwefel26(dimensions = x) for x in [2,3,5,10]]
+dims = [2,3,5,10]
+dims = [1]
+problems = [Rastrigin(dimensions = x) for x in dims]
+problems += [Weierstrass(dimensions = x) for x in dims]
+problems += [Katsuura(dimensions = x) for x in dims]
+problems += [Schwefel26(dimensions = x) for x in dims]
+
+
 
 #problems = [Katsuura(dimensions = 10)]
 
@@ -34,14 +38,18 @@ random.shuffle(problems)
 
 BOHAMIANN_regression_fast = BOHAMIANN(num_warmup = 200, num_samples = 300, num_keep_samples= 100)
 BOHAMIANN_regression = BOHAMIANN(num_warmup = 2000, num_samples = 2000, num_keep_samples= 100,  extra_name="2000-2000")
-GP_regression = GaussianProcess(noise = 0)
-GP_regression_noise = GaussianProcess(noise = 0.01, extra_name=" noise-0.01")
+# GP_regression = GaussianProcess(noise = 0)
+# GP_regression_noise = GaussianProcess(noise = 0.01, extra_name=" noise-0.01")
+GP_regression = GaussianProcess_sklearn()
+
 NNN_regression_fast = NumpyroNeuralNetwork(num_chains = 4, num_warmup= 200, num_samples=300, num_keep_samples= 100)
 NNN_regression = NumpyroNeuralNetwork(num_chains = 4, num_warmup= 2000, num_samples=2000, num_keep_samples= 100, extra_name="2000-2000")
 mixture_regression = GMRegression()
 
-regression_models = [mixture_regression,BOHAMIANN_regression_fast,GP_regression,GP_regression_noise,BOHAMIANN_regression,NNN_regression_fast, NNN_regression]
+regression_models = [mixture_regression,BOHAMIANN_regression_fast,GP_regression,BOHAMIANN_regression,NNN_regression_fast, NNN_regression]
 random.shuffle(regression_models)
+
+#regression_models = [GP_regression]
 
 ## Data enrichment ##
 #include_true_values(problems, remove_min_n_test=True)
@@ -60,7 +68,8 @@ random.shuffle(regression_models)
 # print("\n-- TEST: all models are defined --\n")
 
 ### main ###
-n_train_array = [int(x) for x in np.logspace(1, 2.5, 9)]
+#n_train_array = [int(x) for x in np.logspace(1, 2.5, 9)]
+n_train_array = [int(x) for x in np.logspace(1, 1.8, 9)]
 n_test = 10000
 
 run_name = datetime.today().strftime('%m%d_%H%M')
