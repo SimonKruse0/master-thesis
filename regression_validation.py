@@ -14,7 +14,7 @@ from src.go_benchmark_functions.go_funcs_R import Rastrigin
 from src.go_benchmark_functions.go_funcs_W import Weierstrass
 from src.go_benchmark_functions.go_funcs_K import Katsuura
 
-from src.analysis_helpers import include_true_values
+#from src.analysis_helpers import include_true_values
 
 import os
 from datetime import datetime
