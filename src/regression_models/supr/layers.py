@@ -2,7 +2,8 @@ import torch
 import torch.nn as nn
 from torch.nn.functional import pad
 import math
-from supr.utils import discrete_rand, local_scramble_2d
+#from supr.utils import discrete_rand, local_scramble_2d
+from .utils import discrete_rand, local_scramble_2d
 from typing import List
 
 

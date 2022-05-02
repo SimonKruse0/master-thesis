@@ -14,14 +14,14 @@ import time
 import os
 
 class NumpyroNeuralNetwork:
-    def __init__(self, hidden_units = 10, num_warmup=1000, num_samples = 2000, num_chains=1, num_keep_samples = 50, extra_name=""):
+    def __init__(self, hidden_units = 50, num_warmup=1000, num_samples = 2000, num_chains=1, num_keep_samples = 50, extra_name=""):
         self.kernel = None 
         #self.nonlin = lambda x: jnp.tanh(x)
         self.hidden_units = hidden_units
         self.hidden_units_variance = 2
         self.hidden_units_bias_variance = 1 
         self.obs_variance = 0.01
-        self.obs_variance_prior = 0 #Obs E[sigma] = 1/lambda
+        self.obs_variance_prior = 10 #Obs E[sigma] = 1/lambda
         self.target_accept_prob = 0.6
         self.num_warmup = num_warmup
         self.num_samples = num_samples

@@ -39,6 +39,7 @@ class RegressionValidation():
         self.problem_size = problem.N
         self.bounds = problem.bounds
         self.mean_abs_pred_error = []
+        self.mean_rel_pred_error = []
         self.mean_uncertainty_quantification = []
         self.seednr = random_seed
 
@@ -65,6 +66,8 @@ class RegressionValidation():
             self.model.fit(X,y)
             Y_mu,Y_sigma,_ = self.model.predict(X_test)
             self.mean_abs_pred_error.append(np.mean(np.abs(y_test-Y_mu)))
+            self.mean_rel_pred_error.append(
+                np.mean(np.abs(y_test-Y_mu)/(np.abs(y_test)+0.001)))
             
             Z_pred = (y_test-Y_mu)/Y_sigma #std. normal distributed. 
             self.mean_uncertainty_quantification.append(np.mean(norm.pdf(Z_pred)))
@@ -79,7 +82,8 @@ class RegressionValidation():
         #data["y_pred"] = jsonize_array(self.Y_mu)
         #data["y_sigma"] = jsonize_array(self.Y_sigma)
         data["mean_uncertainty_quantification"] = self.mean_uncertainty_quantification
-        data["mean_abs_pred_error"] = [a.astype(float) for a in self.mean_abs_pred_error] #Num pyro gave float32
+        data["mean_abs_pred_error"] = jsonize_array(self.mean_abs_pred_error) #Num pyro gave float32
+        data["mean_rel_pred_error"] = jsonize_array(self.mean_rel_pred_error) #Num pyro gave float32
         data["problem_name"] = self.problem_name
         data["problem dim"] = self.problem_size
         data["model_name"] = self.model.name
@@ -113,7 +117,7 @@ class PlottingClass:
         ax.legend(loc=2)
 
     def plot_regression_credible_interval(self,ax,Xgrid):
-        if self.model.name != "numpyro neural network" and self.model.name!="Gaussian Mixture Regression":
+        if self.model.name != "SPN regression" and self.model.name != "numpyro neural network" and self.model.name!="Gaussian Mixture Regression":
             return
         #Ymu, Y_CI = self.predict(Xgrid[:,None], gaussian_approx = False)
         Ymu, Y_CI = self.predict(Xgrid, gaussian_approx = False)

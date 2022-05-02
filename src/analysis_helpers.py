@@ -129,6 +129,42 @@ def ls(name):
         return "solid"
 
 #data
+import pandas as pd
+def data_to_pandas(data_list, name_list):
+    indexes = dict()
+    name_visted = []
+    for data, name in zip(data_list,name_list):
+        if name not in name_visted:
+            indexes["name"] = set(data["n_train_points_list"])
+            name_visted.append(name)
+            DF = pd.DataFrame(data=d, index=indexes["name"])
+            d1.reindex(np.array([0. , 1. ,  0.3, 0.1,32,41]))
+        else:
+            if data["n_train_points_list"] != indexes["name"]:
+
+
+
+        print(len(data[type]) ,len(data["n_train_points_list"]))
+        if len(data[type]) != 9:
+            continue
+        if len(data[type])!= len(data["n_train_points_list"]):
+            print("error: not same sizes")
+            return
+        if name in name_visted:
+            data3[name]+=(data[type])
+            
+        else:
+            data2[name] = data["n_train_points_list"]
+            data3[name] = data[type]
+            name_visted.append(name)
+    
+    for name in name_visted:
+        tmp = np.atleast_2d(np.array(data3[name]))
+        data3[name] = np.mean(tmp, axis=0)
+        #print(data3[name])
+        #print(name,data3[name])
+
+
 
 def analysis_regression_performance_plotly(problem,type = "mean_abs_pred_error",  means = False):
     print_file_paths = True
