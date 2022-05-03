@@ -79,7 +79,8 @@ def analysis_regression_performance_plotly(problem, means):
     print_file_paths = True
     data_list,name_list, problem_name, file_path_list, file_path_list2 = get_data2(problem, use_exact_name=True)
 
-    type ="mean_abs_pred_error"
+    #type ="mean_abs_pred_error"
+    type ="mean_rel_pred_error"
 
     data2 = dict()
     data3 = dict()
@@ -88,7 +89,11 @@ def analysis_regression_performance_plotly(problem, means):
     if means == "means":
         print("bling")
         for data, name in zip(data_list,name_list):
-            print(len(data[type]) ,len(data["n_train_points_list"]))
+            try:
+                len(data[type])
+            except:
+                continue
+            #print(len(data[type]) ,len(data["n_train_points_list"]))
             if len(data[type]) != 9:
                 continue
             if len(data[type])!= len(data["n_train_points_list"]):
@@ -110,6 +115,10 @@ def analysis_regression_performance_plotly(problem, means):
 
     else:
         for data, name in zip(data_list,name_list):
+            try:
+                len(data[type])
+            except:
+                continue
             if name in name_visted:
                 data2[name]+=["None"]
                 data3[name]+=["None"]

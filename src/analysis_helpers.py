@@ -138,13 +138,13 @@ def data_to_pandas(data_list, name_list):
             indexes["name"] = set(data["n_train_points_list"])
             name_visted.append(name)
             DF = pd.DataFrame(data=d, index=indexes["name"])
-            d1.reindex(np.array([0. , 1. ,  0.3, 0.1,32,41]))
+            #d1.reindex(np.array([0. , 1. ,  0.3, 0.1,32,41]))
         else:
             if data["n_train_points_list"] != indexes["name"]:
+                pass
 
 
-
-        print(len(data[type]) ,len(data["n_train_points_list"]))
+#        print(len(data[type]) ,len(data["n_train_points_list"]))
         if len(data[type]) != 9:
             continue
         if len(data[type])!= len(data["n_train_points_list"]):

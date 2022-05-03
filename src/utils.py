@@ -31,66 +31,7 @@ def jsonize_array(array):
     return [a.astype(float) for a in array]
 
 
-class RegressionValidation():
-    def __init__(self,problem, regression_model, random_seed) -> None:
-        self.model = regression_model
-        self.problem = problem
-        self.problem_name = type(problem).__name__
-        self.problem_size = problem.N
-        self.bounds = problem.bounds
-        self.mean_abs_pred_error = []
-        self.mean_rel_pred_error = []
-        self.mean_uncertainty_quantification = []
-        self.seednr = random_seed
 
-    def data_generator(self, n_train, n_test, use_random_seed = True):
-        if use_random_seed:
-            np.random.seed(self.seednr)
-        n = n_train+n_test
-        X = np.random.uniform(*self.bounds[0], size=[n,self.problem_size]) #OBS small hack, fails if bounds are not the same
-        y = []
-        for i in range(n):
-            y.append(self.problem.fun(X[i,:]))
-        y=np.array(y)
-        self.test_X, self.test_y = X[:n_test], y[:n_test]
-        self.train_X, self.train_y = X[n_test:], y[n_test:]
-        
-    def train_test_loop(self,n_train_points_list, n_test_points):
-        self.n_train_points_list = n_train_points_list
-        self.n_test_points = n_test_points
-
-        for n_train in n_train_points_list:
-            self.data_generator(n_train, n_test_points)
-            X,y=self.train_X, self.train_y
-            X_test,y_test = self.test_X, self.test_y 
-            self.model.fit(X,y)
-            Y_mu,Y_sigma,_ = self.model.predict(X_test)
-            self.mean_abs_pred_error.append(np.mean(np.abs(y_test-Y_mu)))
-            self.mean_rel_pred_error.append(
-                np.mean(np.abs(y_test-Y_mu)/(np.abs(y_test)+0.001)))
-            
-            Z_pred = (y_test-Y_mu)/Y_sigma #std. normal distributed. 
-            self.mean_uncertainty_quantification.append(np.mean(norm.pdf(Z_pred)))
-            print(n_train)
-
-    def save_regression_validation_results(self, output_path):
-
-        data = dict()
-        data["n_train_points_list"] = self.n_train_points_list
-        data["n_test_points"] = self.n_test_points
-        #data["y_test"] = jsonize_array(self.test_y)
-        #data["y_pred"] = jsonize_array(self.Y_mu)
-        #data["y_sigma"] = jsonize_array(self.Y_sigma)
-        data["mean_uncertainty_quantification"] = self.mean_uncertainty_quantification
-        data["mean_abs_pred_error"] = jsonize_array(self.mean_abs_pred_error) #Num pyro gave float32
-        data["mean_rel_pred_error"] = jsonize_array(self.mean_rel_pred_error) #Num pyro gave float32
-        data["problem_name"] = self.problem_name
-        data["problem dim"] = self.problem_size
-        data["model_name"] = self.model.name
-        data["params"] = self.model.params
-        time = datetime.today().strftime('%Y-%m-%d-%H_%M')
-        filename = f"{self.model.name}_{self.problem_name}_dim_{self.problem_size}_seed_{self.seednr}_time_{time}.json"
-        json.dump(data, open(os.path.join(output_path, filename), "w"))
 
 
 class PlottingClass:
@@ -196,6 +137,84 @@ class PlottingClass:
         #plt.show()
         # if fig_name:
         #     fig.savefig(f"{fig_name}.pdf")
+
+
+class RegressionValidation(PlottingClass):
+    def __init__(self,problem, regression_model, random_seed) -> None:
+        self.model = regression_model
+        self.problem = problem
+        self.problem_name = type(problem).__name__
+        self.problem_size = problem.N
+        self.bounds = problem.bounds
+        self.mean_abs_pred_error = []
+        self.mean_rel_pred_error = []
+        self.mean_uncertainty_quantification = []
+        self.seednr = random_seed
+
+    def data_generator(self, n_train, n_test, use_random_seed = True):
+        if use_random_seed:
+            np.random.seed(self.seednr)
+        n = n_train+n_test
+        X = np.random.uniform(*self.bounds[0], size=[n,self.problem_size]) #OBS small hack, fails if bounds are not the same
+        y = []
+        for i in range(n):
+            y.append(self.problem.fun(X[i,:]))
+        y=np.array(y)
+        self.test_X, self.test_y = X[:n_test], y[:n_test]
+        self.train_X, self.train_y = X[n_test:], y[n_test:]
+    
+    def predict(self, X_test):
+        Y_mu,Y_sigma,_  = self.model.predict(X_test)
+        return Y_mu, Y_sigma
+
+    def train_test_loop(self,n_train_points_list, n_test_points):
+        self.n_train_points_list = n_train_points_list
+        self.n_test_points = n_test_points
+
+        for n_train in n_train_points_list:
+            self.data_generator(n_train, n_test_points)
+            X,y=self.train_X, self.train_y
+            X_test,y_test = self.test_X, self.test_y 
+            self.model.fit(X,y)
+            Y_mu,Y_sigma,_ = self.model.predict(X_test)
+            self.mean_abs_pred_error.append(np.mean(np.abs(y_test-Y_mu)))
+            self.mean_rel_pred_error.append(
+                np.mean(np.abs(y_test-Y_mu)/(np.abs(y_test)+0.001)))
+            
+            Z_pred = (y_test-Y_mu)/Y_sigma #std. normal distributed. 
+            self.mean_uncertainty_quantification.append(np.mean(norm.pdf(Z_pred)))
+            print(n_train)
+            if self.problem_size == 1:
+                self._save_plot(X, y)
+
+    def save_regression_validation_results(self, output_path):
+
+        data = dict()
+        data["n_train_points_list"] = self.n_train_points_list
+        data["n_test_points"] = self.n_test_points
+        #data["y_test"] = jsonize_array(self.test_y)
+        #data["y_pred"] = jsonize_array(self.Y_mu)
+        #data["y_sigma"] = jsonize_array(self.Y_sigma)
+        data["mean_uncertainty_quantification"] = self.mean_uncertainty_quantification
+        data["mean_abs_pred_error"] = jsonize_array(self.mean_abs_pred_error) #Num pyro gave float32
+        data["mean_rel_pred_error"] = jsonize_array(self.mean_rel_pred_error) #Num pyro gave float32
+        data["problem_name"] = self.problem_name
+        data["problem dim"] = self.problem_size
+        data["model_name"] = self.model.name
+        data["params"] = self.model.params
+        time = datetime.today().strftime('%Y-%m-%d-%H_%M')
+        filename = f"{self.model.name}_{self.problem_name}_dim_{self.problem_size}_seed_{self.seednr}_time_{time}.json"
+        json.dump(data, open(os.path.join(output_path, filename), "w"))
+
+    def _save_plot(self, X, Y):
+        assert self.problem_size == 1
+        self._X,self._Y = X, Y
+        fig, ax = plt.subplots()
+        self.plot_regression_gaussian_approx(ax, np.linspace(*self.bounds[0], 200)[:,None], show_name=True)
+        ax.plot(self.test_X, self.test_y, ".", color="blue")
+        time = datetime.today().strftime('%Y-%m-%d-%H_%M')
+        filename = f"{self.model.name}_{self.problem_name}_dim_{self.problem_size}_seed_{self.seednr}_time_{time}.json"
+        plt.savefig(f"master-thesis/figures/{filename}.png")
 
 
 def normalize(X, mean=None, std=None):
