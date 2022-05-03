@@ -90,7 +90,7 @@ for n_train_array in [10,20,30]:
                 try:
                     print(regression_model.name, f"{type(problem).__name__} in dim {problem.N}")
                     RV = RegressionValidation(problem, regression_model, random_seed)
-                    RV.train_test_loop(n_train_array, n_test)
+                    RV.train_test_loop(n_train_array, n_test,path =  f"{path}")
                     RV.save_regression_validation_results(f"{path}")
                 except:
                     print(f"ERROR: Could not train {regression_model.name} on {type(problem).__name__} in dim {problem.N}")

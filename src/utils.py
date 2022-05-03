@@ -167,7 +167,7 @@ class RegressionValidation(PlottingClass):
         Y_mu,Y_sigma,_  = self.model.predict(X_test)
         return Y_mu, Y_sigma
 
-    def train_test_loop(self,n_train_points_list, n_test_points):
+    def train_test_loop(self,n_train_points_list, n_test_points, path = None):
         self.n_train_points_list = n_train_points_list
         self.n_test_points = n_test_points
 
@@ -185,7 +185,7 @@ class RegressionValidation(PlottingClass):
             self.mean_uncertainty_quantification.append(np.mean(norm.pdf(Z_pred)))
             print(n_train)
             if self.problem_size == 1:
-                self._save_plot(X, y)
+                self._save_plot(X, y, path)
 
     def save_regression_validation_results(self, output_path):
 
@@ -206,15 +206,15 @@ class RegressionValidation(PlottingClass):
         filename = f"{self.model.name}_{self.problem_name}_dim_{self.problem_size}_seed_{self.seednr}_time_{time}.json"
         json.dump(data, open(os.path.join(output_path, filename), "w"))
 
-    def _save_plot(self, X, Y):
+    def _save_plot(self, X, Y, output_path):
         assert self.problem_size == 1
         self._X,self._Y = X, Y
         fig, ax = plt.subplots()
         self.plot_regression_gaussian_approx(ax, np.linspace(*self.bounds[0], 200)[:,None], show_name=True)
         ax.plot(self.test_X, self.test_y, ".", color="blue")
         time = datetime.today().strftime('%Y-%m-%d-%H_%M')
-        filename = f"{self.model.name}_{self.problem_name}_dim_{self.problem_size}_seed_{self.seednr}_time_{time}.json"
-        plt.savefig(f"master-thesis/figures/{filename}.png")
+        filename_png = f"{self.model.name}_{self.problem_name}_dim_{self.problem_size}_seed_{self.seednr}_time_{time}.png"
+        plt.savefig(os.path.join(output_path, filename_png))
 
 
 def normalize(X, mean=None, std=None):
