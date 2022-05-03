@@ -220,7 +220,7 @@ if __name__ == "__main__":
     #mixture_regression = ..()
     
     #regression_model = [mixture_regression, GP_regression,BOHAMIANN_regression,NNN_regression]
-    regression_models = [SPN_regression, NNN_regression, mean_regression]
+    regression_models = [NNN_regression, mean_regression]
     # BO_BNN = BayesianOptimization(obj_fun, regression_model[1],bounds,X_sample,Y_sample)
     # BO_BNN.optimize(10, plot_steps = True, type="grid")
     # print(BO_BNN.get_optimization_hist())

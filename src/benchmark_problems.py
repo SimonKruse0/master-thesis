@@ -7,6 +7,24 @@ from scipy.optimize import rosen
 #Whitley #Ackley01, #Cola, #Corana, #Hartmann6 #Hartmann3
 #Corana, CosineMixture
 
+class SimonsTest(Benchmark):
+
+    def __init__(self, dimensions=1):
+        Benchmark.__init__(self, dimensions)
+        assert dimensions == 1
+        self._bounds = list(zip([-5] * self.N,
+                           [5] * self.N))
+        self.custom_bounds = ([-5, 5], [-5, 5])
+
+        self.global_optimum = [[0. for _ in range(self.N)]]
+        self.fglob = 0.0
+        self.change_dimensionality = True
+    def fun(self,x, *args): 
+        x = x/10 + 0.5
+        self.nfev += 1
+        return 0.5 * (np.sign(x-0.5) + 1)+np.sin(100*x)*0.1 + 100
+
+
 class Step(Benchmark):
 
     r"""

@@ -9,8 +9,8 @@ from src.regression_models.mean_regression import MeanRegression
 import random
 import numpy as np
 from src.utils import RegressionValidation
-#from src.benchmark_problems import Zirilli, Weierstrass, Rosenbrock
 
+from src.benchmark_problems import SimonsTest
 from src.go_benchmark_functions.go_funcs_S import Step, Step2, Schwefel26
 from src.go_benchmark_functions.go_funcs_R import Rastrigin, Rosenbrock
 from src.go_benchmark_functions.go_funcs_W import Weierstrass
@@ -32,6 +32,8 @@ problems += [Weierstrass(dimensions = x) for x in dims]
 problems += [Schwefel26(dimensions = x) for x in dims]
 #problems += [Rosenbrock(dimensions = x) for x in dims]
 
+#problems = [SimonsTest()]
+
 random.seed()
 random.shuffle(problems)
 
@@ -49,7 +51,7 @@ regression_models += [GaussianProcess_sklearn()]
 regression_models += [GMRegression()] #Gaussian Mixture
 random.shuffle(regression_models)
 #regression_models = [MeanRegression()]
-#regression_models = [GaussianProcess_sklearn()]
+regression_models = [NNN_regression_fast]
 ## Data enrichment ##
 #include_true_values(problems, remove_min_n_test=True)
 
