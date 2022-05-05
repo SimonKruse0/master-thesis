@@ -1,0 +1,123 @@
+\section{Bayesian Optimization - GP}
+In Bayesian Optimization we do not require the objective function to be on a anlytically 
+form or even computable. 
+is the idea of ustilizes bayesian inference in an optimization setting, where all unknown quantaties, i.e. 
+$\phi$ and $\sigma$ are treated as random variables. 
+
+Here we utilize Bayes Theorem refering to $U$ as set of unknown quantaties and $O$ as the observed/known quantaties
+aka data. This gives us,  
+$$p(U|O) = \frac{p(U,O)}{p(O)} = \frac{p(O|U)p(U)}{p(O)} \propto p(O|U)p(U) $$
+
+Where the probability of the uknown given data is the posterior.
+
+Prior distribution $p(\phi | x)$ represent our prior belief of the underling objective function $f$ at 
+point $x$. This is a subjective decision to choose a prior, but if one is very unsure, then the prior can 
+be chosen to reflect this - called a weak prior, choosing a strong prior i.e. small set of points with much 
+uncertainty mass, can be extreamly powerfull if correct, but also really bad if wrong. 
+
+The likelihood is the probability of the observation given the unknown quantaties of interest. 
+
+$$p(\phi|D=(x,y)) = \frac{p(\phi,y|x)}{p(y|x)} 
+= \frac{p(y|x,\phi)p(\phi|x)}{p(y|x)} \propto p(y|x,\phi)p(\phi|x) $$
+
+But what is really of interest if the predictive posterior distribtuion
+\begin{align*}
+    p(y^*|x^*, \mathcal{D}) &= \int p(y^*,\phi|x^*,  \mathcal{D}) d\phi &&\textit{marginalization}\\
+    &= \int p(y^*|x^*, \phi, \mathcal{D}) p(\phi|x^*, \mathcal{D}) d\phi &&\textit{chain rule} \\
+    &= \int p(y^*|x^*, \phi) p(\phi| \mathcal{D}) d\phi &&\textit{conditional indepencies}
+\end{align*}
+
+\section{Bayesian Optimization - BNN}
+
+
+Bayesian regression, for a given point $x \in \mathcal{X}$ we want to infer the predictive posterior distribtuion
+i.e. the probability density of observation at $x$ given already obtained data $\mathcal{D}$, 
+$$p(y^*| x^*, \mathcal{D})$$
+
+The observation model or likelihood for BNN is 
+$$p(y|x,\theta,\sigma) = \mathcal{N}(y; f_{\theta}(x),\sigma^2)$$
+and the prior are on the neural network model parameters $\theta$ and $\sigma^2$, where a
+common choice is a zero-mean normal distribtuion and standard halfcauchy, respetively (assumed independent), 
+$$p(\theta,\sigma) = p(\theta)p(\sigma) = \mathcal{N}(\theta;0,\sigma_{\theta}) \frac{2\cdot I_{\sigma>0}}{\pi(1+\sigma^2)}.$$
+
+
+whereas the observation model or likelihood for GP is
+$$p(y|x,\phi,\sigma) = \mathcal{N}(y;\phi_{\infty},\sigma^2)$$ 
+
+
+\begin{align*}
+    p(y^*|x^*, \mathcal{D}) &= \int_{-\infty}^{\infty} p(y^*|x^*, \phi) p(\phi| \mathcal{D}) d\phi\\
+    &= \int_{-\infty}^{\infty} \delta(y^*-\phi) p(\phi| \mathcal{D}) d\phi&&\textit{(likelihood is Dirac delta distributed)}\\
+    &= p(\phi| \mathcal{D}) 
+\end{align*}
+
+\begin{align*}
+    f_{y^*|x^*, \mathcal{D}}(y^*|x^*, \mathcal{D}) &= \int_{-\infty}^{\infty} f_{y^*|x^*, \phi}(y^*|x^*, \phi) f_{\phi| \mathcal{D}}(\phi| \mathcal{D}) d\phi\\
+    &= \int_{-\infty}^{\infty} \delta(y^*-\phi) f_{\phi| \mathcal{D}}(\phi| \mathcal{D}) d\phi&&\textit{(likelihood is Dirac delta distributed)}\\
+    &= f_{\phi| \mathcal{D}}(y^*| \mathcal{D}) 
+\end{align*}
+
+
+\subsection{Universial estiamator}
+No assumptions are made! 
+
+
+The posterior distribution on $f$ is also called the predictive posterior distribution, $p(y_*|\textbf{x}_*,\mathcal{D}_n)$, where $\mathcal{D}_n = \{\textbf{x}_{1:n},y_{1:n}\}$. It is calculated in the following way:
+\begin{align*}
+    p(y_*|\textbf{x}_*,\mathcal{D}_n) &= \int p(y_*| \textbf{x}_*,\theta)p(\theta|\mathcal{D}_n)d\theta\\
+    &\approx  \frac{1}{K} \sum_{k=1}^K p(y_*|\textbf{x}_*,\theta^{(k)})
+\end{align*}
+where $\theta^{(k)} \stackrel{iid}{\sim} p(\theta|\mathcal{D}_n)$ for $k = 1,\dots, K$. The monte carlo approximation is utilized if the integral in intractable. Note we parameterize the likelihood $p(y_*| \textbf{x}_*,\theta)$ i.e. we assume a statistical model of $y_*$!.  
+\subsection{surrogate model}
+$f$ is called a surrogate model, and is used to guess how (potentially high dimensional) optimization landscape of a black-box model looks like. Essentially we want to choose $f$ as close to $f_{true}$ while maintaining $f$ cheap to evaluate. 
+
+\subsection{Acquisition function}
+A popular choice of acquisition function is expected improvement:
+\begin{align*}
+    \mathbb{E}_{y_*|\textbf{x}_*,D_n}[\min(0,y_{\min}-y_*)] &= ??\\
+    \mathbb{E}[\min(0,y_{\min}-y_*)|\textbf{x}_*,D_n] &= \int_{-\infty}^\infty \min(0,y_{\min}-y_*) p(y_*|\textbf{x}_*,D_n) dy_*\\
+    &= \int_{-\infty}^{y_{\min}} (y_{\min}-y_*) p(y_*|\textbf{x}_*,D_n) dy_*\\
+    &\approx \frac{1}{N} \sum_{\theta \in \Omega } [y_{\min}-f_\theta(x)],
+\end{align*}
+
+where $\Omega = \{\theta|f_{\theta}(x)< y_{\min}\}$
+
+
+\section{GP}
+Consider a model of the form $$y = f(\textbf{x})+\epsilon$$
+Now consider a joint Gaussian distribution over the N-dimensional vector $\textbf{f} = (f(\textbf{x}_1,\dots, f(\textbf{x}_n))^T$
+$$\textbf{f} = \mathcal{N}(\textbf{f}|\mu,\Sigma)$$
+
+GP is a generalization of a multivariate normal distribution to infinitely many variables. 
+Stochastic process specified with mean function and covariance function.  
+
+GPs are Bayesian non-parametric models!
+Mean = 0, if stadize target variables y. 
+
+Compute posterior -> exact Bayesian inference!
+
+Likelihood for the data. 
+$$p(y_n|f_n) = \mathcal{N}(y_n|f_n,\sigma^2)$$
+
+So now we can compute the posterior:
+$$p(f|y,X)=\frac{p(y|f,X)*p(f|X)}{p(y|X)}=\frac{p(y|f)*p(f)}{p(y|X)}$$ 
+
+Compare with the weight view from Bayesian Linear regression:
+$$p(w|y,X)=\frac{p(y|w,X)p(w)}{p(y|X)}$$
+
+Analytically we can compute, $$p(y|X)=\int p(y|f)p(f|X)df$$ 
+
+
+
+$$P(x;\mu, \Sigma) = \frac{1}{(2\pi)^{d/2}|\Sigma|} \exp \left[-\frac{1}{2}(x-\mu)^T\Sigma^{-1}(x-\mu) \right]$$
+
+Gaussian distributions occur very often in the real world, this can be explained by the central limit theorem! 
+
+Once Gaussian always Gaussian!!
+The beautiful closed formulars of GPs! 
+
+\section{motivation for Bayesian Optimization}
+Grid search vs. BO!
+
+\section{BNN for BO}
+\subsection{Empirical expected improvement}

@@ -1,0 +1,64 @@
+%\section{Bayesian regression}
+\chapter{Bayesian Optimization}
+Whereas traditional regression workflow is the following: From data, fit model parameters, make predictions using the parameters. 
+The Bayesian framework allows us to skip the dependency of a single set of parameters and instead use all sets of parameters 
+by treating the set of parameters as a random quantity, $\theta$. What is of interest is the predictive posterior distribution,  
+\begin{align}\label{Predictive2}
+    p(y|x, \mathcal{D})
+\end{align}
+Before bringing the parameters/unknown quantities into play, 
+we can ask: What quantities can we play with? This question is answered in two different ways in Gaussian process regression
+and Bayesian Neural network regression.
+
+\section{Discirminative model as surrogate model}
+Model disrectly
+$$p(y|x)$$
+
+\section{Using a generative model as surrogate model}
+Given a generative model over $x$ and $y$ paramitised with $\theta$, we are dealing with the joint distribution
+$$p(x,y|\theta)$$
+and we are interested in the condtional distribution of y given x, 
+$$p(y|x, \theta_{y|x})$$
+where we have put subscript on $\theta$ in order to jump up a level of abstraction since, 
+in fact there is just a mapping between them $\theta_{y|x} := g(\theta, y, x)$ 
+
+% $$\alpha p(y|x) + (1-\alpha) \mathcal{N}(0,1)$$
+
+% so what should $\alpha$ be? Here we can find inspiration from a Poission point process. 
+
+
+\begin{align*}
+    p(y|x, \mathcal{D}) &= \int p(y|x,\theta_{y|x})p(\theta_{y|x}|\mathcal{D}) d\theta_{y|x}  \\
+    &=  p(y|x,\hat \theta_{y|x})
+\end{align*}
+Where the last equation holds as we assume that $p(\theta_{y|x}|\mathcal{D})$ is a delta function
+i.e. a point estimate with value $\hat \theta_{y|x}$. In the case of our Gaussian mixture model, 
+we obtain a point estiamte from the EM algorithm for the variance $\Sigma_{y|k}$, mean value $\mu_{y|k}$ and proportion $\pi_{y|k}$
+for each component $k = 1,2, \dots, K$
+$$\hat \theta_{y|x} = (\hat\Sigma_{y|k}, \hat\mu_{y|k}, \hat\pi_{y|k})_{k=1}^K$$
+
+However, we are not satisfied with the variance estimate for the regression, as it is way too small for areas with
+no observed data. It is therefore necessary to manipulate the variance estimate accoring to that observation. 
+We multiply the variance obtained using expectation-maximization on the joint distribution with the
+inverse of the probability of the data $x$, and control that the scaling factor is not going wild!
+
+$$\hat\Sigma_{y|k} =\Sigma_{y|k}^{GMM} \frac{1}{\max(p(x), 0.01)}$$
+
+In a way this is a manipulation in a Bayesian spirit, as we let prior and subjective knowledge influence the
+varience prediction. 
+
+
+
+\section{Acquisition function}
+A popular choice of acquisition function is expected improvement:
+\begin{align*}
+    \mathbb{E}_{y_*|\textbf{x}_*,D_n}[\min(0,y_{\min}-y_*)] &= ??\\
+    \mathbb{E}[\min(0,y_{\min}-y_*)|\textbf{x}_*,D_n] &= \int_{-\infty}^\infty \min(0,y_{\min}-y_*) p(y_*|\textbf{x}_*,D_n) dy_*\\
+    &= \int_{-\infty}^{y_{\min}} (y_{\min}-y_*) p(y_*|\textbf{x}_*,D_n) dy_*\\
+    &\approx \frac{1}{N} \sum_{\theta \in \Omega } [y_{\min}-f_\theta(x)],
+\end{align*}
+
+where $\Omega = \{\theta|f_{\theta}(x)< y_{\min}\}$
+
+%\section{uncertainties}
+%Alatoric vs epistemic uncertainties 

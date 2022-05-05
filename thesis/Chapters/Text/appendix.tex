@@ -1,0 +1,23 @@
+
+\section{Appendix}
+\subsection{Optmization history of Subgradient method}
+It is seen in the figure \ref{optimhist} that our implemented algorithm is indeed not a descent algorithm, however, the objective function is in the long term minimized.
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.9\textwidth]{Pictures/OptimHist.jpg}
+\caption{Left is objective function value $||X_{us}-F_{us}x||^2$ and right is the norm of the subgradient evaluated at each iteration. }
+\label{optimhist}
+\end{figure}
+\newpage
+\subsection{Optmization methods}
+
+\subsubsection{CVX method}
+We solve the optimization problem using the MATLAB package CVX \hyperlink{http://cvxr.com/cvx/}{http://cvxr.com/cvx/} 
+\lstinputlisting[language=matlab]{Code/CVX_method.m}
+
+\subsubsection{Subgradient method}
+Implementation of projected subgradient method
+\lstinputlisting[language=matlab]{Code/subgradient_method.m}
+
+\subsection{Script}
+\lstinputlisting[language=matlab]{Code/optimizeCS.m}

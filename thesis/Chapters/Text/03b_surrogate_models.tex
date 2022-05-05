@@ -1,0 +1,97 @@
+\section{Bayesian regression models - probabilistic surrogate model}
+As mentioned in the previous sections, the first of two repeated steps in Bayesian optimization
+is to create a good Bayesian regression model. %why not non bayesian regression? 
+i.e. finding the probility of prediction for a arbitrary point $x$ given datapoints 
+$\mathcal{D} = \{x_1, y_1, \dots, x_n, y_n\}$, 
+ $$p(y|x,\mathcal{D})$$
+
+The surrogate model of choise in Bayesian optimization is a Gaussian Process, and Bayesian Neural Network.
+These are discriminative models, however, another approach, which we focus on in this project, is
+to model $y$ and $x$ jointly in a so-called generative model.
+
+\subsection{Gaussian mixture regression}
+Taking a convex combination of a set of multivariate Gaussian distributions is a Gaussian mixture model
+$$p(z) = \sum_{k=1}^K \pi_k \mathcal{N}(z|\mu_k, \Sigma_k)$$  
+Defining $z := (x,y)$ we can model our data, as a generative model $p(x,y)$, now, since the conditonal 
+of a Gaussain mixture again is Gaussain mixture - i.e. closed form expression, we can exactly calculate
+$p(y|x) = GMM_{y|x}$
+
+Assuming iid data the likelihood is given as 
+$$p(\mathcal{D}|\mu_1, \dots, \mu_K, \Sigma_1, \dots, \Sigma_K, \pi_1, \dots, \pi_K) = \prod_{i=1}^n \sum_{k=1}^K \pi_k \mathcal{N}(z_i|\mu_k, \Sigma_k)$$
+And the log likelihood, 
+$$\log p(\mathcal{D}| ..) = \sum_{i=1}^n \log \sum_{k=1}^K \pi_k \mathcal{N}(z_i|\mu_k, \Sigma_k)$$
+
+
+\subsection{Mixture regression in a Bayesian setting}
+As seen in examples. The uncertainty of conditional distribution is way too certain
+in areas with no data points, therefore we need to enhance the model with some bayesian 
+flavour. 
+
+$$p(y|x,\mathcal{D}) = p(y|x,Z)p(Z|x)$$
+
+
+
+\subsubsection*{Expetation-maximization algorithm}
+A way to find local maxima in the likehood function is using the EM algorithm. 
+
+If we define a latent/hiddem random variabel $Z_i \in \{1,\dots, K\}$ for each data point, then 
+the likelihood function becomes, 
+$$L(\theta|\mathcal{D}, Z) = \prod_{i=1}^n \sum_{k=1}^K 1(Z_i = k) \pi_k \mathcal{N}(z_i|\mu_k, \Sigma_k)$$
+
+Now the expectation wrt. the current value $p(Z|\mathcal{D}, \theta^k)$ is given as 
+$$Q(\theta|\theta^k) = \mathcal{E}_{p(Z|\mathcal{D}, \theta^k)}=L(\theta|\mathcal{D}, Z) $$
+
+And then update the next parameter estimate with
+$$\theta^{k+1} = \arg \max_{\theta} Q(\theta|\theta^k)$$
+
+This is repeated untill convergence. 
+
+
+\subsection{Sum product networks}
+an exponential large mixture model, with linear inference - unlike GMM. !?
+\todo{Write naive bayesian mixture model as a Sum Product Network}
+
+sum nodes play a role of
+mixtures over their children distribution, similar to a classic mixture model
+
+Product
+nodes on the other hand, are equivalent to factorizations over independent distributions as they are
+combining disjoint RVs.
+
+SPNs can also be interpreted as deep feed forward neural network [@vergari]. Here, imagine the
+weights of the sum nodes are parameters, leaf distributions are input neurons, root node is output and
+all other nodes correspond to hidden neurons
+
+
+\subsection{Using a generative model as surrogate model}
+Given a generative model over $x$ and $y$ paramitised with $\theta$, we are dealing with the joint distribution
+$$p(x,y|\theta)$$
+and we are interested in the condtional distribution of y given x, 
+$$p(y|x, \theta_{y|x})$$
+where we have put subscript on $\theta$ in order to jump up a level of abstraction since, 
+in fact there is just a mapping between them $\theta_{y|x} := g(\theta, y, x)$ 
+
+% $$\alpha p(y|x) + (1-\alpha) \mathcal{N}(0,1)$$
+
+% so what should $\alpha$ be? Here we can find inspiration from a Poission point process. 
+
+
+\begin{align*}
+    p(y|x, \mathcal{D}) &= \int p(y|x,\theta_{y|x})p(\theta_{y|x}|\mathcal{D}) d\theta_{y|x}  \\
+    &=  p(y|x,\hat \theta_{y|x})
+\end{align*}
+Where the last equation holds as we assume that $p(\theta_{y|x}|\mathcal{D})$ is a delta function
+i.e. a point estimate with value $\hat \theta_{y|x}$. In the case of our Gaussian mixture model, 
+we obtain a point estiamte from the EM algorithm for the variance $\Sigma_{y|k}$, mean value $\mu_{y|k}$ and proportion $\pi_{y|k}$
+for each component $k = 1,2, \dots, K$
+$$\hat \theta_{y|x} = (\hat\Sigma_{y|k}, \hat\mu_{y|k}, \hat\pi_{y|k})_{k=1}^K$$
+
+However, we are not satisfied with the variance estimate for the regression, as it is way too small for areas with
+no observed data. It is therefore necessary to manipulate the variance estimate accoring to that observation. 
+We multiply the variance obtained using expectation-maximization on the joint distribution with the
+inverse of the probability of the data $x$, and control that the scaling factor is not going wild!
+
+$$\hat\Sigma_{y|k} =\Sigma_{y|k}^{GMM} \frac{1}{\max(p(x), 0.01)}$$
+
+In a way this is a manipulation in a Bayesian spirit, as we let prior and subjective knowledge influence the
+varience prediction. 

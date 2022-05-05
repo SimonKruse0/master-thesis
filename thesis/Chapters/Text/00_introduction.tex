@@ -1,0 +1,36 @@
+\chapter{Introduction}
+
+%<What is optimization>
+Optimization plays an important part in our everyday life, science development, and product design.
+What different transportation should you choose to get fast from A to B, what songs should
+land on your playlist, what is the optimal bridge construction. Mathematical optimization problems 
+are all problems on the form, 
+$$\min_{x\in \mathcal{X}} f(x)$$
+where $f: \mathcal{X} \rightarrow \mathcal{R}$ is a functional. I.e if it is possible to set up
+a objective function. e.g. what is the cost of the bridge given a specific design
+, or how pleasant you think some music, and some constraints such that you keep in the domain of
+interest. Evaluation of the objective function can be cheap e.g. if it just requires summing and 
+multiplieing numbers or highly expensive if it involves human rating or large simulation and physical 
+experiments. Bayesian optimization is a preferred <ref> framework for the expensive objective functions. 
+And is also referred to as \textit{sample efficient} optimization. 
+%<Why Bayesian optimization?>
+
+Bayesian optimization is a probabilistic surrogate-based optimization: Assuming some samples from a
+highly expensive objective a cheap (surrogate) function is used to fit the samples. The next sample
+is found by minimizing the surrogate and the process is repeated. Bayesian optimization seeks to
+enhance this procedure with probability theory, where the surrogate function becomes a probabilistic
+regression model. The most common choice is a Gaussian Process, as it encapsel the uncertainty very well,
+but also because its inference procedure (computing answers to probability quries like $p(y|x)$) is exact.
+
+Even though GP has proven good for many cases, there will be problems where the assumptions do not hold. 
+In the thesis ... PhD from 2020 he tries out using Bayesian neural networks as surrogate models. 
+This thesis will investigate GP and Bayesian neural networks and try out mixture regression, 
+which might be a even better surrogate model. 
+%#<Short overview of types of surrogate models>
+
+<Make a figure of how the parts are all connected>
+
+\section{notation}
+Throughout this thesis we will be using Bayesian notation, i.e. $p(x) := P(X=x)$ is 
+the probability density function of the random variable $X$ evaluated in $x$. 
+and $p(y|x) := P(Y=y|X=x)$ or $p(y|x) := P(Y|X=x)$.

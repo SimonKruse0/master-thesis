@@ -1,0 +1,651 @@
+\chapter{Inference: Prediction and learning}
+% Inference is the task of receiving conclusions from data and quantify the uncertainties of these. These conclusions
+% extend beyond the data. A statistical model is essential for making inference. In Bayesian regression we assign uncertainty 
+% to the regression parameters i.e. the weights in the deep neural network, or ?? the function values evaluated at given point in
+% Gaussian processes. Sum product networks and and mixture models are not Bayesian regression models, however, their conditional
+% distribution should be accombined with a prior. 
+
+%We are dealing with probabilistic models paramitised with $\theta$
+
+Inference is the process of computing answers to queries about a probabilistic model after observing data. 
+In Bayesian regression, the
+query is the predictive distribution, $p(y|x,\mathcal{D})$, as we are interested in the distribution of $y$ given $x$ 
+and already observed data, $\mathcal{D}$. 
+This often indirectly create the posterior query, $p(\theta|\mathcal{D})$, the probability of model parameters $\theta$ given data
+$\mathcal{D}$. Lastly it is also inference, when we train 
+a Gaussian mixture model or SPN using the expectation-maximization algorithm (EM), since we are iteratively answering the query
+$E_{p(z|\theta^{(k)})}[z|\theta]$.
+
+% in general a probabilistic model is a joint distribution of hidden variables, $z$, and observed variables, $x$, 
+% $$p(z,x)$$
+
+% inference about the unknowns is through the posteriror, 
+% $$p(z|x) = \frac{p(z,x)}{p(x)}$$
+% For most models, the determinator $p(x)$ is intractable. 
+% variational inference turns inference into an optimization problem. 
+
+\section{Exact and approximate inference}
+We distinguish between two different ways of inference, exact and approximate inference.
+It is \textit{exact inference} when a probabilistic query is calculated exact. It is possible to calculate exact inference on 
+the predictive distribution for the Gaussian mixture model, Sum product network, and Gaussian processes. Models which allow 
+for exact inference have a powerful advantage over the models with approximate inference since we can guarantee
+ the answers to the queries are
+correct, however, they are usually also less expressive. It is possible to
+make exact inference of SPN, Gaussian Process, and Gaussian Mixture Regression. 
+% \begin{itemize}
+%     \item SPN
+%     \item Gaussian Process
+%     \item Gaussian Mixture Regression
+% \end{itemize}
+
+When it is not possible to answer a probabilistic query exact, we can approximate the
+answer using \textit{approximate inference}. When dealing with complicated and expressive statistical models, exact inference is often
+intractable and we need to use approximate inference. Approximate inference 
+is a broad category of methods, which includes 
+variational inference, Laplace approximation, and Markov chain Monte Carlo (MCMC).
+The two Bayesian Neural networks we deal with in this project Bohamiann and Numpyro BNN are
+similar regression models, but are infered using two different versions of the MCMC 
+method, Hamiltonian Monte Carlo. As it will be revealed later (see result section) 
+approximate inference might indeed be flawed and inexact. 
+%When dealing with complicated and expressive statistical models, exact inference is often
+%intractable and we need to use approximate inference, which might indeed be flawed and 
+%inexact. 
+% \begin{itemize}
+%     \item Bohamiann (Adaptive stochastic MCMC)
+%     \item Numpyro Bayesian Neural Network (NUTS)
+% \end{itemize}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{l|l|l}
+    %\rowcolor[HTML]{C0C0C0} 
+    \textbf{Model} & \textbf{Predictive inference} &   \textbf{Learning} \\ \hline
+    GP          & Exact $O(n^3)$  & Emperical Bayes\\
+    SPN             & Exact $O(E)$ &  EM $O(E)$\\
+    Gaussian Mixture Regression & Exact $O(K)$ & EM  \\
+    Bohamiann                             & Adaptive stochatic HMC & \\
+    Numpyro BNN                           & No U-Turn Sampler & 
+    \end{tabular}
+    \caption{Overview of inference methods applied on the statistical models 
+            used in this project. $E$ is the number of edges in the SPN. $n$ is the number of datapoints. 
+            $K \leq n$ is the number of mixture comonents. We will soon learn that for an
+            SPN the number of mixture compenets is exponential larger than number of edges
+            i.e. $E << K$. In theory MCMC methods samples 
+            from true the posterior distribution, and do not need any fitting/learning. 
+            }
+\end{table}
+
+\section{SPN}
+Sum-product networks are generative models, i.e. statistical models of the joint distribution $p(x,y)$. 
+We need, however, a disciminative model for regression, i.e. 
+a model of the conditional distribution $p(y|x)$. 
+SPNs allow for exact inference of the joint distribution 
+and any marginalized distribution. These combined queries is sufficient for the
+exact predictive posterior. 
+
+\subsection{SPN - prediction}
+Prior to the inference of the predictive distribution, we assume that the SPN, S, is trained, i.e.
+trained leaf distributions $p_j(\cdot)$ for all leaf nodes, 
+$j \in \mathcal{L}eaf(S):=\{j \in \mathcal{V}(S) |pa(j) = \text{Ø}\}$ and
+weights $w_{i,j}$ for the connections between every sum nodes
+$i \in \mathcal{S}$ and its children, $j \in ch(i)$.  
+%The indexes of the nodes, are ordered such that leafs are first, and parents of leafs are next and then the grandparents and so on.
+
+The joint and the marginal distribution are evaluated in the following recursive way
+\begin{algorithm}
+    \caption*{Calculation of $p(x,y)$}\label{SPN_1}
+    \begin{algorithmic}
+    \State \textbf{Input:} Fully trained SPN, with leaf distributions $p_i(\cdot)$ for $i\in \mathcal{L}eaf(S)$ and weigts 
+    $w_{i,j}$ for $(i,j) \in \{(i,j)|i \in \mathcal{S}um(S), j \in ch(i)\}$ 
+    \Function{\text{Eval}}{node i}
+    \If{$i \in \mathcal{L}eaf(S)$}
+        \State  $\textbf{return: } p_i(x,y)$ \Comment{evaluate leaf distributions at point $(x,y)$}
+    \EndIf
+    %\For{$i \in I_{o}$}
+    \If{$i\in \mathcal{S}um(S)$}
+        \State $\textbf{return: } \sum_{j\in ch(i)} w_{i,j} \text{Eval}(j)$
+    \EndIf
+    \If{$i\in \mathcal{P}rod(S)$}
+        \State $\textbf{return: } \prod_{j \in ch(i)} \text{Eval}(j)$
+    \EndIf
+    \EndFunction
+    \State $p(x) =  \text{Eval(root)}$
+    \end{algorithmic}
+\end{algorithm}
+
+
+% \begin{algorithm}[H]
+%     \caption*{Calculation of $p(x,y)$}\label{jointSPN}
+%     \begin{algorithmic}
+%     \State \textbf{Input:} Fully trained SPN and point $(x,y)$ %with leaf distributions $p_j(\cdot)$ for all $j\in Leafs$ and weigts $w_{\cdot,\cdot}$ 
+%     \For{$i = 1,2\dots, n_{leafs}$}
+%         \State  $v_i := p_i(x,y)$ \Comment{evaluate leaf distributions at point $(x,y)$}
+%     \EndFor
+%     \For{$i = n_{leafs}+1, \dots, N$} \Comment{Ordered bottom-up}
+%         \If{$i\in \mathcal{S}um$}\Comment{a sum node: weighted sum of all children}
+%         \State $v_i = \sum_{j\in ch(i)} w_{i,j}v_j$
+%         \EndIf
+%         \If{$i\in \mathcal{P}roduct$}\Comment{a product node: product of all children}
+%         \State $v_i = \prod_{j \in ch(i)} v_j$
+%         \EndIf
+%     \EndFor
+%     \State $\textbf{return: } v_N$
+%     \end{algorithmic}
+% \end{algorithm}
+
+% And the marginalized distribution $p(x)$ is evaluated as 
+% \begin{algorithm}
+%     \caption*{Calculation of $p(x)$}\label{marginSPN}
+%     \begin{algorithmic}
+%     \State \textbf{Input:} Fully trained SPN and point $(x,y)$ %with leaf distributions $p_j(\cdot)$ for all $j\in Leafs$ and weigts $w_{\cdot,\cdot}$ 
+%     \For{$i \in I_{leafs}$}
+%         \If{$p_i(x,y) = p_i(x)$}
+%             \State  $v_i := p_i(x,y)$ \Comment{evaluate leaf distributions at point $(x,y)$}
+%         \EndIf
+%         \If{$p_i(x,y) = p_i(y)$}
+%             \State  $v_i := 1$ \Comment{set node equal 1 at point $(x,y)$}
+%         \EndIf
+%     \EndFor
+%     %\For{$i \in I_{o}$}
+%     \For{node $i$ in all }
+%         \If{$i\in \mathcal{S}$}
+%         \State $v_i = \sum_{j\in ch(i)} w_{i,j}v_j$
+%         \EndIf
+%         \If{$i\in \mathcal{P}$}
+%         \State $v_i = \prod_{j \in ch(i)} v_j$
+%         \EndIf
+%     \EndFor
+%     \State $\textbf{return: } v_N$
+%     \end{algorithmic}
+% \end{algorithm}
+
+\begin{algorithm}[H]
+    \caption*{Calculation of $p(x)$}\label{SPN}
+    \begin{algorithmic}
+    \State \textbf{Input:} Fully trained SPN, with leaf distributions $p_i(\cdot)$ for all leaves $i$ and weigts $w_{\cdot,\cdot}$ 
+    \Function{\text{Eval}}{node i}
+    \If{$i \in \mathcal{L}eaf(S)$} %\Comment{leaf node}
+        \If{node handle x}
+            \State  $\textbf{return: } p_i(x,y)$ \Comment{evaluate leaf distributions at point $(x,y)$}
+        \Else 
+            \State  $\textbf{return: } 1$ \Comment{set node equal 1 at point $(x,y)$}
+        \EndIf
+        % \If{node handle $y$}
+        %     \State  $\textbf{return: } 1$ \Comment{set node equal 1 at point $(x,y)$}
+        % \EndIf
+    \EndIf
+    %\For{$i \in I_{o}$}
+    \If{$i\in \mathcal{S}um(S)$}
+        \State $\textbf{return: } \sum_{j\in ch(i)} w_{i,j} \text{Eval}(j)$
+    \EndIf
+    \If{$i\in \mathcal{P}rod(S)$}
+        \State $\textbf{return: } \prod_{j \in ch(i)} \text{Eval}(j)$
+    \EndIf
+    \EndFunction
+    \State $p(x) =  \text{Eval(root)}$
+    \end{algorithmic}
+\end{algorithm}
+
+So after doing two slightly different forward passes through the SPN, 
+$p(x)$ and $p(x,y)$, using Bayes rule,
+we can combined the two queries into the conditional distribution: 
+$$p(y|x) = \frac{p(x,y)}{p(x)}$$
+The predictive distribution is found with a cost of just $O(E+E+1) = O(E)$, where E is number
+of edges/connections in the SPN. 
+
+% \begin{enumerate}
+%     \item Evaluate the leaf distributions at point $(x,y)$, i.e. and assign it as the value of the leaf, $v_j := f_j(x,y)$
+%     \item Bottom-up calculate the value at node $i$. If node $i$ is a sum node $v_i = \sum_{j\in ch(i)} w_{i,j}v_j$ 
+%     or a product node, $v_i = \prod_{j \in ch(i)} v_j$.
+%     \item The value at the root/top node is now equal $p(x,y)$. 
+% \end{enumerate}
+% secondly, the marginalized distribution $p(x)$ is evaluated in the following way:
+% \begin{enumerate}
+%     \item For leafs containing $x$: Evaluate the leaf distributions at point $(x)$, and set the value $v_j := f_j(x)$
+%     \item For leafs containing $y$: Set the value $v_j := 1$
+%     \item Bottom-up calculate similar as we do in the evalueation of the joint distribution (see above)
+%     \item The root/top node value is now equal $p(x)$. 
+% \end{enumerate}
+% What is left is just a division operation.
+
+\subsection{SPN - learning}
+It is not enouth to do predictive inference on a SPN, we also need to fit it on
+the data. It is possible interpret sum-product network as a large mixture model 
+and therefore use expectation-maximization to train the model. 
+We will introduce that idea now. The Paper \cite{SPN_EM}... %["Learning Arbitrary Sum-Product Network Leaves
+%with Expectation-Maximization"] 
+defines SPN as a mixture of all sub-networks of an SPN.
+
+%from [@desana]:
+\begin{definition} 
+    A sub-network $\bar S_z$ of $S$ is an SPN, which includes the root $S$ and then includes nodes
+    according to the following recursive scheme: 
+\end{definition}
+\begin{algorithm}[H]
+    \caption*{Collection of sub-network $S_z$ of $S$}\label{SPN3}
+    \begin{algorithmic}
+    %\State \textbf{Global:}  $S_z$ 
+    \Function{Process}{node i, $S_z$}
+    \If{$i \in \mathcal{L}eaf(S)$}
+        \State  $\textbf{return: }$ 
+    \EndIf
+    %\For{$i \in I_{o}$}
+    \If{$i\in \mathcal{S}um(S)$}
+       %\State $S_z =S_z \cup \{j \in ch(i)\}$ \Comment{include one child of node $i$}
+        \State $S_z =S_z.add(j \in ch(i))$ \Comment{include one child of node $i$}
+        \State $\textbf{return: } \text{Process}(j, S_z)$
+    \EndIf
+    \If{$i\in \mathcal{P}rod(S)$}
+        \State $S_z =S_z \cup \{j | j \in ch(i)\}$ \Comment{include all childen of node $i$}
+        \For{$j \in ch(i)$}
+            \State $\textbf{return: } \text{Process}(j,S_z)$
+        \EndFor
+    \EndIf
+    \State $\textbf{return: } S_z$
+    \EndFunction
+    \State $S_z =  \text{Process(root,Ø)}$
+    \end{algorithmic}
+\end{algorithm}
+So we see that at each sum node the number of different sub-networks multiplies with the number of children for that
+sum node. And thereby, the total number of sub-networks is
+ $$Z = \prod_{i\in \mathcal{S}um(S)}|ch(i)|$$ 
+ i.e. an exponential large amount of sub-networks. This is the amount of
+ mixture components implicitly defined in an SPN. 
+ Denote the set of edges in the sub-network $\mathcal{E}(S_z)$.
+Now the we define a mixture coeficient, $\lambda_z$ and component for each $S_z$ as 
+$$\lambda_z := \prod_{(i,j)\in \mathcal{E}(S_z)} w_{i,j}, \hspace{1cm}
+p_z(x,y|\theta) := \prod_{i \in \mathcal{L}(S_z)} p_i(x,y)$$
+where $p_i(x,y)$ is the leaf distribution at leaf node $i$ paramitised with $\theta$. 
+It can now be proven that the SPN can be interpreted as the following mixture model, 
+$$p(x,y|w,\theta) = \sum_{z=1}^Z \lambda_z(w)p_z(x,y|\theta)$$
+i.e. by the weighted sum of all $Z$ sub-networks. For convinience
+we define each sum component as $p(z,x,y|w,\theta) := \lambda_z(w)p_z(x,y|\theta)$.
+Evaluation of $p(x,y|w,\theta)$ will never be done as the sum over $Z$ components, 
+instead there is a proposition. 
+
+\begin{proposition}
+    Consider a SPN, S, a sum node $q \in \mathcal{S}um(S)$ and a child $i \in ch(q)$,
+    then the following relation holds, 
+    $$\sum_{z:(q,i)\in \mathcal{E}(S_z)} \lambda_z(w) p_z(x,y|\theta) = w_{i,q}
+    \frac{\partial S}{\partial v(q)} v(i)$$
+\end{proposition}
+
+
+\begin{testexample2}[Expectation-maximization]
+    Expectation maximization is a method for finding ML or MAP estimate of a 
+    latent variable model. Given a joint distribution of descrete latent variables ($z$),
+    and the observed variables ($x$), with parameters $\pi$, then we can marginalise over
+    $z$ in order to recover $p(x)$, 
+    $$p(\textbf{x}|\pi) = \sum_{z=1}^Z p(z,\textbf{x}|\pi) $$
+    assuming iid data, then the complete likehood can be decompose as the product 
+    $$ p(z,\textbf{x}|\pi) = \prod_{i=1}^n p(z,\textbf{x}_i|\pi)$$
+    We wil for convinience transform the likelihood using a log transform, 
+    as it will not influence the maximum. 
+    $$\log p(\textbf{x}|\pi) = \sum_{z=1}^Z \sum_{i=1}^n \log p(z,\textbf{x}_i|\pi)$$
+
+    \textbf{E-step}
+
+    \textbf{M-step}
+\end{testexample2}
+
+
+and a normal evaluation of $p(x,y|w_{old}, \theta_{old})$
+combined in Bayes rule we obtain
+$$p(z|x,y,w_{old},\theta_{old}) = \frac{p(z,x,y|w_{old},\theta_{old})}{p(x,y|w_{old}, \theta_{old})} =
+ \frac{\lambda_z(w_{old})p_z(x,y|\theta_{old})}{p(x,y|w_{old}, \theta_{old})} $$
+
+and we have the expecation for the EM-algorithm, 
+$$Q(\pi, \pi_{old}) = \sum_{n=1}^N \sum_{z=1}^Z p(z|xy_n, \pi_{old}) \ln p(z,xy_n|\pi)$$
+
+
+
+\section{Gaussian Mixture Regression}
+The Gaussian mixture is a generative model of the joint probability of $x$ and $y$ given as, 
+$$p(x,y)= \sum_{k=1}^K \pi^{(k)} \mathcal{N}(x,y|\mu^{(k)},\Sigma^{(k)}), 
+\hspace{1cm} \mu=\begin{bmatrix}
+    \mu_x \\ \mu_y
+\end{bmatrix},\hspace{0.1cm} \Sigma = \begin{bmatrix}
+    \Sigma_{xx} & \Sigma_{xy}\\ \Sigma_{yx}& \Sigma_{yy}
+\end{bmatrix}$$
+This is trained using the EM algorithm. We will now show how the conditial is
+calculated exact. 
+\subsection{GMR - prediction}
+We need the conditional distribution of the Gaussian mixture
+in order to get the predictive distribution. We will now formulate
+the conditial distribution in terms of conditional and marginals of
+the individual mixture components. First of all the marginal distribution $p(x)$ 
+of the mixture is given as, \todo{How??!}
+$$p(x) = \sum_{k=1}^K \mathcal{N}(x|\mu_{x}^{(k)},\Sigma_{xx}^{(k)})$$ 
+next the joint distribution can be decomposed with the probability chain rule,
+\begin{align*}
+    p(x,y) &= p(x)p(y|x)\\
+    \implies \hspace{1cm} \mathcal{N}(x,y|\mu,\Sigma) &= 
+    \mathcal{N}(x|\mu_{x},\Sigma_{xx}) \mathcal{N}(y|\mu_{y|x},\Sigma_{y|x})
+\end{align*} 
+And we can formulate the conditial in terms of individual multivariate Gaussians, 
+
+\begin{align}
+    p(y|x) &= \frac{p(y,x)}{p(x)}\\
+    &= \sum_{k=1}^K \frac{\pi^{(k)}}{p(x)} \mathcal{N}(x,y|\mu^{(k)},\Sigma^{(k)})\\
+    &=  \sum_{k=1}^K \frac{\pi^{(k)} \mathcal{N}(x|\mu_{x}^{(k)},\Sigma_{xx}^{(k)})}{p(x)}\mathcal{N}(y|\mu_{y|x}^{(k)},\Sigma_{y|x}^{(k)})\\
+    &=  \sum_{k=1}^K \pi_{y|x}^{(k)} p(y|x,\mu_{y|x}^{(k)},\Sigma_{y|x}^{(k)})
+\end{align}
+
+where $\pi_{y|x}^{(k)} := \frac{\pi^{(k)} \mathcal{N}(x|\mu_{x}^{(k)},\Sigma_{xx}^{(k)})}
+{\sum_{i=1}^K \mathcal{N}(x|\mu_{x}^{(i)},\Sigma_{xx}^{(i)})}$. So we see that 
+the conditonal of a Gaussian mixture model is again a Gaussian mixture model.
+
+
+\begin{testexample2}[Conditional og multivariate Gaussian]
+    The conditional distribution is defined as <ref bishop>
+    $$p(y|x,\mu, \Sigma) = \mathcal{N}(y|\mu_{y|x},\Sigma_{y|x} )\hspace{1cm} \mu=\begin{bmatrix}
+        \mu_x \\ \mu_y
+    \end{bmatrix},\hspace{0.1cm} \Sigma = \begin{bmatrix}
+        \Sigma_{xx} & \Sigma_{xy}\\ \Sigma_{yx}& \Sigma_{yy}
+    \end{bmatrix}$$ 
+    where 
+    \begin{align}
+        \mu_{y|x} &= \mu_y+\Sigma_{yx}\Sigma_{xx}^{-1}(x-\mu_x)\\
+        \Sigma_{y|x} &= \Sigma_{yy}-\Sigma_{yx}\Sigma_{xx}^{-1}\Sigma_{xy} 
+    \end{align}
+    
+\end{testexample2}
+
+
+\subsection{GMR - Leaning}
+
+EM-algorithm, classic example. 
+
+\section{Gaussian Process Regression}
+We now show how the preditive distribution is calculated exact for
+Gaussian Processes, i.e. 
+\begin{equation}\label{GP_predictive}
+    p(y|x,\mathcal{D}) = \int \mathcal{N}(y|f(x), \sigma^2) p(f(x)|\mathcal{D})df(x)
+\end{equation}
+we will soon see that $p(f(x)|\mathcal{D}) = \mathcal{N}(f(x)| .., ...)$ and
+and thereby that we have a marginal Gaussian distribution for $f(x)$ and a 
+conditional Gaussian distribution of $y$ given $f(x)$, giving us the marginalized
+distribtuion, $p(y|x,\mathcal{D})$, using formulars \eqref{marginal_distribution}. 
+
+\begin{testexample2}[Trick with normal distributions [from Bishops book?]]
+    Given a marginal Gaussian distribution of $x$ and a conditional Gaussian distribution
+    of $y$ given $x$ of the form, 
+    \begin{align*}
+        p(x) &= \mathcal{N}(x|\mu, \Lambda^{-1})\\
+        p(y|x) &= \mathcal{N}(x|Ax+b, L^{-1})
+    \end{align*}
+    then the marginal distribution of $y$ and the conditional distribution of $x$ given $y$
+    have the form, 
+    \begin{align}
+        p(y) &= \mathcal{N}(y|A\mu+b,L^{-1}+A \Lambda^{-1}A^T) \label{marginal_distribution}\\
+        p(x|y) &= \mathcal{N}(x|\Gamma \mu+\Gamma [A^TL(y-b)],\Gamma )\\
+        \Gamma &:= (\Lambda +A^TLA)^{-1}
+    \end{align}
+\end{testexample2}
+
+\subsection*{Posterior function}
+Recall we assume $\textbf{f} = (f(\textbf{x}_1), \dots, f(\textbf{x}_n))$ is the parameters in 
+our model, therefore we call $p(\textbf{f}|\mathcal{D})$ the posterior distribution. However, 
+what is of real interest is the function values on unobserved locations, thereby we 
+extend $\textbf{f}$ to be a function, i.e. an infinitely dimentional vector. We call this 
+quantaty \textit{the posterior function} 
+\begin{equation}\label{posterior_function}
+    p(f(\cdot)|\mathcal{D})= \int p(f(\cdot)|\textbf{x}, \textbf{f})p(\textbf{f}|\mathcal{D})d\textbf{f}.
+\end{equation}
+% The connection between the two posteriors is given here:
+% $$p(f(\cdot)|\mathcal{D}) = \int p(f(\cdot)|\textbf{x}, \textbf{f})p(\textbf{f}|\mathcal{D})d\textbf{f}$$
+Prior we assume that the function takes values accoring to
+$$p(\textbf{f}|\textbf{x}) = \mathcal{N}(\textbf{f}|\textbf{0}, c(\textbf{x}, \textbf{x}))$$
+where the covariance is defined at kernel evaluation for each pair of $\textbf{x}$,
+where $c(\cdot, \cdot)$ is a covariance function, chosen to be the Matérn covariance function,
+
+  $$c(\textbf{x}, \textbf{x}) = \begin{bmatrix}
+    c(x_1,x_1) & \dots & c(x_1,x_n)\\
+    \vdots& \ddots\\
+    c(x_n,x_1) & \dots & c(x_n,x_n)
+\end{bmatrix}\hspace{1cm} c(x, y) := Matern(x,y)...$$ 
+
+We now calculate the first term in the integral \eqref{posterior_function}, 
+$p(f(\cdot)|\textbf{x}, \textbf{f})$ using that we have the joint prior 
+distribution, 
+\begin{align}
+    p(f(\cdot),\textbf{f}|\textbf{x}) = \mathcal{N}\left(\begin{bmatrix}
+        f(\cdot)\\ \textbf{f}
+    \end{bmatrix} \middle| \begin{bmatrix}
+        0\\ \textbf{0}
+    \end{bmatrix}, \begin{bmatrix}
+        c(\cdot, \cdot) & c(\cdot,\textbf{x})\\
+        c(\textbf{x}, \cdot) & c(\textbf{x}, \textbf{x})
+    \end{bmatrix} \right)
+\end{align}
+
+And the conditonal of a joint Gaussian is given using <ref> 
+$$p(f(\cdot)|\textbf{x}, \textbf{f}) = \mathcal{N}(f(\cdot)|c(\cdot, \cdot)^{-1}c(\cdot, \textbf{x})\textbf{f}, c(\cdot, \cdot)^{-1})$$
+
+Next we calculate the last term in the integral \eqref{posterior_function}, 
+$p(\textbf{f}|\mathcal{D})$, i.e. the posterior distribution. Assuming iid data, 
+i.e. $p(y_1,\dots, y_n|x_1,\dots, x_n, \textbf{f}) = \prod_{i=1}^n p(y_i|x_i,\textbf{f}_i)$
+and that the likelihood is Gaussian with mean $\textbf{f}$ and variance $\sigma^2 I_n$. 
+
+\begin{align*}
+    p(\textbf{f}|\mathcal{D}) &\propto p(\textbf{f}|x)\prod_{i=1}^n p(y_i|x_i,\textbf{f}_i)\\
+    &= \mathcal{N}(\textbf{f}|\textbf{0},c(\textbf{x}, \textbf{x})) \prod_{i=1}^n \mathcal{N}(y|\textbf{f}_i,\sigma^2)\\
+    &= \mathcal{N}(\textbf{f}|\textbf{0}, c(\textbf{x}, \textbf{x})) \mathcal{N}(\textbf{y}|\textbf{f},\sigma^2 I_n)
+\end{align*}
+now from <ref> we have that the posterior is the following Gaussian: 
+\begin{equation*}
+    p(\textbf{f}|\mathcal{D}) = \mathcal{N}(\textbf{f}|M^{-1} \sigma^{-2}\textbf{y}, M^{-1}) \hspace{0.5cm}M := c(\textbf{x}, \textbf{x})^{-1}+\sigma^{-2} I_n
+\end{equation*}
+Now we found that both term in the integral \eqref{posterior_function}, and they
+are related such that it is possible to use \eqref{marginal_distribution} for arriving 
+at (we define $A :=  c(\cdot, \cdot)^{-1} c(\cdot, \textbf{x})$), 
+$$p(f(\cdot)|\mathcal{D}) = \mathcal{N}(f(\cdot)|AM^{-1}\sigma^{-2}\textbf{y}, c(\cdot, \cdot)^{-1}+
+AM^{-1}A^T)$$
+
+Finally we found that both terms in the integral \eqref{GP_predictive} also is related
+in a simlar way, and we use \eqref{marginal_distribution}, again to arrive at the predictive
+distribtuion, 
+$$p(y_*|x_*,\mathcal{D}) = \mathcal{N}(y_*|AM^{-1}\sigma^{-2}\textbf{y}, c(x_*, x_*)^{-1}+
+AM^{-1}A^T+\sigma^2)$$
+
+\todo{Some questions about a naive approach..!}
+
+\subsection*{Learning - Emperical bayes inference}
+
+Anther inference which is done is then optimizing the hyper parameters using emperical bayes i.e.
+the variance and length scale for the kernel. Here we optimize the marginalized likelihood function
+$$p(y_1, \dots, y_n|x_1, \dots, x_n, \theta) = -\frac{1}{2}[(y-\mu)^T (\Sigma+N)^{-1}(y-\mu)+ \log |\Sigma+N|+n \log 2\pi]$$
+<and how to get to there?>
+
+\todo{Model assessment becomes trivial in light of the model posterior if we
+simply establish preferences over models according to their posterior
+probability. When using the uniform model prior (4.6)
+ the model posterior is proportional to the marginal likelihood alone,
+which can be then used directly for model assessment. ??! Forstår ikke}
+
+\section{Deep Network Global Optimization - ?} ??
+Kernel regression :-))
+Should I not work on this?
+
+\section{Bayesian Neural Networks}
+Bohamiann and numpyro-BNN are examples of probabilistic models with intractable inference. The predictive density is given as, 
+\begin{align*}
+    p(y_*|x_*,\mathcal{D}) &= \int p(y_*|x, \theta)p(\theta|\mathcal{D})d\theta\\
+    &\approx \frac{1}{K} \sum_{k=1}^K p(y_*|x, \theta^{(k)})
+\end{align*}
+where the first integral is intractable as $\theta$ can live in a highly dimensional space, second the approximation sign
+is true, since we can aproximate the integral with monte carlo sampling: $\theta^{(k)}$ are iid samples from the posterior 
+distribution, $\theta^{(k)} \sim p(\theta|\mathcal{D})$. We can get samples from the posterior distriution
+
+\begin{testexample2}[Monte Carlo approximation]
+    Assuming we have a number of iid samples, $\theta^{(1)}, \dots, \theta^{(K)}$ drawn from the
+    distribution $p(x)$, then the following appriximation 
+    $$E[f(x)] \approx \frac{1}{K} \sum_{k=1}^K f(x^{(k)}) =: \Theta_{K}(f)$$
+    holds accoring to the law of large numbers 
+    in fact $$E[f(x)] = \lim_{K \rightarrow \infty} \Theta_{K}(f)$$
+    and the central limit theorem, <OBS refere!>
+    $$p(\hat \Theta) \approx \mathcal{N}(\hat \Theta |\mu_f, \frac{\sigma_f^2}{K})$$
+    which ensures that the variance of the unbiased estimator of the expecation decreases
+    with number of samples, $K$. Left is to sample the $iid$ samples from the distribution $p(x)$
+\end{testexample2}
+\subsection*{Posterior samples}
+For both models 
+the joint distribution $p(\mathcal{D},\theta)$ is available, but calulating the posterior distribution requires the
+marginalized likehood, $p(\mathcal{D}) = \int_{\theta} p(\mathcal{D},\theta)$. This integral is often intractable
+since the space of $\theta$ typically is abnomous - so not even nummerical appriximations of the intergral is tractable.
+From Bayes rule, we have the equality, 
+$$p(\theta|\mathcal{D}) = \frac{p(\mathcal{D},\theta)}{p(\mathcal{D})} \propto p(\mathcal{D},\theta),$$
+where the propotional sign is true, since $p(\theta|\mathcal{D})$ is a function of $\theta$. 
+Knowing the $p(\mathcal{D},\theta)$ joint distribution thereby allow for using Markov chain Monte Carlo
+for sampling from the posterior distribution.  
+
+\begin{testexample2}[Markov chain Monte Carlo]
+    We can conviniently use MCMC for sampling from a probability density $p(x)$, with only the knowledge of a 
+    propotional/unnormalised density $\hat p(x) \geq 0$ i.e
+    $$\hat p(x) = c\cdot p(x) \hspace{1cm} c = \int \hat p(x) dx,$$
+    where $\int \hat p(x) dx$ is a possible intractable integral. 
+    An ergodic Markov chain/process is constructed, such that its stationary distribution is exactly $p(x)$, but only
+    with the knowledge of $\hat p(x)$. 
+\end{testexample2}
+
+\begin{testexample}[Metropolis-Hasting (MH)]
+    The most simple MCMC method is the Metropolis-Hasting algorithm. At iteration
+    $n$ we have a sample $x_n$,
+    \begin{enumerate}
+        \item Propose $\hat x$ from a proposal density $q(x_n,\cdot)$
+        \item Compute accptance probability $$\alpha(x_n,\hat x) = \min \left(1, \frac{p(\hat x)}{p(x_n)} \frac{q(\hat x, x_n)}{q(x_n,\hat x)}\right)$$
+        \item Set the next sample $$x_{n+1} = \begin{cases}
+            \hat x &\text{with probability } \alpha(x_n, \hat x)\\
+             x_n &\text{with probability } 1-\alpha(x_n, \hat x)
+        \end{cases}$$
+    \end{enumerate}
+    note that $\alpha(x_n,\hat x)$ requires $p(x)$, but since the algorithm only
+    requires the fraction $\frac{p(\hat x)}{p(x_n)} = \frac{p(\hat x)\cdot c}{p(x_n)\cdot c} = \frac{\hat p(\hat x)}{\hat p(x_n)}$
+    we only need $\hat p$. 
+    
+    \textbf{Proof:} Assuming discrete states, the transition probability between the states are given as, 
+    $$p(x\rightarrow y) = \begin{cases}
+        q(x,y)\alpha(x,y) & \text{if } x\neq y\\
+        q(x,x) + \sum_{z\neq x} q(x,z)(1-\alpha(x,z)) & \text{if } x=y
+    \end{cases}$$
+    Now, let us look at the so-called \textit{detailed balance} relation, i.e. that if we are sampling from the
+    stationary density we stay there at the next state. Assume $x\neq y$, 
+    \begin{align*}
+        p(x)p(x\rightarrow y) &= p(x)q(x,y)\alpha(x,y)\\
+        &=p(x)q(x,y) \min \left(1, \frac{p(\hat x)}{p(x_n)} \frac{q(\hat x, x_n)}{q(x_n,\hat x)}\right)\\
+        &= \min(p(x)q(x,y), p(y)q(y,x))
+    \end{align*}
+    Observing that the right hand side yields symmetric result in $x$ and $y$, therefore we obtain, 
+    $$p(x)p(x\rightarrow y) = p(y)p(y\rightarrow x)$$
+    and summing over $x$ on both sides yields,
+    \begin{align}
+        \sum_x p(x)p(x\rightarrow y) &= p(y) \sum_x p(y\rightarrow x)\\
+        \implies \hspace{0.5cm} p(y) &= \sum_x p(x)p(x\rightarrow y)
+    \end{align}
+    similar conclusion will be obtained for $x = y$, all in all this reveals that $p(x)$ is in fact invariant for the chain
+     $\{x_1, \dots , x_n\}$ and thereby that MH is a MCMC algorithm. 
+\end{testexample}
+
+% Markov assumption -> history doesn't matter
+% Monte Carlo -> Random simulation
+% best methods, use gradients. 
+
+% Simulared skate board in a state park. Physic simulation. 
+% Often the simulation moves back and fouth and end up in the 
+% same point - this is called a U-turn. 
+
+% find global curvature from just knowing the local curvature. 
+% Simulation is moving more in the area with high prob. mass. 
+
+% Gradients: Automated differentiation. 
+
+% We want to evaluate integrals of the fom $$E[f(x)] = \int f(x)p(x)dx$$ where $x \in \mathbb{R}^n$ is a
+% random vector under the distribution $p(x)$. we are interested in problems where the form of $f(x)$ or $p(x)$
+% makes the integral intractalbe. 
+
+% \begin{testexample}[Bayesian neural network]
+%     Choosing $f := \mathcal{N}(y;NN_w(x), \sigma)$ and looking at $\theta := (w,\sigma)$ as the random quantaty
+%     under the posterior distribution $p(\theta|\mathcal{D})$ we indeed have case of a intractalbe expectation
+% \end{testexample}
+
+
+
+% Transition density kernel (transtion matrix for finite discrete spaces) $p(x^{(k)}|x^{(k-1)})$
+
+
+
+% c) the convergence rate is independent on the
+% dimensionality, l. The latter property is in contrast to methods based on the deterministic numerical
+% integration, which, in general, have a rate of convergence that slows down as the dimensionality
+% increases.
+
+HM with random walk transition is very simple and it comes with some serious disadvantages:
+slow convergence speed, might stay in the same region for a long time and produces highly correlated sampels. 
+We can do better by replacing the random walk with gradient-guided movements and intepretate the probability
+landscape as a physical system.
+
+
+\begin{testexample}[HMC]
+The golden standard in MCMC is the Hamilton monte carlo, which exploits arguments from classical mechanics
+around the Hamiltonian equations. This method leads to more efficient sampling as the Hamiltonian intepretation allows the system
+to take regions with high probability mass into acound - this is optained using gradient
+of the probability landscape.  $\frac{-\partial E(x)}{\partial x} $
+ 
+We define PDF
+$$p(x) = \frac{1}{Z_E}\exp(-E(x)),$$
+
+where $E(x)$ is interpretted as the systems potential energy. Now, an latent vector $q$ is introduced in order
+to represent the momentum of the system, which gives us the kinetic energy of the system. 
+
+$$K(q) = \frac{1}{2}\sum_{i=1}^l q_i^2$$
+
+Giving the Hamilton function and its coresponing distribution
+
+$$H(x,q)= E(x)+K(q)$$
+
+and 
+\begin{align}
+    p(x,q) &= \frac{1}{Z_H} \exp(-H(x,q))\\
+    &= \frac{1}{Z_E} \exp(-E(x))\frac{1}{Z_K} \exp(-K(x))\\
+    &= p(x)p(q)
+\end{align}
+
+The desired distribution $p(x)$ is found as the marginal of $p(x,q)$
+
+\end{testexample}
+
+since some intuition is now established around Hamiltonian Monte Carlo, 
+we look a bit on the two versions used in Numpyro-BNN and Bohamiann, 
+
+\subsection{No U-Turn sampling}
+
+othen the physical simulation in HMC goes forth and back the same path, and we risk getting bad samples.
+No U-turn (NUTS) sampling avoid this. 
+
+\subsection{Adaptive stochatic HMC}
+... 
+
+
+
+\newpage
+\section{Appendix - SPN}
+Normalization of SPN
+\begin{algorithm}
+    \caption*{Calculation of $Z$}\label{SPN2}
+    \begin{algorithmic}
+    \State \textbf{Input:} node $i$ %with leaf distributions $p_j(\cdot)$ for all $j\in Leafs$ and weigts $w_{\cdot,\cdot}$ 
+    \Function{Eval}{node i}
+    \If{$i$ is leaf} \Comment{leaf node}
+        \State  $\textbf{return: } 1$ \Comment{set node equal 1 at point $(x,y)$}
+    \EndIf
+    %\For{$i \in I_{o}$}
+    \If{$i\in \mathcal{S}$}
+        \State $\textbf{return: } \sum_{j\in ch(i)} w_{i,j} \text{Eval}(j)$
+    \EndIf
+    \If{$i\in \mathcal{P}$}
+        \State $\textbf{return: } \prod_{j \in ch(i)} \text{Eval}(j)$
+    \EndIf
+    \EndFunction
+    \State $Z =  \text{Eval(root node)}$
+    \end{algorithmic}
+\end{algorithm}

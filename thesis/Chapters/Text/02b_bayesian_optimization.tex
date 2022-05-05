@@ -1,0 +1,173 @@
+%\section{Bayesian regression}
+\section{Bayesian Optimization}
+Whereas traditional regression workflow is the following: From data, fit model parameters, make predictions using the parameters. 
+The Bayesian framework allows us to skip the dependency of a single set of parameters and instead use all sets of parameters 
+by treating the set of parameters as a random quantity, $\theta$. What is of interest is the predictive posterior distribution,  
+\begin{align}\label{Predictive2}
+    p(y|x, \mathcal{D})
+\end{align}
+Before bringing the parameters/unknown quantities into play, 
+we can ask: What quantities can we play with? This question is answered in two different ways in Gaussian process regression
+and Bayesian Neural network regression.
+
+\subsection{BNN quantaties}
+In Bayesian neural networks, we treat the model parameters as random quantities, and assign them a distribution
+before observing any data, this is the prior distribution. For the model neural network parameters, $w$,
+we typically assign a standard normal distribution and the observation variance parameter $\sigma$ is often
+assigned a lognormal or half-Cauchy, with support on the positive real domain, since a variance parameter can only
+be non-negative. We write the priors of the BNN model as
+\begin{align*}
+    p(w) &= \mathcal{N}(w;\textbf{0},I)\\
+    p(\sigma) &= \log\mathcal{N}(\sigma;\dots)
+\end{align*}
+
+Next, we look at the observation model of a BNN,this is essentially the same as described in section \ref{ObsModel}. 
+We use the neural network output $f_w(x)$ to predict the mean value of the objective function and add some Gaussian noise $\sigma$.
+In order to simplify notation we collect all BNN parameters i.e. $\theta = (w,\sigma)$. We define the 
+likelihood/observation model as
+$$p(y|x,\theta) = \mathcal{N}(y; f_{w}(x),\sigma)$$
+And if we are dealing with noiseless observations the observation model colaps into the Dirac delta distribtuion,
+%$$p(y|x,\theta) = \mathcal{\delta} \right( y-f_{w}(x) \left)$$
+$$p(y|x,\theta) = \mathcal{\delta} ( y-f_{w}(x) )$$
+Now we can define the posterior distribution, i.e. the probability of the unkown quantaties given the observations. 
+This is arguably the most important ingredience in Bayesian statistics. We define it using Bayes rule, 
+\begin{align*}
+    p(\theta|x,y) &= \frac{p(\theta,y|x)}{p(y|x)}\\
+    &=\frac{p(y|x,\theta)p(\theta|x)}{p(y|x)}
+\end{align*}
+note the prior distribtuion $p(\theta|x)$ just like the likelihood could depend on $x$ - we could for example extend $\sigma$
+to depend on the location of the sample $x$ and define it as $\sigma(x)$. The posterior distribution additionally
+introduced $p(y|x)$ in the denorminator. This has no egentlig influence on the posterior - since there is no
+depencie on y - execpt it insures that the posterior integrates to 1. <more on intractable etc>. In 
+order to use the po ...  We need to extend the definition of the posterior beyond just one datapoint $(x,y)$
+in our effort to make inference using multiple datapoint, 
+i.e. we now have a dataset $\mathcal{D} = \{(x_i,y_i)\}_{i=1}$. 
+Assuming that the datapoints are independent thier joint likelihood reduces to a product of single observation
+likelihoods, 
+$$p(\theta|\mathcal{D}) = \frac{p(y_1,\dots,y_n|x_1,\dots x_n, \theta)p(\theta)}{c} = 
+\frac{p(\theta)\prod_{i=1}^n p(y_i|x_i, \theta)}{c} $$
+where $c =  p(y_1,\dots,y_n|x_1,\dots,x_n)$ is a normalization constant. So we have succesfully
+found the posterior with known quantaties. Now assuming we have the posterior distribution, 
+we can finally have a look at the preditive posterior distribution,\eqref{Predictive}, the
+distribution of a new observation $y = f(x)+\epsilon$ at a corresponding new point $x \in \mathcal{X}$ given already obtained data, $\mathcal{D}$, 
+\begin{align*}
+    p(y|x, \mathcal{D}) &= \int p(y,\theta|x,  \mathcal{D}) d\theta &&\textit{marginalization}\\
+    &= \int p(y|x, \theta, \mathcal{D}) p(\theta|x, \mathcal{D}) d\theta &&\textit{chain rule} \\
+    &= \int p(y|x, \theta) p(\theta| \mathcal{D}) d\theta &&\textit{conditional indepencies}
+\end{align*}
+and we can now insert the observation model assuming Gaussian addative noise and posterior
+\begin{align*}
+    p(y|x, \mathcal{D}) &= \int \mathcal{N}(y; f_{w}(x),\sigma) p(\theta| \mathcal{D}) d\theta\\
+    &= \mathbb{E}_{p(\theta| \mathcal{D})}\left[\mathcal{N}(y; f_{w}(x),\sigma)\right]
+\end{align*}
+where $\mathbb{E}_{p(\theta| \mathcal{D})}[\cdot]$ is the expection with respect to the posterior distribution. 
+In the case of noisefree observation i.e. $y=f(x)$, we have the Dirac delta opservation model, giving the
+posterior predictive,
+\begin{align*}
+    p(y|x, \mathcal{D}) = \mathbb{E}_{p(\theta| \mathcal{D})}\left[\mathcal{\delta}(y-f_{w}(x))\right]
+\end{align*}
+
+\todo{Skriv om NUTS sampling}
+
+\subsection{GP quantaties}
+
+
+we define $\textbf{f}_i := f(x_i)$ to be the evaulation of the objective function 
+at point $x$. In Gaussian process regression we step up an abstraction level
+from modeling the objective function, to model the objective function "output" itself. 
+This is done by treating the objective function, $f$, as a random quantity, inducing
+a prior over it $p(f(\cdot))$ and a observation model given as, 
+$$p(y|x_i,\textbf{f}_i) = \mathcal{N}(y;\textbf{f}_i,\sigma)$$
+
+Now, given data, $\mathcal{D} =\{(x_i,y_i)\}_{i=1}^n$ we  can find the posterior of
+the unknown quantaties $\textbf{f} = (f(x_1), \dots,f(x_n))$ i.e. the objective function
+value at the $n$ locations giving, 
+$$p(\textbf{f},\sigma|\mathcal{D}) = \frac{p(y_1,\dots,y_n|x_1,\dots,x_n,\textbf{f},\sigma)
+p(\textbf{f},\sigma|x)}{c} = \frac{p(\textbf{f},\sigma|x)\prod_{i=1}^n p(y_i|x_i,\textbf{f},\sigma)
+}{c} $$
+ <write as Gaussian>
+$$p(\textbf{f}|\mathcal{D}) = \frac{p(y_1,\dots,y_n|x_1,\dots,x_n,\textbf{f})
+p(\textbf{f}|x)}{c} = \frac{p(\textbf{f}|x)\prod_{i=1}^n p(y_i|x_i,\textbf{f})
+}{c} $$
+
+and 
+$$p(\textbf{f}|\textbf{x}) = \mathcal{N}(\textbf{f}|\textbf{0}, \Sigma_x)$$
+where the covariance is defined at kernel evaluation for each pair of $\textbf{x}$,  $$\Sigma_x = \begin{bmatrix}
+    k(x_1,x_1) & \dots & k(x_1,x_n)\\
+    \vdots& \ddots\\
+    k(x_n,x_1) & \dots & k(x_n,x_n)
+\end{bmatrix}$$
+
+\begin{align*}
+    p(\textbf{f}|\mathcal{D}) &\propto p(\textbf{f}|x)p(y_1,\dots,y_n|x_1,\dots,x_n,\textbf{f})\\
+    &= p(\textbf{f}|x)\prod_{i=1}^n p(y_i|x_i,\textbf{f})\\
+    &= \mathcal{N}(\textbf{f}|\textbf{0}, \Sigma_x) \prod_{i=1}^n \mathcal{N}(y;\textbf{f}_i,\sigma^2)\\
+    &= \mathcal{N}(\textbf{f}|\textbf{0}, \Sigma_x) \mathcal{N}(\textbf{y};\textbf{f},\sigma^2 I_n)
+\end{align*}
+now from ... we have that the posterior is the following Gaussian: 
+\begin{equation*}
+    p(\textbf{f}|\mathcal{D}) = \mathcal{N}(\textbf{f}|M^{-1} \sigma^{-2}\textbf{y}, M^{-1}) \hspace{0.5cm}M := \Sigma_x^{-1}+\sigma^{-2} I_n
+\end{equation*}
+
+
+however, this posterior is not enough for doing prediction on new data, we 
+need to extend $\textbf{f}$ to be a function, i.e. an infinitely dimentional vector, 
+and we define the posterior of $f$ as, 
+$$p(f(\cdot)|\mathcal{D}) = \int p(f(\cdot)|\textbf{x}, \textbf{f})p(\textbf{f}|\mathcal{D})d\textbf{f}$$
+
+We now calculate $p(f(\cdot)|\textbf{x}, \textbf{f})$ using that we have the joint prior distribtuion 
+\begin{align}
+    p(f(\cdot),\textbf{f}|\textbf{x}) = \mathcal{N}\left(\begin{bmatrix}
+        f(\cdot)\\ \textbf{f}
+    \end{bmatrix} \middle| \begin{bmatrix}
+        0\\ \textbf{0}
+    \end{bmatrix}, \begin{bmatrix}
+        c(\cdot, \cdot) & c(\cdot,\textbf{x})\\
+        c(\textbf{x}, \cdot) & c(\textbf{x}, \textbf{x})
+    \end{bmatrix} \right)
+\end{align}
+And the conditonal of a joint Gaussian is given using ... 
+$$p(f(\cdot)|\textbf{x}, \textbf{f}) = \mathcal{N}(\textbf{f}|c(\cdot, \cdot)^{-1}c(\cdot, \textbf{x})\textbf{f}, c(\cdot, \cdot)^{-1})$$
+
+
+We now look at the predictive posterior of a new data point $x_* \in \mathcal{X}$, 
+\begin{align*}
+    p(y_{*}|x_{*}, \mathcal{D}) &= \int p(y_{*},f(x_{*})|x_{*},  \mathcal{D}) df(x) &&\textit{marginalization}\\
+    &= \int p(y|x, f(x), \mathcal{D}) p(f(x)|x, \mathcal{D}) df(x) &&\textit{chain rule} \\
+    &= \int p(y|x, f(x)) p(f(x)| \mathcal{D}) df(x) &&\textit{conditional indepencies}\\
+    &= Gaussian ?? 
+\end{align*}
+
+<how to write as Gaussian?>
+
+\subsubsection{prior}
+we can specify a prior distribution 
+$$p(f(\cdot)) = \mathcal{GP}(f(\cdot);\mu(\cdot),K(\cdot,\cdot))$$
+
+where the mean function is $\mu: \mathcal{X} \rightarrow \mathbb{R}$ and the covariance
+function (or kernel) is $K: \mathcal{X}\times \mathcal{X} \rightarrow \mathbb{R}$. 
+Now, given any point $x \in \mathcal{X}$, 
+
+If, for any finite arbitrary set of points $\textbf{x} := \{x_1, \dots,x_n\}$, it holds that
+$$p(\textbf{f}) = \mathcal{N}(\textbf{f}; \mu(\textbf{x}), K)$$
+then $f$ is a Gaussian Process. 
+
+<pictures of different kernels>
+
+% \section{Bayesian Optimization}
+% Bayesian optimization is a sequential way of updating the Bayesian regression model
+% also known as a probabilistic surrogate model, 
+
+\subsection{Acquisition function}
+A popular choice of acquisition function is expected improvement:
+\begin{align*}
+    \mathbb{E}_{y_*|\textbf{x}_*,D_n}[\min(0,y_{\min}-y_*)] &= ??\\
+    \mathbb{E}[\min(0,y_{\min}-y_*)|\textbf{x}_*,D_n] &= \int_{-\infty}^\infty \min(0,y_{\min}-y_*) p(y_*|\textbf{x}_*,D_n) dy_*\\
+    &= \int_{-\infty}^{y_{\min}} (y_{\min}-y_*) p(y_*|\textbf{x}_*,D_n) dy_*\\
+    &\approx \frac{1}{N} \sum_{\theta \in \Omega } [y_{\min}-f_\theta(x)],
+\end{align*}
+
+where $\Omega = \{\theta|f_{\theta}(x)< y_{\min}\}$
+
+%\subsection{uncertainties}
+%Alatoric vs epistemic uncertainties 

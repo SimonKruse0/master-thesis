@@ -1,0 +1,44 @@
+\section*{Conditional of SPN}
+We will soon see how it is possible to write the conditional distribution as the mixture, 
+$$p(y|x) = \sum_{z \in \Sigma(S)} \gamma(x) p_{z_y}(y)$$
+where $ \Sigma(S)$ is the set of all sub-networks in the SPN, $S$ - \todo{IT IS EXPONENTIALLY LARGE}.  
+And where $p_{z_y}(y)$ is defined through $p_z(x,y)$, 
+\begin{align*}
+    p_z(x,y) &= \prod_{l \in \mathcal{L}eaf(z_x)} \phi_l(x)\prod_{l \in \mathcal{L}eaf(z_y)} \phi_l(y)\\
+            &=: p_{z_x}(x) p_{z_y}(y) 
+\end{align*}
+where $\phi_l$ is the density of the $l$'th leafs tractable distribution. Recall that we can interpret an SPN
+as the mixture model, 
+$$p(x,y) = \sum_{z \in \Sigma(S)} \lambda_z p_z(x,y)$$
+where $\lambda_z = \prod_{(q,j) \in \mathcal{E}(z)} w_{q,j}$. First we calculate the marginal density,
+$p(x)$, 
+\begin{align*}
+    p(x) &= \int p(x,y)dy\\
+    &= \int \sum_{z \in \Sigma(S)} \lambda_z p_z(x,y)dy\\
+    %&= \sum_{z \in \Sigma(S)} \lambda_z  \int p_z(x,y)dy\\
+    &= \sum_{z \in \Sigma(S)} \lambda_z p_{z_x}(x)\int p_{z_y}(y)dy \\
+    &= \sum_{z \in \Sigma(S)} \lambda_z p_{z_x}(x)
+\end{align*}
+Now we are ready to calculate the conditional density, 
+\begin{align*}
+    p(y|x) &=  \frac{p(x,y)}{p(x)}\\
+            &= \frac{\sum_{z \in \Sigma(S)} \lambda_z p_z(x,y)}{p(x)}\\
+            &=\sum_{z \in \Sigma(S)}\frac{ \lambda_z p_{z_x}(x)}{p(x)} p_{z_y}(y)\\
+            &=\sum_{z \in \Sigma(S)}\frac{ \lambda_z p_{z_x}(x)}{\sum_{z \in \Sigma(S)} \lambda_z p_{z_x}(x)} p_{z_y}(y)\\
+            &=\sum_{z \in \Sigma(S)} \gamma(x) p_{z_y}(y)
+\end{align*}
+
+\subsubsection*{Mean and variance of $p(y|x)$}
+
+The mean of the conditional is just
+\begin{align*}
+    E_{p(y|x)}[y] &= \sum_{z \in \Sigma(S)} \gamma(x) \int  y p_{z_y}(y) dy \\
+    &= \sum_{z \in \Sigma(S)} \gamma(x) \prod_{l \in \mathcal{L}eaf(z_y)} E_{\phi_l}[y]
+\end{align*}
+
+and the variance is found using the second moment, 
+\begin{align*}
+    E_{p(y|x)}[y^2] &= \sum_{z \in \Sigma(S)} \gamma(x) \int  y^2 p_{z_y}(y) dy \\
+    &= \sum_{z \in \Sigma(S)} \gamma(x) \prod_{l \in \mathcal{L}eaf(z_y)} (Var_{\phi_l}[y]+E_{\phi_l}[y]^2)
+\end{align*}
+
