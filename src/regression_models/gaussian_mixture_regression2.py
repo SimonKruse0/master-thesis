@@ -4,12 +4,27 @@ from gmr.mvn import MVN
 import numpy as np
 import matplotlib.pyplot as plt
 import math
-from ..utils import normalize, denormalize
+from math import sqrt
+
 
 def sigmoid(x):
   return 1 / (1 + math.exp(-x))
 
 class GMM_bayesian(GMM):
+    def mean(self):
+        mean = 0 #only 1D since we only need E[y|x]
+        for k in range(self.n_components):
+            mean += self.priors[k]*self.means[k]
+        return mean
+
+    def variance(self):
+        second_moment = 0 
+        for k in range(self.n_components):
+            second_moment += self.priors[k]*(self.covariances[k]+self.means[k]**2) #E[y^2]
+        variance =  second_moment - self.mean()**2 
+        return variance
+
+    #Changing the conditional function in GMM
     def condition(self, indices, x,manipulate_test_bounds = []):
         """Conditional distribution over given indices.
         Returns
@@ -35,25 +50,11 @@ class GMM_bayesian(GMM):
         marginal_prior_exponents = np.empty(self.n_components)
 
         ## Simon Change
-        if manipulate_test_bounds is not None:
-            #OK alt det her er ligegyldigt man kan bare sætte alpha = 0.999?
-            test_bound = manipulate_test_bounds#(-0.2,1.2) #OBS!!
-            N_points = 300
-            if np.atleast_2d(x).shape[1]==1:
-                X = np.vstack([np.repeat(x,N_points),np.linspace(*test_bound, N_points)]).T
-            else:
-                X = np.hstack([np.repeat(x,N_points, axis=0),np.linspace(*test_bound, N_points)[:,None]])
-
-            alpha = np.sum(self.to_probability_density(X))*(test_bound[1]-test_bound[0])/100
-            #alpha = sigmoid(-0.5+alpha*10000)
-            #alpha = 0.999999999999999
-            # if alpha>1:
-            #     print(alpha)
-            #     print("HEj", alpha)
-            #     alpha = 1
-        else:
-            alpha = 1
-            #print(weight)
+        # calculate the margianl p(x) = sum pi_k*p_k(x)
+        p_x = 0
+        for k in range(self.n_components):
+            mvn = MVN(mean=self.means[k], covariance=self.covariances[k],random_state=self.random_state)
+            p_x += self.priors[k]*mvn.marginalize(indices).to_probability_density(x)
         
         #for k in range(self.n_components+1):
         for k in range(self.n_components):
@@ -72,7 +73,7 @@ class GMM_bayesian(GMM):
                     #print(covariances[k])
                 #    covariances[k] = 0.01
                 #covariances[k] = covariances[k]*1/np.max([0.01,weight])
-                covariances[k] = covariances[k]*1/np.max([0.001,alpha])
+                covariances[k] = covariances[k]*1/np.max([0.001,p_x])
                 #covariances[k] = covariances[k]*1/weight
 
             marginal_norm_factors[k], marginal_prior_exponents[k] = \
@@ -87,8 +88,8 @@ class GMM_bayesian(GMM):
             priors2 * marginal_norm_factors,
             marginal_prior_exponents[np.newaxis])[0]
 
-        return GMM(n_components=self.n_components, priors=priors, means=means,
-                   covariances=covariances, random_state=self.random_state), alpha
+        return GMM_bayesian(n_components=self.n_components, priors=priors, means=means,
+                   covariances=covariances, random_state=self.random_state), p_x
 
 def _safe_probability_density(norm_factors, exponents):
     """Compute numerically safe probability densities of a GMM.
@@ -150,14 +151,36 @@ class GMRegression():
                 print(f"Points tested {100*i/X_test_.shape[0]:0.1f}%", end="\r")
             
             conditional_gmm, alpha = self.model.condition(np.arange(self.nX), [x], manipulate_test_bounds = test_bounds)
-            y_given_x_samples = conditional_gmm.sample(n_samples=200)
-            
-            y_given_x_samples = denormalize(y_given_x_samples, self.y_mean, self.y_std)
-            mean.append(np.mean(y_given_x_samples))
-            percentiles.append(np.quantile(y_given_x_samples,CI ))
-            std_deviation.append(np.std(y_given_x_samples))
+            mean.append(conditional_gmm.mean())
+            var = conditional_gmm.variance()
+            var /= np.clip(alpha*20,1,20) 
+            std_deviation.append(sqrt(var))
+        
+        mean += self.y_mean
+        std_deviation *= self.y_std
+            # y_given_x_samples = conditional_gmm.sample(n_samples=200)
+            # y_given_x_samples = denormalize(y_given_x_samples, self.y_mean, self.y_std)
+            # mean.append(np.mean(y_given_x_samples))
+            # percentiles.append(np.quantile(y_given_x_samples,CI ))
+            # std_deviation.append(np.std(y_given_x_samples))
         print("")
-        return np.array(mean),np.array(std_deviation).T,np.array(percentiles).T
+        return np.array(mean),np.array(std_deviation).T,None#np.array(percentiles).T
+
+def normalize(X, mean=None, std=None):
+    #zero_mean_unit_var_normalization
+    if mean is None:
+        mean = np.mean(X, axis=0)
+    if std is None:
+        std = np.std(X, axis=0)
+
+    X_normalized = (X - mean) / std
+
+    return X_normalized, mean, std
+
+
+def denormalize(X_normalized, mean, std):
+    #zero_mean_unit_var_denormalization
+    return X_normalized * std + mean
 
 def obj_fun(x): 
     return 0.5 * (np.sign(x-0.5) + 1)+np.sin(100*x)*0.1
@@ -184,14 +207,27 @@ if __name__ == "__main__":
     CI = []
     CI1 = []
     CI2 = []
+
+    mu = []
+    sd = []
+
     alpha_list = []
     for x_test in x_test_list:
         conditional_gmm, alpha = gmm.condition([0], [x_test], manipulate_test_bounds = True)
+
+        mu.append(conditional_gmm.mean())
+        var = conditional_gmm.variance()
+        var /= np.clip(alpha*20,1,20) 
+        sd.append(sqrt(var))
+
         alpha_list.append(alpha)
-        y_given_x_samples = conditional_gmm.sample(n_samples=2000)
+        y_given_x_samples = conditional_gmm.sample(n_samples=20)
         CI.append(np.quantile(y_given_x_samples, [0.05, 0.95]))
         CI1.append(np.quantile(y_given_x_samples, [0.15, 0.85]))
         CI2.append(np.quantile(y_given_x_samples, [0.35, 0.65]))
+        
+    sd = np.array(sd).squeeze()
+    mu = np.array(mu).squeeze()
     CI = np.array(CI)
     CI1 = np.array(CI1)
     CI2 = np.array(CI2)
@@ -199,6 +235,8 @@ if __name__ == "__main__":
     plt.fill_between(x_test_list, *CI1.T,color="blue", alpha=0.2)
     plt.fill_between(x_test_list, *CI2.T,color="blue",alpha=0.2)
     plt.plot(x_test_list, alpha_list, label="alpha")
+    plt.plot(x_test_list, mu, color = "red")
+    plt.fill_between(x_test_list, mu-2*sd,mu+2*sd ,color="orange",alpha=0.4)
     ax.scatter(x, y, s=3, color="black")
     ax.set_xlabel("x")
     ax.set_ylabel("y")

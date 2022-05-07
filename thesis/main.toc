@@ -9,7 +9,7 @@
 \contentsline {section}{\numberline {2.1}When to use Bayesian optmization}{4}{section.0.2.1}%
 \contentsline {section}{\numberline {2.2}Observation model}{4}{section.0.2.2}%
 \contentsline {chapter}{\numberline {3}Bayesian Optimization}{7}{chapter.0.3}%
-\contentsline {section}{\numberline {3.1}Discirminative model as surrogate model}{7}{section.0.3.1}%
+\contentsline {section}{\numberline {3.1}Discriminative model as surrogate model}{7}{section.0.3.1}%
 \contentsline {section}{\numberline {3.2}Using a generative model as surrogate model}{7}{section.0.3.2}%
 \contentsline {section}{\numberline {3.3}Acquisition function}{8}{section.0.3.3}%
 \contentsline {chapter}{\numberline {4}Bayesian regression models - probabilistic surrogate model}{9}{chapter.0.4}%

@@ -3,13 +3,13 @@ import json
 import numpy as np
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 if __name__ == "__main__":
     from utils import RegressionValidation
 else:
     from .utils import RegressionValidation
 
 BASE_DIRECTORY = '/home/simon/Documents/MasterThesis/master-thesis'
-
 
 
 def redefine_data_names():
@@ -124,7 +124,11 @@ def color(name):
 
 def ls(name):
     if "-" in name:
-        return "dash"
+        if "learn"in name:
+            return "dashdot"
+        else:
+            return "dash"
+
     else:
         return "solid"
 
@@ -133,78 +137,83 @@ import pandas as pd
 def data_to_pandas(data_list, name_list):
     indexes = dict()
     name_visted = []
+    df_dict = dict()
     for data, name in zip(data_list,name_list):
+        assert data["n_test_points"]>9999 #we only want proper tests 
         if name not in name_visted:
-            indexes["name"] = set(data["n_train_points_list"])
+            indexes[name] = set(data["n_train_points_list"])
             name_visted.append(name)
-            DF = pd.DataFrame(data=d, index=indexes["name"])
-            #d1.reindex(np.array([0. , 1. ,  0.3, 0.1,32,41]))
+            df_dict[name] = pd.DataFrame(index=indexes[name]).sort_index()
         else:
-            if data["n_train_points_list"] != indexes["name"]:
-                pass
+            if sorted(data["n_train_points_list"]) != sorted(indexes[name]):
+                temp_indexes = set(data["n_train_points_list"])
+                indexes[name] = indexes[name].union(temp_indexes)
+                df_dict[name] = df_dict[name].reindex(indexes[name]).sort_index()
+        
+        d_temp = dict()
+        d_temp["mean_abs_pred_error"] = pd.Series(data["mean_abs_pred_error"], index=data["n_train_points_list"])
+        d_temp["mean_uncertainty_quantification"] = pd.Series(data["mean_uncertainty_quantification"], index=data["n_train_points_list"])
+        try:
+            d_temp["mean_rel_pred_error"] = pd.Series(data["mean_rel_pred_error"], index=data["n_train_points_list"])
+        except:
+            #print("no rel_pred_error")
+            pass
+        
+        df_new_data = pd.DataFrame(data=d_temp,index=indexes[name])
+        df_dict[name] = pd.concat([df_dict[name], df_new_data], axis=1, join="outer")
+    return df_dict,name_visted
 
-
-#        print(len(data[type]) ,len(data["n_train_points_list"]))
-        if len(data[type]) != 9:
-            continue
-        if len(data[type])!= len(data["n_train_points_list"]):
-            print("error: not same sizes")
-            return
+def all_data_prepros_plotly(data_list, name_list, type= "mean_abs_pred_error"):
+    dataX = dict()
+    dataY = dict()
+    name_visted = []
+    for data, name in zip(data_list,name_list):
         if name in name_visted:
-            data3[name]+=(data[type])
-            
+            dataX[name]+=["None"]
+            dataY[name]+=["None"]
+            dataX[name]+=(data["n_train_points_list"])
+            dataY[name]+=(data[type])
         else:
-            data2[name] = data["n_train_points_list"]
-            data3[name] = data[type]
+            dataX[name] = data["n_train_points_list"]
+            dataY[name] = data[type]
             name_visted.append(name)
-    
+    return dataX, dataY, name_visted
+
+def mean_prepros_plotly(data_list, name_list, type= "mean_abs_pred_error"):
+    dataX = dict()
+    dataY = dict()
+    df_dict,name_visted = data_to_pandas(data_list, name_list)
     for name in name_visted:
-        tmp = np.atleast_2d(np.array(data3[name]))
-        data3[name] = np.mean(tmp, axis=0)
-        #print(data3[name])
-        #print(name,data3[name])
+        df = df_dict[name][type].mean(axis=1)
+        dataX[name] = df.index.values
+        dataY[name] = df.values
+    return dataX, dataY, name_visted
 
-
-
-def analysis_regression_performance_plotly(problem,type = "mean_abs_pred_error",  means = False):
-    print_file_paths = True
+def analysis_regression_performance_plotly(problem,type = "mean_abs_pred_error",  means = False, print_file_paths = False):
     data_list,name_list, problem_name, file_path_list, file_path_list2 = get_data2(problem, use_exact_name=True)
 
-    data2 = dict()
-    data3 = dict()
-    name_visted = []
-
     if means:
-        for data, name in zip(data_list,name_list):
-            if name in name_visted:
-                data3[name]+=(data[type])
-                
-            else:
-                data2[name] = data["n_train_points_list"]
-                data3[name] = data[type]
-                name_visted.append(name)
-        
-        for name in name_visted:
-            tmp = np.atleast_2d(np.array(data3[name]))
-            data3[name] = np.mean(tmp, axis=0)
-            #print(data3[name])
-            #print(name,data3[name])
+        dataX, dataY, name_visted = mean_prepros_plotly(data_list, name_list, type= "mean_abs_pred_error")
     else:
-        for data, name in zip(data_list,name_list):
-            if name in name_visted:
-                data2[name]+=["None"]
-                data3[name]+=["None"]
-                data2[name]+=(data["n_train_points_list"])
-                data3[name]+=(data[type])
-            else:
-                data2[name] = data["n_train_points_list"]
-                data3[name] = data[type]
-                name_visted.append(name)
+        dataX, dataY, name_visted = all_data_prepros_plotly(data_list, name_list, type= "mean_abs_pred_error")
 
-    fig = go.Figure()
+    #fig = go.Figure()
+    fig = make_subplots(rows=1, cols=2)
     for name in name_visted:
-        fig.add_trace(go.Scatter(mode='lines+markers', x=data2[name], y=data3[name], name=name,
-                            line=dict(color=color(name),dash = ls(name), width=2),showlegend=True))
+        fig.add_trace(go.Scatter(mode='lines+markers', x=dataX[name], y=dataY[name], name=name,
+                            line=dict(color=color(name),dash = ls(name), width=2),showlegend=True),
+                            row=1, col=1
+                            )
+    if means:
+        dataX, dataY, name_visted = mean_prepros_plotly(data_list, name_list, type= "mean_uncertainty_quantification")
+    else:
+        dataX, dataY, name_visted = all_data_prepros_plotly(data_list, name_list, type= "mean_uncertainty_quantification")
+
+    for name in name_visted:
+        fig.add_trace(go.Scatter(mode='lines+markers', x=dataX[name], y=dataY[name], name=name,
+                            line=dict(color=color(name),dash = ls(name), width=2),showlegend=False),
+                            row=1, col=2
+                            )
 
     fig.update_layout(title=problem_name,
                     #xaxis_title='n_train_points',
@@ -217,12 +226,12 @@ def analysis_regression_performance_plotly(problem,type = "mean_abs_pred_error",
                         )
                     )
     #fig.update_xaxes(visible=False, showticklabels=True)
-    if print_file_paths:
-        print(file_path_list)
     text = "Data collected from: "
     text += ", ".join(file_path_list2)
     text_raw = " --- ".join(file_path_list)
-    print(text, text_raw)
+    if print_file_paths:
+        print(file_path_list)
+        print(text, text_raw)
     fig.show() 
 
 def analysis_regression_rel_error_plotly(problem,  means = False):
@@ -293,7 +302,11 @@ def get_relative_error(data):
 
 print(__name__)
 if __name__ == "__main__":
-    analysis_regression_rel_error_plotly("Rastrigin_dim_5", means=True)
+    analysis_regression_performance_plotly("Schwefel26_dim_5",type = "mean_abs_pred_error",  means = False)
+    
+    # data_list,name_list, problem_name, file_path_list, file_path_list2 = get_data2("Schwefel26_dim_5", use_exact_name=True)
+    # data_to_pandas(data_list,name_list)
+    #analysis_regression_rel_error_plotly("Rastrigin_dim_5", means=True)
     #redefine_data_names()
     #include_true_values(None)
     pass

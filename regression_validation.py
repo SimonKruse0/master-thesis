@@ -4,7 +4,7 @@ from src.regression_models.gaussian_process_regression import GaussianProcess_sk
 from src.regression_models.bohamiann import BOHAMIANN
 from src.regression_models.gaussian_mixture_regression2 import GMRegression
 from src.regression_models.mean_regression import MeanRegression
-
+from src.regression_models.SPN_regression2 import SumProductNetworkRegression
 
 import random
 import numpy as np
@@ -22,8 +22,8 @@ import os
 from datetime import datetime
 
 #prob = Zirilli(dimensions = 2)
-#dims = [2,3,5,10]
-dims = [1]
+dims = [2,3,5,10]
+#dims = [1]
 
 problems = [Step(dimensions = x) for x in dims]
 problems += [Rastrigin(dimensions = x) for x in dims]
@@ -51,7 +51,7 @@ regression_models += [GaussianProcess_sklearn()]
 regression_models += [GMRegression()] #Gaussian Mixture
 random.shuffle(regression_models)
 #regression_models = [MeanRegression()]
-regression_models = [NNN_regression_fast]
+regression_models = [SumProductNetworkRegression()]
 ## Data enrichment ##
 #include_true_values(problems, remove_min_n_test=True)
 
@@ -89,12 +89,12 @@ for n_train_array in [10,20,30]:
     for problem in problems:
         for random_seed in np.random.randint(9999, size=1):
             for regression_model in regression_models:
-                try:
-                    print(regression_model.name, f"{type(problem).__name__} in dim {problem.N}")
-                    RV = RegressionValidation(problem, regression_model, random_seed)
-                    RV.train_test_loop(n_train_array, n_test,path =  f"{path}")
-                    RV.save_regression_validation_results(f"{path}")
-                except:
-                    print(f"ERROR: Could not train {regression_model.name} on {type(problem).__name__} in dim {problem.N}")
+                #try:
+                print(regression_model.name, f"{type(problem).__name__} in dim {problem.N}")
+                RV = RegressionValidation(problem, regression_model, random_seed)
+                RV.train_test_loop(n_train_array, n_test,path =  f"{path}")
+                RV.save_regression_validation_results(f"{path}")
+                # except:
+                #     print(f"ERROR: Could not train {regression_model.name} on {type(problem).__name__} in dim {problem.N}")
 
 

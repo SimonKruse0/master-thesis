@@ -17,7 +17,7 @@ class SumProductNetworkRegression:
     def __init__(self, tracks=5, channels=20, train_iter = 1000) -> None:
         self.epochs = train_iter
         # Priors for variance of x and y
-        self.alpha0 = torch.tensor([[[0.001], [0.001]]])
+        self.alpha0 = torch.tensor([[[0.001], [0.001]]]) #invers gamma
         self.beta0 = torch.tensor([[[0.001], [0.001]]])
         self.name = "SPN regression"
         self.params = f"tracks = {tracks}, channels = {channels}"
@@ -60,9 +60,21 @@ class SumProductNetworkRegression:
                 self.model.zero_grad(True)
         print("")
     
+    def _bayesian_conditional_pdf(self,p_xy,p_x,p_prior):
+        p_predictive = ((self.N) * p_xy + p_prior) / ((self.N) * p_x + 1)
+        # N*p_x* p_xy/p_x + lambda* p_prior(y)
+        # int N*p_x* p_xy/p_x + lambda* p_prior(y) dy = N*p_x+lambda
+
+        return p_predictive
+        #p_predictive = p_xy/p_x+0.001
+        # p_predictive = (p_xy/p_x + p_prior/N)
+        # bound = torch.FloatTensor([0.01])
+        # p_predictive *= 0.0001/torch.max(bound.expand_as(p_x),p_x)
+
+
     def predict(self, X_test):
         mean, percentiles,std_deviation  = [], [], []
-        n_rejection_samples = 10000
+        n_rejection_samples = 5000
 
         #%% Grid to evaluate predictive distribution
         x_grid = torch.tensor(X_test, dtype=torch.double).flatten()
@@ -83,20 +95,19 @@ class SumProductNetworkRegression:
 
             # Calculate p(x|y) with a prior. 
             p_prior = norm(0, 5).pdf(y_random_grid)[:, None]
-            p_predictive = ((self.N) * p_xy + p_prior) / ((self.N) * p_x + 1)
-            #print(p_predictive)
-            #p_predictive = p_xy/p_x
-        repeat = 0
+            p_predictive = self._bayesian_conditional_pdf(p_xy,p_x,p_prior)
+
+        #repeat = 0
         for i in range(x_grid.shape[0]):
             pmax = p_predictive[:,i].max().numpy()
             samples = y_random_grid[np.random.rand(n_rejection_samples)*pmax<p_predictive[:,i].numpy()]
             if len(samples) > 20: 
-                print( f"num samples = {len(samples)}")
+                print( f"x[{i}] = {x_grid[i]:0.2f}, \t num samples = {len(samples)}")
                 mu = samples.mean().clone()
                 sigma = samples.std().clone()
                 CI = (samples.quantile(0.05).clone(), samples.quantile(0.95).clone())
             else:
-                repeat = 1
+                #repeat = 1
                 print("Not enough samples!")
                 # mu = None
                 # sigma = None
@@ -123,11 +134,8 @@ class SumProductNetworkRegression:
 
             p_prior = norm(0, 5).pdf(y_grid)[:, None]
 
-            p_predictive = ((self.N) * p_xy + p_prior) / ((self.N) * p_x + 1)
-            #p_predictive = p_xy/p_x+0.001
-            # p_predictive = (p_xy/p_x + p_prior/N)
-            # bound = torch.FloatTensor([0.01])
-            # p_predictive *= 0.0001/torch.max(bound.expand_as(p_x),p_x)
+            #p_predictive = ((self.N) * p_xy + p_prior) / ((self.N) * p_x + 1)
+            p_predictive = self._bayesian_conditional_pdf(p_xy,p_x,p_prior)
             
             dx = (x_grid[1] - x_grid[0]) / 2.0
             dy = (y_grid[1] - y_grid[0]) / 2.0
@@ -163,7 +171,7 @@ RUN_mikkels_test = 0
 if __name__ == "__main__":
     bounds = [0,1]
     #datasize = int(input("Enter number of datapoints: "))
-    datasize = 50
+    datasize = 10
     np.random.seed(20)
     X_sample =  np.random.uniform(*bounds,size = (datasize,1))
     Y_sample = obj_fun(X_sample)

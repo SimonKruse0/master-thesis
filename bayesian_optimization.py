@@ -12,7 +12,7 @@ from src.regression_models.numpyro_neural_network import NumpyroNeuralNetwork #J
 from src.regression_models.gaussian_process_regression import GaussianProcess_sklearn, GaussianProcess_pyro
 from src.regression_models.bohamiann import BOHAMIANN #Torch
 from src.regression_models.gaussian_mixture_regression2 import GMRegression
-from src.regression_models.SPN_regression import SumProductNetworkRegression
+#from src.regression_models.SPN_regression import SumProductNetworkRegression
 from src.regression_models.mean_regression import MeanRegression
 
 PLOT_NR = 0
@@ -212,7 +212,7 @@ if __name__ == "__main__":
     Y_sample = obj_fun(X_sample)
 
     mean_regression = MeanRegression()
-    SPN_regression = SumProductNetworkRegression()
+    #SPN_regression = SumProductNetworkRegression()
     # GP_regression = GaussianProcess_sklearn()
     # GP_regression2 = GaussianProcess_pyro(noise=0)
     # BOHAMIANN_regression = BOHAMIANN(num_warmup = 200, num_samples = 400)  

@@ -23,10 +23,10 @@ from typing import List
 class Supr(nn.Module):
     def __init__(self):
         super().__init__()
-    
+
     def sample(self):
         pass
-        
+
 
 class SuprLayer(nn.Module):
     epsilon = 1e-12
@@ -39,9 +39,10 @@ class SuprLayer(nn.Module):
 
     def em_update(self, *args, **kwargs):
         pass
-    
+
+
 class Sequential(nn.Sequential):
-    def __init__(self, *args):
+    def __init__(self, *args: object):
         super().__init__(*args)
 
     def em_batch_update(self):
@@ -50,11 +51,37 @@ class Sequential(nn.Sequential):
                 module.em_batch()
                 module.em_update()
 
+    def em_batch(self):
+        with torch.no_grad():
+            for module in self:
+                module.em_batch()
+
+    def em_update(self):
+        with torch.no_grad():
+            for module in self:
+                module.em_update()
+                
     def sample(self):
         value = []
         for module in reversed(self):
             value = module.sample(*value)
         return value
+
+    def mean(self):
+        return self[0].mean()
+
+    def var(self):
+        return self[0].var()
+    
+    def forward(self, value, marginalize=None):
+        for module in self:
+            if isinstance(module, SuprLeaf):
+                value = module(value, marginalize=marginalize)
+            else:
+                value = module(value)
+        return value
+
+
 
 class Parallel(SuprLayer):
     def __init__(self, nets: List[SuprLayer]):
@@ -80,6 +107,7 @@ class ScrambleTracks(SuprLayer):
     def forward(self, x):
         return x[:, torch.arange(x.shape[1])[:, None], self.perm, :]
 
+
 class ScrambleTracks2d(SuprLayer):
     """ Scrambles the variables in each track """
 
@@ -101,9 +129,10 @@ class VariablesProduct(SuprLayer):
 
     def __init(self):
         super().__init__()
+        self.variables = None
 
     def sample(self, track, channel_per_variable):
-        return track, torch.full((self.variables, ), channel_per_variable[0]).to(channel_per_variable.device)
+        return track, torch.full((self.variables,), channel_per_variable[0]).to(channel_per_variable.device)
 
     def forward(self, x):
         if not self.training:
@@ -113,6 +142,7 @@ class VariablesProduct(SuprLayer):
 
 class ProductSumLayer(SuprLayer):
     """ Base class for product-sum layers """
+
     def __init__(self, weight_shape, normalize_dims):
         super().__init__()
         # Parameters
@@ -194,6 +224,7 @@ class Einsum(ProductSumLayer):
         y = a1 + a2 + torch.log(torch.einsum('ntva,ntvb,tvcab->ntvc', exa1, exa2, self.weights))
         return y
 
+
 class Weightsum(ProductSumLayer):
     """ Weightsum layer """
 
@@ -229,7 +260,7 @@ class TrackSum(ProductSumLayer):
     # Weighted sum over tracks
     def __init__(self, tracks: int, channels: int):
         # Initialize super
-        super().__init__((tracks, channels), (0, ))
+        super().__init__((tracks, channels), (0,))
 
     def sample(self, track: int, channel_per_variable: torch.Tensor):
         prob = self.weights[:, None] * torch.exp(self.x[0] - torch.max(self.x[0], dim=0)[0])
@@ -252,12 +283,15 @@ class TrackSum(ProductSumLayer):
         y = y[:, None]
         return y
 
+class SuprLeaf(SuprLayer):
+    def __init__(self):
+        super().__init__()
 
-class NormalLeaf(SuprLayer):
+class NormalLeaf(SuprLeaf):
     """ NormalLeaf layer """
 
-    def __init__(self, tracks: int, variables: int, channels: int, n: int = 1,
-                 mu0: float = 0., nu0: float = 0., alpha0: float = 0., beta0: float = 0.):
+    def __init__(self, tracks: int, variables: int, channels: int, n: int = 1, mu0: torch.tensor = 0.,
+                 nu0: torch.tensor = 0., alpha0: torch.tensor = 0., beta0: torch.tensor = 0.):
         super().__init__()
         # Dimensions
         self.T, self.V, self.C = tracks, variables, channels
@@ -282,7 +316,7 @@ class NormalLeaf(SuprLayer):
         self.register_buffer('z_x_sq_acc', torch.zeros(self.T, self.V, self.C))
 
     def em_batch(self):
-        self.z_acc.data += torch.sum(self.z.grad, dim=0)
+        self.z_acc.data += torch.clamp(torch.sum(self.z.grad, dim=0), self.epsilon)
         self.z_x_acc.data += torch.sum(self.z.grad * self.x[:, None, :, None], dim=0)
         self.z_x_sq_acc.data += torch.sum(self.z.grad * self.x[:, None, :, None] ** 2, dim=0)
 
@@ -290,11 +324,15 @@ class NormalLeaf(SuprLayer):
         # Sum of weights
         sum_z = torch.clamp(self.z_acc, self.epsilon)
         # Mean
-        mu_update = (self.nu0 * self.mu0 + self.n * (self.z_x_acc / sum_z)) / (self.nu0 + self.n)
+        # mu_update = (self.nu0 * self.mu0 + self.n * (self.z_x_acc / sum_z)) / (self.nu0 + self.n)
+        mu_update = (self.nu0 * self.mu0 + self.z_acc * (self.z_x_acc / sum_z)) / (self.nu0 + self.z_acc)
         self.mu.data *= 1. - learning_rate
         self.mu.data += learning_rate * mu_update
         # Standard deviation
-        sig_update = (self.n*(self.z_x_sq_acc / sum_z - self.mu ** 2) + 2*self.beta0 + self.nu0*(self.mu0-self.mu)**2) / (self.n + 2*self.alpha0 + 3)
+        # sig_update = (self.n * (self.z_x_sq_acc / sum_z - self.mu ** 2) + 2 * self.beta0 + self.nu0 * (
+        #           self.mu0 - self.mu) ** 2) / (self.n + 2 * self.alpha0 + 3)
+        sig_update = (self.z_x_sq_acc - self.z_acc * self.mu ** 2 + 2 * self.beta0 + self.nu0 * (
+                  self.mu0 - self.mu) ** 2) / (self.z_acc + 2 * self.alpha0 + 3)
         self.sig.data *= 1 - learning_rate
         self.sig.data += learning_rate * sig_update
         # Reset accumulators
@@ -307,13 +345,23 @@ class NormalLeaf(SuprLayer):
         mu_marginalize = self.mu[track, self.marginalize, channel_per_variable[self.marginalize]]
         sig_marginalize = self.sig[track, self.marginalize, channel_per_variable[self.marginalize]]
         r = torch.empty_like(self.x[0])
-        r[self.marginalize] = mu_marginalize + torch.randn(variables_marginalize).to(self.x.device) * torch.sqrt(torch.clamp(sig_marginalize, self.epsilon))
+        r[self.marginalize] = mu_marginalize + torch.randn(variables_marginalize).to(self.x.device) * torch.sqrt(
+            torch.clamp(sig_marginalize, self.epsilon))
         r[~self.marginalize] = self.x[0][~self.marginalize]
         return r
+    
+    def mean(self):
+        return (torch.clamp(self.z.grad, self.epsilon) * self.mu).sum([1, 3])
+    
+    def var(self):
+        return (torch.clamp(self.z.grad, self.epsilon) * (self.mu**2 + self.sig)).sum([1, 3]) - self.mean()**2
 
-    def forward(self, x: torch.Tensor):
+    def forward(self, x: torch.Tensor, marginalize=None):
         # Get shape
         batch_size = x.shape[0]
+        # Marginalize variables
+        if marginalize is not None:
+            self.marginalize = marginalize
         # Store the data
         self.x = x
         # Compute the probability
@@ -324,10 +372,12 @@ class NormalLeaf(SuprLayer):
         x_valid = self.x[:, None, ~self.marginalize, None]
         # Evaluate log probability
         self.z.data[:, :, ~self.marginalize, :] = \
-            torch.distributions.Normal(mu_valid, torch.sqrt(torch.clamp(sig_valid, self.epsilon))).log_prob(x_valid).float()
+            torch.distributions.Normal(mu_valid, torch.sqrt(torch.clamp(sig_valid, self.epsilon))).log_prob(
+                x_valid).float()
         return self.z
 
-class BernoulliLeaf(SuprLayer):
+
+class BernoulliLeaf(SuprLeaf):
     """ BernoulliLeaf layer """
 
     def __init__(self, tracks: int, variables: int, channels: int, n: int = 1,
@@ -338,7 +388,7 @@ class BernoulliLeaf(SuprLayer):
         # Number of data points
         self.n = n
         # Prior
-        self.alpha0, self.beta0 = alpha0, beta0        
+        self.alpha0, self.beta0 = alpha0, beta0
         # Parametes
         self.p = nn.Parameter(torch.rand(self.T, self.V, self.C))
         # Which variables to marginalized
@@ -358,7 +408,8 @@ class BernoulliLeaf(SuprLayer):
     def em_update(self, learning_rate: float = 1.):
         # Probability
         sum_z = torch.clamp(self.z_acc, self.epsilon)
-        p_update = (self.n * self.z_x_acc / sum_z + self.alpha0 - 1) / (self.n + self.alpha0 + self.beta0 - 2)
+        # p_update = (self.n * self.z_x_acc / sum_z + self.alpha0 - 1) / (self.n + self.alpha0 + self.beta0 - 2)
+        p_update = (self.z_x_acc + self.alpha0 - 1) / (self.z_acc + self.alpha0 + self.beta0 - 2)
         self.p.data *= 1. - learning_rate
         self.p.data += learning_rate * p_update
         # Reset accumulators
@@ -372,7 +423,7 @@ class BernoulliLeaf(SuprLayer):
         r[self.marginalize] = (torch.rand(variables_marginalize).to(self.x.device) < p_marginalize).float()
         r[~self.marginalize] = self.x[0][~self.marginalize]
         return r
-
+    
     def forward(self, x: torch.Tensor):
         # Get shape
         batch_size = x.shape[0]
@@ -385,11 +436,11 @@ class BernoulliLeaf(SuprLayer):
         x_valid = self.x[:, None, ~self.marginalize, None]
         # Evaluate log probability
         self.z.data[:, :, ~self.marginalize, :] = \
-            torch.distributions.Bernoulli(probs=p_valid).log_prob(x_valid).float() 
+            torch.distributions.Bernoulli(probs=p_valid).log_prob(x_valid).float()
         return self.z
 
-# TODO: This is not tested properly. 
-class CategoricalLeaf(SuprLayer):
+
+class CategoricalLeaf(SuprLeaf):
     """ CategoricalLeaf layer """
 
     def __init__(self, tracks: int, variables: int, channels: int, dimensions: int, n: int = 1,
@@ -400,7 +451,7 @@ class CategoricalLeaf(SuprLayer):
         # Number of data points
         self.n = n
         # Prior
-        self.alpha0 = alpha0      
+        self.alpha0 = alpha0
         # Parametes
         self.p = nn.Parameter(torch.rand(self.T, self.V, self.C, self.D))
         # Which variables to marginalized
@@ -421,14 +472,16 @@ class CategoricalLeaf(SuprLayer):
     def em_update(self, learning_rate: float = 1.):
         # Probability
         sum_z = torch.clamp(self.z_acc, self.epsilon)
-        p_update = (self.n * self.z_x_acc / sum_z[:,:,:,None] + self.alpha0 - 1) / (self.n + self.D*(self.alpha0 - 1))
+        # p_update = (self.n * self.z_x_acc / sum_z[:, :, :, None] + self.alpha0 - 1) / (
+                    # self.n + self.D * (self.alpha0 - 1))
+        p_update = (self.z_x_acc + self.alpha0 - 1) / (
+                    self.z_acc[:,:,:,None] + self.D * (self.alpha0 - 1))
         self.p.data *= 1. - learning_rate
         self.p.data += learning_rate * p_update
         # Reset accumulators
         self.z_acc.zero_()
         self.z_x_acc.zero_()
 
-    # XXX Implement this
     def sample(self, track: int, channel_per_variable: torch.Tensor):
         p_marginalize = self.p[track, self.marginalize, channel_per_variable[self.marginalize], :]
         r = torch.empty_like(self.x[0])
@@ -449,6 +502,5 @@ class CategoricalLeaf(SuprLayer):
         x_valid = self.x[:, None, ~self.marginalize, None]
         # Evaluate log probability
         self.z.data[:, :, ~self.marginalize, :] = \
-            torch.distributions.Categorical(probs=p_valid).log_prob(x_valid).float() 
+            torch.distributions.Categorical(probs=p_valid).log_prob(x_valid).float()
         return self.z
-
