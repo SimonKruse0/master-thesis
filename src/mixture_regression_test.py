@@ -16,23 +16,26 @@ X =  np.random.uniform(*bounds,size = (datasize,1))
 Y = obj_fun(X)
 y = Y.squeeze()
 
-# SPN_regression = GMRegression()
+SPN_regression = GMRegression()
 SPN_regression = SumProductNetworkRegression(
                     tracks=5,
                     channels = 50, train_epochs= 1000,
-                    manipulate_varance = True)
-SPN_regression.fit(X, y, optimize=True, opt_n_iter=4,opt_cv=3)
-#SPN_regression.optimize_and_fit(X, y, n_iter=20,cv=3)
+                    manipulate_varance = False, 
+                    optimize=False, opt_n_iter=2,opt_cv=2)
+SPN_regression.fit(X, y)
 
-fig, ax = plt.subplots()
-SPN_regression.plot(ax, xbounds=bounds, ybounds=(-100,200))
-
-X_test = np.linspace(0,100,100)[:,None]
+f, (ax1, ax2) = plt.subplots(1, 2, sharey=True,  sharex=True)
+SPN_regression.plot(ax1, xbounds=bounds, ybounds=(-100,200))
+#SPN_regression.plot(ax2, xbounds=bounds, ybounds=(-100,200))
+X_test = np.linspace(0,100,1000)[:,None]
 mean,std_deviation,Y_CI = SPN_regression.predict(X_test)
-ax.plot(X_test, mean, "--", color="black")
+ax2.plot(X_test, mean, "--", color="red")
 mean = mean.squeeze()
 std_deviation = std_deviation.squeeze()
-ax.fill_between(X_test.squeeze(), mean-2*std_deviation, mean+2*std_deviation,
-                            color="black", alpha=0.3, label=r"90\% credible interval") 
-ax.plot(X, y, "*")
+ax2.fill_between(X_test.squeeze(), mean-2*std_deviation, mean+2*std_deviation,facecolor="orange",
+                            edgecolor="orange", alpha=0.9, label=r"90\% credible interval") 
+
+ax2.set_ylim([-100,200])
+ax2.plot(X, y, "*", color="grey")
+ax1.plot(X, y, "*", color="grey")
 plt.show()

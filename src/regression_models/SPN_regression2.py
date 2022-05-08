@@ -37,7 +37,8 @@ class SumProductNetworkRegression(BaseEstimator):
                 manipulate_varance = True
                 , train_epochs = 500,
                 alpha0_x=10,alpha0_y=10, 
-                beta0_x = 0.01,beta0_y = 0.01):
+                beta0_x = 0.01,beta0_y = 0.01, 
+                optimize=False, opt_n_iter  =2, opt_cv = 3):
         self.epochs = train_epochs
         # Priors for variance of x and y
         self.alpha0_x = alpha0_x#invers gamma
@@ -51,15 +52,17 @@ class SumProductNetworkRegression(BaseEstimator):
         # Define prior conditional p(y|x)
         self.prior_settings = {"Ndx": 0.1,"sig_prior":1}
         self.manipulate_varance = manipulate_varance
+        self.optimize_hyperparams = optimize
+        self.opt_n_iter, self.opt_cv = opt_n_iter, opt_cv
         
     
     # def _train_all_parmeters(self):
     #     self.model[0].marginalize = torch.zeros(self.xy_variables , dtype=torch.bool)
 
-    def fit(self, X, Y, show_plot=False, optimize=False, opt_n_iter  =2, opt_cv = 3):
-        if optimize:
-            self._optimize( X, Y, n_iter  =opt_n_iter, cv = opt_cv)
-            print("Fitting with optimized hyperparams")
+    def fit(self, X, Y, show_plot=False):
+        if self.optimize_hyperparams:
+            self._optimize( X, Y)
+            print("-- Fitted with optimized hyperparams --")
             return
         print("params= ",self.get_params())
         print("X.shape", X.shape)
@@ -149,9 +152,10 @@ class SumProductNetworkRegression(BaseEstimator):
         out["train_epochs"] = self.epochs
         out["tracks"] = self.tracks
         out["channels"] = self.channels 
+        out["manipulate_varance"] = self.manipulate_varance
         return out
 
-    def _optimize(self, X, y, n_iter  =2, cv = 3):
+    def _optimize(self, X, y):
         opt = BayesSearchCV(
             self,
             {
@@ -160,8 +164,8 @@ class SumProductNetworkRegression(BaseEstimator):
                 'beta0_x': (1e-4, 1e-1, 'uniform'),
                 'beta0_y': (1e-4, 1e-1, 'uniform'),
             },
-            n_iter=n_iter,
-            cv=cv
+            n_iter=self.opt_n_iter,
+            cv=self.opt_cv
         )
         opt.fit(X, y)
         print(" ")
@@ -237,12 +241,27 @@ class SumProductNetworkRegression(BaseEstimator):
             p_predictive = (N*p_xy + Ndx*p_prior_y[None, :]) / (N*p_x[:, None] + Ndx)
         return p_predictive
 
+    def y_gradient(self,y_grid):
+        y_grid, *_ = normalize(y_grid, self.y_mean, self.y_std)
+        return np.gradient(y_grid)
+
     def plot(self, ax, xbounds=(0,1),ybounds=(-2.5,2.5)):
-        self.x_res, self.y_res  = 300, 400
+        self.x_res, self.y_res  = 500, 800
+        x_res, y_res = self.x_res, self.y_res
         x_grid = torch.linspace(*xbounds, self.x_res, dtype=torch.float)
         y_grid = torch.linspace(*ybounds, self.y_res,dtype=torch.float)
 
         p_predictive = self._bayesian_conditional_pdf(x_grid,y_grid)
+
+
+
+         # Compute 95% highest-posterior region
+        hpr = torch.ones((x_res, y_res), dtype=torch.bool)
+        for k in range(x_res):
+            p_sorted = -np.sort(-(p_predictive[k] * self.y_gradient(y_grid)))
+            i = np.searchsorted(np.cumsum(p_sorted), 0.95)
+            idx = (p_predictive[k]*self.y_gradient(y_grid)) < p_sorted[i]
+            hpr[k, idx] = False
 
         dx = (x_grid[1] - x_grid[0]) / 2.0
         dy = (y_grid[1] - y_grid[0]) / 2.0
@@ -257,8 +276,10 @@ class SumProductNetworkRegression(BaseEstimator):
             extent=extent,
             aspect="auto",
             origin="lower",
-            cmap='Blues'
+            cmap='Blues',
+            vmin=-5, vmax=1
         )  # , vmin=-3, vmax=1)
+        ax.contour(hpr.T, levels=1, extent=extent )
 
 def obj_fun(x): 
     return 0.5 * (np.sign(x-0.5) + 1)+np.sin(100*x)*0.1
