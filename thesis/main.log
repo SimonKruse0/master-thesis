@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  8 MAY 2022 19:56
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  8 MAY 2022 20:08
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1386,7 +1386,12 @@ File: Pictures/DTU_stock_photo.jpg Graphic file (type bmp)
 
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Abstract.tex) [3
 
-] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Acknowledgements.tex) [4
+] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Acknowledgements.tex
+Underfull \hbox (badness 10000) in paragraph at lines 6--7
+
+ []
+
+) [4
 
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/main.toc)
 \tf@toc=\write8
@@ -1594,4 +1599,4 @@ Here is how much of TeX's memory you used:
  36 hyphenation exceptions out of 8191
  82i,18n,138p,1249b,3776s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (46 pages, 764796 bytes).
+Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (46 pages, 764512 bytes).
