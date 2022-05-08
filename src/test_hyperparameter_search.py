@@ -10,7 +10,7 @@ def obj_fun(x):
 
 bounds = [0,1]
 #datasize = int(input("Enter number of datapoints: "))
-datasize = 20
+datasize = 10
 np.random.seed(20)
 X =  np.random.uniform(*bounds,size = (datasize,1))
 Y = obj_fun(X)
@@ -27,12 +27,9 @@ opt = BayesSearchCV(
         'alpha0_y': (2e+0, 5e1, 'uniform'),
         'beta0_x': (1e-4, 1e-1, 'uniform'),
         'beta0_y': (1e-4, 1e-1, 'uniform'),
-        
-        # 'degree': (1, 8),  # integer valued parameter
-        # 'kernel': ['linear', 'poly', 'rbf'],  # categorical parameter
     },
     n_iter=2,
-    cv=3
+    cv=1
 )
 
 opt.fit(X, y)

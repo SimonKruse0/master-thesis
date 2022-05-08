@@ -13,7 +13,23 @@ from skopt import BayesSearchCV
 from skopt.space import Real
 # Marginalization query
 from sklearn.base import BaseEstimator, RegressorMixin
+#from ..utils import normalize, denormalize
 
+def normalize(X, mean=None, std=None):
+    #zero_mean_unit_var_normalization
+    if mean is None:
+        mean = np.mean(X, axis=0)
+    if std is None:
+        std = np.std(X, axis=0)
+
+    X_normalized = (X - mean) / std
+
+    return X_normalized, mean, std
+
+
+def denormalize(X_normalized, mean, std):
+    #zero_mean_unit_var_denormalization
+    return X_normalized * std + mean
 
 class SumProductNetworkRegression(BaseEstimator):
     def __init__(self,
@@ -40,13 +56,22 @@ class SumProductNetworkRegression(BaseEstimator):
     # def _train_all_parmeters(self):
     #     self.model[0].marginalize = torch.zeros(self.xy_variables , dtype=torch.bool)
 
-    def fit(self, X, Y, show_plot=False):
+    def fit(self, X, Y, show_plot=False, optimize=False, opt_n_iter  =2, opt_cv = 3):
+        if optimize:
+            self._optimize( X, Y, n_iter  =opt_n_iter, cv = opt_cv)
+            print("Fitting with optimized hyperparams")
+            return
+        print("params= ",self.get_params())
+        print("X.shape", X.shape)
+        X, self.x_mean, self.x_std = normalize(X)
+        Y, self.y_mean, self.y_std = normalize(Y)
+
         self.N,x_variables = X.shape
         self.xy_variables = x_variables+1
         self.marginalize_y = torch.cat([torch.zeros(x_variables, dtype=torch.bool), torch.tensor([1],dtype=torch.bool)])
         
-        print(f"mean variance_x = {self.beta0_x/(self.alpha0_x+1)}")
-        print(f"mean variance_y = {self.beta0_y/(self.alpha0_y+1)}")
+        print(f"mean variance_x = {self.beta0_x/(self.alpha0_x+1):0.6f}")
+        print(f"mean variance_y = {self.beta0_y/(self.alpha0_y+1):0.6f}")
         #Should be optimized!
         alpha_x = torch.tensor(self.alpha0_x)
         alpha_x = alpha_x.repeat_interleave(x_variables)
@@ -82,7 +107,7 @@ class SumProductNetworkRegression(BaseEstimator):
         for epoch in range(self.epochs):
             self.model.train()
             logp = self.model(XY).sum()
-            print(f"Log-posterior ∝ {logp:.2f} ", end="\r")
+            #print(f"Log-posterior ∝ {logp:.2f} ")#, end="\r")
             self.model.zero_grad(True)
             logp.backward()
             self.model.eval()  # swap?
@@ -92,8 +117,8 @@ class SumProductNetworkRegression(BaseEstimator):
                 break
             else:
                 logp_tmp = logp
-        print("")
-        
+        print(f"-- stopped training -- max iterations = {self.epochs}")
+
         if show_plot:
             fig, ax = plt.subplots()
             self.plot(ax)
@@ -111,7 +136,8 @@ class SumProductNetworkRegression(BaseEstimator):
         m_pred, sd_pred, _ = self.predict(X_test)
         Z_pred = (y_test-m_pred)/sd_pred #std. normal distributed. 
         score = np.mean(norm.pdf(Z_pred))
-        print(f"mean pred likelihood = {score}")
+        print(f"mean pred likelihood = {score:0.3f}")
+        print(" ")
         return score
 
     def get_params(self, deep=False):
@@ -120,12 +146,35 @@ class SumProductNetworkRegression(BaseEstimator):
         out["alpha0_y"] = self.alpha0_y
         out["beta0_x"] = self.beta0_x
         out["beta0_y"] = self.beta0_y
+        out["train_epochs"] = self.epochs
+        out["tracks"] = self.tracks
+        out["channels"] = self.channels 
         return out
 
-    def optimize():
-        pass
+    def _optimize(self, X, y, n_iter  =2, cv = 3):
+        opt = BayesSearchCV(
+            self,
+            {
+                'alpha0_x': (2e+0, 5e1, 'uniform'), #inversGamma params. 
+                'alpha0_y': (2e+0, 5e1, 'uniform'),
+                'beta0_x': (1e-4, 1e-1, 'uniform'),
+                'beta0_y': (1e-4, 1e-1, 'uniform'),
+            },
+            n_iter=n_iter,
+            cv=cv
+        )
+        opt.fit(X, y)
+        print(" ")
+        print(f"best score = {opt.best_score_}")
+        print("best params",opt.best_params_)
+        #self = opt.best_estimator_.copy()
+        self.__dict__.update(opt.best_estimator_.__dict__)
+        #self.set_params(**opt.best_estimator_.get_params())
+        # self.fit(X,y)
+        
 
     def predict(self,X_test):
+        X_test, *_ = normalize(X_test, self.x_mean, self.x_std)
         Ndx = self.prior_settings["Ndx"]
         sig_prior = self.prior_settings["sig_prior"]
         x_grid = torch.tensor(X_test, dtype=torch.double)
@@ -141,16 +190,29 @@ class SumProductNetworkRegression(BaseEstimator):
             m_pred = (self.N*(self.model.mean())[:, 1]*p_x + Ndx*0)/(self.N*p_x+Ndx)
             v_pred = (self.N*p_x*(self.model.var()[:, 1]+self.model.mean()[:, 1]
                     ** 2) + Ndx*sig_prior)/(self.N*p_x+Ndx) - m_pred**2
+            
+            # Compute normal approximation
+            # m_pred = (self.N*(self.model.mean())[:, 1] + Ndx*0)/(self.N*p_x+Ndx)
+            # v_pred = (self.N*(self.model.var()[:, 1]+self.model.mean()[:, 1]
+            #         ** 2) + Ndx*sig_prior)/(self.N*p_x+Ndx) - m_pred**2
+
             #v_pred2 = v_pred.clone()
             if self.manipulate_varance:
                 v_pred /= torch.clamp(p_x*50, 1,40)
             #std_pred2 = torch.sqrt(v_pred2)
             std_pred = torch.sqrt(v_pred)
+        #transform back to original space #obs validate this!
+        m_pred = denormalize(m_pred, self.y_mean, self.y_std)
+        std_pred = std_pred*self.y_std
 
         return np.array(m_pred),np.array(std_pred).T,None
     
     
     def _bayesian_conditional_pdf(self,x_grid,y_grid): #FAILS!!
+        x_grid, *_ = normalize(x_grid, self.x_mean, self.x_std)
+        y_grid, *_ = normalize(y_grid, self.y_mean, self.y_std)
+        x_grid = torch.tensor(x_grid,dtype=torch.float)
+        y_grid = torch.tensor(y_grid,dtype=torch.float)
         x_res, y_res = self.x_res, self.y_res
         Ndx = self.prior_settings["Ndx"]
         sig_prior = self.prior_settings["sig_prior"]
@@ -175,10 +237,10 @@ class SumProductNetworkRegression(BaseEstimator):
             p_predictive = (N*p_xy + Ndx*p_prior_y[None, :]) / (N*p_x[:, None] + Ndx)
         return p_predictive
 
-    def plot(self, ax):
+    def plot(self, ax, xbounds=(0,1),ybounds=(-2.5,2.5)):
         self.x_res, self.y_res  = 300, 400
-        x_grid = torch.linspace(0, 1, self.x_res)
-        y_grid = torch.linspace(-2.5, 2.5, self.y_res)
+        x_grid = torch.linspace(*xbounds, self.x_res, dtype=torch.float)
+        y_grid = torch.linspace(*ybounds, self.y_res,dtype=torch.float)
 
         p_predictive = self._bayesian_conditional_pdf(x_grid,y_grid)
 

@@ -49,6 +49,43 @@ varience prediction.
 
 
 
+\subsection{Inclusion of prior distribution}
+The conditional distribution $p(y|x)$ is without a prior. Therefore
+its beliefs is not really ok.. In the flavour of a Poission point process, 
+we introduce the prior.. 
+$$p_{bayes}(y|x) = \frac{p(x)\cdot N \cdot p(y|x) + \lambda p_{prior}(y)}{Z}$$
+where the normalization constant $Z$ makes sure the manipulated density integrates
+to 1, i.e. 
+$$Z =\int p(x)\cdot N \cdot p(y|x) + \lambda p_{prior}(y) dy =p(x)\cdot N+\lambda $$
+
+<visualization of this!>
+\subsubsection*{mean of $p_{bayes}(y|x)$}
+\begin{align*}
+    E_{p_{bayes}(y|x)}[y] &= \int y \cdot \frac{f(n,p(x)) \cdot p(y|x) + \lambda p_{prior}(y)}{Z} dy\\
+    &= \left(p(x)\cdot N \cdot E_{p(y|x)}[y] + \lambda \cdot E_{p_{prior}(y)}[y] \right) \frac{1}{Z}\\
+    &= \frac{p(x)\cdot N\cdot E_{p(y|x)}[y]}{p(x)\cdot N+\lambda}
+\end{align*}
+
+\subsubsection*{variance of $p_{bayes}(y|x)$}
+We first calculate the second moment, 
+\begin{align*}
+    E_{p_{bayes}(y|x)}[y^2] &= \int y^2 \cdot \frac{p(x)\cdot N \cdot p(y|x) + \lambda p_{prior}(y)}{Z} dy\\
+    &= (p(x)\cdot N\cdot E_{p(y|x)}[y^2] + \lambda E_{p_{prior}(y)}[y^2] ) \frac{1}{Z}\\
+    &= \frac{p(x)\cdot N \cdot(Var_{p(y|x)}[y]+E_{p(y|x)}[y]^2) + \lambda Var_{p_{prior}(y)}[y]}{p(x)\cdot N+\lambda}
+\end{align*}
+
+So the variance is calculated as, 
+$$V_{p_{bayes}(y|x)}[y] = E_{p_{bayes}(y|x)}[y^2] - E_{p(x,y)}[y]^2$$
+
+\subsubsection*{implementation}
+It is not necessary to calculate the conditional distribution, since, using Bayes rule
+$$p(y|x) = \frac{p(x,y)}{p(x)}$$
+so gives
+$$p_{bayes}(y|x) = \frac{p(x)\cdot N \cdot p(y|x) + \lambda p_{prior}(y)}{Z} = \frac{N \cdot p(x,y) + \lambda p_{prior}(y)}{Z}$$
+
+
+$$E_{p(x,y)}[y] = \int_y \int_x yp(x,y) dx dy = \int_y y p(y) dy = E_{p(y)}[y]$$
+
 \section{Acquisition function}
 A popular choice of acquisition function is expected improvement:
 \begin{align*}
