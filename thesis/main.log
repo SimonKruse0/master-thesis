@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  8 MAY 2022 21:22
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  8 MAY 2022 21:37
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -985,13 +985,13 @@ File: tikzlibraryspy.code.tex 2020/01/08 v3.1.5b (3.1.5b)
 ) (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/libs/tikzlibrarypgfplots.statistics.code.tex) (/usr/share/texlive/texmf-dist/tex/generic/stringenc/se-ascii-print.def
 File: se-ascii-print.def 2019/11/29 v1.12 stringenc: Printable ASCII characters
 )
-Package hyperref Info: Option `pdfdisplaydoctitle' set `true' on input line 140.
-Package hyperref Info: Option `bookmarksnumbered' set `true' on input line 140.
-Package hyperref Info: Option `bookmarksopen' set `true' on input line 140.
-Package hyperref Info: Option `breaklinks' set `true' on input line 140.
-Package hyperref Info: Option `plainpages' set `false' on input line 140.
-Package hyperref Info: Option `unicode' set `true' on input line 140.
-Package hyperref Info: Option `colorlinks' set `false' on input line 140.
+Package hyperref Info: Option `pdfdisplaydoctitle' set `true' on input line 141.
+Package hyperref Info: Option `bookmarksnumbered' set `true' on input line 141.
+Package hyperref Info: Option `bookmarksopen' set `true' on input line 141.
+Package hyperref Info: Option `breaklinks' set `true' on input line 141.
+Package hyperref Info: Option `plainpages' set `false' on input line 141.
+Package hyperref Info: Option `unicode' set `true' on input line 141.
+Package hyperref Info: Option `colorlinks' set `false' on input line 141.
 \myl=\skip95
 ) (/home/simon/Documents/MasterThesis/master-thesis/thesis/Setup/MoreSettings.sty (/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcolorbox.sty
 Package: tcolorbox 2019/11/15 version 4.22 text color boxes
@@ -1535,10 +1535,10 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 Here is how much of TeX's memory you used:
  54020 strings out of 481731
  1263976 string characters out of 5935437
- 2190769 words of memory out of 5000000
+ 2190775 words of memory out of 5000000
  70140 multiletter control sequences out of 15000+600000
  546095 words of font info for 123 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  82i,17n,138p,2818b,3775s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (32 pages, 489968 bytes).
+Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (32 pages, 489976 bytes).
