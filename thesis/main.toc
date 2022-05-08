@@ -1,8 +1,5 @@
 \boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
 \babel@toc {english}{}
-\contentsline {section}{Preface}{ii}{Doc-Start}%
-\contentsline {section}{Abstract}{iii}{Doc-Start}%
-\contentsline {section}{Acknowledgements}{iv}{Doc-Start}%
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.0.1}%
 \contentsline {section}{\numberline {1.1}notation}{1}{section.0.1.1}%
 \contentsline {chapter}{\numberline {2}Optimization methodology}{3}{chapter.0.2}%
@@ -33,10 +30,3 @@
 \contentsline {section}{\numberline {5.7}Appendix - SPN}{26}{section.0.5.7}%
 \contentsline {chapter}{\numberline {6}Results}{27}{chapter.0.6}%
 \contentsline {subsection}{\numberline {6.0.1}regression benchmark}{27}{subsection.0.6.0.1}%
-\contentsline {chapter}{\numberline {7}Colours}{28}{chapter.0.7}%
-\contentsline {chapter}{\numberline {8}Examples of figures, tables, equations and listings}{29}{chapter.0.8}%
-\contentsline {section}{\numberline {8.1}Graphs and charts}{29}{section.0.8.1}%
-\contentsline {section}{\numberline {8.2}Tables and figures}{32}{section.0.8.2}%
-\contentsline {section}{\numberline {8.3}Equations}{34}{section.0.8.3}%
-\contentsline {section}{\numberline {8.4}Listings (code)}{35}{section.0.8.4}%
-\contentsline {chapter}{\numberline {A}Title}{37}{appendix.A}%

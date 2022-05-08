@@ -2186,6 +2186,9 @@
     <bcf:citekey order="2">bayesoptbook</bcf:citekey>
     <bcf:citekey order="3">bayesoptbook</bcf:citekey>
     <bcf:citekey order="4">SPN_EM</bcf:citekey>
+    <bcf:citekey order="5">PhDthesis</bcf:citekey>
+    <bcf:citekey order="6">snoek2015scalable</bcf:citekey>
+    <bcf:citekey order="7">NIPS2016_a96d3afe</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">
@@ -2194,13 +2197,4 @@
     </bcf:sort>
   </bcf:sortingtemplate>
   <!-- DATALISTS -->
-  <bcf:datalist section="0"
-                name="none/global//global/global"
-                type="entry"
-                sortingtemplatename="none"
-                sortingnamekeytemplatename="global"
-                labelprefix=""
-                uniquenametemplatename="global"
-                labelalphanametemplatename="global">
-  </bcf:datalist>
 </bcf:controlfile>
