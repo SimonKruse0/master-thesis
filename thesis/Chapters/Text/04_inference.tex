@@ -1,12 +1,4 @@
 \chapter{Inference: Prediction and learning}
-% Inference is the task of receiving conclusions from data and quantify the uncertainties of these. These conclusions
-% extend beyond the data. A statistical model is essential for making inference. In Bayesian regression we assign uncertainty 
-% to the regression parameters i.e. the weights in the deep neural network, or ?? the function values evaluated at given point in
-% Gaussian processes. Sum product networks and and mixture models are not Bayesian regression models, however, their conditional
-% distribution should be accombined with a prior. 
-
-%We are dealing with probabilistic models paramitised with $\theta$
-
 Inference is the process of computing answers to queries about a probabilistic model after observing data. 
 In Bayesian regression, the
 query is the predictive distribution, $p(y|x,\mathcal{D})$, as we are interested in the distribution of $y$ given $x$ 
@@ -15,14 +7,6 @@ This often indirectly create the posterior query, $p(\theta|\mathcal{D})$, the p
 $\mathcal{D}$. Lastly it is also inference, when we train 
 a Gaussian mixture model or SPN using the expectation-maximization algorithm (EM), since we are iteratively answering the query
 $E_{p(z|\theta^{(k)})}[z|\theta]$.
-
-% in general a probabilistic model is a joint distribution of hidden variables, $z$, and observed variables, $x$, 
-% $$p(z,x)$$
-
-% inference about the unknowns is through the posteriror, 
-% $$p(z|x) = \frac{p(z,x)}{p(x)}$$
-% For most models, the determinator $p(x)$ is intractable. 
-% variational inference turns inference into an optimization problem. 
 
 \section{Exact and approximate inference}
 We distinguish between two different ways of inference, exact and approximate inference.
@@ -113,52 +97,6 @@ The joint and the marginal distribution are evaluated in the following recursive
     \end{algorithmic}
 \end{algorithm}
 
-
-% \begin{algorithm}[H]
-%     \caption*{Calculation of $p(x,y)$}\label{jointSPN}
-%     \begin{algorithmic}
-%     \State \textbf{Input:} Fully trained SPN and point $(x,y)$ %with leaf distributions $p_j(\cdot)$ for all $j\in Leafs$ and weigts $w_{\cdot,\cdot}$ 
-%     \For{$i = 1,2\dots, n_{leafs}$}
-%         \State  $v_i := p_i(x,y)$ \Comment{evaluate leaf distributions at point $(x,y)$}
-%     \EndFor
-%     \For{$i = n_{leafs}+1, \dots, N$} \Comment{Ordered bottom-up}
-%         \If{$i\in \mathcal{S}um$}\Comment{a sum node: weighted sum of all children}
-%         \State $v_i = \sum_{j\in ch(i)} w_{i,j}v_j$
-%         \EndIf
-%         \If{$i\in \mathcal{P}roduct$}\Comment{a product node: product of all children}
-%         \State $v_i = \prod_{j \in ch(i)} v_j$
-%         \EndIf
-%     \EndFor
-%     \State $\textbf{return: } v_N$
-%     \end{algorithmic}
-% \end{algorithm}
-
-% And the marginalized distribution $p(x)$ is evaluated as 
-% \begin{algorithm}
-%     \caption*{Calculation of $p(x)$}\label{marginSPN}
-%     \begin{algorithmic}
-%     \State \textbf{Input:} Fully trained SPN and point $(x,y)$ %with leaf distributions $p_j(\cdot)$ for all $j\in Leafs$ and weigts $w_{\cdot,\cdot}$ 
-%     \For{$i \in I_{leafs}$}
-%         \If{$p_i(x,y) = p_i(x)$}
-%             \State  $v_i := p_i(x,y)$ \Comment{evaluate leaf distributions at point $(x,y)$}
-%         \EndIf
-%         \If{$p_i(x,y) = p_i(y)$}
-%             \State  $v_i := 1$ \Comment{set node equal 1 at point $(x,y)$}
-%         \EndIf
-%     \EndFor
-%     %\For{$i \in I_{o}$}
-%     \For{node $i$ in all }
-%         \If{$i\in \mathcal{S}$}
-%         \State $v_i = \sum_{j\in ch(i)} w_{i,j}v_j$
-%         \EndIf
-%         \If{$i\in \mathcal{P}$}
-%         \State $v_i = \prod_{j \in ch(i)} v_j$
-%         \EndIf
-%     \EndFor
-%     \State $\textbf{return: } v_N$
-%     \end{algorithmic}
-% \end{algorithm}
-
 \begin{algorithm}[H]
     \caption*{Calculation of $p(x)$}\label{SPN}
     \begin{algorithmic}
@@ -170,11 +108,7 @@ The joint and the marginal distribution are evaluated in the following recursive
         \Else 
             \State  $\textbf{return: } 1$ \Comment{set node equal 1 at point $(x,y)$}
         \EndIf
-        % \If{node handle $y$}
-        %     \State  $\textbf{return: } 1$ \Comment{set node equal 1 at point $(x,y)$}
-        % \EndIf
     \EndIf
-    %\For{$i \in I_{o}$}
     \If{$i\in \mathcal{S}um(S)$}
         \State $\textbf{return: } \sum_{j\in ch(i)} w_{i,j} \text{Eval}(j)$
     \EndIf
@@ -192,21 +126,6 @@ we can combined the two queries into the conditional distribution:
 $$p(y|x) = \frac{p(x,y)}{p(x)}$$
 The predictive distribution is found with a cost of just $O(E+E+1) = O(E)$, where E is number
 of edges/connections in the SPN. 
-
-% \begin{enumerate}
-%     \item Evaluate the leaf distributions at point $(x,y)$, i.e. and assign it as the value of the leaf, $v_j := f_j(x,y)$
-%     \item Bottom-up calculate the value at node $i$. If node $i$ is a sum node $v_i = \sum_{j\in ch(i)} w_{i,j}v_j$ 
-%     or a product node, $v_i = \prod_{j \in ch(i)} v_j$.
-%     \item The value at the root/top node is now equal $p(x,y)$. 
-% \end{enumerate}
-% secondly, the marginalized distribution $p(x)$ is evaluated in the following way:
-% \begin{enumerate}
-%     \item For leafs containing $x$: Evaluate the leaf distributions at point $(x)$, and set the value $v_j := f_j(x)$
-%     \item For leafs containing $y$: Set the value $v_j := 1$
-%     \item Bottom-up calculate similar as we do in the evalueation of the joint distribution (see above)
-%     \item The root/top node value is now equal $p(x)$. 
-% \end{enumerate}
-% What is left is just a division operation.
 
 \subsection{SPN - learning}
 It is not enouth to do predictive inference on a SPN, we also need to fit it on
@@ -271,10 +190,64 @@ instead there is a proposition.
 \end{proposition}
 
 
-\begin{testexample2}[Expectation-maximization]
-    Expectation maximization is a method for finding ML or MAP estimate of a 
-    latent variable model. Given a joint distribution of descrete latent variables ($z$),
-    and the observed variables ($x$), with parameters $\pi$, then we can marginalise over
+\begin{testexample2}[Expectation-maximization EM]
+    Expectation maximization is a convinient method for finding ML or MAP estimate of a 
+    latent variable model. We consider a probibalistic model paramitised with $\theta$, 
+    $$p(\textbf{X}, \textbf{Z}|\theta)$$ 
+    where we denote all latent variables \textbf{Z},
+    and observed variables \textbf{X}. Our goal is to find the maximum of the
+    likehood, 
+    $$p(\textbf{X}|\theta) = \int p(\textbf{X}, \textbf{Z}| \theta) \mu(d\textbf{Z})$$
+    maximizating the likehood itself $p(\textbf{X}|\theta)$ is assumed deficult 
+    but maximizating of the \textit{complete-data} likehood $p(\textbf{X}, \textbf{Z}|\theta)$
+    is much easier. 
+
+    The algorithm iterates over two steps, expecation step and a maximization step, 
+    defined in the following way for iteration $t$, 
+    
+    \textbf{E-step}
+    Define the functional $Q(\theta,\theta^{(t)})$, to be the expected value of the complete-data 
+    log likehood (log likehood function of $\theta$), where the only random quantaty $\textbf{Z}$
+    is assumed to follow a distribtuion with the density $p(\textbf{Z}|\textbf{X}, \theta^{(t)})$,
+    i.e. the conditional distribution of \textbf{Z} given \textbf{X} and the current parameter point estimate
+    $\theta^{(t)}$, i.e. 
+    $$Q(\theta,\theta^{(t)}) := E_{p(\textbf{Z}|\textbf{X}, \theta^{(t)})}[\log p(\textbf{X}, \textbf{Z}|\theta)]$$
+
+    \textbf{M-step}
+    Next we find the point estimate $\theta^{(t+1)}$ which maximizes $Q(\cdot|\theta^{(t)})$, i.e.
+    $$\theta^{(t+1)} = \arg\max_{\theta} Q(\theta|\theta^{(t)})$$
+
+    \textbf{Proof} that maximizing $Q(\cdot|\theta^{(t)})$, maximizes the likelihood
+    $p(\textbf{X}|\theta)$. 
+    From $p(\textbf{X}|\theta) = \frac{p(\textbf{X}, \textbf{Z})}{p(\textbf{X})}$ we can write
+    $$\log p(\textbf{X}|\theta) = \log p(\textbf{X}, \textbf{Z}) - \log p(\textbf{Z}|\textbf{X},\theta)$$
+    Now, taking the expecation of the above w.r.t. $p(\textbf{Z}|\textbf{X}, \theta^{(t)})$,
+    yields,
+    \begin{align*}
+        \log p(\textbf{X}|\theta)  &= E_{p(\textbf{Z}|\textbf{X}, \theta^{(t)})}[\log p(\textbf{X}, \textbf{Z}|\theta)]
+        -  E_{p(\textbf{Z}|\textbf{X}, \theta^{(t)})}[\log p(\textbf{Z}|\textbf{X},\theta)]\\
+        &= Q(\theta,\theta^{(t)})+ E_1[\log p(\textbf{Z}|\textbf{X},\theta)]
+    \end{align*} 
+    Since the above equation holds for any $\theta$, it also holds for $\theta^{(t)}$
+    now we have, 
+    $$\log p(\textbf{X}|\theta^{(t)}) = Q(\theta^{(t)},\theta^{(t)})+ E_1[\log p(\textbf{Z}|\textbf{X},\theta)]$$
+    combining the two equations, we get, 
+    $$\log p(\textbf{X}|\theta) - \log p(\textbf{X}|\theta^{(t)}) = 
+    Q(\theta,\theta^{(t)})
+    -Q(\theta^{(t)},\theta^{(t)})+ E_1[\log p(\textbf{Z}|\textbf{X},\theta)]- E_1[\log p(\textbf{Z}|\textbf{X},\theta^{(t)})]$$
+    From Gibb's inequality we have that $E_1[\log p(\textbf{Z}|\textbf{X},\theta^{(t)})]\leq E_1[\log p(\textbf{Z}|\textbf{X},\theta)]$
+    where equality only holds for $\theta^{(t)} = \theta$, so we have
+    \begin{align*}
+        \log p(\textbf{X}|\theta) - \log p(\textbf{X}|\theta^{(t)}) \geq 
+    Q(\theta,\theta^{(t)})
+    -Q(\theta^{(t)},\theta^{(t)})
+    \end{align*}
+    so choosing $\theta$, which improves $Q(\cdot,\theta^{(t)})$ 
+    $\log p(\textbf{X}|\theta) $ has to improve as least as much. 
+\end{testexample2}
+
+
+then we can marginalise over
     $z$ in order to recover $p(x)$, 
     $$p(\textbf{x}|\pi) = \sum_{z=1}^Z p(z,\textbf{x}|\pi) $$
     assuming iid data, then the complete likehood can be decompose as the product 
@@ -283,10 +256,6 @@ instead there is a proposition.
     as it will not influence the maximum. 
     $$\log p(\textbf{x}|\pi) = \sum_{z=1}^Z \sum_{i=1}^n \log p(z,\textbf{x}_i|\pi)$$
 
-    \textbf{E-step}
-
-    \textbf{M-step}
-\end{testexample2}
 
 
 and a normal evaluation of $p(x,y|w_{old}, \theta_{old})$
@@ -297,7 +266,24 @@ $$p(z|x,y,w_{old},\theta_{old}) = \frac{p(z,x,y|w_{old},\theta_{old})}{p(x,y|w_{
 and we have the expecation for the EM-algorithm, 
 $$Q(\pi, \pi_{old}) = \sum_{n=1}^N \sum_{z=1}^Z p(z|xy_n, \pi_{old}) \ln p(z,xy_n|\pi)$$
 
+\begin{tcolorbox}[
+    sharp corners,
+    boxrule=0mm,
+    enhanced,
+    borderline west={2pt}{0pt}{red},
+    colframe=drGray,
+    colback=drGray,
+    coltitle=black,
+]
+{\large \textbf{Her er en titel}}
+\begin{itemize}
+    \item Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin euismod finibus enim vel tincidunt. Aliquam a placerat risus. Donec lobortis consequat massa et rhoncus. Cras a quam nec ante porta consequat at in nulla. Praesent sagittis, tortor id iaculis pharetra, dui eros gravida 
 
+\item Cras euismod mauris ut magna porta egestas. Ut non nisl leo. In hac habitasse platea dictumst. Pellentesque sed diam hendrerit tellus sagittis bibendum. Donec lorem augue, aliquet 
+
+ \item In at interdum lacus. Ut purus arcu, consequat a leo at, viverra tincidunt eros. Sed non mi fringilla, ornare velit eget, feugiat tortor. Donec blandit orci at dapibus vehicula. Pellentesque non cursus tellus. Ut et molestie quam. Sed convallis laoreet odio at dignissim. Maecenas condimentum felis eu laoreet pretium. Fusce lacinia ligula purus, non
+\end{itemize}
+\end{tcolorbox}
 
 \section{Gaussian Mixture Regression}
 The Gaussian mixture is a generative model of the joint probability of $x$ and $y$ given as, 
