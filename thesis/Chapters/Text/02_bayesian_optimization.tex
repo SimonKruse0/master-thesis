@@ -58,7 +58,18 @@ where the normalization constant $Z$ makes sure the manipulated density integrat
 to 1, i.e. 
 $$Z =\int p(x)\cdot N \cdot p(y|x) + \lambda p_{prior}(y) dy =p(x)\cdot N+\lambda $$
 
-<visualization of this!>
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[]{Pictures/mixture_predictive_bayesian.eps}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[]{Pictures/mixture_predictive_bayesian2D.eps}
+\end{figure}
+
+
 \subsubsection*{mean of $p_{bayes}(y|x)$}
 \begin{align*}
     E_{p_{bayes}(y|x)}[y] &= \int y \cdot \frac{f(n,p(x)) \cdot p(y|x) + \lambda p_{prior}(y)}{Z} dy\\

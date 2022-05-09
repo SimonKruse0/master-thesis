@@ -498,6 +498,10 @@ INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmr9.tfm
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/DTU_stock_photo.jpg
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/Text/02_bayesian_optimization.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/Text/02_bayesian_optimization.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/mixture_predictive_bayesian.eps
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/mixture_predictive_bayesian.eps
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/mixture_predictive_bayesian2D.eps
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/mixture_predictive_bayesian2D.eps
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/Text/03_surrogate_models.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/Text/03_surrogate_models.tex
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmmi12.tfm

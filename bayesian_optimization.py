@@ -12,7 +12,7 @@ from src.regression_models.numpyro_neural_network import NumpyroNeuralNetwork #J
 from src.regression_models.gaussian_process_regression import GaussianProcess_sklearn, GaussianProcess_pyro
 from src.regression_models.bohamiann import BOHAMIANN #Torch
 from src.regression_models.gaussian_mixture_regression2 import GMRegression
-#from src.regression_models.SPN_regression import SumProductNetworkRegression
+from src.regression_models.SPN_regression2 import SumProductNetworkRegression
 from src.regression_models.mean_regression import MeanRegression
 
 PLOT_NR = 0
@@ -212,22 +212,22 @@ if __name__ == "__main__":
     Y_sample = obj_fun(X_sample)
 
     mean_regression = MeanRegression()
-    #SPN_regression = SumProductNetworkRegression()
+    SPN_regression = SumProductNetworkRegression(manipulate_varance=False, optimize=True)
     # GP_regression = GaussianProcess_sklearn()
     # GP_regression2 = GaussianProcess_pyro(noise=0)
-    # BOHAMIANN_regression = BOHAMIANN(num_warmup = 200, num_samples = 400)  
+    BOHAMIANN_regression = BOHAMIANN(num_warmup = 200, num_samples = 400)  
     NNN_regression = NumpyroNeuralNetwork(num_chains = 4, num_warmup= 200, num_samples=200, num_keep_samples= 50)
-    #mixture_regression = ..()
+    mixture_regression = GMRegression()
     
     #regression_model = [mixture_regression, GP_regression,BOHAMIANN_regression,NNN_regression]
-    regression_models = [NNN_regression, mean_regression]
+    regression_models = [SPN_regression, mixture_regression,BOHAMIANN_regression, mean_regression]
     # BO_BNN = BayesianOptimization(obj_fun, regression_model[1],bounds,X_sample,Y_sample)
     # BO_BNN.optimize(10, plot_steps = True, type="grid")
     # print(BO_BNN.get_optimization_hist())
 
     ### plot all regressions next to each other. ###
     plt.figure(figsize=(12, 8))
-    outer_gs = gridspec.GridSpec(1, len(regression_models))
+    outer_gs = gridspec.GridSpec(2, len(regression_models)//2+1)
     for i in range( len(regression_models)):
         BO_BNN = BayesianOptimization(obj_fun, regression_models[i],bounds,X_sample,Y_sample)
         opt = BO_BNN.optimization_step()

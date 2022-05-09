@@ -1,6 +1,6 @@
 
-from regression_models.SPN_regression2 import SumProductNetworkRegression
-from regression_models.gaussian_mixture_regression2 import GMRegression
+from src.regression_models.SPN_regression2 import SumProductNetworkRegression
+from src.regression_models.gaussian_mixture_regression2 import GMRegression
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -10,11 +10,11 @@ def obj_fun(x):
 
 bounds = [0,100]
 #datasize = int(input("Enter number of datapoints: "))
-datasize = 100
+datasize = 10
 np.random.seed(20)
 X =  np.random.uniform(*bounds,size = (datasize,1))
 Y = obj_fun(X)
-y = Y.squeeze()
+y = Y
 
 SPN_regression = GMRegression()
 SPN_regression = SumProductNetworkRegression(

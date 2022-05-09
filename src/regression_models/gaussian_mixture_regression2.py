@@ -122,11 +122,12 @@ def _safe_probability_density(norm_factors, exponents):
     return p
 
 class GMRegression():
-    def __init__(self,component_variance = 1e-3) -> None:
+    def __init__(self,component_variance = 1e-3, manipulate_variance = True) -> None:
         self.model = None
         self.name = "Gaussian Mixture Regression"
         self.params = ""
         self.component_variance = component_variance
+        self.manipulate_variance = manipulate_variance
 
     def fit(self, X, Y):
         N, self.nX = X.shape
@@ -142,12 +143,12 @@ class GMRegression():
     def predict(self,X_test, CI=[0.05,0.95]):
         #print(X_test.shape)
         X_test,*_  = normalize(X_test,self.x_mean, self.x_std)
-        mean_preds, std_preds = self.model.predict(X_test, manipulate_variance=True)
+        mean_preds, std_preds = self.model.predict(X_test, manipulate_variance=self.manipulate_variance)
         
         mean_preds = denormalize(mean_preds, self.y_mean, self.y_std)
         std_preds *= self.y_std
 
-        return mean_preds,std_preds,None
+        return mean_preds.squeeze(),std_preds,None
 
     def _bayesian_conditional_pdf(self,x_grid,y_grid):
         x_grid, *_ = normalize(x_grid, self.x_mean, self.x_std)

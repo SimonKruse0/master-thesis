@@ -9,7 +9,7 @@
 \contentsline {section}{\numberline {3.1}Discriminative model as surrogate model}{7}{section.0.3.1}%
 \contentsline {section}{\numberline {3.2}Using a generative model as surrogate model}{7}{section.0.3.2}%
 \contentsline {subsection}{\numberline {3.2.1}Inclusion of prior distribution}{8}{subsection.0.3.2.1}%
-\contentsline {section}{\numberline {3.3}Acquisition function}{9}{section.0.3.3}%
+\contentsline {section}{\numberline {3.3}Acquisition function}{10}{section.0.3.3}%
 \contentsline {chapter}{\numberline {4}Bayesian regression models - probabilistic surrogate model}{11}{chapter.0.4}%
 \contentsline {section}{\numberline {4.1}Gaussian mixture regression}{11}{section.0.4.1}%
 \contentsline {section}{\numberline {4.2}Mixture regression in a Bayesian setting}{11}{section.0.4.2}%

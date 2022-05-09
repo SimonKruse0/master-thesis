@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  8 MAY 2022 21:37
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  9 MAY 2022 16:15
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1429,11 +1429,23 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 Chapter 3.
 [7
 
-] [8]) [9] [10
+]
+File: Pictures/mixture_predictive_bayesian.eps Graphic file (type eps)
+<Pictures/mixture_predictive_bayesian.eps>
+File: Pictures/mixture_predictive_bayesian2D.eps Graphic file (type eps)
+<Pictures/mixture_predictive_bayesian2D.eps>
 
-] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/Text/03_surrogate_models.tex
+Overfull \hbox (4.82114pt too wide) in paragraph at lines 69--70
+ [][] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [8] [9]) [10] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/Text/03_surrogate_models.tex
 Chapter 4.
 [11
+
 
 ]
 
@@ -1497,13 +1509,13 @@ Chapter 6.
 
 
 
-LaTeX Warning: Citation 'PhDthesis' on page 28 undefined on input line 9.
+LaTeX Warning: Citation 'PhDthesis' on page 28 undefined on input line 19.
 
 
-LaTeX Warning: Citation 'snoek2015scalable' on page 28 undefined on input line 9.
+LaTeX Warning: Citation 'snoek2015scalable' on page 28 undefined on input line 19.
 
 
-LaTeX Warning: Citation 'NIPS2016_a96d3afe' on page 28 undefined on input line 9.
+LaTeX Warning: Citation 'NIPS2016_a96d3afe' on page 28 undefined on input line 19.
 
 ) [28
 
@@ -1533,12 +1545,12 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 54020 strings out of 481731
- 1263976 string characters out of 5935437
+ 54030 strings out of 481731
+ 1264326 string characters out of 5935437
  2190775 words of memory out of 5000000
- 70140 multiletter control sequences out of 15000+600000
+ 70147 multiletter control sequences out of 15000+600000
  546095 words of font info for 123 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  82i,17n,138p,2818b,3775s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (32 pages, 489976 bytes).
+Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (32 pages, 490204 bytes).
