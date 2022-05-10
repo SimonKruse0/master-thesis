@@ -14,9 +14,10 @@
 \BOOKMARK [0][]{chapter.0.5}{5\040Inference:\040Prediction\040and\040learning}{}% 14
 \BOOKMARK [1][]{section.0.5.1}{5.1\040Exact\040and\040approximate\040inference}{chapter.0.5}% 15
 \BOOKMARK [1][]{section.0.5.2}{5.2\040SPN}{chapter.0.5}% 16
-\BOOKMARK [1][]{section.0.5.3}{5.3\040Gaussian\040Mixture\040Regression}{chapter.0.5}% 17
-\BOOKMARK [1][]{section.0.5.4}{5.4\040Gaussian\040Process\040Regression}{chapter.0.5}% 18
-\BOOKMARK [1][]{section.0.5.5}{5.5\040Deep\040Network\040Global\040Optimization\040-\040?}{chapter.0.5}% 19
-\BOOKMARK [1][]{section.0.5.6}{5.6\040Bayesian\040Neural\040Networks}{chapter.0.5}% 20
-\BOOKMARK [1][]{section.0.5.7}{5.7\040Appendix\040-\040SPN}{chapter.0.5}% 21
-\BOOKMARK [0][]{chapter.0.6}{6\040Results}{}% 22
+\BOOKMARK [1][]{section.0.5.3}{5.3\040Expectation-maximization\040for\040mixture\040models}{chapter.0.5}% 17
+\BOOKMARK [1][]{section.0.5.4}{5.4\040Gaussian\040Mixture\040Regression}{chapter.0.5}% 18
+\BOOKMARK [1][]{section.0.5.5}{5.5\040Gaussian\040Process\040Regression}{chapter.0.5}% 19
+\BOOKMARK [1][]{section.0.5.6}{5.6\040Deep\040Network\040Global\040Optimization\040-\040?}{chapter.0.5}% 20
+\BOOKMARK [1][]{section.0.5.7}{5.7\040Bayesian\040Neural\040Networks}{chapter.0.5}% 21
+\BOOKMARK [1][]{section.0.5.8}{5.8\040Appendix\040-\040SPN}{chapter.0.5}% 22
+\BOOKMARK [0][]{chapter.0.6}{6\040Results}{}% 23
