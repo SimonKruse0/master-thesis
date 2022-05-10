@@ -54,6 +54,6 @@ ax1.grid(False)
 ax1.set_xticklabels([])
 ax1.set_yticklabels([])
 
-#plt.show()
-path = "/home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures"
-plt.savefig(f'{path}/mixture_predictive_bayesian.eps', bbox_inches='tight',format='eps')
+plt.show()
+#path = "/home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures"
+#plt.savefig(f'{path}/mixture_predictive_bayesian.eps', bbox_inches='tight',format='eps')

@@ -89,6 +89,9 @@ class PlottingClass:
         ax2 = plt.subplot(gs[1])
         self.plot_regression_gaussian_approx(ax1,opt.Xgrid, show_name = show_name)
         self.plot_regression_credible_interval(ax1,opt.Xgrid)
+        X_true =  np.linspace(*self.bounds,10000)
+        Y_true = self.obj_fun(X_true)
+        ax1.plot(X_true, Y_true, "-", color="green")
         self.plot_expected_improvement(ax2,opt)
 
     def plot_2d(self, opt, plot_obj = False, fig_name = "hej"):
@@ -212,7 +215,7 @@ class RegressionValidation(PlottingClass):
         fig, ax = plt.subplots()
         self.plot_regression_gaussian_approx(ax, np.linspace(*self.bounds[0], 200)[:,None], show_name=True)
         ax.plot(self.test_X, self.test_y, ".", color="blue")
-        ax.plot(self._X,self._Y,".", marker="o", markersize=5, color="yellow")
+        ax.plot(self._X,self._Y,'.', markersize=10, color="yellow")
         time = datetime.today().strftime('%Y-%m-%d-%H_%M')
         n_train = self.train_X.shape[0]
         filename_png = f"{self.model.name}_{self.problem_name}_dim_{self.problem_size}_seed_{self.seednr}_time_{time}_n_{n_train}.png"

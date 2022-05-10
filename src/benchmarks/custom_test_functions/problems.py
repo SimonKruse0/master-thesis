@@ -21,10 +21,12 @@ class SimonsTest4_cosine_fuction(Benchmark):
         self.change_dimensionality = True
 
     def fun(self,x, *args):
-        if sin(x/10)>0.9:
-            k = np.round(x)
-        else:
-            k = -np.round(x)
+        k = np.sign((sin(x/10)>0.9)-0.5)*np.round(x)
+
+        # if sin(x[0]/10)>0.9:
+        #     k = np.round(x)
+        # else:
+        #     k = -np.round(x)
 
         self.nfev += 1
         return x*sin(k*x/100)+k

@@ -8,26 +8,31 @@ import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 
 from src.utils import PlottingClass, OptimizationStruct, uniform_grid
-from src.regression_models.numpyro_neural_network import NumpyroNeuralNetwork #JAX
-from src.regression_models.gaussian_process_regression import GaussianProcess_sklearn, GaussianProcess_pyro
-from src.regression_models.bohamiann import BOHAMIANN #Torch
-from src.regression_models.gaussian_mixture_regression2 import GMRegression
-from src.regression_models.SPN_regression2 import SumProductNetworkRegression
-from src.regression_models.mean_regression import MeanRegression
-from src.benchmark_problems import SimonsTest3_cosine_fuction
+
+if __name__=="__main__":
+    from src.regression_models.numpyro_neural_network import NumpyroNeuralNetwork #JAX
+    from src.regression_models.gaussian_process_regression import GaussianProcess_sklearn, GaussianProcess_pyro
+    from src.regression_models.bohamiann import BOHAMIANN #Torch
+    from src.regression_models.gaussian_mixture_regression2 import GMRegression
+    from src.regression_models.SPN_regression2 import SumProductNetworkRegression
+    from src.regression_models.mean_regression import MeanRegression
+    from src.benchmarks.custom_test_functions import SimonsTest3_cosine_fuction
 
 PLOT_NR = 0
 
 class BayesianOptimization(PlottingClass):
-    def __init__(self, objectivefunction, regression_model,bounds, X_init,Y_init) -> None:
+    def __init__(self, problem, regression_model, X_init,Y_init) -> None:
         super().__init__() #initalize plotting functions
-        self.obj_fun = objectivefunction
+        self.problem_name = type(problem).__name__
+        self.problem_size = problem.N
+        self.bounds = problem.bounds[0] #OBS problem if higher dim have different bounds?
+        self.obj_fun = lambda x: problem.fun(x)
         self.model = regression_model
         assert X_init.shape[0] == Y_init.shape[0]
         self._X = X_init #OBS: should X be stored here or in the model?!
         self._Y = Y_init
         self.f_best = np.min(Y_init) # incumbent np.min(Y) or np.min(E[Y]) ?? BOHAMIANN does this
-        self.bounds = bounds
+        #self.bounds = bounds
         self.n_initial_points , self.nX = X_init.shape
         self.opt: OptimizationStruct = None
         self.fig_folder = None

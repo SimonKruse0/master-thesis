@@ -22,7 +22,7 @@ class GMM_bayesian(GMM):
                 print(f"Points tested {100*i/X_test.shape[0]:0.1f}%", end="\r")
             conditional_gmm = self.condition(x)
             p_x = self.marginalize(x) #probability of data at the x. 
-            Ndx = 1e-6
+            Ndx = 1
             sig_prior = 1
 
             m_pred = (p_x*n_data*conditional_gmm.mean() + Ndx*0)/(n_data*p_x+Ndx)
@@ -122,10 +122,10 @@ def _safe_probability_density(norm_factors, exponents):
     return p
 
 class GMRegression():
-    def __init__(self,component_variance = 1e-3, manipulate_variance = True) -> None:
+    def __init__(self,component_variance = 1e-2, manipulate_variance = True) -> None:
         self.model = None
         self.name = "Gaussian Mixture Regression"
-        self.params = ""
+        
         self.component_variance = component_variance
         self.manipulate_variance = manipulate_variance
 
@@ -139,6 +139,7 @@ class GMRegression():
         self.model = GMM_bayesian(
         n_components=N, priors=np.repeat(1/N, N), means=XY_train,
         covariances=np.repeat([np.eye(nXY)*self.component_variance], N, axis=0))
+        self.params = f"component_variance = {self.component_variance}, manipulate_variance = {self.manipulate_variance}"
 
     def predict(self,X_test, CI=[0.05,0.95]):
         #print(X_test.shape)

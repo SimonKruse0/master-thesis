@@ -51,7 +51,7 @@ class SumProductNetworkRegression(BaseEstimator):
         self.tracks = tracks
         self.channels = channels
         # Define prior conditional p(y|x)
-        self.prior_settings = prior_settings#{"Ndx": 1,"sig_prior":0.5}
+        self.prior_settings = prior_settings#
         self.manipulate_variance = manipulate_variance
         self.optimize_hyperparams = optimize
         self.opt_n_iter, self.opt_cv = opt_n_iter, opt_cv
@@ -125,8 +125,10 @@ class SumProductNetworkRegression(BaseEstimator):
         print(f"-- stopped training -- max iterations = {self.epochs}")
         self.params = f"sig_x = InvGa({self.alpha0_x:0.0f},{self.beta0_x:0.1e})"
         self.params += f", sig_y =InvGa({self.alpha0_y:0.0f},{self.beta0_y:0.1e})"
-        self.params += f",\n manipulate_variance={self.manipulate_variance}, SPN(ch={self.channels}, tr={self.tracks})"
-
+        self.params += f",\n manipulate_variance={self.manipulate_variance}, channels={self.channels}, tracks={self.tracks}"
+        Ndx = self.prior_settings["Ndx"]
+        sig_prior = self.prior_settings["sig_prior"]
+        self.params += f",\n likelihood:prior weight = p(x){self.N/Ndx}:1,\nprior_std= {sig_prior}"
         if show_plot:
             fig, ax = plt.subplots()
             self.plot(ax)
@@ -158,7 +160,8 @@ class SumProductNetworkRegression(BaseEstimator):
         out["tracks"] = self.tracks
         out["channels"] = self.channels 
         out["manipulate_variance"] = self.manipulate_variance 
-        #out["optimize"] = self.optimize_hyperparams
+        out["prior_settings"] = self.prior_settings
+        #out["optimize"] = self.optimize_hyperparams #gets into trouble with the CV code
         return out
 
     def _optimize(self, X, y):
@@ -259,7 +262,7 @@ class SumProductNetworkRegression(BaseEstimator):
             p_prior_y = norm(0, sqrt(sig_prior)).pdf(y_grid)
             print((p_prior_y[None, :]).shape)
             p_predictive = (N*p_xy + Ndx*p_prior_y[None, :]) / (N*p_x[:, None] + Ndx)
-        return p_predictive, mean
+        return p_predictive, mean, p_x
 
     def y_gradient(self,y_grid):
         y_grid, *_ = normalize(y_grid, self.y_mean, self.y_std)
@@ -271,7 +274,7 @@ class SumProductNetworkRegression(BaseEstimator):
         x_grid = torch.linspace(*xbounds, self.x_res, dtype=torch.float)
         y_grid = torch.linspace(*ybounds, self.y_res,dtype=torch.float)
 
-        p_predictive, mean = self._bayesian_conditional_pdf(x_grid,y_grid)
+        p_predictive, mean, p_x = self._bayesian_conditional_pdf(x_grid,y_grid)
 
 
 
@@ -302,9 +305,17 @@ class SumProductNetworkRegression(BaseEstimator):
             vmin=-5, vmax=1
         )  # , vmin=-3, vmax=1)
         ax.contour(hpr.T, levels=1, extent=extent )
-        mean = self.predict(x_grid[:,None], only_mean = True)
+        #mean = self.predict(x_grid[:,None], only_mean = True)
         if mean is not None:
-            ax.plot(x_grid,mean)
+            ax.plot(x_grid,mean,"--", color="red")
+        if p_x is not None:
+            ax1 = ax.twinx()  # instantiate a second axes that shares the same x-axis
+            color = 'tab:green'
+            ax1.plot(x_grid, p_x.detach().numpy(), color = color)
+            ax1.set_ylabel('p(x)', color=color)
+            ax1.set_ylim(0,30)
+            ax1.grid(color=color, alpha = 0.2)
+            ax1.tick_params(axis='y', labelcolor=color)
 
 def obj_fun(x): 
     return 0.5 * (np.sign(x-0.5) + 1)+np.sin(100*x)*0.1
