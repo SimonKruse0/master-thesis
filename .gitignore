@@ -1,4 +1,5 @@
 data
+src.egg-info
 figures
 figures2d
 __pycache__/benchmark_problems.cpython-38.pyc
