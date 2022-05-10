@@ -1,7 +1,7 @@
 
 from src.regression_models.SPN_regression2 import SumProductNetworkRegression
 from src.regression_models.naive_GMR import NaiveGMRegression
-from src.regression_models.gaussian_mixture_regression2 import GMRegression
+#from src.regression_models.gaussian_mixture_regression2 import GMRegression
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -11,14 +11,14 @@ def obj_fun(x):
 
 bounds = [0,100]
 #datasize = int(input("Enter number of datapoints: "))
-datasize = 5
+datasize = 10
 np.random.seed(20)
 X =  np.random.uniform(*bounds,size = (datasize,1))
 Y = obj_fun(X)
 y = Y
 
-prior_settings={ "Ndx": 0.1,"sig_prior": 1}
-mixture_regression = NaiveGMRegression()
+prior_settings={ "Ndx": 0.1,"v_prior": 1}
+mixture_regression = NaiveGMRegression(optimize=False, opt_n_iter=10, prior_settings = prior_settings)
 # mixture_regression = SumProductNetworkRegression(
 #                     tracks=5,
 #                     channels = 50, train_epochs= 1000,

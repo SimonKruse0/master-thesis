@@ -141,7 +141,6 @@ class SumProductNetworkRegression(BaseEstimator):
             ax.plot(X, Y, "*")
             plt.show()
 
-    
     def score(self, X_test, y_test):
         m_pred, sd_pred, _ = self.predict(X_test)
         Z_pred = (y_test-m_pred)/sd_pred #std. normal distributed. 
@@ -165,7 +164,6 @@ class SumProductNetworkRegression(BaseEstimator):
         return out
 
     def _optimize(self, X, y):
-        self.optimize_flag = False
         #OBS! BayesSearchCV only look at the init params! if they are not decleared in params!
         opt = BayesSearchCV(
             self,
@@ -182,11 +180,11 @@ class SumProductNetworkRegression(BaseEstimator):
         print(" ")
         print(f"best score = {opt.best_score_}")
         print("best params",opt.best_params_)
-        #self = opt.best_estimator_.copy()
+
         self.__dict__.update(opt.best_estimator_.__dict__)
-        self.optimize_hyperparams = True
         #self.set_params(**opt.best_estimator_.get_params())
-        # self.fit(X,y)
+        # self.fit(X,y) #Not nessesary done by opt.fit
+        self.optimize_hyperparams = True
         
 
     def predict(self,X_test, only_mean = False):

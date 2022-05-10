@@ -3,7 +3,8 @@ from scipy.stats import multivariate_normal
 from scipy.stats import norm
 from src.utils import normalize, denormalize
 from math import sqrt
-
+from skopt import BayesSearchCV
+from sklearn.base import BaseEstimator
 class naive_GMR:
     #GMM_regression with NO correlation
     def p_xy(self,x,y):
@@ -41,16 +42,28 @@ class naive_GMR:
         E2_predictive = np.dot(p_x_all, E_y2_all.T)/self.p_x(X_test, p_x_all=p_x_all)*self.prior
         return E2_predictive
 
-class NaiveGMRegression(naive_GMR):
-    def __init__(self,component_variance = 5e-2, manipulate_variance = True) -> None:
+class NaiveGMRegression(naive_GMR, BaseEstimator):
+    def __init__(self,x_component_std = 5e-2,
+                    y_component_std= 5e-2, 
+                    prior_settings = {"Ndx": 1,"v_prior":5},
+                    manipulate_variance = True, 
+                    optimize=False, opt_n_iter=10, opt_cv = 3
+                    ):
         self.model = None
         self.name = "Gaussian Mixture Regression"
-        self.params = ""
-        self.x_component_std = component_variance
-        self.y_component_std = component_variance
+        self.x_component_std = x_component_std
+        self.y_component_std = y_component_std
+        self.prior_settings = prior_settings
         self.manipulate_variance = manipulate_variance
+        self.optimize_hyperparams = optimize
+        self.opt_n_iter, self.opt_cv = opt_n_iter, opt_cv
 
     def fit(self, X, Y):
+        if self.optimize_hyperparams:
+            self._optimize(X,Y)
+            print("-- Fitted with optimized hyperparams --")
+            return
+
         self.N, self.nX = X.shape
         #nXY = self.nX+1        
         self.n_components = self.N
@@ -59,11 +72,49 @@ class NaiveGMRegression(naive_GMR):
         Y, self.y_mean, self.y_std = normalize(Y)
         self.means = np.column_stack((X, Y))
         self.prior = 1/self.n_components
+        self.params = f"x_k_std = {self.x_component_std}, y_k_std= {self.x_component_std}"
 
+    def score(self, X_test, y_test):
+        m_pred, sd_pred, _ = self.predict(X_test)
+        Z_pred = (y_test-m_pred)/sd_pred #std. normal distributed. 
+        score = np.mean(norm.pdf(Z_pred))
+        print(f"mean pred likelihood = {score:0.3f}")
+        return score
+
+    def _optimize(self, X, y):
+        #OBS! BayesSearchCV only look at the init params! if they are not decleared in params!
+        opt = BayesSearchCV(
+            self,
+            {
+                'x_component_std': (5e-2, 1e-1, 'uniform'),
+                'y_component_std': (5e-2, 1e-1, 'uniform'),
+            },
+            n_iter=self.opt_n_iter,
+            cv=self.opt_cv
+        )
+        opt.fit(X, y)
+        print(" ")
+        print(f"best score = {opt.best_score_}")
+        print("best params",opt.best_params_)
+
+        self.__dict__.update(opt.best_estimator_.__dict__)
+        #self.set_params(**opt.best_estimator_.get_params())
+        # self.fit(X,y) #Not nessesary done by opt.fit
+        self.optimize_hyperparams = True
+
+    def get_params(self, deep=False):
+        out = dict()      
+        out["x_component_std"] = self.x_component_std
+        out["y_component_std"] = self.y_component_std
+        out["manipulate_variance"] = self.manipulate_variance 
+        out["prior_settings"] = self.prior_settings
+        #out["optimize"] = self.optimize_hyperparams #gets into trouble with the CV code
+        return out
+        
     def predict(self, X_test):
         X_test,*_ = normalize(X_test,self.x_mean, self.x_std)
-        v_prior = 1
-        Ndx = 0.1
+        Ndx = self.prior_settings["Ndx"]
+        v_prior = self.prior_settings["v_prior"]
 
         # likelihood
         m_pred = self.E_predictive(X_test)
@@ -89,8 +140,8 @@ class NaiveGMRegression(naive_GMR):
         y_grid, *_ = normalize(y_grid, self.y_mean, self.y_std)
 
         x_res, y_res = x_grid.shape[0], y_grid.shape[0]
-        sig_prior = 1#self.prior_settings["sig_prior"]
-        Ndx = 0.1#self.prior_settings["Ndx"]
+        Ndx = self.prior_settings["Ndx"]
+        v_prior = self.prior_settings["v_prior"]
         N = self.N
 
 
@@ -98,7 +149,7 @@ class NaiveGMRegression(naive_GMR):
         p_xy = self.p_xy(X, Y)
         p_x = self.p_x(x_grid[:,None])
 
-        p_prior_y = norm(0, sqrt(sig_prior)).pdf(y_grid)
+        p_prior_y = norm(0, v_prior).pdf(y_grid)
         p_predictive = (N*p_xy + Ndx*p_prior_y[None, :]) / (N*p_x[:, None] + Ndx)
         return p_predictive, p_x
 
