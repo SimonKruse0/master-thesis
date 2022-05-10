@@ -10,11 +10,11 @@ import random
 import numpy as np
 from src.utils import RegressionValidation
 
-from src.benchmark_problems import SimonsTest
-from src.go_benchmark_functions.go_funcs_S import Step, Step2, Schwefel26
-from src.go_benchmark_functions.go_funcs_R import Rastrigin, Rosenbrock
-from src.go_benchmark_functions.go_funcs_W import Weierstrass
-from src.go_benchmark_functions.go_funcs_K import Katsuura
+from src.benchmarks.custom_test_functions.problems import SimonsTest,SimonsTest3_cosine_fuction, SimonsTest4_cosine_fuction
+from src.benchmarks.go_benchmark_functions.go_funcs_S import Step, Step2, Schwefel26
+from src.benchmarks.go_benchmark_functions.go_funcs_R import Rastrigin, Rosenbrock
+from src.benchmarks.go_benchmark_functions.go_funcs_W import Weierstrass
+from src.benchmarks.go_benchmark_functions.go_funcs_K import Katsuura
 
 #from src.analysis_helpers import include_true_values
 
@@ -32,7 +32,7 @@ problems += [Weierstrass(dimensions = x) for x in dims]
 problems += [Schwefel26(dimensions = x) for x in dims]
 #problems += [Rosenbrock(dimensions = x) for x in dims]
 
-#problems = [SimonsTest()]
+problems = [SimonsTest4_cosine_fuction()]
 
 random.seed()
 random.shuffle(problems)
@@ -47,11 +47,11 @@ NNN_regression = NumpyroNeuralNetwork(num_chains = 4, num_warmup= 2000, num_samp
 
 regression_models = [BOHAMIANN_regression_fast,BOHAMIANN_regression,BOHAMIANN_regression_slow,NNN_regression_fast]#, NNN_regression]
 regression_models += [MeanRegression()]
-regression_models += [GaussianProcess_sklearn()]
 regression_models += [GMRegression()] #Gaussian Mixture
 random.shuffle(regression_models)
 #regression_models = [MeanRegression()]
-regression_models = [SumProductNetworkRegression()]
+regression_models = [GaussianProcess_sklearn()]
+regression_models = [SumProductNetworkRegression(manipulate_variance=False, optimize=False, tracks=1, channels=20)]
 ## Data enrichment ##
 #include_true_values(problems, remove_min_n_test=True)
 
@@ -72,29 +72,29 @@ regression_models = [SumProductNetworkRegression()]
 ### main ###
 n_train_array = [int(x) for x in np.logspace(1, 2.5, 9)]
 n_train_array = [10]
+n_train_array = [10,20,30]
 #n_train_array = [int(x) for x in np.logspace(1, 1.8, 9)]
 n_test = 1000#10000
 
 run_name = datetime.today().strftime('%m%d_%H%M')
+dirname=os.path.dirname
 
-path = os.path.join(os.path.dirname(os.path.abspath(__file__)),f"data/{run_name}")
+path = os.path.join(dirname(dirname(dirname(os.path.abspath(__file__)))),f"data/{run_name}")
 try:
     os.mkdir(path)
 except:
     print(f"Couldn't create {path}")
 
-for n_train_array in [10,20,30]:
-    n_train_array = [n_train_array]
-    np.random.seed()
-    for problem in problems:
-        for random_seed in np.random.randint(9999, size=1):
-            for regression_model in regression_models:
-                #try:
-                print(regression_model.name, f"{type(problem).__name__} in dim {problem.N}")
-                RV = RegressionValidation(problem, regression_model, random_seed)
-                RV.train_test_loop(n_train_array, n_test,path =  f"{path}")
-                RV.save_regression_validation_results(f"{path}")
-                # except:
-                #     print(f"ERROR: Could not train {regression_model.name} on {type(problem).__name__} in dim {problem.N}")
+np.random.seed()
+for problem in problems:
+    for random_seed in np.random.randint(9999, size=1):
+        for regression_model in regression_models:
+            #try:
+            print(regression_model.name, f"{type(problem).__name__} in dim {problem.N}")
+            RV = RegressionValidation(problem, regression_model, random_seed)
+            RV.train_test_loop(n_train_array, n_test,path =  f"{path}")
+            RV.save_regression_validation_results(f"{path}")
+            # except:
+            #     print(f"ERROR: Could not train {regression_model.name} on {type(problem).__name__} in dim {problem.N}")
 
 

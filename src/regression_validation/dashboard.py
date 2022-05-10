@@ -4,7 +4,7 @@ import plotly.graph_objects as go
 import dash_core_components as dcc
 import plotly.express as px
 from dash.dependencies import Input, Output
-from src.analysis_helpers import get_data2, get_names
+from src.regression_validation.analysis_helpers import get_data2, get_names
 import numpy as np
 
 

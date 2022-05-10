@@ -4,10 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
-if __name__ == "__main__":
-    from utils import RegressionValidation
-else:
-    from .utils import RegressionValidation
+from src.utils import RegressionValidation
 
 BASE_DIRECTORY = '/home/simon/Documents/MasterThesis/master-thesis'
 

@@ -34,7 +34,7 @@ def denormalize(X_normalized, mean, std):
 class SumProductNetworkRegression(BaseEstimator):
     def __init__(self,
                 tracks=4, channels=100,
-                manipulate_varance = True
+                manipulate_variance = True
                 , train_epochs = 500,
                 alpha0_x=10,alpha0_y=10, 
                 beta0_x = 0.01,beta0_y = 0.01, 
@@ -47,14 +47,15 @@ class SumProductNetworkRegression(BaseEstimator):
         self.beta0_x = beta0_x
         self.beta0_y = beta0_y
         self.name = "SPN regression"
-        self.params = f"tracks = {tracks}, channels = {channels}"
+        #self.params = f"manipulate_variance = {manipulate_variance}, optimize = {optimize}, tracks = {tracks}, channels = {channels}"
         self.tracks = tracks
         self.channels = channels
         # Define prior conditional p(y|x)
         self.prior_settings = prior_settings#{"Ndx": 1,"sig_prior":0.5}
-        self.manipulate_varance = manipulate_varance
+        self.manipulate_variance = manipulate_variance
         self.optimize_hyperparams = optimize
         self.opt_n_iter, self.opt_cv = opt_n_iter, opt_cv
+        #self.optimize_flag = False
         
     
     # def _train_all_parmeters(self):
@@ -122,6 +123,9 @@ class SumProductNetworkRegression(BaseEstimator):
             else:
                 logp_tmp = logp
         print(f"-- stopped training -- max iterations = {self.epochs}")
+        self.params = f"sig_x = InvGa({self.alpha0_x:0.0f},{self.beta0_x:0.1e})"
+        self.params += f", sig_y =InvGa({self.alpha0_y:0.0f},{self.beta0_y:0.1e})"
+        self.params += f",\n manipulate_variance={self.manipulate_variance}, SPN(ch={self.channels}, tr={self.tracks})"
 
         if show_plot:
             fig, ax = plt.subplots()
@@ -153,10 +157,13 @@ class SumProductNetworkRegression(BaseEstimator):
         out["train_epochs"] = self.epochs
         out["tracks"] = self.tracks
         out["channels"] = self.channels 
-        out["manipulate_varance"] = self.manipulate_varance
+        out["manipulate_variance"] = self.manipulate_variance 
+        #out["optimize"] = self.optimize_hyperparams
         return out
 
     def _optimize(self, X, y):
+        self.optimize_flag = False
+        #OBS! BayesSearchCV only look at the init params! if they are not decleared in params!
         opt = BayesSearchCV(
             self,
             {
@@ -174,6 +181,7 @@ class SumProductNetworkRegression(BaseEstimator):
         print("best params",opt.best_params_)
         #self = opt.best_estimator_.copy()
         self.__dict__.update(opt.best_estimator_.__dict__)
+        self.optimize_hyperparams = True
         #self.set_params(**opt.best_estimator_.get_params())
         # self.fit(X,y)
         
@@ -204,7 +212,7 @@ class SumProductNetworkRegression(BaseEstimator):
                 #         ** 2) + Ndx*sig_prior)/(self.N*p_x+Ndx) - m_pred**2
 
                 #v_pred2 = v_pred.clone()
-                if self.manipulate_varance:
+                if self.manipulate_variance:
                     v_pred /= torch.clamp(p_x*50, 1,40)
                 #std_pred2 = torch.sqrt(v_pred2)
                 std_pred = torch.sqrt(v_pred)
@@ -312,7 +320,7 @@ if __name__ == "__main__":
     SPN_regression = SumProductNetworkRegression(
                     tracks=5,
                     channels = 50, train_epochs= 1000,
-                    manipulate_varance = True)
+                    manipulate_variance = True)
     SPN_regression.fit(X_sample, Y_sample.squeeze())
     
     fig, ax = plt.subplots()

@@ -28,4 +28,4 @@
 #BSUB -e hpc_files/Error_%J.err 
 
 # here follow the commands you want to execute 
-/zhome/17/6/118138/master-thesis/env/bin/python /zhome/17/6/118138/master-thesis/regression_validation.py
+/zhome/17/6/118138/master-thesis/env/bin/python /zhome/17/6/118138/master-thesis/src/regression_validation/regression_validation.py

@@ -44,14 +44,14 @@ class PlottingClass:
         #Xgrid = np.linspace(*self.bounds[0], num_grid_points)
         Ymu, Ysigma = self.predict(Xgrid)
 
-        ax.plot(self._X,self._Y, "kx")  # plot all observed data
+        ax.plot(self._X,self._Y, "kx", lw=2)  # plot all observed data
         ax.plot(Xgrid, Ymu, "red", lw=2)  # plot predictive mean
         ax.fill_between(Xgrid.squeeze(), Ymu - 2*Ysigma, Ymu + 2*Ysigma,
                         color="C0", alpha=0.3, label=r"$E[y]\pm 2  \sqrt{Var[y]}$")  # plot uncertainty intervals
         ax.set_xlim(*self.bounds)
-        ax.set_ylim(-0.7+np.min(self._Y), 0.5+0.7+np.max(self._Y))
+        #ax.set_ylim(-0.7+np.min(self._Y), 0.5+0.7+np.max(self._Y))
         if show_name:
-            ax.set_title(self.model.name)
+            ax.set_title(f"{self.model.name}({self.model.params})")
         else:
             #ax.set_title(self.model.latex_architecture)
             pass
@@ -212,8 +212,10 @@ class RegressionValidation(PlottingClass):
         fig, ax = plt.subplots()
         self.plot_regression_gaussian_approx(ax, np.linspace(*self.bounds[0], 200)[:,None], show_name=True)
         ax.plot(self.test_X, self.test_y, ".", color="blue")
+        ax.plot(self._X,self._Y,".", marker="o", markersize=5, color="yellow")
         time = datetime.today().strftime('%Y-%m-%d-%H_%M')
-        filename_png = f"{self.model.name}_{self.problem_name}_dim_{self.problem_size}_seed_{self.seednr}_time_{time}.png"
+        n_train = self.train_X.shape[0]
+        filename_png = f"{self.model.name}_{self.problem_name}_dim_{self.problem_size}_seed_{self.seednr}_time_{time}_n_{n_train}.png"
         plt.savefig(os.path.join(output_path, filename_png))
 
 

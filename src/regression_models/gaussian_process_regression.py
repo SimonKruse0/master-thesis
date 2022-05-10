@@ -28,7 +28,7 @@ class GaussianProcess_sklearn:
 
     def fit(self, X,Y):
         self.model.fit(X,Y)
-        self.params = f"noise = {self.model.get_params()}, only 1 dim params!"
+        self.params = f"noise = {self.model.alpha:0.2e}, length_scale = {self.model.kernel_.length_scale:0.2f}"
     
     def predict(self, X_test):
         mu, sigma = self.model.predict(X_test, return_std=True)

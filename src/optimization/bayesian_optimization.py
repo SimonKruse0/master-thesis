@@ -14,6 +14,7 @@ from src.regression_models.bohamiann import BOHAMIANN #Torch
 from src.regression_models.gaussian_mixture_regression2 import GMRegression
 from src.regression_models.SPN_regression2 import SumProductNetworkRegression
 from src.regression_models.mean_regression import MeanRegression
+from src.benchmark_problems import SimonsTest3_cosine_fuction
 
 PLOT_NR = 0
 

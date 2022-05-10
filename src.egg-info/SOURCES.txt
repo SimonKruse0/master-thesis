@@ -1,12 +1,6 @@
 README.md
 setup.py
 src/__init__.py
-src/analysis_helpers.py
-src/benchmark_class.py
-src/benchmark_problems.py
-src/common.py
-src/mixture_regression_test.py
-src/test_hyperparameter_search.py
 src/utils.py
 src.egg-info/PKG-INFO
 src.egg-info/SOURCES.txt
