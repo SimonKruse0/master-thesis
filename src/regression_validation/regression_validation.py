@@ -74,7 +74,7 @@ n_train_array = [int(x) for x in np.logspace(1, 2.5, 9)]
 # n_train_array = [10]
 # n_train_array = [10,20,30]
 #n_train_array = [int(x) for x in np.logspace(1, 1.8, 9)]
-n_test = 1000#10000
+n_test = 10000
 
 run_name = datetime.today().strftime('%m%d_%H%M')
 dirname=os.path.dirname
