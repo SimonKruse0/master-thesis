@@ -479,9 +479,8 @@ INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmr17.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmr17.tfm
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/Logos/white_cmyk.pdf
 OUTPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/main.toc
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/main.toc
-OUTPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/main.toc
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Copyright.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Copyright.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/Text/00_introduction.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/Text/00_introduction.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/Text/01_optimization.tex

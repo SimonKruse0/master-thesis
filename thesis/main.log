@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  10 MAY 2022 23:15
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  11 MAY 2022 09:40
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1388,17 +1388,10 @@ File: Pictures/Logos/white_cmyk.pdf Graphic file (type pdf)
  [2
 
 
-] (/home/simon/Documents/MasterThesis/master-thesis/thesis/main.toc)
-\tf@toc=\write8
-\openout8 = `main.toc'.
-
- [3
-
-] [4
-
-] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/Text/00_introduction.tex
+] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Copyright.tex) [1] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/Text/00_introduction.tex
 Chapter 1.
 ) [1
+
 
 ] [2
 
@@ -1415,6 +1408,7 @@ LaTeX Warning: Citation 'bayesoptbook' on page 3 undefined on input line 34.
 LaTeX Warning: Citation 'bayesoptbook' on page 3 undefined on input line 34.
 
 [3
+
 
 ]
 File: Pictures/DTU_stock_photo.jpg Graphic file (type bmp)
@@ -1530,11 +1524,11 @@ LaTeX Warning: Citation 'NIPS2016_a96d3afe' on page 30 undefined on input line 1
 
 
 ]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 69.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 69.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 64.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 64.
  (/home/simon/Documents/MasterThesis/master-thesis/thesis/main.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 69.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 69.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 64.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 64.
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 551F9E424D54455714378EC0D92DAF97;1984.
 
@@ -1554,12 +1548,12 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 54034 strings out of 481731
- 1264371 string characters out of 5935437
- 2191026 words of memory out of 5000000
- 70151 multiletter control sequences out of 15000+600000
+ 54039 strings out of 481731
+ 1264499 string characters out of 5935437
+ 2192044 words of memory out of 5000000
+ 70156 multiletter control sequences out of 15000+600000
  546095 words of font info for 123 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 82i,17n,138p,2818b,3775s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 82i,17n,138p,2818b,3774s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (34 pages, 511832 bytes).
+Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (33 pages, 510492 bytes).

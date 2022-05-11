@@ -62,6 +62,8 @@ class SumProductNetworkRegression(BaseEstimator):
     #     self.model[0].marginalize = torch.zeros(self.xy_variables , dtype=torch.bool)
 
     def fit(self, X, Y, show_plot=False):
+        if Y.ndim != 2:
+            Y = Y[:,None]
         if self.optimize_hyperparams:
             self._optimize( X, Y)
             print("-- Fitted with optimized hyperparams --")
