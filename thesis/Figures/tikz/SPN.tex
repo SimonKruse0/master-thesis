@@ -1,0 +1,53 @@
+\begin{tikzpicture}
+
+  % Define nodes
+
+   % Define nodes
+   \node[latent] (x4) {${x}_4$};
+   \node[latent, left=of x4] (x3) {${x}_3$};
+   \node[latent, left=of x3] (x2) {${x}_2$};
+    \node[latent, left=of x2] (x1) {${x}_1$};
+    \node[latent, left=of x1] (x0) {${x}_{0}$};
+    
+    \node[latent, below=of x4] (x4_hat){$\hat{{x}}_4$};
+    \node[obs, below=of x3] (x3_hat){$\hat{{x}}_3$};
+    \node[latent, below=of x2] (x2_hat){$\hat{{x}}_2$};
+    \node[latent, below=of x1] (x1_hat){$\hat{{x}}_1$};
+    \node[obs, below=of x0] (x0_hat){$\hat{{x}}_0$};
+    
+    \node[const, below= of x2_hat] (sigma-eps) {$\sigma_\epsilon$};
+    \node[const, above= of x2] (sigma) {$\sigma$};
+
+%   % Connect the nodes
+%    \edge {I-0} {wifi-strength};
+    \edge {x1} {x1_hat} ; %
+    \edge {x0} {x0_hat} ;
+    \edge {x2} {x2_hat} ; %
+    \edge {x3} {x3_hat} ;
+    \edge {x4} {x4_hat} ; %
+    % \edge {a} {sensor-data} ; %
+
+  \edge {x0} {x1} ; %
+  \edge {x1} {x2} ; %
+  \edge {x2} {x3} ; %
+  \edge {x3} {x4} ; %
+  
+  \edge {sigma} {x1} ; %
+  \edge {sigma} {x0}
+    \edge {sigma} {x2} ; %
+  \edge {sigma} {x3}
+    \edge {sigma} {x4} ; %
+
+  \edge {sigma-eps} {x1_hat} ; %
+  \edge {sigma-eps} {x0_hat}
+   \edge {sigma-eps} {x2_hat} ; %
+  \edge {sigma-eps} {x3_hat}
+   \edge {sigma-eps} {x4_hat} ; %
+%    \plate{} {(wifi-location)(wifi-strength)(wifi-sensor)} {$K$}
+%    \plate{} {(x)(x_)(wifi-sensor)(x_hat)} {$T$}
+%    \plate{} {(x1)(x0)(x1_hat)} {$T$}    
+
+%   % Plates
+%   \plate {yx} {(x)(y)} {$N$} ;
+%   \plate {} {(w)(y)(yx.north west)(yx.south west)} {$M$} ;
+\end{tikzpicture}

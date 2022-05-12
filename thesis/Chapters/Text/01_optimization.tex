@@ -80,22 +80,37 @@ available data $\mathcal{D}$. Finaly, a stopping criterion decides whether to co
 \end{testexample}
 
 \begin{testexample}[Surrogate-based optimization]
-    In surrogate-based optimization all available data is utialised
+    In surrogate-based optimization all available data is fitted by a cheap-to-evaluate approximation
+    to the objective function - this approximation is called a \textit{surrogate} model. Examples
+    of surrogate models could be a neural network or a random forest. The next point is 
+    chosen as the point where the surrogate model is minimized. 
     $$\text{policy}_{sur}(\mathcal{D}) = \min_x \hat f(x)$$
-
+    where $\hat f(x) \approx f(x)$ for $x$ close to the data $\mathcal{D}$. And we hope the approximation
+    holds for $x$ far away from the the data. 
 \end{testexample}
 
 \section{When to use Bayesian optmization}
 What if $f(x)$ took serval days to evaluate. What if $f(x)$ is noisy? what if discrete points? 
 <more here>
 
-\begin{figure}[h]
+% \begin{figure}[h]
+%     \centering
+%     \includegraphics[width=0.9\textwidth]{Pictures/BO_vs_Grid2.eps}
+%     \caption{Hyper parameter tuning of a model $M(\lambda, \sigma)$, 
+%     35 evaluation in grid search vs 39 evaluations using Bayesian optimization}
+%     \label{optimhist}
+% \end{figure}
+
+\begin{figure}[H]%
     \centering
-    \includegraphics[width=0.9\textwidth]{Pictures/DTU_stock_photo.jpg}
+    {\includegraphics[width=0.46\textwidth]{Pictures/BO_vs_Grid2.eps} }%
+    \qquad
+   {\includegraphics[width=0.46\textwidth]{Pictures/BO_vs_Grid1.eps} }%
     \caption{Hyper parameter tuning of a model $M(\lambda, \sigma)$, 
-    39 evaluation in grid search vs 39 evaluations using Bayesian optimization}
-    \label{optimhist}
+    23 evaluation in grid search vs 23 evaluations using Bayesian optimization}%
+    \label{fig:example}%
 \end{figure}
+
 
 additionally, Bayesian Optimization allow for observation noise, 
 

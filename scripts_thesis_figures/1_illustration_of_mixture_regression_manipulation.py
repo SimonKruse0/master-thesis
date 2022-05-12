@@ -2,8 +2,6 @@
 import matplotlib.pyplot as plt
 #plt.style.use('seaborn-whitegrid')
 import numpy as np
-from src.regression_models.gaussian_mixture_regression2 import GMRegression
-from src.regression_models.SPN_regression2 import SumProductNetworkRegression
 from scipy.stats import multivariate_normal
 import matplotlib as mpl
 mpl.rcParams['lines.linewidth'] = 2
@@ -100,7 +98,7 @@ ax4.set_title(r"$\hat p(y|x)$")
 # plt.colorbar(img2, ax=ax4)
 #plt.show()
 path = "/home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures"
-plt.savefig(f'{path}/mixture_predictive_bayesian2D.eps', bbox_inches='tight',format='eps')
+plt.savefig(f'{path}/mixture_predictive_bayesian2D.pdf', bbox_inches='tight',format='pdf')
 
 
 
