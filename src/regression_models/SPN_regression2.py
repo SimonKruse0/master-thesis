@@ -35,7 +35,7 @@ class SumProductNetworkRegression(BaseEstimator):
     def __init__(self,
                 tracks=4, channels=100,
                 manipulate_variance = True
-                , train_epochs = 500,
+                , train_epochs = 1000,
                 alpha0_x=10,alpha0_y=10, 
                 beta0_x = 0.01,beta0_y = 0.01, 
                 prior_settings = {"Ndx": 1,"sig_prior":5},

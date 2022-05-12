@@ -2,7 +2,7 @@ from skopt import BayesSearchCV
 from sklearn.datasets import load_digits
 from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split
-from regression_models.SPN_regression2 import SumProductNetworkRegression
+from src.regression_models.SPN_regression2 import SumProductNetworkRegression
 from sklearn.datasets import load_iris
 import numpy as np
 def obj_fun(x): 

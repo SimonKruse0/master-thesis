@@ -21,6 +21,12 @@ app.layout = html.Div(id = 'parent', children = [
             inline=True,
             id ="means"
         ),
+        dcc.RadioItems(
+            ['mean_abs_pred_error', 'mean_rel_pred_error'],
+            'mean_abs_pred_error',
+            inline=True,
+            id ="rel_abs"
+        ),
         dcc.Dropdown( id = 'dropdown',
         options = names,
         value = 'Step2_dim_5'),
@@ -62,7 +68,7 @@ def color(name):
     return "black"
 
 def ls(name):
-    if "-" in name:
+    if "-" in name or "mean" in name:
         return "dash"
     else:
         return "solid"
@@ -74,13 +80,15 @@ def ls(name):
                 Output(component_id='data_origin2', component_property = "children")],
               [Input(component_id='dropdown', component_property= 'value', 
               ),Input(component_id='means', component_property= 'value',
+              ),Input(component_id='rel_abs', component_property= 'value',
               )])
-def analysis_regression_performance_plotly(problem, means):
+def analysis_regression_performance_plotly(problem, means, rel_abs):
     print_file_paths = True
     data_list,name_list, problem_name, file_path_list, file_path_list2 = get_data2(problem, use_exact_name=True)
 
+    type = rel_abs
     #type ="mean_abs_pred_error"
-    type ="mean_rel_pred_error"
+    #type ="mean_rel_pred_error"
 
     data2 = dict()
     data3 = dict()

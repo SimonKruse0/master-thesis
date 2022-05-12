@@ -186,7 +186,7 @@ class BayesianOptimization(PlottingClass):
         print(f"-- End of optimization -- best x = {Best_X} with objective y = {Best_Y}")
 
     def get_optimization_hist(self):
-        y_next = None
+        y_next = np.nan
         self._X = np.vstack((self._X, self.opt.x_next))
         self._Y = np.vstack((self._Y, y_next))
         return self._X[self.n_initial_points:], self._Y[self.n_initial_points:]
@@ -202,9 +202,7 @@ class BayesianOptimization(PlottingClass):
     #     data["time_func_eval"] = self.time_func_evals[it]
     #     data["iteration"] = it
 
-    #     json.dump(data, open(os.path.join(self.output_path, "robo_iter_%d.json" % it), "w"))
-def obj_fun(x): 
-    return 0.5 * (np.sign(x-0.5) + 1)+np.sin(100*x)*0.1
+    #     json.dump(data, open(os.path.join(self.outpulikelihood
 
 #import pickle
 

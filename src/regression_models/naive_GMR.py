@@ -5,6 +5,12 @@ from src.utils import normalize, denormalize
 from math import sqrt
 from skopt import BayesSearchCV
 from sklearn.base import BaseEstimator
+from scipy.special import logsumexp
+#logsumexp(a,b)
+#np.log(np.sum(b*np.exp(a))) is returned
+#However in this implementation, 
+# np.log(b*np.sum(np.exp(a))) = np.log(b)+np.log(np.sum(np.exp(a))) #for equal b. 
+
 class naive_GMR:
     #GMM_regression with NO correlation
     def p_xy(self,x,y):
@@ -12,7 +18,7 @@ class naive_GMR:
         assert shape == x.shape
         y = y.flatten()[:,None]
         x = x.flatten()[:,None]
-        p_xy_all=norm.pdf(x, loc = self.means[:,0], scale = self.x_component_std)*norm.pdf(y, loc=self.means[:,1], scale = self.x_component_std) #(xy.len, components)
+        p_xy_all=norm.pdf(x, loc = self.means[:,0], scale = self.x_component_std)*norm.pdf(y, loc=self.means[:,1], scale = self.y_component_std) #(xy.len, components)
         p_xy = np.sum(p_xy_all, axis=1)/self.n_components #same weight on all components. 
         return p_xy.reshape(shape)
         #loop version!
@@ -20,26 +26,33 @@ class naive_GMR:
         # for i in self.n_components:
         #     p_xy +=self.priors[i]*multivariate_normal(self.means[i], self.variances[i]).pdf(x,y)
 
-    def p_x_all(self, x):
+    def lp_x_all(self, x):
         assert x.ndim == 2
-        return norm.pdf(x, loc = self.means[:,0], scale = self.x_component_std)
+        return norm.logpdf(x, loc = self.means[:,0], scale = self.x_component_std)
          
-    def p_x(self,x, p_x_all= None):
-        if p_x_all is None:
-            p_x_all = self.p_x_all(x)
-        p_x = np.sum(p_x_all, axis=1)*self.prior #same weight on all components. 
-        return p_x
+    def lp_x(self,x, lp_x_all= None):
+        if lp_x_all is None:
+            lp_x_all = self.lp_x_all(x)
+        #p_x = np.sum(p_x_all, axis=1)*self.prior #same weight on all components. 
+        lp_x = logsumexp(lp_x_all, axis=1)+np.log(self.prior) #same weight on all components. 
+        return lp_x
 
     def E_predictive(self, X_test): #predictive mean E_{p(y|x)[y]}
         E_y_all =self.means[:,1]
-        p_x_all = self.p_x_all(X_test) #shape = (X_test,N_components)
-        E_predictive = np.dot(p_x_all, E_y_all.T)*self.prior/self.p_x(X_test, p_x_all=p_x_all)
+        lp_x_all = self.lp_x_all(X_test) #shape = (X_test,N_components)
+        lp_x = self.lp_x(X_test, lp_x_all=lp_x_all)
+        a = lp_x_all-lp_x[:,None]
+        E_predictive = np.dot(np.exp(a),E_y_all.T)*self.prior
+        #E_predictive = np.dot(lp_x_all, E_y_all.T)*self.prior/self.p_x(X_test, lp_x_all=lp_x_all)
         return E_predictive
 
     def E2_predictive(self, X_test): #predictive second moment E_{p(y|x)[y^2]}
         E_y2_all =self.means[:,1]**2+self.y_component_std**2 #E[y]²+V[y]
-        p_x_all = self.p_x_all(X_test) #shape = (X_test,N_components)
-        E2_predictive = np.dot(p_x_all, E_y2_all.T)/self.p_x(X_test, p_x_all=p_x_all)*self.prior
+        lp_x_all = self.lp_x_all(X_test) #shape = (X_test,N_components)
+        lp_x = self.lp_x(X_test, lp_x_all=lp_x_all)
+        a = lp_x_all-lp_x[:,None]
+        E2_predictive = np.dot(np.exp(a),E_y2_all.T)*self.prior
+        #E2_predictive = np.dot(p_x_all, E_y2_all.T)/self.p_x(X_test, p_x_all=p_x_all)*self.prior
         return E2_predictive
 
 class NaiveGMRegression(naive_GMR, BaseEstimator):
@@ -72,7 +85,7 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
         Y, self.y_mean, self.y_std = normalize(Y)
         self.means = np.column_stack((X, Y))
         self.prior = 1/self.n_components
-        self.params = f"x_k_std = {self.x_component_std}, y_k_std= {self.x_component_std}"
+        self.params = f"x_k_std = {self.x_component_std}, y_k_std= {self.y_component_std}"
 
     def score(self, X_test, y_test):
         m_pred, sd_pred, _ = self.predict(X_test)
@@ -86,8 +99,8 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
         opt = BayesSearchCV(
             self,
             {
-                'x_component_std': (5e-2, 1e-1, 'uniform'),
-                'y_component_std': (5e-2, 1e-1, 'uniform'),
+                'x_component_std': (1e-3, 3e-1, 'uniform'),
+                'y_component_std': (1e-3, 3e-1, 'uniform'),
             },
             n_iter=self.opt_n_iter,
             cv=self.opt_cv
@@ -122,7 +135,7 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
         v_pred = E2_pred-m_pred**2 #Var[x] = Ex²-(Ex)²
         
         # evidens
-        p_x = self.p_x(X_test)
+        p_x = np.exp(self.lp_x(X_test))
 
         # posterior 
         m_pred_bayes = (self.N*p_x*m_pred + Ndx*0)/(self.N*p_x+Ndx)
@@ -147,9 +160,9 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
 
         X, Y = np.meshgrid(x_grid, y_grid, indexing="ij")
         p_xy = self.p_xy(X, Y)
-        p_x = self.p_x(x_grid[:,None])
+        p_x = np.exp(self.lp_x(x_grid[:,None]))
 
-        p_prior_y = norm(0, v_prior).pdf(y_grid)
+        p_prior_y = norm(0, np.sqrt(v_prior)).pdf(y_grid)
         p_predictive = (N*p_xy + Ndx*p_prior_y[None, :]) / (N*p_x[:, None] + Ndx)
         return p_predictive, p_x
 

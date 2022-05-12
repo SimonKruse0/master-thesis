@@ -6,7 +6,8 @@ from src.optimization.bayesian_optimization import BayesianOptimization
 from src.regression_models.SPN_regression2 import SumProductNetworkRegression
 from src.regression_models.gaussian_process_regression import GaussianProcess_sklearn
 from src.regression_models.numpyro_neural_network import NumpyroNeuralNetwork
-from src.regression_models.gaussian_mixture_regression2 import GMRegression
+#from src.regression_models.gaussian_mixture_regression2 import GMRegression
+from src.regression_models.naive_GMR import NaiveGMRegression
 from src.regression_models.bohamiann import BOHAMIANN
 import numpy as np
 import matplotlib.pyplot as plt
@@ -23,14 +24,15 @@ Y_init = problem.fun(X_init)
 
 
 BOHAMIANN_regression = BOHAMIANN(num_warmup = 2000, num_samples = 3000, num_keep_samples= 1000)
-# GP_regression = GaussianProcess(noise = 0)
+GP_regression = GaussianProcess_sklearn()
 NNN_regression = NumpyroNeuralNetwork(num_chains = 4, num_warmup= 200, num_samples=300, num_keep_samples= 50)
 SPN_reg = SumProductNetworkRegression(optimize=True, manipulate_variance=True)
-GM_reg = GMRegression()
+SPN_reg2 = SumProductNetworkRegression(optimize=True, manipulate_variance=False)
+GM_reg = NaiveGMRegression()
 
-regression_models = [NNN_regression,BOHAMIANN_regression, SPN_reg, GM_reg ]
+regression_models = [NNN_regression,BOHAMIANN_regression, SPN_reg, GM_reg, GP_regression,SPN_reg2  ]
 plt.figure(figsize=(12, 8))
-outer_gs = gridspec.GridSpec(2, len(regression_models)//2+1)
+outer_gs = gridspec.GridSpec(2, int(len(regression_models)/2))
 
 for i in range(len(regression_models)):
     BO = BayesianOptimization(problem, regression_models[i],X_init,Y_init )

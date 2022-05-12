@@ -101,7 +101,9 @@ def get_names():
         for filename in filenames:
             if "noise" in filename:
                 filename = filename.replace("noise_", "noise-")
-            names.add("_".join(filename.split("_")[1:4]))
+            if "SPN" in filename:
+                print("SPN hack")
+                names.add("_".join(filename.split("_")[1:4]))
 
     return sorted(names)
 
@@ -120,8 +122,8 @@ def color(name):
     return "black"
 
 def ls(name):
-    if "-" in name:
-        if "learn"in name:
+    if "-" in name or "mean" in name:
+        if "learn" in name:
             return "dashdot"
         else:
             return "dash"

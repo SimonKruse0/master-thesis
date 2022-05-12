@@ -1,8 +1,8 @@
 # %% Import libraries
 import matplotlib.pyplot as plt
 import torch
-import supr
-from supr.utils import drawnow
+import src.regression_models.supr as supr
+from src.regression_models.supr.utils import drawnow
 from scipy.stats import norm
 from math import sqrt
 import numpy as np

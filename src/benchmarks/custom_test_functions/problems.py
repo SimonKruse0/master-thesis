@@ -7,6 +7,21 @@ from scipy.optimize import rosen
 #Whitley #Ackley01, #Cola, #Corana, #Hartmann6 #Hartmann3
 #Corana, CosineMixture
 
+class general_setup(Benchmark):
+    def __init__(self, dimensions=2, bounds=(0,5), objective_function=None):
+        Benchmark.__init__(self, dimensions)
+        self._bounds = list(zip([bounds[0]] * self.N,
+                           [bounds[1]] * self.N))
+        self.custom_bounds = ([-5, 5], [-5, 5])
+        self.global_optimum = [[0. for _ in range(self.N)]]
+        self.fglob = 0.0
+        self.change_dimensionality = True
+        self.objective_function = objective_function
+
+    def fun(self,x, *args):
+        self.nfev += 1
+        return self.objective_function(x)
+
 class SimonsTest4_cosine_fuction(Benchmark):
     #sin more and more intensively
     def __init__(self, dimensions=1):
