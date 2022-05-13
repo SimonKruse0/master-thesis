@@ -3,6 +3,7 @@ import os
 import numpy as np
 from scipy.optimize import minimize
 from scipy.stats import norm
+import random
 
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
@@ -13,7 +14,7 @@ if __name__=="__main__":
     from src.regression_models.numpyro_neural_network import NumpyroNeuralNetwork #JAX
     from src.regression_models.gaussian_process_regression import GaussianProcess_sklearn, GaussianProcess_pyro
     from src.regression_models.bohamiann import BOHAMIANN #Torch
-    from src.regression_models.gaussian_mixture_regression2 import GMRegression
+    #from src.regression_models.gaussian_mixture_regression2 import GMRegression
     from src.regression_models.SPN_regression2 import SumProductNetworkRegression
     from src.regression_models.mean_regression import MeanRegression
     from src.benchmarks.custom_test_functions import SimonsTest3_cosine_fuction
@@ -21,15 +22,17 @@ if __name__=="__main__":
 PLOT_NR = 0
 
 class BayesianOptimization(PlottingClass):
-    def __init__(self, problem, regression_model, X_init,Y_init) -> None:
+    def __init__(self, problem, regression_model, X_init=None,Y_init=None) -> None:
         super().__init__() #initalize plotting functions
         self.problem_name = type(problem).__name__
-        self.problem_size = problem.N
+        self.problem_dim = problem.N
         self.bounds = problem.bounds[0] #OBS problem if higher dim have different bounds?
-        self.obj_fun = lambda x: problem.fun(x)
+        self.obj_fun = lambda x: np.array([problem.fun(xi) for xi in x])[:,None] 
         self.model = regression_model
+        if X_init is None:
+            X_init,Y_init = self._initXY()
         assert X_init.shape[0] == Y_init.shape[0]
-        self._X = X_init #OBS: should X be stored here or in the model?!
+        self._X = X_init
         self._Y = Y_init
         self.f_best = np.min(Y_init) # incumbent np.min(Y) or np.min(E[Y]) ?? BOHAMIANN does this
         #self.bounds = bounds
@@ -40,6 +43,16 @@ class BayesianOptimization(PlottingClass):
         print(f"\n-- initial training -- \t {self.model.name}")
         self.model.fit(X_init,Y_init)
 
+    def _initXY(self, sample_size = 5):
+        X_init = np.random.uniform(*self.bounds,size = (sample_size,self.problem_dim))
+        try:
+            Y_init = self.obj_fun(X_init)
+        except:
+            y = []
+            for x in X_init:
+                y.append(self.obj_fun(x))
+            Y_init = np.array(y)[:,None]
+        return X_init,Y_init
     def predict(self,X, gaussian_approx = True):
         if gaussian_approx:
             Y_mu,Y_sigma,_ = self.model.predict(X)
@@ -48,7 +61,7 @@ class BayesianOptimization(PlottingClass):
             Y_mu,_,Y_CI = self.model.predict(X)
             return Y_mu,Y_CI
 
-    def expected_improvement(self,X,xi=0.01):
+    def expected_improvement(self,X,xi=0):
         assert X.ndim == 2
         #print("OBS X[:,None] might fail in largers dims!")
         mu, sigma = self.predict(X) #Partial afledt. Pytorch. 
@@ -59,7 +72,13 @@ class BayesianOptimization(PlottingClass):
 
     def find_a_candidate_on_grid(self, Xgrid): #TODO: lav adaptiv grid search. Og batches! 
         EI = self.expected_improvement(Xgrid)
-        x_id = np.argmax(EI)
+        #x_id = np.argmax(EI)
+        max_id = np.argwhere(EI == np.amax(EI)).flatten()
+        
+        if len(max_id) > 1: #Very relevant for Naive GMR
+            x_id = random.choice(max_id)
+        else:
+            x_id = max_id[0]
 
         opt = OptimizationStruct()  #insert results in struct
         opt.x_next          = Xgrid[x_id]

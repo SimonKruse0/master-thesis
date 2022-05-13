@@ -147,7 +147,7 @@ class RegressionValidation(PlottingClass):
         self.model = regression_model
         self.problem = problem
         self.problem_name = type(problem).__name__
-        self.problem_size = problem.N
+        self.problem_dim = problem.N
         self.bounds = problem.bounds
         self.mean_abs_pred_error = []
         self.mean_rel_pred_error = []
@@ -158,7 +158,7 @@ class RegressionValidation(PlottingClass):
         if use_random_seed:
             np.random.seed(self.seednr)
         n = n_train+n_test
-        X = np.random.uniform(*self.bounds[0], size=[n,self.problem_size]) #OBS small hack, fails if bounds are not the same
+        X = np.random.uniform(*self.bounds[0], size=[n,self.problem_dim]) #OBS small hack, fails if bounds are not the same
         y = []
         for i in range(n):
             y.append(self.problem.fun(X[i,:]))
@@ -187,7 +187,7 @@ class RegressionValidation(PlottingClass):
             Z_pred = (y_test-Y_mu)/Y_sigma #std. normal distributed. 
             self.mean_uncertainty_quantification.append(np.mean(norm.pdf(Z_pred)))
             print(n_train)
-            if self.problem_size == 1:
+            if self.problem_dim == 1:
                 self._save_plot(X, y, path)
 
     def save_regression_validation_results(self, output_path):
@@ -202,15 +202,15 @@ class RegressionValidation(PlottingClass):
         data["mean_abs_pred_error"] = jsonize_array(self.mean_abs_pred_error) #Num pyro gave float32
         data["mean_rel_pred_error"] = jsonize_array(self.mean_rel_pred_error) #Num pyro gave float32
         data["problem_name"] = self.problem_name
-        data["problem dim"] = self.problem_size
+        data["problem dim"] = self.problem_dim
         data["model_name"] = self.model.name
         data["params"] = self.model.params
         time = datetime.today().strftime('%Y-%m-%d-%H_%M')
-        filename = f"{self.model.name}_{self.problem_name}_dim_{self.problem_size}_seed_{self.seednr}_time_{time}.json"
+        filename = f"{self.model.name}_{self.problem_name}_dim_{self.problem_dim}_seed_{self.seednr}_time_{time}.json"
         json.dump(data, open(os.path.join(output_path, filename), "w"))
 
     def _save_plot(self, X, Y, output_path):
-        assert self.problem_size == 1
+        assert self.problem_dim == 1
         self._X,self._Y = X, Y
         fig, ax = plt.subplots()
         self.plot_regression_gaussian_approx(ax, np.linspace(*self.bounds[0], 200)[:,None], show_name=True)
@@ -218,7 +218,7 @@ class RegressionValidation(PlottingClass):
         ax.plot(self._X,self._Y,'.', markersize=10, color="yellow")
         time = datetime.today().strftime('%Y-%m-%d-%H_%M')
         n_train = self.train_X.shape[0]
-        filename_png = f"{self.model.name}_{self.problem_name}_dim_{self.problem_size}_seed_{self.seednr}_time_{time}_n_{n_train}.png"
+        filename_png = f"{self.model.name}_{self.problem_name}_dim_{self.problem_dim}_seed_{self.seednr}_time_{time}_n_{n_train}.png"
         plt.savefig(os.path.join(output_path, filename_png))
 
 

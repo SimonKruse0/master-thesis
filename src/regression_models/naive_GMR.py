@@ -58,7 +58,7 @@ class naive_GMR:
 class NaiveGMRegression(naive_GMR, BaseEstimator):
     def __init__(self,x_component_std = 5e-2,
                     y_component_std= 5e-2, 
-                    prior_settings = {"Ndx": 1,"v_prior":5},
+                    prior_settings = {"Ndx": 1,"v_prior":1.2},
                     manipulate_variance = True, 
                     optimize=False, opt_n_iter=10, opt_cv = 3
                     ):
@@ -143,6 +143,14 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
         v_pred_bayes = E2_pred_bayes - m_pred_bayes**2
 
         std_pred_bayes = np.sqrt(v_pred_bayes)
+        if self.manipulate_variance:
+            #std_pred_bayes *= 0.01/np.clip(self.N*p_x, 0.01, 1)
+            #std_pred_bayes *= 0.1/(self.N*p_x)
+            factor = (1/np.clip(100*self.N*p_x, 0.1, np.inf))
+            std_pred_bayes*=factor
+            print("variance scaling:", factor.min(), factor.max())
+
+
         m_pred_bayes = denormalize(m_pred_bayes, self.y_mean, self.y_std)
         std_pred_bayes *= self.y_std
 

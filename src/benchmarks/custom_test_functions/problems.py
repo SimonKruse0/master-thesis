@@ -44,7 +44,11 @@ class SimonsTest4_cosine_fuction(Benchmark):
         #     k = -np.round(x)
 
         self.nfev += 1
-        return x*sin(k*x/100)+k
+        result = x*sin(k*x/100)+k
+        if result.ndim == 0:
+            return result
+        else:
+            return result[0]
 
 class SimonsTest3_cosine_fuction(Benchmark):
     #sin more and more intensively

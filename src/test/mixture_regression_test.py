@@ -11,14 +11,14 @@ def obj_fun(x):
 
 bounds = [0,100]
 #datasize = int(input("Enter number of datapoints: "))
-datasize = 20
+datasize = 40
 np.random.seed(20)
 X =  np.random.uniform(*bounds,size = (datasize,1))
 Y = obj_fun(X)
 y = Y
 
 prior_settings={ "Ndx": 0.1,"v_prior": 1}
-mixture_regression = NaiveGMRegression(optimize=True, opt_n_iter=10, prior_settings = prior_settings)
+mixture_regression = NaiveGMRegression(manipulate_variance=True, optimize=False, opt_n_iter=10, prior_settings = prior_settings)
 prior_settings={ "Ndx": 0.1,"sig_prior": 1}
 # mixture_regression = SumProductNetworkRegression(
 #                     tracks=5,

@@ -1,4 +1,7 @@
-from atexit import register
+# Notes:
+# This illustrates how exploitation is really favoured by EI
+# it is a problem.
+
 import numpy as np
 from src.utils import OptimizationStruct
 from src.optimization.bayesian_optimization import BayesianOptimization
@@ -9,6 +12,10 @@ from src.regression_models.numpyro_neural_network import NumpyroNeuralNetwork
 #from src.regression_models.gaussian_mixture_regression2 import GMRegression
 from src.regression_models.naive_GMR import NaiveGMRegression
 from src.regression_models.bohamiann import BOHAMIANN
+
+from src.benchmarks.go_benchmark_functions.go_funcs_S import Step
+from src.benchmarks.go_benchmark_functions.go_funcs_W import Weierstrass
+
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
@@ -18,29 +25,34 @@ from src.benchmarks.custom_test_functions.problems import SimonsTest,SimonsTest3
 problem = SimonsTest4_cosine_fuction()
 
 np.random.seed(2)
-X_init =  np.random.uniform(*problem.bounds[0],size = (50,problem.N))
-Y_init = problem.fun(X_init)
 
-
-
-BOHAMIANN_regression = BOHAMIANN(num_warmup = 2000, num_samples = 3000, num_keep_samples= 1000)
+BOHAMIANN_regression = BOHAMIANN(num_warmup = 200, num_samples = 300, num_keep_samples= 300)
 GP_regression = GaussianProcess_sklearn()
 NNN_regression = NumpyroNeuralNetwork(num_chains = 4, num_warmup= 200, num_samples=300, num_keep_samples= 50)
 SPN_reg = SumProductNetworkRegression(optimize=True, manipulate_variance=True)
-SPN_reg2 = SumProductNetworkRegression(optimize=True, manipulate_variance=False)
-GM_reg = NaiveGMRegression()
+SPN_reg2 = SumProductNetworkRegression(optimize=False, manipulate_variance=True)
+GM_reg = NaiveGMRegression(optimize=False, manipulate_variance=True)
 
-regression_models = [NNN_regression,BOHAMIANN_regression, SPN_reg, GM_reg, GP_regression,SPN_reg2  ]
+regression_models = [GP_regression,BOHAMIANN_regression, GM_reg,SPN_reg2 ]
 plt.figure(figsize=(12, 8))
-outer_gs = gridspec.GridSpec(2, int(len(regression_models)/2))
+outer_gs = gridspec.GridSpec(2, 2)
 
+BOs = []
+opts = []
 for i in range(len(regression_models)):
-    BO = BayesianOptimization(problem, regression_models[i],X_init,Y_init )
-    #BO.optimize(4, type = "numeric", n_restarts=10)
-    ax = outer_gs[i]
-    opt = BO.optimization_step(type="grid")
-    BO.plot_surrogate_and_expected_improvement(ax, opt, show_name=True)
+    BOs.append(BayesianOptimization(problem, regression_models[i]))
+    opts.append(OptimizationStruct())
 
-plt.show()
+for iter in range(20):
+    for i in range(len(regression_models)):
+        BO = BOs[i]
+        opt = opts[i]
+        #BO.optimize(4, type = "numeric", n_restarts=10)
+        ax = outer_gs[i]
+        opt = BO.optimization_step(opt, type="grid")
+        BO.plot_surrogate_and_expected_improvement(ax, opt, show_name=True)
+        opts[i] = opt
+    plt.show()
+
 x_hist,y_hist = BO.get_optimization_hist()
 print(x_hist)

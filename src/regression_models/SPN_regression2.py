@@ -38,7 +38,7 @@ class SumProductNetworkRegression(BaseEstimator):
                 , train_epochs = 1000,
                 alpha0_x=10,alpha0_y=10, 
                 beta0_x = 0.01,beta0_y = 0.01, 
-                prior_settings = {"Ndx": 1,"sig_prior":5},
+                prior_settings = {"Ndx": 1,"sig_prior":1.2},
                 optimize=False, opt_n_iter  =10, opt_cv = 3):
         self.epochs = train_epochs
         # Priors for variance of x and y
