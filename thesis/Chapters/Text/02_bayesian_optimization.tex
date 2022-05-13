@@ -98,12 +98,69 @@ $$p_{bayes}(y|x) = \frac{p(x)\cdot N \cdot p(y|x) + \lambda p_{prior}(y)}{Z} = \
 $$E_{p(x,y)}[y] = \int_y \int_x yp(x,y) dx dy = \int_y y p(y) dy = E_{p(y)}[y]$$
 
 \section{Acquisition function}
-A popular choice of acquisition function is expected improvement:
+A popular choice of acquisition function is expected improvement, 
+$$EI(x) = \mathbb{E}_{p(y|x,\mathcal{D})}[\max(0, y_{\min}-y)]$$
+this will only look at the expectation of the values $y$, which improves the current best value.
+
+
+In the following deveration
+we assume the predictive distribution can be approxiamted by a normal distribution dependent on
+the point of interest $x$ and the data $\mathcal{D}$ (note for the GP
+it is in fact not an approximation), 
+$$p(y|x,\mathcal{D}) \approx \mathcal{N}(y|\mu(x,\mathcal{D}), \sigma^2(x,\mathcal{D}))$$ where we
+will change to a less clumpsy notation $\mathcal{N}(y|\mu_x,
+\sigma^2_x):=\mathcal{N}(y|\mu(x,\mathcal{D}), \sigma^2(x,\mathcal{D}))$. This is completely fine
+since we $x$ is fixed (and $\mathcal{D}$ is fixed) when evaluating the expected improvement in a point
+$x$. %  $\sigma_x := \sigma^2(x,\mathcal{D})$ and $\mu_x := \mu(x,\mathcal{D})$
+%as evaluated functions, i.e. numbers. 
+Furthermore, the density of
+a standard normal distribution is denoted $\phi(\cdot):=\mathcal{N}(\cdot | 0,1)$, and the cumlative
+density function (CDF) of a standard normal distribution is denoted, $\Phi(\cdot) :=
+\int_{-\infty}^{\cdot} \phi(\epsilon)d\epsilon$. We will now see that the normal approximation
+of the predictive distribution yiels closed form solution to the expected improvement function, 
+
 \begin{align*}
-    \mathbb{E}_{y_*|\textbf{x}_*,D_n}[\min(0,y_{\min}-y_*)] &= ??\\
+    E_{p(y|x,\mathcal{D})}[\max(0,y_{\min}-y)] &= \int \max(0,y_{\min}-y) p(y|x,\mathcal{D}) dy\\
+    &\approx \int \max(0,y_{\min}-y) \mathcal{N}(y|\mu_x, \sigma_x^2) dy\\
+    &= \int_{-\infty}^{y_{\min}} (y_{\min}-y) \frac{1}{\sigma_x}\phi\left(\frac{y-\mu_x}{\sigma_x}\right) dy\\
+    &= \int_{-\infty}^{\frac{y_{\min}-\mu_x}{\sigma_x}} (y_{\min}-\mu_x-\sigma_x\epsilon) \frac{1}{\sigma_x}\phi\left(\epsilon\right) \sigma_x d\epsilon\\
+    &= \int_{-\infty}^u \sigma_x \cdot (u-\epsilon) \phi(\epsilon) d\epsilon\\
+    &=  \sigma_x \cdot \left( u\cdot \int_{-\infty}^u \phi(\epsilon) d\epsilon +\int_{-\infty}^u (-\epsilon)  \phi(\epsilon) d\epsilon \right) \\
+    &= \sigma_x [u\Phi(u)+ \phi(u)]
+\end{align*}
+
+where $u:=\frac{y_{\min}-\mu_x}{\sigma_x}$. To understand the identity $\phi(u) = \int_{-\infty}^u
+(-\epsilon)  \phi(\epsilon) d\epsilon$ used in the last equality, we first see that the antiderivative
+is $\phi(\epsilon) = \frac{1}{\sqrt{2\pi}} \exp(\frac{-\epsilon^2}{2})$,
+\begin{align*}
+    \frac{d}{d \epsilon} \phi(\epsilon) &=  \frac{1}{\sqrt{2\pi}}\frac{d}{d \epsilon} \exp(\frac{-\epsilon^2}{2})\\
+    &=  \frac{1}{\sqrt{2\pi}}\exp(\frac{-\epsilon^2}{2})(-\epsilon)\\
+    &= -\epsilon \phi(\epsilon)
+\end{align*}
+and evaluating the rieman integral is equivalent to evaluate the antiderivative in its boundaries, giving the 
+solution, 
+$$\int_{-\infty}^u
+(-\epsilon)  \phi(\epsilon) d\epsilon = \left[\phi(\epsilon)\right]_{-\infty}^u = \phi(u)-0 = \phi(u)$$ 
+
+We can also explicily write the expected improvement as, 
+$$EI(x) = (y_{\min}-\mu_x)\Phi\left(\frac{y_{\min}-\mu_x}{\sigma_x}\right)+ \sigma_x
+\phi\left(\frac{y_{\min}-\mu_x}{\sigma_x}\right)]$$
+where the first part can be interpretted as exploitation (favouring points with a large improvement $I(x) := (y_{\min}-\mu_x)$)
+and the second part can be seen a exploitation (favouring points with high uncertainty.)
+taking the derivative with respect to $I(x) := (y_{\min}-\mu_x)$ and $\sigma_x$, we see that expected improvement is 
+is increasing if the improvement grows or if the variance $\sigma_x$ grows, i.e
+$$\frac{\partial EI(x)}{\partial I(x)} = \Phi\left(\frac{y_{\min}-\mu_x}{\sigma_x}\right) > 0, \hspace*{0.5cm} 
+\frac{\partial EI(x)}{\partial \sigma_x} = \phi\left(\frac{y_{\min}-\mu_x}{\sigma_x}\right) >0$$ 
+<obs mistake in the book!!!?>
+
+
+
+
+\begin{align*}
+    \mathbb{E}_{y_*|\textbf{x}_*,D_n}[\max(0,y_{\min}-y_*)] &= ??\\
     \mathbb{E}[\min(0,y_{\min}-y_*)|\textbf{x}_*,D_n] &= \int_{-\infty}^\infty \min(0,y_{\min}-y_*) p(y_*|\textbf{x}_*,D_n) dy_*\\
     &= \int_{-\infty}^{y_{\min}} (y_{\min}-y_*) p(y_*|\textbf{x}_*,D_n) dy_*\\
-    &\approx \frac{1}{N} \sum_{\theta \in \Omega } [y_{\min}-f_\theta(x)],
+    &\approx \frac{1}{N} \sum_{\theta \in \Omega } [y_{\min}-f_\theta(x)]
 \end{align*}
 
 where $\Omega = \{\theta|f_{\theta}(x)< y_{\min}\}$
