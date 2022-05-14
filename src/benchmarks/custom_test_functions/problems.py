@@ -106,7 +106,11 @@ class SimonsTest(Benchmark):
     def fun(self,x, *args): 
         x = x+ 0.5
         self.nfev += 1
-        return 0.5 * (np.sign(x-0.5) + 1)+np.sin(100*x)*0.1
+        result = 0.5 * (np.sign(x-0.5) + 1)+np.sin(100*x)*0.1
+        if result.ndim == 0:
+            return result
+        else:
+            return result[0]
 
 class Step(Benchmark):
 

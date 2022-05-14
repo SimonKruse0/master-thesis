@@ -22,7 +22,7 @@ if __name__=="__main__":
 PLOT_NR = 0
 
 class BayesianOptimization(PlottingClass):
-    def __init__(self, problem, regression_model, X_init=None,Y_init=None) -> None:
+    def __init__(self, problem, regression_model, X_init=None,Y_init=None, init_n_samples = 5) -> None:
         super().__init__() #initalize plotting functions
         self.problem_name = type(problem).__name__
         self.problem_dim = problem.N
@@ -30,7 +30,7 @@ class BayesianOptimization(PlottingClass):
         self.obj_fun = lambda x: np.array([problem.fun(xi) for xi in x])[:,None] 
         self.model = regression_model
         if X_init is None:
-            X_init,Y_init = self._initXY()
+            X_init,Y_init = self._initXY(init_n_samples)
         assert X_init.shape[0] == Y_init.shape[0]
         self._X = X_init
         self._Y = Y_init
@@ -43,7 +43,7 @@ class BayesianOptimization(PlottingClass):
         print(f"\n-- initial training -- \t {self.model.name}")
         self.model.fit(X_init,Y_init)
 
-    def _initXY(self, sample_size = 5):
+    def _initXY(self, sample_size):
         X_init = np.random.uniform(*self.bounds,size = (sample_size,self.problem_dim))
         try:
             Y_init = self.obj_fun(X_init)
@@ -53,7 +53,10 @@ class BayesianOptimization(PlottingClass):
                 y.append(self.obj_fun(x))
             Y_init = np.array(y)[:,None]
         return X_init,Y_init
-    def predict(self,X, gaussian_approx = True):
+    def predict(self,X, gaussian_approx = True, get_px = False):
+        if get_px:
+            Y_mu,Y_sigma,p_x = self.model.predict(X)
+            return Y_mu,Y_sigma, p_x
         if gaussian_approx:
             Y_mu,Y_sigma,_ = self.model.predict(X)
             return Y_mu,Y_sigma
@@ -61,17 +64,42 @@ class BayesianOptimization(PlottingClass):
             Y_mu,_,Y_CI = self.model.predict(X)
             return Y_mu,Y_CI
 
-    def expected_improvement(self,X,xi=0):
+    def expected_improvement(self,X,xi=0, return_analysis = False):
+        assert X.ndim == 2
+        #print("OBS X[:,None] might fail in largers dims!")
+        mu, sigma, p_x = self.predict(X, get_px=True) #Partial afledt. Pytorch. 
+        imp = -mu - self.f_best - xi
+        Z = imp/sigma
+        exploitation = imp*norm.cdf(Z)
+        exploration = sigma*norm.pdf(Z)
+        EI = exploitation + exploration
+        N = self._X.shape[0]
+        EI *= 1/(N*p_x)
+        #EI = exploitation/10 + exploration
+        if return_analysis:
+            return EI, exploitation, exploration
+        else:
+            return EI
+
+
+    def expected_improvement2(self,X,xi=0, return_analysis = False):
         assert X.ndim == 2
         #print("OBS X[:,None] might fail in largers dims!")
         mu, sigma = self.predict(X) #Partial afledt. Pytorch. 
         imp = -mu - self.f_best - xi
         Z = imp/sigma
-        EI = (imp*norm.cdf(Z) + sigma*norm.pdf(Z))
-        return EI
+        exploitation = imp*norm.cdf(Z)
+        exploration = sigma*norm.pdf(Z)
+        EI = exploitation + exploration
+        #EI = exploitation/10 + exploration
+        if return_analysis:
+            return EI, exploitation, exploration
+        else:
+            return EI
+
 
     def find_a_candidate_on_grid(self, Xgrid): #TODO: lav adaptiv grid search. Og batches! 
-        EI = self.expected_improvement(Xgrid)
+        EI, _exploitation, _exploration = self.expected_improvement(Xgrid, return_analysis=True)
         #x_id = np.argmax(EI)
         max_id = np.argwhere(EI == np.amax(EI)).flatten()
         
@@ -84,6 +112,8 @@ class BayesianOptimization(PlottingClass):
         opt.x_next          = Xgrid[x_id]
         opt.max_EI          = EI[x_id]
         opt.EI_of_Xgrid     = EI
+        opt._exploitation   = _exploitation
+        opt._exploration    = _exploration
         opt.Xgrid           = Xgrid
 
         return opt

@@ -29,6 +29,8 @@ class naive_GMR:
     def lp_x_all(self, x):
         assert x.ndim == 2
         return norm.logpdf(x, loc = self.means[:,0], scale = self.x_component_std)
+        #return norm.logpdf(x, loc = self.means[:,:-1].T.flatten(), scale = self.x_component_std)
+        #Ok summes sammen!
          
     def lp_x(self,x, lp_x_all= None):
         if lp_x_all is None:
@@ -63,7 +65,7 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
                     optimize=False, opt_n_iter=10, opt_cv = 3
                     ):
         self.model = None
-        self.name = "Gaussian Mixture Regression"
+        self.name = "Naive Gaussian Mixture Regression"
         self.x_component_std = x_component_std
         self.y_component_std = y_component_std
         self.prior_settings = prior_settings
@@ -146,15 +148,15 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
         if self.manipulate_variance:
             #std_pred_bayes *= 0.01/np.clip(self.N*p_x, 0.01, 1)
             #std_pred_bayes *= 0.1/(self.N*p_x)
-            factor = (1/np.clip(100*self.N*p_x, 0.1, np.inf))
+            factor = (1/np.clip(self.N*p_x, 0.9, np.inf))
             std_pred_bayes*=factor
-            print("variance scaling:", factor.min(), factor.max())
+            #print("variance scaling:", factor.min(), factor.max())
 
 
         m_pred_bayes = denormalize(m_pred_bayes, self.y_mean, self.y_std)
         std_pred_bayes *= self.y_std
 
-        return np.array(m_pred_bayes),np.array(std_pred_bayes).T,None
+        return np.array(m_pred_bayes),np.array(std_pred_bayes).T,p_x #HACK
 
     def _bayesian_conditional_pdf(self,x_grid,y_grid):
         x_grid, *_ = normalize(x_grid, self.x_mean, self.x_std)
@@ -178,7 +180,7 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
         y_grid, *_ = normalize(y_grid, self.y_mean, self.y_std)
         return np.gradient(y_grid)
 
-    def plot(self, ax, xbounds=(0,1),ybounds=(-2.5,2.5)):
+    def plot(self, ax, xbounds=(0,1),ybounds=(-2.5,2.5), plot_credible_set = True):
         self.x_res, self.y_res  = 500, 800
         x_res, y_res = self.x_res, self.y_res
         x_grid = np.linspace(*xbounds, self.x_res, dtype=np.float)
@@ -212,7 +214,9 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
             cmap='Blues',
             vmin=-5, vmax=1
         )  # , vmin=-3, vmax=1)
-        ax.contour(hpr.T, levels=1, extent=extent )
+        
+        if plot_credible_set:
+            ax.contour(hpr.T, levels=1, extent=extent )
         #mean = self.predict(x_grid[:,None], only_mean = True)
         # if mean is not None:
         #     ax.plot(x_grid,mean,"--", color="red")
