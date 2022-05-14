@@ -8,10 +8,11 @@
 \contentsline {section}{\numberline {2.1}When to use Bayesian optmization}{4}{section.0.2.1}%
 \contentsline {section}{\numberline {2.2}Observation model}{5}{section.0.2.2}%
 \contentsline {chapter}{\numberline {3}Bayesian Optimization}{7}{chapter.0.3}%
-\contentsline {section}{\numberline {3.1}Discriminative model as surrogate model}{7}{section.0.3.1}%
-\contentsline {section}{\numberline {3.2}Using a generative model as surrogate model}{7}{section.0.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Inclusion of prior distribution}{8}{subsection.0.3.2.1}%
-\contentsline {section}{\numberline {3.3}Acquisition function}{10}{section.0.3.3}%
+\contentsline {section}{\numberline {3.1}Acquisition function}{7}{section.0.3.1}%
+\contentsline {section}{\numberline {3.2}surrogate model}{9}{section.0.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Discriminative model as surrogate model}{9}{subsection.0.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Using a generative model as surrogate model}{9}{subsection.0.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Inclusion of prior distribution}{10}{subsection.0.3.2.3}%
 \contentsline {chapter}{\numberline {4}Bayesian regression models - probabilistic surrogate model}{13}{chapter.0.4}%
 \contentsline {section}{\numberline {4.1}Gaussian mixture regression}{13}{section.0.4.1}%
 \contentsline {section}{\numberline {4.2}Mixture regression in a Bayesian setting}{14}{section.0.4.2}%
@@ -34,5 +35,5 @@
 \contentsline {chapter}{\numberline {6}Results}{33}{chapter.0.6}%
 \contentsline {subsection}{\numberline {6.0.1}regression benchmark}{33}{subsection.0.6.0.1}%
 \contentsline {section}{\numberline {6.1}Mixture regression on simple functions}{33}{section.0.6.1}%
-\contentsline {chapter}{Bibliography}{34}{chapter*.10}%
+\contentsline {chapter}{Bibliography}{34}{chapter*.11}%
 \contentsline {chapter}{\numberline {A}Title}{35}{appendix.A}%
