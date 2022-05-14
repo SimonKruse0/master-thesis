@@ -2182,13 +2182,18 @@
     <bcf:datasource type="file" datatype="bibtex">bibliography.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
-    <bcf:citekey order="1">bayesoptbook</bcf:citekey>
-    <bcf:citekey order="2">bayesoptbook</bcf:citekey>
-    <bcf:citekey order="3">bayesoptbook</bcf:citekey>
-    <bcf:citekey order="4">SPN_EM</bcf:citekey>
-    <bcf:citekey order="5">PhDthesis</bcf:citekey>
-    <bcf:citekey order="6">snoek2015scalable</bcf:citekey>
-    <bcf:citekey order="7">NIPS2016_a96d3afe</bcf:citekey>
+    <bcf:citekey order="1">PhDthesis</bcf:citekey>
+    <bcf:citekey order="2">snoek2015scalable</bcf:citekey>
+    <bcf:citekey order="3">NIPS2016_a96d3afe</bcf:citekey>
+    <bcf:citekey order="4">bayesoptbook</bcf:citekey>
+    <bcf:citekey order="5">bayesoptbook</bcf:citekey>
+    <bcf:citekey order="6">bayesoptbook</bcf:citekey>
+    <bcf:citekey order="7">SPN_EM</bcf:citekey>
+    <bcf:citekey order="8">bishop</bcf:citekey>
+    <bcf:citekey order="9">bishop</bcf:citekey>
+    <bcf:citekey order="10">PhDthesis</bcf:citekey>
+    <bcf:citekey order="11">snoek2015scalable</bcf:citekey>
+    <bcf:citekey order="12">NIPS2016_a96d3afe</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">
@@ -2197,4 +2202,13 @@
     </bcf:sort>
   </bcf:sortingtemplate>
   <!-- DATALISTS -->
+  <bcf:datalist section="0"
+                name="none/global//global/global"
+                type="entry"
+                sortingtemplatename="none"
+                sortingnamekeytemplatename="global"
+                labelprefix=""
+                uniquenametemplatename="global"
+                labelalphanametemplatename="global">
+  </bcf:datalist>
 </bcf:controlfile>

@@ -16,5 +16,210 @@
   {}
 \endgroup
 
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global}
+    \entry{PhDthesis}{thesis}{}
+      \name{author}{1}{}{%
+        {{hash=91333716f4cea2ae61e16efe638e9329}{%
+           family={Aryan},
+           familyi={A\bibinitperiod},
+           given={Mashall},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Victoria University of Wellington, New Zealand}%
+      }
+      \strng{namehash}{91333716f4cea2ae61e16efe638e9329}
+      \strng{fullhash}{91333716f4cea2ae61e16efe638e9329}
+      \strng{bibnamehash}{91333716f4cea2ae61e16efe638e9329}
+      \strng{authorbibnamehash}{91333716f4cea2ae61e16efe638e9329}
+      \strng{authornamehash}{91333716f4cea2ae61e16efe638e9329}
+      \strng{authorfullhash}{91333716f4cea2ae61e16efe638e9329}
+      \field{sortinit}{1}
+      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{\url{https://researcharchive.vuw.ac.nz/handle/10063/9035}}
+      \field{title}{Sample-efficient Optimization Using Neural Networks}
+      \field{type}{phdthesis}
+      \field{year}{2020}
+    \endentry
+    \entry{snoek2015scalable}{misc}{}
+      \name{author}{9}{}{%
+        {{hash=b9d827c94405733235f3f953a0691fd5}{%
+           family={Snoek},
+           familyi={S\bibinitperiod},
+           given={Jasper},
+           giveni={J\bibinitperiod}}}%
+        {{hash=a2eeff652639f271fa6ec8c3d05d05fa}{%
+           family={Rippel},
+           familyi={R\bibinitperiod},
+           given={Oren},
+           giveni={O\bibinitperiod}}}%
+        {{hash=fe49ec9b6f902b79d166c1f25405c088}{%
+           family={Swersky},
+           familyi={S\bibinitperiod},
+           given={Kevin},
+           giveni={K\bibinitperiod}}}%
+        {{hash=9ca4d6f3496c5a623fcad2f5de58670b}{%
+           family={Kiros},
+           familyi={K\bibinitperiod},
+           given={Ryan},
+           giveni={R\bibinitperiod}}}%
+        {{hash=a930c576ecba694b17665f1e3ed5dfa8}{%
+           family={Satish},
+           familyi={S\bibinitperiod},
+           given={Nadathur},
+           giveni={N\bibinitperiod}}}%
+        {{hash=995d38d971d010a683eda2f6ada66d16}{%
+           family={Sundaram},
+           familyi={S\bibinitperiod},
+           given={Narayanan},
+           giveni={N\bibinitperiod}}}%
+        {{hash=76e30f39b4a7db9384b835bae7095f2c}{%
+           family={Patwary},
+           familyi={P\bibinitperiod},
+           given={Md.\bibnamedelimi Mostofa\bibnamedelima Ali},
+           giveni={M\bibinitperiod\bibinitdelim M\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=5b58310de93bc052c8e6b94280fd12ea}{%
+           family={Prabhat},
+           familyi={P\bibinitperiod}}}%
+        {{hash=c1552be0c6aa9c6e0fd91a130a682853}{%
+           family={Adams},
+           familyi={A\bibinitperiod},
+           given={Ryan\bibnamedelima P.},
+           giveni={R\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+      }
+      \strng{namehash}{ed6793cb5ec5e5b336b96236df5b354f}
+      \strng{fullhash}{43861213e8477bc71a2d2f7504b8848d}
+      \strng{bibnamehash}{ed6793cb5ec5e5b336b96236df5b354f}
+      \strng{authorbibnamehash}{ed6793cb5ec5e5b336b96236df5b354f}
+      \strng{authornamehash}{ed6793cb5ec5e5b336b96236df5b354f}
+      \strng{authorfullhash}{43861213e8477bc71a2d2f7504b8848d}
+      \field{sortinit}{2}
+      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{stat.ML}
+      \field{eprinttype}{arXiv}
+      \field{title}{Scalable Bayesian Optimization Using Deep Neural Networks}
+      \field{year}{2015}
+      \verb{eprint}
+      \verb 1502.05700
+      \endverb
+    \endentry
+    \entry{NIPS2016_a96d3afe}{inproceedings}{}
+      \name{author}{4}{}{%
+        {{hash=d52162d1c5497f647e12128f74d58da4}{%
+           family={Springenberg},
+           familyi={S\bibinitperiod},
+           given={Jost\bibnamedelima Tobias},
+           giveni={J\bibinitperiod\bibinitdelim T\bibinitperiod}}}%
+        {{hash=6717e0ebad097567de5d341f2cabf54e}{%
+           family={Klein},
+           familyi={K\bibinitperiod},
+           given={Aaron},
+           giveni={A\bibinitperiod}}}%
+        {{hash=052f67d15628922bdc20ed436e78d03f}{%
+           family={Falkner},
+           familyi={F\bibinitperiod},
+           given={Stefan},
+           giveni={S\bibinitperiod}}}%
+        {{hash=528d4af87fd2ecf5fb8a22db913ce088}{%
+           family={Hutter},
+           familyi={H\bibinitperiod},
+           given={Frank},
+           giveni={F\bibinitperiod}}}%
+      }
+      \name{editor}{5}{}{%
+        {{hash=98056d9ddecda0076a31a183e3e69326}{%
+           family={Lee},
+           familyi={L\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod}}}%
+        {{hash=0ef91066dee98e654f9aebd57da00647}{%
+           family={Sugiyama},
+           familyi={S\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+        {{hash=24a834b722f8b79357bd16d08a1e523f}{%
+           family={Luxburg},
+           familyi={L\bibinitperiod},
+           given={U.},
+           giveni={U\bibinitperiod}}}%
+        {{hash=e7e74de725116358b68a6e890c026145}{%
+           family={Guyon},
+           familyi={G\bibinitperiod},
+           given={I.},
+           giveni={I\bibinitperiod}}}%
+        {{hash=36b98b7ab533936cf1b5716148de704f}{%
+           family={Garnett},
+           familyi={G\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Curran Associates, Inc.}%
+      }
+      \strng{namehash}{8e774f5cb5e44357cb13922f43399da5}
+      \strng{fullhash}{0225a18af109bdfe0f6c5239e5e4a415}
+      \strng{bibnamehash}{8e774f5cb5e44357cb13922f43399da5}
+      \strng{authorbibnamehash}{8e774f5cb5e44357cb13922f43399da5}
+      \strng{authornamehash}{8e774f5cb5e44357cb13922f43399da5}
+      \strng{authorfullhash}{0225a18af109bdfe0f6c5239e5e4a415}
+      \strng{editorbibnamehash}{a39670f7069dc3237dbc92fe523ad0c6}
+      \strng{editornamehash}{a39670f7069dc3237dbc92fe523ad0c6}
+      \strng{editorfullhash}{12a698699c223bd18ce3abc205938f9b}
+      \field{sortinit}{3}
+      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Advances in Neural Information Processing Systems}
+      \field{title}{Bayesian Optimization with Robust Bayesian Neural Networks}
+      \field{volume}{29}
+      \field{year}{2016}
+      \verb{urlraw}
+      \verb https://proceedings.neurips.cc/paper/2016/file/a96d3afec184766bfeca7a9f989fc7e7-Paper.pdf
+      \endverb
+      \verb{url}
+      \verb https://proceedings.neurips.cc/paper/2016/file/a96d3afec184766bfeca7a9f989fc7e7-Paper.pdf
+      \endverb
+    \endentry
+    \entry{bishop}{book}{}
+      \name{author}{2}{}{%
+        {{hash=9dfd0135a5e80aa6d81cea2c10fb7f73}{%
+           family={Bishop},
+           familyi={B\bibinitperiod},
+           given={Christopher\bibnamedelima M},
+           giveni={C\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=d8299efb6248f430bb0c465c766ed702}{%
+           family={Nasrabadi},
+           familyi={N\bibinitperiod},
+           given={Nasser\bibnamedelima M},
+           giveni={N\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{777504ebb73f750912508fc1b666e109}
+      \strng{fullhash}{777504ebb73f750912508fc1b666e109}
+      \strng{bibnamehash}{777504ebb73f750912508fc1b666e109}
+      \strng{authorbibnamehash}{777504ebb73f750912508fc1b666e109}
+      \strng{authornamehash}{777504ebb73f750912508fc1b666e109}
+      \strng{authorfullhash}{777504ebb73f750912508fc1b666e109}
+      \field{sortinit}{8}
+      \field{sortinithash}{1b24cab5087933ef0826a7cd3b99e994}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{number}{4}
+      \field{title}{Pattern recognition and machine learning}
+      \field{volume}{4}
+      \field{year}{2006}
+    \endentry
+  \enddatalist
+  \missing{SPN_EM}
+  \missing{bayesoptbook}
+\endrefsection
 \endinput
 

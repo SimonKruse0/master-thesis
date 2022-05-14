@@ -1,7 +1,9 @@
 \boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
 \babel@toc {english}{}
+\contentsline {section}{Acknowledgements}{ii}{Doc-Start}%
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.0.1}%
 \contentsline {section}{\numberline {1.1}notation}{1}{section.0.1.1}%
+\contentsline {section}{\numberline {1.2}related work}{2}{section.0.1.2}%
 \contentsline {chapter}{\numberline {2}Optimization methodology}{3}{chapter.0.2}%
 \contentsline {section}{\numberline {2.1}When to use Bayesian optmization}{4}{section.0.2.1}%
 \contentsline {section}{\numberline {2.2}Observation model}{5}{section.0.2.2}%
@@ -10,24 +12,27 @@
 \contentsline {section}{\numberline {3.2}Using a generative model as surrogate model}{7}{section.0.3.2}%
 \contentsline {subsection}{\numberline {3.2.1}Inclusion of prior distribution}{8}{subsection.0.3.2.1}%
 \contentsline {section}{\numberline {3.3}Acquisition function}{10}{section.0.3.3}%
-\contentsline {chapter}{\numberline {4}Bayesian regression models - probabilistic surrogate model}{11}{chapter.0.4}%
-\contentsline {section}{\numberline {4.1}Gaussian mixture regression}{11}{section.0.4.1}%
-\contentsline {section}{\numberline {4.2}Mixture regression in a Bayesian setting}{11}{section.0.4.2}%
-\contentsline {section}{\numberline {4.3}Sum product networks}{12}{section.0.4.3}%
-\contentsline {chapter}{\numberline {5}Inference: Prediction and learning}{17}{chapter.0.5}%
-\contentsline {section}{\numberline {5.1}Exact and approximate inference}{17}{section.0.5.1}%
-\contentsline {section}{\numberline {5.2}SPN}{17}{section.0.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}SPN - prediction}{18}{subsection.0.5.2.1}%
-\contentsline {subsection}{\numberline {5.2.2}SPN - learning}{18}{subsection.0.5.2.2}%
-\contentsline {section}{\numberline {5.3}Expectation-maximization for mixture models}{20}{section.0.5.3}%
-\contentsline {section}{\numberline {5.4}Gaussian Mixture Regression}{22}{section.0.5.4}%
-\contentsline {subsection}{\numberline {5.4.1}GMR - prediction}{22}{subsection.0.5.4.1}%
-\contentsline {subsection}{\numberline {5.4.2}GMR - Leaning}{23}{subsection.0.5.4.2}%
-\contentsline {section}{\numberline {5.5}Gaussian Process Regression}{23}{section.0.5.5}%
-\contentsline {section}{\numberline {5.6}Deep Network Global Optimization - ?}{25}{section.0.5.6}%
-\contentsline {section}{\numberline {5.7}Bayesian Neural Networks}{25}{section.0.5.7}%
-\contentsline {subsection}{\numberline {5.7.1}No U-Turn sampling}{28}{subsection.0.5.7.1}%
-\contentsline {subsection}{\numberline {5.7.2}Adaptive stochatic HMC}{28}{subsection.0.5.7.2}%
-\contentsline {section}{\numberline {5.8}Appendix - SPN}{29}{section.0.5.8}%
-\contentsline {chapter}{\numberline {6}Results}{31}{chapter.0.6}%
-\contentsline {subsection}{\numberline {6.0.1}regression benchmark}{31}{subsection.0.6.0.1}%
+\contentsline {chapter}{\numberline {4}Bayesian regression models - probabilistic surrogate model}{13}{chapter.0.4}%
+\contentsline {section}{\numberline {4.1}Gaussian mixture regression}{13}{section.0.4.1}%
+\contentsline {section}{\numberline {4.2}Mixture regression in a Bayesian setting}{14}{section.0.4.2}%
+\contentsline {section}{\numberline {4.3}Sum product networks}{15}{section.0.4.3}%
+\contentsline {chapter}{\numberline {5}Inference: Prediction and learning}{19}{chapter.0.5}%
+\contentsline {section}{\numberline {5.1}Exact and approximate inference}{19}{section.0.5.1}%
+\contentsline {section}{\numberline {5.2}SPN}{19}{section.0.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}SPN - prediction}{20}{subsection.0.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}SPN - learning}{20}{subsection.0.5.2.2}%
+\contentsline {section}{\numberline {5.3}Expectation-maximization for mixture models}{22}{section.0.5.3}%
+\contentsline {section}{\numberline {5.4}Gaussian Mixture Regression}{24}{section.0.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}GMR - prediction}{24}{subsection.0.5.4.1}%
+\contentsline {subsection}{\numberline {5.4.2}GMR - Leaning}{25}{subsection.0.5.4.2}%
+\contentsline {section}{\numberline {5.5}Gaussian Process Regression}{25}{section.0.5.5}%
+\contentsline {section}{\numberline {5.6}Deep Network Global Optimization - ?}{27}{section.0.5.6}%
+\contentsline {section}{\numberline {5.7}Bayesian Neural Networks}{27}{section.0.5.7}%
+\contentsline {subsection}{\numberline {5.7.1}No U-Turn sampling}{30}{subsection.0.5.7.1}%
+\contentsline {subsection}{\numberline {5.7.2}Adaptive stochatic HMC}{30}{subsection.0.5.7.2}%
+\contentsline {section}{\numberline {5.8}Appendix - SPN}{31}{section.0.5.8}%
+\contentsline {chapter}{\numberline {6}Results}{33}{chapter.0.6}%
+\contentsline {subsection}{\numberline {6.0.1}regression benchmark}{33}{subsection.0.6.0.1}%
+\contentsline {section}{\numberline {6.1}Mixture regression on simple functions}{33}{section.0.6.1}%
+\contentsline {chapter}{Bibliography}{34}{chapter*.10}%
+\contentsline {chapter}{\numberline {A}Title}{35}{appendix.A}%

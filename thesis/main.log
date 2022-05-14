@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  12 MAY 2022 12:55
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  14 MAY 2022 21:13
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1329,7 +1329,22 @@ Package biblatex Info: Automatic encoding selection.
 
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'main.bbl' found.
- (/home/simon/Documents/MasterThesis/master-thesis/thesis/main.bbl)
+ (/home/simon/Documents/MasterThesis/master-thesis/thesis/main.bbl
+
+Package biblatex Warning: The following entry could not be found
+(biblatex)                in the database:
+(biblatex)                SPN_EM
+(biblatex)                Please verify the spelling and rerun
+(biblatex)                LaTeX afterwards.
+
+
+Package biblatex Warning: The following entry could not be found
+(biblatex)                in the database:
+(biblatex)                bayesoptbook
+(biblatex)                Please verify the spelling and rerun
+(biblatex)                LaTeX afterwards.
+
+)
 Package biblatex Info: Reference section=0 on input line 13.
 Package biblatex Info: Reference segment=0 on input line 13.
  (/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
@@ -1378,18 +1393,8 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 
-Underfull \hbox (badness 5711) in paragraph at lines 14--15
-[]|\TU/TimesNewRoman(0)/b/n/24.88 Investigation of Deep Probibalistic Surrogate-
- []
-
-
-Overfull \hbox (12.0pt too wide) in paragraph at lines 13--20
-[][]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 13--20
-
+Overfull \hbox (12.0pt too wide) in paragraph at lines 14--23
+[]  
  []
 
 File: Pictures/Logos/white_cmyk.pdf Graphic file (type pdf)
@@ -1433,8 +1438,12 @@ File: Pictures/Logos/white_cmyk.pdf Graphic file (type pdf)
  [2
 
 
-] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Copyright.tex) [1] [2
+] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Copyright.tex
+Underfull \hbox (badness 10000) in paragraph at lines 5--7
 
+ []
+
+) [1] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Acknowledgements.tex) [2
 
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/main.toc)
 \tf@toc=\write8
@@ -1442,27 +1451,18 @@ File: Pictures/Logos/white_cmyk.pdf Graphic file (type pdf)
 
  [3
 
+
 ] [4
 
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/Text/00_introduction.tex
 Chapter 1.
-) [1
+[1
 
-] [2
-
-] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/Text/01_optimization.tex
+]) [2] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/Text/01_optimization.tex
 Chapter 2.
-
-LaTeX Warning: Citation 'bayesoptbook' on page 3 undefined on input line 30.
-
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 34.
-
-LaTeX Warning: Citation 'bayesoptbook' on page 3 undefined on input line 34.
-
-
-LaTeX Warning: Citation 'bayesoptbook' on page 3 undefined on input line 34.
-
 [3
+
 
 
 ]
@@ -1487,25 +1487,35 @@ File: Pictures/mixture_predictive_bayesian2D.pdf Graphic file (type pdf)
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [8] [9]) [10] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/Text/03_surrogate_models.tex
+ [8] [9] [10]) [11] [12
+
+] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/Text/03_surrogate_models.tex
 Chapter 4.
-[11
+File: Pictures/mixture_regression_variance_problem1.pdf Graphic file (type pdf)
+<use Pictures/mixture_regression_variance_problem1.pdf>
+File: Pictures/mixture_regression_variance_problem2.pdf Graphic file (type pdf)
+<use Pictures/mixture_regression_variance_problem2.pdf>
+File: Pictures/mixture_regression_variance_problem3.pdf Graphic file (type pdf)
+<use Pictures/mixture_regression_variance_problem3.pdf>
 
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-]
+ [13
+
+] [14]
 
 LaTeX Font Warning: Font shape `TU/TimesNewRoman(0)/m/sc' undefined
-(Font)              using `TU/TimesNewRoman(0)/m/n' instead on input line 63.
+(Font)              using `TU/TimesNewRoman(0)/m/n' instead on input line 82.
 
-[12] [13]
+[15] [16]
 File: Pictures/SPN_illustration1.pdf Graphic file (type pdf)
 <use Pictures/SPN_illustration1.pdf>
 File: Pictures/SPN_illustration2.pdf Graphic file (type pdf)
 <use Pictures/SPN_illustration2.pdf>
 
-Underfull \vbox (badness 1297) has occurred while \output is active []
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [14] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/tikz/SPN.tex
+ [17] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/tikz/SPN.tex
 Missing character: There is no ; in font nullfont!
 Missing character: There is no ; in font nullfont!
 Missing character: There is no ; in font nullfont!
@@ -1562,37 +1572,44 @@ Missing character: There is no ; in font nullfont!
 )
 File: Figures/SPN_graph2.pdf Graphic file (type pdf)
 <use Figures/SPN_graph2.pdf>
-) [15] [16
-
-] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/Text/04_inference.tex
+) [18] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/Text/04_inference.tex
 Chapter 5.
 
 Overfull \hbox (0.54826pt too wide) in paragraph at lines 63--69
 []\TU/TimesNewRoman(0)/m/n/10.95 Sum-product networks are generative models, i.e. statistical models of the joint distribution $\OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 x; y\OT1/cmr/m/n/10.95 )$\TU/TimesNewRoman(0)/m/n/10.95 .
  []
 
-[17
+[19
 
-]
 
-LaTeX Warning: Citation 'SPN_EM' on page 18 undefined on input line 134.
-
-[18] [19]
+] [20] [21]
 Overfull \hbox (15.32054pt too wide) detected at line 286
 [] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j\OML/cmm/m/it/10.95 ^^R\OT1/cmr/m/n/10.95 ) \OMS/cmsy/m/n/10.95 ^^@ [] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j\OML/cmm/m/it/10.95 ^^R[]\OT1/cmr/m/n/10.95 ) = \OML/cmm/m/it/10.95 Q\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 ^^R; ^^R[]\OT1/cmr/m/n/10.95 ) \OMS/cmsy/m/n/10.95 ^^@ \OML/cmm/m/it/10.95 Q\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 ^^R[]; ^^R[]\OT1/cmr/m/n/10.95 ) + \OML/cmm/m/it/10.95 E[]\OT1/cmr/m/n/10.95 [[] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j[]\OML/cmm/m/it/10.95 ; ^^R\OT1/cmr/m/n/10.95 )] \OMS/cmsy/m/n/10.95 ^^@ \OML/cmm/m/it/10.95 E[]\OT1/cmr/m/n/10.95 [[] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j[]\OML/cmm/m/it/10.95 ; ^^R[]\OT1/cmr/m/n/10.95 )]
  []
 
-[20]
+[22]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [21] [22] [23] [24] [25] [26]
+ [23] [24] [25] [26] [27] [28]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [27] [28]) [29] [30
+ [29] [30]) [31] [32
 
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/Text/05_results.tex
 Chapter 6.
-) [31
+) [33
+
+]
+Overfull \hbox (26.34688pt too wide) in paragraph at lines 59--59
+[]\TU/TimesNewRoman(0)/m/sc/10.95 Mashall Aryan. “  Sample-efficient Optimization Using Neural Networks”. []$[][][][][] [] [] [] [][][][][][][][][][][][][][][] []
+ []
+
+[34
+
+] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Appendix.tex
+Appendix A.
+) [35
+
 
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Backpage.tex
 *geometry* verbose mode - [ newgeometry ] result:
@@ -1627,17 +1644,7 @@ Chapter 6.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-
-
-LaTeX Warning: Citation 'PhDthesis' on page 32 undefined on input line 19.
-
-
-LaTeX Warning: Citation 'snoek2015scalable' on page 32 undefined on input line 19.
-
-
-LaTeX Warning: Citation 'NIPS2016_a96d3afe' on page 32 undefined on input line 19.
-
-) [32
+) [36
 
 
 ]
@@ -1647,30 +1654,22 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 66.
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 66.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 66.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 551F9E424D54455714378EC0D92DAF97;1984.
+(rerunfilecheck)             Checksum: 31EE001613ED3E41BDDE6DCDBA06F521;2309.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
-
-
-LaTeX Warning: There were undefined references.
-
-
-Package biblatex Warning: Please (re)run Biber on the file:
-(biblatex)                main
-(biblatex)                and rerun LaTeX afterwards.
 
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 56190 strings out of 481731
- 1327376 string characters out of 5935437
- 2276393 words of memory out of 5000000
- 72242 multiletter control sequences out of 15000+600000
+ 56253 strings out of 481731
+ 1329725 string characters out of 5935437
+ 2277111 words of memory out of 5000000
+ 72296 multiletter control sequences out of 15000+600000
  547197 words of font info for 134 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 82i,17n,138p,2818b,3776s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 82i,17n,138p,2818b,4678s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (38 pages, 562588 bytes).
+Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (42 pages, 638096 bytes).

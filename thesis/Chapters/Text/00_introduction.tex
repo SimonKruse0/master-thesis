@@ -3,29 +3,43 @@
 %<What is optimization>
 Optimization plays an important part in our everyday life, science development, and product design.
 What different transportation should you choose to get fast from A to B, what songs should
-land on your playlist, what is the optimal bridge construction. Mathematical optimization problems 
-are all problems on the form, 
-$$\min_{x\in \mathcal{X}} f(x)$$
-where $f: \mathcal{X} \rightarrow \mathcal{R}$ is a functional. I.e if it is possible to set up
-an objective function. e.g. what is the cost of the bridge given a specific design
-, or how pleasant you think some music, and some constraints such that you keep in the domain of
-interest. Evaluation of the objective function can be cheap e.g. if it just requires summing and 
-multiplieing numbers or highly expensive if it involves human rating or large simulation and physical 
-experiments. Bayesian optimization is a preferred <ref> framework for the expensive objective functions. 
-And is also referred to as \textit{sample efficient} optimization. 
+land on your playlist, and what is the optimal bridge construction. Mathematical optimization problems 
+are all problems in the form, 
+$$\min_{x\in \mathcal{X}} f(x)$$ where $f: \mathcal{X} \rightarrow \mathcal{R}$ is a functional. I.e
+if it is possible to set up an objective function. e.g. what is the cost of the bridge given a
+specific design, or how pleasant you think some music, and some constraints such that you keep in
+the domain of interest. Evaluation of the objective function can be cheap e.g. if it just requires
+summing and multiplying numbers or highly expensive if it involves human rating or large simulation
+and physical experiments. Bayesian optimization is a preferred <ref> framework for optimization of
+the expensive objective functions. And is also referred to as \textit{sample efficient}
+optimization. 
 %<Why Bayesian optimization?>
 
 Bayesian optimization is a probabilistic surrogate-based optimization: Assuming some samples from a
 highly expensive objective a cheap (surrogate) function is used to fit the samples. The next sample
 is found by minimizing the surrogate and the process is repeated. Bayesian optimization seeks to
 enhance this procedure with probability theory, where the surrogate function becomes a probabilistic
-regression model. The most common choice is a Gaussian Process, as it encapsel the uncertainty very well,
-but also because its inference procedure (computing answers to probability quries like $p(y|x)$) is exact.
+regression model. The most common choice is a Gaussian Process, as it encapsulates the uncertainty very well,
+but also because its inference procedure (computing answers to probability queries like $p(y|x)$) is exact.
 
 Even though GP has proven good for many cases, there will be problems where the assumptions do not hold. 
-In the thesis ... PhD from 2020 he tries out using Bayesian neural networks as surrogate models. 
-This thesis will investigate GP and Bayesian neural networks and try out mixture regression, 
-which might be a even better surrogate model. 
+The assumptions of a GP are essential that the objective function can be described as a GP.
+The nature of a GP is highly dependent on the choice of its kernel and the parameters chosen in that kernel. 
+Another reason for the popularity of the GP is the closed-form inference and giving a closed-form of the 
+expected improvement aqurisition function. 
+
+The PhD thesis "Sample-efficient Optimization Using Neural Networks" from 2020 \cite{PhDthesis}
+showcases empirically that using Bayesian neural networks as surrogate models performed better,
+or at least comparable to GPs on a wide number of problems. The performance difference was more
+clear for high-dimensional problems. 
+
+This master thesis project will investigate surrogate models alternative to Gaussian processes in
+Bayesian optimization. Firstly by examining what types of problems a GP surrogate is not a good
+choice for and where Bayesian neural nets (BNN) surrogates can have an advantage (inspiration found in
+this 2020 thesis [1]). Secondly by looking at sum-product networks (SPN) as novel surrogate models.
+An SPN is - similarly to a BNN - a deep probabilistic model and still expressive but with tractable
+inference, which potentially could lead to advantages over BNNs. 
+
 %#<Short overview of types of surrogate models>
 
 <Make a figure of how the parts are all connected>
@@ -36,3 +50,31 @@ the probability density function of the random variable $X$ evaluated in $x$.
 and $p(y|x) := P(Y=y|X=x)$ or $p(y|x) := P(Y|X=x)$.
 
 And writing $p(y^2|x)$ means $P(Y^2=y^2|X=x)$ and \textbf{not} $P(Y=y^2|X=x)$
+
+\section{related work}
+This thesis is 
+<BAHAMIANN>
+
+<DNGO>
+Focus on the inference time of GP scales cubic, which is not appropriate for
+parallel BayesOpt. 
+Experiments on 6dim Hartmann function. 
+
+<Arayns paper.>
+Conclusions..!?
+
+Already developed alternative surrogate models has been found in the litterateur. The last presented
+surrogate model, SPN, is to our knowledge not in any published work. More models might still be
+added to the list. 
+
+\subsubsection*{DNGO}
+Deep Networks for Global Optimization (DNGO) is presented in the paper 2015 paper "Scalable Bayesian
+Optimization Using Deep Neural Networks"\cite{snoek2015scalable}. The surrogate model is a neural
+network, where only the last layer is probabilistic, this leads to Bayesian regression and very fast
+inference.  
+
+\subsubsection*{BOHAMIANN}
+\textbf{B}ayesian \textbf{O}ptimization with \textbf{Hami}ltonian Monte Carlo \textbf{A}rtificial
+\textbf{N}eural \textbf{N}etworks (BOHAMIANN) is presented in the 2016 paper "Bayesian Optimization
+with Robust Bayesian Neural Networks"\cite{NIPS2016_a96d3afe}. This is a fully Bayesian Neural
+Network trained using adaptive Hamiltonian MCMC. 

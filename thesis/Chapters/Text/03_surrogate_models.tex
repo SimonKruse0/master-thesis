@@ -22,6 +22,25 @@ And the log likelihood,
 $$\log p(\mathcal{D}| ..) = \sum_{i=1}^n \log \sum_{k=1}^K \pi_k \mathcal{N}(z_i|\mu_k, \Sigma_k)$$
 
 
+\subsection*{Dealing with wrong variance}
+\begin{figure}[H]%
+    \centering
+    {\includegraphics[width=0.46\textwidth]{Pictures/mixture_regression_variance_problem1.pdf} }%
+    \qquad
+   {\includegraphics[width=0.46\textwidth]{Pictures/mixture_regression_variance_problem2.pdf} }%
+   \qquad
+   {\includegraphics[width=0.46\textwidth]{Pictures/mixture_regression_variance_problem3.pdf} }%
+   \caption{EI improvement might in this case be stucked at the point 0,
+    since the conditional distribution is normalized by $p(x)$ and therefore not
+    influenced by the amount of data}%
+    \label{MixtureReg_challenge}%
+\end{figure}
+
+
+<variance manipulation>
+<Expected improvement manipulation>
+
+
 \section{Mixture regression in a Bayesian setting}
 As seen in examples. The uncertainty of conditional distribution is way too certain
 in areas with no data points, therefore we need to enhance the model with some bayesian 
