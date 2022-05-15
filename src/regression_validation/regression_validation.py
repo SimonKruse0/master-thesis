@@ -1,13 +1,13 @@
 import numpy as np
 from src.regression_models.numpyro_neural_network import NumpyroNeuralNetwork
-from src.regression_models.stan_neural_network import StanNeuralNetwork
+#from src.regression_models.stan_neural_network import StanNeuralNetwork
 from src.regression_models.gaussian_process_regression import GaussianProcess_sklearn
 from src.regression_models.bohamiann import BOHAMIANN
 #from src.regression_models.gaussian_mixture_regression2 import GMRegression
 from src.regression_models.mean_regression import MeanRegression
 from src.regression_models.SPN_regression2 import SumProductNetworkRegression
 
-#import random
+import random
 from src.utils import RegressionValidation
 
 from src.benchmarks.custom_test_functions.problems import SimonsTest,SimonsTest3_cosine_fuction, SimonsTest4_cosine_fuction
@@ -22,26 +22,26 @@ import os
 from datetime import datetime
 
 #prob = Zirilli(dimensions = 2)
-#dims = [2,3,5,10]
-dims = [1]
+dims = [1,2,3,5,10]
+#dims = [1]
 
 problems = [Step(dimensions = x) for x in dims]
 problems += [Rastrigin(dimensions = x) for x in dims]
 problems += [Weierstrass(dimensions = x) for x in dims]
-#problems += [Katsuura(dimensions = x) for x in dims]
+problems += [Katsuura(dimensions = x) for x in dims[1:]]
 problems += [Schwefel26(dimensions = x) for x in dims]
-#problems += [Rosenbrock(dimensions = x) for x in dims]
+problems += [Rosenbrock(dimensions = x) for x in dims[1:]]
 
 #problems = [SimonsTest4_cosine_fuction()]
 
-# random.seed()
-# random.shuffle(problems)
+random.seed()
+random.shuffle(problems)
 
 # BOHAMIANN_regression_fast = BOHAMIANN(num_warmup = 200, num_samples = 300, num_keep_samples= 100)
 # BOHAMIANN_regression = BOHAMIANN(num_warmup = 2000, num_samples = 2000, num_keep_samples= 300,  extra_name="2000-2000")
 # BOHAMIANN_regression_slow = BOHAMIANN(num_warmup = 4000, num_samples = 4000, num_keep_samples= 300,  extra_name="4000-4000")
-NNN_regression_fast = NumpyroNeuralNetwork(num_chains = 4, num_warmup= 200, num_samples=300, num_keep_samples= 100)
-NNN_regression = NumpyroNeuralNetwork(num_chains = 4, num_warmup= 2000, num_samples=2000, num_keep_samples= 300, extra_name="2000-2000")
+NNN_regression_fast = NumpyroNeuralNetwork(num_chains = 4, num_warmup= 200, num_samples=300, num_keep_samples= 300, extra_name="200-300")
+NNN_regression = NumpyroNeuralNetwork(num_chains = 4, num_warmup= 1000, num_samples=1000, num_keep_samples= 1000, extra_name="1000-1000")
 # # Slow NNN with 3*50 hidden units takes 15 min per. training 
 # # -> way to slow for these experiements. 
 
@@ -51,8 +51,8 @@ NNN_regression = NumpyroNeuralNetwork(num_chains = 4, num_warmup= 2000, num_samp
 # random.shuffle(regression_models)
 # #regression_models = [MeanRegression()]
 # regression_models = [GaussianProcess_sklearn()]
-regression_models = [SumProductNetworkRegression(manipulate_variance=False, optimize=True, tracks=2, channels=50)]
-regression_models = [NNN_regression_fast]
+#regression_models = [SumProductNetworkRegression(manipulate_variance=False, optimize=True, tracks=2, channels=50)]
+regression_models = [NNN_regression_fast, NNN_regression]
 #regression_models = [StanNeuralNetwork()]
 ## Data enrichment ##
 #include_true_values(problems, remove_min_n_test=True)
@@ -77,7 +77,7 @@ n_train_array = [int(x) for x in np.logspace(1, 2.5, 9)]
 # n_train_array = [10,20,30]
 #n_train_array = [int(x) for x in np.logspace(1, 1.8, 9)]
 n_test = 10000
-n_test = 10
+#n_test = 10
 
 run_name = datetime.today().strftime('%m%d_%H%M')
 dirname=os.path.dirname
@@ -92,12 +92,12 @@ except:
 for problem in problems:
     for random_seed in np.random.randint(9999, size=1):
         for regression_model in regression_models:
-            #try:
-            print(regression_model.name, f"{type(problem).__name__} in dim {problem.N}")
-            RV = RegressionValidation(problem, regression_model, random_seed)
-            RV.train_test_loop(n_train_array, n_test,path =  f"{path}")
-            RV.save_regression_validation_results(f"{path}")
-            # except:
-            #     print(f"ERROR: Could not train {regression_model.name} on {type(problem).__name__} in dim {problem.N}")
+            try:
+                print(regression_model.name, f"{type(problem).__name__} in dim {problem.N}")
+                RV = RegressionValidation(problem, regression_model, random_seed)
+                RV.train_test_loop(n_train_array, n_test,path =  f"{path}")
+                RV.save_regression_validation_results(f"{path}")
+            except:
+                print(f"ERROR: Could not train {regression_model.name} on {type(problem).__name__} in dim {problem.N}")
 
 
