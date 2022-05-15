@@ -14,10 +14,10 @@ if __name__=="__main__":
     from src.regression_models.numpyro_neural_network import NumpyroNeuralNetwork #JAX
     from src.regression_models.gaussian_process_regression import GaussianProcess_sklearn, GaussianProcess_pyro
     from src.regression_models.bohamiann import BOHAMIANN #Torch
-    #from src.regression_models.gaussian_mixture_regression2 import GMRegression
+    from src.regression_models.naive_GMR import NaiveGMRegression
     from src.regression_models.SPN_regression2 import SumProductNetworkRegression
     from src.regression_models.mean_regression import MeanRegression
-    from src.benchmarks.custom_test_functions import SimonsTest3_cosine_fuction
+    from src.benchmarks.custom_test_functions.problems import SimonsTest3_cosine_fuction
 
 PLOT_NR = 0
 
@@ -44,14 +44,16 @@ class BayesianOptimization(PlottingClass):
         self.model.fit(X_init,Y_init)
 
     def _initXY(self, sample_size):
+        np.random.seed(2)
         X_init = np.random.uniform(*self.bounds,size = (sample_size,self.problem_dim))
         try:
             Y_init = self.obj_fun(X_init)
         except:
-            y = []
-            for x in X_init:
-                y.append(self.obj_fun(x))
-            Y_init = np.array(y)[:,None]
+            assert False
+            # y = []
+            # for x in X_init:
+            #     y.append(self.obj_fun(x))
+            # Y_init = np.array(y)[:,None]
         return X_init,Y_init
     def predict(self,X, gaussian_approx = True, get_px = False):
         if get_px:
@@ -67,14 +69,19 @@ class BayesianOptimization(PlottingClass):
     def expected_improvement(self,X,xi=0, return_analysis = False):
         assert X.ndim == 2
         #print("OBS X[:,None] might fail in largers dims!")
-        mu, sigma, p_x = self.predict(X, get_px=True) #Partial afledt. Pytorch. 
+        if self.model.name == "Naive Gaussian Mixture Regression":
+            mu, sigma, p_x = self.predict(X, get_px=True) #Partial afledt. Pytorch. 
+        else:
+            mu, sigma = self.predict(X) #Partial afledt. Pytorch. 
+
         imp = -mu - self.f_best - xi
         Z = imp/sigma
         exploitation = imp*norm.cdf(Z)
         exploration = sigma*norm.pdf(Z)
         EI = exploitation + exploration
-        N = self._X.shape[0]
-        EI *= 1/(N*p_x)
+        if self.model.name == "Naive Gaussian Mixture Regression":
+            N = self._X.shape[0]
+            EI *= 1/(N*p_x)
         #EI = exploitation/10 + exploration
         if return_analysis:
             return EI, exploitation, exploration
@@ -259,18 +266,18 @@ if __name__ == "__main__":
 
     bounds = [0,1]
     #datasize = int(input("Enter number of datapoints: "))
-    datasize = 10
-    np.random.seed(2)
-    X_sample =  np.random.uniform(*bounds,size = (datasize,1))
-    Y_sample = obj_fun(X_sample)
-
+    # datasize = 10
+    # np.random.seed(2)
+    # X_sample =  np.random.uniform(*bounds,size = (datasize,1))
+    # Y_sample = obj_fun(X_sample)
+    problem = SimonsTest3_cosine_fuction()
     mean_regression = MeanRegression()
-    SPN_regression = SumProductNetworkRegression(manipulate_varance=False, optimize=True)
+    SPN_regression = SumProductNetworkRegression(manipulate_variance=False, optimize=True)
     # GP_regression = GaussianProcess_sklearn()
     # GP_regression2 = GaussianProcess_pyro(noise=0)
     BOHAMIANN_regression = BOHAMIANN(num_warmup = 200, num_samples = 400)  
     NNN_regression = NumpyroNeuralNetwork(num_chains = 4, num_warmup= 200, num_samples=200, num_keep_samples= 50)
-    mixture_regression = GMRegression()
+    mixture_regression = NaiveGMRegression()
     
     #regression_model = [mixture_regression, GP_regression,BOHAMIANN_regression,NNN_regression]
     regression_models = [SPN_regression, mixture_regression,BOHAMIANN_regression, mean_regression]
@@ -282,7 +289,7 @@ if __name__ == "__main__":
     plt.figure(figsize=(12, 8))
     outer_gs = gridspec.GridSpec(2, len(regression_models)//2+1)
     for i in range( len(regression_models)):
-        BO_BNN = BayesianOptimization(obj_fun, regression_models[i],bounds,X_sample,Y_sample)
+        BO_BNN = BayesianOptimization(problem, regression_models[i])
         opt = BO_BNN.optimization_step()
         BO_BNN.plot_surrogate_and_expected_improvement(outer_gs[i],opt, show_name=True)
     plt.show()

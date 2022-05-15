@@ -22,7 +22,7 @@ problem = SimonsTest(dimensions=1)
 
 np.random.seed(2)
 
-GM_reg = NaiveGMRegression(optimize=False, manipulate_variance=True)
+GM_reg = NaiveGMRegression(optimize=False, manipulate_variance=False)
 
 regression_models = [GM_reg]
 plt.figure(figsize=(12, 8))
@@ -48,8 +48,8 @@ for iter in range(50):
         BO.plot_surrogate_and_expected_improvement(ax, opt, show_name=True)
         opts[i] = opt
         number = f"{iter}".zfill(3)
-    plt.savefig(f"{path}/{fig_name}_{number}.jpg")
-    #plt.show()
+    #plt.savefig(f"{path}/{fig_name}_{number}.jpg")
+    plt.show()
 
 x_hist,y_hist = BO.get_optimization_hist()
 print(x_hist)

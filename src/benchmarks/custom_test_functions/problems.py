@@ -70,8 +70,12 @@ class SimonsTest3_cosine_fuction(Benchmark):
             k = -np.round(x)
 
         self.nfev += 1
-        return x*sin(k*x)+k
 
+        result = x*sin(k*x)+k
+        if result.ndim == 0:
+            return result
+        else:
+            return result[0]
 
 class SimonsTest2(Benchmark):
 
@@ -107,6 +111,27 @@ class SimonsTest(Benchmark):
         x = x+ 0.5
         self.nfev += 1
         result = 0.5 * (np.sign(x-0.5) + 1)+np.sin(100*x)*0.1
+        if result.ndim == 0:
+            return result
+        else:
+            return result[0]
+
+class SimonsTest0(Benchmark):
+
+    def __init__(self, dimensions=1):
+        Benchmark.__init__(self, dimensions)
+        assert dimensions == 1
+        self._bounds = list(zip([-0.5] * self.N,
+                           [0.5] * self.N))
+        self.custom_bounds = ([-5, 5], [-5, 5])
+
+        self.global_optimum = [[0. for _ in range(self.N)]]
+        self.fglob = 0.0
+        self.change_dimensionality = True
+    def fun(self,x, *args): 
+        x = x+ 0.5
+        self.nfev += 1
+        result = 0.5 * (np.sign(x-0.5) + 1)
         if result.ndim == 0:
             return result
         else:

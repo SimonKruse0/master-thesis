@@ -5,7 +5,7 @@ from numpyro import sample
 from numpyro.infer import MCMC, NUTS,Predictive
 import numpy as np
 
-from ..utils import normalize, denormalize
+from src.utils import normalize, denormalize
 
 from jax import vmap
 import jax.numpy as jnp
@@ -75,6 +75,7 @@ class NumpyroNeuralNetwork:
         else:
             sigma_obs = sample("sigma", dist.Exponential(jnp.ones((1,1))*self.obs_variance_prior))+0.00001
 
+        #sigma_obs = 0.000001
         #likelihood 
         z1 = jnp.tanh(b1+jnp.matmul(X, w1))  # <= first layer of activations
         z2 = jnp.tanh(b2+jnp.matmul(z1, w2))  # <= second layer of activations
@@ -82,14 +83,16 @@ class NumpyroNeuralNetwork:
         with numpyro.plate("data", N):
             # note we use to_event(1) because each observation has shape (1,)
             numpyro.sample("Y", dist.Normal(z3, sigma_obs).to_event(1), obs=Y)
+            #numpyro.sample("Y", dist.Delta(z3).to_event(1), obs=Y)
 
         return z3, sigma_obs
     
-    def fit(self, X, Y, verbose = False): #run_inference
+    def fit(self, X, Y, verbose = True): #run_inference
         assert X.ndim == 2
+        assert Y.ndim == 2
 
-        X_, self.x_mean, self.x_std = normalize(X)
-        Y_, self.y_mean, self.y_std = normalize(Y)
+        X, self.x_mean, self.x_std = normalize(X)
+        Y, self.y_mean, self.y_std = normalize(Y)
 
         start = time.time()
         kernel = NUTS(self.model, target_accept_prob=self.target_accept_prob)
@@ -100,7 +103,7 @@ class NumpyroNeuralNetwork:
             num_chains=self.num_chains,
             progress_bar=False if "NUMPYRO_SPHINXBUILD" in os.environ else True,
         )
-        mcmc.run(self.rng_key, X_, Y_)
+        mcmc.run(self.rng_key, X, Y)
         if verbose:
             mcmc.print_summary()
             print("\nMCMC elapsed time:", time.time() - start)

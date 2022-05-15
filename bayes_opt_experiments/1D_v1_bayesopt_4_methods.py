@@ -9,38 +9,45 @@ from src.optimization.bayesian_optimization import BayesianOptimization
 from src.regression_models.SPN_regression2 import SumProductNetworkRegression
 from src.regression_models.gaussian_process_regression import GaussianProcess_sklearn
 from src.regression_models.numpyro_neural_network import NumpyroNeuralNetwork
+from src.regression_models.stan_neural_network import StanNeuralNetwork
 #from src.regression_models.gaussian_mixture_regression2 import GMRegression
 from src.regression_models.naive_GMR import NaiveGMRegression
 from src.regression_models.bohamiann import BOHAMIANN
 
-from src.benchmarks.go_benchmark_functions.go_funcs_S import Step
+from src.benchmarks.go_benchmark_functions.go_funcs_S import Step, Schwefel26
 from src.benchmarks.go_benchmark_functions.go_funcs_W import Weierstrass
 
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 
-from src.benchmarks.custom_test_functions.problems import SimonsTest,SimonsTest3_cosine_fuction, SimonsTest4_cosine_fuction
+from src.benchmarks.custom_test_functions.problems import SimonsTest,SimonsTest0,SimonsTest3_cosine_fuction, SimonsTest4_cosine_fuction
 
 problem = SimonsTest4_cosine_fuction()
-
+problem = SimonsTest()
+problem = SimonsTest0()
+problem = Schwefel26(dimensions=1)
+problem = Step(dimensions=1)
 np.random.seed(2)
 
-BOHAMIANN_regression = BOHAMIANN(num_warmup = 200, num_samples = 300, num_keep_samples= 300)
+BOHAMIANN_regression = BOHAMIANN(num_warmup= 200, num_samples=200, num_keep_samples= 50)
 GP_regression = GaussianProcess_sklearn()
-NNN_regression = NumpyroNeuralNetwork(num_chains = 4, num_warmup= 200, num_samples=300, num_keep_samples= 50)
+NNN_regression = NumpyroNeuralNetwork(num_chains = 4, num_warmup= 2000, num_samples=2000, num_keep_samples= 300, extra_name="2000-2000")
+NNN_regression = NumpyroNeuralNetwork(num_chains = 4, num_warmup= 200, num_samples=200, num_keep_samples= 200, extra_name="200-200")
+BNN_regression = StanNeuralNetwork()
 SPN_reg = SumProductNetworkRegression(optimize=True, manipulate_variance=True)
 SPN_reg2 = SumProductNetworkRegression(optimize=False, manipulate_variance=True)
-GM_reg = NaiveGMRegression(optimize=False, manipulate_variance=True)
+GM_reg = NaiveGMRegression(optimize=False, manipulate_variance=False)
 
-regression_models = [GP_regression,BOHAMIANN_regression, GM_reg,SPN_reg2 ]
+regression_models = [GP_regression,NNN_regression, GM_reg,BNN_regression ]
+regression_models = [GP_regression,NNN_regression, GM_reg,SPN_reg2 ]
 plt.figure(figsize=(12, 8))
 outer_gs = gridspec.GridSpec(2, 2)
 
 BOs = []
 opts = []
 for i in range(len(regression_models)):
-    BOs.append(BayesianOptimization(problem, regression_models[i]))
+    BOs.append(BayesianOptimization(problem, regression_models[i], init_n_samples=10))
     opts.append(OptimizationStruct())
 
 for iter in range(20):

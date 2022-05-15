@@ -1,5 +1,3 @@
-from cProfile import label
-from turtle import color
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 from matplotlib import cm
@@ -92,7 +90,7 @@ class PlottingClass:
         ax1 = plt.subplot(gs[0])
         ax2 = plt.subplot(gs[1])
         self.plot_regression_gaussian_approx(ax1,opt.Xgrid, show_name = show_name)
-        self.plot_regression_credible_interval(ax1,opt.Xgrid)
+        #self.plot_regression_credible_interval(ax1,opt.Xgrid)
         X_true =  np.linspace(*self.bounds,10000)
         Y_true = self.obj_fun(X_true)
         ax1.plot(X_true, Y_true, "--", color="Black")
@@ -183,7 +181,7 @@ class RegressionValidation(PlottingClass):
             self.data_generator(n_train, n_test_points)
             X,y=self.train_X, self.train_y
             X_test,y_test = self.test_X, self.test_y 
-            self.model.fit(X,y)
+            self.model.fit(X,y[:,None])
             Y_mu,Y_sigma,_ = self.model.predict(X_test)
             self.mean_abs_pred_error.append(np.mean(np.abs(y_test-Y_mu)))
             self.mean_rel_pred_error.append(
