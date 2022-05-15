@@ -186,6 +186,31 @@
       \verb https://proceedings.neurips.cc/paper/2016/file/a96d3afec184766bfeca7a9f989fc7e7-Paper.pdf
       \endverb
     \endentry
+    \entry{bayesoptbook}{book}{}
+      \name{author}{1}{}{%
+        {{hash=eaf84e3fe4f887967dc3d793d28b9e94}{%
+           family={Garnett},
+           familyi={G\bibinitperiod},
+           given={Roman},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Cambridge University Press}%
+      }
+      \strng{namehash}{eaf84e3fe4f887967dc3d793d28b9e94}
+      \strng{fullhash}{eaf84e3fe4f887967dc3d793d28b9e94}
+      \strng{bibnamehash}{eaf84e3fe4f887967dc3d793d28b9e94}
+      \strng{authorbibnamehash}{eaf84e3fe4f887967dc3d793d28b9e94}
+      \strng{authornamehash}{eaf84e3fe4f887967dc3d793d28b9e94}
+      \strng{authorfullhash}{eaf84e3fe4f887967dc3d793d28b9e94}
+      \field{sortinit}{4}
+      \field{sortinithash}{e071e0bcb44634fab398d68ad04e69f4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{in preparation}
+      \field{title}{{Bayesian Optimization}}
+      \field{year}{2022}
+    \endentry
     \entry{bishop}{book}{}
       \name{author}{2}{}{%
         {{hash=9dfd0135a5e80aa6d81cea2c10fb7f73}{%
@@ -219,7 +244,6 @@
     \endentry
   \enddatalist
   \missing{SPN_EM}
-  \missing{bayesoptbook}
 \endrefsection
 \endinput
 

@@ -1,0 +1,31 @@
+Assume we have a multivariate normal distribtuion with mean 0 and variance maxtric, 
+$$\begin{bmatrix}
+    1&c \\ 
+    c&1
+\end{bmatrix}$$
+Now assume this 
+
+
+It "tilted"! Because of the positive covariance value between $f_1$ and $f_2$, when $f_1$ increases
+in value, the probability of $f_2$ also increasing is higher. So the practical effect is that the
+probability along the $f_1=f_2$ line increases, thus leading to the "rotated" shape that we see
+above.
+
+So far this is rather obvious, right? But what about higher dimensions? The same properties apply,
+but we can't visualize the result in the same way anymore. How can we visualize a sample from a
+multivariate Gaussian with 50 dimensions? 
+
+Consider the case where the values of $\textbf{f} = (f_1,f_2,\dots,f_N)^T$ correspond to the
+evaluations of a given function $f(x)$ at equidistant points $x_1,x_2,\dots,x_N$ (we will relax this
+equidistant assumption later). For example, supose that $\textbf{f} = (f(1),f(2),\dots,f(N))^T$. We
+can model these with a N-dimensional multivariate Gaussian! In that case, a rather obvious way for
+visualizing the samples from that N-dimensional multivariate Gaussian is simply to plot them in 2-D.
+The x-axis holdes the values of $x_i$, and the y-axis represents the correponding sampled value $f_i
+= f(x_i)$. 
+
+Let us now create a 50-dimensional multivariate Gaussian and do just that! We need to specify the
+mean vector $\boldsymbol\mu$ and the covariance matrix $\boldsymbol\Sigma$. The mean vector we can
+just that is a vector zeros, $\boldsymbol\mu = \textbf{0}$. As for the covariance matrix
+$\boldsymbol\Sigma$, we will make it structured, such that values close to the diagonal have higher
+values. Namely, the covariance between $f_i$ and $f_{i+1}$ is 0.5, the covariance between $f_i$ and
+$f_{i+2}$ is 0.25, the covariance between $f_i$ and $f_{i+3}$ is 0.125, ... 

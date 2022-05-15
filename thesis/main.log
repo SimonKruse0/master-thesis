@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  14 MAY 2022 22:39
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  15 MAY 2022 11:30
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1337,13 +1337,6 @@ Package biblatex Warning: The following entry could not be found
 (biblatex)                Please verify the spelling and rerun
 (biblatex)                LaTeX afterwards.
 
-
-Package biblatex Warning: The following entry could not be found
-(biblatex)                in the database:
-(biblatex)                bayesoptbook
-(biblatex)                Please verify the spelling and rerun
-(biblatex)                LaTeX afterwards.
-
 )
 Package biblatex Info: Reference section=0 on input line 13.
 Package biblatex Info: Reference segment=0 on input line 13.
@@ -1454,15 +1447,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 5--7
 
 ] [4
 
-] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/Text/00_introduction.tex
+] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/00_introduction.tex
 Chapter 1.
 [1
 
-]) [2] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/Text/01_optimization.tex
+]) [2] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/01_optimization.tex
 Chapter 2.
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 34.
 [3
-
 
 
 ]
@@ -1475,7 +1467,7 @@ Underfull \vbox (badness 1221) has occurred while \output is active []
 
  [4]) [5] [6
 
-] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/Text/02_bayesian_optimization.tex
+] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/02_bayesian_optimization.tex
 Chapter 3.
 File: Pictures/expected_improvement_illustration.pdf Graphic file (type pdf)
 <use Pictures/expected_improvement_illustration.pdf>
@@ -1488,33 +1480,38 @@ File: Pictures/mixture_predictive_bayesian2D.pdf Graphic file (type pdf)
 <use Pictures/mixture_predictive_bayesian2D.pdf>
  [10]) [11] [12
 
-] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/Text/03_surrogate_models.tex
+] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_gaussian_process_regression.tex
 Chapter 4.
+[13
+
+]) [14] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/04_bayesian_nn_regression.tex
+Chapter 5.
+[15
+
+
+] [16]) [17] [18
+
+] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_mixture_regression.tex
+Chapter 6.
 File: Pictures/mixture_regression_variance_problem1.pdf Graphic file (type pdf)
 <use Pictures/mixture_regression_variance_problem1.pdf>
 File: Pictures/mixture_regression_variance_problem2.pdf Graphic file (type pdf)
 <use Pictures/mixture_regression_variance_problem2.pdf>
 File: Pictures/mixture_regression_variance_problem3.pdf Graphic file (type pdf)
 <use Pictures/mixture_regression_variance_problem3.pdf>
+[19
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [13
-
-] [14]
+]
 
 LaTeX Font Warning: Font shape `TU/TimesNewRoman(0)/m/sc' undefined
-(Font)              using `TU/TimesNewRoman(0)/m/n' instead on input line 82.
+(Font)              using `TU/TimesNewRoman(0)/m/n' instead on input line 73.
 
-[15] [16]
+[20] [21] [22]
 File: Pictures/SPN_illustration1.pdf Graphic file (type pdf)
 <use Pictures/SPN_illustration1.pdf>
 File: Pictures/SPN_illustration2.pdf Graphic file (type pdf)
 <use Pictures/SPN_illustration2.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [17] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/tikz/SPN.tex
+ (/home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/tikz/SPN.tex
 Missing character: There is no ; in font nullfont!
 Missing character: There is no ; in font nullfont!
 Missing character: There is no ; in font nullfont!
@@ -1571,43 +1568,43 @@ Missing character: There is no ; in font nullfont!
 )
 File: Figures/SPN_graph2.pdf Graphic file (type pdf)
 <use Figures/SPN_graph2.pdf>
-) [18] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/Text/04_inference.tex
-Chapter 5.
 
-Overfull \hbox (0.54826pt too wide) in paragraph at lines 63--69
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [23]
+Overfull \hbox (0.54826pt too wide) in paragraph at lines 225--231
 []\TU/TimesNewRoman(0)/m/n/10.95 Sum-product networks are generative models, i.e. statistical models of the joint distribution $\OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 x; y\OT1/cmr/m/n/10.95 )$\TU/TimesNewRoman(0)/m/n/10.95 .
  []
 
-[19
 
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-] [20] [21]
-Overfull \hbox (15.32054pt too wide) detected at line 286
+ [24]
+Underfull \vbox (badness 2913) has occurred while \output is active []
+
+ [25] [26]
+Overfull \hbox (15.32054pt too wide) detected at line 448
 [] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j\OML/cmm/m/it/10.95 ^^R\OT1/cmr/m/n/10.95 ) \OMS/cmsy/m/n/10.95 ^^@ [] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j\OML/cmm/m/it/10.95 ^^R[]\OT1/cmr/m/n/10.95 ) = \OML/cmm/m/it/10.95 Q\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 ^^R; ^^R[]\OT1/cmr/m/n/10.95 ) \OMS/cmsy/m/n/10.95 ^^@ \OML/cmm/m/it/10.95 Q\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 ^^R[]; ^^R[]\OT1/cmr/m/n/10.95 ) + \OML/cmm/m/it/10.95 E[]\OT1/cmr/m/n/10.95 [[] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j[]\OML/cmm/m/it/10.95 ; ^^R\OT1/cmr/m/n/10.95 )] \OMS/cmsy/m/n/10.95 ^^@ \OML/cmm/m/it/10.95 E[]\OT1/cmr/m/n/10.95 [[] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j[]\OML/cmm/m/it/10.95 ; ^^R[]\OT1/cmr/m/n/10.95 )]
  []
 
-[22]
+[27]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [23] [24] [25] [26] [27] [28]
-Underfull \vbox (badness 10000) has occurred while \output is active []
+ [28] [29]) [30] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/06_results.tex
+Chapter 7.
+) [31
 
- [29] [30]) [31] [32
-
-] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/Text/05_results.tex
-Chapter 6.
-) [33
 
 ]
-Overfull \hbox (26.34688pt too wide) in paragraph at lines 59--59
+Overfull \hbox (26.34688pt too wide) in paragraph at lines 58--58
 []\TU/TimesNewRoman(0)/m/sc/10.95 Mashall Aryan. “  Sample-efficient Optimization Using Neural Networks”. []$[][][][][] [] [] [] [][][][][][][][][][][][][][][] []
  []
 
-[34
+[32
 
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Appendix.tex
 Appendix A.
-) [35
+) [33
 
 
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Backpage.tex
@@ -1643,17 +1640,17 @@ Appendix A.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-) [36
+) [34
 
 
 ]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 66.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 66.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 65.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 65.
  (/home/simon/Documents/MasterThesis/master-thesis/thesis/main.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 66.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 66.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 65.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 65.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 39761E20DD10259333F7374CC5318C4F;2158.
+(rerunfilecheck)             Checksum: 2B85AD4420B20FB9F44479A859D8442E;1907.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -1663,12 +1660,12 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 56259 strings out of 481731
- 1330020 string characters out of 5935437
- 2276951 words of memory out of 5000000
+ 56262 strings out of 481731
+ 1330363 string characters out of 5935437
+ 2275862 words of memory out of 5000000
  72301 multiletter control sequences out of 15000+600000
  547197 words of font info for 134 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  82i,17n,138p,2818b,4678s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (42 pages, 646812 bytes).
+Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (40 pages, 608660 bytes).

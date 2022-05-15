@@ -95,6 +95,17 @@ where $\Omega = \{\theta|f_{\theta}(x)< y_{\min}\}$
 
 
 \section{surrogate model}
+As mentioned in the previous sections, the first of two repeated steps in Bayesian optimization
+is to create a good Bayesian regression model. %why not non bayesian regression? 
+i.e. finding the probility of prediction for a arbitrary point $x$ given datapoints 
+$\mathcal{D} = \{x_1, y_1, \dots, x_n, y_n\}$, 
+ $$p(y|x,\mathcal{D})$$
+
+The surrogate model of choise in Bayesian optimization is a Gaussian Process, and Bayesian Neural Network.
+These are discriminative models, however, another approach, which we focus on in this project, is
+to model $y$ and $x$ jointly in a so-called generative model.
+
+
 
 \subsection{Discriminative model as surrogate model}
 When talking about a probabilistic surrogate model we are always implicit talking about a
@@ -140,33 +151,53 @@ In a way, this is a manipulation in a Bayesian spirit, as we let prior and subje
 varience prediction. 
 
 \subsection{Inclusion of prior distribution}
-The conditional distribution $p(y|x)$ is without a prior. Therefore
-its beliefs is not really ok.. In the flavour of a Poission point process, 
-we introduce the prior.. 
-$$p_{bayes}(y|x) = \frac{p(x)\cdot N \cdot p(y|x) + \lambda p_{prior}(y)}{Z}$$
-where the normalization constant $Z$ makes sure the manipulated density integrates
-to 1, i.e. 
-$$Z =\int p(x)\cdot N \cdot p(y|x) + \lambda p_{prior}(y) dy =p(x)\cdot N+\lambda $$
+The conditional distribution $p(y|x)$ obtained from using a Gaussian mixture model is without a prior, and
+the predictive distribution yields a way too small uncertainty estimate in regions where there are no observations.
+This is because the range of the Gaussian distribution continues throughout the entire space and even though the
+joint distribution is very small in the region, the conditional distribution is normalized using the (very small) $p(x)$.
+We, therefore, want to introduce a prior, which can rule over the conditional in regions where the probability is too
+small. The first approach is simply to define a new conditional distribution, 
+\begin{align}\label{manipulated_pred_dist}
+    \hat p(y|x) &\propto S(x) \cdot p(y|x) + p_{prior}(y)
+\end{align}
+where the scaling function can be interpreted as the probability of the input $x$ is in the region
+ball $x \in B_{\frac{1}{2}\Delta}(x)$, and the probability density is not just $p(x)$ but the
+probability of the average mixture component, which is $K\cdot p(x)$, assuming the mixture is
+dominated be a single component at the position $x$. We define the scaling as 
+$$S(x):= K\cdot p(x)\cdot \Delta$$
+% $p_K(x)$ is the marginal density of an average mixture component, i.e. 
+% $$p(x) = \sum_{k=1}^K \gamma_k p_k(x) \implies p_K(x) = K \cdot p(x)$$
+Next we need to normalize the manipulated predictive distribution in order to
+make it a proper probability density, i.e., making sure it integrates to 1, 
+$$\int S(x) \cdot p(y|x) + p_{prior}(y) dy =S(x)+1$$
+so the we can easily update \eqref{manipulated_pred_dist} with an equality
+sign by defining the manipulated predive distribution as, 
+$$\hat p(y|x) = \frac{S(x) \cdot p(y|x) + p_{prior}(y)}{S(x)+1}.$$
 
+In figure \ref{pred_dist_manipulation} the manipulated predictive 
+distribution is illustrated under the influenced of different scalings. 
+Note that if $S(x) = 0$ the manipulated distribution becomes the prior,
+while in the limit $S(x) \rightarrow \infty$ the manipulated distribution
+become the original predictive distribtuion, $\hat p(y|x) = p(y|x)$. 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{Pictures/mixture_predictive_bayesian.pdf}
+    \includegraphics[width=0.45\textwidth]{Pictures/mixture_predictive_bayesian.pdf}
+    \includegraphics[width=0.45\textwidth]{Pictures/mixture_predictive_bayesian2D.pdf}
+    \caption{Illustration why it makes sence to manipulate the predictive distribution}
+    \label{pred_dist_manipulation}
 \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\textwidth]{Pictures/mixture_predictive_bayesian2D.pdf}
-\end{figure}
-
-\subsubsection*{mean of $p_{bayes}(y|x)$}
+\subsubsection{Manipulated predictive mean}
+What is the mean prediction of the manipulated predictive distribution?
 \begin{align*}
     E_{p_{bayes}(y|x)}[y] &= \int y \cdot \frac{f(n,p(x)) \cdot p(y|x) + \lambda p_{prior}(y)}{Z} dy\\
     &= \left(p(x)\cdot N \cdot E_{p(y|x)}[y] + \lambda \cdot E_{p_{prior}(y)}[y] \right) \frac{1}{Z}\\
     &= \frac{p(x)\cdot N\cdot E_{p(y|x)}[y]}{p(x)\cdot N+\lambda}
 \end{align*}
 
-\subsubsection*{variance of $p_{bayes}(y|x)$}
+\subsubsection{Manipulated predictive variance}
+What is the variance of the manipulated predictive distribution
 We first calculate the second moment, 
 \begin{align*}
     E_{p_{bayes}(y|x)}[y^2] &= \int y^2 \cdot \frac{p(x)\cdot N \cdot p(y|x) + \lambda p_{prior}(y)}{Z} dy\\
