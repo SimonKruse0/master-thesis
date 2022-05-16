@@ -26,22 +26,22 @@ dims = [1,2,3,5,10]
 #dims = [1]
 
 problems = [Step(dimensions = x) for x in dims]
-# problems += [Rastrigin(dimensions = x) for x in dims]
-# problems += [Weierstrass(dimensions = x) for x in dims]
-# problems += [Katsuura(dimensions = x) for x in dims[1:]]
-# problems += [Schwefel26(dimensions = x) for x in dims]
-# problems += [Rosenbrock(dimensions = x) for x in dims[1:]]
+problems += [Rastrigin(dimensions = x) for x in dims]
+problems += [Weierstrass(dimensions = x) for x in dims]
+problems += [Katsuura(dimensions = x) for x in dims[1:]]
+problems += [Schwefel26(dimensions = x) for x in dims]
+problems += [Rosenbrock(dimensions = x) for x in dims[1:]]
 
 #problems = [SimonsTest4_cosine_fuction()]
 
-random.seed()
-random.shuffle(problems)
+# random.seed()
+# random.shuffle(problems)
 
 # BOHAMIANN_regression_fast = BOHAMIANN(num_warmup = 200, num_samples = 300, num_keep_samples= 100)
 # BOHAMIANN_regression = BOHAMIANN(num_warmup = 2000, num_samples = 2000, num_keep_samples= 300,  extra_name="2000-2000")
 # BOHAMIANN_regression_slow = BOHAMIANN(num_warmup = 4000, num_samples = 4000, num_keep_samples= 300,  extra_name="4000-4000")
-# NNN_regression_fast = NumpyroNeuralNetwork(num_chains = 4, num_warmup= 200, num_samples=300, num_keep_samples= 300, extra_name="200-300")
-# NNN_regression = NumpyroNeuralNetwork(num_chains = 4, num_warmup= 1000, num_samples=1000, num_keep_samples= 1000, extra_name="1000-1000")
+NNN_regression_fast = NumpyroNeuralNetwork(hidden_units=50,num_chains = 4, num_warmup= 200, num_samples=300, num_keep_samples= 300, extra_name="50hu-200-300")
+NNN_regression = NumpyroNeuralNetwork(hidden_units=50,num_chains = 4, num_warmup= 1000, num_samples=1000, num_keep_samples= 1000, extra_name="50hu-1000-1000")
 # # Slow NNN with 3*50 hidden units takes 15 min per. training 
 # # -> way to slow for these experiements. 
 
@@ -50,9 +50,9 @@ random.shuffle(problems)
 # regression_models += [GMRegression()] #Gaussian Mixture
 # random.shuffle(regression_models)
 # #regression_models = [MeanRegression()]
-regression_models = [GaussianProcess_sklearn()]
-regression_models += [SumProductNetworkRegression(manipulate_variance=True, optimize=True, tracks=2, channels=50)]
-#regression_models = [NNN_regression_fast, NNN_regression]
+# regression_models = [GaussianProcess_sklearn()]
+# regression_models += [SumProductNetworkRegression(manipulate_variance=True, optimize=True, tracks=2, channels=50)]
+regression_models = [NNN_regression_fast, NNN_regression]
 #regression_models = [StanNeuralNetwork()]
 ## Data enrichment ##
 #include_true_values(problems, remove_min_n_test=True)
