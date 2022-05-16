@@ -34,8 +34,8 @@ problems += [Rosenbrock(dimensions = x) for x in dims[1:]]
 
 #problems = [SimonsTest4_cosine_fuction()]
 
-# random.seed()
-# random.shuffle(problems)
+random.seed()
+random.shuffle(problems)
 
 # BOHAMIANN_regression_fast = BOHAMIANN(num_warmup = 200, num_samples = 300, num_keep_samples= 100)
 # BOHAMIANN_regression = BOHAMIANN(num_warmup = 2000, num_samples = 2000, num_keep_samples= 300,  extra_name="2000-2000")
