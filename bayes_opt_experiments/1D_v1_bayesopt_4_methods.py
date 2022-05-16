@@ -52,7 +52,8 @@ for i in range(len(regression_models)):
 
 import os
 fig_name = "4_methods"
-path = f"/home/simon/Documents/MasterThesis/master-thesis/bayes_opt_experiments/figures_{fig_name}"
+#path = f"/home/simon/Documents/MasterThesis/master-thesis/bayes_opt_experiments/figures_{fig_name}"
+path = f"~/master-thesis/bayes_opt_experiments/figures_{fig_name}"
 try:
     os.mkdir(path)
 except:
