@@ -67,11 +67,14 @@ def get_data2(target_name, use_exact_name=False):
     for (dirpath, dirnames, filenames) in os.walk(os.path.join(BASE_DIRECTORY, "data")):
         # Opening JSON file
         #print(dirpath, filenames)
+        if "05" not in dirpath: #only data from may HACK
+            continue
         for filename in filenames:
             if target_name not in filename:
                 continue
             if (target_name != "_".join(filename.split("_")[1:4])) and use_exact_name:
                 continue
+
             try:
                 file_path = os.path.join(dirpath, filename)
                 with open(file_path) as json_file:
@@ -92,7 +95,7 @@ def get_data2(target_name, use_exact_name=False):
     file_path_list2 = [f"{x[2:4]}/{x[:2]} {x[-4:-2]}:{x[-2:]}" for x in file_path_list]
     return data_list, name_list, problem_name, file_path_list, file_path_list2
 
-def get_names():
+def get_names(has_to_include = ""):
     names = set()
     for (dirpath, dirnames, filenames) in os.walk(os.path.join(BASE_DIRECTORY, "data")):
         
@@ -101,8 +104,7 @@ def get_names():
         for filename in filenames:
             if "noise" in filename:
                 filename = filename.replace("noise_", "noise-")
-            if "SPN" in filename:
-                print("SPN hack")
+            if has_to_include in filename:
                 names.add("_".join(filename.split("_")[1:4]))
 
     return sorted(names)
