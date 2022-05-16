@@ -35,9 +35,15 @@ for i in range(len(regression_models)):
     opts.append(OptimizationStruct())
 
 import os
-fig_name = "alternative_EI_naive_GMR_manipulated_variance"
-path = "/home/simon/Documents/MasterThesis/master-thesis/bayes_opt_experiments/figures"
-#os.mkdir(path)
+#fig_name = "alternative_EI_naive_GMR_manipulated_variance_3"
+fig_name = "alternative_EI_naive_GMR_3"
+path = f"/home/simon/Documents/MasterThesis/master-thesis/bayes_opt_experiments/figures_{fig_name}"
+try:
+    os.mkdir(path)
+except:
+    a = input("folder already exists, ok? (y=yes) ")
+    assert a == "y"
+        
 for iter in range(50):
     for i in range(len(regression_models)):
         BO = BOs[i]
@@ -48,8 +54,8 @@ for iter in range(50):
         BO.plot_surrogate_and_expected_improvement(ax, opt, show_name=True)
         opts[i] = opt
         number = f"{iter}".zfill(3)
-    #plt.savefig(f"{path}/{fig_name}_{number}.jpg")
-    plt.show()
+    plt.savefig(f"{path}/{fig_name}_{number}.jpg")
+    #plt.show()
 
 x_hist,y_hist = BO.get_optimization_hist()
 print(x_hist)

@@ -81,7 +81,10 @@ class BayesianOptimization(PlottingClass):
         EI = exploitation + exploration
         if self.model.name == "Naive Gaussian Mixture Regression":
             N = self._X.shape[0]
-            EI *= 1/(N*p_x)
+            factor =  np.clip(1/(N*p_x),1e-8,100)
+            EI *= factor
+            EI[factor > 99] = EI.max() #For at undgå inanpropiate bump.!
+
         #EI = exploitation/10 + exploration
         if return_analysis:
             return EI, exploitation, exploration

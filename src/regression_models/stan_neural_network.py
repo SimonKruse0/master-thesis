@@ -28,6 +28,7 @@ class StanNeuralNetwork:
     def __init__(self, hidden_units = 10, num_warmup=1000, num_samples = 2000, num_chains=1, num_keep_samples = 50, extra_name=""):
         self.name = f"stan neural network{extra_name}"
         self.samples = None
+        self.hidden_units = hidden_units
         self.params = f"layers = 3, hidden_units = {hidden_units}, num_warmup = {num_warmup},\
                             num_samples = {num_samples}, num_chains = {num_chains}"
         self.model = StanModel_cache(model_code=model_definition)
@@ -51,7 +52,7 @@ class StanNeuralNetwork:
         N_test= X_test.shape[0]
         X_test, *_ = normalize(X_test, self.x_mean, self.x_std)
 
-        data = {'N': self.N, 'D': self.D, 'num_neurons':10, 'num_hidden_layers':2, 
+        data = {'N': self.N, 'D': self.D, 'num_neurons':self.hidden_units, 'num_hidden_layers':3, 
         'X': self.X, 'y':self.y, 'Ntest': N_test, 'Xtest':X_test}
 
         fit = self.model.sampling(data=data, iter=1000, chains=1, algorithm="NUTS", seed=42, verbose=True,control=dict(max_treedepth=10))
