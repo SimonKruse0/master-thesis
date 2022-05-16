@@ -43,6 +43,8 @@ regression_models = [GP_regression,NNN_regression, GM_reg,BOHAMIANN_regression ]
 plt.figure(figsize=(12, 8))
 outer_gs = gridspec.GridSpec(2, 2)
 
+assert outer_gs.ncols+outer_gs.nrows == len(regression_models)
+
 BOs = []
 opts = []
 for i in range(len(regression_models)):
