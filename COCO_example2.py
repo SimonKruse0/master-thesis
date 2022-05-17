@@ -29,6 +29,7 @@ import webbrowser
 import scipy.optimize
 import cma
 
+from src.optimization.bayesopt_solver import BayesOptSolver_GP
 
 def default_budget_list(max_budget=10, num=50):
     """Produces a budget list with at most `num` different increasing budgets
@@ -43,7 +44,13 @@ def fmin(problem, x0, solver, budget):
 
     Add here the interface to your solver.
     """
+
+    BO = BayesOptSolver_GP(problem, x0, budget)
+    result = BO()
+    return result
+    
     if solver.__name__ == 'fmin':
+
 
         if solver.__globals__['__name__'] in ['cma', 'cma.evolution_strategy',
                                               'cma.es']:
@@ -80,6 +87,7 @@ def main():
     ### input
     suite_name = "bbob"
     solver = scipy.optimize.fmin  # the Nelder-Mead downhill simplex method
+    #solver = 
     # solver = scipy.optimize.differential_evolution  # to use DE instead
     # solver = cma.fmin  # to use CMA-ES instead
     algorithm_name = "Nelder-Mead"  # no spaces allowed
