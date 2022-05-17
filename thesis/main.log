@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  15 MAY 2022 11:30
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  17 MAY 2022 10:40
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1590,21 +1590,22 @@ Overfull \hbox (15.32054pt too wide) detected at line 448
 [27]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [28] [29]) [30] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/06_results.tex
-Chapter 7.
-) [31
+ [28] [29] [30]) [31] [32
 
+] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/06_results.tex
+Chapter 7.
+) [33
 
 ]
 Overfull \hbox (26.34688pt too wide) in paragraph at lines 58--58
 []\TU/TimesNewRoman(0)/m/sc/10.95 Mashall Aryan. “  Sample-efficient Optimization Using Neural Networks”. []$[][][][][] [] [] [] [][][][][][][][][][][][][][][] []
  []
 
-[32
+[34
 
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Appendix.tex
 Appendix A.
-) [33
+) [35
 
 
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Backpage.tex
@@ -1640,7 +1641,7 @@ Appendix A.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-) [34
+) [36
 
 
 ]
@@ -1660,12 +1661,12 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 56262 strings out of 481731
- 1330363 string characters out of 5935437
- 2275862 words of memory out of 5000000
- 72301 multiletter control sequences out of 15000+600000
+ 56267 strings out of 481731
+ 1330443 string characters out of 5935437
+ 2277245 words of memory out of 5000000
+ 72306 multiletter control sequences out of 15000+600000
  547197 words of font info for 134 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  82i,17n,138p,2818b,4678s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (40 pages, 608660 bytes).
+Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (42 pages, 629068 bytes).

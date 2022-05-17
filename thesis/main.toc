@@ -29,11 +29,11 @@
 \contentsline {subsection}{\numberline {6.4.1}SPN - prediction}{24}{subsection.0.6.4.1}%
 \contentsline {subsection}{\numberline {6.4.2}SPN - learning}{25}{subsection.0.6.4.2}%
 \contentsline {section}{\numberline {6.5}Expectation-maximization for mixture models}{27}{section.0.6.5}%
-\contentsline {section}{\numberline {6.6}Gaussian Mixture Regression}{29}{section.0.6.6}%
-\contentsline {subsection}{\numberline {6.6.1}GMR - prediction}{29}{subsection.0.6.6.1}%
-\contentsline {subsection}{\numberline {6.6.2}GMR - Leaning}{30}{subsection.0.6.6.2}%
-\contentsline {chapter}{\numberline {7}Results}{31}{chapter.0.7}%
-\contentsline {subsection}{\numberline {7.0.1}regression benchmark}{31}{subsection.0.7.0.1}%
-\contentsline {section}{\numberline {7.1}Mixture regression on simple functions}{31}{section.0.7.1}%
-\contentsline {chapter}{Bibliography}{32}{chapter*.11}%
-\contentsline {chapter}{\numberline {A}Title}{33}{appendix.A}%
+\contentsline {section}{\numberline {6.6}Gaussian Mixture Regression}{30}{section.0.6.6}%
+\contentsline {subsection}{\numberline {6.6.1}GMR - prediction}{30}{subsection.0.6.6.1}%
+\contentsline {subsection}{\numberline {6.6.2}GMR - Leaning}{31}{subsection.0.6.6.2}%
+\contentsline {chapter}{\numberline {7}Results}{33}{chapter.0.7}%
+\contentsline {subsection}{\numberline {7.0.1}regression benchmark}{33}{subsection.0.7.0.1}%
+\contentsline {section}{\numberline {7.1}Mixture regression on simple functions}{33}{section.0.7.1}%
+\contentsline {chapter}{Bibliography}{34}{chapter*.11}%
+\contentsline {chapter}{\numberline {A}Title}{35}{appendix.A}%

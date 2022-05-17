@@ -40,7 +40,7 @@ cbar.set_ticklabels(list(range(6)))
 
 ax.set_title(r"$\mathbb{E}_{p(y|x,\mathcal{D})}[\max (0,y_{\min}-y)]$")
 ax.set_xlabel(r"$y_{\min}-y$")
-ax.set_ylabel(r"$Var[y|x,\mathcal{D}]$")
+ax.set_ylabel(r"$Std[y|x,\mathcal{D}]$")
 ax.set_ylim(0,10)
 # plt.show()
 path = "/home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures"

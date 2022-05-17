@@ -2191,9 +2191,10 @@
     <bcf:citekey order="7">SPN_EM</bcf:citekey>
     <bcf:citekey order="8">bishop</bcf:citekey>
     <bcf:citekey order="9">bishop</bcf:citekey>
-    <bcf:citekey order="10">PhDthesis</bcf:citekey>
-    <bcf:citekey order="11">snoek2015scalable</bcf:citekey>
-    <bcf:citekey order="12">NIPS2016_a96d3afe</bcf:citekey>
+    <bcf:citekey order="10">bishop</bcf:citekey>
+    <bcf:citekey order="11">PhDthesis</bcf:citekey>
+    <bcf:citekey order="12">snoek2015scalable</bcf:citekey>
+    <bcf:citekey order="13">NIPS2016_a96d3afe</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">

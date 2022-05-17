@@ -14,6 +14,7 @@ from scipy.special import logsumexp
 class naive_GMR:
     #GMM_regression with NO correlation
     def p_xy(self,x,y):
+        # ONly works for 1D x...!
         shape = y.shape
         assert shape == x.shape
         y = y.flatten()[:,None]
@@ -28,7 +29,8 @@ class naive_GMR:
 
     def lp_x_all(self, x):
         assert x.ndim == 2
-        return norm.logpdf(x, loc = self.means[:,0], scale = self.x_component_std)
+        #return norm.logpdf(x, loc = self.means[:,0], scale = self.x_component_std)
+        return norm.logpdf(x, loc = self.means[:,None,:-1], scale = self.x_component_std).sum(axis=2).T
         #return norm.logpdf(x, loc = self.means[:,:-1].T.flatten(), scale = self.x_component_std)
         #Ok summes sammen!
          
@@ -40,7 +42,7 @@ class naive_GMR:
         return lp_x
 
     def E_predictive(self, X_test): #predictive mean E_{p(y|x)[y]}
-        E_y_all =self.means[:,1]
+        E_y_all =self.means[:,-1]
         lp_x_all = self.lp_x_all(X_test) #shape = (X_test,N_components)
         lp_x = self.lp_x(X_test, lp_x_all=lp_x_all)
         a = lp_x_all-lp_x[:,None]
@@ -49,7 +51,7 @@ class naive_GMR:
         return E_predictive
 
     def E2_predictive(self, X_test): #predictive second moment E_{p(y|x)[y^2]}
-        E_y2_all =self.means[:,1]**2+self.y_component_std**2 #E[y]²+V[y]
+        E_y2_all =self.means[:,-1]**2+self.y_component_std**2 #E[y]²+V[y]
         lp_x_all = self.lp_x_all(X_test) #shape = (X_test,N_components)
         lp_x = self.lp_x(X_test, lp_x_all=lp_x_all)
         a = lp_x_all-lp_x[:,None]
@@ -61,11 +63,12 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
     def __init__(self,x_component_std = 5e-2,
                     y_component_std= 5e-2, 
                     prior_settings = {"Ndx": 1,"v_prior":1.2},
-                    manipulate_variance = True, 
-                    optimize=False, opt_n_iter=10, opt_cv = 3
+                    manipulate_variance = False, 
+                    optimize=False, opt_n_iter=10, opt_cv = 3, 
+                    extra_name = "no_manipulation"
                     ):
         self.model = None
-        self.name = "Naive Gaussian Mixture Regression"
+        self.name = f"Naive Gaussian Mixture Regression{extra_name}"
         self.x_component_std = x_component_std
         self.y_component_std = y_component_std
         self.prior_settings = prior_settings
@@ -129,22 +132,28 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
     def predict(self, X_test):
         X_test,*_ = normalize(X_test,self.x_mean, self.x_std)
         Ndx = self.prior_settings["Ndx"]
-        v_prior = self.prior_settings["v_prior"]
+        sigma_prior = self.prior_settings["v_prior"]
 
         # likelihood
         m_pred = self.E_predictive(X_test)
         E2_pred = self.E2_predictive(X_test)
         v_pred = E2_pred-m_pred**2 #Var[x] = Ex²-(Ex)²
+        assert not any(v_pred<0)
         
         # evidens
         p_x = np.exp(self.lp_x(X_test))
 
         # posterior 
         m_pred_bayes = (self.N*p_x*m_pred + Ndx*0)/(self.N*p_x+Ndx)
-        E2_pred_bayes = (self.N*p_x*(v_pred+m_pred**2) + Ndx*v_prior)/(self.N*p_x+Ndx) 
+        E2_pred_bayes = (self.N*p_x*(v_pred+m_pred**2) + Ndx*sigma_prior**2)/(self.N*p_x+Ndx) 
         v_pred_bayes = E2_pred_bayes - m_pred_bayes**2
 
+        assert not any(v_pred_bayes<0)
+
         std_pred_bayes = np.sqrt(v_pred_bayes)
+
+        assert not np.isnan(std_pred_bayes).any()
+
         if self.manipulate_variance:
             #std_pred_bayes *= 0.01/np.clip(self.N*p_x, 0.01, 1)
             #std_pred_bayes *= 0.1/(self.N*p_x)

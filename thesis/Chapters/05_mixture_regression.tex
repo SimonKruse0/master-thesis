@@ -356,10 +356,10 @@ instead there is a proposition.
 Mixture models can be seen as probibalistic graphical models, <fig> there one mixture component is
 picked according to the realization of a catagorical variable $\textbf{Z}$ with parameters according
 the the mixture weights, i.e we can reformelate, 
-\begin{align*}
+\begin{align}\label{mixture_pdf}
     p(x) &= \sum_{k=1}^K w_k p_k(x)\\
    \iff \hspace*{1cm} p(x) &= p_z(x), \hspace*{0.5cm} z \sim Cat(w_i, \dots, w_K).
-\end{align*}
+\end{align}
 In fact $p_z(x)$ is a conditial distribution, $p(x|z)$, and combined with the distribution
 of $Z$ we can define the joint 
 $$p(x,z):=p_z(x)p(z)$$
@@ -411,7 +411,7 @@ $$p(\mathcal{D}|\theta) = \sum_z p(\mathcal{D}, z|\theta)$$
         \begin{algorithmic}
         \State \textbf{Input:} dataset $\mathcal{D}$, joint model $p(\mathcal{D}, \textbf{Z}|\theta)$
         \While{Not converged}
-            \State $Q(\cdot, \theta^{(t)}) \gets E_{p(\textbf{Z}|\mathcal{D}, \theta^{(t)})}[\log p(\mathcal{D}, \textbf{Z}|\theta)]$ \Comment{E-step}
+            \State $Q(\cdot, \theta^{(t)}) \gets E_{p(\textbf{Z}|\mathcal{D}, \theta^{(t)})}[\log p(\mathcal{D}, \textbf{Z}|\cdot)]$ \Comment{E-step}
             \State $\theta^{(t+1)} \gets \arg\max_{\theta} Q(\theta|\theta^{(t)})$ \Comment{M-step}
         \EndWhile
         \State $\textbf{return: } \theta^{(end)}$
@@ -445,7 +445,8 @@ $$p(\mathcal{D}|\theta) = \sum_z p(\mathcal{D}, z|\theta)$$
     Subtracting the two equations, we get,  
     $$\log p(\textbf{X}|\theta) - \log p(\textbf{X}|\theta^{(t)}) = Q(\theta,\theta^{(t)})
     -Q(\theta^{(t)},\theta^{(t)})+ E_{\theta^{(t)}}[\log p(\textbf{Z}|\textbf{X},\theta)]-
-    E_{\theta^{(t)}}[\log p(\textbf{Z}|\textbf{X},\theta^{(t)})]$$ From Gibb's inequality we have
+    E_{\theta^{(t)}}[\log p(\textbf{Z}|\textbf{X},\theta^{(t)})]$$ 
+    From Gibb's inequality we have
     that $E_{\theta^{(t)}}[\log p(\textbf{Z}|\textbf{X},\theta^{(t)})]\leq E_{\theta^{(t)}}[\log
     p(\textbf{Z}|\textbf{X},\theta)]$ where equality only holds for $\theta^{(t)} = \theta$, giving
     \begin{align*}
@@ -457,23 +458,72 @@ $$p(\mathcal{D}|\theta) = \sum_z p(\mathcal{D}, z|\theta)$$
     $\log p(\textbf{X}|\theta) $ as least as much.
 \end{testexample2}
 
+ \subsection*{EM for Gaussian mixture}
+ For a Gaussian mixture the $p_k$ distributions in \eqref{mixture_pdf} is substituted by Gaussain pdfs, 
+ i.e. $p_k(x) = \mathcal{N}(x| \mu_k , \Sigma_k)$
+ and the density of a catagorical distribution is $p(z) = \sum_{k=1}^K 1_{z=k} w_k = w_z$, combining the two
+ we get the joint distribution, 
+ $$p(x,z|w,\mu , \Sigma) = w_z \mathcal{N}(x| \mu_z , \Sigma_z)$$
 
-then we can marginalise over
-    $z$ in order to recover $p(x)$, 
-    $$p(\textbf{x}|\pi) = \sum_{z=1}^Z p(z,\textbf{x}|\pi) $$
-    assuming iid data, then the complete likehood can be decompose as the product 
-    $$ p(z,\textbf{x}|\pi) = \prod_{i=1}^n p(z,\textbf{x}_i|\pi)$$
-    We wil for convinience transform the likelihood using a log transform, 
-    as it will not influence the maximum. 
-    $$\log p(\textbf{x}|\pi) = \sum_{z=1}^Z \sum_{i=1}^n \log p(z,\textbf{x}_i|\pi)$$
+ Taking the log and defning $\theta = \{\mu_1 , \Sigma_1,w_1, \dots, \mu_K , \Sigma_K, w_K\}$, and assuming iid data
+ $$\log p(X,Z| \theta) = \sum_{i}^n \left(\log(w_{z_i})+\log(\mathcal{N}(x_i| \mu_{z_i} , \sigma_{z_i}))\right)$$
 
-<EM for SPN >
-<EM for GMM >
+Now we are ready to calculate $Q(\theta, \theta^{(t)})$, by taking the expectation of the complete-data log likehood
+with respect to the distribution, $p(Z|X, \theta)$, 
+\begin{align*}
+    E_{p(Z|X,  \theta^{(t)})}[\log p(X,Z| \theta)] &=\sum_{i}^n  E_{p(Z|X,  \theta^{(t)})}[p(X_i,Z_i| \theta) ]\\
+    &=\sum_{i}^n  E_{p(z_i|x_i,  \theta^{(t)})}[p(x_i,z_i| \theta) ]
+\end{align*}
 
-% and a normal evaluation of $p(x,y|w_{old}, \theta_{old})$
-% combined in Bayes rule we obtain
-% $$p(z|x,y,w_{old},\theta_{old}) = \frac{p(z,x,y|w_{old},\theta_{old})}{p(x,y|w_{old}, \theta_{old})} =
-%  \frac{\lambda_z(w_{old})p_z(x,y|\theta_{old})}{p(x,y|w_{old}, \theta_{old})} $$
+\begin{tcolorbox}[
+    sharp corners,
+    boxrule=0mm,
+    enhanced,
+    borderline west={4pt}{0pt}{gray},
+    colframe=drGray,
+    colback=drGray,
+    coltitle=black,
+]
+{\large \textbf{Expectation with repect to unnecessary variables}}\\
+the last equation holds since taking expecation over a function of a random variable $x$ with respect to a that random
+variable and more random variabels, $x,y$, is equivalent to the expecation with respect to just $x$, i.e. 
+\begin{align*}
+    E_{x,y}[g(x)] &= \int\int g(x) p(x,y) dy dx\\
+     &= \int g(x) \int p(x,y) dy dx \\
+    &= \int g(x) p(x) dy = E_x[g(x)]
+\end{align*}
+\end{tcolorbox}
+
+the posterior distribution is calculated the following way,
+\begin{align*}
+    p(z|x, \theta^{(t)}) &= \frac{p(x,z|\theta^{(t)})}{p(x|\theta^{(t)})} \\
+    &= \frac{p(x,z|\theta^{(t)})}{\sum_{z} p(x,z|\theta^{(t)})}\\
+    &= \frac{w_z^{(t)} \mathcal{N}(x|\mu_z^{(t)}, \Sigma_z^{(t)})}{\sum_{k=1}^K w_k^{(t)} 
+    \mathcal{N}(x|\mu_k^{(t)}, \Sigma_k^{(t)})}
+\end{align*}
+For simplificaiton we will denote, $\gamma^{(t)}(z_i) := p(z_i|x_i, \theta^{(t)})$, 
+interpreted as the probability of datapoint $x_i$ to belong to class $z_i$. Bishop \cite*{bishop}
+calls this probability function the \textit{responsibility}. We can now conclude the \textbf{E-step}.
+
+\begin{align*}
+    Q(\cdot, \theta^{(t)}) &= \sum_{i=1}^n p(x_i,z_i|\cdot) \gamma^{(t)}(z_i) \\
+    &= \sum_{i=1}^n \left[ \gamma^{(t)}(z_i) \log(\cdot_{z_i})+\gamma^{(t)}(z_i) 
+    \log(\mathcal{N}(x_i| \cdot_{z_i} , \cdot_{z_i}))\right]
+\end{align*}
+or more concretely $\theta = \{\mu_1 , \Sigma_1,w_1, \dots, \mu_K , \Sigma_K, w_K\}$, 
+$$ Q(\theta, \theta^{(t)}) = \sum_{i=1}^n \gamma^{(t)}(z_i) \log(w_{z_i})+\gamma^{(t)}(z_i) \log(\mathcal{N}(x_i| \mu_{z_i} , \Sigma_{z_i})).$$
+$Q(\cdot, \theta^{(t)})$ is a concave function - the Gaussian is log-concave and a sum of concave functions is 
+also concave - so it is sufficient and nessesary to find its maxima by the root of its derivative, 
+$$\frac{d}{d \theta} Q(\theta^*, \theta^{(t)}) = 0 \iff \theta^* = \arg\max_{\theta} Q(\theta, \theta^{(t)})$$
+
+Giving the updates...
+
+\subsection*{EM for SPN}
+
+
+% and a normal evaluation of $p(x,y|w_{old}, \theta_{old})$ combined in Bayes rule we obtain
+% $$p(z|x,y,w_{old},\theta_{old}) = \frac{p(z,x,y|w_{old},\theta_{old})}{p(x,y|w_{old},
+% \theta_{old})} = \frac{\lambda_z(w_{old})p_z(x,y|\theta_{old})}{p(x,y|w_{old}, \theta_{old})} $$
 
 % and we have the expecation for the EM-algorithm, 
 % $$Q(\pi, \pi_{old}) = \sum_{n=1}^N \sum_{z=1}^Z p(z|xy_n, \pi_{old}) \ln p(z,xy_n|\pi)$$
