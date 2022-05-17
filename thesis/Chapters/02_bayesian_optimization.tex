@@ -142,13 +142,13 @@ $$\hat \theta_{y|x} = (\hat\Sigma_{y|k}, \hat\mu_{y|k}, \hat\pi_{y|k})_{k=1}^K$$
 
 However, we are not satisfied with the variance estimate for the regression, as it is way too small for areas with
 no observed data. It is therefore necessary to manipulate the variance estimate accoring to that observation. 
-We multiply the variance obtained using expectation-maximization on the joint distribution with the
+We multiply the variance obtained using expectation-maximization on the joint distribution with the 
 inverse of the probability of the data $x$, and control that the scaling factor is not going wild!
 
 $$\hat\Sigma_{y|k} =\Sigma_{y|k}^{GMM} \frac{1}{\max(p(x), 0.01)}$$
 
-In a way, this is a manipulation in a Bayesian spirit, as we let prior and subjective knowledge influence the
-varience prediction. 
+In a way, this is manipulation in a Bayesian spirit, as we let prior and subjective knowledge influence the
+variance prediction. 
 
 \subsection{Inclusion of prior distribution}
 The conditional distribution $p(y|x)$ obtained from using a Gaussian mixture model is without a prior, and

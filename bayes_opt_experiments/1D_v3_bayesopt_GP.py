@@ -36,7 +36,7 @@ for i in range(len(regression_models)):
 
 import os
 #fig_name = "alternative_EI_naive_GMR_manipulated_variance_3"
-fig_name = "GP3"
+fig_name = "GP_new"
 path = f"/home/simon/Documents/MasterThesis/master-thesis/bayes_opt_experiments/figures_{fig_name}"
 try:
     os.mkdir(path)

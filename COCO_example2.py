@@ -48,7 +48,7 @@ def fmin(problem, x0, solver, budget):
     BO = BayesOptSolver_GP(problem, x0, budget)
     result = BO()
     return result
-    
+
     if solver.__name__ == 'fmin':
 
 
@@ -90,7 +90,7 @@ def main():
     #solver = 
     # solver = scipy.optimize.differential_evolution  # to use DE instead
     # solver = cma.fmin  # to use CMA-ES instead
-    algorithm_name = "Nelder-Mead"  # no spaces allowed
+    algorithm_name = "SIMON"  # no spaces allowed
     output_folder = algorithm_name  # no spaces allowed
 
     # a list of increasing budgets to be multiplied by dimension

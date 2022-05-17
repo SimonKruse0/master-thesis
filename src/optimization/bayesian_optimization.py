@@ -170,6 +170,7 @@ class BayesianOptimization(PlottingClass):
             y_next = self.obj_fun(opt.x_next)
             self._X = np.vstack((self._X, opt.x_next))
             self._Y = np.vstack((self._Y, y_next))
+            self.f_best = np.min(self._Y) #WOW!!
             self.model.fit(self._X,self._Y)
         if type == "grid":
             if opt.Xgrid is None:
