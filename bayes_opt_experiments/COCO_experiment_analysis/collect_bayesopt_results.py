@@ -38,7 +38,7 @@ def get_best_solutions_for_all_solvers():
 
     for solver in solvers:
         best_solutions = get_best_solutions(solver)
-    return best_solutions
+    return best_solutions.sort_index(level=0)
 
 if __name__ == "__main__":
     best_solutions = get_best_solutions_for_all_solvers()
