@@ -1,3 +1,4 @@
+from ast import Not
 from src.optimization.bayesian_optimization import BayesianOptimization
 from src.regression_models.gaussian_process_regression import GaussianProcess_sklearn
 import numpy as np
@@ -17,11 +18,12 @@ from src.utils import PlottingClass, OptimizationStruct, uniform_grid
 import sys
 
 class BayesOptSolver_GP():
-    def __init__(self, problem, x0, budget, verbose = True) -> None:
+    def __init__(self, reg_model, problem, budget, disp = False) -> None:
+        self.problem = problem #problem.best_observed_fvalue1
         self.budget = budget
         n_init_samples = 2
         self.obj_fun = lambda x: problem(x)
-        self.model = GaussianProcess_sklearn()
+        self.model = reg_model
         self.problem_dim = problem.dimension
         self.bounds = [problem.lower_bounds, problem.upper_bounds]
         self._X, self._Y = self._init_XY(n_init_samples)
@@ -30,15 +32,15 @@ class BayesOptSolver_GP():
         self.x_best = None
         #assert id(self.y_best) == id(problem.best_observed_fvalue1) #should be pointers!
         self.opt = OptimizationStruct()
-        self.problem = problem #problem.best_observed_fvalue1
-        self.verbose = verbose
+        self.disp = disp
 
     def __call__(self):
-        if self.verbose:
+        if self.disp == False:
             sys.stdout = open(os.devnull, 'w')
         self.optimize()
         sys.stdout = sys.__stdout__
         x = self.x_best
+        print(self.get_optimization_hist())
         return x
 
     def _init_XY(self, sample_size):
@@ -110,10 +112,12 @@ class BayesOptSolver_GP():
         self.opt = opt #redefines self.opt!
 
     def observe(self,x_next):
-        assert self._budget_is_fine()
+        assert x_next is not None
+        #assert self._budget_is_fine()
         y_next = self.obj_fun(x_next)
         self._X = np.vstack((self._X, x_next))
         self._Y = np.vstack((self._Y, np.array([[y_next]])))
+        self.y_best = np.min(self._Y)
 
     def fit(self):
         self.model.fit(self._X,self._Y)
@@ -132,7 +136,9 @@ class BayesOptSolver_GP():
             x_next = self.opt.x_next
             x_next_text = " , ".join([f"{x:.2f}" for x in x_next])
             print(f"-- x{i+1} = {x_next_text} --")
-        self.observe(x_next) #last evaluation
+        x_next = self.opt.x_next
+        if x_next is not None:
+            self.observe(x_next) #last evaluation
 
         Best_Y_id = np.argmin(self._Y)
         self.x_best = self._X[Best_Y_id]
@@ -142,7 +148,7 @@ class BayesOptSolver_GP():
         print(f"-- End of optimization -- best x = {self.x_best} with objective y = {self.y_best}")
 
     def get_optimization_hist(self):
-        return self._X[self.n_init_samples:], self._Y[self.n_init_samples:]
+        return self._X, self._Y
 
 
 

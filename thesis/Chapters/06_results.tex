@@ -18,6 +18,28 @@ new candidate point, as all points are equally good.
 Choosing a good set of design parameters is crucial, 
 the manipulation... 
 
+\begin{figure}[h]
+    \caption{Regression plot for one problem with all dims: Number of data points / dims, mean squared error, with bayesline mean prediction}
+\end{figure}
 
+\begin{figure}[h]
+    \caption{Regression plot for anther problem}
+\end{figure}
 
+\begin{figure}[h]
+    \centering
+        \begin{tabular}{c|ll|l|l}
+        \multicolumn{1}{l|}{Problem 2D} & Winner (rel error)                                              & Second                                                                                  & Third                              &  \\ \cline{1-4}
+        f1                                                      & \multicolumn{1}{c|}{GP (0.2)}                                                           & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}Neural Network\\ (0.00001)\end{tabular}} & \multicolumn{1}{c|}{Naive (0.002)} &  \\
+        f2                                                      & \multicolumn{1}{c|}{Naive (0.002)}                                                      &                                                                                         &                                    &  \\
+        f3                                                      & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}Neural Network\\ (0.00001)\end{tabular}} &                                                                                         &                                    &  \\
+        f4                                                      & \multicolumn{1}{l|}{}                                                                   &                                                                                         &                                    &  \\
+                                                                & \multicolumn{1}{l|}{}                                                                   &                                                                                         &                                    & 
+        \end{tabular}
+    \caption{Table summarizing for all problems}
+\end{figure}
+
+\begin{figure}[h]
+    \caption{BayesOpt plot: Number of iterations, distance to optima using EI, with bayesline random search}
+\end{figure}
 

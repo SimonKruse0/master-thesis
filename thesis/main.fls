@@ -511,8 +511,6 @@ INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/Logos/whi
 OUTPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Copyright.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Copyright.tex
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Acknowledgements.tex
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Acknowledgements.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/main.toc
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/main.toc
 OUTPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/main.toc

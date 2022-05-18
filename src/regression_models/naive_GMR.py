@@ -65,7 +65,7 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
                     prior_settings = {"Ndx": 1,"v_prior":1.2},
                     manipulate_variance = False, 
                     optimize=False, opt_n_iter=10, opt_cv = 3, 
-                    extra_name = "no_manipulation"
+                    extra_name = ""
                     ):
         self.model = None
         self.name = f"Naive Gaussian Mixture Regression{extra_name}"
@@ -148,11 +148,8 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
         E2_pred_bayes = (self.N*p_x*(v_pred+m_pred**2) + Ndx*sigma_prior**2)/(self.N*p_x+Ndx) 
         v_pred_bayes = E2_pred_bayes - m_pred_bayes**2
 
-        assert not any(v_pred_bayes<0)
 
         std_pred_bayes = np.sqrt(v_pred_bayes)
-
-        assert not np.isnan(std_pred_bayes).any()
 
         if self.manipulate_variance:
             #std_pred_bayes *= 0.01/np.clip(self.N*p_x, 0.01, 1)

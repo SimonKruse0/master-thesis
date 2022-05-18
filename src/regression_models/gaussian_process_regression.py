@@ -21,7 +21,7 @@ class GaussianProcess_sklearn:
         self.model = GaussianProcessRegressor(kernel=kernel, alpha=1e-10, 
                             optimizer='fmin_l_bfgs_b', 
                             n_restarts_optimizer=200, 
-                            normalize_y=True)
+                            normalize_y=True) #Implicite giver dette variance på prior!
     
         self.name = f"Gaussian Process{extra_name} - sklearn"
         self.latex_architecture = r"gp.kernels.Matern52"
