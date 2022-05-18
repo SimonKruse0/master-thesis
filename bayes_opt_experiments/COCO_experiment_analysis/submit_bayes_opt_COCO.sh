@@ -28,4 +28,4 @@
 #BSUB -e hpc_files/Error_%J.err 
 
 # here follow the commands you want to execute 
-/zhome/17/6/118138/master-thesis/env/bin/python /zhome/17/6/118138/master-thesis/bayes_opt_experiments/1D_v1_bayesopt_4_methods.py
+/zhome/17/6/118138/master-thesis/env/bin/python /zhome/17/6/118138/master-thesis/bayes_opt_experiments/COCO_experiment_analysis/Simon_COCO.py

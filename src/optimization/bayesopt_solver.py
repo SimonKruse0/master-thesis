@@ -17,7 +17,7 @@ import matplotlib.gridspec as gridspec
 from src.utils import PlottingClass, OptimizationStruct, uniform_grid
 import sys
 
-class BayesOptSolver_GP():
+class BayesOptSolver():
     def __init__(self, reg_model, problem, budget, disp = False) -> None:
         self.problem = problem #problem.best_observed_fvalue1
         self.budget = budget
@@ -27,7 +27,10 @@ class BayesOptSolver_GP():
         self.problem_dim = problem.dimension
         self.bounds = [problem.lower_bounds, problem.upper_bounds]
         self._X, self._Y = self._init_XY(n_init_samples)
+
+        print(f"\n-- initial training -- \t {self.model.name}")
         self.fit()
+        
         self.y_best = np.min(self._Y)
         self.x_best = None
         #assert id(self.y_best) == id(problem.best_observed_fvalue1) #should be pointers!
@@ -40,7 +43,7 @@ class BayesOptSolver_GP():
         self.optimize()
         sys.stdout = sys.__stdout__
         x = self.x_best
-        print(self.get_optimization_hist())
+        #print(self.get_optimization_hist())
         return x
 
     def _init_XY(self, sample_size):
@@ -81,14 +84,14 @@ class BayesOptSolver_GP():
     def _budget_is_fine(self):
         return self.budget >= self.problem.evaluations
 
-    def _randomgrid(self,n_batches,n=1000):
+    def _randomgrid(self,n_batches,n=30000):
         for _ in range(n_batches):
             yield np.random.uniform(*self.bounds , size=(n,self.problem_dim))
 
     def find_a_candidate_on_randomgrid(self, n_batches  = 1):
         max_EI = -1
         for Xgrid_batch in self._randomgrid(n_batches):
-            EI, _exploitation, _exploration = self.expected_improvement(Xgrid_batch, return_analysis=True)
+            EI, _exploitation, _exploration = self.expected_improvement(Xgrid_batch, return_analysis=False)
 
             max_id = np.argwhere(EI == np.amax(EI)).flatten()
             if len(max_id) > 1: #Very relevant for Naive GMR
@@ -127,7 +130,8 @@ class BayesOptSolver_GP():
         if x_next is not None:
             self.observe(x_next)
             self.fit()
-        self.find_a_candidate_on_randomgrid(n_batches = self.problem_dim)
+        n_batches = min(self.problem_dim,20)
+        self.find_a_candidate_on_randomgrid(n_batches = n_batches)
 
     def optimize(self):
         for i in range(self.budget-1):
@@ -140,12 +144,11 @@ class BayesOptSolver_GP():
         if x_next is not None:
             self.observe(x_next) #last evaluation
 
+        #Define best x!
         Best_Y_id = np.argmin(self._Y)
         self.x_best = self._X[Best_Y_id]
-        self.y_best = self._Y[Best_Y_id]
-        print(self.y_best, self.problem.best_observed_fvalue1)
-        #assert self.y_best == self._Y[Best_Y_id] no!
-        print(f"-- End of optimization -- best x = {self.x_best} with objective y = {self.y_best}")
+        #assert self.y_best == self._Y[Best_Y_id]
+        print(f"-- End of optimization -- best objective y = {self.y_best:0.2f}")
 
     def get_optimization_hist(self):
         return self._X, self._Y
