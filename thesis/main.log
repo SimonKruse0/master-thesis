@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  18 MAY 2022 12:30
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  18 MAY 2022 21:23
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1591,6 +1591,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/06_results.tex
 Chapter 7.
+(/home/simon/Documents/MasterThesis/master-thesis/thesis/Tables/test.tex)
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
@@ -1652,7 +1653,7 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 66.
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 66.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 66.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: F7B566558A80B2437234135C98129F7A;1865.
+(rerunfilecheck)             Checksum: 8BE80022213EC6F66C6E998D0B62A830;1865.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -1662,12 +1663,12 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 56263 strings out of 481731
- 1330219 string characters out of 5935437
- 2277182 words of memory out of 5000000
- 72305 multiletter control sequences out of 15000+600000
+ 56272 strings out of 481731
+ 1330514 string characters out of 5935437
+ 2277268 words of memory out of 5000000
+ 72309 multiletter control sequences out of 15000+600000
  547197 words of font info for 134 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  82i,17n,138p,2818b,4678s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (42 pages, 622356 bytes).
+Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (42 pages, 624016 bytes).

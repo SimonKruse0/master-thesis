@@ -34,5 +34,5 @@
 \contentsline {chapter}{\numberline {7}Results}{33}{chapter.0.7}%
 \contentsline {subsection}{\numberline {7.0.1}regression benchmark}{33}{subsection.0.7.0.1}%
 \contentsline {section}{\numberline {7.1}Mixture regression on simple functions}{33}{section.0.7.1}%
-\contentsline {chapter}{Bibliography}{35}{chapter*.15}%
+\contentsline {chapter}{Bibliography}{35}{chapter*.16}%
 \contentsline {chapter}{\numberline {A}Implementation}{37}{appendix.A}%

@@ -563,6 +563,8 @@ INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm7.tfm
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/SPN_graph2.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/06_results.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/06_results.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Tables/test.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Tables/test.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Appendix.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Appendix.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Backpage.tex
