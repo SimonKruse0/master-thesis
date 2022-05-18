@@ -8,4 +8,4 @@ latex-support@student.dtu.dk
 Check http://latex.dtu.dk/ for open office hours or send your question via email (latex-support@student.dtu.dk) or Facebook messenger (https://www.facebook.com/DTULatex/)
 
 ---
-Last updated 07/02/2022 by s164419@student.dtu.dk
+Last updated 18/05/2022 by s164221@student.dtu.dk
