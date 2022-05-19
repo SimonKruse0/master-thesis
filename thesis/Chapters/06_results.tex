@@ -41,7 +41,149 @@ the manipulation...
 
 \begin{figure}[h]
     \centering
-    \input{Tables/test.tex}
+    \input{Tables/best_minimizer_group_1.tex}
+    \caption{Distance to optima $f(x^{best})-f^*$ using Bayesian optimization with different surrogates
+    and using expected improvement with a budget of $40$ samples for group 1: "5 separable functions"}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \input{Tables/best_minimizer_group_2.tex}
+    \caption{Distance to optima $f(x^{best})-f^*$ using Bayesian optimization with different surrogates
+    and using expected improvement with a budget of $40$ samples for group 2: "4 functions with low or moderate conditioning"}
+\end{figure}
+\begin{figure}[h]
+    \centering
+    \input{Tables/best_minimizer_group_3.tex}
+    \caption{Distance to optima $f(x^{best})-f^*$ using Bayesian optimization with different surrogates
+    and using expected improvement with a budget of $40$ samples for group 3: "5 functions with high conditioning, unimodal"}
+\end{figure}
+\begin{figure}[h]
+    \centering
+    \input{Tables/best_minimizer_group_4.tex}
+    \caption{Distance to optima $f(x^{best})-f^*$ using Bayesian optimization with different surrogates
+    and using expected improvement with a budget of $40$ samples for group 4: "5 multi-modal functions with adequate global structure"}
+\end{figure}
+\begin{figure}[h]
+    \centering
+    \input{Tables/best_minimizer_group_5.tex}
+    \caption{Distance to optima $f(x^{best})-f^*$ using Bayesian optimization with different surrogates
+    and using expected improvement with a budget of $40$ samples for group 5: "5 multi-modal functions with weak global structure"}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
     \caption{BayesOpt plot: Number of iterations, distance to optima using EI, with bayesline random search}
 \end{figure}
 
+
+\begin{figure}[h]
+    \centering
+    \begin{minipage}[b]{0.32\textwidth}
+     \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f1.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.32\textwidth}
+     \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f2.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.32\textwidth}
+      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f3.png}
+      %\caption{Rank}
+    \end{minipage}
+    
+    \begin{minipage}[b]{0.32\textwidth}
+      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f4.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.32\textwidth}
+      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f5.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.32\textwidth}
+      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f6.png}
+    \end{minipage}
+    
+
+    \begin{minipage}[b]{0.32\textwidth}
+      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f7.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.32\textwidth}
+      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f8.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.32\textwidth}
+      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f9.png}
+    \end{minipage}
+    
+    \begin{minipage}[b]{0.32\textwidth}
+        \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f10.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.32\textwidth}
+      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f11.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.32\textwidth}
+      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f12.png}
+    \end{minipage}
+    \caption{Test functions f1 to f12}
+    \label{2DBlockcyclic}
+  \end{figure}
+  
+  \begin{figure}[h]
+    \centering
+    \begin{minipage}[b]{0.32\textwidth}
+     \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f13.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.32\textwidth}
+     \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f14.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.32\textwidth}
+      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f15.png}
+      %\caption{Rank}
+    \end{minipage}
+    
+    \begin{minipage}[b]{0.32\textwidth}
+      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f16.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.32\textwidth}
+      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f17.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.32\textwidth}
+      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f18.png}
+    \end{minipage}
+    
+
+    \begin{minipage}[b]{0.32\textwidth}
+      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f19.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.32\textwidth}
+      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f20.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.32\textwidth}
+      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f21.png}
+    \end{minipage}
+    
+    \begin{minipage}[b]{0.32\textwidth}
+        \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f22.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.32\textwidth}
+      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f23.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.32\textwidth}
+      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f24.png}
+    \end{minipage}
+    \caption{Test functions f13-24}
+    \label{f13-24}
+  \end{figure}
+  

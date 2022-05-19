@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  18 MAY 2022 21:51
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  19 MAY 2022 14:45
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1591,19 +1591,93 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/06_results.tex
 Chapter 7.
-(/home/simon/Documents/MasterThesis/master-thesis/thesis/Tables/test.tex)) [33
+(/home/simon/Documents/MasterThesis/master-thesis/thesis/Tables/best_minimizer_group_1.tex) (/home/simon/Documents/MasterThesis/master-thesis/thesis/Tables/best_minimizer_group_2.tex)
 
-]
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+(/home/simon/Documents/MasterThesis/master-thesis/thesis/Tables/best_minimizer_group_3.tex)
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+(/home/simon/Documents/MasterThesis/master-thesis/thesis/Tables/best_minimizer_group_4.tex)
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+(/home/simon/Documents/MasterThesis/master-thesis/thesis/Tables/best_minimizer_group_5.tex)
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+File: Figures/coco/f1.png Graphic file (type bmp)
+<Figures/coco/f1.png>
+File: Figures/coco/f2.png Graphic file (type bmp)
+<Figures/coco/f2.png>
+File: Figures/coco/f3.png Graphic file (type bmp)
+<Figures/coco/f3.png>
+File: Figures/coco/f4.png Graphic file (type bmp)
+<Figures/coco/f4.png>
+File: Figures/coco/f5.png Graphic file (type bmp)
+<Figures/coco/f5.png>
+File: Figures/coco/f6.png Graphic file (type bmp)
+<Figures/coco/f6.png>
+File: Figures/coco/f7.png Graphic file (type bmp)
+<Figures/coco/f7.png>
+File: Figures/coco/f8.png Graphic file (type bmp)
+<Figures/coco/f8.png>
+File: Figures/coco/f9.png Graphic file (type bmp)
+<Figures/coco/f9.png>
+File: Figures/coco/f10.png Graphic file (type bmp)
+<Figures/coco/f10.png>
+File: Figures/coco/f11.png Graphic file (type bmp)
+<Figures/coco/f11.png>
+File: Figures/coco/f12.png Graphic file (type bmp)
+<Figures/coco/f12.png>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+File: Figures/coco/f13.png Graphic file (type bmp)
+<Figures/coco/f13.png>
+File: Figures/coco/f14.png Graphic file (type bmp)
+<Figures/coco/f14.png>
+File: Figures/coco/f15.png Graphic file (type bmp)
+<Figures/coco/f15.png>
+File: Figures/coco/f16.png Graphic file (type bmp)
+<Figures/coco/f16.png>
+File: Figures/coco/f17.png Graphic file (type bmp)
+<Figures/coco/f17.png>
+File: Figures/coco/f18.png Graphic file (type bmp)
+<Figures/coco/f18.png>
+File: Figures/coco/f19.png Graphic file (type bmp)
+<Figures/coco/f19.png>
+File: Figures/coco/f20.png Graphic file (type bmp)
+<Figures/coco/f20.png>
+File: Figures/coco/f21.png Graphic file (type bmp)
+<Figures/coco/f21.png>
+File: Figures/coco/f22.png Graphic file (type bmp)
+<Figures/coco/f22.png>
+File: Figures/coco/f23.png Graphic file (type bmp)
+<Figures/coco/f23.png>
+File: Figures/coco/f24.png Graphic file (type bmp)
+<Figures/coco/f24.png>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+) [33
+
+] [34] [35] [36]
 Overfull \hbox (26.34688pt too wide) in paragraph at lines 59--59
 []\TU/TimesNewRoman(0)/m/sc/10.95 Mashall Aryan. “  Sample-efficient Optimization Using Neural Networks”. []$[][][][][] [] [] [] [][][][][][][][][][][][][][][] []
  []
 
-[34
+[37
+
+] [38
 
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Appendix.tex
 Appendix A.
-) [35
-
+) [39
 
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Backpage.tex
 *geometry* verbose mode - [ newgeometry ] result:
@@ -1638,7 +1712,7 @@ Appendix A.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-) [36
+) [40
 
 
 ]
@@ -1648,7 +1722,7 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 66.
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 66.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 66.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 793A2127D4D92A3054BD66A2F2E3A0FA;1865.
+(rerunfilecheck)             Checksum: 9638E858DCC0D29718A655E9EA86A1C3;1865.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -1658,12 +1732,12 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 56269 strings out of 481731
- 1330450 string characters out of 5935437
- 2277182 words of memory out of 5000000
- 72306 multiletter control sequences out of 15000+600000
+ 56436 strings out of 481731
+ 1334398 string characters out of 5935437
+ 2278372 words of memory out of 5000000
+ 72434 multiletter control sequences out of 15000+600000
  547197 words of font info for 134 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  82i,17n,138p,2818b,4678s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (40 pages, 618044 bytes).
+Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (44 pages, 653932 bytes).

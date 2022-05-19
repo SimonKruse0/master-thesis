@@ -18,20 +18,22 @@ from src.utils import PlottingClass, OptimizationStruct, uniform_grid
 import sys
 
 class BayesOptSolver():
-    def __init__(self, reg_model, problem, budget, disp = False) -> None:
+    def __init__(self, reg_model, problem, budget,n_init_samples = 2, disp = False) -> None:
         self.problem = problem #problem.best_observed_fvalue1
+        self.problem_name = problem.name.split(" ")[3]
         self.budget = budget
-        n_init_samples = 2
         self.obj_fun = lambda x: problem(x)
         self.model = reg_model
         self.problem_dim = problem.dimension
         self.bounds = [problem.lower_bounds, problem.upper_bounds]
-        self._X, self._Y = self._init_XY(n_init_samples)
-
-        print(f"\n-- initial training -- \t {self.model.name}")
-        self.fit()
         
-        self.y_best = np.min(self._Y)
+        if n_init_samples >0:
+            self._X, self._Y = self._init_XY(n_init_samples)
+            print(f"\n-- initial training -- \t {self.model.name}")
+            self.fit()
+            self.y_best = np.min(self._Y)
+        else:
+            self._X, self._Y, self.y_best = None,None,None
         self.x_best = None
         #assert id(self.y_best) == id(problem.best_observed_fvalue1) #should be pointers!
         self.opt = OptimizationStruct()
@@ -94,19 +96,20 @@ class BayesOptSolver():
             opt.x_next = next(self._randomgrid(1,n=1)).squeeze()
             self.opt = opt
             return
+        
         max_EI = -1
         for Xgrid_batch in self._randomgrid(n_batches):
             EI, _exploitation, _exploration = self.expected_improvement(Xgrid_batch, return_analysis=False)
 
             max_id = np.argwhere(EI == np.amax(EI)).flatten()
-            if len(max_id) > 1: #Very relevant for Naive GMR
+            if len(max_id) > 1: #multiple maxima -> pick one at random
                 x_id = random.choice(max_id)
             else:
                 x_id = max_id[0]
 
-            max_batch = EI[x_id]
-            if max_batch > max_EI:
-                max_EI = EI[x_id]
+            max_EI_batch = EI[x_id]
+            if max_EI_batch > max_EI:
+                max_EI = max_EI_batch
                 x_next = Xgrid_batch[x_id]
 
         opt = OptimizationStruct()  #insert results in struct
@@ -127,10 +130,13 @@ class BayesOptSolver():
         self._Y = np.vstack((self._Y, np.array([[y_next]])))
         self.y_best = np.min(self._Y)
 
-    def fit(self):
-        self.model.fit(self._X,self._Y)
+    def fit(self, X = None, Y = None):
+        if X is None:
+            self.model.fit(self._X,self._Y)
+        else:
+            self.model.fit(X,Y)
 
-    def optimization_step(self, plot_step = False):
+    def optimization_step(self):
         x_next = self.opt.x_next
         if x_next is not None:
             self.observe(x_next)
