@@ -46,7 +46,8 @@ class NumpyroNeuralNetwork:
 
         numpyro.set_platform("cpu")
         numpyro.set_host_device_count(num_chains)
-        self.rng_key, self.rng_key_predict = random.split(random.PRNGKey(0))
+        r = np.random.randint(1000000,size = 1)[0]
+        self.rng_key, self.rng_key_predict = random.split(random.PRNGKey(r))
 
 
     def model(self, X, Y=None):

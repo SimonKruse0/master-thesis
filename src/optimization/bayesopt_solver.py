@@ -84,11 +84,16 @@ class BayesOptSolver():
     def _budget_is_fine(self):
         return self.budget >= self.problem.evaluations
 
-    def _randomgrid(self,n_batches,n=30000):
+    def _randomgrid(self,n_batches,n=10000):
         for _ in range(n_batches):
             yield np.random.uniform(*self.bounds , size=(n,self.problem_dim))
 
     def find_a_candidate_on_randomgrid(self, n_batches  = 1):
+        if self.model.name == "empirical mean and std regression": #random search
+            opt = OptimizationStruct()
+            opt.x_next = next(self._randomgrid(1,n=1)).squeeze()
+            self.opt = opt
+            return
         max_EI = -1
         for Xgrid_batch in self._randomgrid(n_batches):
             EI, _exploitation, _exploration = self.expected_improvement(Xgrid_batch, return_analysis=False)
