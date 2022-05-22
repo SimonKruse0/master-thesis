@@ -32,7 +32,10 @@
 \contentsline {subsection}{\numberline {6.6.1}GMR - prediction}{30}{subsection.0.6.6.1}%
 \contentsline {subsection}{\numberline {6.6.2}GMR - Leaning}{31}{subsection.0.6.6.2}%
 \contentsline {chapter}{\numberline {7}Results}{33}{chapter.0.7}%
-\contentsline {subsection}{\numberline {7.0.1}regression benchmark}{33}{subsection.0.7.0.1}%
-\contentsline {section}{\numberline {7.1}Mixture regression on simple functions}{33}{section.0.7.1}%
+\contentsline {section}{\numberline {7.1}Regression analysis}{33}{section.0.7.1}%
+\contentsline {subsection}{\numberline {7.1.1}uncertainty quantification}{33}{subsection.0.7.1.1}%
+\contentsline {subsection}{\numberline {7.1.2}prediction quantification}{33}{subsection.0.7.1.2}%
+\contentsline {subsection}{\numberline {7.1.3}regression benchmark}{33}{subsection.0.7.1.3}%
+\contentsline {section}{\numberline {7.2}Mixture regression on simple functions}{33}{section.0.7.2}%
 \contentsline {chapter}{Bibliography}{37}{chapter*.21}%
 \contentsline {chapter}{\numberline {A}Implementation}{39}{appendix.A}%

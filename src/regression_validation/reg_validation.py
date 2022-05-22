@@ -156,3 +156,4 @@ class RegressionTest(BayesOptSolver):
         filename = f"{self.model.name}_{self.problem_name}_dim_{self.problem_dim}_seed_{self.seednr}_time_{time}.json"
         json.dump(data, open(os.path.join(output_path, filename), "w"))
 
+

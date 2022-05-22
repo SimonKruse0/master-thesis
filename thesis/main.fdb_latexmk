@@ -1,17 +1,17 @@
 # Fdb version 3
-["biber main"] 1652953685 "main.bcf" "main.bbl" "main" 1653154193
+["biber main"] 1653247991 "main.bcf" "main.bbl" "main" 1653248461
   "bibliography.bib" 1652596841 2782 ba90c258d1d648075381caba4edc7c6d ""
-  "main.bcf" 1653154189 101376 72b9edc793d1a4137d71a431549bd191 "xelatex"
+  "main.bcf" 1653248457 101376 72b9edc793d1a4137d71a431549bd191 "xelatex"
   (generated)
   "main.blg"
   "main.bbl"
-["xdvipdfmx"] 1653154190 "/home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv" "/home/simon/Documents/MasterThesis/master-thesis/thesis/main.pdf" "/home/simon/Documents/MasterThesis/master-thesis/thesis/main" 1653154193
-  "/home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv" 1653154189 653932 f6e84a3220bb31e61a3a30931666624b "xelatex"
+["xdvipdfmx"] 1653248457 "/home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv" "/home/simon/Documents/MasterThesis/master-thesis/thesis/main.pdf" "/home/simon/Documents/MasterThesis/master-thesis/thesis/main" 1653248461
+  "/home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv" 1653248457 666288 23dcd5a795ff0355b8ef33a45c2a6881 "xelatex"
   (generated)
   "/home/simon/Documents/MasterThesis/master-thesis/thesis/main.pdf"
-["xelatex"] 1653154185 "/home/simon/Documents/MasterThesis/master-thesis/thesis/main.tex" "/home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv" "main" 1653154193
+["xelatex"] 1653248453 "/home/simon/Documents/MasterThesis/master-thesis/thesis/main.tex" "/home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv" "main" 1653248461
   "/etc/texmf/web2c/texmf.cnf" 1622624735 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/simon/Documents/MasterThesis/master-thesis/thesis/main.aux" 1653154189 15690 877eb86b5bef695562edca4dba55eecc ""
+  "/home/simon/Documents/MasterThesis/master-thesis/thesis/main.aux" 1653248457 16092 af80c5ac1ecf23408a28b370f6d217df ""
   "/home/simon/Documents/MasterThesis/master-thesis/thesis/main.tex" 1653154184 1617 4b2eddcf43d294dfb1fc533a38fac080 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/zapfding/pzdr.tfm" 1136768653 1528 f853c4d1b4e0550255e02831fdc8496f ""
@@ -315,7 +315,7 @@
   "Chapters/03_gaussian_process_regression.tex" 1652710040 5880 39cae1ba493abd0de732b199b1862b1a ""
   "Chapters/04_bayesian_nn_regression.tex" 1652604250 8087 28a5f9af5b58f1b39066ca356479cea5 ""
   "Chapters/05_mixture_regression.tex" 1652778336 28116 613ad9cd013f3275596c020a706c9795 ""
-  "Chapters/06_results.tex" 1652958726 8876 c947f5c74912b11867d64f7701736b3d ""
+  "Chapters/06_results.tex" 1653248452 10187 34705d328540167d7d490b09e4417326 ""
   "Figures/SPN_graph2.pdf" 1652351979 12742 7aeb3b8a637accf5687233b5336296cb ""
   "Figures/coco/f1.png" 1652959948 20380 0c79c292fb21abfc9aaf7b8fe63c1e84 ""
   "Figures/coco/f10.png" 1652959968 12044 9c735f2f7d60b9574a91267a851f8b23 ""
@@ -364,19 +364,19 @@
   "Tables/best_minimizer_group_3.tex" 1652959135 609 d059c4587dab77ab552a1d0352d1883e ""
   "Tables/best_minimizer_group_4.tex" 1652959135 555 05e788fe623ad5926589561a976e8c8c ""
   "Tables/best_minimizer_group_5.tex" 1652959135 531 3a5144bd0fa62af90b1bf05ded001710 ""
-  "main.aux" 1653154189 15690 877eb86b5bef695562edca4dba55eecc "xelatex"
-  "main.bbl" 1652953686 9553 f142197c3dfa83d07683209695d6cdb7 "biber main"
-  "main.out" 1653154189 1865 9638e858dcc0d29718a655e9ea86a1c3 "xelatex"
-  "main.run.xml" 1653154189 2342 07f4b92116aa0438cc18ba366dacea09 "xelatex"
+  "main.aux" 1653248457 16092 af80c5ac1ecf23408a28b370f6d217df "xelatex"
+  "main.bbl" 1653247992 9553 f142197c3dfa83d07683209695d6cdb7 "biber main"
+  "main.out" 1653248457 1944 59bdf154497947fd214aa3c957370aa3 "xelatex"
+  "main.run.xml" 1653248457 2342 07f4b92116aa0438cc18ba366dacea09 "xelatex"
   "main.tex" 1653154184 1617 4b2eddcf43d294dfb1fc533a38fac080 ""
-  "main.toc" 1653154189 3236 0e26ab0a477c49fa5e0cdcd32f727f54 "xelatex"
+  "main.toc" 1653248457 3515 7a1da7afba552b8e22bd7726e14eed22 "xelatex"
   (generated)
-  "main.run.xml"
   "main.log"
-  "main.out"
   "/home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv"
+  "main.out"
+  "main.toc"
+  "main.run.xml"
   "/home/simon/Documents/MasterThesis/master-thesis/thesis/main.log"
   "main.bcf"
   "main.xdv"
-  "main.toc"
   "main.aux"

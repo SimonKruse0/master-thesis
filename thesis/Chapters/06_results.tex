@@ -3,6 +3,28 @@
 Egne forsøg med SPN og mixture regression
 
 
+\section{Regression analysis}
+As described in the previous sections an essential part of Bayesian optimization and the decision theory build 
+around Bayesian optimization, that the regression model is correct. We will therefore look at how good the
+regression models are, both in terms of correct prediction and in terms of correct uncertainty estimation. 
+
+\subsection{uncertainty quantification}
+The probibalistic model is given as 
+$$p(y|x,\mathcal{D}) = \mathcal{N}(y|\mu_{\mathcal{D}}(x), \sigma_{\mathcal{D}}^2(x))$$
+where the mean, and variance functions are different for all the models. 
+Given a trained model, we quantify its ability to capture uncertainty with the average
+predictive likelihood/ probability of the observation, given a test input $x_i$ the
+the density of predictive distribution is evaluated in the coresponding test output $y_i$,
+
+$$\overline{p(y_i|x_i,\mathcal{D})} := \frac{1}{n}\sum_{i=1}^n p(y_i|x_i,\mathcal{D})$$
+there the bigger the mean predictive likelihood is, the better. \todo{it is not called preditive
+likelihood!!}
+
+\subsection{prediction quantification}
+Here we use the mean absolute error to quantify the prediction error. The i'th test point is
+$(x_i,y_i)$ and the mean absolute error is given as, 
+$MAE :=\frac{1}{n}\sum_{i=1}^n |\mu_{\mathcal{D}}(x_i) - y_i| $
+
 \subsection{regression benchmark}
 We will benchmark our different regression models againt a simple emperical mean and
 emperical std. normal distribution benchmark, 
@@ -13,6 +35,12 @@ $\bar{\sigma}^2 (\textbf{y})) = \frac{1}{n-1}\sum_{i=1}^n (\textbf{y}_i-\bar{\te
 this is however not a good model for Bayesian optimization, as it will not provide a
 new candidate point, as all points are equally good. 
 
+\section{Regression analysis of GP, BOHAMIANN and NumpyNN 1D}
+
+\section{Regression analysis of GP, BOHAMIANN and NumpyNN 2D}
+\begin{figure}[h]
+  \caption{2D Regression plot for a few of the problems, with the correct }
+\end{figure}
 
 \section{Mixture regression on simple functions}
 Choosing a good set of design parameters is crucial, 

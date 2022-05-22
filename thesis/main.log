@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  21 MAY 2022 19:29
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  22 MAY 2022 21:40
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1591,7 +1591,11 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/06_results.tex
 Chapter 7.
-(/home/simon/Documents/MasterThesis/master-thesis/thesis/Tables/best_minimizer_group_1.tex) (/home/simon/Documents/MasterThesis/master-thesis/thesis/Tables/best_minimizer_group_2.tex)
+(/home/simon/Documents/MasterThesis/master-thesis/thesis/Tables/best_minimizer_group_1.tex)
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+(/home/simon/Documents/MasterThesis/master-thesis/thesis/Tables/best_minimizer_group_2.tex)
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
@@ -1722,7 +1726,7 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 66.
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 66.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 66.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 9638E858DCC0D29718A655E9EA86A1C3;1865.
+(rerunfilecheck)             Checksum: 59BDF154497947FD214AA3C957370AA3;1944.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -1734,10 +1738,10 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 Here is how much of TeX's memory you used:
  56436 strings out of 481731
  1334398 string characters out of 5935437
- 2278372 words of memory out of 5000000
+ 2281460 words of memory out of 5000000
  72434 multiletter control sequences out of 15000+600000
  547197 words of font info for 134 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  82i,17n,138p,2818b,4678s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (44 pages, 653932 bytes).
+Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (44 pages, 666288 bytes).
