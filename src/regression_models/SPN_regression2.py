@@ -34,7 +34,7 @@ def denormalize(X_normalized, mean, std):
 class SumProductNetworkRegression(BaseEstimator):
     def __init__(self,
                 tracks=4, channels=100,
-                manipulate_variance = True
+                manipulate_variance = False
                 , train_epochs = 1000,
                 alpha0_x=10,alpha0_y=10, 
                 beta0_x = 0.01,beta0_y = 0.01, 
@@ -46,7 +46,10 @@ class SumProductNetworkRegression(BaseEstimator):
         self.alpha0_y = alpha0_y#invers gamma
         self.beta0_x = beta0_x
         self.beta0_y = beta0_y
-        self.name = "SPN regression"
+        if optimize:
+            self.name = "SPN regression optimized"
+        else:
+            self.name = "SPN regression"
         #self.params = f"manipulate_variance = {manipulate_variance}, optimize = {optimize}, tracks = {tracks}, channels = {channels}"
         self.tracks = tracks
         self.channels = channels
@@ -144,6 +147,8 @@ class SumProductNetworkRegression(BaseEstimator):
             plt.show()
 
     def score(self, X_test, y_test):
+        y_test = y_test.squeeze()
+        assert y_test.ndim == 1
         m_pred, sd_pred, _ = self.predict(X_test)
         Z_pred = (y_test-m_pred)/sd_pred #std. normal distributed. 
         score = np.mean(norm.pdf(Z_pred))

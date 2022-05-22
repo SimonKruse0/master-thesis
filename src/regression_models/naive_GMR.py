@@ -67,8 +67,12 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
                     optimize=False, opt_n_iter=10, opt_cv = 3, 
                     extra_name = ""
                     ):
-        self.model = None
-        self.name = f"Naive Gaussian Mixture Regression{extra_name}"
+        self.model = None #necessary?
+        if optimize:
+            self.name = "Naive Gaussian Mixture Regression optimized"
+        else:
+            self.name = "Naive Gaussian Mixture Regression"
+
         self.x_component_std = x_component_std
         self.y_component_std = y_component_std
         self.prior_settings = prior_settings
@@ -93,6 +97,8 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
         self.params = f"x_k_std = {self.x_component_std}, y_k_std= {self.y_component_std}"
 
     def score(self, X_test, y_test):
+        y_test = y_test.squeeze()
+        assert y_test.ndim == 1
         m_pred, sd_pred, _ = self.predict(X_test)
         Z_pred = (y_test-m_pred)/sd_pred #std. normal distributed. 
         score = np.mean(norm.pdf(Z_pred))
@@ -104,8 +110,8 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
         opt = BayesSearchCV(
             self,
             {
-                'x_component_std': (1e-3, 3e-1, 'uniform'),
-                'y_component_std': (1e-3, 3e-1, 'uniform'),
+                'x_component_std': (1e-5, 3e-1, 'uniform'),
+                'y_component_std': (1e-5, 3e-1, 'uniform'),
             },
             n_iter=self.opt_n_iter,
             cv=self.opt_cv
@@ -162,7 +168,7 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
         m_pred_bayes = denormalize(m_pred_bayes, self.y_mean, self.y_std)
         std_pred_bayes *= self.y_std
 
-        return np.array(m_pred_bayes),np.array(std_pred_bayes).T,p_x #HACK
+        return m_pred_bayes,std_pred_bayes,p_x #HACK
 
     def _bayesian_conditional_pdf(self,x_grid,y_grid):
         x_grid, *_ = normalize(x_grid, self.x_mean, self.x_std)
