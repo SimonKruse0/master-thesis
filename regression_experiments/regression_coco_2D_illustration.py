@@ -16,8 +16,9 @@ from src.regression_models.gaussian_process_regression import GaussianProcess_sk
 from src.regression_models.numpyro_neural_network import NumpyroNeuralNetwork
 import random
 import matplotlib.pyplot as plt
+from mpl_toolkits.axes_grid1 import make_axes_locatable
 
-def plot2D(RV:RegressionTest,n_train, output_path):
+def plot2D(RV:RegressionTest,n_train, output_path, plot_type = 1):
 
     DATA =  RV.data_generator(n_train, 0)
     X_train = DATA[2] 
@@ -25,7 +26,7 @@ def plot2D(RV:RegressionTest,n_train, output_path):
 
     RV.fit(X_train,Y_train)
 
-    f, (ax) = plt.subplots(1, 1, sharey=True,  sharex=True)
+    f, (ax,ax2) = plt.subplots(1, 2, sharey=True,  sharex=True)
 
     xbounds = (-5, 5) #improvmenet
     ybounds = (-5, 5) #variance
@@ -34,17 +35,26 @@ def plot2D(RV:RegressionTest,n_train, output_path):
 
     x1,x2 = np.meshgrid(x1_grid, x2_grid)
     X = np.hstack([x1.flatten()[:,None],x2.flatten()[:,None]])
+
     mu_pred,sigma_pred = RV.predict(X)
     #y = np.array([RV.obj_fun(x) for x in X])
     mu_pred = mu_pred.reshape(x1.shape)
+    sigma_pred = sigma_pred.reshape(x1.shape)
     c = ax.contourf(x1,x2, mu_pred, np.linspace(mu_pred.min(), mu_pred.max(),40), cmap="twilight_shifted")
-    cbar = plt.colorbar(c)
+    cbar = plt.colorbar(c,ax=ax)
+    c2 = ax2.contourf(x1,x2, sigma_pred, np.linspace(sigma_pred.min(), sigma_pred.max(),40), cmap="Reds_r")
+    cbar2 = plt.colorbar(c2, ax=ax2)
+
     # cbar.set_ticks(list(range(6)))
     # cbar.set_ticklabels(list(range(6)))
     ax.plot(*X_train.T,'*', color='black', alpha=0.5,
                 markersize=10, markeredgewidth=0, label="data")
+    ax2.plot(*X_train.T,'*', color='black', alpha=0.5,
+                markersize=10, markeredgewidth=0, label="data")
     ax.set_title(r"$\mu_{\mathcal{D}}(x)$")
+    ax2.set_title(r"$\sigma_{\mathcal{D}}(x)$")
     ax.set_xlabel(r"$x_1$")
+    ax2.set_xlabel(r"$x_1$")
     ax.set_ylabel(r"$x_2$")
     #ax.set_ylim(0,10)
     plt.savefig(output_path)
@@ -58,8 +68,8 @@ reg_models = [#MeanRegression(),
                                 extra_name="200-200"),
             SumProductNetworkRegression(optimize=True)]
             
-random.seed()
-random.shuffle(reg_models)
+# random.seed()
+# random.shuffle(reg_models)
 #reg_models = [NaiveGMRegression()]
 ### main ###
 n_train_array = [int(x) for x in np.logspace(1, 2.5, 9)]
