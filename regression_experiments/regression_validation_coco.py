@@ -40,7 +40,7 @@ try:
 except:
     print(f"Couldn't create {path}")
 
-suite = cocoex.Suite("bbob", "", "dimensions:3,4,5,6,7,8,9,10 instance_indices:1")
+suite = cocoex.Suite("bbob", "", "dimensions:5,6,7,8,9,10 instance_indices:1")
 
 for problem in suite:
     name_problem = problem.name.split(" ")[3]
