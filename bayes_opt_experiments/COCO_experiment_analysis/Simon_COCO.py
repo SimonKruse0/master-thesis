@@ -1,7 +1,7 @@
 from __future__ import division, print_function
 import cocoex, cocopp  # experimentation and post-processing modules
 import scipy.optimize  # to define the solver to be benchmarked
-from numpy.random import rand  # for randomised restarts
+from numpy.random import seed  # for randomised restarts
 import os, webbrowser  # to show post-processed results in the browser
 from src.optimization.bayesopt_solver import BayesOptSolver
 from src.regression_models.naive_GMR import NaiveGMRegression
@@ -19,28 +19,32 @@ reg_models = [MeanRegression(),
 ]
 random.seed()
 random.shuffle(reg_models)
-
+reg_models = [MeanRegression()]
 def fmin(problem, budget):
     BO = BayesOptSolver(reg_model,problem, budget, disp=False)
     return BO()
 
 budget_multiplier = 40  # increase to 10, 100, ...
-
+seed()
 for reg_model in reg_models:
+
     name = reg_model.name.replace(" ", "_")
     ### input
     suite_name = "bbob"
-    output_folder = f"BO_{budget_multiplier}_{name}"
+    output_folder = f"BO_test_{budget_multiplier}_{name}"
     #fmin = scipy.optimize.fmin
 
 
     ### prepare
-    suite = cocoex.Suite(suite_name, "", "dimensions:2,5,10 instance_indices:1")
+    suite = cocoex.Suite(suite_name, "", "dimensions:2 instance_indices:2")
     observer = cocoex.Observer(suite_name, "result_folder: " + output_folder)
     minimal_print = cocoex.utilities.MiniPrint()
 
     ### go
     for problem in suite:  # this loop will take several minutes or longer
+        name_problem = problem.name.split(" ")[3]
+        if name_problem != "f1":
+            continue
         problem.observe_with(observer)  # generates the data for cocopp post-processing
         #fmin(problem, problem.dimension * budget_multiplier)  # here we assume that `fmin` evaluates the final/returned solution
         fmin(problem, budget_multiplier)  # here we assume that `fmin` evaluates the final/returned solution

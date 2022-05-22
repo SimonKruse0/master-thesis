@@ -8,7 +8,6 @@ from src.utils import RegressionValidation
 
 BASE_DIRECTORY = '/home/simon/Documents/MasterThesis/master-thesis'
 
-
 def redefine_data_names():
     for (dirpath, dirnames, filenames) in os.walk(os.path.join(BASE_DIRECTORY, "data")):
         for filename in filenames:
@@ -59,16 +58,16 @@ def include_true_values(Problems, min_n_test_points=9999, remove_min_n_test = Fa
                 with open(file_path, 'w') as f:
                     json.dump(data, f, indent=4)
 
-def get_data2(target_name, use_exact_name=False):
+def get_data2(target_name, use_exact_name=False, data_folder = "data"):
     data_list = []
     name_list = []
     file_path_list = set()
     problem_name = None
-    for (dirpath, dirnames, filenames) in os.walk(os.path.join(BASE_DIRECTORY, "data")):
+    for (dirpath, dirnames, filenames) in os.walk(os.path.join(BASE_DIRECTORY, data_folder)):
         # Opening JSON file
         #print(dirpath, filenames)
-        if "05" not in dirpath: #only data from may HACK
-            continue
+        # if "05" not in dirpath: #only data from may HACK
+        #     continue
         for filename in filenames:
             if target_name not in filename:
                 continue
@@ -95,9 +94,9 @@ def get_data2(target_name, use_exact_name=False):
     file_path_list2 = [f"{x[2:4]}/{x[:2]} {x[-4:-2]}:{x[-2:]}" for x in file_path_list]
     return data_list, name_list, problem_name, file_path_list, file_path_list2
 
-def get_names(has_to_include = ""):
+def get_names(has_to_include = "", data_folder = "data"):
     names = set()
-    for (dirpath, dirnames, filenames) in os.walk(os.path.join(BASE_DIRECTORY, "data")):
+    for (dirpath, dirnames, filenames) in os.walk(os.path.join(BASE_DIRECTORY, data_folder)):
         
         # Opening JSON file
         #print(dirpath, filenames)

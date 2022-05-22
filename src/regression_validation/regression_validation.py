@@ -38,24 +38,24 @@ problems += [Rosenbrock(dimensions = x) for x in dims[1:]]
 random.seed()
 random.shuffle(problems)
 
-# BOHAMIANN_regression_fast = BOHAMIANN(num_warmup = 200, num_samples = 300, num_keep_samples= 100)
-# BOHAMIANN_regression = BOHAMIANN(num_warmup = 2000, num_samples = 2000, num_keep_samples= 300,  extra_name="2000-2000")
-# BOHAMIANN_regression_slow = BOHAMIANN(num_warmup = 4000, num_samples = 4000, num_keep_samples= 300,  extra_name="4000-4000")
+BOHAMIANN_regression_fast = BOHAMIANN(num_warmup = 200, num_samples = 300, num_keep_samples= 100)
+BOHAMIANN_regression = BOHAMIANN(num_warmup = 2000, num_samples = 2000, num_keep_samples= 300,  extra_name="2000-2000")
+BOHAMIANN_regression_slow = BOHAMIANN(num_warmup = 4000, num_samples = 4000, num_keep_samples= 300,  extra_name="4000-4000")
 NNN_regression_fast = NumpyroNeuralNetwork(hidden_units=50,num_chains = 4, num_warmup= 200, num_samples=300, num_keep_samples= 300, extra_name="50hu-200-300")
 NNN_regression = NumpyroNeuralNetwork(hidden_units=50,num_chains = 4, num_warmup= 1000, num_samples=1000, num_keep_samples= 1000, extra_name="50hu-1000-1000")
 # # Slow NNN with 3*50 hidden units takes 15 min per. training 
 # # -> way to slow for these experiements. 
 
-# regression_models = [BOHAMIANN_regression_fast,BOHAMIANN_regression,BOHAMIANN_regression_slow,NNN_regression_fast]#, NNN_regression]
+regression_models = [BOHAMIANN_regression_fast,BOHAMIANN_regression,BOHAMIANN_regression_slow,NNN_regression_fast]#, NNN_regression]
 # regression_models += [MeanRegression()]
 # regression_models += [GMRegression()] #Gaussian Mixture
 # random.shuffle(regression_models)
 # #regression_models = [MeanRegression()]
 # regression_models = [GaussianProcess_sklearn()]
 # regression_models += [SumProductNetworkRegression(manipulate_variance=True, optimize=True, tracks=2, channels=50)]
-regression_models = [NNN_regression_fast, NNN_regression]
-#regression_models = [StanNeuralNetwork()]
-regression_models = [NaiveGMRegression()]
+# regression_models = [NNN_regression_fast, NNN_regression]
+# #regression_models = [StanNeuralNetwork()]
+# regression_models = [NaiveGMRegression()]
 ## Data enrichment ##
 #include_true_values(problems, remove_min_n_test=True)
 

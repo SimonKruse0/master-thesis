@@ -48,9 +48,13 @@ class BayesOptSolver():
         #print(self.get_optimization_hist())
         return x
 
-    def _init_XY(self, sample_size):
+    def _init_XY(self, sample_size, vectorized = False):
         X_init = next(self._randomgrid(1, sample_size))
-        Y_init = np.array([self.obj_fun(x) for x in X_init])[:,None]
+        print(X_init)
+        if vectorized:
+            Y_init = self.obj_fun(X_init)[:,None]
+        else:
+            Y_init = np.array([self.obj_fun(x) for x in X_init])[:,None]
         self.budget -= sample_size
         return X_init, Y_init
 
@@ -93,7 +97,7 @@ class BayesOptSolver():
     def find_a_candidate_on_randomgrid(self, n_batches  = 1):
         if self.model.name == "empirical mean and std regression": #random search
             opt = OptimizationStruct()
-            opt.x_next = next(self._randomgrid(1,n=1)).squeeze()
+            opt.x_next = next(self._randomgrid(1,n=1)).squeeze()*0
             self.opt = opt
             return
         

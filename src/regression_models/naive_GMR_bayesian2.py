@@ -85,8 +85,8 @@ class NaiveGMRegressionBayesian(naive_GMR, BaseEstimator):
         self.y_component_std = y_component_std
         self.prior_settings = prior_settings
         self.manipulate_variance = manipulate_variance
-        self.num_warmup = 100
-        self.num_samples = 100
+        self.num_warmup = 300
+        self.num_samples = 300
         self.num_chains = 4
         self.keep_every = 1
 
@@ -107,7 +107,7 @@ class NaiveGMRegressionBayesian(naive_GMR, BaseEstimator):
 
     def model(self, X,Y_obs):
         alpha = 1
-        beta = 0.01
+        beta = 0.0001
 
         self.x_component_std = numpyro.sample("x_component_std",dist.InverseGamma(alpha, beta)) 
         self.y_component_std = numpyro.sample("y_component_std",dist.InverseGamma(alpha, beta))
@@ -153,7 +153,7 @@ class NaiveGMRegressionBayesian(naive_GMR, BaseEstimator):
         m_pred = self.E_predictive(X_test_)
         E2_pred = self.E2_predictive(X_test_)
         v_pred = E2_pred-m_pred**2 #Var[x] = Ex²-(Ex)²
-        print(v_pred)
+        #print(v_pred) vanvittigt output!!
         #assert not any(v_pred<0)
         
         # evidens
