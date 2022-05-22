@@ -28,7 +28,6 @@ reg_models = [MeanRegression(),
 random.seed()
 random.shuffle(reg_models)
 
-
 ### main ###
 n_train_array = [int(x) for x in np.logspace(1, 2.5, 9)]
 n_test = 10000
@@ -42,7 +41,7 @@ except:
     print(f"Couldn't create {path}")
 
 #np.random.seed()
-suite = cocoex.Suite("bbob", "", "dimensions:2,3,5,10 instance_indices:1")
+suite = cocoex.Suite("bbob", "", "dimensions:10,20,40 instance_indices:1")
 
 for problem in suite:
     name_problem = problem.name.split(" ")[3]

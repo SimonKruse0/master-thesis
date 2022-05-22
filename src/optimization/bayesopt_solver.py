@@ -50,7 +50,7 @@ class BayesOptSolver():
 
     def _init_XY(self, sample_size, vectorized = False):
         X_init = next(self._randomgrid(1, sample_size))
-        print(X_init)
+        #print(X_init)
         if vectorized:
             Y_init = self.obj_fun(X_init)[:,None]
         else:
