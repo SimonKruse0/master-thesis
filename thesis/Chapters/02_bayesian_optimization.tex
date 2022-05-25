@@ -18,6 +18,8 @@ in a region of high uncertainty and thereby help lower the overall uncertainty. 
 the acquisition function used in this thesis, which is also the most commonly used: E   xpected improvement. 
 
 \section{Acquisition function}
+
+\subsection{Expected improvement}
 A popular choice of acquisition function is expected improvement, 
 $$EI(x) = \mathbb{E}_{p(y|x,\mathcal{D})}[\max(0, y_{\min}-y)]$$
 this will only look at the expectation of the values $y$, which improves the current best value.
@@ -93,6 +95,43 @@ where $\Omega = \{\theta|f_{\theta}(x)< y_{\min}\}$
 %\section{uncertainties}
 %Alatoric vs epistemic uncertainties 
 
+\subsection{Entropy search}
+We then discuss the knowledge
+gradient (Section 4.2), entropy search and predictive entropy search (Section 4.3) acquisition functions.
+These alternate acquisition functions are most useful in exotic problems where an assumption made by
+expected improvement, that the primary benefit of sampling occurs through an improvement at the point
+sampled, is no longer true.
+
+
+The entropy search (ES) (Hennig and Schuler, 2012) acquisition function values the information we have
+about the location of the global maximum according to its differential entropy
+
+ES seeks the point to evaluate that causes the largest decrease in differential entropy
+
+(Recall from, e.g., Cover and Thomas (2012),
+that the differential entropy of a continuous probability distribution p(x) is R
+p(x) log(p(x)) dx, and that
+smaller differential entropy indicates less uncertainty.)
+
+Predictive entropy search (PES) (Hern´andezLobato et al., 2014) seeks the same point, but uses a reformulation of the entropy reduction objective
+based on mutual information. Exact calculations of PES and ES would give equivalent acquisition functions, but exact calculation is not typically possible, and so the difference in computational techniques
+used to approximate the PES and ES acquisition functions creates practical differences in the sampling
+decisions that result from the two approaches. We first discuss ES and then PES.
+
+Let x  be the global optimum of f. The posterior distribution on f at time n induces a probability
+distribution for x
+. Indeed, if the domain A were finite, then we could represent f over its domain by a
+vector (f(x) : x ∈ A), and x
+would correspond to the largest element in this vector. The distribution of
+this vector under the time-n posterior distribution would be multivariate normal, and this multivariate
+normal distribution would imply the distribution of x
+
+. When A is continuous, the same ideas apply,
+where x
+
+is a random variable whose distribution is implied by the Gaussian process posterior on f
+
+
 
 \section{surrogate model}
 As mentioned in the previous sections, the first of two repeated steps in Bayesian optimization
@@ -149,6 +188,27 @@ $$\hat\Sigma_{y|k} =\Sigma_{y|k}^{GMM} \frac{1}{\max(p(x), 0.01)}$$
 
 In a way, this is manipulation in a Bayesian spirit, as we let prior and subjective knowledge influence the
 variance prediction. 
+\subsection{Inclusion of prior distribution}
+The new conditional distribution is essentially a mixture between the old conditional and the prior distribution, 
+$$\hat p(y|x) = \alpha_x p(y|x) + (1-\alpha_x)p_{prior}(y)$$
+where we choose $\alpha_x := \frac{S(x)}{S(x)+1}$. A convex combination of distributions is a distribution, 
+since 
+\begin{align*}
+    \int_y \hat p(y|x) dy &= \int_y \left[ \alpha_x p(y|x) + (1-\alpha_x)p_{prior}(y) \right] dy\\
+     &= \alpha_x \int_y p(y|x)dy +(1-\alpha_x) \int_y p_{prior}(y)dy \\
+     &= \alpha_x + (1-\alpha_x) = 1
+\end{align*}
+    
+\subsection{Inclusion of prior distribution}
+Since the prior predictive distribution and the predictive distribution both are assumed to be normal distributions, 
+it is possible to simply let the parameters of the manipulated predictive distributions be a convex combination of the 
+parameters. This will make the manipulation be more natural, and hopefully less coruptive. 
+\begin{align*}
+    \hat p (y|x) &=\mathcal{N}(y| \hat \mu, \hat\sigma^2)\\
+    \hat \mu &= \alpha \cdot \mu_{y|x} + (1-\alpha) \cdot \mu_{prior}\\
+    \hat \sigma^2 &= \alpha \cdot \sigma_{y|x}^2 + (1-\alpha) \cdot\sigma_{prior}^2
+\end{align*}
+
 
 \subsection{Inclusion of prior distribution}
 The conditional distribution $p(y|x)$ obtained from using a Gaussian mixture model is without a prior, and

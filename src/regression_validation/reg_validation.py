@@ -1,5 +1,5 @@
 from turtle import shape
-from src.optimization.bayesopt_solver import BayesOptSolver
+from src.optimization.bayesopt_solver import BayesOptSolverBase, BayesOptSolver_coco
 import numpy as np
 from scipy.stats import norm
 from datetime import datetime
@@ -9,7 +9,7 @@ import os
 def jsonize_array(array):
     return [a.astype(float) for a in array]
 
-class RegressionTest_numpycoco(BayesOptSolver):
+class RegressionTest_numpycoco(BayesOptSolverBase):
     def __init__(self, reg_model, problem, random_seed = 42) -> None:
         self.seednr = random_seed
         self.Y_test = None
@@ -86,9 +86,9 @@ class RegressionTest_numpycoco(BayesOptSolver):
 
 
 
-class RegressionTest(BayesOptSolver):
-    def __init__(self, reg_model, problem, random_seed = 42) -> None:
-        super().__init__(reg_model, problem, 0, n_init_samples= 0)
+class RegressionTest(BayesOptSolver_coco):
+    def __init__(self, reg_model, problem, random_seed, acquisition="EI", budget=5, n_init_samples=0, disp=False) -> None:
+        super().__init__(reg_model, problem, acquisition, budget, n_init_samples, disp)
         self.seednr = random_seed
         self.Y_test = None
         self.X_test = None

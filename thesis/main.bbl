@@ -97,8 +97,8 @@
       \strng{authorbibnamehash}{ed6793cb5ec5e5b336b96236df5b354f}
       \strng{authornamehash}{ed6793cb5ec5e5b336b96236df5b354f}
       \strng{authorfullhash}{43861213e8477bc71a2d2f7504b8848d}
-      \field{sortinit}{2}
-      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
+      \field{sortinit}{3}
+      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprintclass}{stat.ML}
@@ -171,8 +171,8 @@
       \strng{editorbibnamehash}{a39670f7069dc3237dbc92fe523ad0c6}
       \strng{editornamehash}{a39670f7069dc3237dbc92fe523ad0c6}
       \strng{editorfullhash}{12a698699c223bd18ce3abc205938f9b}
-      \field{sortinit}{3}
-      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
+      \field{sortinit}{4}
+      \field{sortinithash}{e071e0bcb44634fab398d68ad04e69f4}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{Advances in Neural Information Processing Systems}
@@ -203,8 +203,8 @@
       \strng{authorbibnamehash}{eaf84e3fe4f887967dc3d793d28b9e94}
       \strng{authornamehash}{eaf84e3fe4f887967dc3d793d28b9e94}
       \strng{authorfullhash}{eaf84e3fe4f887967dc3d793d28b9e94}
-      \field{sortinit}{4}
-      \field{sortinithash}{e071e0bcb44634fab398d68ad04e69f4}
+      \field{sortinit}{5}
+      \field{sortinithash}{5dd416adbafacc8226114bc0202d5fdd}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{note}{in preparation}
@@ -233,8 +233,8 @@
       \strng{authorbibnamehash}{777504ebb73f750912508fc1b666e109}
       \strng{authornamehash}{777504ebb73f750912508fc1b666e109}
       \strng{authorfullhash}{777504ebb73f750912508fc1b666e109}
-      \field{sortinit}{8}
-      \field{sortinithash}{1b24cab5087933ef0826a7cd3b99e994}
+      \field{sortinit}{9}
+      \field{sortinithash}{54047ffb55bdefa0694bbd554c1b11a0}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{number}{4}

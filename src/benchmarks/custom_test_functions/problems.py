@@ -92,7 +92,11 @@ class SimonsTest2(Benchmark):
     def fun(self,x, *args): 
         x = x/200 + 0.5
         self.nfev += 1
-        return 50 * (np.sign(x-0.5) + 1)+np.sin(100*x)*10 + 100
+        result = 50 * (np.sign(x-0.5) + 1)+np.sin(100*x)*10 + 100
+        if result.ndim == 0:
+            return result
+        else:
+            return result[0]
 
 
 class SimonsTest(Benchmark):

@@ -46,14 +46,7 @@ class BayesianOptimization(PlottingClass):
     def _initXY(self, sample_size):
         np.random.seed(2)
         X_init = np.random.uniform(*self.bounds,size = (sample_size,self.problem_dim))
-        try:
-            Y_init = self.obj_fun(X_init)
-        except:
-            assert False
-            # y = []
-            # for x in X_init:
-            #     y.append(self.obj_fun(x))
-            # Y_init = np.array(y)[:,None]
+        Y_init = self.obj_fun(X_init)
         return X_init,Y_init
     def predict(self,X, gaussian_approx = True, get_px = False):
         if get_px:
@@ -90,23 +83,6 @@ class BayesianOptimization(PlottingClass):
             return EI, exploitation, exploration
         else:
             return EI
-
-
-    def expected_improvement2(self,X,xi=0, return_analysis = False):
-        assert X.ndim == 2
-        #print("OBS X[:,None] might fail in largers dims!")
-        mu, sigma = self.predict(X) #Partial afledt. Pytorch. 
-        imp = -mu - self.f_best - xi
-        Z = imp/sigma
-        exploitation = imp*norm.cdf(Z)
-        exploration = sigma*norm.pdf(Z)
-        EI = exploitation + exploration
-        #EI = exploitation/10 + exploration
-        if return_analysis:
-            return EI, exploitation, exploration
-        else:
-            return EI
-
 
     def find_a_candidate_on_grid(self, Xgrid): #TODO: lav adaptiv grid search. Og batches! 
         EI, _exploitation, _exploration = self.expected_improvement(Xgrid, return_analysis=True)

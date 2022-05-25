@@ -16,6 +16,7 @@ plt.rcParams.update({
 class OptimizationStruct:
     def __init__(self) -> None:
         self.x_next = None
+        self.y_next = None
         self.max_EI = None
         self.Xgrid = None
         self.EI_of_Xgrid = None
@@ -24,6 +25,8 @@ class OptimizationStruct:
 def uniform_grid(bound, n_var, points_pr_dim=1000):# -> np.ndarray():
     all_axis = np.repeat(np.linspace(*bound, points_pr_dim)[None,:],n_var, axis=0)
     return np.array([x_i.flatten() for x_i in np.meshgrid(*all_axis)]).T
+
+
 
 def jsonize_array(array):
     return [a.astype(float) for a in array]
@@ -41,12 +44,12 @@ class PlottingClass:
 
         #Xgrid = np.linspace(*self.bounds[0], num_grid_points)
         Ymu, Ysigma = self.predict(Xgrid)
-
+        Xgrid = Xgrid.squeeze()
         #ax.plot(self._X,self._Y, "kx", lw=2)  # plot all observed data
         ax.plot(Xgrid, Ymu, "red", lw=2)  # plot predictive mean
-        ax.fill_between(Xgrid.squeeze(), Ymu - 2*Ysigma, Ymu + 2*Ysigma,
+        ax.fill_between(Xgrid, Ymu - 2*Ysigma, Ymu + 2*Ysigma,
                         color="C0", alpha=0.3, label=r"$E[y]\pm 2  \sqrt{Var[y]}$")  # plot uncertainty intervals
-        ax.set_xlim(*self.bounds)
+        ax.set_xlim(self.bounds[0][0], self.bounds[1][0])
         #ax.set_ylim(-0.7+np.min(self._Y), 0.5+0.7+np.max(self._Y))
         if show_name:
             ax.set_title(f"{self.model.name}({self.model.params})")
@@ -65,37 +68,55 @@ class PlottingClass:
                                 color="black", alpha=0.3, label=r"90\% credible interval")  # plot uncertainty intervals
         ax.legend(loc=2)
 
-    def plot_expected_improvement(self,ax,opt:OptimizationStruct):
-        if opt.EI_of_Xgrid is None:
-            opt.EI_of_Xgrid, opt._exploitation,opt._exploration  = self.expected_improvement(opt.Xgrid, return_analysis = True)
-        ## plot the acquisition function ##
-        ax.plot(opt.Xgrid, opt.EI_of_Xgrid, color="tab:blue", label = "EI") 
-        ax.plot(opt.Xgrid, opt._exploitation, "--", color = "cyan", label="exploitation") 
-        ax.plot(opt.Xgrid, opt._exploration, "--", color = "red", label="exploration") 
+    def plot_expected_improvement(self,ax,Xgrid):
+        opt = self.opt
+        EI_of_Xgrid, exploitation, exploration  = self.expected_improvement(Xgrid, return_analysis = True)
+        # plot the acquisition function ##
+        ax.plot(Xgrid, EI_of_Xgrid, color="tab:blue", label = "EI") 
+        ax.plot(Xgrid, exploitation, "--", color = "cyan", label="exploitation") 
+        ax.plot(Xgrid, exploration, "--", color = "red", label="exploration") 
+        # max_EI_id = np.argmax(EI_of_Xgrid)
+        # max_EI = EI_of_Xgrid[max_EI_id]
+        # x_next = Xgrid[max_EI_id]
+        # ax.plot(x_next, max_EI, "^", markersize=10,color="tab:orange", label=f"x_next = {opt.x_next[0]:.2f}")
 
+        # ax.plot(opt.Xgrid, opt.EI_of_Xgrid, color="tab:blue", label = "EI") 
+        # ax.plot(opt.Xgrid, opt._exploitation, "--", color = "cyan", label="exploitation") 
+        # ax.plot(opt.Xgrid, opt._exploration, "--", color = "red", label="exploration") 
+
+
+        #EI_of_Xgrid 
         ## plot the new candidate point ##
-        ax.plot(opt.x_next[0], opt.max_EI, "^", markersize=10,color="tab:orange", label=f"x_next = {opt.x_next[0]:.2f}")
-        ax.set_xlim(*self.bounds)
+        #ax.plot(opt.x_next[0], opt.max_EI, "^", markersize=10,color="tab:orange", label=f"x_next = {opt.x_next[0]:.2f}")
+        ax.set_xlim(self.bounds[0][0], self.bounds[1][0])
         ax.set_ylabel("Acquisition Function")
         ax.legend(loc=1)
 
     # def plot_expected_improvement_parts(self,ax,opt:OptimizationStruct):
     #     EI, Epl = self.expected_improvement(opt.Xgrid, )
 
-    def plot_surrogate_and_expected_improvement(self,subplot_spec,opt:OptimizationStruct, show_name = False):
-        if opt.Xgrid is None:
-            opt.Xgrid = uniform_grid(self.bounds,1, points_pr_dim=1000)
-            #opt.Xgrid = np.linspace(*self.bounds, 1000)
+    def plot_surrogate_and_expected_improvement(self,subplot_spec,opt:OptimizationStruct = None, show_name = False):
+        if opt is None: #HACK
+            opt = self.opt
+        bounds = (self.bounds[0][0], self.bounds[1][0])
+        Xgrid = uniform_grid(bounds,1, points_pr_dim=1000)
         gs = gridspec.GridSpecFromSubplotSpec(2, 1, subplot_spec=subplot_spec)
         ax1 = plt.subplot(gs[0])
         ax2 = plt.subplot(gs[1])
-        self.plot_regression_gaussian_approx(ax1,opt.Xgrid, show_name = show_name)
+
+        
+        self.plot_regression_gaussian_approx(ax1,Xgrid, show_name = show_name)
         #self.plot_regression_credible_interval(ax1,opt.Xgrid)
-        X_true =  np.linspace(*self.bounds,10000)
+        X_true =  np.linspace(*self.bounds,1000)
         Y_true = self.obj_fun(X_true)
         ax1.plot(X_true, Y_true, "--", color="Black")
         ax1.plot(self._X,self._Y, ".", markersize = 10, color="black")  # plot all observed data
-        self.plot_expected_improvement(ax2,opt)
+        ax1.plot(self._X[-1],self._Y[-1], ".", markersize = 10, color="tab:orange")  # plot all observed data
+        self.plot_expected_improvement(ax2,Xgrid)
+        x_next = opt.x_next[:,None]
+        max_EI, *_ = self.expected_improvement(x_next, return_analysis = False)
+        ax2.plot(x_next, max_EI, "^", markersize=10,color="tab:orange", label=f"x_next = {opt.x_next[0]:.2f}")
+
 
     def plot_2d(self, opt, plot_obj = False, fig_name = "hej"):
         X_next,_ = self.get_optimization_hist()

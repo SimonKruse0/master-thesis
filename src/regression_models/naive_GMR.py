@@ -62,17 +62,18 @@ class naive_GMR:
 class NaiveGMRegression(naive_GMR, BaseEstimator):
     def __init__(self,x_component_std = 5e-2,
                     y_component_std= 5e-2, 
-                    prior_settings = {"Ndx": 1,"v_prior":1.2},
+                    prior_settings = {"Ndx": 1,"sig_prior":1.2, "prior_type":1},
                     manipulate_variance = False, 
                     optimize=False, opt_n_iter=10, opt_cv = 3, 
-                    extra_name = ""
+                    prior_type = 1
                     ):
         self.model = None #necessary?
+        self.prior_type = prior_settings["prior_type"]
         if optimize:
-            self.name = "Naive Gaussian Mixture Regression optimized"
+            self.name = f"Naive Gaussian Mixture Regression optimized-prior {self.prior_type}"
         else:
-            self.name = "Naive Gaussian Mixture Regression"
-
+            self.name = f"Naive Gaussian Mixture Regression-prior {self.prior_type}"
+        
         self.x_component_std = x_component_std
         self.y_component_std = y_component_std
         self.prior_settings = prior_settings
@@ -138,7 +139,7 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
     def predict(self, X_test):
         X_test,*_ = normalize(X_test,self.x_mean, self.x_std)
         Ndx = self.prior_settings["Ndx"]
-        sigma_prior = self.prior_settings["v_prior"]
+        sig_prior = self.prior_settings["sig_prior"]
 
         # likelihood
         m_pred = self.E_predictive(X_test)
@@ -149,11 +150,20 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
         # evidens
         p_x = np.exp(self.lp_x(X_test))
 
-        # posterior 
-        m_pred_bayes = (self.N*p_x*m_pred + Ndx*0)/(self.N*p_x+Ndx)
-        E2_pred_bayes = (self.N*p_x*(v_pred+m_pred**2) + Ndx*sigma_prior**2)/(self.N*p_x+Ndx) 
-        v_pred_bayes = E2_pred_bayes - m_pred_bayes**2
+        if self.prior_type ==1:
+            # posterior 
+            m_pred_bayes = (self.N*p_x*m_pred + Ndx*0)/(self.N*p_x+Ndx)
+            E2_pred_bayes = (self.N*p_x*(v_pred+m_pred**2) + Ndx*sig_prior**2)/(self.N*p_x+Ndx) 
+            v_pred_bayes = E2_pred_bayes - m_pred_bayes**2
 
+        elif self.prior_type ==2:
+            alpha = np.clip(10*self.N*p_x,0,1)
+            m_pred_bayes = alpha*m_pred #+ (1-alpha)* 0
+            v_pred_bayes = alpha*v_pred+ (1-alpha)*sig_prior**2
+        else:# self.prior_type ==3:
+            alpha = self.N*p_x/(self.N*p_x+Ndx) 
+            m_pred_bayes = alpha*m_pred #+ (1-alpha)* 0
+            v_pred_bayes = alpha*v_pred+ (1-alpha)*sig_prior**2
 
         std_pred_bayes = np.sqrt(v_pred_bayes)
 
@@ -176,16 +186,19 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
 
         x_res, y_res = x_grid.shape[0], y_grid.shape[0]
         Ndx = self.prior_settings["Ndx"]
-        v_prior = self.prior_settings["v_prior"]
+        sig_prior = self.prior_settings["sig_prior"]
         N = self.N
 
 
         X, Y = np.meshgrid(x_grid, y_grid, indexing="ij")
         p_xy = self.p_xy(X, Y)
         p_x = np.exp(self.lp_x(x_grid[:,None]))
-
-        p_prior_y = norm(0, np.sqrt(v_prior)).pdf(y_grid)
-        p_predictive = (N*p_xy + Ndx*p_prior_y[None, :]) / (N*p_x[:, None] + Ndx)
+        p_prior_y = norm(0, sig_prior).pdf(y_grid)
+        if self.prior_type ==1:
+            p_predictive = (N*p_xy + Ndx*p_prior_y[None, :]) / (N*p_x[:, None] + Ndx)
+        else:
+            alpha = np.clip(10*self.N*p_x,0,1)[:, None]
+            p_predictive = alpha*(p_xy/p_x[:, None]) + (1-alpha)*p_prior_y[None, :]
         return p_predictive, p_x
 
     def y_gradient(self,y_grid):
@@ -193,7 +206,7 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
         return np.gradient(y_grid)
 
     def plot(self, ax, xbounds=(0,1),ybounds=(-2.5,2.5), plot_credible_set = True):
-        self.x_res, self.y_res  = 500, 800
+        self.x_res, self.y_res  = 800, 1000
         x_res, y_res = self.x_res, self.y_res
         x_grid = np.linspace(*xbounds, self.x_res, dtype=np.float)
         y_grid = np.linspace(*ybounds, self.y_res,dtype=np.float)

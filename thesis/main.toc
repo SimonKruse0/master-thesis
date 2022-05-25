@@ -1,41 +1,37 @@
 \boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
 \babel@toc {english}{}
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.0.1}%
-\contentsline {section}{\numberline {1.1}notation}{1}{section.0.1.1}%
-\contentsline {section}{\numberline {1.2}related work}{2}{section.0.1.2}%
-\contentsline {chapter}{\numberline {2}Optimization methodology}{3}{chapter.0.2}%
-\contentsline {section}{\numberline {2.1}When to use Bayesian optmization}{4}{section.0.2.1}%
-\contentsline {section}{\numberline {2.2}Observation model}{5}{section.0.2.2}%
-\contentsline {chapter}{\numberline {3}Bayesian Optimization}{7}{chapter.0.3}%
-\contentsline {section}{\numberline {3.1}Acquisition function}{7}{section.0.3.1}%
-\contentsline {section}{\numberline {3.2}surrogate model}{9}{section.0.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Discriminative model as surrogate model}{9}{subsection.0.3.2.1}%
-\contentsline {subsection}{\numberline {3.2.2}Using a generative model as surrogate model}{9}{subsection.0.3.2.2}%
-\contentsline {subsection}{\numberline {3.2.3}Inclusion of prior distribution}{10}{subsection.0.3.2.3}%
-\contentsline {subsubsection}{Manipulated predictive mean}{11}{subsubsection*.5}%
-\contentsline {subsubsection}{Manipulated predictive variance}{11}{subsubsection*.6}%
-\contentsline {chapter}{\numberline {4}Gaussian process surrogate}{13}{chapter.0.4}%
-\contentsline {section}{\numberline {4.1}Gaussian Process Regression}{13}{section.0.4.1}%
-\contentsline {chapter}{\numberline {5}Bayesian neural network surrogate}{15}{chapter.0.5}%
-\contentsline {section}{\numberline {5.1}Bayesian Neural Networks}{15}{section.0.5.1}%
-\contentsline {subsection}{\numberline {5.1.1}No U-Turn sampling}{17}{subsection.0.5.1.1}%
-\contentsline {subsection}{\numberline {5.1.2}Adaptive stochatic HMC}{17}{subsection.0.5.1.2}%
-\contentsline {chapter}{\numberline {6}Mixture regression surrogate}{19}{chapter.0.6}%
-\contentsline {section}{\numberline {6.1}Gaussian mixture regression}{19}{section.0.6.1}%
-\contentsline {section}{\numberline {6.2}Mixture regression in a Bayesian setting}{20}{section.0.6.2}%
-\contentsline {section}{\numberline {6.3}Sum product networks}{20}{section.0.6.3}%
-\contentsline {section}{\numberline {6.4}SPN}{24}{section.0.6.4}%
-\contentsline {subsection}{\numberline {6.4.1}SPN - prediction}{24}{subsection.0.6.4.1}%
-\contentsline {subsection}{\numberline {6.4.2}SPN - learning}{25}{subsection.0.6.4.2}%
-\contentsline {section}{\numberline {6.5}Expectation-maximization for mixture models}{27}{section.0.6.5}%
-\contentsline {section}{\numberline {6.6}Gaussian Mixture Regression}{30}{section.0.6.6}%
-\contentsline {subsection}{\numberline {6.6.1}GMR - prediction}{30}{subsection.0.6.6.1}%
-\contentsline {subsection}{\numberline {6.6.2}GMR - Leaning}{31}{subsection.0.6.6.2}%
-\contentsline {chapter}{\numberline {7}Results}{33}{chapter.0.7}%
-\contentsline {section}{\numberline {7.1}Regression analysis}{33}{section.0.7.1}%
-\contentsline {subsection}{\numberline {7.1.1}uncertainty quantification}{33}{subsection.0.7.1.1}%
-\contentsline {subsection}{\numberline {7.1.2}prediction quantification}{33}{subsection.0.7.1.2}%
-\contentsline {subsection}{\numberline {7.1.3}regression benchmark}{33}{subsection.0.7.1.3}%
-\contentsline {section}{\numberline {7.2}Mixture regression on simple functions}{33}{section.0.7.2}%
-\contentsline {chapter}{Bibliography}{37}{chapter*.21}%
-\contentsline {chapter}{\numberline {A}Implementation}{39}{appendix.A}%
+\contentsline {section}{\numberline {1.1}No free lunch and surrogate reseach}{1}{section.0.1.1}%
+\contentsline {section}{\numberline {1.2}Old intro}{2}{section.0.1.2}%
+\contentsline {section}{\numberline {1.3}notation}{3}{section.0.1.3}%
+\contentsline {section}{\numberline {1.4}related work}{3}{section.0.1.4}%
+\contentsline {chapter}{\numberline {2}Optimization methodology}{5}{chapter.0.2}%
+\contentsline {section}{\numberline {2.1}When to use Bayesian optmization}{6}{section.0.2.1}%
+\contentsline {section}{\numberline {2.2}Observation model}{7}{section.0.2.2}%
+\contentsline {chapter}{\numberline {3}Bayesian Optimization}{9}{chapter.0.3}%
+\contentsline {section}{\numberline {3.1}Acquisition function}{9}{section.0.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Expected improvement}{9}{subsection.0.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Entropy search}{11}{subsection.0.3.1.2}%
+\contentsline {section}{\numberline {3.2}surrogate model}{12}{section.0.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Discriminative model as surrogate model}{12}{subsection.0.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Using a generative model as surrogate model}{12}{subsection.0.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Inclusion of prior distribution}{13}{subsection.0.3.2.3}%
+\contentsline {subsection}{\numberline {3.2.4}Inclusion of prior distribution}{13}{subsection.0.3.2.4}%
+\contentsline {subsection}{\numberline {3.2.5}Inclusion of prior distribution}{13}{subsection.0.3.2.5}%
+\contentsline {subsubsection}{Manipulated predictive mean}{14}{subsubsection*.5}%
+\contentsline {subsubsection}{Manipulated predictive variance}{14}{subsubsection*.6}%
+\contentsline {chapter}{\numberline {4}Gaussian process surrogate}{17}{chapter.0.4}%
+\contentsline {section}{\numberline {4.1}Gaussian Process Regression}{17}{section.0.4.1}%
+\contentsline {chapter}{\numberline {5}Mixture regression surrogate}{21}{chapter.0.5}%
+\contentsline {section}{\numberline {5.1}Gaussian mixture regression}{21}{section.0.5.1}%
+\contentsline {section}{\numberline {5.2}Mixture regression in a Bayesian setting}{22}{section.0.5.2}%
+\contentsline {section}{\numberline {5.3}Sum product networks}{22}{section.0.5.3}%
+\contentsline {section}{\numberline {5.4}SPN}{26}{section.0.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}SPN - prediction}{26}{subsection.0.5.4.1}%
+\contentsline {subsection}{\numberline {5.4.2}SPN - learning}{27}{subsection.0.5.4.2}%
+\contentsline {section}{\numberline {5.5}Expectation-maximization for mixture models}{29}{section.0.5.5}%
+\contentsline {section}{\numberline {5.6}Gaussian Mixture Regression}{32}{section.0.5.6}%
+\contentsline {subsection}{\numberline {5.6.1}GMR - prediction}{32}{subsection.0.5.6.1}%
+\contentsline {subsection}{\numberline {5.6.2}GMR - Leaning}{33}{subsection.0.5.6.2}%
+\contentsline {chapter}{Bibliography}{35}{chapter*.12}%
+\contentsline {chapter}{\numberline {A}Implementation}{37}{appendix.A}%

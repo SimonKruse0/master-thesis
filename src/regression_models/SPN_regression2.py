@@ -39,7 +39,7 @@ class SumProductNetworkRegression(BaseEstimator):
                 alpha0_x=10,alpha0_y=10, 
                 beta0_x = 0.01,beta0_y = 0.01, 
                 prior_settings = {"Ndx": 1,"sig_prior":1.2},
-                optimize=False, opt_n_iter  =10, opt_cv = 3):
+                optimize=False, opt_n_iter  =100, opt_cv = 10):
         self.epochs = train_epochs
         # Priors for variance of x and y
         self.alpha0_x = alpha0_x#invers gamma
@@ -148,7 +148,7 @@ class SumProductNetworkRegression(BaseEstimator):
 
     def score(self, X_test, y_test):
         y_test = y_test.squeeze()
-        assert y_test.ndim == 1
+        assert y_test.ndim <= 1 
         m_pred, sd_pred, _ = self.predict(X_test)
         Z_pred = (y_test-m_pred)/sd_pred #std. normal distributed. 
         score = np.mean(norm.pdf(Z_pred))
@@ -175,7 +175,7 @@ class SumProductNetworkRegression(BaseEstimator):
         opt = BayesSearchCV(
             self,
             {
-                'alpha0_x': (2e+0, 5e1, 'uniform'), #inversGamma params. 
+                'alpha0_x': (2e+0, 5e1, 'uniform'), #inversGamma params. E[var_x] = beta/(1+alpha)
                 'alpha0_y': (2e+0, 5e1, 'uniform'),
                 'beta0_x': (1e-4, 1e-1, 'uniform'),
                 'beta0_y': (1e-4, 1e-1, 'uniform'),
@@ -315,7 +315,7 @@ class SumProductNetworkRegression(BaseEstimator):
             ax.plot(x_grid,mean,"--", color="red")
         if p_x is not None:
             ax1 = ax.twinx()  # instantiate a second axes that shares the same x-axis
-            color = 'tab:green'
+            color = 'tab:gr een'
             ax1.plot(x_grid, p_x.detach().numpy(), color = color)
             ax1.set_ylabel('p(x)', color=color)
             ax1.set_ylim(0,30)

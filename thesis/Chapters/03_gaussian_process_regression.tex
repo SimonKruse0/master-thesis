@@ -48,6 +48,13 @@ the covariance is defined at kernel evaluation for each pair of $\textbf{x}$, wh
     c(x_n,x_1) & \dots & c(x_n,x_n)
 \end{bmatrix}\hspace{1cm} c(x, y) := Matern(x,y)...$$ 
 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width = \textwidth]{Pictures/GP_samples_mattern.pdf}
+    \caption{Realisations> Illustartaion of GP is just samples from a multivariate normal distribution. In the
+    limit the we have a infinite-variate normal distribution, which we call a GP.}
+\end{figure}
+
 Appendix <...> tries to give the intuition why this makes sense. 
 
 We now calculate the first term in the integral \eqref{posterior_function}, 

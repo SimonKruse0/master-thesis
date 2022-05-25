@@ -11,20 +11,20 @@ def obj_fun(x):
 
 bounds = [0,100]
 #datasize = int(input("Enter number of datapoints: "))
-datasize = 10
-np.random.seed(20)
+datasize = 20
+np.random.seed(9)
 X =  np.random.uniform(*bounds,size = (datasize,1))
 Y = obj_fun(X)
 y = Y
 
-prior_settings={ "Ndx": 0.1,"v_prior": 1}
-mixture_regression = NaiveGMRegression(manipulate_variance=False, optimize=True, opt_n_iter=10, prior_settings = prior_settings)
-prior_settings={ "Ndx": 0.1,"sig_prior": 1}
-mixture_regression = SumProductNetworkRegression(
-                    tracks=5,
-                    channels = 50, train_epochs= 1000,
-                    manipulate_variance = False, 
-                    optimize=True, opt_n_iter=10,opt_cv=3, prior_settings=prior_settings)
+prior_settings={ "Ndx": 0.01,"sig_prior": 1.2, "prior_type":1}
+mixture_regression = NaiveGMRegression(manipulate_variance=False, optimize=True, opt_n_iter=10, 
+                prior_settings = prior_settings)
+# mixture_regression = SumProductNetworkRegression(
+#                     tracks=5,
+#                     channels = 50, train_epochs= 1000,
+#                     manipulate_variance = False, 
+#                     optimize=True, opt_n_iter=10,opt_cv=3, prior_settings=prior_settings)
 mixture_regression.fit(X, y)
 #mixture_regression.predict(X[:10])
 f, (ax1, ax2) = plt.subplots(1, 2, sharey=True,  sharex=True)
@@ -42,5 +42,5 @@ ax2.fill_between(X_test.squeeze(), mean-2*std_deviation, mean+2*std_deviation,fa
 ax2.set_ylim([-100,200])
 ax2.plot(X, y, "*", color="grey")
 ax1.plot(X, y, "*", color="grey")
-plt.suptitle(f"SPN({mixture_regression.params})")
+plt.suptitle(f"{mixture_regression.name}({mixture_regression.params})")
 plt.show()

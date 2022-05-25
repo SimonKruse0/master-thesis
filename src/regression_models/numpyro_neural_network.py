@@ -14,12 +14,15 @@ import time
 import os
 
 class NumpyroNeuralNetwork:
-    def __init__(self, hidden_units = 10, num_warmup=1000, num_samples = 2000, num_chains=1, num_keep_samples = 50, extra_name=""):
+    def __init__(self, hidden_units = 10, num_warmup=200, num_samples = 200, num_chains=1, 
+                     num_keep_samples = 50, extra_name="", 
+                     hidden_units_variance = 2, 
+                     hidden_units_bias_variance = 1):
         self.kernel = None 
         #self.nonlin = lambda x: jnp.tanh(x)
         self.hidden_units = hidden_units
-        self.hidden_units_variance = 2
-        self.hidden_units_bias_variance = 1
+        self.hidden_units_variance = hidden_units_variance
+        self.hidden_units_bias_variance = hidden_units_bias_variance
         self.obs_variance = 0.01
         self.obs_variance_prior = 1000 #Obs E[sigma] = 1/lambda
         self.target_accept_prob = 0.6
@@ -34,22 +37,63 @@ class NumpyroNeuralNetwork:
                             num_samples = {num_samples}, num_chains = {num_chains}"
         # self.data = 
 
-        text_observation = r"$y \sim \mathcal{N}(f_{\theta}(x),\sigma),$"
-        text_prior = r" $\theta_{w} \sim \mathcal{N}(0,$"+f"{self.hidden_units_variance}"+r"$I_{30}),$"
-        text_prior_bias = r" $\theta_{bias} \sim \mathcal{N}(0,$"+f"{self.hidden_units_bias_variance}"+r"$I_{3}),$"
+        text_observation = r"$y \sim \mathcal{N}(f_{\theta}(x),\sigma)$"
+        text_prior = r" $\theta_{w}   \sim \mathcal{N}(0,$"+f"{self.hidden_units_variance}"+r"$I_{30})$"
+        text_prior_bias = r" $\theta_{b} \sim \mathcal{N}(0,$"+f"{self.hidden_units_bias_variance}"+r"$I_{3})$"
         if self.obs_variance_prior<1e-9:
             text_obs_prior = r" $\sigma = $"+f"{self.obs_variance},"
         else:
             text_obs_prior = r" $\sigma \sim Exp($"+f"{self.obs_variance_prior}"+r"$)$,"
         text_f = r" $f_{\theta} = NN("+f"{hidden_units},{hidden_units},{hidden_units}"+r")$"
         self.latex_architecture = text_observation + text_prior + text_prior_bias+ text_obs_prior+text_f
+        #self.latex_architecture = text_observation +"\n"+ text_prior+"\n" + text_prior_bias+"\n"+ text_obs_prior+"\n"+text_f
+
+        #self.text_priors = text_prior + "\n"+text_prior_bias
+        self.text_priors = text_prior + ", "+text_prior_bias
+
 
         numpyro.set_platform("cpu")
         numpyro.set_host_device_count(num_chains)
         r = np.random.randint(1000000,size = 1)[0]
         self.rng_key, self.rng_key_predict = random.split(random.PRNGKey(r))
 
+    def model_sample(self,X, Y=None):
+        n_output = 1 #output dim
+        N, n_input = X.shape
+        
+        n_hidden = self.hidden_units
+        sigma_w = self.hidden_units_variance
+        sigma_b = self.hidden_units_bias_variance
 
+        #prior dist
+        w1 = sample("w1" ,dist.Normal(jnp.zeros((n_input, n_hidden)), jnp.ones((n_input, n_hidden))*sigma_w),rng_key=self.rng_key)
+        w2 = sample("w2", dist.Normal(jnp.zeros((n_hidden, n_hidden)), jnp.ones((n_hidden, n_hidden))*sigma_w),rng_key=self.rng_key)
+        w3 = sample("w3", dist.Normal(jnp.zeros((n_hidden, n_output)), jnp.ones((n_hidden, n_output))*sigma_w),rng_key=self.rng_key)
+
+        b1 = sample("b1", dist.Normal(jnp.zeros((1,1)), sigma_b*jnp.ones((1,1))),rng_key=self.rng_key)
+        b2 = sample("b2", dist.Normal(jnp.zeros((1,1)), sigma_b*jnp.ones((1,1))),rng_key=self.rng_key)
+        b3 = sample("b3", dist.Normal(jnp.zeros((1,1)), sigma_b*jnp.ones((1,1))),rng_key=self.rng_key)
+
+        # we put a prior on the observation noise
+        #prec_obs = sample("prec_obs", dist.Gamma(3.0, 1.0))
+        #sigma_obs = 0.1 / jnp.sqrt(prec_obs)
+        
+        if self.obs_variance_prior<1e-9:
+            sigma_obs = self.obs_variance
+        else:
+            sigma_obs = sample("sigma", dist.Exponential(jnp.ones((1,1))*self.obs_variance_prior),rng_key=self.rng_key)+0.00001
+        
+        #sigma_obs = 0.000001
+        #likelihood 
+        z1 = jnp.tanh(b1+jnp.matmul(X, w1))  # <= first layer of activations
+        z2 = jnp.tanh(b2+jnp.matmul(z1, w2))  # <= second layer of activations
+        z3 = b3+jnp.matmul(z2, w3)  # <= output of the neural network
+        with numpyro.plate("data", N):
+            # note we use to_event(1) because each observation has shape (1,)
+            Y = numpyro.sample("Y", dist.Normal(z3, sigma_obs).to_event(1), obs=Y,rng_key=self.rng_key)
+            #numpyro.sample("Y", dist.Delta(z3).to_event(1), obs=Y)
+        return Y
+        
     def model(self, X, Y=None):
         n_output = 1 #output dim
         N, n_input = X.shape
@@ -88,12 +132,13 @@ class NumpyroNeuralNetwork:
 
         return z3, sigma_obs
     
-    def fit(self, X, Y, verbose = True): #run_inference
+    def fit(self, X, Y, verbose = True, do_normalize = True): #run_inference
         assert X.ndim == 2
         assert Y.ndim == 2
 
-        X, self.x_mean, self.x_std = normalize(X)
-        Y, self.y_mean, self.y_std = normalize(Y)
+        if do_normalize:
+            X, self.x_mean, self.x_std = normalize(X)
+            Y, self.y_mean, self.y_std = normalize(Y)
 
         start = time.time()
         kernel = NUTS(self.model, target_accept_prob=self.target_accept_prob)
@@ -109,21 +154,28 @@ class NumpyroNeuralNetwork:
             mcmc.print_summary()
             print("\nMCMC elapsed time:", time.time() - start)
         samples = mcmc.get_samples()
-        for random_variable in samples:
+        for random_variable in samples: #THIS DOESN'T WORK!
             samples[random_variable] = samples[random_variable][::self.keep_every]
         self.samples = samples
         # self.X = X
         # self.y = Y
 
-    def predict(self,X_test,CI=[5.0, 95.0]): #TODO: Make a numpy model, which should be easier to compute predictions!!?
+    def predict(self,X_test,CI=[5.0, 95.0], get_y_pred = False): #TODO: Make a numpy model, which should be easier to compute predictions!!?
         assert X_test.ndim == 2
 
-        X_test_, *_ = normalize(X_test, self.x_mean, self.x_std)
+        if get_y_pred:
+            print("OBS not normalized")
+            X_test_ = X_test
+        else:
+            X_test_, *_ = normalize(X_test, self.x_mean, self.x_std)
 
         predictive = Predictive(self.model, posterior_samples=self.samples, return_sites = ["Y"])
         y_pred_ = predictive(self.rng_key_predict, X_test_, Y=None)["Y"]
         y_pred_ = y_pred_.squeeze()
+        if get_y_pred:
+            return y_pred_
         y_pred = denormalize(y_pred_, self.y_mean, self.y_std)
+
 
         mean_prediction = jnp.mean(y_pred, axis=0)
         percentiles = np.percentile(y_pred,CI , axis=0)
