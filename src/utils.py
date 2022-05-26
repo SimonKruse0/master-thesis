@@ -270,5 +270,5 @@ def denormalize(X_normalized, mean, std):
 print(__name__)
 if __name__ == "__main__":
     fig, ax = plt.subplots()
-    ax=plot_inv_gamma(ax, 2,3)
-    plt.savefig("bling")
+    plot_inv_gamma(ax, 2,0.1)
+    plt.show()
