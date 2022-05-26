@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 from matplotlib import cm
-from scipy.stats import norm
+from scipy.stats import norm, invgamma
 import json
 import os
 import numpy as np
@@ -32,8 +32,12 @@ def jsonize_array(array):
     return [a.astype(float) for a in array]
 
 
-def plot_inv_gamma(alpha, beta):
-    pass
+
+def plot_inv_gamma(ax,alpha, beta):
+    x = np.linspace(0, 3, 100)
+    ax.plot(x, invgamma.pdf(x, alpha, beta))
+    return ax
+
 
 
 class PlottingClass:
@@ -262,3 +266,9 @@ def normalize(X, mean=None, std=None):
 def denormalize(X_normalized, mean, std):
     #zero_mean_unit_var_denormalization
     return X_normalized * std + mean
+
+print(__name__)
+if __name__ == "__main__":
+    fig, ax = plt.subplots()
+    ax=plot_inv_gamma(ax, 2,3)
+    plt.savefig("bling")
