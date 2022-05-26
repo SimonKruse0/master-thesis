@@ -518,6 +518,8 @@ INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/00_introd
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/00_introduction.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/GP_vs_BNN1.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/GP_vs_BNN2.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/02_bayesian_optimization.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/02_bayesian_optimization.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/01_optimization.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/01_optimization.tex
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmmi9.tfm
@@ -533,19 +535,20 @@ INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/BO_vs_Gri
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/BO_vs_Grid2.eps
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/BO_vs_Grid1.eps
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/BO_vs_Grid1.eps
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/02_bayesian_optimization.tex
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/02_bayesian_optimization.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/expected_improvement_illustration.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/mixture_predictive_bayesian.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/mixture_predictive_bayesian2D.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_04_discriminative_surrogates.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_04_discriminative_surrogates.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_gaussian_process_regression.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_gaussian_process_regression.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/GP_samples_mattern.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/04_bayesian_nn_regression.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/04_bayesian_nn_regression.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/bayesian_nn_prior_samples.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/bayesian_nn_posterior_samples.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_mixture_regression.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_mixture_regression.tex
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/mixture_regression_variance_problem1.pdf
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/mixture_regression_variance_problem2.pdf
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/mixture_regression_variance_problem3.pdf
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmmi12.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmsy10.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmex10.tfm
@@ -554,14 +557,67 @@ INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmr12.tfm
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/SPN_illustration1.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/SPN_illustration2.pdf
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/tikz/SPN.tex
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/tikz/SPN.tex
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam7.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm7.tfm
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/SPN_graph2.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/06_results.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/06_results.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco_reg/f1_BOHAMIANN2.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco_reg/f1_BOHAMIANN3.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco_reg/f1_Gaussian Process - sklearn2.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco_reg/f1_Gaussian Process - sklearn3.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco_reg/f1_Naive Gaussian Mixture Regression optimized2.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco_reg/f1_Naive Gaussian Mixture Regression optimized3.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco_reg/f1_numpyro neural network200-2002.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco_reg/f1_numpyro neural network200-2003.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco_reg/f1_SPN regression optimized2.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco_reg/f1_SPN regression optimized3.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco/f1.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco_reg/f23_BOHAMIANN2.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco_reg/f23_BOHAMIANN3.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco_reg/f23_Gaussian Process - sklearn2.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco_reg/f23_Gaussian Process - sklearn3.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco_reg/f23_Naive Gaussian Mixture Regression optimized-prior 12.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco_reg/f23_Naive Gaussian Mixture Regression optimized-prior 13.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco_reg/f23_numpyro neural network200-2002.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco_reg/f23_numpyro neural network200-2003.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco_reg/f23_SPN regression optimized2.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco_reg/f23_SPN regression optimized3.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco/f23.png
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Tables/best_minimizer_group_1.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Tables/best_minimizer_group_1.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Tables/best_minimizer_group_2.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Tables/best_minimizer_group_2.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Tables/best_minimizer_group_3.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Tables/best_minimizer_group_3.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Tables/best_minimizer_group_4.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Tables/best_minimizer_group_4.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Tables/best_minimizer_group_5.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Tables/best_minimizer_group_5.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco/f1.png
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco/f2.png
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco/f3.png
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco/f4.png
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco/f5.png
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco/f6.png
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco/f7.png
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco/f8.png
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco/f9.png
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco/f10.png
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco/f11.png
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco/f12.png
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco/f13.png
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco/f14.png
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco/f15.png
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco/f16.png
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco/f17.png
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco/f18.png
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco/f19.png
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco/f20.png
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco/f21.png
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco/f22.png
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco/f23.png
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco/f24.png
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/07_conclusion.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/07_conclusion.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Appendix.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Appendix.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Backpage.tex

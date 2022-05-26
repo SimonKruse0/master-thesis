@@ -83,7 +83,7 @@ def plot2D(RV:RegressionTest,n_train, output_path, plot_type = 1):
 #             SumProductNetworkRegression(optimize=True)]
             
 
-reg_models = [SumProductNetworkRegression(optimize=True)]
+reg_models = [SumProductNetworkRegression(optimize=False)]
 
 ### main ###
 n_train_array = [int(x) for x in np.logspace(1, 2.5, 9)]

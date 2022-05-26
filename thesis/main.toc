@@ -1,38 +1,57 @@
 \boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
 \babel@toc {english}{}
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.0.1}%
-\contentsline {section}{\numberline {1.1}Weakness of GPs}{1}{section.0.1.1}%
-\contentsline {section}{\numberline {1.2}No free lunch and surrogate reseach}{1}{section.0.1.2}%
-\contentsline {section}{\numberline {1.3}Old intro}{3}{section.0.1.3}%
+\contentsline {section}{\numberline {1.1}Contribution}{2}{section.0.1.1}%
+\contentsline {section}{\numberline {1.2}Related work}{2}{section.0.1.2}%
+\contentsline {section}{\numberline {1.3}Structure of the thesis}{3}{section.0.1.3}%
 \contentsline {section}{\numberline {1.4}notation}{3}{section.0.1.4}%
-\contentsline {section}{\numberline {1.5}related work}{4}{section.0.1.5}%
-\contentsline {chapter}{\numberline {2}Optimization methodology}{5}{chapter.0.2}%
-\contentsline {section}{\numberline {2.1}When to use Bayesian optmization}{6}{section.0.2.1}%
-\contentsline {section}{\numberline {2.2}Observation model}{7}{section.0.2.2}%
-\contentsline {chapter}{\numberline {3}Bayesian Optimization}{9}{chapter.0.3}%
-\contentsline {section}{\numberline {3.1}Acquisition function}{9}{section.0.3.1}%
-\contentsline {subsection}{\numberline {3.1.1}Expected improvement}{9}{subsection.0.3.1.1}%
-\contentsline {subsection}{\numberline {3.1.2}Entropy search}{11}{subsection.0.3.1.2}%
-\contentsline {section}{\numberline {3.2}surrogate model}{12}{section.0.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Discriminative model as surrogate model}{12}{subsection.0.3.2.1}%
-\contentsline {subsection}{\numberline {3.2.2}Using a generative model as surrogate model}{12}{subsection.0.3.2.2}%
-\contentsline {subsection}{\numberline {3.2.3}Inclusion of prior distribution}{13}{subsection.0.3.2.3}%
-\contentsline {subsection}{\numberline {3.2.4}Inclusion of prior distribution}{13}{subsection.0.3.2.4}%
-\contentsline {subsection}{\numberline {3.2.5}Inclusion of prior distribution}{14}{subsection.0.3.2.5}%
-\contentsline {subsubsection}{Manipulated predictive mean}{15}{subsubsection*.6}%
-\contentsline {subsubsection}{Manipulated predictive variance}{15}{subsubsection*.7}%
-\contentsline {chapter}{\numberline {4}Gaussian process surrogate}{17}{chapter.0.4}%
-\contentsline {section}{\numberline {4.1}Gaussian Process Regression}{17}{section.0.4.1}%
-\contentsline {chapter}{\numberline {5}Mixture regression surrogate}{21}{chapter.0.5}%
-\contentsline {section}{\numberline {5.1}Gaussian mixture regression}{21}{section.0.5.1}%
-\contentsline {section}{\numberline {5.2}Mixture regression in a Bayesian setting}{22}{section.0.5.2}%
-\contentsline {section}{\numberline {5.3}Sum product networks}{22}{section.0.5.3}%
-\contentsline {section}{\numberline {5.4}SPN}{26}{section.0.5.4}%
-\contentsline {subsection}{\numberline {5.4.1}SPN - prediction}{26}{subsection.0.5.4.1}%
-\contentsline {subsection}{\numberline {5.4.2}SPN - learning}{27}{subsection.0.5.4.2}%
-\contentsline {section}{\numberline {5.5}Expectation-maximization for mixture models}{29}{section.0.5.5}%
-\contentsline {section}{\numberline {5.6}Gaussian Mixture Regression}{32}{section.0.5.6}%
-\contentsline {subsection}{\numberline {5.6.1}GMR - prediction}{32}{subsection.0.5.6.1}%
-\contentsline {subsection}{\numberline {5.6.2}GMR - Leaning}{33}{subsection.0.5.6.2}%
-\contentsline {chapter}{Bibliography}{35}{chapter*.13}%
-\contentsline {chapter}{\numberline {A}Implementation}{37}{appendix.A}%
+\contentsline {chapter}{\numberline {2}Bayesian Optimization}{5}{chapter.0.2}%
+\contentsline {section}{\numberline {2.1}Optimization methodology}{5}{section.0.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}When to use Bayesian optmization}{6}{subsection.0.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}Observation model}{7}{subsection.0.2.1.2}%
+\contentsline {section}{\numberline {2.2}Bayesian Optimization}{7}{section.0.2.2}%
+\contentsline {section}{\numberline {2.3}Acquisition function}{8}{section.0.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Expected improvement}{8}{subsection.0.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Entropy search}{10}{subsection.0.2.3.2}%
+\contentsline {section}{\numberline {2.4}surrogate model}{10}{section.0.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Discriminative model as surrogate model}{11}{subsection.0.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}Using a generative model as surrogate model}{11}{subsection.0.2.4.2}%
+\contentsline {subsection}{\numberline {2.4.3}Inclusion of prior distribution}{11}{subsection.0.2.4.3}%
+\contentsline {subsection}{\numberline {2.4.4}Inclusion of prior distribution}{12}{subsection.0.2.4.4}%
+\contentsline {subsection}{\numberline {2.4.5}Inclusion of prior distribution}{12}{subsection.0.2.4.5}%
+\contentsline {subsubsection}{Manipulated predictive mean}{13}{subsubsection*.6}%
+\contentsline {subsubsection}{Manipulated predictive variance}{13}{subsubsection*.7}%
+\contentsline {section}{\numberline {2.5}Inference of surrogate models}{14}{section.0.2.5}%
+\contentsline {chapter}{\numberline {3}Discriminative surrogate models}{15}{chapter.0.3}%
+\contentsline {section}{\numberline {3.1}Gaussian process surrogate}{15}{section.0.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Exact predictive distribution}{15}{subsection.0.3.1.1}%
+\contentsline {section}{\numberline {3.2}Bayesian Neural Networks}{17}{section.0.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}No U-Turn sampling}{20}{subsection.0.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Adaptive stochatic HMC}{21}{subsection.0.3.2.2}%
+\contentsline {section}{\numberline {3.3}Regression analysis}{22}{section.0.3.3}%
+\contentsline {chapter}{\numberline {4}Generative model surrogates}{23}{chapter.0.4}%
+\contentsline {section}{\numberline {4.1}Sum product networks}{23}{section.0.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}SPN is a mixture model}{23}{subsection.0.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Conditional of SPN}{24}{subsection.0.4.1.2}%
+\contentsline {subsection}{\numberline {4.1.3}calculation of responsibility, $\gamma (x)$}{25}{subsection.0.4.1.3}%
+\contentsline {subsection}{\numberline {4.1.4}Mean and variance of conditional SPN}{25}{subsection.0.4.1.4}%
+\contentsline {subsection}{\numberline {4.1.5}SPN - prediction}{27}{subsection.0.4.1.5}%
+\contentsline {subsection}{\numberline {4.1.6}SPN - learning}{27}{subsection.0.4.1.6}%
+\contentsline {subsection}{\numberline {4.1.7}Expectation-maximization for mixture models}{28}{subsection.0.4.1.7}%
+\contentsline {section}{\numberline {4.2}Kernel estimator regression}{32}{section.0.4.2}%
+\contentsline {section}{\numberline {4.3}Gaussian mixture regression}{32}{section.0.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Gaussian Mixture Regression}{32}{subsection.0.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}GMR - prediction}{33}{subsection.0.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}GMR - Leaning}{33}{subsection.0.4.3.3}%
+\contentsline {section}{\numberline {4.4}Regression analysis}{33}{section.0.4.4}%
+\contentsline {chapter}{\numberline {5}Results}{35}{chapter.0.5}%
+\contentsline {section}{\numberline {5.1}Regression analysis}{35}{section.0.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}uncertainty quantification}{35}{subsection.0.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}prediction quantification}{35}{subsection.0.5.1.2}%
+\contentsline {subsection}{\numberline {5.1.3}regression benchmark}{35}{subsection.0.5.1.3}%
+\contentsline {section}{\numberline {5.2}Regression analysis of GP, BOHAMIANN and NumpyNN 1D}{35}{section.0.5.2}%
+\contentsline {section}{\numberline {5.3}Regression analysis of GP, BOHAMIANN and NumpyNN 2D}{35}{section.0.5.3}%
+\contentsline {section}{\numberline {5.4}Mixture regression on simple functions}{35}{section.0.5.4}%
+\contentsline {chapter}{\numberline {6}Conclusion and further work}{43}{chapter.0.6}%
+\contentsline {chapter}{Bibliography}{44}{chapter*.29}%
+\contentsline {chapter}{\numberline {A}Implementation}{45}{appendix.A}%

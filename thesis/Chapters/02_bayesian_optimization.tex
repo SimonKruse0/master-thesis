@@ -1,4 +1,11 @@
 \chapter{Bayesian Optimization}
+This chapter will introduce Bayesian optimization. However, we start with an introduction to the optimization
+framework in general. 
+
+\input{Chapters/01_optimization.tex}
+
+
+\section{Bayesian Optimization}
 <Cope with inacuracies> i.e. allows for stochastic objective function. 
 <Uncertainty measure with prediction based on simple and clear prior 
 assumptions about the characteristic about the objective function. >
@@ -287,3 +294,65 @@ so gives
 $$p_{bayes}(y|x) = \frac{p(x)\cdot N \cdot p(y|x) + \lambda p_{prior}(y)}{Z} = \frac{N \cdot p(x,y) + \lambda p_{prior}(y)}{Z}$$
 
 $$E_{p(x,y)}[y] = \int_y \int_x yp(x,y) dx dy = \int_y y p(y) dy = E_{p(y)}[y]$$
+
+
+\section{Inference of surrogate models}
+Inference is the process of computing answers to queries about a probabilistic model after observing data. 
+In Bayesian regression, the
+query is the predictive distribution, $p(y|x,\mathcal{D})$, as we are interested in the distribution of $y$ given $x$ 
+and already observed data, $\mathcal{D}$. 
+This often indirectly create the posterior query, $p(\theta|\mathcal{D})$, the probability of model parameters $\theta$ given data
+$\mathcal{D}$. Lastly it is also inference, when we train 
+a Gaussian mixture model or SPN using the expectation-maximization algorithm (EM), since we are iteratively answering the query
+$E_{p(z|\theta^{(k)})}[z|\theta]$.
+
+%\subsection{Exact and approximate inference}
+We distinguish between two different ways of inference, exact and approximate inference.
+It is \textit{exact inference} when a probabilistic query is calculated exact. It is possible to calculate exact inference on 
+the predictive distribution for the Gaussian mixture model, Sum product network, and Gaussian processes. Models which allow 
+for exact inference have a powerful advantage over the models with approximate inference since we can guarantee
+ the answers to the queries are
+correct, however, they are usually also less expressive. It is possible to
+make exact inference of SPN, Gaussian Process, and Gaussian Mixture Regression. 
+% \begin{itemize}
+%     \item SPN
+%     \item Gaussian Process
+%     \item Gaussian Mixture Regression
+% \end{itemize}
+
+When it is not possible to answer a probabilistic query exact, we can approximate the
+answer using \textit{approximate inference}. When dealing with complicated and expressive statistical models, exact inference is often
+intractable and we need to use approximate inference. Approximate inference 
+is a broad category of methods, which includes 
+variational inference, Laplace approximation, and Markov chain Monte Carlo (MCMC).
+The two Bayesian Neural networks we deal with in this project Bohamiann and Numpyro BNN are
+similar regression models, but are infered using two different versions of the MCMC 
+method, Hamiltonian Monte Carlo. As it will be revealed later (see result section) 
+approximate inference might indeed be flawed and inexact. 
+%When dealing with complicated and expressive statistical models, exact inference is often
+%intractable and we need to use approximate inference, which might indeed be flawed and 
+%inexact. 
+% \begin{itemize}
+%     \item Bohamiann (Adaptive stochastic MCMC)
+%     \item Numpyro Bayesian Neural Network (NUTS)
+% \end{itemize}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{l|l|l}
+    %\rowcolor[HTML]{C0C0C0} 
+    \textbf{Model} & \textbf{Predictive inference} &   \textbf{Learning} \\ \hline
+    GP          & Exact $O(n^3)$  & Emperical Bayes\\
+    SPN             & Exact $O(E)$ &  EM $O(E)$\\
+    Gaussian Mixture Regression & Exact $O(K)$ & EM  \\
+    Bohamiann                             & Adaptive stochatic HMC & \\
+    Numpyro BNN                           & No U-Turn Sampler & 
+    \end{tabular}
+    \caption{Overview of inference methods applied on the statistical models 
+            used in this project. $E$ is the number of edges in the SPN. $n$ is the number of datapoints. 
+            $K \leq n$ is the number of mixture comonents. We will soon learn that for an
+            SPN the number of mixture compenets is exponential larger than number of edges
+            i.e. $E << K$. In theory MCMC methods samples 
+            from true the posterior distribution, and do not need any fitting/learning. 
+            }
+\end{table}

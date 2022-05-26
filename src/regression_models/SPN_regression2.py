@@ -33,11 +33,11 @@ def denormalize(X_normalized, mean, std):
 
 class SumProductNetworkRegression(BaseEstimator):
     def __init__(self,
-                tracks=3, channels=20,
+                tracks=1, channels=10,
                 manipulate_variance = False
-                , train_epochs = 1000,
+                , train_epochs = 10000,
                 alpha0_x=10,alpha0_y=10, 
-                beta0_x = 0.01,beta0_y = 0.01, 
+                beta0_x = 0.1,beta0_y = 0.1, 
                 prior_settings = {"Ndx": 1,"sig_prior":1.2},
                 optimize=False, opt_n_iter  =10, opt_cv = 10):
         self.epochs = train_epochs
@@ -103,9 +103,9 @@ class SumProductNetworkRegression(BaseEstimator):
                 alpha0=alpha,
                 beta0=beta,
             ),
-            # supr.Einsum(self.tracks, self.xy_variables , self.channels, 1),
-            # supr.Weightsum(self.tracks, self.xy_variables, 1)
-            supr.Weightsum(self.tracks, self.xy_variables , self.channels),
+            supr.Einsum(self.tracks, self.xy_variables , self.channels, 1),
+            supr.Weightsum(self.tracks, self.xy_variables, 1)
+            # supr.Weightsum(self.tracks, self.xy_variables , self.channels),
         )
         X = torch.from_numpy(X)
         Y = torch.from_numpy(Y)
@@ -199,13 +199,14 @@ class SumProductNetworkRegression(BaseEstimator):
         self.optimize_hyperparams = True
         
 
-    def predict(self,X_test, only_mean = False):
+    def predict(self,X_test):
         X_test, *_ = normalize(X_test, self.x_mean, self.x_std)
         Ndx = self.prior_settings["Ndx"]
         sig_prior = self.prior_settings["sig_prior"]
         x_grid = torch.tensor(X_test, dtype=torch.double)
         XX_grid = torch.hstack([x_grid, torch.zeros(len(x_grid),1)])
-                # Evaluate marginal distribution on x-grid
+        
+        # Evaluate marginal distribution on x-grid
         log_p_x = self.model(XX_grid, marginalize=self.marginalize_y)
         p_x = torch.exp(log_p_x)
         self.model.zero_grad(True)
@@ -213,30 +214,17 @@ class SumProductNetworkRegression(BaseEstimator):
 
         with torch.no_grad():
             # Compute normal approximation
-            mean_prior =0# (self.model.mean())[:, 1] #0
+            mean_prior =0
             m_pred = (self.N*(self.model.mean())[:, -1]*p_x + Ndx*mean_prior)/(self.N*p_x+Ndx)
-            if not only_mean:
-                v_pred = (self.N*p_x*(self.model.var()[:, -1]+self.model.mean()[:, -1]
-                        ** 2) + Ndx*sig_prior)/(self.N*p_x+Ndx) - m_pred**2
-            
-                # Compute normal approximation
-                # m_pred = (self.N*(self.model.mean())[:, 1] + Ndx*0)/(self.N*p_x+Ndx)
-                # v_pred = (self.N*(self.model.var()[:, 1]+self.model.mean()[:, 1]
-                #         ** 2) + Ndx*sig_prior)/(self.N*p_x+Ndx) - m_pred**2
-
-                #v_pred2 = v_pred.clone()
-                if self.manipulate_variance:
-                    v_pred /= torch.clamp(p_x*50, 1,40)
-                #std_pred2 = torch.sqrt(v_pred2)
-                std_pred = torch.sqrt(v_pred)
+            v_pred = (self.N*p_x*(self.model.var()[:, -1]+self.model.mean()[:, -1]
+                    ** 2) + Ndx*sig_prior)/(self.N*p_x+Ndx) - m_pred**2
+            if self.manipulate_variance:
+                v_pred /= torch.clamp(p_x*50, 1,40)
+            std_pred = torch.sqrt(v_pred)
         #transform back to original space #obs validate this!
         m_pred = denormalize(m_pred, self.y_mean, self.y_std)
-        if not only_mean:
-            std_pred = std_pred*self.y_std
-
-            return np.array(m_pred),np.array(std_pred).T,None
-        else: 
-            return np.array(m_pred)
+        std_pred = std_pred*self.y_std
+        return np.array(m_pred),np.array(std_pred).T,None
     
     
     def _bayesian_conditional_pdf(self,x_grid,y_grid): #FAILS!!

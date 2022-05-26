@@ -1,66 +1,72 @@
-\chapter{Mixture regression surrogate}
-
-\section{Gaussian mixture regression}
-Taking a convex combination of a set of multivariate Gaussian distributions is a Gaussian mixture model
-$$p(z) = \sum_{k=1}^K \pi_k \mathcal{N}(z|\mu_k, \Sigma_k)$$  
-Defining $z := (x,y)$ we can model our data, as a generative model $p(x,y)$, now, since the conditonal 
-of a Gaussain mixture again is Gaussain mixture - i.e. closed form expression, we can exactly calculate
-$p(y|x) = GMM_{y|x}$
-
-Assuming iid data the likelihood is given as 
-$$p(\mathcal{D}|\mu_1, \dots, \mu_K, \Sigma_1, \dots, \Sigma_K, \pi_1, \dots, \pi_K) = \prod_{i=1}^n \sum_{k=1}^K \pi_k \mathcal{N}(z_i|\mu_k, \Sigma_k)$$
-And the log likelihood, 
-$$\log p(\mathcal{D}| ..) = \sum_{i=1}^n \log \sum_{k=1}^K \pi_k \mathcal{N}(z_i|\mu_k, \Sigma_k)$$
+\chapter{Generative model surrogates}
+Generative models are statistical models of the joint distribution $$p(x,y) = p(y|x)p(x)$$
+and the conditial distribution of the generative model is then given as $$p(y|x) = \frac{p(x,y)}{p(x)}$$
+This yields some advantages and disadvantages. In this thesis we will look at
+Gaussian mixture models, and a generalization of those: Sum Product Networks, 
+and kernel estimators, i.e. putting a equally weighted mixture component on each data point. 
+ \begin{itemize}
+     \item Naive Gaussian mixtire regression (Kernel estimator regression)
+     \item SPN
+     \item Gaussian mixture regression. 
+ \end{itemize}
 
 
-\subsection*{Dealing with wrong variance}
-\begin{figure}[H]%
-    \centering
-    {\includegraphics[width=0.46\textwidth]{Pictures/mixture_regression_variance_problem1.pdf} }%
-    \qquad
-   {\includegraphics[width=0.46\textwidth]{Pictures/mixture_regression_variance_problem2.pdf} }%
-   \qquad
-   {\includegraphics[width=0.46\textwidth]{Pictures/mixture_regression_variance_problem3.pdf} }%
-   \caption{EI improvement might in this case be stucked at the point 0,
-    since the conditional distribution is normalized by $p(x)$ and therefore not
-    influenced by the amount of data}%
-    \label{MixtureReg_challenge}%
-\end{figure}
+% \subsection*{Dealing with wrong variance}
+% \begin{figure}[H]%
+%     \centering
+%     {\includegraphics[width=0.46\textwidth]{Pictures/mixture_regression_variance_problem1.pdf} }%
+%     \qquad
+%    {\includegraphics[width=0.46\textwidth]{Pictures/mixture_regression_variance_problem2.pdf} }%
+%    \qquad
+%    {\includegraphics[width=0.46\textwidth]{Pictures/mixture_regression_variance_problem3.pdf} }%
+%    \caption{EI improvement might in this case be stucked at the point 0,
+%     since the conditional distribution is normalized by $p(x)$ and therefore not
+%     influenced by the amount of data}%
+%     \label{MixtureReg_challenge}%
+% \end{figure}
 
 
-<variance manipulation>
-<Expected improvement manipulation>
+% <variance manipulation>
+% <Expected improvement manipulation>
 
 
-\section{Mixture regression in a Bayesian setting}
-As seen in examples. The uncertainty of conditional distribution is way too certain
-in areas with no data points, therefore we need to enhance the model with some bayesian 
-flavour. 
+% \section{Mixture regression in a Bayesian setting}
+% As seen in examples. The uncertainty of conditional distribution is way too certain
+% in areas with no data points, therefore we need to enhance the model with some bayesian 
+% flavour. 
 
-$$p(y|x,\mathcal{D}) = p(y|x,Z)p(Z|x)$$
+% $$p(y|x,\mathcal{D}) = p(y|x,Z)p(Z|x)$$
 
 
 
-\subsection*{Expetation-maximization algorithm}
-A way to find local maxima in the likehood function is using the EM algorithm. 
+% \subsection*{Expetation-maximization algorithm}
+% A way to find local maxima in the likehood function is using the EM algorithm. 
 
-If we define a latent/hiddem random variabel $Z_i \in \{1,\dots, K\}$ for each data point, then 
-the likelihood function becomes, 
-$$L(\theta|\mathcal{D}, Z) = \prod_{i=1}^n \sum_{k=1}^K 1(Z_i = k) \pi_k \mathcal{N}(z_i|\mu_k, \Sigma_k)$$
+% If we define a latent/hiddem random variabel $Z_i \in \{1,\dots, K\}$ for each data point, then 
+% the likelihood function becomes, 
+% $$L(\theta|\mathcal{D}, Z) = \prod_{i=1}^n \sum_{k=1}^K 1(Z_i = k) \pi_k \mathcal{N}(z_i|\mu_k, \Sigma_k)$$
 
-Now the expectation wrt. the current value $p(Z|\mathcal{D}, \theta^k)$ is given as 
-$$Q(\theta|\theta^k) = \mathcal{E}_{p(Z|\mathcal{D}, \theta^k)}=L(\theta|\mathcal{D}, Z) $$
+% Now the expectation wrt. the current value $p(Z|\mathcal{D}, \theta^k)$ is given as 
+% $$Q(\theta|\theta^k) = \mathcal{E}_{p(Z|\mathcal{D}, \theta^k)}=L(\theta|\mathcal{D}, Z) $$
 
-And then update the next parameter estimate with
-$$\theta^{k+1} = \arg \max_{\theta} Q(\theta|\theta^k)$$
+% And then update the next parameter estimate with
+% $$\theta^{k+1} = \arg \max_{\theta} Q(\theta|\theta^k)$$
 
-This is repeated untill convergence. 
+% This is repeated untill convergence. 
 
 
 \section{Sum product networks}
-We will for a large extend just see SPN as a large mixture model. This is a totally valid observation. 
+Sum-product networks(SPN) are generative models, i.e. statistical models of the joint distribution $p(x,y)$. 
+We need, however, a disciminative model for regression, i.e. 
+a model of the conditional distribution $p(y|x)$. 
+SPNs allow for exact inference of the joint distribution 
+and any marginalized distribution. These combined queries is sufficient for the
+exact predictive posterior. 
 
-\subsection*{Mixture model}
+
+\subsection{SPN is a mixture model}
+We will to a large extend just see SPN as a large mixture model. This is a valid observation. 
+
 %from [@desana]:
 \begin{definition} 
     A sub-network $\bar S_z$ of $S$ is an SPN, which includes the root $S$ and then includes nodes
@@ -94,7 +100,7 @@ We will for a large extend just see SPN as a large mixture model. This is a tota
 So we see that at each sum node the number of different sub-networks multiplies with the number of children for that
 sum node. And thereby, the total number of sub-networks is
  $$Z = \prod_{i\in \mathcal{S}um(S)}|ch(i)|$$ 
- i.e. an exponential large amount of sub-networks. This is the amount of
+ i.e. an exponentially large amount of sub-networks. This is the amount of
  mixture components implicitly defined in an SPN. 
  Denote the set of edges in the sub-network $\mathcal{E}(S_z)$.
 Now the we define a mixture coeficient, $\lambda_z$ and component for each $S_z$ as 
@@ -117,7 +123,7 @@ instead there is a proposition.
 
 
 
-\subsection*{Conditional of SPN}
+\subsection{Conditional of SPN}
 
 We will soon see how it is possible to write the conditional distribution as the mixture, 
 $$p(y|x) = \sum_{z \in \Sigma(S)} \gamma(x) p_{z_y}(y)$$
@@ -152,7 +158,7 @@ and this is very convinient, as we will see soon is
 equavalent to the derivative of the log-likehood
 of the SPN, which is easily obtained by automatic differentiation. 
 
-\subsection*{calculation of $\gamma(x)$}
+\subsection{calculation of responsibility, $\gamma(x)$}
 expectation maximization of a mixture model, is given by Bishop..
 the responsibility of a datapoint to belong to one mixture component, is given by
 $$\gamma(z_{nk}) = \frac{w_k p_j(x_n)}{\sum_i w_i p_i(x_n)}$$
@@ -163,7 +169,7 @@ $$\frac{\partial L}{\partial \psi_{j}(x_{n})} = \frac{w_k p_j(x_n)}{\sum_i w_i p
 Note that the gradient easily can be found using autograd. 
 
 
-\subsection*{Mean and variance of $p(y|x)$}
+\subsection{Mean and variance of conditional SPN}
 
 The mean of the conditional is just
 \begin{align*}
@@ -208,26 +214,13 @@ all other nodes correspond to hidden neurons
     \label{SPN_fig}%
 \end{figure}
 
-\begin{figure}[htbp]
-    \centering
-    \input{Figures/tikz/SPN.tex}
-    \caption{Model including wifi information}
-    \label{fig:wifi2}
-\end{figure}
-
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Figures/SPN_graph2.pdf}
 \end{figure}
 
 
-\section{SPN}
-Sum-product networks are generative models, i.e. statistical models of the joint distribution $p(x,y)$. 
-We need, however, a disciminative model for regression, i.e. 
-a model of the conditional distribution $p(y|x)$. 
-SPNs allow for exact inference of the joint distribution 
-and any marginalized distribution. These combined queries is sufficient for the
-exact predictive posterior. 
+
 
 \subsection{SPN - prediction}
 Prior to the inference of the predictive distribution, we assume that the SPN, S, is trained, i.e.
@@ -351,8 +344,7 @@ instead there is a proposition.
     \frac{\partial S}{\partial v(q)} v(i)$$
 \end{proposition}
 
-\newpage
-\section{Expectation-maximization for mixture models}
+\subsection{Expectation-maximization for mixture models}
 Mixture models can be seen as probibalistic graphical models, <fig> there one mixture component is
 picked according to the realization of a catagorical variable $\textbf{Z}$ with parameters according
 the the mixture weights, i.e we can reformelate, 
@@ -528,8 +520,23 @@ Giving the updates...
 % and we have the expecation for the EM-algorithm, 
 % $$Q(\pi, \pi_{old}) = \sum_{n=1}^N \sum_{z=1}^Z p(z|xy_n, \pi_{old}) \ln p(z,xy_n|\pi)$$
 
+\section{Kernel estimator regression}
+Placing a Gaussian around all data points.
 
-\section{Gaussian Mixture Regression}
+\section{Gaussian mixture regression}
+Taking a convex combination of a set of multivariate Gaussian distributions is a Gaussian mixture model
+$$p(z) = \sum_{k=1}^K \pi_k \mathcal{N}(z|\mu_k, \Sigma_k)$$  
+Defining $z := (x,y)$ we can model our data, as a generative model $p(x,y)$, now, since the conditonal 
+of a Gaussain mixture again is Gaussain mixture - i.e. closed form expression, we can exactly calculate
+$p(y|x) = GMM_{y|x}$
+
+Assuming iid data the likelihood is given as 
+$$p(\mathcal{D}|\mu_1, \dots, \mu_K, \Sigma_1, \dots, \Sigma_K, \pi_1, \dots, \pi_K) = \prod_{i=1}^n \sum_{k=1}^K \pi_k \mathcal{N}(z_i|\mu_k, \Sigma_k)$$
+And the log likelihood, 
+$$\log p(\mathcal{D}| ..) = \sum_{i=1}^n \log \sum_{k=1}^K \pi_k \mathcal{N}(z_i|\mu_k, \Sigma_k)$$
+
+
+\subsection{Gaussian Mixture Regression}
 The Gaussian mixture is a generative model of the joint probability of $x$ and $y$ given as, 
 $$p(x,y)= \sum_{k=1}^K \pi^{(k)} \mathcal{N}(x,y|\mu^{(k)},\Sigma^{(k)}), 
 \hspace{1cm} \mu=\begin{bmatrix}
@@ -591,3 +598,5 @@ EM-algorithm, classic example.
 \begin{testexample2}[Crossvalidation]
 ??! ok
 \end{testexample2}
+
+\section{Regression analysis}

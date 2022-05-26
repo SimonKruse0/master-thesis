@@ -1,4 +1,4 @@
-\chapter{Optimization methodology}
+\section{Optimization methodology}
 Given a cost/objective function $f: \mathcal{X} \rightarrow \mathbb{R}$, where the domain
 $\mathcal{X}$ could be a subset of $\mathbb{R}^n$,
 optimization is a methodology which seeks to find an optimal point, $x^*$, and value
@@ -87,10 +87,10 @@ available data $\mathcal{D}$. Finaly, a stopping criterion decides whether to co
     chosen as the point where the surrogate model is minimized. 
     $$\text{policy}_{sur}(\mathcal{D}) = \min_x \hat f(x)$$
     where $\hat f(x) \approx f(x)$ for $x$ close to the data $\mathcal{D}$. And we hope the approximation
-    holds for $x$ far away from the the data. 
+    holds for $x$ far away from the the data. \textbf{}
 \end{testexample}
 
-\section{When to use Bayesian optmization}
+\subsection{When to use Bayesian optmization}
 What if $f(x)$ took serval days to evaluate. What if $f(x)$ is noisy? what if discrete points? 
 <more here>
 
@@ -115,7 +115,7 @@ What if $f(x)$ took serval days to evaluate. What if $f(x)$ is noisy? what if di
 
 additionally, Bayesian Optimization allow for observation noise, 
 
-\section{Observation model}\label{ObsModel}
+\subsection{Observation model}\label{ObsModel}
 Many optimization algorithms assume \textit{exact} evaluations of the objective function. However, this assumption
 is often wrong especially for objective functions with real-life experiments, imperfect simulations, human interaction 
 where measurement noise is a well known. The observation model is typically noisy and described as

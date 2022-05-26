@@ -1,19 +1,19 @@
-[0] Config.pm:304> INFO - This is Biber 2.14 (beta)
-[0] Config.pm:307> INFO - Logfile is 'main.blg'
-[83] biber:322> INFO - === Wed May 25, 2022, 17:14:22
-[101] Biber.pm:415> INFO - Reading 'main.bcf'
-[185] Biber.pm:943> INFO - Found 6 citekeys in bib section 0
-[202] Biber.pm:4256> INFO - Processing section 0
-[202] Utils.pm:75> INFO - Globbing data source 'bibliography.bib'
-[202] Utils.pm:91> INFO - Globbed data source 'bibliography.bib' to bibliography.bib
-[216] Biber.pm:4455> INFO - Looking for bibtex format file 'bibliography.bib' for section 0
-[217] bibtex.pm:1653> INFO - LaTeX decoding ...
-[238] bibtex.pm:1471> INFO - Found BibTeX data source 'bibliography.bib'
-[377] Utils.pm:293> WARN - I didn't find a database entry for 'SPN_EM' (section 0)
-[404] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[404] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[404] Biber.pm:4084> INFO - Sorting list 'none/global//global/global' of type 'entry' with template 'none' and locale 'en-US'
-[404] Biber.pm:4090> INFO - No sort tailoring available for locale 'en-US'
-[423] bbl.pm:652> INFO - Writing 'main.bbl' with encoding 'UTF-8'
-[433] bbl.pm:755> INFO - Output to main.bbl
-[434] Biber.pm:128> INFO - WARNINGS: 1
+[1] Config.pm:304> INFO - This is Biber 2.14 (beta)
+[1] Config.pm:307> INFO - Logfile is 'main.blg'
+[275] biber:322> INFO - === Thu May 26, 2022, 16:58:54
+[307] Biber.pm:415> INFO - Reading 'main.bcf'
+[539] Biber.pm:943> INFO - Found 6 citekeys in bib section 0
+[579] Biber.pm:4256> INFO - Processing section 0
+[580] Utils.pm:75> INFO - Globbing data source 'bibliography.bib'
+[580] Utils.pm:91> INFO - Globbed data source 'bibliography.bib' to bibliography.bib
+[615] Biber.pm:4455> INFO - Looking for bibtex format file 'bibliography.bib' for section 0
+[617] bibtex.pm:1653> INFO - LaTeX decoding ...
+[646] bibtex.pm:1471> INFO - Found BibTeX data source 'bibliography.bib'
+[1015] Utils.pm:293> WARN - I didn't find a database entry for 'SPN_EM' (section 0)
+[1042] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[1043] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[1043] Biber.pm:4084> INFO - Sorting list 'none/global//global/global' of type 'entry' with template 'none' and locale 'en-US'
+[1043] Biber.pm:4090> INFO - No sort tailoring available for locale 'en-US'
+[1063] bbl.pm:652> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[1073] bbl.pm:755> INFO - Output to main.bbl
+[1074] Biber.pm:128> INFO - WARNINGS: 1

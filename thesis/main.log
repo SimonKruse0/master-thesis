@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  26 MAY 2022 09:37
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  26 MAY 2022 21:23
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1170,10 +1170,16 @@ Package csquotes Info: Adjusting default style.
 Package csquotes Info: Redefining alias 'default' -> 'english'.
  (/home/simon/Documents/MasterThesis/master-thesis/thesis/main.aux
 
-LaTeX Warning: Label `fig:example' multiply defined.
+LaTeX Warning: Label `f1_reg_2D' multiply defined.
 
 
-LaTeX Warning: Label `fig:example@cref' multiply defined.
+LaTeX Warning: Label `f1_reg_2D@cref' multiply defined.
+
+
+LaTeX Warning: Label `f1_reg_2D' multiply defined.
+
+
+LaTeX Warning: Label `f1_reg_2D@cref' multiply defined.
 
 )
 \openout1 = `main.aux'.
@@ -1452,153 +1458,91 @@ Underfull \hbox (badness 10000) in paragraph at lines 5--7
 
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/00_introduction.tex
 Chapter 1.
-[1
+
+Package caption Warning: \label without proper reference on input line 59.
+See the caption package documentation for explanation.
 
 
-]
+LaTeX Warning: Reference `fig:GP_vs_BNN' on page 1 undefined on input line 53.
+
 File: Pictures/GP_vs_BNN1.pdf Graphic file (type pdf)
 <use Pictures/GP_vs_BNN1.pdf>
 File: Pictures/GP_vs_BNN2.pdf Graphic file (type pdf)
 <use Pictures/GP_vs_BNN2.pdf>
- [2] [3]) [4] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/01_optimization.tex
-Chapter 2.
-Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 34.
-[5
 
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [1
+
+
+]
+
+Package caption Warning: \label without proper reference on input line 59.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `fig:GP_vs_BNN' on page 2 undefined on input line 110.
+
+[2]) [3] [4
+
+] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/02_bayesian_optimization.tex
+Chapter 2.
+(/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/01_optimization.tex
+Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 34.
+ [5
 
 ]
 File: Pictures/BO_vs_Grid2.eps Graphic file (type eps)
 <Pictures/BO_vs_Grid2.eps>
 File: Pictures/BO_vs_Grid1.eps Graphic file (type eps)
 <Pictures/BO_vs_Grid1.eps>
-
-Underfull \vbox (badness 1377) has occurred while \output is active []
-
- [6]) [7] [8
-
-] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/02_bayesian_optimization.tex
-Chapter 3.
+ [6]) [7]
 File: Pictures/expected_improvement_illustration.pdf Graphic file (type pdf)
 <use Pictures/expected_improvement_illustration.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [9
-
-] [10] [11]
+ [8] [9]
 Missing character: There is no ∈ in font Times New Roman/OT:language=dflt;mapping=tex-text;!
- [12] [13]
+ [10] [11]
 File: Pictures/mixture_predictive_bayesian.pdf Graphic file (type pdf)
 <use Pictures/mixture_predictive_bayesian.pdf>
 File: Pictures/mixture_predictive_bayesian2D.pdf Graphic file (type pdf)
 <use Pictures/mixture_predictive_bayesian2D.pdf>
- [14]) [15] [16
-
-] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_gaussian_process_regression.tex
-Chapter 4.
-File: Pictures/GP_samples_mattern.pdf Graphic file (type pdf)
-<use Pictures/GP_samples_mattern.pdf>
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[17
-
-] [18]) [19] [20
-
-] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_mixture_regression.tex
-Chapter 5.
-File: Pictures/mixture_regression_variance_problem1.pdf Graphic file (type pdf)
-<use Pictures/mixture_regression_variance_problem1.pdf>
-File: Pictures/mixture_regression_variance_problem2.pdf Graphic file (type pdf)
-<use Pictures/mixture_regression_variance_problem2.pdf>
-File: Pictures/mixture_regression_variance_problem3.pdf Graphic file (type pdf)
-<use Pictures/mixture_regression_variance_problem3.pdf>
-[21
+ [12] [13]) [14] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_04_discriminative_surrogates.tex
+Chapter 3.
+(/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_gaussian_process_regression.tex [15
 
 
 ]
+File: Pictures/GP_samples_mattern.pdf Graphic file (type pdf)
+<use Pictures/GP_samples_mattern.pdf>
+ [16]) (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/04_bayesian_nn_regression.tex [17] [18] [19]
+File: Pictures/bayesian_nn_prior_samples.pdf Graphic file (type pdf)
+<use Pictures/bayesian_nn_prior_samples.pdf>
+File: Pictures/bayesian_nn_posterior_samples.pdf Graphic file (type pdf)
+<use Pictures/bayesian_nn_posterior_samples.pdf>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [20])
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [21]) [22] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_mixture_regression.tex
+Chapter 4.
 
 LaTeX Font Warning: Font shape `TU/TimesNewRoman(0)/m/sc' undefined
-(Font)              using `TU/TimesNewRoman(0)/m/n' instead on input line 73.
+(Font)              using `TU/TimesNewRoman(0)/m/n' instead on input line 79.
 
-[22] [23] [24]
+[23
+
+
+] [24] [25]
 File: Pictures/SPN_illustration1.pdf Graphic file (type pdf)
 <use Pictures/SPN_illustration1.pdf>
 File: Pictures/SPN_illustration2.pdf Graphic file (type pdf)
 <use Pictures/SPN_illustration2.pdf>
- (/home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/tikz/SPN.tex
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-)
 File: Figures/SPN_graph2.pdf Graphic file (type pdf)
 <use Figures/SPN_graph2.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [25]
-Overfull \hbox (0.54826pt too wide) in paragraph at lines 225--231
-[]\TU/TimesNewRoman(0)/m/n/10.95 Sum-product networks are generative models, i.e. statistical models of the joint distribution $\OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 x; y\OT1/cmr/m/n/10.95 )$\TU/TimesNewRoman(0)/m/n/10.95 .
- []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [26]
-Underfull \vbox (badness 2913) has occurred while \output is active []
-
- [27] [28]
-Overfull \hbox (15.32054pt too wide) detected at line 448
+ [26] [27] [28]
+Overfull \hbox (15.32054pt too wide) detected at line 440
 [] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j\OML/cmm/m/it/10.95 ^^R\OT1/cmr/m/n/10.95 ) \OMS/cmsy/m/n/10.95 ^^@ [] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j\OML/cmm/m/it/10.95 ^^R[]\OT1/cmr/m/n/10.95 ) = \OML/cmm/m/it/10.95 Q\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 ^^R; ^^R[]\OT1/cmr/m/n/10.95 ) \OMS/cmsy/m/n/10.95 ^^@ \OML/cmm/m/it/10.95 Q\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 ^^R[]; ^^R[]\OT1/cmr/m/n/10.95 ) + \OML/cmm/m/it/10.95 E[]\OT1/cmr/m/n/10.95 [[] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j[]\OML/cmm/m/it/10.95 ; ^^R\OT1/cmr/m/n/10.95 )] \OMS/cmsy/m/n/10.95 ^^@ \OML/cmm/m/it/10.95 E[]\OT1/cmr/m/n/10.95 [[] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j[]\OML/cmm/m/it/10.95 ; ^^R[]\OT1/cmr/m/n/10.95 )]
  []
 
@@ -1607,18 +1551,168 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [30] [31] [32]) [33] [34
 
+] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/06_results.tex
+Chapter 5.
+File: Figures/coco_reg/f1_BOHAMIANN2.pdf Graphic file (type pdf)
+<use Figures/coco_reg/f1_BOHAMIANN2.pdf>
+File: Figures/coco_reg/f1_BOHAMIANN3.pdf Graphic file (type pdf)
+<use Figures/coco_reg/f1_BOHAMIANN3.pdf>
+File: Figures/coco_reg/f1_Gaussian Process - sklearn2.pdf Graphic file (type pdf)
+<use Figures/coco_reg/f1_Gaussian Process - sklearn2.pdf>
+File: Figures/coco_reg/f1_Gaussian Process - sklearn3.pdf Graphic file (type pdf)
+<use Figures/coco_reg/f1_Gaussian Process - sklearn3.pdf>
+File: Figures/coco_reg/f1_Naive Gaussian Mixture Regression optimized2.pdf Graphic file (type pdf)
+<use Figures/coco_reg/f1_Naive Gaussian Mixture Regression optimized2.pdf>
+File: Figures/coco_reg/f1_Naive Gaussian Mixture Regression optimized3.pdf Graphic file (type pdf)
+<use Figures/coco_reg/f1_Naive Gaussian Mixture Regression optimized3.pdf>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+File: Figures/coco_reg/f1_numpyro neural network200-2002.pdf Graphic file (type pdf)
+<use Figures/coco_reg/f1_numpyro neural network200-2002.pdf>
+File: Figures/coco_reg/f1_numpyro neural network200-2003.pdf Graphic file (type pdf)
+<use Figures/coco_reg/f1_numpyro neural network200-2003.pdf>
+File: Figures/coco_reg/f1_SPN regression optimized2.pdf Graphic file (type pdf)
+<use Figures/coco_reg/f1_SPN regression optimized2.pdf>
+File: Figures/coco_reg/f1_SPN regression optimized3.pdf Graphic file (type pdf)
+<use Figures/coco_reg/f1_SPN regression optimized3.pdf>
+File: Figures/coco/f1.pdf Graphic file (type pdf)
+<use Figures/coco/f1.pdf>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+File: Figures/coco_reg/f23_BOHAMIANN2.pdf Graphic file (type pdf)
+<use Figures/coco_reg/f23_BOHAMIANN2.pdf>
+File: Figures/coco_reg/f23_BOHAMIANN3.pdf Graphic file (type pdf)
+<use Figures/coco_reg/f23_BOHAMIANN3.pdf>
+File: Figures/coco_reg/f23_Gaussian Process - sklearn2.pdf Graphic file (type pdf)
+<use Figures/coco_reg/f23_Gaussian Process - sklearn2.pdf>
+File: Figures/coco_reg/f23_Gaussian Process - sklearn3.pdf Graphic file (type pdf)
+<use Figures/coco_reg/f23_Gaussian Process - sklearn3.pdf>
+File: Figures/coco_reg/f23_Naive Gaussian Mixture Regression optimized-prior 12.pdf Graphic file (type pdf)
+<use Figures/coco_reg/f23_Naive Gaussian Mixture Regression optimized-prior 12.pdf>
+File: Figures/coco_reg/f23_Naive Gaussian Mixture Regression optimized-prior 13.pdf Graphic file (type pdf)
+<use Figures/coco_reg/f23_Naive Gaussian Mixture Regression optimized-prior 13.pdf>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+File: Figures/coco_reg/f23_numpyro neural network200-2002.pdf Graphic file (type pdf)
+<use Figures/coco_reg/f23_numpyro neural network200-2002.pdf>
+File: Figures/coco_reg/f23_numpyro neural network200-2003.pdf Graphic file (type pdf)
+<use Figures/coco_reg/f23_numpyro neural network200-2003.pdf>
+File: Figures/coco_reg/f23_SPN regression optimized2.pdf Graphic file (type pdf)
+<use Figures/coco_reg/f23_SPN regression optimized2.pdf>
+File: Figures/coco_reg/f23_SPN regression optimized3.pdf Graphic file (type pdf)
+<use Figures/coco_reg/f23_SPN regression optimized3.pdf>
+File: Figures/coco/f23.png Graphic file (type bmp)
+<Figures/coco/f23.png>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+(/home/simon/Documents/MasterThesis/master-thesis/thesis/Tables/best_minimizer_group_1.tex)
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+(/home/simon/Documents/MasterThesis/master-thesis/thesis/Tables/best_minimizer_group_2.tex)
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+(/home/simon/Documents/MasterThesis/master-thesis/thesis/Tables/best_minimizer_group_3.tex)
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+(/home/simon/Documents/MasterThesis/master-thesis/thesis/Tables/best_minimizer_group_4.tex)
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+(/home/simon/Documents/MasterThesis/master-thesis/thesis/Tables/best_minimizer_group_5.tex)
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+File: Figures/coco/f1.png Graphic file (type bmp)
+<Figures/coco/f1.png>
+File: Figures/coco/f2.png Graphic file (type bmp)
+<Figures/coco/f2.png>
+File: Figures/coco/f3.png Graphic file (type bmp)
+<Figures/coco/f3.png>
+File: Figures/coco/f4.png Graphic file (type bmp)
+<Figures/coco/f4.png>
+File: Figures/coco/f5.png Graphic file (type bmp)
+<Figures/coco/f5.png>
+File: Figures/coco/f6.png Graphic file (type bmp)
+<Figures/coco/f6.png>
+File: Figures/coco/f7.png Graphic file (type bmp)
+<Figures/coco/f7.png>
+File: Figures/coco/f8.png Graphic file (type bmp)
+<Figures/coco/f8.png>
+File: Figures/coco/f9.png Graphic file (type bmp)
+<Figures/coco/f9.png>
+File: Figures/coco/f10.png Graphic file (type bmp)
+<Figures/coco/f10.png>
+File: Figures/coco/f11.png Graphic file (type bmp)
+<Figures/coco/f11.png>
+File: Figures/coco/f12.png Graphic file (type bmp)
+<Figures/coco/f12.png>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+File: Figures/coco/f13.png Graphic file (type bmp)
+<Figures/coco/f13.png>
+File: Figures/coco/f14.png Graphic file (type bmp)
+<Figures/coco/f14.png>
+File: Figures/coco/f15.png Graphic file (type bmp)
+<Figures/coco/f15.png>
+File: Figures/coco/f16.png Graphic file (type bmp)
+<Figures/coco/f16.png>
+File: Figures/coco/f17.png Graphic file (type bmp)
+<Figures/coco/f17.png>
+File: Figures/coco/f18.png Graphic file (type bmp)
+<Figures/coco/f18.png>
+File: Figures/coco/f19.png Graphic file (type bmp)
+<Figures/coco/f19.png>
+File: Figures/coco/f20.png Graphic file (type bmp)
+<Figures/coco/f20.png>
+File: Figures/coco/f21.png Graphic file (type bmp)
+<Figures/coco/f21.png>
+File: Figures/coco/f22.png Graphic file (type bmp)
+<Figures/coco/f22.png>
+File: Figures/coco/f23.png Graphic file (type bmp)
+<Figures/coco/f23.png>
+File: Figures/coco/f24.png Graphic file (type bmp)
+<Figures/coco/f24.png>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+) [35
+
+] [36] [37] [38] [39] [40] [41] [42] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/07_conclusion.tex
+Chapter 6.
+) [43
+
+
 ]
-Overfull \hbox (26.34688pt too wide) in paragraph at lines 59--59
+Overfull \hbox (26.34688pt too wide) in paragraph at lines 63--63
 []\TU/TimesNewRoman(0)/m/sc/10.95 Mashall Aryan. “  Sample-efficient Optimization Using Neural Networks”. []$[][][][][] [] [] [] [][][][][][][][][][][][][][][] []
  []
 
-[35
-
-] [36
+[44
 
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Appendix.tex
 Appendix A.
-) [37
+) [45
+
 
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Backpage.tex
 *geometry* verbose mode - [ newgeometry ] result:
@@ -1653,20 +1747,23 @@ Appendix A.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-) [38
+) [46
 
 
 ]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 66.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 66.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 70.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 70.
  (/home/simon/Documents/MasterThesis/master-thesis/thesis/main.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 66.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 66.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 70.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 70.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 01BDDC9AE2D97094561F673822906F25;1792.
+(rerunfilecheck)             Checksum: FE8F10CADB462EDA912EC132B629875D;2247.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+
+LaTeX Warning: There were undefined references.
 
 
 LaTeX Warning: There were multiply-defined labels.
@@ -1676,12 +1773,12 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 56263 strings out of 481731
- 1330150 string characters out of 5935437
- 2277113 words of memory out of 5000000
- 72308 multiletter control sequences out of 15000+600000
- 547197 words of font info for 134 fonts, out of 8000000 for 9000
+ 56446 strings out of 481731
+ 1339082 string characters out of 5935437
+ 2287938 words of memory out of 5000000
+ 72425 multiletter control sequences out of 15000+600000
+ 546095 words of font info for 123 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 82i,17n,138p,2818b,4680s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 82i,17n,138p,2818b,4678s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (42 pages, 639848 bytes).
+Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (50 pages, 771872 bytes).

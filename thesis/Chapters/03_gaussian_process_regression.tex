@@ -1,5 +1,9 @@
-\chapter{Gaussian process surrogate}
-\section{Gaussian Process Regression}
+\section{Gaussian process surrogate}
+
+The most popular surrogate model is the Gaussian process, we will now understand model
+in more detail. 
+
+\subsection{Exact predictive distribution}
 We now show how the preditive distribution is calculated exact for
 Gaussian Processes, i.e. 
 \begin{equation}\label{GP_predictive}
@@ -26,7 +30,7 @@ distribtuion, $p(y|x,\mathcal{D})$, using formulars \eqref{marginal_distribution
     \end{align}
 \end{testexample2}
 
-\subsection*{Posterior function}
+\subsubsection*{Posterior function}
 Recall we assume $\textbf{f} = (f(\textbf{x}_1), \dots, f(\textbf{x}_n))$ is the parameters in 
 our model, therefore we call $p(\textbf{f}|\mathcal{D})$ the posterior distribution. However, 
 what is of real interest is the function values on unobserved locations, thereby we 
@@ -102,7 +106,7 @@ AM^{-1}A^T+\sigma^2)$$
 
 \todo{Some questions about a naive approach..!}
 
-\subsection*{Learning - Emperical bayes inference}
+\subsubsection*{Learning - Emperical bayes inference}
 
 Anther inference which is done is then optimizing the hyper parameters using emperical bayes i.e.
 the variance and length scale for the kernel. Here we optimize the marginalized likelihood function
