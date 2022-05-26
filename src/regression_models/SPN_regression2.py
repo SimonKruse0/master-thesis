@@ -36,8 +36,8 @@ class SumProductNetworkRegression(BaseEstimator):
                 tracks=3, channels=20,
                 manipulate_variance = False
                 , train_epochs = 1000,
-                alpha0_x=3,alpha0_y=3, 
-                beta0_x = 0.5,beta0_y = 0.5, 
+                alpha0_x=10,alpha0_y=10, 
+                beta0_x = 0.01,beta0_y = 0.01, 
                 prior_settings = {"Ndx": 1,"sig_prior":1.2},
                 optimize=False, opt_n_iter  =10, opt_cv = 10):
         self.epochs = train_epochs
@@ -70,8 +70,8 @@ class SumProductNetworkRegression(BaseEstimator):
             self._optimize( X, Y)
             print("-- Fitted with optimized hyperparams --")
             return
-        print("params= ",self.get_params())
-        print("X.shape", X.shape)
+        #print("params= ",self.get_params())
+        #print("X.shape", X.shape)
         X, self.x_mean, self.x_std = normalize(X)
         Y, self.y_mean, self.y_std = normalize(Y)
 
@@ -103,9 +103,9 @@ class SumProductNetworkRegression(BaseEstimator):
                 alpha0=alpha,
                 beta0=beta,
             ),
-            supr.Einsum(self.tracks, self.xy_variables , self.channels, 1),
-            supr.Weightsum(self.tracks, self.xy_variables, 1)
-            #supr.Weightsum(self.tracks, self.xy_variables , self.channels),
+            # supr.Einsum(self.tracks, self.xy_variables , self.channels, 1),
+            # supr.Weightsum(self.tracks, self.xy_variables, 1)
+            supr.Weightsum(self.tracks, self.xy_variables , self.channels),
         )
         X = torch.from_numpy(X)
         Y = torch.from_numpy(Y)
@@ -114,6 +114,7 @@ class SumProductNetworkRegression(BaseEstimator):
         #make sure we train on all parameters. 
         #self._train_all_parmeters()
         logp_tmp = 0
+        counter = 0
         for epoch in range(self.epochs):
             self.model.train()
             logp = self.model(XY).sum()
@@ -213,9 +214,9 @@ class SumProductNetworkRegression(BaseEstimator):
         with torch.no_grad():
             # Compute normal approximation
             mean_prior =0# (self.model.mean())[:, 1] #0
-            m_pred = (self.N*(self.model.mean())[:, 1]*p_x + Ndx*mean_prior)/(self.N*p_x+Ndx)
+            m_pred = (self.N*(self.model.mean())[:, -1]*p_x + Ndx*mean_prior)/(self.N*p_x+Ndx)
             if not only_mean:
-                v_pred = (self.N*p_x*(self.model.var()[:, 1]+self.model.mean()[:, 1]
+                v_pred = (self.N*p_x*(self.model.var()[:, -1]+self.model.mean()[:, -1]
                         ** 2) + Ndx*sig_prior)/(self.N*p_x+Ndx) - m_pred**2
             
                 # Compute normal approximation
