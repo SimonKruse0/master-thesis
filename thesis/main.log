@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  25 MAY 2022 17:31
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  26 MAY 2022 09:37
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1168,7 +1168,14 @@ Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
 Package csquotes Info: Adjusting default style.
 Package csquotes Info: Redefining alias 'default' -> 'english'.
- (/home/simon/Documents/MasterThesis/master-thesis/thesis/main.aux)
+ (/home/simon/Documents/MasterThesis/master-thesis/thesis/main.aux
+
+LaTeX Warning: Label `fig:example' multiply defined.
+
+
+LaTeX Warning: Label `fig:example@cref' multiply defined.
+
+)
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 14.
@@ -1448,12 +1455,16 @@ Chapter 1.
 [1
 
 
-] [2]) [3] [4
-
-] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/01_optimization.tex
+]
+File: Pictures/GP_vs_BNN1.pdf Graphic file (type pdf)
+<use Pictures/GP_vs_BNN1.pdf>
+File: Pictures/GP_vs_BNN2.pdf Graphic file (type pdf)
+<use Pictures/GP_vs_BNN2.pdf>
+ [2] [3]) [4] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/01_optimization.tex
 Chapter 2.
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 34.
 [5
+
 
 ]
 File: Pictures/BO_vs_Grid2.eps Graphic file (type eps)
@@ -1461,7 +1472,7 @@ File: Pictures/BO_vs_Grid2.eps Graphic file (type eps)
 File: Pictures/BO_vs_Grid1.eps Graphic file (type eps)
 <Pictures/BO_vs_Grid1.eps>
 
-Underfull \vbox (badness 1221) has occurred while \output is active []
+Underfull \vbox (badness 1377) has occurred while \output is active []
 
  [6]) [7] [8
 
@@ -1469,16 +1480,19 @@ Underfull \vbox (badness 1221) has occurred while \output is active []
 Chapter 3.
 File: Pictures/expected_improvement_illustration.pdf Graphic file (type pdf)
 <use Pictures/expected_improvement_illustration.pdf>
-[9
 
-] [10]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [9
+
+] [10] [11]
 Missing character: There is no ∈ in font Times New Roman/OT:language=dflt;mapping=tex-text;!
- [11] [12]
+ [12] [13]
 File: Pictures/mixture_predictive_bayesian.pdf Graphic file (type pdf)
 <use Pictures/mixture_predictive_bayesian.pdf>
 File: Pictures/mixture_predictive_bayesian2D.pdf Graphic file (type pdf)
 <use Pictures/mixture_predictive_bayesian2D.pdf>
- [13] [14]) [15] [16
+ [14]) [15] [16
 
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_gaussian_process_regression.tex
 Chapter 4.
@@ -1649,22 +1663,25 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 66.
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 66.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 66.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 0868DCD9EC583C3F5661DE62C69F9F66;1714.
+(rerunfilecheck)             Checksum: 01BDDC9AE2D97094561F673822906F25;1792.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+
+LaTeX Warning: There were multiply-defined labels.
 
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 56248 strings out of 481731
- 1329785 string characters out of 5935437
- 2276986 words of memory out of 5000000
- 72295 multiletter control sequences out of 15000+600000
+ 56263 strings out of 481731
+ 1330150 string characters out of 5935437
+ 2277113 words of memory out of 5000000
+ 72308 multiletter control sequences out of 15000+600000
  547197 words of font info for 134 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 82i,17n,138p,2818b,4678s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 82i,17n,138p,2818b,4680s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (42 pages, 624708 bytes).
+Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (42 pages, 639848 bytes).

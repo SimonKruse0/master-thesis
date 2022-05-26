@@ -32,7 +32,8 @@ def jsonize_array(array):
     return [a.astype(float) for a in array]
 
 
-
+def plot_inv_gamma(alpha, beta):
+    pass
 
 
 class PlottingClass:

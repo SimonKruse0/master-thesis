@@ -14,7 +14,7 @@ import time
 import os
 
 class NumpyroNeuralNetwork:
-    def __init__(self, hidden_units = 10, num_warmup=200, num_samples = 200, num_chains=1, 
+    def __init__(self, hidden_units = 10, num_warmup=1000, num_samples = 500, num_chains=4, 
                      num_keep_samples = 50, extra_name="", 
                      hidden_units_variance = 2, 
                      hidden_units_bias_variance = 1):
@@ -24,7 +24,8 @@ class NumpyroNeuralNetwork:
         self.hidden_units_variance = hidden_units_variance
         self.hidden_units_bias_variance = hidden_units_bias_variance
         self.obs_variance = 0.01
-        self.obs_variance_prior = 1000 #Obs E[sigma] = 1/lambda
+        #self.obs_variance_prior = 1000 #Obs E[sigma] = 1/lambda
+        self.obs_variance_prior = 10 #Obs E[sigma] = 1/lambda
         self.target_accept_prob = 0.6
         self.num_warmup = num_warmup
         self.num_samples = num_samples

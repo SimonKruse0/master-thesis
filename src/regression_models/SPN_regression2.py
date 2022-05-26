@@ -33,13 +33,13 @@ def denormalize(X_normalized, mean, std):
 
 class SumProductNetworkRegression(BaseEstimator):
     def __init__(self,
-                tracks=4, channels=100,
+                tracks=3, channels=20,
                 manipulate_variance = False
                 , train_epochs = 1000,
-                alpha0_x=10,alpha0_y=10, 
-                beta0_x = 0.01,beta0_y = 0.01, 
+                alpha0_x=3,alpha0_y=3, 
+                beta0_x = 0.5,beta0_y = 0.5, 
                 prior_settings = {"Ndx": 1,"sig_prior":1.2},
-                optimize=False, opt_n_iter  =100, opt_cv = 10):
+                optimize=False, opt_n_iter  =10, opt_cv = 10):
         self.epochs = train_epochs
         # Priors for variance of x and y
         self.alpha0_x = alpha0_x#invers gamma
@@ -58,15 +58,14 @@ class SumProductNetworkRegression(BaseEstimator):
         self.manipulate_variance = manipulate_variance
         self.optimize_hyperparams = optimize
         self.opt_n_iter, self.opt_cv = opt_n_iter, opt_cv
-        #self.optimize_flag = False
-        
     
     # def _train_all_parmeters(self):
     #     self.model[0].marginalize = torch.zeros(self.xy_variables , dtype=torch.bool)
 
     def fit(self, X, Y, show_plot=False):
-        if Y.ndim != 2:
-            Y = Y[:,None]
+        assert Y.ndim == 2
+        # if Y.ndim != 2:
+        #     Y = Y[:,None]
         if self.optimize_hyperparams:
             self._optimize( X, Y)
             print("-- Fitted with optimized hyperparams --")
@@ -82,7 +81,7 @@ class SumProductNetworkRegression(BaseEstimator):
         
         print(f"mean variance_x = {self.beta0_x/(self.alpha0_x+1):0.6f}")
         print(f"mean variance_y = {self.beta0_y/(self.alpha0_y+1):0.6f}")
-        #Should be optimized!
+
         alpha_x = torch.tensor(self.alpha0_x)
         alpha_x = alpha_x.repeat_interleave(x_variables)
         alpha_y = torch.tensor([self.alpha0_y])
@@ -104,11 +103,12 @@ class SumProductNetworkRegression(BaseEstimator):
                 alpha0=alpha,
                 beta0=beta,
             ),
-            supr.Weightsum(self.tracks, self.xy_variables , self.channels),
+            supr.Einsum(self.tracks, self.xy_variables , self.channels, 1),
+            supr.Weightsum(self.tracks, self.xy_variables, 1)
+            #supr.Weightsum(self.tracks, self.xy_variables , self.channels),
         )
         X = torch.from_numpy(X)
         Y = torch.from_numpy(Y)
-        #XY = torch.stack((X, Y[:,None]), dim=1).squeeze()
         XY = torch.hstack((X, Y))
         
         #make sure we train on all parameters. 
@@ -123,10 +123,14 @@ class SumProductNetworkRegression(BaseEstimator):
             self.model.eval()  # swap?
             self.model.em_batch_update()
             if abs(logp-logp_tmp) <1e-7:
+                counter += 1
+            else:
+                counter = 0
+                logp_tmp = logp
+            if counter > 5:
                 print(f"stopped training after {epoch} epochs")
                 break
-            else:
-                logp_tmp = logp
+
         print(f"-- stopped training -- max iterations = {self.epochs}")
         self.params = f"sig_x = InvGa({self.alpha0_x:0.0f},{self.beta0_x:0.1e})"
         self.params += f", sig_y =InvGa({self.alpha0_y:0.0f},{self.beta0_y:0.1e})"
@@ -175,10 +179,10 @@ class SumProductNetworkRegression(BaseEstimator):
         opt = BayesSearchCV(
             self,
             {
-                'alpha0_x': (2e+0, 5e1, 'uniform'), #inversGamma params. E[var_x] = beta/(1+alpha)
-                'alpha0_y': (2e+0, 5e1, 'uniform'),
-                'beta0_x': (1e-4, 1e-1, 'uniform'),
-                'beta0_y': (1e-4, 1e-1, 'uniform'),
+                'alpha0_x': (2e0, 7e0, 'uniform'), #inversGamma params. E[var_x] = beta/(1+alpha)
+                'alpha0_y': (2e0, 7e0, 'uniform'),
+                'beta0_x': (1e-2, 1e0, 'uniform'),
+                'beta0_y': (1e-2, 1e0, 'uniform'),
             },
             n_iter=self.opt_n_iter,
             cv=self.opt_cv
@@ -315,7 +319,7 @@ class SumProductNetworkRegression(BaseEstimator):
             ax.plot(x_grid,mean,"--", color="red")
         if p_x is not None:
             ax1 = ax.twinx()  # instantiate a second axes that shares the same x-axis
-            color = 'tab:gr een'
+            color = 'tab:green'
             ax1.plot(x_grid, p_x.detach().numpy(), color = color)
             ax1.set_ylabel('p(x)', color=color)
             ax1.set_ylim(0,30)
@@ -334,10 +338,10 @@ if __name__ == "__main__":
     Y_sample = obj_fun(X_sample)
 
     SPN_regression = SumProductNetworkRegression(
-                    tracks=5,
-                    channels = 50, train_epochs= 1000,
-                    manipulate_variance = True)
-    SPN_regression.fit(X_sample, Y_sample.squeeze())
+                    tracks=2,
+                    channels = 30, train_epochs= 1000,
+                    manipulate_variance = False)
+    SPN_regression.fit(X_sample, Y_sample)
     
     fig, ax = plt.subplots()
     SPN_regression.plot(ax)

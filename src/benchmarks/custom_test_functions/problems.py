@@ -125,15 +125,14 @@ class SimonsTest0(Benchmark):
     def __init__(self, dimensions=1):
         Benchmark.__init__(self, dimensions)
         assert dimensions == 1
-        self._bounds = list(zip([-0.5] * self.N,
-                           [0.5] * self.N))
+        self._bounds = list(zip([0] * self.N,
+                           [1] * self.N))
         self.custom_bounds = ([-5, 5], [-5, 5])
 
         self.global_optimum = [[0. for _ in range(self.N)]]
         self.fglob = 0.0
         self.change_dimensionality = True
     def fun(self,x, *args): 
-        x = x+ 0.5
         self.nfev += 1
         result = 0.5 * (np.sign(x-0.5) + 1)
         if result.ndim == 0:

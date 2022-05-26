@@ -516,6 +516,8 @@ INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/main.toc
 OUTPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/main.toc
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/00_introduction.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/00_introduction.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/GP_vs_BNN1.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/GP_vs_BNN2.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/01_optimization.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/01_optimization.tex
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmmi9.tfm
