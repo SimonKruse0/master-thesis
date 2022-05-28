@@ -99,7 +99,7 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
 
     def score(self, X_test, y_test):
         y_test = y_test.squeeze()
-        assert y_test.ndim == 1
+        assert y_test.ndim <= 1
         m_pred, sd_pred, _ = self.predict(X_test)
         Z_pred = (y_test-m_pred)/sd_pred #std. normal distributed. 
         score = np.mean(norm.pdf(Z_pred))
@@ -111,8 +111,8 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
         opt = BayesSearchCV(
             self,
             {
-                'x_component_std': (1e-5, 3e-1, 'uniform'),
-                'y_component_std': (1e-5, 3e-1, 'uniform'),
+                'x_component_std': (1e-3, 3e-1, 'uniform'),
+                'y_component_std': (1e-3, 3e-1, 'uniform'),
             },
             n_iter=self.opt_n_iter,
             cv=self.opt_cv
@@ -145,7 +145,7 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
         m_pred = self.E_predictive(X_test)
         E2_pred = self.E2_predictive(X_test)
         v_pred = E2_pred-m_pred**2 #Var[x] = Ex²-(Ex)²
-        assert not any(v_pred<0)
+        assert not any(v_pred<0) 
         
         # evidens
         p_x = np.exp(self.lp_x(X_test))
@@ -248,8 +248,14 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
         if p_x is not None:
             ax1 = ax.twinx()  # instantiate a second axes that shares the same x-axis
             color = 'tab:green'
-            ax1.plot(x_grid, p_x, color = color)
-            ax1.set_ylabel('p(x)', color=color)
-            ax1.set_ylim(0,30)
+            Ndx = self.prior_settings["Ndx"]
+            a = self.N*p_x/Ndx
+            ax1.plot(x_grid, a/(a+1), color = color)
+            #ax1.set_ylabel(r'$\alpha_x$', color=color)
+            ax1.set_ylim(0,5)
             ax1.grid(color=color, alpha = 0.2)
+            ticks = [0,0.2,0.4,0.6,0.8,1.0]
+            ax1.set_yticks(ticks)
             ax1.tick_params(axis='y', labelcolor=color)
+            ax1.text(x_grid[len(x_grid)//2],1.1,r"$\alpha(x)$", color=color, size="large")
+            

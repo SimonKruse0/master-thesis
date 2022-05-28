@@ -79,8 +79,8 @@ class SumProductNetworkRegression(BaseEstimator):
         self.xy_variables = x_variables+1
         self.marginalize_y = torch.cat([torch.zeros(x_variables, dtype=torch.bool), torch.tensor([1],dtype=torch.bool)])
         
-        print(f"mean variance_x = {self.beta0_x/(self.alpha0_x+1):0.6f}")
-        print(f"mean variance_y = {self.beta0_y/(self.alpha0_y+1):0.6f}")
+        print("-- traning --")
+        print(f"mean variance_x = {self.beta0_x/(self.alpha0_x+1):0.4f}, mean variance_y = {self.beta0_y/(self.alpha0_y+1):0.4f}")
 
         alpha_x = torch.tensor(self.alpha0_x)
         alpha_x = alpha_x.repeat_interleave(x_variables)
@@ -218,6 +218,7 @@ class SumProductNetworkRegression(BaseEstimator):
             m_pred = (self.N*(self.model.mean())[:, -1]*p_x + Ndx*mean_prior)/(self.N*p_x+Ndx)
             v_pred = (self.N*p_x*(self.model.var()[:, -1]+self.model.mean()[:, -1]
                     ** 2) + Ndx*sig_prior)/(self.N*p_x+Ndx) - m_pred**2
+            assert not any(v_pred<0) 
             if self.manipulate_variance:
                 v_pred /= torch.clamp(p_x*50, 1,40)
             std_pred = torch.sqrt(v_pred)
@@ -309,12 +310,17 @@ class SumProductNetworkRegression(BaseEstimator):
         if p_x is not None:
             ax1 = ax.twinx()  # instantiate a second axes that shares the same x-axis
             color = 'tab:green'
-            ax1.plot(x_grid, p_x.detach().numpy(), color = color)
-            ax1.set_ylabel('p(x)', color=color)
-            ax1.set_ylim(0,30)
+            Ndx = self.prior_settings["Ndx"]
+            a = self.N*p_x.detach().numpy()/Ndx
+            ax1.plot(x_grid, a/(a+1), color = color)
+            #ax1.set_ylabel(r'$\alpha_x$', color=color)
+            ax1.set_ylim(0,5)
             ax1.grid(color=color, alpha = 0.2)
+            ticks = [0,0.2,0.4,0.6,0.8,1.0]
+            ax1.set_yticks(ticks)
             ax1.tick_params(axis='y', labelcolor=color)
-
+            ax1.text(x_grid[len(x_grid)//2],1.1,r"$\alpha(x)$", color=color, size="large")
+            
 def obj_fun(x): 
     return 0.5 * (np.sign(x-0.5) + 1)+np.sin(100*x)*0.1
 

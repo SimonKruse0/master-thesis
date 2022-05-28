@@ -101,7 +101,25 @@ What if $f(x)$ took serval days to evaluate. What if $f(x)$ is noisy? what if di
 %     35 evaluation in grid search vs 39 evaluations using Bayesian optimization}
 %     \label{optimhist}
 % \end{figure}
-
+\begin{tcolorbox}[
+    sharp corners,
+    boxrule=0mm,
+    enhanced,
+    borderline west={4pt}{0pt}{gray},
+    colframe=drGray,
+    colback=drGray,
+    coltitle=black,
+]
+{\large \textbf{Example: Bayesian Optimization}}\\
+    Bayesian optimization is a \textit{probabilistic} surrogate-based optimization
+    methodology. Here a cheap probabilistic regression model $p(y|x)$ is fitted to the
+    the observations $\mathcal{D}$ and oppose to (deterministic) surrogate-based
+    optimization, it is not possible right away to find the minima in the cheap
+    surrogate model; first, we need to interpret the meaning of minima in a probabilistic
+    regression model. This interpretation is done through a so-called acquisition
+    function (more about this later). The policy is as following,
+    $$\text{policy}_{BO}(\mathcal{D}) = \max_x AQ(p(y|x))$$
+\end{tcolorbox}
 \begin{figure}[H]%
     \centering
     {\includegraphics[width=0.46\textwidth]{Pictures/BO_vs_Grid2.eps} }%
