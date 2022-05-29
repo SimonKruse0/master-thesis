@@ -2186,13 +2186,16 @@
     <bcf:citekey order="2">bayesoptbook</bcf:citekey>
     <bcf:citekey order="3">bayesoptbook</bcf:citekey>
     <bcf:citekey order="4">bayesoptbook</bcf:citekey>
-    <bcf:citekey order="5">SPN_EM</bcf:citekey>
-    <bcf:citekey order="6">bishop</bcf:citekey>
-    <bcf:citekey order="7">bishop</bcf:citekey>
+    <bcf:citekey order="5">bishop1995neural</bcf:citekey>
+    <bcf:citekey order="6">ALStatisticalModels</bcf:citekey>
+    <bcf:citekey order="7">JordanPaper</bcf:citekey>
     <bcf:citekey order="8">bishop</bcf:citekey>
-    <bcf:citekey order="9">PhDthesis</bcf:citekey>
-    <bcf:citekey order="10">snoek2015scalable</bcf:citekey>
-    <bcf:citekey order="11">NIPS2016_a96d3afe</bcf:citekey>
+    <bcf:citekey order="9">SPN_EM</bcf:citekey>
+    <bcf:citekey order="10">bishop</bcf:citekey>
+    <bcf:citekey order="11">bishop</bcf:citekey>
+    <bcf:citekey order="12">PhDthesis</bcf:citekey>
+    <bcf:citekey order="13">snoek2015scalable</bcf:citekey>
+    <bcf:citekey order="14">NIPS2016_a96d3afe</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">

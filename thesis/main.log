@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  28 MAY 2022 13:45
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  29 MAY 2022 22:20
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1499,22 +1499,16 @@ File: Pictures/BO_vs_Grid1.eps Graphic file (type eps)
  [6]) [7]
 File: Pictures/expected_improvement_illustration.pdf Graphic file (type pdf)
 <use Pictures/expected_improvement_illustration.pdf>
- [8] [9]
-Missing character: There is no ∈ in font Times New Roman/OT:language=dflt;mapping=tex-text;!
- [10] [11]
-File: Pictures/mixture_predictive_bayesian.pdf Graphic file (type pdf)
-<use Pictures/mixture_predictive_bayesian.pdf>
-File: Pictures/mixture_predictive_bayesian2D.pdf Graphic file (type pdf)
-<use Pictures/mixture_predictive_bayesian2D.pdf>
- [12] [13]) [14] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_04_discriminative_surrogates.tex
-Chapter 3.
-(/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_gaussian_process_regression.tex [15
+ [8] [9] [10]) [11] [12
 
+] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_04_discriminative_surrogates.tex
+Chapter 3.
+(/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_gaussian_process_regression.tex [13
 
 ]
 File: Pictures/GP_samples_mattern.pdf Graphic file (type pdf)
 <use Pictures/GP_samples_mattern.pdf>
- [16]) (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/04_bayesian_nn_regression.tex [17] [18] [19]
+ [14]) (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/04_bayesian_nn_regression.tex [15] [16] [17]
 File: Pictures/bayesian_nn_prior_samples.pdf Graphic file (type pdf)
 <use Pictures/bayesian_nn_prior_samples.pdf>
 File: Pictures/bayesian_nn_posterior_samples.pdf Graphic file (type pdf)
@@ -1522,19 +1516,30 @@ File: Pictures/bayesian_nn_posterior_samples.pdf Graphic file (type pdf)
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [20])
+ [18])
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [21]) [22] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_mixture_regression.tex
+ [19]) [20] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_mixture_regression.tex
 Chapter 4.
+(/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_a_prior_inclusion.tex [21
+
+
+]
+File: Pictures/mixture_predictive_bayesian.pdf Graphic file (type pdf)
+<use Pictures/mixture_predictive_bayesian.pdf>
+File: Pictures/mixture_predictive_bayesian2D.pdf Graphic file (type pdf)
+<use Pictures/mixture_predictive_bayesian2D.pdf>
+ [22]
+Overfull \hbox (1.85567pt too wide) in paragraph at lines 86--88
+[]\TU/TimesNewRoman(0)/m/n/10.95 And the predictive variance is calcualted, using the definition of variance, $\OML/cmm/m/it/10.95 V[]\OT1/cmr/m/n/10.95 [\OML/cmm/m/it/10.95 y\OT1/cmr/m/n/10.95 ] = \OML/cmm/m/it/10.95 E[]\OT1/cmr/m/n/10.95 [\OML/cmm/m/it/10.95 y[]\OT1/cmr/m/n/10.95 ] \OMS/cmsy/m/n/10.95 ^^@
+ []
+
+) [23]
 
 LaTeX Font Warning: Font shape `TU/TimesNewRoman(0)/m/sc' undefined
-(Font)              using `TU/TimesNewRoman(0)/m/n' instead on input line 79.
+(Font)              using `TU/TimesNewRoman(0)/m/n' instead on input line 128.
 
-[23
-
-
-] [24] [25]
+[24] [25] [26]
 File: Pictures/SPN_illustration1.pdf Graphic file (type pdf)
 <use Pictures/SPN_illustration1.pdf>
 File: Pictures/SPN_illustration2.pdf Graphic file (type pdf)
@@ -1543,23 +1548,24 @@ File: Pictures/SPN_illustration3.pdf Graphic file (type pdf)
 <use Pictures/SPN_illustration3.pdf>
 File: Pictures/SPN_illustration4.pdf Graphic file (type pdf)
 <use Pictures/SPN_illustration4.pdf>
+ [27]
 File: Figures/SPN_graph2.pdf Graphic file (type pdf)
 <use Figures/SPN_graph2.pdf>
 
-Underfull \vbox (badness 1297) has occurred while \output is active []
-
- [26]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [27]
-Underfull \vbox (badness 2913) has occurred while \output is active []
+ [28]
+Underfull \vbox (badness 5908) has occurred while \output is active []
 
- [28] [29]
-Overfull \hbox (15.32054pt too wide) detected at line 448
+ [29] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_b_EM.tex [30]
+Overfull \hbox (15.32054pt too wide) detected at line 94
 [] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j\OML/cmm/m/it/10.95 ^^R\OT1/cmr/m/n/10.95 ) \OMS/cmsy/m/n/10.95 ^^@ [] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j\OML/cmm/m/it/10.95 ^^R[]\OT1/cmr/m/n/10.95 ) = \OML/cmm/m/it/10.95 Q\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 ^^R; ^^R[]\OT1/cmr/m/n/10.95 ) \OMS/cmsy/m/n/10.95 ^^@ \OML/cmm/m/it/10.95 Q\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 ^^R[]; ^^R[]\OT1/cmr/m/n/10.95 ) + \OML/cmm/m/it/10.95 E[]\OT1/cmr/m/n/10.95 [[] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j[]\OML/cmm/m/it/10.95 ; ^^R\OT1/cmr/m/n/10.95 )] \OMS/cmsy/m/n/10.95 ^^@ \OML/cmm/m/it/10.95 E[]\OT1/cmr/m/n/10.95 [[] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j[]\OML/cmm/m/it/10.95 ; ^^R[]\OT1/cmr/m/n/10.95 )]
  []
 
-[30] [31] [32] [33]) [34] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/06_results.tex
+[31]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [32] [33])) [34] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/06_results.tex
 Chapter 5.
 File: Figures/coco_reg/f1_BOHAMIANN2.pdf Graphic file (type pdf)
 <use Figures/coco_reg/f1_BOHAMIANN2.pdf>
@@ -1766,7 +1772,7 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 70.
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 70.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 70.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 4A3CBD82011C94C5748D1FFA6A2CFD63;2247.
+(rerunfilecheck)             Checksum: A0E67A88F78EA389E018079B6B27F590;2356.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -1782,12 +1788,12 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 56458 strings out of 481731
- 1339463 string characters out of 5935437
- 2288026 words of memory out of 5000000
- 72435 multiletter control sequences out of 15000+600000
+ 56472 strings out of 481731
+ 1340163 string characters out of 5935437
+ 2288227 words of memory out of 5000000
+ 72443 multiletter control sequences out of 15000+600000
  546095 words of font info for 123 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 82i,17n,138p,2818b,4678s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 82i,17n,138p,2818b,4680s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (50 pages, 782696 bytes).
+Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (50 pages, 772628 bytes).

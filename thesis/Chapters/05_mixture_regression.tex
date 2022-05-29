@@ -1,67 +1,116 @@
 \chapter{Generative model surrogates}
-Generative models are statistical models of the joint distribution $$p(x,y) = p(y|x)p(x)$$
-and the conditial distribution of the generative model is then given as $$p(y|x) = \frac{p(x,y)}{p(x)}$$
-This yields some advantages and disadvantages. In this thesis we will look at
-Gaussian mixture models, and a generalization of those: Sum Product Networks, 
-and kernel estimators, i.e. putting a equally weighted mixture component on each data point. 
- \begin{itemize}
-     \item Naive Gaussian mixtire regression (Kernel estimator regression)
-     \item SPN
-     \item Gaussian mixture regression. 
+Generative models are statistical models of the joint distribution $p(x,y)$ We need, however, a
+discriminative model for regression, i.e. a model of the conditional distribution of $y$ given $x$,
+i.e. $p(y|x)$. All generative models we deal with in this thesis allow for exact inference of the
+conditional distribution. So given a well-fitted generative model, one could immediately think they
+would be feasible to use as surrogate models. However, in this project, we only look at Gaussian
+mixture models as generative models - and they have a problem for $x$-values where the probability
+of the observed input data, the marginal $p(x)$, is low. Recall the conditional distribution is 
+$$p(y|x) = \frac{p(x,y)}{p(x)}$$ and can be interpreted as a slice of the joint distribution
+$p(x,y)$ for a fixed value of $x$, but normalized with $p(x) = \int p(x,y) dy$. So even if there is
+a very small probability of the data, the conditional probability $p(y|x)$ gets artificially certain
+in the case of Gaussian mixtures. We, therefore, need to introduce a prior distribution for $y$,
+which will take over in areas for no data, i.e. small $p(x)$. This is discussed in section
+%\ref{...}
+
+Using generative models as regression models is not used much in the literature. Using the
+conditional of a Gaussian mixture model (or kernel estimator) for regression has been discussed
+briefly in \cite{bishop1995neural} and using kernel estimator \cite{ALStatisticalModels} for active
+learning. According to these sources, the good reasons for using the mixtures for regression are
+that they can be used to represent any relations between the variables, e.g. $p(y|x)$ or $p(x|y)$.
+They are both applicable in supervised and unsupervised ml. And they are good at dealing with
+incomplete data, i.e. missing values in the data set. \cite{JordanPaper}. However is it a hyposesis
+that it will allow for an expressive surrogate model, allowing for dealing with complex BO tasks,
+as they do not assume continuity.. In this thesis we will first look at the most simple approach
+to a generative model, i.e. putting an equally weighted Gaussian mixture component on each data point. 
+This is also referred to as a kernel estimator (some might know then from doing kde-plots/estimating a distribution
+from data), but with a twist of including a prior distribution to it. Next, we look at the more intelligent
+models, Gaussian mixture models, which hopefully can capture some correlations between the variables. 
+And finally, we look at the more complicated sum-product networks, which introduce a generalization element
+and have a flavor of a neural network. To summarize, the mixture regression models are:
+
+\begin{itemize}
+     \item Naive Gaussian mixture regression (Kernel estimator regression),
+     \item Gaussian mixture regression,
+     \item Sum-product networks.
  \end{itemize}
 
+ \section{"Bayesianizing" conditional distribution}
+ \input{Chapters/05_a_prior_inclusion.tex}
 
-% \subsection*{Dealing with wrong variance}
-% \begin{figure}[H]%
+
+%  \begin{figure}[H]
 %     \centering
-%     {\includegraphics[width=0.46\textwidth]{Pictures/mixture_regression_variance_problem1.pdf} }%
+%     {\includegraphics[width=0.46\textwidth]{Pictures/1D_mixture_regression_Naive GMR_N_10.pdf} }%
 %     \qquad
-%    {\includegraphics[width=0.46\textwidth]{Pictures/mixture_regression_variance_problem2.pdf} }%
-%    \qquad
-%    {\includegraphics[width=0.46\textwidth]{Pictures/mixture_regression_variance_problem3.pdf} }%
-%    \caption{EI improvement might in this case be stucked at the point 0,
-%     since the conditional distribution is normalized by $p(x)$ and therefore not
-%     influenced by the amount of data}%
-%     \label{MixtureReg_challenge}%
+%    {\includegraphics[width=0.46\textwidth]{Pictures/1D_mixture_regression_Naive GMR_N_100.pdf} }%
+%     \caption{Example of Naive GMR with prior. When data is observed $\alpha := \frac{S(x)}{S(x)+1}$ gets close
+%     to 1 and the likehood is dominant.}
 % \end{figure}
 
 
-% <variance manipulation>
-% <Expected improvement manipulation>
+\section{Kernel estimator regression}
+Placing a Gaussian around all data points.
+
+\section{Gaussian mixture regression}
+Taking a convex combination of a set of multivariate Gaussian distributions is a Gaussian mixture
+model
+$$p(z) = \sum_{k=1}^K \pi_k \mathcal{N}(z|\mu_k, \Sigma_k)$$  
+Defining $z := (x,y)$ we can model our data, as a generative model $p(x,y)$, 
+$$p(x,y)= \sum_{k=1}^K \pi^{(k)} \mathcal{N}(x,y|\mu^{(k)},\Sigma^{(k)}), 
+\hspace{1cm} \mu^{(k)}=\begin{bmatrix}
+    \mu^{(k)}_x \\ \mu^{(k)}_y
+\end{bmatrix},\hspace{0.1cm} \Sigma^{(k)} = \begin{bmatrix}
+    \Sigma^{(k)}_{xx} & \Sigma^{(k)}_{xy}\\ \Sigma^{(k)}_{yx}& \Sigma^{(k)}_{yy}
+\end{bmatrix}$$
+This is trained using the EM algorithm. We will now show how the conditional is
+calculated exact. 
+\subsection{GMR - prediction}
+We will now formulate the conditial distribution in terms of conditional and marginals of
+the individual mixture components. First of all the marginal distribution $p(x)$ 
+of the mixture is given as,
+\begin{align*}
+    p(x) &= \int p(x,y) dy \\
+    &=\sum_{k=1}^K \pi^{(k)} \int \mathcal{N}(x,y|\mu^{(k)},\Sigma^{(k)}) dy\\
+    &=\sum_{k=1}^K \pi^{(k)} \mathcal{N}(x|\mu_{x}^{(k)},\Sigma_{xx}^{(k)})
+\end{align*}
+next the joint distribution can be decomposed with the probability chain rule,
+\begin{align*}
+    p(x,y) &= p(x)p(y|x)\\
+    \implies \hspace{1cm} \mathcal{N}(x,y|\mu,\Sigma) &= 
+    \mathcal{N}(x|\mu_{x},\Sigma_{xx}) \mathcal{N}(y|\mu_{y|x},\Sigma_{y|x})
+\end{align*} 
+And we can formulate the conditional in terms of individual multivariate Gaussians, 
+
+\begin{align}
+    p(y|x) &= \frac{p(y,x)}{p(x)}\\
+    &= \sum_{k=1}^K \frac{\pi^{(k)}}{p(x)} \mathcal{N}(x,y|\mu^{(k)},\Sigma^{(k)})\\
+    &=  \sum_{k=1}^K \frac{\pi^{(k)} \mathcal{N}(x|\mu_{x}^{(k)},\Sigma_{xx}^{(k)})}{p(x)}\mathcal{N}(y|\mu_{y|x}^{(k)},\Sigma_{y|x}^{(k)})\\
+    &=  \sum_{k=1}^K \pi_{y|x}^{(k)} p(y|x,\mu_{y|x}^{(k)},\Sigma_{y|x}^{(k)})
+\end{align}
+
+where $\pi_{y|x}^{(k)} := \frac{\pi^{(k)} \mathcal{N}(x|\mu_{x}^{(k)},\Sigma_{xx}^{(k)})}
+{\sum_{i=1}^K \mathcal{N}(x|\mu_{x}^{(i)},\Sigma_{xx}^{(i)})}$. So we see that 
+the conditional of a Gaussian mixture model is again a Gaussian mixture model.
 
 
-% \section{Mixture regression in a Bayesian setting}
-% As seen in examples. The uncertainty of conditional distribution is way too certain
-% in areas with no data points, therefore we need to enhance the model with some bayesian 
-% flavour. 
-
-% $$p(y|x,\mathcal{D}) = p(y|x,Z)p(Z|x)$$
-
-
-
-% \subsection*{Expetation-maximization algorithm}
-% A way to find local maxima in the likehood function is using the EM algorithm. 
-
-% If we define a latent/hiddem random variabel $Z_i \in \{1,\dots, K\}$ for each data point, then 
-% the likelihood function becomes, 
-% $$L(\theta|\mathcal{D}, Z) = \prod_{i=1}^n \sum_{k=1}^K 1(Z_i = k) \pi_k \mathcal{N}(z_i|\mu_k, \Sigma_k)$$
-
-% Now the expectation wrt. the current value $p(Z|\mathcal{D}, \theta^k)$ is given as 
-% $$Q(\theta|\theta^k) = \mathcal{E}_{p(Z|\mathcal{D}, \theta^k)}=L(\theta|\mathcal{D}, Z) $$
-
-% And then update the next parameter estimate with
-% $$\theta^{k+1} = \arg \max_{\theta} Q(\theta|\theta^k)$$
-
-% This is repeated untill convergence. 
+\begin{testexample2}[Conditional og multivariate Gaussian]
+    The conditional distribution is defined as \cite{bishop} ..?
+    $$p(y|x,\mu, \Sigma) = \mathcal{N}(y|\mu_{y|x},\Sigma_{y|x} )\hspace{1cm} \mu=\begin{bmatrix}
+        \mu_x \\ \mu_y
+    \end{bmatrix},\hspace{0.1cm} \Sigma = \begin{bmatrix}
+        \Sigma_{xx} & \Sigma_{xy}\\ \Sigma_{yx}& \Sigma_{yy}
+    \end{bmatrix}$$ 
+    where 
+    \begin{align}
+        \mu_{y|x} &= \mu_y+\Sigma_{yx}\Sigma_{xx}^{-1}(x-\mu_x)\\
+        \Sigma_{y|x} &= \Sigma_{yy}-\Sigma_{yx}\Sigma_{xx}^{-1}\Sigma_{xy} 
+    \end{align}
+    
+\end{testexample2}
 
 
 \section{Sum product networks}
-Sum-product networks(SPN) are generative models, i.e. statistical models of the joint distribution $p(x,y)$. 
-We need, however, a disciminative model for regression, i.e. 
-a model of the conditional distribution $p(y|x)$. 
-SPNs allow for exact inference of the joint distribution 
-and any marginalized distribution. These combined queries is sufficient for the
-exact predictive posterior. 
 
 
 \subsection{SPN is a mixture model}
@@ -313,7 +362,6 @@ defines SPN as a mixture of all sub-networks of an SPN.
     \EndIf
     %\For{$i \in I_{o}$}
     \If{$i\in \mathcal{S}um(S)$}
-       %\State $S_z =S_z \cup \{j \in ch(i)\}$ \Comment{include one child of node $i$}
         \State $S_z =S_z.add(j \in ch(i))$ \Comment{include one child of node $i$}
         \State $\textbf{return: } \text{Process}(j, S_z)$
     \EndIf
@@ -331,7 +379,7 @@ defines SPN as a mixture of all sub-networks of an SPN.
 So we see that at each sum node the number of different sub-networks multiplies with the number of children for that
 sum node. And thereby, the total number of sub-networks is
  $$Z = \prod_{i\in \mathcal{S}um(S)}|ch(i)|$$ 
- i.e. an exponential large amount of sub-networks. This is the amount of
+ i.e. an exponentially large amount of sub-networks. This is the amount of
  mixture components implicitly defined in an SPN. 
  Denote the set of edges in the sub-network $\mathcal{E}(S_z)$.
 Now the we define a mixture coeficient, $\lambda_z$ and component for each $S_z$ as 
@@ -352,259 +400,11 @@ instead there is a proposition.
     \frac{\partial S}{\partial v(q)} v(i)$$
 \end{proposition}
 
-\subsection{Expectation-maximization for mixture models}
-Mixture models can be seen as probibalistic graphical models, <fig> there one mixture component is
-picked according to the realization of a catagorical variable $\textbf{Z}$ with parameters according
-the the mixture weights, i.e we can reformelate, 
-\begin{align}\label{mixture_pdf}
-    p(x) &= \sum_{k=1}^K w_k p_k(x)\\
-   \iff \hspace*{1cm} p(x) &= p_z(x), \hspace*{0.5cm} z \sim Cat(w_i, \dots, w_K).
-\end{align}
-In fact $p_z(x)$ is a conditial distribution, $p(x|z)$, and combined with the distribution
-of $Z$ we can define the joint 
-$$p(x,z):=p_z(x)p(z)$$
-The the case of a statistical model, data $\mathcal{D}$ is fitted by the mixture model 
-by tuning the model parameters $\theta = \{w, \text{paramers for} p_i\}$. Then the joint
-distribtuion $p(\mathcal{D},z| \theta)$ is refered as the \textit{complete-data} likehood in the EM algorithm. 
-$$p(\mathcal{D},z|\theta):=p(\mathcal{D}|z,\theta)p(z|\theta)$$ 
-When fitting model parameters we essentially want to find the parameters, that maximize the probability of
-the parameters given the data, $p(\theta|\mathcal{D})$. Assuming an
-unimformative/flat prior $p(\theta)$, 
-\begin{align*}
-p(\theta|\mathcal{D})&= \frac{p(\mathcal{D}|\theta)p(\theta)}{p(\mathcal{D})}\\
-\Rightarrow  \arg\max_{\theta} p(\theta|\mathcal{D}) &= \arg\max_{\theta} p(\mathcal{D}|\theta)
-\end{align*}
-we arrive at the maximum likelihood estimate (MLE). The task of finding the MLE is conviniently
-done using EM algorithm, since we can look at the likehood as the marginalized
-\textit{complete-data} likehood, 
-$$p(\mathcal{D}|\theta) = \sum_z p(\mathcal{D}, z|\theta)$$
-
-%(Note that this statement true accoring to Theorem 2.1. in \cite{gupta2011theory}). 
-
-\begin{testexample2}[Expectation-maximization EM <based on \cite{bishop}]
-    Expectation maximization is a convinient method for finding ML (or MAP) estimate of a 
-    latent variable model. We consider a probibalistic model paramitised with $\theta$, 
-    $$p(\textbf{X}, \textbf{Z}|\theta)$$ where we denote all latent variables \textbf{Z}, and
-    observed variables \textbf{X}. Our goal is to find the maximum of the likehood, 
-    $$p(\textbf{X}|\theta) = \int p(\textbf{X}, \textbf{Z}| \theta) \mu(d\textbf{Z})$$
-    maximizating the likehood itself $p(\textbf{X}|\theta)$ is assumed dificult 
-    but maximizating of the \textit{complete-data} likehood $p(\textbf{X}, \textbf{Z}|\theta)$
-    is much easier. The algorithm iterates over two steps: The expecation (E) step and the maximization (M) step, 
-    defined in the following way for iteration $t$, 
-    
-    \textbf{E-step}
-
-    Define the functional $Q(\theta,\theta^{(t)})$, to be the expected value of the complete-data 
-    log likehood (log likehood function of $\theta$), with respect to the only random quantaty $\textbf{Z}$,
-    which is assumed to follow a distribtuion with the density $p(\textbf{Z}|\textbf{X}, \theta^{(t)})$,
-    i.e. the conditional distribution of \textbf{Z} given \textbf{X} and the current parameter point estimate
-    $\theta^{(t)}$: 
-    $$Q(\theta,\theta^{(t)}) := E_{p(\textbf{Z}|\textbf{X}, \theta^{(t)})}[\log p(\textbf{X}, \textbf{Z}|\theta)]$$
-
-    \textbf{M-step}
-
-    After the E-step we find the point estimate $\theta^{(t+1)}$ which maximizes $Q(\cdot|\theta^{(t)})$, i.e.
-    $$\theta^{(t+1)} = \arg\max_{\theta} Q(\theta|\theta^{(t)})$$
-
-    \begin{algorithm}[H]
-        \caption*{(local) maximization of $p(\mathcal{D}|\theta)$}\label{EM}
-        \begin{algorithmic}
-        \State \textbf{Input:} dataset $\mathcal{D}$, joint model $p(\mathcal{D}, \textbf{Z}|\theta)$
-        \While{Not converged}
-            \State $Q(\cdot, \theta^{(t)}) \gets E_{p(\textbf{Z}|\mathcal{D}, \theta^{(t)})}[\log p(\mathcal{D}, \textbf{Z}|\cdot)]$ \Comment{E-step}
-            \State $\theta^{(t+1)} \gets \arg\max_{\theta} Q(\theta|\theta^{(t)})$ \Comment{M-step}
-        \EndWhile
-        \State $\textbf{return: } \theta^{(end)}$
-    \end{algorithmic}
-    \end{algorithm}
-
-    \textbf{Proof of correctness} 
-    
-    We will now give a short proof that maximizing $Q(\cdot|\theta^{(t)})$ maximizes the likelihood
-    $p(\textbf{X}|\theta)$, where we assume that $\textbf{Z}$ is a random vector with a discrete
-    distribution. This allow us to use Gibbs inequality: 
-    $$\sum_z p_1(z) \log p_1(z) \geq \sum_z p_1(z) \log p_2(z)$$ where $p_1(\cdot)$ and $p_2(\cdot)$
-    are densities belonging to two discrete distributions of $Z$, equality if $p_1(\cdot) =
-    p_2(\cdot)$. From now on we will alter the subscript on the expecations, just have in mind that
-    $$E_{\theta^{(t)}}[g(Z)]:=E_{p(\textbf{Z}|\textbf{X}, \theta^{(t)})}[g(Z)] = \sum_z g(z)
-    p(\textbf{z}|\textbf{X}, \theta^{(t)})$$ 
-    Now to the proof: From bayes rule $p(\textbf{X}|\theta) =
-    \frac{p(\textbf{X}, \textbf{Z})}{p(\textbf{X})}$ we can write
-    $$\log p(\textbf{X}|\theta) = \log p(\textbf{X}, \textbf{Z}) - \log p(\textbf{Z}|\textbf{X},\theta)$$
-    Now, taking the expecation of the above w.r.t. $p(\textbf{Z}|\textbf{X}, \theta^{(t)})$,
-    yields,
-    \begin{align*}
-        \log p(\textbf{X}|\theta)  &= E_{\theta^{(t)}}[\log p(\textbf{X}, \textbf{Z}|\theta)]
-        -  E_{\theta^{(t)}}[\log p(\textbf{Z}|\textbf{X},\theta)]\\
-        &= Q(\theta,\theta^{(t)})+ E_{\theta^{(t)}}[\log p(\textbf{Z}|\textbf{X},\theta)]
-    \end{align*} 
-    Since the above equation holds for any $\theta$, it also holds for $\theta^{(t)}$
-    now we have, 
-    $$\log p(\textbf{X}|\theta^{(t)}) = Q(\theta^{(t)},\theta^{(t)})+ E_{\theta^{(t)}}[\log
-    p(\textbf{Z}|\textbf{X},\theta^{(t)})]$$ 
-    Subtracting the two equations, we get,  
-    $$\log p(\textbf{X}|\theta) - \log p(\textbf{X}|\theta^{(t)}) = Q(\theta,\theta^{(t)})
-    -Q(\theta^{(t)},\theta^{(t)})+ E_{\theta^{(t)}}[\log p(\textbf{Z}|\textbf{X},\theta)]-
-    E_{\theta^{(t)}}[\log p(\textbf{Z}|\textbf{X},\theta^{(t)})]$$ 
-    From Gibb's inequality we have
-    that $E_{\theta^{(t)}}[\log p(\textbf{Z}|\textbf{X},\theta^{(t)})]\leq E_{\theta^{(t)}}[\log
-    p(\textbf{Z}|\textbf{X},\theta)]$ where equality only holds for $\theta^{(t)} = \theta$, giving
-    \begin{align*}
-        \log p(\textbf{X}|\theta) - \log p(\textbf{X}|\theta^{(t)}) \geq 
-    Q(\theta,\theta^{(t)})
-    -Q(\theta^{(t)},\theta^{(t)})
-    \end{align*}
-    so optimizing $Q(\theta,\theta^{(t)})$ will optimize
-    $\log p(\textbf{X}|\theta) $ as least as much.
-\end{testexample2}
-
- \subsection*{EM for Gaussian mixture}
- For a Gaussian mixture the $p_k$ distributions in \eqref{mixture_pdf} is substituted by Gaussain pdfs, 
- i.e. $p_k(x) = \mathcal{N}(x| \mu_k , \Sigma_k)$
- and the density of a catagorical distribution is $p(z) = \sum_{k=1}^K 1_{z=k} w_k = w_z$, combining the two
- we get the joint distribution, 
- $$p(x,z|w,\mu , \Sigma) = w_z \mathcal{N}(x| \mu_z , \Sigma_z)$$
-
- Taking the log and defning $\theta = \{\mu_1 , \Sigma_1,w_1, \dots, \mu_K , \Sigma_K, w_K\}$, and assuming iid data
- $$\log p(X,Z| \theta) = \sum_{i}^n \left(\log(w_{z_i})+\log(\mathcal{N}(x_i| \mu_{z_i} , \sigma_{z_i}))\right)$$
-
-Now we are ready to calculate $Q(\theta, \theta^{(t)})$, by taking the expectation of the complete-data log likehood
-with respect to the distribution, $p(Z|X, \theta)$, 
-\begin{align*}
-    E_{p(Z|X,  \theta^{(t)})}[\log p(X,Z| \theta)] &=\sum_{i}^n  E_{p(Z|X,  \theta^{(t)})}[p(X_i,Z_i| \theta) ]\\
-    &=\sum_{i}^n  E_{p(z_i|x_i,  \theta^{(t)})}[p(x_i,z_i| \theta) ]
-\end{align*}
-
-\begin{tcolorbox}[
-    sharp corners,
-    boxrule=0mm,
-    enhanced,
-    borderline west={4pt}{0pt}{gray},
-    colframe=drGray,
-    colback=drGray,
-    coltitle=black,
-]
-{\large \textbf{Expectation with repect to unnecessary variables}}\\
-the last equation holds since taking expecation over a function of a random variable $x$ with respect to a that random
-variable and more random variabels, $x,y$, is equivalent to the expecation with respect to just $x$, i.e. 
-\begin{align*}
-    E_{x,y}[g(x)] &= \int\int g(x) p(x,y) dy dx\\
-     &= \int g(x) \int p(x,y) dy dx \\
-    &= \int g(x) p(x) dy = E_x[g(x)]
-\end{align*}
-\end{tcolorbox}
-
-the posterior distribution is calculated the following way,
-\begin{align*}
-    p(z|x, \theta^{(t)}) &= \frac{p(x,z|\theta^{(t)})}{p(x|\theta^{(t)})} \\
-    &= \frac{p(x,z|\theta^{(t)})}{\sum_{z} p(x,z|\theta^{(t)})}\\
-    &= \frac{w_z^{(t)} \mathcal{N}(x|\mu_z^{(t)}, \Sigma_z^{(t)})}{\sum_{k=1}^K w_k^{(t)} 
-    \mathcal{N}(x|\mu_k^{(t)}, \Sigma_k^{(t)})}
-\end{align*}
-For simplificaiton we will denote, $\gamma^{(t)}(z_i) := p(z_i|x_i, \theta^{(t)})$, 
-interpreted as the probability of datapoint $x_i$ to belong to class $z_i$. Bishop \cite*{bishop}
-calls this probability function the \textit{responsibility}. We can now conclude the \textbf{E-step}.
-
-\begin{align*}
-    Q(\cdot, \theta^{(t)}) &= \sum_{i=1}^n p(x_i,z_i|\cdot) \gamma^{(t)}(z_i) \\
-    &= \sum_{i=1}^n \left[ \gamma^{(t)}(z_i) \log(\cdot_{z_i})+\gamma^{(t)}(z_i) 
-    \log(\mathcal{N}(x_i| \cdot_{z_i} , \cdot_{z_i}))\right]
-\end{align*}
-or more concretely $\theta = \{\mu_1 , \Sigma_1,w_1, \dots, \mu_K , \Sigma_K, w_K\}$, 
-$$ Q(\theta, \theta^{(t)}) = \sum_{i=1}^n \gamma^{(t)}(z_i) \log(w_{z_i})+\gamma^{(t)}(z_i) \log(\mathcal{N}(x_i| \mu_{z_i} , \Sigma_{z_i})).$$
-$Q(\cdot, \theta^{(t)})$ is a concave function - the Gaussian is log-concave and a sum of concave functions is 
-also concave - so it is sufficient and nessesary to find its maxima by the root of its derivative, 
-$$\frac{d}{d \theta} Q(\theta^*, \theta^{(t)}) = 0 \iff \theta^* = \arg\max_{\theta} Q(\theta, \theta^{(t)})$$
-
-Giving the updates...
-
-\subsection*{EM for SPN}
-
-
-% and a normal evaluation of $p(x,y|w_{old}, \theta_{old})$ combined in Bayes rule we obtain
-% $$p(z|x,y,w_{old},\theta_{old}) = \frac{p(z,x,y|w_{old},\theta_{old})}{p(x,y|w_{old},
-% \theta_{old})} = \frac{\lambda_z(w_{old})p_z(x,y|\theta_{old})}{p(x,y|w_{old}, \theta_{old})} $$
-
-% and we have the expecation for the EM-algorithm, 
-% $$Q(\pi, \pi_{old}) = \sum_{n=1}^N \sum_{z=1}^Z p(z|xy_n, \pi_{old}) \ln p(z,xy_n|\pi)$$
-
-\section{Kernel estimator regression}
-Placing a Gaussian around all data points.
-
-\section{Gaussian mixture regression}
-Taking a convex combination of a set of multivariate Gaussian distributions is a Gaussian mixture model
-$$p(z) = \sum_{k=1}^K \pi_k \mathcal{N}(z|\mu_k, \Sigma_k)$$  
-Defining $z := (x,y)$ we can model our data, as a generative model $p(x,y)$, now, since the conditonal 
-of a Gaussain mixture again is Gaussain mixture - i.e. closed form expression, we can exactly calculate
-$p(y|x) = GMM_{y|x}$
-
-Assuming iid data the likelihood is given as 
-$$p(\mathcal{D}|\mu_1, \dots, \mu_K, \Sigma_1, \dots, \Sigma_K, \pi_1, \dots, \pi_K) = \prod_{i=1}^n \sum_{k=1}^K \pi_k \mathcal{N}(z_i|\mu_k, \Sigma_k)$$
-And the log likelihood, 
-$$\log p(\mathcal{D}| ..) = \sum_{i=1}^n \log \sum_{k=1}^K \pi_k \mathcal{N}(z_i|\mu_k, \Sigma_k)$$
-
-
-\subsection{Gaussian Mixture Regression}
-The Gaussian mixture is a generative model of the joint probability of $x$ and $y$ given as, 
-$$p(x,y)= \sum_{k=1}^K \pi^{(k)} \mathcal{N}(x,y|\mu^{(k)},\Sigma^{(k)}), 
-\hspace{1cm} \mu=\begin{bmatrix}
-    \mu_x \\ \mu_y
-\end{bmatrix},\hspace{0.1cm} \Sigma = \begin{bmatrix}
-    \Sigma_{xx} & \Sigma_{xy}\\ \Sigma_{yx}& \Sigma_{yy}
-\end{bmatrix}$$
-This is trained using the EM algorithm. We will now show how the conditial is
-calculated exact. 
-\subsection{GMR - prediction}
-We need the conditional distribution of the Gaussian mixture
-in order to get the predictive distribution. We will now formulate
-the conditial distribution in terms of conditional and marginals of
-the individual mixture components. First of all the marginal distribution $p(x)$ 
-of the mixture is given as, \todo{How??!}
-$$p(x) = \sum_{k=1}^K \mathcal{N}(x|\mu_{x}^{(k)},\Sigma_{xx}^{(k)})$$ 
-next the joint distribution can be decomposed with the probability chain rule,
-\begin{align*}
-    p(x,y) &= p(x)p(y|x)\\
-    \implies \hspace{1cm} \mathcal{N}(x,y|\mu,\Sigma) &= 
-    \mathcal{N}(x|\mu_{x},\Sigma_{xx}) \mathcal{N}(y|\mu_{y|x},\Sigma_{y|x})
-\end{align*} 
-And we can formulate the conditial in terms of individual multivariate Gaussians, 
-
-\begin{align}
-    p(y|x) &= \frac{p(y,x)}{p(x)}\\
-    &= \sum_{k=1}^K \frac{\pi^{(k)}}{p(x)} \mathcal{N}(x,y|\mu^{(k)},\Sigma^{(k)})\\
-    &=  \sum_{k=1}^K \frac{\pi^{(k)} \mathcal{N}(x|\mu_{x}^{(k)},\Sigma_{xx}^{(k)})}{p(x)}\mathcal{N}(y|\mu_{y|x}^{(k)},\Sigma_{y|x}^{(k)})\\
-    &=  \sum_{k=1}^K \pi_{y|x}^{(k)} p(y|x,\mu_{y|x}^{(k)},\Sigma_{y|x}^{(k)})
-\end{align}
-
-where $\pi_{y|x}^{(k)} := \frac{\pi^{(k)} \mathcal{N}(x|\mu_{x}^{(k)},\Sigma_{xx}^{(k)})}
-{\sum_{i=1}^K \mathcal{N}(x|\mu_{x}^{(i)},\Sigma_{xx}^{(i)})}$. So we see that 
-the conditonal of a Gaussian mixture model is again a Gaussian mixture model.
-
-
-\begin{testexample2}[Conditional og multivariate Gaussian]
-    The conditional distribution is defined as \cite{bishop} ..?
-    $$p(y|x,\mu, \Sigma) = \mathcal{N}(y|\mu_{y|x},\Sigma_{y|x} )\hspace{1cm} \mu=\begin{bmatrix}
-        \mu_x \\ \mu_y
-    \end{bmatrix},\hspace{0.1cm} \Sigma = \begin{bmatrix}
-        \Sigma_{xx} & \Sigma_{xy}\\ \Sigma_{yx}& \Sigma_{yy}
-    \end{bmatrix}$$ 
-    where 
-    \begin{align}
-        \mu_{y|x} &= \mu_y+\Sigma_{yx}\Sigma_{xx}^{-1}(x-\mu_x)\\
-        \Sigma_{y|x} &= \Sigma_{yy}-\Sigma_{yx}\Sigma_{xx}^{-1}\Sigma_{xy} 
-    \end{align}
-    
-\end{testexample2}
-
-
-\subsection{GMR - Leaning}
-
-EM-algorithm, classic example. 
 
 
 
-\begin{testexample2}[Crossvalidation]
-??! ok
-\end{testexample2}
+\section{Mixture model training}
+The following section presents the expectation-maximization algorithm, which is used to 
+train the Gaussian mixture model and the SPN. 
 
-\section{Regression analysis}
+\input{Chapters/05_b_EM.tex}

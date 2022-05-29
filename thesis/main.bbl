@@ -70,6 +70,128 @@
       \field{title}{{Bayesian Optimization}}
       \field{year}{2022}
     \endentry
+    \entry{bishop1995neural}{book}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{hash=9dfd0135a5e80aa6d81cea2c10fb7f73}{%
+           family={Bishop},
+           familyi={B\bibinitperiod},
+           given={Christopher\bibnamedelima M},
+           giveni={C\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Oxford university press}%
+      }
+      \strng{namehash}{f88a0a2cdc26d020db05dd0d5d23eb0c}
+      \strng{fullhash}{f88a0a2cdc26d020db05dd0d5d23eb0c}
+      \strng{bibnamehash}{f88a0a2cdc26d020db05dd0d5d23eb0c}
+      \strng{authorbibnamehash}{f88a0a2cdc26d020db05dd0d5d23eb0c}
+      \strng{authornamehash}{f88a0a2cdc26d020db05dd0d5d23eb0c}
+      \strng{authorfullhash}{f88a0a2cdc26d020db05dd0d5d23eb0c}
+      \field{sortinit}{5}
+      \field{sortinithash}{5dd416adbafacc8226114bc0202d5fdd}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Neural networks for pattern recognition}
+      \field{year}{1995}
+    \endentry
+    \entry{ALStatisticalModels}{article}{}
+      \name{author}{3}{}{%
+        {{hash=b460caff4b3222f7485caa46a266c47d}{%
+           family={Cohn},
+           familyi={C\bibinitperiod},
+           given={David\bibnamedelima A.},
+           giveni={D\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=bf5cf30deddddad00a6341ad7a414445}{%
+           family={Ghahramani},
+           familyi={G\bibinitperiod},
+           given={Zoubin},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=8a36116840c7ee55901618c95fd08a58}{%
+           family={Jordan},
+           familyi={J\bibinitperiod},
+           given={Michael\bibnamedelima I.},
+           giveni={M\bibinitperiod\bibinitdelim I\bibinitperiod}}}%
+      }
+      \strng{namehash}{681419a12d2d1b6bc8e351ac1b930464}
+      \strng{fullhash}{681419a12d2d1b6bc8e351ac1b930464}
+      \strng{bibnamehash}{681419a12d2d1b6bc8e351ac1b930464}
+      \strng{authorbibnamehash}{681419a12d2d1b6bc8e351ac1b930464}
+      \strng{authornamehash}{681419a12d2d1b6bc8e351ac1b930464}
+      \strng{authorfullhash}{681419a12d2d1b6bc8e351ac1b930464}
+      \field{sortinit}{6}
+      \field{sortinithash}{7851c86048328b027313775d8fbd2131}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{CoRR}
+      \field{title}{Active Learning with Statistical Models}
+      \field{volume}{cs.AI/9603104}
+      \field{year}{1996}
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/cs/9603104
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/cs/9603104
+      \endverb
+    \endentry
+    \entry{JordanPaper}{inproceedings}{}
+      \name{author}{2}{}{%
+        {{hash=bf5cf30deddddad00a6341ad7a414445}{%
+           family={Ghahramani},
+           familyi={G\bibinitperiod},
+           given={Zoubin},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=5010abb47d34a51acdafb266a811dc5f}{%
+           family={Jordan},
+           familyi={J\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod}}}%
+      }
+      \name{editor}{3}{}{%
+        {{hash=5222a1f0b1b628de15db272c42d48d3d}{%
+           family={Cowan},
+           familyi={C\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod}}}%
+        {{hash=e99ea83bf0b2aa481e8339676e479945}{%
+           family={Tesauro},
+           familyi={T\bibinitperiod},
+           given={G.},
+           giveni={G\bibinitperiod}}}%
+        {{hash=2c8f544b6de560764fbe2cf8df6d4d3a}{%
+           family={Alspector},
+           familyi={A\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Morgan-Kaufmann}%
+      }
+      \strng{namehash}{d13ec063e91786997e597805b34eb2ef}
+      \strng{fullhash}{d13ec063e91786997e597805b34eb2ef}
+      \strng{bibnamehash}{d13ec063e91786997e597805b34eb2ef}
+      \strng{authorbibnamehash}{d13ec063e91786997e597805b34eb2ef}
+      \strng{authornamehash}{d13ec063e91786997e597805b34eb2ef}
+      \strng{authorfullhash}{d13ec063e91786997e597805b34eb2ef}
+      \strng{editorbibnamehash}{d4ecbd8dc23b451509557359f0492bea}
+      \strng{editornamehash}{d4ecbd8dc23b451509557359f0492bea}
+      \strng{editorfullhash}{d4ecbd8dc23b451509557359f0492bea}
+      \field{sortinit}{7}
+      \field{sortinithash}{f615fb9c6fba11c6f962fb3fd599810e}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Advances in Neural Information Processing Systems}
+      \field{title}{Supervised learning from incomplete data via an EM approach}
+      \field{volume}{6}
+      \field{year}{1993}
+      \verb{urlraw}
+      \verb https://proceedings.neurips.cc/paper/1993/file/f2201f5191c4e92cc5af043eebfd0946-Paper.pdf
+      \endverb
+      \verb{url}
+      \verb https://proceedings.neurips.cc/paper/1993/file/f2201f5191c4e92cc5af043eebfd0946-Paper.pdf
+      \endverb
+    \endentry
     \entry{bishop}{book}{}
       \name{author}{2}{}{%
         {{hash=9dfd0135a5e80aa6d81cea2c10fb7f73}{%
@@ -92,8 +214,8 @@
       \strng{authorbibnamehash}{777504ebb73f750912508fc1b666e109}
       \strng{authornamehash}{777504ebb73f750912508fc1b666e109}
       \strng{authorfullhash}{777504ebb73f750912508fc1b666e109}
-      \field{sortinit}{6}
-      \field{sortinithash}{7851c86048328b027313775d8fbd2131}
+      \field{sortinit}{8}
+      \field{sortinithash}{1b24cab5087933ef0826a7cd3b99e994}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{number}{4}
