@@ -10,24 +10,25 @@ $$p(y|x) = \frac{p(x,y)}{p(x)}$$ and can be interpreted as a slice of the joint 
 $p(x,y)$ for a fixed value of $x$, but normalized with $p(x) = \int p(x,y) dy$. So even if there is
 a very small probability of the data, the conditional probability $p(y|x)$ gets artificially certain
 in the case of Gaussian mixtures. We, therefore, need to introduce a prior distribution for $y$,
-which will take over in areas for no data, i.e. small $p(x)$. This is discussed in section
+which will take over in areas for no data, i.e. small $p(x)$. This is discussed in section \ref{mixture_include_prior}.
 %\ref{...}
 
 Using generative models as regression models is not used much in the literature. Using the
 conditional of a Gaussian mixture model (or kernel estimator) for regression has been discussed
-briefly in \cite{bishop1995neural} and using kernel estimator \cite{ALStatisticalModels} for active
-learning. According to these sources, the good reasons for using the mixtures for regression are
-that they can be used to represent any relations between the variables, e.g. $p(y|x)$ or $p(x|y)$.
-They are both applicable in supervised and unsupervised ml. And they are good at dealing with
-incomplete data, i.e. missing values in the data set. \cite{JordanPaper}. However is it a hyposesis
-that it will allow for an expressive surrogate model, allowing for dealing with complex BO tasks,
-as they do not assume continuity.. In this thesis we will first look at the most simple approach
-to a generative model, i.e. putting an equally weighted Gaussian mixture component on each data point. 
-This is also referred to as a kernel estimator (some might know then from doing kde-plots/estimating a distribution
-from data), but with a twist of including a prior distribution to it. Next, we look at the more intelligent
-models, Gaussian mixture models, which hopefully can capture some correlations between the variables. 
-And finally, we look at the more complicated sum-product networks, which introduce a generalization element
-and have a flavor of a neural network. To summarize, the mixture regression models are:
+briefly in \cite{bishop1995neural} and using kernel estimator \cite{ALStatisticalModels} and
+\cite{JordanPaper} for active learning. According to these sources, the good reasons for using the
+mixtures for regression are that they can be used to represent any relations between the variables,
+e.g. $p(y|x)$ or $p(x|y)$. They are both applicable in supervised and unsupervised machine learning.
+And they are good at dealing with incomplete data, i.e. missing values in the data set <change
+this>. It is our hyposesis that it will allow for an expressive surrogate model, which competently
+can deal with complex BO tasks, as they do not assume continuity. In this thesis we will first look
+at the most simple approach to a generative model, i.e. putting an equally weighted Gaussian mixture
+component on each data point. This is also referred to as a kernel estimator (some might know this 
+from kde-plots/estimating a distribution from data), but with a twist of including a prior
+distribution to it. Next, we look at the more intelligent models, Gaussian mixture models, which
+hopefully can capture some correlations between the variables. And finally, we look at the more
+complicated sum-product networks, which introduce a generalization element and have a flavor of a
+neural network. To summarize, the mixture regression models are:
 
 \begin{itemize}
      \item Naive Gaussian mixture regression (Kernel estimator regression),
@@ -35,7 +36,7 @@ and have a flavor of a neural network. To summarize, the mixture regression mode
      \item Sum-product networks.
  \end{itemize}
 
- \section{"Bayesianizing" conditional distribution}
+ \section{Conditional distribution in a Bayesian setting}\label{mixture_include_prior}
  \input{Chapters/05_a_prior_inclusion.tex}
 
 
@@ -50,22 +51,46 @@ and have a flavor of a neural network. To summarize, the mixture regression mode
 
 
 \section{Kernel estimator regression}
-Placing a Gaussian around all data points.
+Maybe the most simple mixture model one could think about is to put a small variance Gaussian mixture
+component around all data points and weight all the components equally. So for $n$ datapoints,
+$\{(x_i,y_i)\}_{i=1}^n$, the generative model is given as, 
+
+$$p(x,y) = \frac{1}{N} \sum_{i=1}^n \mathcal{N}\left(\begin{bmatrix}x\\y\end{bmatrix} |
+\begin{bmatrix}x_i\\y_i\end{bmatrix}, \sigma^2 I \right) = \frac{1}{N} \sum_{i=1}^n 
+\mathcal{N}(x|x_i, \sigma^2)\mathcal{N}(y|y_i, \sigma^2) $$
+where $\sigma^2$ is refered as the bandwidth, when the literature refers to the above as a kernel estimator. 
+Small $\sigma^2$ yields a complex model and large $\sigma^2$ yields a simple model. Therefore chosing $\sigma^2$
+just rigth is crucial for a good model. 
+
+\subsection{Conditional distribution}
+The conditional distribution is very simple to calculate; first, we need the marginal distribution
+$$p(x) = \int p(x,y) dy =  \frac{1}{N} \sum_{i=1}^n \mathcal{N}(x|x_i, \sigma^2)  \int
+\mathcal{N}(y|y_i, \sigma^2) dy =  \frac{1}{N} \sum_{i=1}^n \mathcal{N}(x|x_i, \sigma^2)$$
+and then we can calculate the conditional distribution,
+\begin{align*}
+    p(y|x) &= \frac{p(x,y)}{p(x)}\\
+    &=  \frac{\frac{1}{N} \sum_{i=1}^n \mathcal{N}(x|x_i, \sigma^2)\mathcal{N}(y|y_i, \sigma^2)}{ \frac{1}{N} \sum_{j=1}^n \mathcal{N}(x|x_j, \sigma^2)}\\
+    &= \sum_{i=1}^n \gamma_i \mathcal{N}(y|y_i, \sigma^2)
+\end{align*}
+where $\gamma_i = \frac{\mathcal{N}(x|x_i, \sigma^2)}{\sum_{j=1}^n \mathcal{N}(x|x_j, \sigma^2)}$. 
+
 
 \section{Gaussian mixture regression}
-Taking a convex combination of a set of multivariate Gaussian distributions is a Gaussian mixture
-model
-$$p(z) = \sum_{k=1}^K \pi_k \mathcal{N}(z|\mu_k, \Sigma_k)$$  
-Defining $z := (x,y)$ we can model our data, as a generative model $p(x,y)$, 
+Extending the kernel estimator regression with covariance between the variables, only $K \leq N$ components 
+and different weighting on each component, we arrive at a Gaussian mixture model. This conditional of this
+gives the Gaussian mixture regression model. 
+
+We can model our data, as a generative model $p(x,y)$, 
 $$p(x,y)= \sum_{k=1}^K \pi^{(k)} \mathcal{N}(x,y|\mu^{(k)},\Sigma^{(k)}), 
 \hspace{1cm} \mu^{(k)}=\begin{bmatrix}
     \mu^{(k)}_x \\ \mu^{(k)}_y
 \end{bmatrix},\hspace{0.1cm} \Sigma^{(k)} = \begin{bmatrix}
     \Sigma^{(k)}_{xx} & \Sigma^{(k)}_{xy}\\ \Sigma^{(k)}_{yx}& \Sigma^{(k)}_{yy}
 \end{bmatrix}$$
-This is trained using the EM algorithm. We will now show how the conditional is
-calculated exact. 
-\subsection{GMR - prediction}
+where $\sum_{k=1}^K \pi^{(k)} = 1$. The parameters $\left(\Sigma^{(k)}, \pi^{(k)}, \mu^{(k)}\right)_{k=1}^K$
+need to be trained, which is done using the EM algorithm. We will now show how the conditional is
+calculated exactly. 
+\subsection{Conditional distribution}
 We will now formulate the conditial distribution in terms of conditional and marginals of
 the individual mixture components. First of all the marginal distribution $p(x)$ 
 of the mixture is given as,
@@ -106,70 +131,50 @@ the conditional of a Gaussian mixture model is again a Gaussian mixture model.
         \mu_{y|x} &= \mu_y+\Sigma_{yx}\Sigma_{xx}^{-1}(x-\mu_x)\\
         \Sigma_{y|x} &= \Sigma_{yy}-\Sigma_{yx}\Sigma_{xx}^{-1}\Sigma_{xy} 
     \end{align}
-    
 \end{testexample2}
 
 
 \section{Sum product networks}
+%<What is SPN>
+A sum-product network is a mixture model, which allows for exponentially many mixture components, 
+but only with linearly many parameters. Figure \ref{SPN_fig} illustrates how
+simple distributions from two different scopes $x$ and $y$ can be multiplied
+together and define as many mixtures as the product of the numbers of 
+distributions in each scope. In the SPN implementation used in this thesis, 
+the number of distribution in each scope is called the number of channels.  
+
+\begin{figure}[H]%
+    \centering
+    {\includegraphics[width=0.46\textwidth]{Pictures/SPN_illustration1.pdf} }%
+    \qquad
+   {\includegraphics[width=0.46\textwidth]{Pictures/SPN_illustration2.pdf} }%
+    \caption{left: the data lies perfect for the SPN. Right: The data distribution
+    is not suited for SPN}%
+    \label{SPN_fig}%
+\end{figure}
+
+Figure \ref{WeightedSPN} shows that even though we are getting some
+mixture components for free, then they can be turned off or given a small weight
+if no data is present there. 
+
+\begin{figure}[H]
+    \centering
+    {\includegraphics[width=0.46\textwidth]{Pictures/SPN_illustration3.pdf} }%
+    \qquad
+   {\includegraphics[width=0.46\textwidth]{Pictures/SPN_illustration4.pdf} }%
+    \caption{Example of how the weight of each mixture component is turned up and
+    down according the amount of data observed.}
+    \label{WeightedSPN}
+\end{figure}
 
 
-\subsection{SPN is a mixture model}
-We will to a large extend just see SPN as a large mixture model. This is a valid observation. 
 
-%from [@desana]:
-\begin{definition} 
-    A sub-network $\bar S_z$ of $S$ is an SPN, which includes the root $S$ and then includes nodes
-    according to the following recursive scheme: 
-\end{definition}
-\begin{algorithm}[H]
-    \caption*{Collection of sub-network $S_z$ of $S$}\label{SPN4}
-    \begin{algorithmic}
-    %\State \textbf{Global:}  $S_z$ 
-    \Function{Process}{node i, $S_z$}
-    \If{$i \in \mathcal{L}eaf(S)$}
-        \State  $\textbf{return: }$ 
-    \EndIf
-    %\For{$i \in I_{o}$}
-    \If{$i\in \mathcal{S}um(S)$}
-       %\State $S_z =S_z \cup \{j \in ch(i)\}$ \Comment{include one child of node $i$}
-        \State $S_z =S_z.add(j \in ch(i))$ \Comment{include one child of node $i$}
-        \State $\textbf{return: } \text{Process}(j, S_z)$
-    \EndIf
-    \If{$i\in \mathcal{P}rod(S)$}
-        \State $S_z =S_z \cup \{j | j \in ch(i)\}$ \Comment{include all childen of node $i$}
-        \For{$j \in ch(i)$}
-            \State $\textbf{return: } \text{Process}(j,S_z)$
-        \EndFor
-    \EndIf
-    \State $\textbf{return: } S_z$
-    \EndFunction
-    \State $S_z =  \text{Process(root,Ø)}$
-    \end{algorithmic}
-\end{algorithm}
-So we see that at each sum node the number of different sub-networks multiplies with the number of children for that
-sum node. And thereby, the total number of sub-networks is
- $$Z = \prod_{i\in \mathcal{S}um(S)}|ch(i)|$$ 
- i.e. an exponentially large amount of sub-networks. This is the amount of
- mixture components implicitly defined in an SPN. 
- Denote the set of edges in the sub-network $\mathcal{E}(S_z)$.
-Now the we define a mixture coeficient, $\lambda_z$ and component for each $S_z$ as 
-$$\lambda_z := \prod_{(i,j)\in \mathcal{E}(S_z)} w_{i,j}, \hspace{1cm}
-p_z(x,y|\theta) := \prod_{i \in \mathcal{L}(S_z)} p_i(x,y)$$
-where $p_i(x,y)$ is the leaf distribution at leaf node $i$ paramitised with $\theta$. 
-It can now be proven that the SPN can be interpreted as the following mixture model, 
-$$p(x,y|w,\theta) = \sum_{z=1}^Z \lambda_z(w)p_z(x,y|\theta)$$
-i.e. by the weighted sum of all $Z$ sub-networks. For convinience
-we define each sum component as $p(z,x,y|w,\theta) := \lambda_z(w)p_z(x,y|\theta)$.
-Evaluation of $p(x,y|w,\theta)$ will never be done as the sum over $Z$ components, 
-instead there is a proposition. 
-
-\begin{proposition}
-    Consider a SPN, S, a sum node $q \in \mathcal{S}um(S)$ and a child $i \in ch(q)$,
-    then the following relation holds, 
-    $$\sum_{z:(q,i)\in \mathcal{E}(S_z)} \lambda_z(w) p_z(x,y|\theta) = w_{i,q}
-    \frac{\partial S}{\partial v(q)} v(i)$$
-\end{proposition}
-
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{Figures/SPN_graph2.pdf}
+    \caption{The SPN trained in Figure \ref{SPN_fig}. Number of channels are
+    3, giving 9 product nodes, which are weighted in the final sum node.}
+\end{figure}
 
 
 \subsection{Conditional of SPN}
@@ -231,174 +236,6 @@ and the variance is found using the second moment,
     E_{p(y|x)}[y^2] &= \sum_{z \in \Sigma(S)} \gamma(x) \int  y^2 p_{z_y}(y) dy \\
     &= \sum_{z \in \Sigma(S)} \gamma(x) \prod_{l \in \mathcal{L}eaf(z_y)} (Var_{\phi_l}[y]+E_{\phi_l}[y]^2)
 \end{align*}
-
-
-
-SPN is an exponential large mixture model, with linear inference - unlike GMM. !?
-\todo{Write naive bayesian mixture model as a Sum Product Network}
-
-
-This thesis will only work with RAT spn. Which takes combinations of each dimension. and...
-
-
-
-sum nodes play a role of
-mixtures over their children distribution, similar to a classic mixture model
-
-Product
-nodes on the other hand, are equivalent to factorizations over independent distributions as they are
-combining disjoint RVs.
-
-SPNs can also be interpreted as deep feed forward neural network [@vergari]. Here, imagine the
-weights of the sum nodes are parameters, leaf distributions are input neurons, root node is output and
-all other nodes correspond to hidden neurons
-
-
-\begin{figure}[H]%
-    \centering
-    {\includegraphics[width=0.46\textwidth]{Pictures/SPN_illustration1.pdf} }%
-    \qquad
-   {\includegraphics[width=0.46\textwidth]{Pictures/SPN_illustration2.pdf} }%
-    \caption{left: the data lies perfect for the SPN. Right: The data distribution
-    is not suited for SPN}%
-    \label{SPN_fig}%
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    {\includegraphics[width=0.46\textwidth]{Pictures/SPN_illustration3.pdf} }%
-    \qquad
-   {\includegraphics[width=0.46\textwidth]{Pictures/SPN_illustration4.pdf} }%
-    \caption{Example of how the weight of each mixture component is turned up and
-    down according the amount of data observed.}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{Figures/SPN_graph2.pdf}
-\end{figure}
-
-
-\subsection{SPN - prediction}
-Prior to the inference of the predictive distribution, we assume that the SPN, S, is trained, i.e.
-trained leaf distributions $p_j(\cdot)$ for all leaf nodes, 
-$j \in \mathcal{L}eaf(S):=\{j \in \mathcal{V}(S) |pa(j) = \text{Ø}\}$ and
-weights $w_{i,j}$ for the connections between every sum nodes
-$i \in \mathcal{S}$ and its children, $j \in ch(i)$.  
-%The indexes of the nodes, are ordered such that leafs are first, and parents of leafs are next and then the grandparents and so on.
-
-The joint and the marginal distribution are evaluated in the following recursive way
-\begin{algorithm}
-    \caption*{Calculation of $p(x,y)$}\label{SPN_1}
-    \begin{algorithmic}
-    \State \textbf{Input:} Fully trained SPN, with leaf distributions $p_i(\cdot)$ for $i\in \mathcal{L}eaf(S)$ and weigts 
-    $w_{i,j}$ for $(i,j) \in \{(i,j)|i \in \mathcal{S}um(S), j \in ch(i)\}$ 
-    \Function{\text{Eval}}{node i}
-    \If{$i \in \mathcal{L}eaf(S)$}
-        \State  $\textbf{return: } p_i(x,y)$ \Comment{evaluate leaf distributions at point $(x,y)$}
-    \EndIf
-    %\For{$i \in I_{o}$}
-    \If{$i\in \mathcal{S}um(S)$}
-        \State $\textbf{return: } \sum_{j\in ch(i)} w_{i,j} \text{Eval}(j)$
-    \EndIf
-    \If{$i\in \mathcal{P}rod(S)$}
-        \State $\textbf{return: } \prod_{j \in ch(i)} \text{Eval}(j)$
-    \EndIf
-    \EndFunction
-    \State $p(x) =  \text{Eval(root)}$
-    \end{algorithmic}
-\end{algorithm}
-
-\begin{algorithm}[H]
-    \caption*{Calculation of $p(x)$}\label{SPN}
-    \begin{algorithmic}
-    \State \textbf{Input:} Fully trained SPN, with leaf distributions $p_i(\cdot)$ for all leaves $i$ and weigts $w_{\cdot,\cdot}$ 
-    \Function{\text{Eval}}{node i}
-    \If{$i \in \mathcal{L}eaf(S)$} %\Comment{leaf node}
-        \If{node handle x}
-            \State  $\textbf{return: } p_i(x,y)$ \Comment{evaluate leaf distributions at point $(x,y)$}
-        \Else 
-            \State  $\textbf{return: } 1$ \Comment{set node equal 1 at point $(x,y)$}
-        \EndIf
-    \EndIf
-    \If{$i\in \mathcal{S}um(S)$}
-        \State $\textbf{return: } \sum_{j\in ch(i)} w_{i,j} \text{Eval}(j)$
-    \EndIf
-    \If{$i\in \mathcal{P}rod(S)$}
-        \State $\textbf{return: } \prod_{j \in ch(i)} \text{Eval}(j)$
-    \EndIf
-    \EndFunction
-    \State $p(x) =  \text{Eval(root)}$
-    \end{algorithmic}
-\end{algorithm}
-
-So after doing two slightly different forward passes through the SPN, 
-$p(x)$ and $p(x,y)$, using Bayes rule,
-we can combined the two queries into the conditional distribution: 
-$$p(y|x) = \frac{p(x,y)}{p(x)}$$
-The predictive distribution is found with a cost of just $O(E+E+1) = O(E)$, where E is number
-of edges/connections in the SPN. 
-
-\subsection{SPN - learning}
-It is not enouth to do predictive inference on a SPN, we also need to fit it on
-the data. It is possible interpret sum-product network as a large mixture model 
-and therefore use expectation-maximization to train the model. 
-We will introduce that idea now. The Paper \cite{SPN_EM}... %["Learning Arbitrary Sum-Product Network Leaves
-%with Expectation-Maximization"] 
-defines SPN as a mixture of all sub-networks of an SPN.
-
-%from [@desana]:
-\begin{definition} 
-    A sub-network $\bar S_z$ of $S$ is an SPN, which includes the root $S$ and then includes nodes
-    according to the following recursive scheme: 
-\end{definition}
-\begin{algorithm}[H]
-    \caption*{Collection of sub-network $S_z$ of $S$}\label{SPN3}
-    \begin{algorithmic}
-    %\State \textbf{Global:}  $S_z$ 
-    \Function{Process}{node i, $S_z$}
-    \If{$i \in \mathcal{L}eaf(S)$}
-        \State  $\textbf{return: }$ 
-    \EndIf
-    %\For{$i \in I_{o}$}
-    \If{$i\in \mathcal{S}um(S)$}
-        \State $S_z =S_z.add(j \in ch(i))$ \Comment{include one child of node $i$}
-        \State $\textbf{return: } \text{Process}(j, S_z)$
-    \EndIf
-    \If{$i\in \mathcal{P}rod(S)$}
-        \State $S_z =S_z \cup \{j | j \in ch(i)\}$ \Comment{include all childen of node $i$}
-        \For{$j \in ch(i)$}
-            \State $\textbf{return: } \text{Process}(j,S_z)$
-        \EndFor
-    \EndIf
-    \State $\textbf{return: } S_z$
-    \EndFunction
-    \State $S_z =  \text{Process(root,Ø)}$
-    \end{algorithmic}
-\end{algorithm}
-So we see that at each sum node the number of different sub-networks multiplies with the number of children for that
-sum node. And thereby, the total number of sub-networks is
- $$Z = \prod_{i\in \mathcal{S}um(S)}|ch(i)|$$ 
- i.e. an exponentially large amount of sub-networks. This is the amount of
- mixture components implicitly defined in an SPN. 
- Denote the set of edges in the sub-network $\mathcal{E}(S_z)$.
-Now the we define a mixture coeficient, $\lambda_z$ and component for each $S_z$ as 
-$$\lambda_z := \prod_{(i,j)\in \mathcal{E}(S_z)} w_{i,j}, \hspace{1cm}
-p_z(x,y|\theta) := \prod_{i \in \mathcal{L}(S_z)} p_i(x,y)$$
-where $p_i(x,y)$ is the leaf distribution at leaf node $i$ paramitised with $\theta$. 
-It can now be proven that the SPN can be interpreted as the following mixture model, 
-$$p(x,y|w,\theta) = \sum_{z=1}^Z \lambda_z(w)p_z(x,y|\theta)$$
-i.e. by the weighted sum of all $Z$ sub-networks. For convinience
-we define each sum component as $p(z,x,y|w,\theta) := \lambda_z(w)p_z(x,y|\theta)$.
-Evaluation of $p(x,y|w,\theta)$ will never be done as the sum over $Z$ components, 
-instead there is a proposition. 
-
-\begin{proposition}
-    Consider a SPN, S, a sum node $q \in \mathcal{S}um(S)$ and a child $i \in ch(q)$,
-    then the following relation holds, 
-    $$\sum_{z:(q,i)\in \mathcal{E}(S_z)} \lambda_z(w) p_z(x,y|\theta) = w_{i,q}
-    \frac{\partial S}{\partial v(q)} v(i)$$
-\end{proposition}
 
 
 

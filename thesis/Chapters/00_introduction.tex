@@ -91,7 +91,7 @@ problems.
 
 \section{Contribution}
 This thesis investigates surrogate models alternative to GP, more concretely Bayesian NN
-and Mixture regression. The proposed hypotheses are,
+and mixture regression. The proposed hypotheses are,
 \begin{enumerate}
     \item Neural Networks perform better applied to complex BO problems than GPs.
     \item Mixture regression models like SPN can be employed as an effective surrogate model
@@ -112,7 +112,7 @@ it is assumed that the objective function is very expensive, so a slow surrogate
 
 \section{Related work}
 Here we give a short overview of research in different surrogates for Bayesian optimization
-and the very related field active learning. The different surrogate models seen in the 
+and the very related field active learning. The different surrogate models, which are in the 
 research we found, 
 \begin{itemize}
     \item Gaussian Process
@@ -126,11 +126,11 @@ research we found,
 Often the main focus has been on lowering the computational complexity of inference while
 showing performance is (or almost is) as well as GPs. Inference time of the GP scales cubic with the
 number of data points and only linear for Bayesian Neural Network. Lowering the inference time is also the
-main focus of the PhD thesis "Sample-efficient Optimization Using Neural Networks" from 2020
+main focus of the Ph.D. thesis "Sample-efficient Optimization Using Neural Networks" from 2020
 \cite{PhDthesis}, but chapter 3 showcases empirically that using Bayesian neural networks as
 surrogate models performed better, or at least comparable to GPs on a wide number of
 problems. The performance difference was more clear for high-dimensional problems. 
-<mension BOHAMIANN and DNGO>
+<mention BOHAMIANN and DNGO>
 
 The 2021 nature paper "Bayesian optimization with adaptive surrogate models for automated experimental design"
 \cite{Nature_BO_paper}, focus on the sample efficiency of the BO applied to autonomous materials discovery, 
@@ -227,6 +227,7 @@ density function of the random variable $X$ evaluated in $x$. and $p(y|x) := P(Y
 := P(Y|X=x)$. And writing $p(y^2|x)$ means $P(Y^2=y^2|X=x)$ and \textbf{not} $P(Y=y^2|X=x)$
 
 The density of a normal distribution evaluated in $x$ is denoted as, $\mathcal{N}(x|\mu, \Sigma)$. 
+
 We will not distinguish between vectors and scalars notation-wise unless it is not clear from the 
 context. 
 

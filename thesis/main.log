@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  30 MAY 2022 12:37
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  30 MAY 2022 20:46
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1342,15 +1342,7 @@ Package biblatex Info: Automatic encoding selection.
 
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'main.bbl' found.
- (/home/simon/Documents/MasterThesis/master-thesis/thesis/main.bbl
-
-Package biblatex Warning: The following entry could not be found
-(biblatex)                in the database:
-(biblatex)                SPN_EM
-(biblatex)                Please verify the spelling and rerun
-(biblatex)                LaTeX afterwards.
-
-)
+ (/home/simon/Documents/MasterThesis/master-thesis/thesis/main.bbl)
 Package biblatex Info: Reference section=0 on input line 14.
 Package biblatex Info: Reference segment=0 on input line 14.
  (/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
@@ -1519,12 +1511,7 @@ Overfull \hbox (1.85567pt too wide) in paragraph at lines 86--88
 []\TU/TimesNewRoman(0)/m/n/10.95 And the predictive variance is calcualted, using the definition of variance, $\OML/cmm/m/it/10.95 V[]\OT1/cmr/m/n/10.95 [\OML/cmm/m/it/10.95 y\OT1/cmr/m/n/10.95 ] = \OML/cmm/m/it/10.95 E[]\OT1/cmr/m/n/10.95 [\OML/cmm/m/it/10.95 y[]\OT1/cmr/m/n/10.95 ] \OMS/cmsy/m/n/10.95 ^^@
  []
 
-) [23]
-
-LaTeX Font Warning: Font shape `TU/TimesNewRoman(0)/m/sc' undefined
-(Font)              using `TU/TimesNewRoman(0)/m/n' instead on input line 128.
-
-[24] [25] [26]
+) [23] [24]
 File: Pictures/SPN_illustration1.pdf Graphic file (type pdf)
 <use Pictures/SPN_illustration1.pdf>
 File: Pictures/SPN_illustration2.pdf Graphic file (type pdf)
@@ -1533,24 +1520,20 @@ File: Pictures/SPN_illustration3.pdf Graphic file (type pdf)
 <use Pictures/SPN_illustration3.pdf>
 File: Pictures/SPN_illustration4.pdf Graphic file (type pdf)
 <use Pictures/SPN_illustration4.pdf>
- [27]
-File: Figures/SPN_graph2.pdf Graphic file (type pdf)
-<use Figures/SPN_graph2.pdf>
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [28]
-Underfull \vbox (badness 5908) has occurred while \output is active []
-
- [29] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_b_EM.tex [30]
+ [25]
+File: Figures/SPN_graph2.pdf Graphic file (type pdf)
+<use Figures/SPN_graph2.pdf>
+ [26] [27] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_b_EM.tex
 Overfull \hbox (15.32054pt too wide) detected at line 94
 [] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j\OML/cmm/m/it/10.95 ^^R\OT1/cmr/m/n/10.95 ) \OMS/cmsy/m/n/10.95 ^^@ [] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j\OML/cmm/m/it/10.95 ^^R[]\OT1/cmr/m/n/10.95 ) = \OML/cmm/m/it/10.95 Q\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 ^^R; ^^R[]\OT1/cmr/m/n/10.95 ) \OMS/cmsy/m/n/10.95 ^^@ \OML/cmm/m/it/10.95 Q\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 ^^R[]; ^^R[]\OT1/cmr/m/n/10.95 ) + \OML/cmm/m/it/10.95 E[]\OT1/cmr/m/n/10.95 [[] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j[]\OML/cmm/m/it/10.95 ; ^^R\OT1/cmr/m/n/10.95 )] \OMS/cmsy/m/n/10.95 ^^@ \OML/cmm/m/it/10.95 E[]\OT1/cmr/m/n/10.95 [[] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j[]\OML/cmm/m/it/10.95 ; ^^R[]\OT1/cmr/m/n/10.95 )]
  []
 
-[31]
-Underfull \vbox (badness 10000) has occurred while \output is active []
+[28] [29] [30])) [31] [32
 
- [32] [33])) [34] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/06_results.tex
+] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/06_results.tex
 Chapter 5.
 File: Figures/coco_reg/f1_BOHAMIANN2.pdf Graphic file (type pdf)
 <use Figures/coco_reg/f1_BOHAMIANN2.pdf>
@@ -1694,24 +1677,23 @@ File: Figures/coco/f24.png Graphic file (type bmp)
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-) [35
+) [33
 
-
-] [36] [37] [38] [39] [40] [41] [42] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/07_conclusion.tex
+] [34] [35] [36] [37] [38] [39] [40] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/07_conclusion.tex
 Chapter 6.
-) [43
+) [41
 
 
 ]
 Overfull \hbox (26.34688pt too wide) in paragraph at lines 63--63
-[]\TU/TimesNewRoman(0)/m/sc/10.95 Mashall Aryan. “  Sample-efficient Optimization Using Neural Networks”. []$[][][][][] [] [] [] [][][][][][][][][][][][][][][] []
+[]\TU/TimesNewRoman(0)/m/n/10.95 Mashall Aryan. “  Sample-efficient Optimization Using Neural Networks”. []$[][][][][] [] [] [] [][][][][][][][][][][][][][][] []
  []
 
-[44
+[42
 
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Appendix.tex
 Appendix A.
-) [45
+) [43
 
 
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Backpage.tex
@@ -1747,7 +1729,7 @@ Appendix A.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-) [46
+) [44
 
 
 ]
@@ -1757,10 +1739,7 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 70.
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 70.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 70.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: A0E67A88F78EA389E018079B6B27F590;2356.
-
-
-LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+(rerunfilecheck)             Checksum: EF8DFFDF7C350DC7388BB88C43A48620;2371.
 
 
 LaTeX Warning: There were multiply-defined labels.
@@ -1770,12 +1749,12 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 56475 strings out of 481731
- 1340274 string characters out of 5935437
- 2288638 words of memory out of 5000000
- 72446 multiletter control sequences out of 15000+600000
+ 56444 strings out of 481731
+ 1339856 string characters out of 5935437
+ 2288467 words of memory out of 5000000
+ 72415 multiletter control sequences out of 15000+600000
  546095 words of font info for 123 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  82i,17n,138p,2818b,4680s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (50 pages, 791364 bytes).
+Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (48 pages, 752888 bytes).
