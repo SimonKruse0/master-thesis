@@ -2182,20 +2182,24 @@
     <bcf:datasource type="file" datatype="bibtex">bibliography.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
-    <bcf:citekey order="1">PhDthesis</bcf:citekey>
-    <bcf:citekey order="2">bayesoptbook</bcf:citekey>
-    <bcf:citekey order="3">bayesoptbook</bcf:citekey>
-    <bcf:citekey order="4">bayesoptbook</bcf:citekey>
-    <bcf:citekey order="5">bishop1995neural</bcf:citekey>
-    <bcf:citekey order="6">ALStatisticalModels</bcf:citekey>
-    <bcf:citekey order="7">JordanPaper</bcf:citekey>
-    <bcf:citekey order="8">bishop</bcf:citekey>
-    <bcf:citekey order="9">SPN_EM</bcf:citekey>
-    <bcf:citekey order="10">bishop</bcf:citekey>
-    <bcf:citekey order="11">bishop</bcf:citekey>
-    <bcf:citekey order="12">PhDthesis</bcf:citekey>
-    <bcf:citekey order="13">snoek2015scalable</bcf:citekey>
-    <bcf:citekey order="14">NIPS2016_a96d3afe</bcf:citekey>
+    <bcf:citekey order="1">Nature_BO_paper</bcf:citekey>
+    <bcf:citekey order="2">Nature_BO_paper</bcf:citekey>
+    <bcf:citekey order="3">PhDthesis</bcf:citekey>
+    <bcf:citekey order="4">Nature_BO_paper</bcf:citekey>
+    <bcf:citekey order="5">ALStatisticalModels</bcf:citekey>
+    <bcf:citekey order="6">bayesoptbook</bcf:citekey>
+    <bcf:citekey order="7">bayesoptbook</bcf:citekey>
+    <bcf:citekey order="8">bayesoptbook</bcf:citekey>
+    <bcf:citekey order="9">bishop1995neural</bcf:citekey>
+    <bcf:citekey order="10">ALStatisticalModels</bcf:citekey>
+    <bcf:citekey order="11">JordanPaper</bcf:citekey>
+    <bcf:citekey order="12">bishop</bcf:citekey>
+    <bcf:citekey order="13">SPN_EM</bcf:citekey>
+    <bcf:citekey order="14">bishop</bcf:citekey>
+    <bcf:citekey order="15">bishop</bcf:citekey>
+    <bcf:citekey order="16">PhDthesis</bcf:citekey>
+    <bcf:citekey order="17">snoek2015scalable</bcf:citekey>
+    <bcf:citekey order="18">NIPS2016_a96d3afe</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">

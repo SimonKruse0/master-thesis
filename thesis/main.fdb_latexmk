@@ -1,17 +1,17 @@
 # Fdb version 3
-["biber main"] 1653852463 "main.bcf" "main.bbl" "main" 1653855620
-  "bibliography.bib" 1653836653 3918 037f3aaa2cb5320537fb73761252ae37 ""
-  "main.bcf" 1653855614 101431 16034dc1ae98a691dc829c26e97bf063 "xelatex"
+["biber main"] 1653906377 "main.bcf" "main.bbl" "main" 1653907079
+  "bibliography.bib" 1653905306 4335 d5d73296de44e21063218523e8a334d4 ""
+  "main.bcf" 1653907072 101667 b3ea822ea9ae24b21b6ecff2c80b23cc "xelatex"
   (generated)
   "main.blg"
   "main.bbl"
-["xdvipdfmx"] 1653855614 "/home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv" "/home/simon/Documents/MasterThesis/master-thesis/thesis/main.pdf" "/home/simon/Documents/MasterThesis/master-thesis/thesis/main" 1653855620
-  "/home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv" 1653855614 772628 987810504677975a988a5a2734e15732 "xelatex"
+["xdvipdfmx"] 1653907073 "/home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv" "/home/simon/Documents/MasterThesis/master-thesis/thesis/main.pdf" "/home/simon/Documents/MasterThesis/master-thesis/thesis/main" 1653907079
+  "/home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv" 1653907072 791364 7916d1dfe173fa7f74daf3063e8518c9 "xelatex"
   (generated)
   "/home/simon/Documents/MasterThesis/master-thesis/thesis/main.pdf"
-["xelatex"] 1653855610 "/home/simon/Documents/MasterThesis/master-thesis/thesis/main.tex" "/home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv" "main" 1653855620
+["xelatex"] 1653907069 "/home/simon/Documents/MasterThesis/master-thesis/thesis/main.tex" "/home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv" "main" 1653907079
   "/etc/texmf/web2c/texmf.cnf" 1622624735 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/simon/Documents/MasterThesis/master-thesis/thesis/main.aux" 1653855614 19937 701cf34f3a29856bfc6278fec5c141d9 ""
+  "/home/simon/Documents/MasterThesis/master-thesis/thesis/main.aux" 1653907072 20896 95e866c40248c7d13caba750cfc3fda8 ""
   "/home/simon/Documents/MasterThesis/master-thesis/thesis/main.tex" 1653586943 1750 32a31ca3b65c75b7494930d4eebaa8df ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/zapfding/pzdr.tfm" 1136768653 1528 f853c4d1b4e0550255e02831fdc8496f ""
@@ -309,7 +309,7 @@
   "/var/lib/texmf/web2c/xetex/xelatex.fmt" 1651691545 3425102 39775faa1239b059c577b35d81fad34f ""
   "Backmatter/Appendix.tex" 1652785797 24 94087c0d609967c3443ab6de9fbaa3b2 ""
   "Backmatter/Backpage.tex" 1652039294 1828 2e46931e5dc492c26203425a17082b8e ""
-  "Chapters/00_introduction.tex" 1653668773 14695 7e4368114fd9e803af89eb4c1dcd1d2b ""
+  "Chapters/00_introduction.tex" 1653907064 16230 0f7b6f725413af963622b06a46c2d7ab ""
   "Chapters/01_optimization.tex" 1653849427 8584 75037f69bef5c90f85c9e3488b06a5a9 ""
   "Chapters/02_bayesian_optimization.tex" 1653845806 13378 564170ab4d8468627a2c976e9e2dd373 ""
   "Chapters/03_04_discriminative_surrogates.tex" 1653589166 401 db4d626b5590d69781aed9b217662a19 ""
@@ -317,7 +317,7 @@
   "Chapters/04_bayesian_nn_regression.tex" 1653586548 8380 0e4a62a82a5493320d36dd7c844c7903 ""
   "Chapters/05_a_prior_inclusion.tex" 1653853948 6175 fca13f7d5539d11300c201bd41926236 ""
   "Chapters/05_b_EM.tex" 1653839093 10033 07aee4cba5e118749813cf8a57ee8536 ""
-  "Chapters/05_mixture_regression.tex" 1653855608 19299 b5593c01661dc24e535e046cbe821991 ""
+  "Chapters/05_mixture_regression.tex" 1653856547 19299 b5593c01661dc24e535e046cbe821991 ""
   "Chapters/06_results.tex" 1653586921 14752 805522dd1ebb9b8e369f6069f614070c ""
   "Chapters/07_conclusion.tex" 1653847261 306 d9073301512ac0a510de4b65a608a5f5 ""
   "Figures/SPN_graph2.pdf" 1652351979 12742 7aeb3b8a637accf5687233b5336296cb ""
@@ -392,19 +392,19 @@
   "Tables/best_minimizer_group_3.tex" 1652959135 609 d059c4587dab77ab552a1d0352d1883e ""
   "Tables/best_minimizer_group_4.tex" 1652959135 555 05e788fe623ad5926589561a976e8c8c ""
   "Tables/best_minimizer_group_5.tex" 1652959135 531 3a5144bd0fa62af90b1bf05ded001710 ""
-  "main.aux" 1653855614 19937 701cf34f3a29856bfc6278fec5c141d9 "xelatex"
-  "main.bbl" 1653852464 14481 f9b19c92afae1ce966e3eeba37c03ed0 "biber main"
-  "main.out" 1653855614 2356 a0e67a88f78ea389e018079b6b27f590 "xelatex"
-  "main.run.xml" 1653855614 2342 07f4b92116aa0438cc18ba366dacea09 "xelatex"
+  "main.aux" 1653907072 20896 95e866c40248c7d13caba750cfc3fda8 "xelatex"
+  "main.bbl" 1653906378 16847 5afaf5d761828d643a3f86ff65f1d5fd "biber main"
+  "main.out" 1653907072 2356 a0e67a88f78ea389e018079b6b27f590 "xelatex"
+  "main.run.xml" 1653907072 2342 07f4b92116aa0438cc18ba366dacea09 "xelatex"
   "main.tex" 1653586943 1750 32a31ca3b65c75b7494930d4eebaa8df ""
-  "main.toc" 1653855614 4649 ba1b0272cbf9f3f6beb1c1110a6ae2b8 "xelatex"
+  "main.toc" 1653907072 4649 ba1b0272cbf9f3f6beb1c1110a6ae2b8 "xelatex"
   (generated)
-  "main.log"
-  "main.bcf"
-  "main.toc"
-  "/home/simon/Documents/MasterThesis/master-thesis/thesis/main.log"
   "main.aux"
+  "/home/simon/Documents/MasterThesis/master-thesis/thesis/main.log"
+  "main.toc"
   "/home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv"
-  "main.run.xml"
+  "main.bcf"
   "main.out"
+  "main.log"
   "main.xdv"
+  "main.run.xml"

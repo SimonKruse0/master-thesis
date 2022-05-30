@@ -19,6 +19,65 @@
 
 \refsection{0}
   \datalist[entry]{none/global//global/global}
+    \entry{Nature_BO_paper}{article}{}
+      \name{author}{7}{}{%
+        {{hash=9bdfc1ffe0d270f5002cb3141448d21a}{%
+           family={Lei},
+           familyi={L\bibinitperiod},
+           given={Bowen},
+           giveni={B\bibinitperiod}}}%
+        {{hash=c015dbecd1966146f875a75ba44b1866}{%
+           family={Kirk},
+           familyi={K\bibinitperiod},
+           given={Tanner\bibnamedelima Quinn},
+           giveni={T\bibinitperiod\bibinitdelim Q\bibinitperiod}}}%
+        {{hash=3598b9ce8d15076c39cc3cb2655c798f}{%
+           family={Bhattacharya},
+           familyi={B\bibinitperiod},
+           given={Anirban},
+           giveni={A\bibinitperiod}}}%
+        {{hash=c4f6e892a18a5baefcffc8a9c7c2a62f}{%
+           family={Pati},
+           familyi={P\bibinitperiod},
+           given={Debdeep},
+           giveni={D\bibinitperiod}}}%
+        {{hash=ab21df82987a220b4afd033729fc960b}{%
+           family={Qian},
+           familyi={Q\bibinitperiod},
+           given={Xiaoning},
+           giveni={X\bibinitperiod}}}%
+        {{hash=5b099a25396b03dd9ca5e5ae55b3b952}{%
+           family={Arroyave},
+           familyi={A\bibinitperiod},
+           given={Raymundo},
+           giveni={R\bibinitperiod}}}%
+        {{hash=662d2718660ba858db6d425307e605e0}{%
+           family={Mallick},
+           familyi={M\bibinitperiod},
+           given={Bani\bibnamedelima K},
+           giveni={B\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Nature Publishing Group}%
+      }
+      \strng{namehash}{5eaa4253f158af93c99c667b41725f08}
+      \strng{fullhash}{c3107f53c140ca8b442f154854a14475}
+      \strng{bibnamehash}{5eaa4253f158af93c99c667b41725f08}
+      \strng{authorbibnamehash}{5eaa4253f158af93c99c667b41725f08}
+      \strng{authornamehash}{5eaa4253f158af93c99c667b41725f08}
+      \strng{authorfullhash}{c3107f53c140ca8b442f154854a14475}
+      \field{sortinit}{1}
+      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{npj Computational Materials}
+      \field{number}{1}
+      \field{title}{Bayesian optimization with adaptive surrogate models for automated experimental design}
+      \field{volume}{7}
+      \field{year}{2021}
+      \field{pages}{1\bibrangedash 12}
+      \range{pages}{12}
+    \endentry
     \entry{PhDthesis}{thesis}{}
       \name{author}{1}{}{%
         {{hash=91333716f4cea2ae61e16efe638e9329}{%
@@ -36,65 +95,14 @@
       \strng{authorbibnamehash}{91333716f4cea2ae61e16efe638e9329}
       \strng{authornamehash}{91333716f4cea2ae61e16efe638e9329}
       \strng{authorfullhash}{91333716f4cea2ae61e16efe638e9329}
-      \field{sortinit}{1}
-      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{sortinit}{3}
+      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{note}{\url{https://researcharchive.vuw.ac.nz/handle/10063/9035}}
       \field{title}{Sample-efficient Optimization Using Neural Networks}
       \field{type}{phdthesis}
       \field{year}{2020}
-    \endentry
-    \entry{bayesoptbook}{book}{}
-      \name{author}{1}{}{%
-        {{hash=eaf84e3fe4f887967dc3d793d28b9e94}{%
-           family={Garnett},
-           familyi={G\bibinitperiod},
-           given={Roman},
-           giveni={R\bibinitperiod}}}%
-      }
-      \list{publisher}{1}{%
-        {Cambridge University Press}%
-      }
-      \strng{namehash}{eaf84e3fe4f887967dc3d793d28b9e94}
-      \strng{fullhash}{eaf84e3fe4f887967dc3d793d28b9e94}
-      \strng{bibnamehash}{eaf84e3fe4f887967dc3d793d28b9e94}
-      \strng{authorbibnamehash}{eaf84e3fe4f887967dc3d793d28b9e94}
-      \strng{authornamehash}{eaf84e3fe4f887967dc3d793d28b9e94}
-      \strng{authorfullhash}{eaf84e3fe4f887967dc3d793d28b9e94}
-      \field{sortinit}{2}
-      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{note}{in preparation}
-      \field{title}{{Bayesian Optimization}}
-      \field{year}{2022}
-    \endentry
-    \entry{bishop1995neural}{book}{}
-      \true{moreauthor}
-      \true{morelabelname}
-      \name{author}{1}{}{%
-        {{hash=9dfd0135a5e80aa6d81cea2c10fb7f73}{%
-           family={Bishop},
-           familyi={B\bibinitperiod},
-           given={Christopher\bibnamedelima M},
-           giveni={C\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
-      }
-      \list{publisher}{1}{%
-        {Oxford university press}%
-      }
-      \strng{namehash}{f88a0a2cdc26d020db05dd0d5d23eb0c}
-      \strng{fullhash}{f88a0a2cdc26d020db05dd0d5d23eb0c}
-      \strng{bibnamehash}{f88a0a2cdc26d020db05dd0d5d23eb0c}
-      \strng{authorbibnamehash}{f88a0a2cdc26d020db05dd0d5d23eb0c}
-      \strng{authornamehash}{f88a0a2cdc26d020db05dd0d5d23eb0c}
-      \strng{authorfullhash}{f88a0a2cdc26d020db05dd0d5d23eb0c}
-      \field{sortinit}{5}
-      \field{sortinithash}{5dd416adbafacc8226114bc0202d5fdd}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{title}{Neural networks for pattern recognition}
-      \field{year}{1995}
     \endentry
     \entry{ALStatisticalModels}{article}{}
       \name{author}{3}{}{%
@@ -120,8 +128,8 @@
       \strng{authorbibnamehash}{681419a12d2d1b6bc8e351ac1b930464}
       \strng{authornamehash}{681419a12d2d1b6bc8e351ac1b930464}
       \strng{authorfullhash}{681419a12d2d1b6bc8e351ac1b930464}
-      \field{sortinit}{6}
-      \field{sortinithash}{7851c86048328b027313775d8fbd2131}
+      \field{sortinit}{5}
+      \field{sortinithash}{5dd416adbafacc8226114bc0202d5fdd}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{CoRR}
@@ -134,6 +142,57 @@
       \verb{url}
       \verb https://arxiv.org/abs/cs/9603104
       \endverb
+    \endentry
+    \entry{bayesoptbook}{book}{}
+      \name{author}{1}{}{%
+        {{hash=eaf84e3fe4f887967dc3d793d28b9e94}{%
+           family={Garnett},
+           familyi={G\bibinitperiod},
+           given={Roman},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Cambridge University Press}%
+      }
+      \strng{namehash}{eaf84e3fe4f887967dc3d793d28b9e94}
+      \strng{fullhash}{eaf84e3fe4f887967dc3d793d28b9e94}
+      \strng{bibnamehash}{eaf84e3fe4f887967dc3d793d28b9e94}
+      \strng{authorbibnamehash}{eaf84e3fe4f887967dc3d793d28b9e94}
+      \strng{authornamehash}{eaf84e3fe4f887967dc3d793d28b9e94}
+      \strng{authorfullhash}{eaf84e3fe4f887967dc3d793d28b9e94}
+      \field{sortinit}{6}
+      \field{sortinithash}{7851c86048328b027313775d8fbd2131}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{in preparation}
+      \field{title}{{Bayesian Optimization}}
+      \field{year}{2022}
+    \endentry
+    \entry{bishop1995neural}{book}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{hash=9dfd0135a5e80aa6d81cea2c10fb7f73}{%
+           family={Bishop},
+           familyi={B\bibinitperiod},
+           given={Christopher\bibnamedelima M},
+           giveni={C\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Oxford university press}%
+      }
+      \strng{namehash}{f88a0a2cdc26d020db05dd0d5d23eb0c}
+      \strng{fullhash}{f88a0a2cdc26d020db05dd0d5d23eb0c}
+      \strng{bibnamehash}{f88a0a2cdc26d020db05dd0d5d23eb0c}
+      \strng{authorbibnamehash}{f88a0a2cdc26d020db05dd0d5d23eb0c}
+      \strng{authornamehash}{f88a0a2cdc26d020db05dd0d5d23eb0c}
+      \strng{authorfullhash}{f88a0a2cdc26d020db05dd0d5d23eb0c}
+      \field{sortinit}{9}
+      \field{sortinithash}{54047ffb55bdefa0694bbd554c1b11a0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Neural networks for pattern recognition}
+      \field{year}{1995}
     \endentry
     \entry{JordanPaper}{inproceedings}{}
       \name{author}{2}{}{%
@@ -177,8 +236,8 @@
       \strng{editorbibnamehash}{d4ecbd8dc23b451509557359f0492bea}
       \strng{editornamehash}{d4ecbd8dc23b451509557359f0492bea}
       \strng{editorfullhash}{d4ecbd8dc23b451509557359f0492bea}
-      \field{sortinit}{7}
-      \field{sortinithash}{f615fb9c6fba11c6f962fb3fd599810e}
+      \field{sortinit}{1}
+      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{Advances in Neural Information Processing Systems}
@@ -214,8 +273,8 @@
       \strng{authorbibnamehash}{777504ebb73f750912508fc1b666e109}
       \strng{authornamehash}{777504ebb73f750912508fc1b666e109}
       \strng{authorfullhash}{777504ebb73f750912508fc1b666e109}
-      \field{sortinit}{8}
-      \field{sortinithash}{1b24cab5087933ef0826a7cd3b99e994}
+      \field{sortinit}{1}
+      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{number}{4}

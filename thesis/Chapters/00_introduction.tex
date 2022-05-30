@@ -23,23 +23,23 @@ quantification of how good a decision is in terms of a real number, then we can 
 \textit{mathematical} optimization problem: 
 $$\min_{x\in \mathcal{X}} f(x)$$ where the functional $f: \mathcal{X} \rightarrow \mathbb{R}$ is
 called the objective function and $\mathcal{X}$ is the set of possible decisions (or decisions you
-consider). Note that optimization problem is formulated as a minimization problem. If one identifies
+consider). Note that the optimization problem is formulated as a minimization problem. If one identifies
 the optimal decision as a maximum of $f$ (instead of the minima), then finding the minima in the
 negating the objective function $-f(x)$ is equivalent. Throughout this thesis, we refer to
-optimization as minimizing the objective function. The optimization problem is now in the domain of
-cold numbers and here many algorithms have been developed to find the minimum of the function
+optimization as minimizing the objective function. The optimization problem is now in the domain of 
+numbers and here many algorithms have been developed to find the minimum of the function
 $f(\cdot)$.
 
 Evaluation of the objective function can be cheap (e.g. if it just requires summing/multiplying
-numbers) or highly expensive (e.g. if it involves human rating or large simulation and physical
+numbers) or highly expensive (e.g. if it involves human rating, large simulation, or physical
 experiments). In the latter case, we want to avoid evaluating the objective function as much as
-possible, and we want to use \textit{sample efficient} optimization. The overall topic of this
+possible - we want to use \textit{sample efficient} optimization. The overall topic of this
 thesis, \textit{Bayesian optimization}, is one of the preferred frameworks for sample efficient optimization. 
 
 Bayesian optimization is a probabilistic surrogate-based optimization methodology: Assuming some samples from a
-highly expensive objective a cheap (surrogate) function is used to fit the samples. The next sample
+highly expensive objective, then a cheap (surrogate) function is used to fit the samples. The next sample
 is found by minimizing the surrogate and the process is repeated. Bayesian optimization seeks to
-enhance this procedure with probability theory, where the surrogate function becomes a probabilistic
+enhance this procedure with probability theory, where the surrogate function becomes a probabilistic (Bayesian)
 regression model. The most common choice is a Gaussian Process, as it encapsulates the uncertainty very well,
 but also because its inference procedure (computing answers to probability queries like $p(y|x)$) is exact.
 
@@ -48,55 +48,27 @@ but also because its inference procedure (computing answers to probability queri
 %   5.  evaluate the current situation (advantages/ disadvantages) and identify the gap
 
 Even though GP has proven good for many cases, there will be problems where its assumptions do not
-hold. E.g the commonly seen GP with isotropic kernels (covariance between two points is invariant to
-translation in input), yields an assumption about the continuity of the objective function. In Figure
+hold. E.g the commonly seen GP with an isotropic kernel (covariance between two points is invariant to
+translation in input), yields a strong assumption about the continuity of the objective function and that
+the objective function behaves similarly throughout the domain $\mathcal{X}$. In Figure
 \ref{fig:GP_vs_BNN} we see an example of how the GP's uncertainty quantification is going wild due
-to a discontinuity in the underlying objective function. In some areas is it very common to have
+to a discontinuity in the underlying objective function (a small varying step-function). In some areas is it very common to have
 these discontinuities, for instance, in material discovery where it is well known that materials often
-change very suddenly [ref]. 
+change very suddenly \cite{Nature_BO_paper}. To accommodate these challenges the literature introduces more
+flexible kernel functions for the GP, however, this introduces additional hyperparameters and since
+we often only deal with a small amount of data, tuning and computation can be significantly challenging \cite{Nature_BO_paper}.
 
 \begin{figure}[H]%
-    \label{fig:GP_vs_BNN}
     \centering
     {\includegraphics[width=0.46\textwidth]{Pictures/GP_vs_BNN1.pdf} }%
     \qquad
    {\includegraphics[width=0.46\textwidth]{Pictures/GP_vs_BNN2.pdf} }%
-    \caption{Example where a discontinuerity makes the GP overreact to all other 
-    uncertainties. Left is a GP, right is a Bayesian neural network}%
-    %
+    \caption{Left: GP fitted to 20 data points. Right: A Bayesian neural network fitted to the same points.
+    The objective function is the dashed black line. This examplifies how a discontinuerity makes the 
+    standard implemented GP (optimized with emperical bayes) overreact to all other areas in the domain $[0,1]$,
+    while the Bayesian NN only express uncertainty where the discontinuerity happen $x = 0.5$}%
+    \label{fig:GP_vs_BNN}
 \end{figure}
-
-problems with anisotropic smoothness To accommodate these challenges the literature introduces more
-flexible kernel functions, with additional hyperparameters and sparse additive, but given only a
-small amount of data, tuning and computation of such models can be significantly challenging [ref]
-
-
-% \begin{tcolorbox}[
-%     sharp corners,
-%     boxrule=0mm,
-%     enhanced,
-%     borderline west={4pt}{0pt}{gray},
-%     colframe=drGray,
-%     colback=drGray,
-%     coltitle=black,
-% ]
-% {\large \textbf{GPs dealing with discontinuerity}}\\
-
-% \end{tcolorbox}
-
-% \section{Weakness of GPs}
-% Using GP with isotropic kernel function, have continous sample paths, 
-% which might be undesired . 
-
-% Examples of the 
-
-% The assumptions of a GP are essential that the objective function can be described as a GP.
-% The nature of a GP is highly dependent on the choice of its kernel and the parameters chosen in that kernel. 
-% Another reason for the popularity of the GP is the closed-form inference and giving a closed-form of the 
-% expected improvement acquisition function. 
-
-
-%$$p(y|x, \mathcal{D}) = GP(f(x)|\mu(x), \kappa(x,x)) \implies x_{next} = \arg\max_x \sigma_x [u\Phi(u)+ \phi(u)]$$
 
 
 % Move C: introduce the current research (make hypotheses; state the research questions)
@@ -107,72 +79,87 @@ small amount of data, tuning and computation of such models can be significantly
 %   10. outline the order of information in the thesis
 %   11. outline the methodology
 
-GPs are very attractive models, however, as we saw in the figure \ref{fig:GP_vs_BNN} maybe we can do
-better! If it is possible to sample a few times less from the objective function, it can potentially
-save hours of work, lots of money, or energy (Depending on the cost of evaluating the objective
+GPs are very attractive models since they allow for exact inference, a closed-form expected improvement (more on this later)
+ and in general good uncertainty quantification.
+However, as we saw in the figure \ref{fig:GP_vs_BNN} maybe we can do better! 
+If it is possible to sample a few times less from the objective function, it can potentially
+save hours of work, lots of money, or energy (Depending on what is demanded to evaluate the objective
 function). It is therefore relevant to investigate if other models will perform better. As
-mentioned, the assumptions of GP can be too strong, we aim to create models with less strong
-assumptions, which can perform better on certain types of models, and just as well on most types of  
+mentioned, the assumptions of GP can be too strong. In this thesis, we aim to create models with less strong
+assumptions, which can perform better on certain types of (complex) problems, and just as well as the GP on most types of  
 problems. 
 
 \section{Contribution}
 This thesis investigates surrogate models alternative to GP, more concretely Bayesian NN
-and Mixture regression. The proposed hypotheses are, 
-f
+and Mixture regression. The proposed hypotheses are,
 \begin{enumerate}
     \item Neural Networks perform better applied to complex BO problems than GPs.
     \item Mixture regression models like SPN can be employed as an effective surrogate model
     performing better than GPs and Neural Networks in some complex cases. 
 \end{enumerate}
 
-1)     Firstly, we want to examining what types of problems a GP surrogate is not a good choice and
-where Bayesian neural nets (BNN) surrogates can have an advantage (inspiration found in this 2020
-thesis [1])
+Note what is meant by performance is \textit{sample efficiency}, i.e. how few evaluations of the objective function
+are necessary to find the minima. So even though the surrogate modeling and optimization can be really slow, 
+it is assumed that the objective function is very expensive, so a slow surrogate model would not matter.
+
+% 1) Firstly, we want to examine what types of problems a GP surrogate is not a good choice and
+% where Bayesian neural nets (BNN) surrogates can have an advantage (inspiration found in this 2020
+% thesis \cite{PhDthesis})
     
-2) Looking at sum product networks (SPN) as novel surrogate models. A SPN is - similarly to a BNN
-- a deep probabilistic model and still expressive but with tractable inference, which potentially
-could lead to advantages over BNNs. 
+% 2) Looking at sum product networks (SPN) as novel surrogate models. A SPN is - similarly to a BNN
+% - a deep probabilistic model and still expressive but with tractable inference, which potentially
+% could lead to advantages over BNNs. 
 
 \section{Related work}
-Bayesian multivariate adaptive
-regression splines (BMARS)30,31 and Bayesian additive regression
-trees (BART)32 a
-shows superior when f, requires more flexible model. 
-
-surrogates: 
+Here we give a short overview of research in different surrogates for Bayesian optimization
+and the very related field active learning. The different surrogate models seen in the 
+research we found, 
 \begin{itemize}
-    \item GP
-    \item BNN
+    \item Gaussian Process
+    \item Bayesian neural network
     \item Random forest
-    \item SPN
     \item Kernel estimator
+    \item Bayesian multivariate adaptive regression splines (BMARS)
+    \item Bayesian additive regression trees (BART)
 \end{itemize}
 
-Within Bayesian surrogate model, there has been research on using random forest or Bayesian neural 
-networks. The PhD thesis "Sample-efficient Optimization Using Neural Networks" from 2020 \cite{PhDthesis}
-showcases empirically that using Bayesian neural networks as surrogate models performed better,
-or at least comparable to GPs on a wide number of problems. The performance difference was more
-clear for high-dimensional problems. 
+Often the main focus has been on lowering the computational complexity of inference while
+showing performance is (or almost is) as well as GPs. Inference time of the GP scales cubic with the
+number of data points and only linear for Bayesian Neural Network. Lowering the inference time is also the
+main focus of the PhD thesis "Sample-efficient Optimization Using Neural Networks" from 2020
+\cite{PhDthesis}, but chapter 3 showcases empirically that using Bayesian neural networks as
+surrogate models performed better, or at least comparable to GPs on a wide number of
+problems. The performance difference was more clear for high-dimensional problems. 
+<mension BOHAMIANN and DNGO>
 
-While most alternative method are investigated due to the expensive inference time for GPs, 
-this thesis investigates alternative surrogates as a method of 
+The 2021 nature paper "Bayesian optimization with adaptive surrogate models for automated experimental design"
+\cite{Nature_BO_paper}, focus on the sample efficiency of the BO applied to autonomous materials discovery, 
+which yields a relatively high-dimensional design space and non-smooth patterns of objective functions.  
+The paper shows that using Bayesian multivariate adaptive regression splines
+and Bayesian additive regression trees as alternative surrogate models outperform GP significantly, 
+for complex BO problems. 
 
-Another regression model not seen much in the literature is Gaussian mixture regression, which
-is modeling the joint distribution between x and y, and using the conditional distribution $p(y|x)$
-as the regression model, which is provided exactly. 
+Active learning is closely related to Bayesian Optimization, but here the focus is on learning the underlying function
+using as few samples as possible instead of just finding its minima. 
+In active learning, a Gaussian process is also very common, but the paper "Active Learning with Statistical Models" \cite{ALStatisticalModels}
+investigates using Gaussian mixtures and kernel estimitor in active learning, i.e. as a surrogate model for selecting
+the next samples. These are regression models not seen much in the literature, which
+is modeling the joint distribution of x and y, and using the conditional distribution $p(y|x)$
+as the regression model. The results were ... ??
 
 \section{Structure of the thesis}
 The structure of the thesis is
 \begin{itemize}
     \item The first chapter introduces the concept of optimization in general, Bayesian optimization 
     and how surrogates/Bayesian regression models are relevant.
-    \item The third chapter introduces GP, and how inference is made in a GP. 
-    \item This fourth chapter: BNN and how the BOHAMIANN method is working. 
-    \item Mixture regression is 
+    \item The second chapter introduces GP and Bayesian Neural Networks
+    \item The third chapter introduces the mixture regression and the novel new SPN regression.
+    \item The fourth chapter results
+    \item Finally a discussion and conclusion.
 \end{itemize}
-Introduction to Optimization, and Bayesian optimization. 
-Presentation of different surrogate models. 
-Experiments using the different surrogates. 
+% Introduction to Optimization, and Bayesian optimization. 
+% Presentation of different surrogate models. 
+% Experiments using the different surrogates. 
 
 
 
@@ -235,11 +222,13 @@ Experiments using the different surrogates.
 % <Make a figure of how the parts are all connected>
 
 \section{notation}
-Throughout this thesis we will be using Bayesian notation, i.e. $p(x) := P(X=x)$ is 
-the probability density function of the random variable $X$ evaluated in $x$. 
-and $p(y|x) := P(Y=y|X=x)$ or $p(y|x) := P(Y|X=x)$.
+Throughout this thesis we will be using Bayesian notation, i.e. $p(x) := P(X=x)$ is the probability
+density function of the random variable $X$ evaluated in $x$. and $p(y|x) := P(Y=y|X=x)$ or $p(y|x)
+:= P(Y|X=x)$. And writing $p(y^2|x)$ means $P(Y^2=y^2|X=x)$ and \textbf{not} $P(Y=y^2|X=x)$
 
-And writing $p(y^2|x)$ means $P(Y^2=y^2|X=x)$ and \textbf{not} $P(Y=y^2|X=x)$
+The density of a normal distribution evaluated in $x$ is denoted as, $\mathcal{N}(x|\mu, \Sigma)$. 
+We will not distinguish between vectors and scalars notation-wise unless it is not clear from the 
+context. 
 
 % \section{related work}
 % This thesis is 
