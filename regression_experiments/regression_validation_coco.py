@@ -27,6 +27,8 @@ reg_models = [MeanRegression(),
             
 random.seed()
 random.shuffle(reg_models)
+reg_models = [SumProductNetworkRegression(optimize=True, opt_n_iter=5)]
+
 ### main ###
 n_train_array = [int(x) for x in np.logspace(1, 2.5, 9)]
 #n_train_array = [10000]
@@ -40,14 +42,14 @@ try:
 except:
     print(f"Couldn't create {path}")
 
-suite = cocoex.Suite("bbob", "", "dimensions:5,6,7,8,9,10 instance_indices:1")
+suite = cocoex.Suite("bbob", "", "dimensions:2,3,5,10 instance_indices:1")
 
 for problem in suite:
     name_problem = problem.name.split(" ")[3]
     dim = problem.name.split(" ")[-1]
     print(name_problem)
-    # if int(name_problem[1:]) < 19:
-    #     continue
+    if int(name_problem[1:])%3 != 2:
+        continue
     np.random.seed()
     for random_seed in np.random.randint(99999, size=1):
         for regression_model in reg_models:

@@ -20,7 +20,7 @@ reg_models = [MeanRegression(),
 ]
 random.seed()
 random.shuffle(reg_models)
-reg_models = [SumProductNetworkRegression(optimize=True)]
+reg_models = [SumProductNetworkRegression(optimize=True, opt_n_iter=5)]
 
 
 def fmin(problem, budget):
@@ -34,19 +34,21 @@ for reg_model in reg_models:
     name = reg_model.name.replace(" ", "_")
     ### input
     suite_name = "bbob"
-    output_folder = f"BO_31_june_{budget_multiplier}_{name}"
+    output_folder = f"BO_31_june_all_{budget_multiplier}_{name}"
     #fmin = scipy.optimize.fmin
 
 
     ### prepare
-    suite = cocoex.Suite(suite_name, "", "dimensions:2 instance_indices:2")
+    suite = cocoex.Suite(suite_name, "", "dimensions:2,3,5,10 instance_indices:2")
     observer = cocoex.Observer(suite_name, "result_folder: " + output_folder)
     minimal_print = cocoex.utilities.MiniPrint()
 
     ### go
     for problem in suite:  # this loop will take several minutes or longer
         name_problem = problem.name.split(" ")[3]
-        if name_problem != "f1":
+        # if name_problem != "f1":
+        #     continue
+        if int(name_problem[1:])%3 != 2:
             continue
         problem.observe_with(observer)  # generates the data for cocopp post-processing
         #fmin(problem, problem.dimension * budget_multiplier)  # here we assume that `fmin` evaluates the final/returned solution
