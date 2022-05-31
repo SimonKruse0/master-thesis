@@ -160,7 +160,7 @@ class BayesOptSolverBase(PlottingClass):
     def fit(self, X = None, Y = None):
         try:
             if X is None:
-                    self.model.fit(self._X,self._Y)
+                self.model.fit(self._X,self._Y)
             else:
                 self.model.fit(X,Y)
         except:

@@ -3,12 +3,13 @@ import cocoex, cocopp  # experimentation and post-processing modules
 import scipy.optimize  # to define the solver to be benchmarked
 from numpy.random import seed  # for randomised restarts
 import os, webbrowser  # to show post-processed results in the browser
-from src.optimization.bayesopt_solver import BayesOptSolver
+from src.optimization.bayesopt_solver import BayesOptSolver_coco
 from src.regression_models.naive_GMR import NaiveGMRegression
 from src.regression_models.mean_regression import MeanRegression
 from src.regression_models.bohamiann import BOHAMIANN
 from src.regression_models.gaussian_process_regression import GaussianProcess_sklearn
 from src.regression_models.numpyro_neural_network import NumpyroNeuralNetwork
+from src.regression_models.SPN_regression2 import SumProductNetworkRegression
 import random
 
 reg_models = [MeanRegression(), 
@@ -19,9 +20,11 @@ reg_models = [MeanRegression(),
 ]
 random.seed()
 random.shuffle(reg_models)
-reg_models = [MeanRegression()]
+reg_models = [SumProductNetworkRegression(optimize=True)]
+
+
 def fmin(problem, budget):
-    BO = BayesOptSolver(reg_model,problem, budget, disp=False)
+    BO = BayesOptSolver_coco(reg_model,problem, budget=budget , disp=True)
     return BO()
 
 budget_multiplier = 40  # increase to 10, 100, ...
@@ -31,7 +34,7 @@ for reg_model in reg_models:
     name = reg_model.name.replace(" ", "_")
     ### input
     suite_name = "bbob"
-    output_folder = f"BO_test_{budget_multiplier}_{name}"
+    output_folder = f"BO_31_june_{budget_multiplier}_{name}"
     #fmin = scipy.optimize.fmin
 
 

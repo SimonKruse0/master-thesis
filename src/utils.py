@@ -34,7 +34,7 @@ def jsonize_array(array):
 
 
 def plot_inv_gamma(ax,alpha, beta):
-    x = np.linspace(0, 3, 100)
+    x = np.linspace(0, 3, 300)
     ax.plot(x, invgamma.pdf(x, alpha, beta))
     return ax
 
@@ -270,5 +270,5 @@ def denormalize(X_normalized, mean, std):
 print(__name__)
 if __name__ == "__main__":
     fig, ax = plt.subplots()
-    plot_inv_gamma(ax, 2,0.1)
+    plot_inv_gamma(ax, 20,0.001)
     plt.show()

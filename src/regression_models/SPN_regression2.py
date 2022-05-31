@@ -33,13 +33,13 @@ def denormalize(X_normalized, mean, std):
 
 class SumProductNetworkRegression(BaseEstimator):
     def __init__(self,
-                tracks=1, channels=10,
+                tracks=1, channels=20,
                 manipulate_variance = False
                 , train_epochs = 10000,
-                alpha0_x=10,alpha0_y=10, 
-                beta0_x = 0.1,beta0_y = 0.1, 
+                alpha0_x=5,alpha0_y=5, 
+                beta0_x = 0.01,beta0_y = 0.01, 
                 prior_settings = {"Ndx": 1,"sig_prior":1.2},
-                optimize=False, opt_n_iter  =10, opt_cv = 10):
+                optimize=False, opt_n_iter  =20, opt_cv = 3):
         self.epochs = train_epochs
         # Priors for variance of x and y
         self.alpha0_x = alpha0_x#invers gamma
@@ -53,46 +53,20 @@ class SumProductNetworkRegression(BaseEstimator):
         #self.params = f"manipulate_variance = {manipulate_variance}, optimize = {optimize}, tracks = {tracks}, channels = {channels}"
         self.tracks = tracks
         self.channels = channels
+        self.model = None
         # Define prior conditional p(y|x)
         self.prior_settings = prior_settings#
         self.manipulate_variance = manipulate_variance
-        self.optimize_hyperparams = optimize
+        self.optimize_hyperparams = optimize #important it is initialised as false
         self.opt_n_iter, self.opt_cv = opt_n_iter, opt_cv
+        self.verbose = True
+        self.predictive_score = True
     
     # def _train_all_parmeters(self):
     #     self.model[0].marginalize = torch.zeros(self.xy_variables , dtype=torch.bool)
 
-    def fit(self, X, Y, show_plot=False):
-        assert Y.ndim == 2
-        # if Y.ndim != 2:
-        #     Y = Y[:,None]
-        if self.optimize_hyperparams:
-            self._optimize( X, Y)
-            print("-- Fitted with optimized hyperparams --")
-            return
-        #print("params= ",self.get_params())
-        #print("X.shape", X.shape)
-        X, self.x_mean, self.x_std = normalize(X)
-        Y, self.y_mean, self.y_std = normalize(Y)
-
-        self.N,x_variables = X.shape
-        self.xy_variables = x_variables+1
-        self.marginalize_y = torch.cat([torch.zeros(x_variables, dtype=torch.bool), torch.tensor([1],dtype=torch.bool)])
-        
-        print("-- traning --")
-        print(f"mean variance_x = {self.beta0_x/(self.alpha0_x+1):0.4f}, mean variance_y = {self.beta0_y/(self.alpha0_y+1):0.4f}")
-
-        alpha_x = torch.tensor(self.alpha0_x)
-        alpha_x = alpha_x.repeat_interleave(x_variables)
-        alpha_y = torch.tensor([self.alpha0_y])
-        alpha = torch.cat([alpha_x,alpha_y])[None, :,None ]
-        
-        beta_x = torch.tensor(self.beta0_x)
-        beta_x = beta_x.repeat_interleave(x_variables)
-        beta_y = torch.tensor([self.beta0_y])
-        beta =torch.cat([beta_x, beta_y])[None,:,None]
-
-        self.model = supr.Sequential(
+    def _model(self,X, Y,alpha, beta):
+        model = supr.Sequential(
             supr.NormalLeaf(
                 self.tracks,
                 self.xy_variables ,
@@ -116,13 +90,13 @@ class SumProductNetworkRegression(BaseEstimator):
         logp_tmp = 0
         counter = 0
         for epoch in range(self.epochs):
-            self.model.train()
-            logp = self.model(XY).sum()
+            model.train()
+            logp = model(XY).sum()
             #print(f"Log-posterior ∝ {logp:.2f} ")#, end="\r")
-            self.model.zero_grad(True)
+            model.zero_grad(True)
             logp.backward()
-            self.model.eval()  # swap?
-            self.model.em_batch_update()
+            model.eval()  # swap?
+            model.em_batch_update()
             if abs(logp-logp_tmp) <1e-7:
                 counter += 1
             else:
@@ -132,32 +106,85 @@ class SumProductNetworkRegression(BaseEstimator):
                 print(f"stopped training after {epoch} epochs")
                 break
 
-        print(f"-- stopped training -- max iterations = {self.epochs}")
-        self.params = f"sig_x = InvGa({self.alpha0_x:0.0f},{self.beta0_x:0.1e})"
-        self.params += f", sig_y =InvGa({self.alpha0_y:0.0f},{self.beta0_y:0.1e})"
-        self.params += f",\n manipulate_variance={self.manipulate_variance}, channels={self.channels}, tracks={self.tracks}"
-        Ndx = self.prior_settings["Ndx"]
-        sig_prior = self.prior_settings["sig_prior"]
-        self.params += f",\n likelihood:prior weight = p(x){self.N/Ndx}:1,\nprior_std= {sig_prior}"
-        if show_plot:
-            fig, ax = plt.subplots()
-            self.plot(ax)
+        return logp.detach().numpy(), model
+
+    def fit(self, X, Y, show_plot=False):
+        assert Y.ndim == 2
+        if self.optimize_hyperparams:
+            if X.shape[0] >= 10:
+                self._optimize( X, Y)
+                print("-- Fitted with optimized hyperparams --")
+                return
+            else:
+                print("-- Fitting with default hyperparams since too little data for CV-- ")
+        #print("params= ",self.get_params())
+        #print("X.shape", X.shape)
+        X, self.x_mean, self.x_std = normalize(X)
+        Y, self.y_mean, self.y_std = normalize(Y)
+
+        self.N,x_variables = X.shape
+        self.xy_variables = x_variables+1
+        self.marginalize_y = torch.cat([torch.zeros(x_variables, dtype=torch.bool), torch.tensor([1],dtype=torch.bool)])
+        
+        if self.verbose:
+            print(f"-- traning -- max iterations = {self.epochs}")
+        print(f"var(x-leafs) ~ InvGa({self.alpha0_x:0.2f}, {self.beta0_x:0.2f}), var(y-leafs)~ InvGa({self.alpha0_y:0.2f}, {self.beta0_y:0.2f})")
+
+        alpha_x = torch.tensor(self.alpha0_x)
+        alpha_x = alpha_x.repeat_interleave(x_variables)
+        alpha_y = torch.tensor([self.alpha0_y])
+        alpha = torch.cat([alpha_x,alpha_y])[None, :,None ]
+        
+        beta_x = torch.tensor(self.beta0_x)
+        beta_x = beta_x.repeat_interleave(x_variables)
+        beta_y = torch.tensor([self.beta0_y])
+        beta =torch.cat([beta_x, beta_y])[None,:,None]
+
+        bestlogp = -np.inf
+        n_trainings = 1
+        for i in range(n_trainings):
+            if self.verbose:
+                print(f"training {i+1} out of {n_trainings}",end="\r")
+            logp, model = self._model(X, Y,alpha, beta)
+            if logp > bestlogp:
+                bestlogp = logp
+                self.model = model
+            if self.verbose:
+                print(f"logp = {logp:0.3f}, best logp = {bestlogp:0.3f}")
+
+        if self.verbose:
+            print(f"-- stopped training --")
+            self.params = f"sig_x = InvGa({self.alpha0_x:0.0f},{self.beta0_x:0.1e})"
+            self.params += f", sig_y =InvGa({self.alpha0_y:0.0f},{self.beta0_y:0.1e})"
+            self.params += f",\n channels={self.channels}, tracks={self.tracks}"
+            Ndx = self.prior_settings["Ndx"]
+            sig_prior = self.prior_settings["sig_prior"]
+            self.params += f",\n likelihood:prior weight = p(x){self.N/Ndx}:1,\nprior_std= {sig_prior}"
+        # if show_plot:
+        #     fig, ax = plt.subplots()
+        #     self.plot(ax)
             
-            X_test = np.linspace(0,1,100)[:,None]
-            mean,std_deviation,Y_CI = self.predict(X_test)
-            ax.plot(X_test, mean, "--", color="black")
-            ax.fill_between(X_test.squeeze(), mean-2*std_deviation, mean+2*std_deviation,
-                                        color="black", alpha=0.3, label=r"90\% credible interval") 
-            ax.plot(X, Y, "*")
-            plt.show()
+        #     X_test = np.linspace(0,1,100)[:,None]
+        #     mean,std_deviation,Y_CI = self.predict(X_test)
+        #     ax.plot(X_test, mean, "--", color="black")
+        #     ax.fill_between(X_test.squeeze(), mean-2*std_deviation, mean+2*std_deviation,
+        #                                 color="black", alpha=0.3, label=r"90\% credible interval") 
+        #     ax.plot(X, Y, "*")
+        #     plt.show()
 
     def score(self, X_test, y_test):
         y_test = y_test.squeeze()
         assert y_test.ndim <= 1 
         m_pred, sd_pred, _ = self.predict(X_test)
-        Z_pred = (y_test-m_pred)/sd_pred #std. normal distributed. 
-        score = np.mean(norm.pdf(Z_pred))
-        print(f"mean pred likelihood = {score:0.3f}")
+        assert m_pred.ndim == 1
+        assert sd_pred.ndim == 1
+        if self.predictive_score:
+            score = -np.mean(abs(y_test-m_pred))
+            print(f"negative mean pred error = {score:0.3f}")
+        else:
+            Z_pred = (y_test-m_pred)/sd_pred #std. normal distributed. 
+            score = np.mean(norm.pdf(Z_pred))
+            print(f"mean pred likelihood = {score:0.3f}")
         print(" ")
         return score
 
@@ -180,10 +207,11 @@ class SumProductNetworkRegression(BaseEstimator):
         opt = BayesSearchCV(
             self,
             {
-                'alpha0_x': (2e0, 7e0, 'uniform'), #inversGamma params. E[var_x] = beta/(1+alpha)
-                'alpha0_y': (2e0, 7e0, 'uniform'),
-                'beta0_x': (1e-2, 1e0, 'uniform'),
-                'beta0_y': (1e-2, 1e0, 'uniform'),
+                'alpha0_x': (5e0, 2e1, 'uniform'), #inversGamma params. E[var_x] = beta/(1+alpha)
+                'alpha0_y': (5e0, 2e1, 'uniform'),
+                'beta0_x': (1e-2, 7e-1, 'log-uniform'),
+                #'beta0_x': (0.1, 2, 'log-uniform'),
+                'beta0_y': (1e-3, 7e-1, 'log-uniform'),
             },
             n_iter=self.opt_n_iter,
             cv=self.opt_cv
@@ -327,15 +355,15 @@ def obj_fun(x):
 if __name__ == "__main__":
     bounds = [0,1]
     #datasize = int(input("Enter number of datapoints: "))
-    datasize = 20
+    datasize = 200
     np.random.seed(20)
     X_sample =  np.random.uniform(*bounds,size = (datasize,1))
     Y_sample = obj_fun(X_sample)
 
     SPN_regression = SumProductNetworkRegression(
-                    tracks=2,
+                    tracks=1,
                     channels = 30, train_epochs= 1000,
-                    manipulate_variance = False)
+                    optimize=True)
     SPN_regression.fit(X_sample, Y_sample)
     
     fig, ax = plt.subplots()
@@ -344,8 +372,8 @@ if __name__ == "__main__":
     X_test = np.linspace(0,1,100)[:,None]
     mean,std_deviation,Y_CI = SPN_regression.predict(X_test)
     ax.plot(X_test, mean, "--", color="black")
-    ax.fill_between(X_test.squeeze(), mean-2*std_deviation, mean+2*std_deviation,
-                                color="black", alpha=0.3, label=r"90\% credible interval") 
+    # ax.fill_between(X_test.squeeze(), mean-2*std_deviation, mean+2*std_deviation,
+    #                             color="black", alpha=0.3, label=r"90\% credible interval") 
     ax.plot(X_sample, Y_sample, "*")
     plt.show()
     

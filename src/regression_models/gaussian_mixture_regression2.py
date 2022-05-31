@@ -1,10 +1,12 @@
 from gmr import GMM, plot_error_ellipses
+from sklearn.mixture import BayesianGaussianMixture
 from gmr.mvn import MVN
 import numpy as np
 import matplotlib.pyplot as plt
 import math
 from math import sqrt
 from scipy.stats import norm
+from src.utils import normalize, denormalize
 
 def sigmoid(x):
   return 1 / (1 + math.exp(-x))
@@ -135,10 +137,20 @@ class GMRegression():
         X_, self.x_mean, self.x_std = normalize(X)
         Y_, self.y_mean, self.y_std = normalize(Y)
         XY_train = np.column_stack((X_, Y_))
+        n_components = 10
+        gmm_sklearn = BayesianGaussianMixture(n_components=n_components,
+                                        covariance_type = "full",
+                                        weight_concentration_prior = 1. / n_components, 
+                                        mean_precision_prior = 0.001, 
+                                        covariance_prior =np.array([[0.02,0],[0,0.01]]),
+                                        n_init = 10)
+                                        #covariance_prior =np.diag(np.diag(np.cov(XY_train.T)))/1000)
+                                        #weight_concentration_prior_type="dirichlet_distribution")
+        gmm_sklearn.fit(XY_train)
 
         self.model = GMM_bayesian(
-        n_components=N, priors=np.repeat(1/N, N), means=XY_train,
-        covariances=np.repeat([np.eye(nXY)*self.component_variance], N, axis=0))
+        n_components=n_components, priors=gmm_sklearn.weights_, means=gmm_sklearn.means_,
+        covariances=gmm_sklearn.covariances_)
         self.params = f"component_variance = {self.component_variance}, manipulate_variance = {self.manipulate_variance}"
 
     def predict(self,X_test, CI=[0.05,0.95]):
@@ -179,21 +191,6 @@ class GMRegression():
             cmap='Blues'
         )  # , vmin=-3, vmax=1)
 
-def normalize(X, mean=None, std=None):
-    #zero_mean_unit_var_normalization
-    if mean is None:
-        mean = np.mean(X, axis=0)
-    if std is None:
-        std = np.std(X, axis=0)
-
-    X_normalized = (X - mean) / std
-
-    return X_normalized, mean, std
-
-
-def denormalize(X_normalized, mean, std):
-    #zero_mean_unit_var_denormalization
-    return X_normalized * std + mean
 
 def obj_fun(x): 
     return 0.5 * (np.sign(x-0.5) + 1)+np.sin(100*x)*0.1
@@ -220,6 +217,11 @@ if __name__ == "__main__":
         ax.set_xlabel("x")
         ax.set_ylabel("y")
         plt.legend()
+        # plt.show()
+        # ax = plt.subplot(111)
+        plot_error_ellipses(ax, GMR.model, alpha = 1)
+        ax.set_ylim([-1,2])
+        ax.set_xlim([-1,1.2])
         plt.show()
     else:
         XY_train = np.column_stack((x, y))

@@ -17,23 +17,23 @@ XY_train = np.column_stack((x, y))
 n_components = 10
 
 #gmm_sklearn = GaussianMixture(n_components=n_components, covariance_type="full")
-# gmm_sklearn = BayesianGaussianMixture(n_components=n_components,
-#                                         covariance_type = "full",
-#                                         weight_concentration_prior = 1. / n_components / 10000, 
-#                                         mean_precision_prior = 0.001, 
-#                                         covariance_prior =np.array([[0.001,0.001],[0.001,0.002]]))
-#                                         #covariance_prior =np.diag(np.diag(np.cov(XY_train.T)))/1000)
-#                                         #weight_concentration_prior_type="dirichlet_distribution")
-# gmm_sklearn.fit(XY_train)
+gmm_sklearn = BayesianGaussianMixture(n_components=n_components,
+                                        covariance_type = "full",
+                                        weight_concentration_prior = 1. / n_components / 10000, 
+                                        mean_precision_prior = 0.001, 
+                                        covariance_prior =np.array([[0.001,0.001],[0.001,0.002]]))
+                                        #covariance_prior =np.diag(np.diag(np.cov(XY_train.T)))/1000)
+                                        #weight_concentration_prior_type="dirichlet_distribution")
+gmm_sklearn.fit(XY_train)
 
-
-# gmm = GMM(
-#     n_components=n_components, priors=gmm_sklearn.weights_, means=gmm_sklearn.means_,
-#     covariances=gmm_sklearn.covariances_)#np.array([np.diag(c) for c in gmm_sklearn.covariances_]))
 
 gmm = GMM(
-    n_components=N, priors=np.repeat(1/N, N), means=XY_train,
-    covariances=np.repeat([np.eye(2)/10000], N, axis=0))#np.array([np.diag(c) for c in gmm_sklearn.covariances_]))
+    n_components=n_components, priors=gmm_sklearn.weights_, means=gmm_sklearn.means_,
+    covariances=gmm_sklearn.covariances_)#np.array([np.diag(c) for c in gmm_sklearn.covariances_]))
+
+# gmm = GMM(
+#     n_components=N, priors=np.repeat(1/N, N), means=XY_train,
+#     covariances=np.repeat([np.eye(2)/10000], N, axis=0))#np.array([np.diag(c) for c in gmm_sklearn.covariances_]))
 
 
 # gmm.condition()

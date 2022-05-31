@@ -98,8 +98,7 @@ def get_folders_of_similar_BO_runs(search_name):
             folder_names.append(folder)
     return folder_names
 
-def plot_optimization_paths(problem,dim):
-    fig, ax = plt.subplots()
+def plot_optimization_paths(ax, problem,dim):
     folder_names_BOHAMIANN = get_folders_of_similar_BO_runs("BOH")
     folder_names_GP = get_folders_of_similar_BO_runs("Process")
     folder_names_RandomSearch = get_folders_of_similar_BO_runs("emp")
@@ -122,15 +121,20 @@ def plot_optimization_paths(problem,dim):
             by_label.pop(name)
         except:
             print(f"No data for {name}")
-    plt.legend(by_label.values(), by_label.keys())
+    ax.legend(by_label.values(), by_label.keys())
     ax.set_title(problem_dim)
-    plt.show()
+    ax.set_xlabel("Budget")
+    ax.set_ylabel("rel error")
+
 
 import matplotlib.pyplot as plt
 if __name__ == "__main__":
+    
     # data = get_optimization_history(folder_name)
     # print(data)
     # plot_optimization_path(ax,1,2,folder_name)
     for problem in list(range(1,25)):
-        for dim in [2,3,5,10]:
-            plot_optimization_paths(problem,dim)
+        fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, sharex="all")
+        for ax,dim in zip([ax1,ax2,ax3,ax4],[3,5,10,2]):
+            plot_optimization_paths(ax,problem,dim)
+        plt.show()
