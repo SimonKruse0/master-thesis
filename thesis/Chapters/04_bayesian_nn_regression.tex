@@ -1,5 +1,30 @@
 \section{Bayesian Neural Networks}
-Bohamiann and numpyro-BNN are examples of probabilistic models with intractable inference. The predictive density is given as, 
+Neural networks has become increasingly popular in the recent years, due to there ability to
+approximate any function arbitrary well. And with the amount of data in the world today, neural
+networks are very powerful regression models for finding the complex patterns. Bayesian neural
+network, essentially neural networks, but instead of point estimates, each weight is assigned a
+distribution (usually a standard normal distribution), which provides a regression model, 
+prior to any observed data.  Choosing the prior of a standard normal distribution of a 
+3 layers with 10 nodes on each layer the we get the following regression model, 
+\begin{figure}
+    \centering
+    \subfloat[\centering prior]{{\includegraphics[width=0.45\textwidth]{Pictures/bayesian_nn_prior_samples.pdf} }}%
+    \qquad
+    \subfloat[\centering posterior]{{\includegraphics[width=0.45\textwidth]{Pictures/bayesian_nn_posterior_samples.pdf} }}%
+    \caption{BNN with $\tan^{-1}(\cdot)$ activation functions and different prior distributions. }%
+    \label{fig:example2}%
+\end{figure}
+
+when observing data the distribution of the weights is adjusted accordingly - note that 
+there can be correlations between the weights (corresponding to dimension in the distribution). 
+The likelihood of a Bayesian Neural network is typically defined as a normal distribution
+with mean equal the neural network output (which itself also is a random variabel) and a 
+variance random variable $\sigma$ which prior is assumed independent from the input and
+assigned a half-caucy or log-normal distribution, 
+$$p(y|x, \theta) = \mathcal{N}(y|NN_{w}(x),\sigma^2)$$
+Note that the posterior distribution of the weights and $\sigma$ might not be a normal distribution
+or anything of the known analytically distributions, it might be highly complex and correlated. 
+Therefor BNNs are examples of probabilistic models with intractable inference. The predictive density is given as, 
 \begin{align*}
     p(y_*|x_*,\mathcal{D}) &= \int p(y_*|x, \theta)p(\theta|\mathcal{D})d\theta\\
     &\approx \frac{1}{K} \sum_{k=1}^K p(y_*|x, \theta^{(k)})
@@ -155,14 +180,3 @@ No U-turn (NUTS) sampling avoid this.
 
 \subsection{Adaptive stochatic HMC}
 
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width = \textwidth]{Pictures/bayesian_nn_prior_samples.pdf}
-    \caption{Prior samples}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width = \textwidth]{Pictures/bayesian_nn_posterior_samples.pdf}
-    \caption{Posterior samples after observing }
-\end{figure}

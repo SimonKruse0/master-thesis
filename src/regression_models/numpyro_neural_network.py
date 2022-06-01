@@ -19,7 +19,6 @@ class NumpyroNeuralNetwork:
                      hidden_units_variance = 2, 
                      hidden_units_bias_variance = 1):
         self.kernel = None 
-        #self.nonlin = lambda x: jnp.tanh(x)
         self.hidden_units = hidden_units
         self.hidden_units_variance = hidden_units_variance
         self.hidden_units_bias_variance = hidden_units_bias_variance
@@ -36,8 +35,6 @@ class NumpyroNeuralNetwork:
         self.samples = None
         self.params = f"layers = 3, hidden_units = {hidden_units}, num_warmup = {num_warmup},\
                             num_samples = {num_samples}, num_chains = {num_chains}"
-        # self.data = 
-
         text_observation = r"$y \sim \mathcal{N}(f_{\theta}(x),\sigma)$"
         text_prior = r" $\theta_{w}   \sim \mathcal{N}(0,$"+f"{self.hidden_units_variance}"+r"$I_{30})$"
         text_prior_bias = r" $\theta_{b} \sim \mathcal{N}(0,$"+f"{self.hidden_units_bias_variance}"+r"$I_{3})$"
@@ -47,9 +44,6 @@ class NumpyroNeuralNetwork:
             text_obs_prior = r" $\sigma \sim Exp($"+f"{self.obs_variance_prior}"+r"$)$,"
         text_f = r" $f_{\theta} = NN("+f"{hidden_units},{hidden_units},{hidden_units}"+r")$"
         self.latex_architecture = text_observation + text_prior + text_prior_bias+ text_obs_prior+text_f
-        #self.latex_architecture = text_observation +"\n"+ text_prior+"\n" + text_prior_bias+"\n"+ text_obs_prior+"\n"+text_f
-
-        #self.text_priors = text_prior + "\n"+text_prior_bias
         self.text_priors = text_prior + ", "+text_prior_bias
 
 

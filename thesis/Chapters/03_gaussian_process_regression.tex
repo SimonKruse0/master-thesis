@@ -1,7 +1,18 @@
 \section{Gaussian process surrogate}
 
 The most popular surrogate model is the Gaussian process, we will now understand model
-in more detail. 
+in more detail. Normally a probabilistic regression model is on the from 
+$$y = f_w(x) + \epsilon$$
+where weights are trained. $f$ could describe a linear model, $f(x) = w^Tx$ or a polynomial
+$f(x) = w\cdot x^2$ etc. the performance of the regression model is very dependend on the 
+regression model. Gaussian process takes a less restrictive approach, and model the function
+evaluations directly, with the assumption that function evaluations close to each other are 
+very similar. 
+<image>
+
+Using a GP as a surrogate model is very popular in Bayesian Optimization, one of the reasons
+are its exact inference, and often its assumption is a very good characteristic of the true
+function. 
 
 \subsection{Exact predictive distribution}
 We now show how the preditive distribution is calculated exact for

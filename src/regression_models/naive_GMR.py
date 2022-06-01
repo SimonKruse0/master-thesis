@@ -80,12 +80,16 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
         self.manipulate_variance = manipulate_variance
         self.optimize_hyperparams = optimize
         self.opt_n_iter, self.opt_cv = opt_n_iter, opt_cv
+        self.predictive_score = True
 
     def fit(self, X, Y):
         if self.optimize_hyperparams:
-            self._optimize(X,Y)
-            print("-- Fitted with optimized hyperparams --")
-            return
+            if X.shape[0] >= self.opt_cv:
+                self._optimize( X, Y)
+                print("-- Fitted with optimized hyperparams --")
+                return
+            else:
+                print("-- Fitting with default hyperparams since too little data for CV-- ")
 
         self.N, self.nX = X.shape
         #nXY = self.nX+1        
@@ -99,12 +103,28 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
 
     def score(self, X_test, y_test):
         y_test = y_test.squeeze()
-        assert y_test.ndim <= 1
+        assert y_test.ndim <= 1 
         m_pred, sd_pred, _ = self.predict(X_test)
-        Z_pred = (y_test-m_pred)/sd_pred #std. normal distributed. 
-        score = np.mean(norm.pdf(Z_pred))
-        print(f"mean pred likelihood = {score:0.3f}")
+        assert m_pred.ndim == 1
+        assert sd_pred.ndim == 1
+        if self.predictive_score:
+            score = -np.mean(abs(y_test-m_pred))
+            print(f"negative mean pred error = {score:0.3f}")
+        else:
+            Z_pred = (y_test-m_pred)/sd_pred #std. normal distributed. 
+            score = np.mean(norm.pdf(Z_pred))
+            print(f"mean pred likelihood = {score:0.3f}")
+        print(" ")
         return score
+
+    # def score(self, X_test, y_test):
+    #     y_test = y_test.squeeze()
+    #     assert y_test.ndim <= 1
+    #     m_pred, sd_pred, _ = self.predict(X_test)
+    #     Z_pred = (y_test-m_pred)/sd_pred #std. normal distributed. 
+    #     score = np.mean(norm.pdf(Z_pred))
+    #     print(f"mean pred likelihood = {score:0.3f}")
+    #     return score
 
     def _optimize(self, X, y):
         #OBS! BayesSearchCV only look at the init params! if they are not decleared in params!
@@ -133,6 +153,8 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
         out["y_component_std"] = self.y_component_std
         out["manipulate_variance"] = self.manipulate_variance 
         out["prior_settings"] = self.prior_settings
+        out["opt_n_iter"] = self.opt_n_iter
+        out["opt_cv"] = self.opt_cv
         #out["optimize"] = self.optimize_hyperparams #gets into trouble with the CV code
         return out
         

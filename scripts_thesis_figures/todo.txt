@@ -1,2 +1,0 @@
-- Lav illustration manipulate variance. 
--- hvorfor det især giver mening for naive gmr. 

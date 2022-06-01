@@ -25,7 +25,7 @@ $$\min_{x\in \mathcal{X}} f(x)$$ where the functional $f: \mathcal{X} \rightarro
 called the objective function and $\mathcal{X}$ is the set of possible decisions (or decisions you
 consider). Note that the optimization problem is formulated as a minimization problem. If one identifies
 the optimal decision as a maximum of $f$ (instead of the minima), then finding the minima in the
-negating the objective function $-f(x)$ is equivalent. Throughout this thesis, we refer to
+negated objective function $-f(x)$ is equivalent. Throughout this thesis, we refer to
 optimization as minimizing the objective function. The optimization problem is now in the domain of 
 numbers and here many algorithms have been developed to find the minimum of the function
 $f(\cdot)$.
@@ -48,15 +48,16 @@ but also because its inference procedure (computing answers to probability queri
 %   5.  evaluate the current situation (advantages/ disadvantages) and identify the gap
 
 Even though GP has proven good for many cases, there will be problems where its assumptions do not
-hold. E.g the commonly seen GP with an isotropic kernel (covariance between two points is invariant to
-translation in input), yields a strong assumption about the continuity of the objective function and that
-the objective function behaves similarly throughout the domain $\mathcal{X}$. In Figure
+hold. E.g the commonly seen GP with an isotropic kernel (covariance between two points is invariant
+to translation in input), yields a strong assumption about the continuity of the objective function
+and that the objective function behaves similarly throughout the domain $\mathcal{X}$. In Figure
 \ref{fig:GP_vs_BNN} we see an example of how the GP's uncertainty quantification is going wild due
-to a discontinuity in the underlying objective function (a small varying step-function). In some areas is it very common to have
-these discontinuities, for instance, in material discovery where it is well known that materials often
-change very suddenly \cite{Nature_BO_paper}. To accommodate these challenges the literature introduces more
-flexible kernel functions for the GP, however, this introduces additional hyperparameters and since
-we often only deal with a small amount of data, tuning and computation can be significantly challenging \cite{Nature_BO_paper}.
+to a discontinuity in the underlying objective function (a small varying step-function). In some
+areas is it very common to have these discontinuities, for instance, in material discovery where it
+is well known that materials often change very suddenly \cite{Nature_BO_paper}. To accommodate these
+challenges the literature introduces more flexible kernel functions for the GP, however, this
+introduces additional hyperparameters and since we often only deal with a small amount of data,
+tuning and computation of thesis more complex GPs can be significantly challenging \cite{Nature_BO_paper}.
 
 \begin{figure}[H]%
     \centering
@@ -153,7 +154,7 @@ The structure of the thesis is
     \item The first chapter introduces the concept of optimization in general, Bayesian optimization 
     and how surrogates/Bayesian regression models are relevant.
     \item The second chapter introduces GP and Bayesian Neural Networks
-    \item The third chapter introduces the mixture regression and the novel new SPN regression.
+    \item The third chapter introduces the mixture regression and the novel SPN regression.
     \item The fourth chapter results
     \item Finally a discussion and conclusion.
 \end{itemize}
@@ -230,6 +231,9 @@ The density of a normal distribution evaluated in $x$ is denoted as, $\mathcal{N
 
 We will not distinguish between vectors and scalars notation-wise unless it is not clear from the 
 context. 
+
+We refer to the "Optimization landscape" defined as the joint set of points in the domain and the objective function
+evaluated in the points, i.e. $\{(x,f(x))\in \mathcal{X} \times \mathbb{R}| x \in \mathcal{X}\}$
 
 % \section{related work}
 % This thesis is 

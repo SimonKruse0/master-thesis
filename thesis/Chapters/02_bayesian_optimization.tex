@@ -1,6 +1,6 @@
 \chapter{Bayesian Optimization}
-This chapter will introduce Bayesian optimization. However, we start with an introduction to the optimization
-framework in general. 
+This chapter will introduce Bayesian optimization. We start with an general introduction to 
+the concept of optimization in general. 
 
 \input{Chapters/01_optimization.tex}
 
@@ -35,7 +35,7 @@ the acquisition function used in this thesis, which is also the most commonly us
 
 \section{Acquisition function}
 
-\subsection{Expected improvement}
+\subsection{Expected improvement - gaussian predictive distribution}
 A popular choice of acquisition function is expected improvement, 
 $$EI(x) = \mathbb{E}_{p(y|x,\mathcal{D})}[\max(0, y_{\min}-y)]$$
 this will only look at the expectation of the values $y$, which improves the current best value.
@@ -96,7 +96,18 @@ $$\frac{\partial EI(x)}{\partial I(x)} = \Phi\left(\frac{y_{\min}-\mu_x}{\sigma_
 <obs mistake in the book!!!?>
 
 
-
+\subsection{Expected improvement - non-Gaussian predictive distribution}
+If the predictive distribution is non-Gaussian it either possible to approximate it as a Gaussian
+or calculate the expected improvement as follows, 
+\begin{align*}
+    E_{p(y|x,\mathcal{D})}[\max(0,y_{\min}-y)] &= \int \max(0,y_{\min}-y) p(y|x,\mathcal{D}) dy\\
+    &\approx \frac{1}{K} \sum_{k=1}^K  \max(0,y_{\min}-y^{(k)})
+\end{align*}
+where $y^{(k)}$ are samples from the predictive distribution. In the case of a parametric model
+like a Bayesian NN, then we already got posterior samples from posterior $\theta^{(k)} \sim p(\theta | \mathcal{D})$, giving, 
+$$p(y|x,\mathcal{D}) \approx \frac{1}{K_2} \sum_{k=1}^{K_2} p(y|x,\theta^{(k)})$$ where
+$p(y|x,\mathcal{D} = \mathcal{N}(y|NN_w,\sigma))$. So essentially we should sample from a sampled
+distribution, but instead the PhD thesis \cite{PhDthesis}, just sample the mean and set $K_2 = 1$... 
 
 
 \begin{align*}

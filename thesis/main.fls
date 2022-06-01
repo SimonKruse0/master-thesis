@@ -509,8 +509,8 @@ INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmr17.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmr17.tfm
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/Logos/white_cmyk.pdf
 OUTPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Copyright.tex
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Copyright.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Abstract.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Abstract.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/main.toc
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/main.toc
 OUTPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/main.toc
@@ -543,6 +543,8 @@ INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_gaussi
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/GP_samples_mattern.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/04_bayesian_nn_regression.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/04_bayesian_nn_regression.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/bayesian_nn_prior_samples.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/bayesian_nn_posterior_samples.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/bayesian_nn_prior_samples.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/bayesian_nn_posterior_samples.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_mixture_regression.tex
@@ -624,8 +626,6 @@ INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco/f23.p
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco/f24.png
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/07_conclusion.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/07_conclusion.tex
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Appendix.tex
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Appendix.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Backpage.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Backpage.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/main.aux

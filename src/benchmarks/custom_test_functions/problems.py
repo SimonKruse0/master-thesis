@@ -120,6 +120,26 @@ class SimonsTest(Benchmark):
         else:
             return result[0]
 
+
+class SimonsTestStep(Benchmark):
+
+    def __init__(self, dimensions=1):
+        Benchmark.__init__(self, dimensions)
+        assert dimensions == 1
+        self._bounds = list(zip([0] * self.N,
+                           [35] * self.N))
+        self.custom_bounds = ([-5, 5], [-5, 5])
+
+        self.global_optimum = [[0. for _ in range(self.N)]]
+        self.fglob = 0.0
+        self.change_dimensionality = True
+    def fun(self,x, *args): 
+        tspans = [0,3,5,7,9,12,16,18,20,22,24,28,32,35]
+        u = [700,600,500,100,300,200,800,400,500,600,700,200,700,800]
+        result = next(float(y) for t,y in zip(tspans, u) if t >= x[0])
+        self.nfev += 1
+        return result
+
 class SimonsTest0(Benchmark):
 
     def __init__(self, dimensions=1):

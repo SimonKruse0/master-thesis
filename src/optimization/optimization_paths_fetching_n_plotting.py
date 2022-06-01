@@ -83,7 +83,7 @@ def plot_means(ax,problem,dim, folder_names=None, search_name = None, color = "b
         #data_list.append(data)
     try:
         data_df = data_df.ffill()
-        data_df.plot(ax=ax,alpha = 0.1, color=color)#,  legend = False)
+        data_df.plot(ax=ax,alpha = 0.4, color=color)#,  legend = False)
         means = data_df.mean(axis=1)
         ax.plot(means.index,means.values,lw=3, color = color, label=f"{modelname}")
     except:
@@ -100,14 +100,16 @@ def get_folders_of_similar_BO_runs(search_name):
 
 def plot_optimization_paths(ax, problem,dim):
     folder_names_BOHAMIANN = get_folders_of_similar_BO_runs("BOH")
+    folder_names_SPN = get_folders_of_similar_BO_runs("SPN")
     folder_names_GP = get_folders_of_similar_BO_runs("Process")
     folder_names_RandomSearch = get_folders_of_similar_BO_runs("emp")
     folder_names_BNN = get_folders_of_similar_BO_runs("numpyro")
     folder_names_KernelEstiamtor = get_folders_of_similar_BO_runs("Naive")
     all_folders = folder_names_BOHAMIANN+folder_names_GP+folder_names_RandomSearch
-    all_folders += folder_names_BNN+folder_names_KernelEstiamtor
+    all_folders += folder_names_BNN+folder_names_KernelEstiamtor+folder_names_SPN
 
     plot_means(ax,problem,dim,folder_names_BOHAMIANN, modelname = "BOHAMIANN")
+    plot_means(ax,problem,dim,folder_names_SPN,color = "cyan" ,modelname = "SPN")
     plot_means(ax,problem,dim, folder_names_GP, color = "red", modelname = "Gaussian Process")
     plot_means(ax,problem,dim,folder_names_RandomSearch, color = "green", modelname = "Random Search")
     plot_means(ax,problem,dim,folder_names_BNN, color = "orange", modelname = "BNN")
@@ -134,7 +136,9 @@ if __name__ == "__main__":
     # print(data)
     # plot_optimization_path(ax,1,2,folder_name)
     for problem in list(range(1,25)):
-        fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, sharex="all")
-        for ax,dim in zip([ax1,ax2,ax3,ax4],[3,5,10,2]):
+        #fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, sharex="all")
+        #for ax,dim in zip([ax1,ax2,ax3,ax4],[3,5,10,2]):
+        for dim in [2]:
+            fig, ax = plt.subplots()
             plot_optimization_paths(ax,problem,dim)
-        plt.show()
+            plt.show()

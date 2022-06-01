@@ -21,13 +21,13 @@
 \newgeometry{top=2.81cm, bottom=2.75cm, outer=2.5cm, inner=3.5cm}
 \pagestyle{empty}
 \cleardoublepage 
-\input{Frontmatter/Copyright.tex}
-\clearpage 
+% \input{Frontmatter/Copyright.tex}
+% \clearpage 
 \pagestyle{main}
 % \input{Frontmatter/Approval.tex}
 % \clearpage 
-% \input{Frontmatter/Abstract.tex}
-% \clearpage 
+\input{Frontmatter/Abstract.tex}
+\clearpage 
 
 % \input{Frontmatter/Acknowledgements.tex}
 % \cleardoublepage 
@@ -37,21 +37,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagenumbering{arabic}
 \input{Chapters/00_introduction.tex}
-
 \cleardoublepage
-% \input{Chapters/01_optimization.tex}
-% \cleardoublepage
-
 \input{Chapters/02_bayesian_optimization.tex}
 \cleardoublepage
 \input{Chapters/03_04_discriminative_surrogates.tex}
 \cleardoublepage
-% \input{Chapters/03_gaussian_process_regression.tex}
-% \cleardoublepage
-
-%\input{Chapters/04_bayesian_nn_regression.tex}
-% \cleardoublepage
-
 \input{Chapters/05_mixture_regression.tex}
 \cleardoublepage
 \input{Chapters/06_results.tex}
@@ -61,9 +51,9 @@
 % % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \printbibliography[heading=bibintoc,title={Bibliography}]
-\cleardoublepage 
-\appendix
-\input{Backmatter/Appendix.tex}
+% \cleardoublepage 
+% \appendix
+% \input{Backmatter/Appendix.tex}
 \cleartoleftpage
 \input{Backmatter/Backpage.tex}
 
