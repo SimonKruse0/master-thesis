@@ -5,10 +5,58 @@ in more detail. Normally a probabilistic regression model is on the from
 $$y = f_w(x) + \epsilon$$
 where weights are trained. $f$ could describe a linear model, $f(x) = w^Tx$ or a polynomial
 $f(x) = w\cdot x^2$ etc. the performance of the regression model is very dependend on the 
-regression model. Gaussian process takes a less restrictive approach, and model the function
-evaluations directly, with the assumption that function evaluations close to each other are 
-very similar. 
+regression model. The Gaussian process takes a completely different approach, its model $f$ does not
+include any parameters. If we collect the data in a vector $\textbf{f} := [f(x_1),\dots,f(x_n)]$
+then the GP assign it a multivariate normal distribution, 
+$$\textbf{f} \sim \mathcal{N}(\bm{\mu}, \bm{\Sigma})$$
+
+where $\bm{\mu}$ typically is $0$ and the covariance matrix, is depeneded on the input, $x_1, \dots, x_n$, 
+ $$\bm{\Sigma} = c(\textbf{x}, \textbf{x}) = \begin{bmatrix}
+    c(x_1,x_1) & \dots & c(x_1,x_n)\\
+    \vdots& \ddots\\
+    c(x_n,x_1) & \dots & c(x_n,x_n)
+\end{bmatrix}\hspace{1cm} c(x, y) := Matern(x,y)...$$ 
+this means that a realization of the vector $\textbf{f}$ is often close to 0 with a variance of the diagonal $\bm{\Sigma}$,
+but also with a correlation between the elements in $\textbf{f}$ given by the off-diagonals in $\bm{\Sigma}$. This is a very important
+ingredience of a GP, if $c(x_1,x_2) \approx 1$ (assuming that the variances of $\textbf{f}$ is 1, then $\bm{\Sigma}$ is a correlation error)
+then realizations of $\textbf{f}$ always lead to similar values of $f(x_1)$ and $f(x_2)$. This encapsulates the idea of a GP: 
+similarities (could be distance or other measures) in $x$ should lead to similarities in $f(x)$. Now, in the case of extending it to 
+a regression model, we need to bring a unobserved $y_*$ for a arbitrary location $x_*$ into the game. Prior to observing any data, 
+we assume that the corresponding $\textbf{f}_*$ is just a new element in the multivariate normal distribution, 
+\begin{align}
+    p(f(\cdot),\textbf{f}|\textbf{x}) = \mathcal{N}\left(\begin{bmatrix}
+        f(\cdot)\\ \textbf{f}
+    \end{bmatrix} \middle| \begin{bmatrix}
+        0\\ \textbf{0}
+    \end{bmatrix}, \begin{bmatrix}
+        c(\cdot, \cdot) & c(\cdot,\textbf{x})\\
+        c(\textbf{x}, \cdot) & c(\textbf{x}, \textbf{x})
+    \end{bmatrix} \right)
+\end{align}
+yielding many possible outcomes for $\textbf{f}_*$, but with an average $E[\textbf{f}_*] = 0$ and variance of $V[\textbf{f}_*] = 1$.
+but note, we treate $\textbf{f}$ as random quantaty, but if get a realization of $\textbf{f}$, then
+the distribution of $\textbf{f}_*$ is changed, 
+$$p(f(\cdot)|\textbf{x}, \textbf{f}) = \mathcal{N}(f(\cdot)|c(\cdot, \cdot)^{-1}c(\cdot, \textbf{x})\textbf{f}, c(\cdot, \cdot)^{-1})$$
+
+What we want is the predictive posterior distribution, of a new point $p(y_*|x_*, \mathcal{D})$, i.e. by marginalizing 
+out the random variabel $f(x_*)$, 
+\begin{equation}\label{GP_predictive}
+    p(y_*|x_*,\mathcal{D}) = \int \mathcal{N}(y_*|f(x_*), \sigma^2) p(f(x_*)|\mathcal{D})df(x_*)
+\end{equation}
+where we assume that $\epsilon$ from \ref{..} is a Gaussian with zero mean and variance $\sigma^2$. We will
+soon see that the posterior $p(f(x_*)|\mathcal{D})$ is also a normal distribution so using <trick> we end up
+with the distribution. 
+$$p(y_*|x_*,\mathcal{D}) = \mathcal{N}(y_*|E[f(x_*)], Var(f(x_*))+\sigma^2)$$
+So now want to calculate $p(f(x_*)|\mathcal{D})$, 
+
+\begin{equation}\label{posterior_function2}
+    p(f(x_*)|\mathcal{D})= \int p(f(x_*)|\textbf{x}, \textbf{f})p(\textbf{f}|\mathcal{D})d\textbf{f}.
+\end{equation} 
+
 <image>
+
+Assuming corr
+
 
 Using a GP as a surrogate model is very popular in Bayesian Optimization, one of the reasons
 are its exact inference, and often its assumption is a very good characteristic of the true

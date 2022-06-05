@@ -29,9 +29,9 @@ Therefor BNNs are examples of probabilistic models with intractable inference. T
     p(y_*|x_*,\mathcal{D}) &= \int p(y_*|x, \theta)p(\theta|\mathcal{D})d\theta\\
     &\approx \frac{1}{K} \sum_{k=1}^K p(y_*|x, \theta^{(k)})
 \end{align*}
-where the first integral is intractable as $\theta$ can live in a highly dimensional space, second the approximation sign
+where the integral is intractable as $\theta$ can live in a highly dimensional space. The approximation sign
 is true, since we can aproximate the integral with monte carlo sampling: $\theta^{(k)}$ are iid samples from the posterior 
-distribution, $\theta^{(k)} \sim p(\theta|\mathcal{D})$. We can get samples from the posterior distriution
+distribution, $\theta^{(k)} \sim p(\theta|\mathcal{D})$. We can get samples from the posterior distriution using MCMC
 
 \begin{testexample2}[Monte Carlo approximation]
     Assuming we have a number of iid samples, $\theta^{(1)}, \dots, \theta^{(K)}$ drawn from the
@@ -179,4 +179,4 @@ othen the physical simulation in HMC goes forth and back the same path, and we r
 No U-turn (NUTS) sampling avoid this. 
 
 \subsection{Adaptive stochatic HMC}
-
+BOHAMIANN is using an adaptive stochastic Hamiltonian monte carlo method to train the BNN. 
