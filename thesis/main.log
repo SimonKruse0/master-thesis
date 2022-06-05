@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  5 JUN 2022 11:46
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  5 JUN 2022 17:41
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1363,7 +1363,22 @@ Package biblatex Info: Automatic encoding selection.
 
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'main.bbl' found.
- (/home/simon/Documents/MasterThesis/master-thesis/thesis/main.bbl)
+ (/home/simon/Documents/MasterThesis/master-thesis/thesis/main.bbl
+
+Package biblatex Warning: The following entry could not be found
+(biblatex)                in the database:
+(biblatex)                BOHAMIANN
+(biblatex)                Please verify the spelling and rerun
+(biblatex)                LaTeX afterwards.
+
+
+Package biblatex Warning: The following entry could not be found
+(biblatex)                in the database:
+(biblatex)                DNGO
+(biblatex)                Please verify the spelling and rerun
+(biblatex)                LaTeX afterwards.
+
+)
 Package biblatex Info: Reference section=0 on input line 14.
 Package biblatex Info: Reference segment=0 on input line 14.
  (/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
@@ -1483,19 +1498,18 @@ Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on inp
  [5
 
 
-]
+] [6]
 File: Pictures/BO_vs_Grid2.eps Graphic file (type eps)
 <Pictures/BO_vs_Grid2.eps>
 File: Pictures/BO_vs_Grid1.eps Graphic file (type eps)
 <Pictures/BO_vs_Grid1.eps>
- [6]) [7]
+ [7])
 File: Pictures/expected_improvement_illustration.pdf Graphic file (type pdf)
 <use Pictures/expected_improvement_illustration.pdf>
- [8] [9] [10]) [11] [12
-
-] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_04_discriminative_surrogates.tex
+ [8] [9] [10] [11]) [12] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_04_discriminative_surrogates.tex
 Chapter 3.
 (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_gaussian_process_regression.tex [13
+
 
 ]
 
@@ -1747,7 +1761,7 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 60.
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 60.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 60.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: D3FD6CD43E1E4B2812639EEBF0047F21;2430.
+(rerunfilecheck)             Checksum: 196A2D7A65AA7BA23A69E9BB3E1E4F8F;2428.
 
 
 LaTeX Warning: There were undefined references.
@@ -1760,12 +1774,12 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 56869 strings out of 481731
- 1345923 string characters out of 5935437
- 2297685 words of memory out of 5000000
- 72821 multiletter control sequences out of 15000+600000
+ 56871 strings out of 481731
+ 1345952 string characters out of 5935437
+ 2297711 words of memory out of 5000000
+ 72823 multiletter control sequences out of 15000+600000
  554390 words of font info for 151 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  82i,17n,138p,2818b,4680s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (48 pages, 832980 bytes).
+Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (48 pages, 858596 bytes).

@@ -65,9 +65,9 @@ and computation of these more complex GPs can be significantly challenging \cite
 
 \begin{figure}[H]%
     \centering
-    {\includegraphics[width=0.46\textwidth]{Pictures/GP_vs_BNN1.pdf} }%
+    \subfloat[\centering GP]{{\includegraphics[trim=1cm 0.3cm 0.5cm 0.3cm,clip,width=0.46\textwidth]{Pictures/GP_vs_BNN1.pdf} }}%
     \qquad
-   {\includegraphics[width=0.46\textwidth]{Pictures/GP_vs_BNN2.pdf} }%
+    \subfloat[\centering BNN]{{\includegraphics[trim=1cm 0.3cm 0.5cm 0.3cm,clip,width=0.46\textwidth]{Pictures/GP_vs_BNN2.pdf} }}%
     \caption{Left: GP fitted to 20 data points. Right: A Bayesian neural network fitted to the same points.
     The objective function is the dashed black line. This examplifies how a discontinuerity makes the 
     standard implemented GP (optimized with emperical bayes) overreact to all other areas in the domain $[0,1]$,
@@ -88,13 +88,12 @@ GPs are attractive models since they allow for exact inference, a closed-form ex
  (more on this later) and, in general, give a good uncertainty quantification. However, as we saw in
  the figure \ref{fig:GP_vs_BNN} we can maybe do better - especially if we have some insights into
  the behavior of the objective function (i.e. a more transparent the black-box optimization
- problem). If it is possible to evaluate the expensive objective function
- a few times, it can potentially save hours of work, lots of money or energy (depending on what make the 
- objective function expensive). It is, therefore,
- relevant to investigate if other models will perform better. As mentioned, the assumptions of GP
- can be too strong. In this thesis, we aim to create models with less strong assumptions, which can
- perform better on certain classes of (complex) problems, and just as well as the GP on most classes
- of problems. 
+ problem). Suppose it is possible to evaluate the expensive objective function a few times. Then it
+ can potentially save work hours, lots of money, or energy (depending on what makes the objective
+ function expensive). It is, therefore, relevant to investigate if other models will perform better.
+ As mentioned, the assumptions of GP can be too strong. In this thesis, we aim to create models with
+ less strong assumptions, which can perform better on certain classes of (complex) problems, and
+ just as well as the GP on most classes of problems. 
 
 %Even though, it would be interesting to also look at different types of GPs such as deep kernel learning
 We limit the scope of the project to deal with the following surrogate models, 
@@ -104,8 +103,9 @@ We limit the scope of the project to deal with the following surrogate models,
     \item BOHAMIANN
     \item Mixture regression (Gaussian mixture, kernel density estimator, sum-product networks)
 \end{itemize}
-and we choose only to test the Bayesian optimization with the widely used acquisition
-function: \textit{expected improvement}. 
+and we choose only to test the Bayesian optimization with the widely used acquisition function:
+\textit{expected improvement}. Furthermore, we only deal with problems in continuous domains
+$\mathcal{X} \in \mathbb{R}^m$.
 
 
 \section{Contribution}
@@ -144,14 +144,21 @@ research we found,
     \item Bayesian additive regression trees (BART)
 \end{itemize}
 
-Often the main focus has been on lowering the computational complexity of inference while
-showing performance is (or almost is) as well as GPs. Inference time of the GP scales cubic with the
-number of data points and only linear for Bayesian Neural Network. Lowering the inference time is also the
-main focus of the Ph.D. thesis "Sample-efficient Optimization Using Neural Networks" from 2020
-\cite{PhDthesis}, but chapter 3 showcases empirically that using Bayesian neural networks as
-surrogate models performed better, or at least comparable to GPs on a wide number of
-problems. The performance difference was more evident for high-dimensional problems. 
-<mention BOHAMIANN and DNGO>
+Since inference time of the GP scales cubic with the number of samples, often research in
+alternative surrogate models have its primary focus on lowering the computational complexity of
+inference while showing the sample efficiency is (or almost is) as good as the GPs. A popular model
+in the current time is a (deep) neural network and using a neural network as a probabilistic
+surrogate model (i.e. Bayesian Neural Network \cite{BOHAMIANN} or as basisfunctions in linear
+regression \cite{DNGO}) yields only linear complexity. However, as mentioned above, this thesis
+assumes that the objective function is always more costly than the inference cost. And cubic
+complexity for a GP does not matter for the small number of samples, which is often the case for
+highly expensive Bayesian optimization problems. 
+
+Inference complexity is also the main focus of the Ph.D. thesis "Sample-efficient Optimization Using
+Neural Networks" from 2020 \cite{PhDthesis}, but his chapter 3 showcases empirically that using Bayesian
+neural networks as surrogate models performed better, or at least comparable to GPs on a wide number
+of problems. The performance difference was more evident for high-dimensional problems. <mention
+BOHAMIANN and DNGO>
 
 The 2021 nature paper "Bayesian optimization with adaptive surrogate models for automated experimental design"
 \cite{Nature_BO_paper}, focus on the sample efficiency of the BO applied to autonomous materials discovery, 
@@ -169,7 +176,8 @@ is modeling the joint distribution of x and y, and using the conditional distrib
 as the regression model. The results were ... ??
 
 \section{Structure of the thesis}
-The structure of the thesis is
+The structure of the thesis is first to build up the foundation around Bayesian optimization, 
+next introduce ...
 \begin{itemize}
     \item The first chapter introduces the concept of optimization in general, Bayesian optimization 
     and how surrogates/Bayesian regression models are relevant.

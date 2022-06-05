@@ -34,6 +34,7 @@ plt.plot(grid, m, "tab:orange")
 plt.fill_between(grid, m + sd, m - sd, color="tab:blue", alpha=0.8)
 plt.fill_between(grid, m + 2 * sd, m - 2 * sd, color="tab:blue", alpha=0.6)
 plt.fill_between(grid, m + 3 * sd, m - 3 * sd, color="tab:blue", alpha=0.4)
+plt.xlim(0, 1)
 plt.xlabel(r"Input $x$")
 plt.ylabel(r"Output $f(x)$")
 

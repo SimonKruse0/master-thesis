@@ -22,13 +22,13 @@ convex and analytically directly solvable or the domain of $f$ is very limited.
 \end{testexample}
 
 Most optimization problems are non-convex with multiple local minima. And even if the gradient is
-given analytically the solution is found among a potentially infinitely large 
-set of stationary points ($\nabla f(x) = 0$) and boundary points - this might be tedious or impossible.
-When the problem is not directly solvable, mathematical optimization takes an indirect approach: 
-Design a sequence of experiments that reveal information of the objective function. This information 
-can hopefully lead us to the solution of \eqref{OPT}. This general way of sequentially solving 
-is presented in the book Bayesian Optimization by Roman Garnett \cite{bayesoptbook} and 
-presented here as Algorithm \ref{algOPT}. 
+given analytically, the solution is still found among a potentially infinitely large set of
+stationary points ($\nabla f(x) = 0$) and boundary points ($x \in \partial \mathcal{X}$) - this
+might be tedious or impossible. Therefore, when the problem is not directly solvable, mathematical optimization
+takes an indirect approach: Design a sequence of experiments that reveal information about the
+objective function. This information can hopefully lead us to the solution of \eqref{OPT}. This
+general way of sequentially solving is presented in the book Bayesian Optimization by Roman Garnett
+\cite{bayesoptbook} and presented here as Algorithm \ref{algOPT}. 
 
 \begin{algorithm}
 \caption{Sequencial Optimization \cite{bayesoptbook} }\label{algOPT}
@@ -49,37 +49,62 @@ $\{(x,f(x))\in \mathcal{X} \times \mathbb{R}| x \in \mathcal{X}\}$} a policy sel
 \mathcal{X}$ where we make our next observation. Policies can be deterministic or probabilistic, e.g.
 grid search and random search are examples of policies. The next observation provides us a $y$
 value, which combined with $x$ is included in the available data $\mathcal{D}$. Finally, a stopping
-criterion decides whether to continue or terminate. 
-
-<example of random search is half as efficient as BO>
+criterion decides whether to continue or terminate. We will now present how different examples of 
+well-known optimization rutines fits into Algorithm \eqref{algOPT}.
 
 
 \begin{testexample}[Grid search]
     In grid search values along each dimention in $\mathcal{X}$ is seleced and combined with each
-    other, which thereby defines a grid in the parameter space. All points are ordered and systematicly
-    selected. In the content of algorhtim \ref{algOPT} we define the grid search policy as 
+    other, which thereby defines a parrellel grid in the optimization domain $\mathcal{X}$. All
+    points are ordered and systematically selected. In the content of algorhtim \ref{algOPT} we define
+    the grid search policy as 
     $$\text{policy}_{GS}(\mathcal{D}) = x_{|\mathcal{D}|+1}$$
-    assuming $x_1,x_2, \dots, x_{n}$ are the ordered grid points and the size of the obtained 
-    data is $|\mathcal{D}|$. 
+    assuming $x_1,x_2, \dots, x_{n} \in \mathcal{X}$ are the ordered grid points and the size of the obtained 
+    data is $|\mathcal{D}|$.
 \end{testexample}
 \begin{testexample}[Random search]
-    In random search a uniform distribtuion is layed over the domain space $\mathcal{X}$ and a random point
-    is selected from the distribtuion. 
-    $$\text{policy}_{RS}(\mathcal{D}) = x, \hspace{0.5cm} x \sim p(\mathcal{X})$$
-    Note that grid search and random search are policies which completely 
-    ignores the available data. This is a shame and we can do better. 
+    In random search a point is randomly drawn from uniform distribution supported over the domain
+    space $\mathcal{X}$, 
+    $$\text{policy}_{RS}(\mathcal{D}) = x, \hspace{0.5cm} x \sim Unif(\mathcal{X})$$
 \end{testexample}
-
 \begin{testexample}[Gradient descent]
     Gradient descent is the most simple gradient-based optimization approach. The gradient of a continuous 
     function points in the most ascending direction from the location where it is evaluated.
     In the minimization task, \eqref{OPT}, we can iteratively use the opposite gradient direction, i.e. the most 
-    descenting directiong. This yields the policy:
+    descending direction. This yields the policy:
     $$\text{policy}_{GD}(\mathcal{D}) = x_n - \eta \nabla f(x_n)$$
-    where we for a brief moment modify $y$ to be a vector, since the observation model 
+    where we for a brief moment in Algorithm \eqref{algOPT} modify $y$ to be a vector, since the observation model 
     is given as:
     $$\text{observe}_{GD}(x) = [f(x), \nabla f(x)]$$
 \end{testexample}
+
+\subsection{When to use sample-efficient optimization}
+Note that grid search, random search, and gradient descent are policies that entirely ignore the
+available data. Not using all information is a shame if the objective function is expensive to
+evaluate. And indeed, improvements of the gradient descent algorithm, such as momentum and
+quasi-newton methods, indirectly remember and exploit previous observations, $\mathcal{D}$. Choosing a
+more sample-efficient solver is a question of how much extra time/energy per iteration it will cost to
+store and exploit the collected information. In the end solving the optimization problem can be divided
+into the following components, 
+
+\begin{itemize}[noitemsep]
+    \item $N_{\text{iter}}$: number of iterations to reach an acceptable solution. This number depends on the
+    solver. If $n(solver)$ is relatively small, the solver is called sample-efficient. 
+    \item $C_{\text{policy}}$: The solvers cost per iteration, i.e. what is the cost of calculating
+    $\text{policy}(\mathcal{D})$  - cost typically measured in time and power. 
+    \item $C_{\text{observe}}$: Cost per evaluation of the objective function, i.e. the cost of $Observe(x)$
+\end{itemize}
+Assuming same cost pr iterations and for all evaluations, the total optimization cost, $C_{\text{total}}$, is given as 
+$$C_{\text{total}} = N_{\text{iter}} \cdot \left[ C_{\text{policy}} + C_{\text{observe}}\right]$$
+
+where the a sample efficient solver has a large $C_{\text{policy}}$ but a small $N_{\text{iter}}$, and
+a simple optimization scheme like grid search has  very small $C_{\text{policy}}$ but also large $N_{\text{iter}}$. 
+So choosing the right optimization solver depends highly on $C_{\text{observe}}$. In machine learning the framework 
+ADAM is very popular, due to its cheap but advanced policy, yielding a good trade-off between $N_{\text{iter}}$ and 
+$C_{\text{policy}}$.
+
+This project deals with a dominating $C_{\text{observe}}$, i.e. the cost of the policy $C_{\text{policy}}$
+is assumed neglectable. 
 
 \begin{testexample}[Surrogate-based optimization]
     <SVR> <Radial Basis function> <Polynomal model/respons surface>
@@ -89,12 +114,13 @@ criterion decides whether to continue or terminate.
     chosen as the point where the surrogate model is minimized. 
     $$\text{policy}_{sur}(\mathcal{D}) = \min_x \hat f(x)$$
     where $\hat f(x) \approx f(x)$ for $x$ close to the data $\mathcal{D}$. And we hope the approximation
-    holds for $x$ far away from the the data. \textbf{}
+    holds for $x$ far away from the the data.
 \end{testexample}
 
-\subsection{When to use Bayesian optmization}
-What if $f(x)$ took serval days to evaluate. What if $f(x)$ is noisy? what if discrete points? 
-<more here>
+\subsubsection{Noisy objective functions}
+Many of the more intelligent solvers with advanced policies break down if $f(x)$ is noisy - especially gradient-based
+optimization frameworks, but also surrogate-based optimization. This is one way to motivate Bayesian optimization
+or probabilistic surrogate-based optimization. 
 
 % \begin{figure}[h]
 %     \centering
@@ -107,12 +133,12 @@ What if $f(x)$ took serval days to evaluate. What if $f(x)$ is noisy? what if di
     sharp corners,
     boxrule=0mm,
     enhanced,
-    borderline west={4pt}{0pt}{gray},
+    borderline west={4pt}{-2pt}{red},
     colframe=drGray,
     colback=drGray,
     coltitle=black,
 ]
-{\large \textbf{Example: Bayesian Optimization}}\\
+{ \textcolor{red}{\textbf{Example: Bayesian Optimization}}}\\
     Bayesian optimization is a \textit{probabilistic} surrogate-based optimization
     methodology. Here a cheap probabilistic regression model $p(y|x)$ is fitted to the
     the observations $\mathcal{D}$ and oppose to (deterministic) surrogate-based

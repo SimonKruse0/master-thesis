@@ -6,7 +6,7 @@
 \BOOKMARK [1][]{section.0.1.4}{1.4\040notation}{chapter.0.1}% 6
 \BOOKMARK [0][]{chapter.0.2}{2\040Bayesian\040Optimization}{}% 7
 \BOOKMARK [1][]{section.0.2.1}{2.1\040Optimization\040methodology}{chapter.0.2}% 8
-\BOOKMARK [1][]{section.0.2.2}{2.2\040Bayesian\040Optimization}{chapter.0.2}% 9
+\BOOKMARK [1][]{section.0.2.2}{2.2\040Bayesian\040Regression}{chapter.0.2}% 9
 \BOOKMARK [1][]{section.0.2.3}{2.3\040Acquisition\040function}{chapter.0.2}% 10
 \BOOKMARK [1][]{section.0.2.4}{2.4\040surrogate\040model}{chapter.0.2}% 11
 \BOOKMARK [1][]{section.0.2.5}{2.5\040Inference\040of\040surrogate\040models}{chapter.0.2}% 12
@@ -27,4 +27,4 @@
 \BOOKMARK [1][]{section.0.5.3}{5.3\040Regression\040analysis\040of\040GP,\040BOHAMIANN\040and\040NumpyNN\0402D}{chapter.0.5}% 27
 \BOOKMARK [1][]{section.0.5.4}{5.4\040Mixture\040regression\040on\040simple\040functions}{chapter.0.5}% 28
 \BOOKMARK [0][]{chapter.0.6}{6\040Conclusion\040and\040further\040work}{}% 29
-\BOOKMARK [0][]{chapter*.28}{Bibliography}{}% 30
+\BOOKMARK [0][]{chapter*.29}{Bibliography}{}% 30
