@@ -27,6 +27,15 @@ class naive_GMR:
         # for i in self.n_components:
         #     p_xy +=self.priors[i]*multivariate_normal(self.means[i], self.variances[i]).pdf(x,y)
 
+    def p_xy_nd(self,x,y):
+        assert x.shape[1] == self.nX
+        assert y.shape[1] == 1
+        lp_xy_all=np.sum(norm.logpdf(x, loc = self.means[:,None,:-1], scale = self.x_component_std), axis = 2)
+        lp_xy_all+= norm.logpdf(y, loc=self.means[:,None,-1:], scale = self.y_component_std).squeeze()
+        #assert lp_xy_all.shape[0] == self.means.shape[0]
+        p_xy = np.sum(np.exp(lp_xy_all), axis=0)/self.n_components 
+        return p_xy
+
     def lp_x_all(self, x):
         assert x.ndim == 2
         #return norm.logpdf(x, loc = self.means[:,0], scale = self.x_component_std)
@@ -117,15 +126,6 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
         print(" ")
         return score
 
-    # def score(self, X_test, y_test):
-    #     y_test = y_test.squeeze()
-    #     assert y_test.ndim <= 1
-    #     m_pred, sd_pred, _ = self.predict(X_test)
-    #     Z_pred = (y_test-m_pred)/sd_pred #std. normal distributed. 
-    #     score = np.mean(norm.pdf(Z_pred))
-    #     print(f"mean pred likelihood = {score:0.3f}")
-    #     return score
-
     def _optimize(self, X, y):
         #OBS! BayesSearchCV only look at the init params! if they are not decleared in params!
         opt = BayesSearchCV(
@@ -157,7 +157,22 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
         out["opt_cv"] = self.opt_cv
         #out["optimize"] = self.optimize_hyperparams #gets into trouble with the CV code
         return out
-        
+
+    def predictive_pdf(self,X,Y):
+        X,*_ = normalize(X,self.x_mean, self.x_std)
+        Y,*_ = normalize(Y,self.y_mean, self.y_std)
+        Ndx = self.prior_settings["Ndx"]
+        sig_prior = self.prior_settings["sig_prior"]
+        N = self.N
+        assert X.ndim ==2
+        assert Y.ndim ==2
+        p_xy = self.p_xy_nd(X, Y)
+        print("p_xy", p_xy)
+        p_x = np.exp(self.lp_x(X))
+        p_prior_y = norm(0, sig_prior).pdf(Y)
+        p_predictive = (N*p_xy + Ndx*p_prior_y.squeeze()) / (N*p_x + Ndx)    
+        return p_predictive
+
     def predict(self, X_test):
         X_test,*_ = normalize(X_test,self.x_mean, self.x_std)
         Ndx = self.prior_settings["Ndx"]
@@ -189,14 +204,6 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
 
         std_pred_bayes = np.sqrt(v_pred_bayes)
 
-        if self.manipulate_variance:
-            #std_pred_bayes *= 0.01/np.clip(self.N*p_x, 0.01, 1)
-            #std_pred_bayes *= 0.1/(self.N*p_x)
-            factor = (1/np.clip(self.N*p_x, 0.9, np.inf))
-            std_pred_bayes*=factor
-            #print("variance scaling:", factor.min(), factor.max())
-
-
         m_pred_bayes = denormalize(m_pred_bayes, self.y_mean, self.y_std)
         std_pred_bayes *= self.y_std
 
@@ -210,7 +217,6 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
         Ndx = self.prior_settings["Ndx"]
         sig_prior = self.prior_settings["sig_prior"]
         N = self.N
-
 
         X, Y = np.meshgrid(x_grid, y_grid, indexing="ij")
         p_xy = self.p_xy(X, Y)
@@ -280,4 +286,18 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
             ax1.set_yticks(ticks)
             ax1.tick_params(axis='y', labelcolor=color)
             ax1.text(x_grid[len(x_grid)//2],1.1,r"$\alpha(x)$", color=color, size="large")
-            
+
+def obj_fun_nd(x): 
+    return np.sum(0.5 * (np.sign(x-0.5) + 1)+np.sin(100*x)*0.1, axis = 1)
+
+if __name__ == "__main__":
+    bounds = [0,1]
+    #datasize = int(input("Enter number of datapoints: "))
+    datasize = 200
+    np.random.seed(20)
+    X_sample =  np.random.uniform(*bounds,size = (datasize,3))
+    Y_sample = obj_fun_nd(X_sample)[:,None]
+
+    SPN_regression = NaiveGMRegression(optimize=True)
+    SPN_regression.fit(X_sample, Y_sample)
+    print(SPN_regression.predictive_pdf(X_sample[:10,:]+0.01*np.random.rand(10)[:, None], Y_sample[:10,:]))

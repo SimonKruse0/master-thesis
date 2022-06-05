@@ -302,8 +302,8 @@ class NormalLeaf(SuprLeaf):
         # Parametes
         # self.mu = nn.Parameter(torch.randn(self.T, self.V, self.C))
         # self.mu = nn.Parameter(torch.linspace(0, 1, self.C)[None, None, :].repeat((self.T, self.V, 1)))
-        self.mu = nn.Parameter(torch.rand(self.T, self.V, self.C))
-        self.sig = nn.Parameter(torch.ones(self.T, self.V, self.C) * 0.5)
+        self.mu = nn.Parameter(torch.randn(self.T, self.V, self.C))
+        self.sig = nn.Parameter(torch.ones(self.T, self.V, self.C) * 0.1)
         # Which variables to marginalized
         self.register_buffer('marginalize', torch.zeros(variables, dtype=torch.bool))
         # Input

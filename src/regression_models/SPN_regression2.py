@@ -14,6 +14,7 @@ from skopt.space import Real
 # Marginalization query
 from sklearn.base import BaseEstimator, RegressorMixin
 #from ..utils import normalize, denormalize
+import copy
 
 def normalize(X, mean=None, std=None):
     #zero_mean_unit_var_normalization
@@ -33,11 +34,11 @@ def denormalize(X_normalized, mean, std):
 
 class SumProductNetworkRegression(BaseEstimator):
     def __init__(self,
-                tracks=1, channels=20,
+                tracks=10, channels=30,
                 manipulate_variance = False
                 , train_epochs = 10000,
                 alpha0_x=5,alpha0_y=5, 
-                beta0_x = 0.01,beta0_y = 0.01, 
+                beta0_x = 0.1,beta0_y = 0.01, 
                 prior_settings = {"Ndx": 1,"sig_prior":1.2},
                 optimize=False, opt_n_iter  =20, opt_cv = 3):
         self.epochs = train_epochs
@@ -73,13 +74,13 @@ class SumProductNetworkRegression(BaseEstimator):
                 self.channels,
                 n=self.N,
                 mu0=0.0,
-                nu0=0,
+                nu0=0,#beta[0][0][0]/(alpha[0][0][0]-1), #var(x)=1
                 alpha0=alpha,
                 beta0=beta,
             ),
             supr.Einsum(self.tracks, self.xy_variables , self.channels, 1),
             supr.Weightsum(self.tracks, self.xy_variables, 1)
-            # supr.Weightsum(self.tracks, self.xy_variables , self.channels),
+            #supr.Weightsum(self.tracks, self.xy_variables , self.channels),
         )
         X = torch.from_numpy(X)
         Y = torch.from_numpy(Y)
@@ -92,12 +93,15 @@ class SumProductNetworkRegression(BaseEstimator):
         for epoch in range(self.epochs):
             model.train()
             logp = model(XY).sum()
-            #print(f"Log-posterior ∝ {logp:.2f} ")#, end="\r")
+            if epoch%10==0:
+                print(f"Log-posterior ∝ {logp:.2f} ")#, end="\r")
             model.zero_grad(True)
             logp.backward()
             model.eval()  # swap?
             model.em_batch_update()
-            if abs(logp-logp_tmp) <1e-7:
+            #print(abs(logp-logp_tmp))
+            #if abs(logp-logp_tmp) <1e-7:
+            if abs(logp-logp_tmp) <1e-2:
                 counter += 1
             else:
                 counter = 0
@@ -141,7 +145,7 @@ class SumProductNetworkRegression(BaseEstimator):
         beta =torch.cat([beta_x, beta_y])[None,:,None]
 
         bestlogp = -np.inf
-        n_trainings = 1
+        n_trainings = 2
         for i in range(n_trainings):
             if self.verbose:
                 print(f"training {i+1} out of {n_trainings}",end="\r")
@@ -160,17 +164,7 @@ class SumProductNetworkRegression(BaseEstimator):
             Ndx = self.prior_settings["Ndx"]
             sig_prior = self.prior_settings["sig_prior"]
             self.params += f",\n likelihood:prior weight = p(x){self.N/Ndx}:1,\nprior_std= {sig_prior}"
-        # if show_plot:
-        #     fig, ax = plt.subplots()
-        #     self.plot(ax)
-            
-        #     X_test = np.linspace(0,1,100)[:,None]
-        #     mean,std_deviation,Y_CI = self.predict(X_test)
-        #     ax.plot(X_test, mean, "--", color="black")
-        #     ax.fill_between(X_test.squeeze(), mean-2*std_deviation, mean+2*std_deviation,
-        #                                 color="black", alpha=0.3, label=r"90\% credible interval") 
-        #     ax.plot(X, Y, "*")
-        #     plt.show()
+
 
     def score(self, X_test, y_test):
         y_test = y_test.squeeze()
@@ -225,9 +219,10 @@ class SumProductNetworkRegression(BaseEstimator):
         #self.set_params(**opt.best_estimator_.get_params())
         # self.fit(X,y) #Not nessesary done by opt.fit
         self.optimize_hyperparams = True
-        
+
 
     def predict(self,X_test):
+        model = copy.deepcopy(self.model)
         X_test, *_ = normalize(X_test, self.x_mean, self.x_std)
         Ndx = self.prior_settings["Ndx"]
         sig_prior = self.prior_settings["sig_prior"]
@@ -235,17 +230,17 @@ class SumProductNetworkRegression(BaseEstimator):
         XX_grid = torch.hstack([x_grid, torch.zeros(len(x_grid),1)])
         
         # Evaluate marginal distribution on x-grid
-        log_p_x = self.model(XX_grid, marginalize=self.marginalize_y)
+        log_p_x = model(XX_grid, marginalize=self.marginalize_y)
         p_x = torch.exp(log_p_x)
-        self.model.zero_grad(True)
+        model.zero_grad(True)
         log_p_x.sum().backward()
 
         with torch.no_grad():
             # Compute normal approximation
             mean_prior =0
-            m_pred = (self.N*(self.model.mean())[:, -1]*p_x + Ndx*mean_prior)/(self.N*p_x+Ndx)
-            v_pred = (self.N*p_x*(self.model.var()[:, -1]+self.model.mean()[:, -1]
-                    ** 2) + Ndx*sig_prior)/(self.N*p_x+Ndx) - m_pred**2
+            m_pred = (self.N*(model.mean())[:, -1]*p_x + Ndx*mean_prior)/(self.N*p_x+Ndx)
+            v_pred = (self.N*p_x*(model.var()[:, -1]+model.mean()[:, -1]
+                    ** 2) + Ndx*sig_prior**2)/(self.N*p_x+Ndx) - m_pred**2
             assert not any(v_pred<0) 
             if self.manipulate_variance:
                 v_pred /= torch.clamp(p_x*50, 1,40)
@@ -255,7 +250,31 @@ class SumProductNetworkRegression(BaseEstimator):
         std_pred = std_pred*self.y_std
         return np.array(m_pred),np.array(std_pred).T,None
     
-    
+    def predictive_pdf(self,X,Y):
+        X,*_ = normalize(X,self.x_mean, self.x_std)
+        Y,*_ = normalize(Y,self.y_mean, self.y_std)
+        X = torch.from_numpy(X)
+        Y = torch.from_numpy(Y)
+        model = copy.deepcopy(self.model)
+        #model = self.model.clone()
+        XY = torch.hstack((X, Y))
+        XX = torch.hstack((X, torch.zeros(X.shape[0],1)))
+        N = self.N
+        sig_prior = 1
+        assert X.ndim ==2
+        assert Y.ndim ==2
+
+        with torch.no_grad():
+            log_p_xy = model(XY)
+            p_xy = torch.exp(log_p_xy)
+            #print("p_xy",p_xy)
+            log_p_x = model(XX, marginalize=self.marginalize_y)
+            p_x = torch.exp(log_p_x)
+            normal_sig_prior = torch.distributions.Normal(0,sig_prior)
+            p_prior_y= torch.exp(normal_sig_prior.log_prob(Y))
+            p_predictive = (N*p_xy + p_prior_y.squeeze()) / (N*p_x + 1)
+            return p_predictive.detach().numpy()
+
     def _bayesian_conditional_pdf(self,x_grid,y_grid): #FAILS!!
         x_grid, *_ = normalize(x_grid, self.x_mean, self.x_std)
         y_grid, *_ = normalize(y_grid, self.y_mean, self.y_std)
@@ -276,26 +295,23 @@ class SumProductNetworkRegression(BaseEstimator):
             p_xy = torch.exp(log_p_xy).reshape(x_res, y_res)
         
         # Evaluate marginal distribution on x-grid
-        log_p_x = self.model(XX_grid, marginalize=self.marginalize_y)
-        p_x = torch.exp(log_p_x)
-        self.model.zero_grad(True) #Hvad sker der her??
-        log_p_x.sum().backward()
+            log_p_x = self.model(XX_grid, marginalize=self.marginalize_y)
+            p_x = torch.exp(log_p_x)
+        # self.model.zero_grad(True) #Hvad sker der her??
+        # log_p_x.sum().backward()
         mean = None
         with torch.no_grad():
-            # mean = ((self.model.mean())[:, 1])[:,None]
-            # p_prior_y = norm(mean, 0.1/torch.clamp(p_x[:,None],0.1,2)*sqrt(sig_prior)).pdf(y_grid)
-            # print((p_prior_y).shape)
-            # p_predictive = (N*p_xy + Ndx*p_prior_y) / (N*p_x[:, None] + Ndx)
-            p_prior_y = norm(0, sqrt(sig_prior)).pdf(y_grid)
+            p_prior_y = norm(0, sig_prior).pdf(y_grid)
             print((p_prior_y[None, :]).shape)
             p_predictive = (N*p_xy + Ndx*p_prior_y[None, :]) / (N*p_x[:, None] + Ndx)
-        return p_predictive, mean, p_x
+            return p_predictive, mean, p_x
 
     def y_gradient(self,y_grid):
         y_grid, *_ = normalize(y_grid, self.y_mean, self.y_std)
         return np.gradient(y_grid)
 
     def plot(self, ax, xbounds=(0,1),ybounds=(-2.5,2.5)):
+        assert self.xy_variables == 2
         self.x_res, self.y_res  = 500, 800
         x_res, y_res = self.x_res, self.y_res
         x_grid = torch.linspace(*xbounds, self.x_res, dtype=torch.float)
@@ -352,20 +368,28 @@ class SumProductNetworkRegression(BaseEstimator):
 def obj_fun(x): 
     return 0.5 * (np.sign(x-0.5) + 1)+np.sin(100*x)*0.1
 
+def obj_fun_nd(x): 
+    return np.sum(0.5 * (np.sign(x-0.5) + 1)+np.sin(100*x)*0.1, axis = 1)
+
+
 if __name__ == "__main__":
     bounds = [0,1]
     #datasize = int(input("Enter number of datapoints: "))
     datasize = 200
     np.random.seed(20)
-    X_sample =  np.random.uniform(*bounds,size = (datasize,1))
-    Y_sample = obj_fun(X_sample)
+    X_sample =  np.random.uniform(*bounds,size = (datasize,3))
+    Y_sample = obj_fun_nd(X_sample)[:,None]
 
     SPN_regression = SumProductNetworkRegression(
                     tracks=1,
                     channels = 30, train_epochs= 1000,
-                    optimize=True)
+                    optimize=False)
     SPN_regression.fit(X_sample, Y_sample)
-    
+
+    X = X_sample[:5,:]+np.random.randn(5,3)*0.001
+    Y = Y_sample[:5,:]+np.random.randn(5,1)*0.001
+    print("result 1 = ", SPN_regression.predictive_pdf(X, Y)) 
+    print("result 2 = ", SPN_regression.predictive_pdf(X, Y)) 
     fig, ax = plt.subplots()
     SPN_regression.plot(ax)
     

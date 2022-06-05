@@ -44,7 +44,7 @@ def plot_regression_paths(problem,dim, plot_type=0):
 
     
     problem_dim = f"f{problem}_DIM{dim}"
-    if type==1:
+    if plot_type==0:
         ax.set_yscale('log')
         ax.set_ylabel("mean relative error")
     else:
@@ -65,5 +65,5 @@ def plot_regression_paths(problem,dim, plot_type=0):
 import matplotlib.pyplot as plt
 if __name__ == "__main__":
     for problem in list(range(1,25)):
-        for dim in [2,3,5,10]:
-            plot_regression_paths(problem, dim)
+        for dim in [2]:
+            plot_regression_paths(problem, dim, plot_type=2)

@@ -29,8 +29,8 @@ def plot2D(RV:RegressionTest,n_train, output_path, plot_type = 1):
 
     xbounds = (-5, 5) #improvmenet
     ybounds = (-5, 5) #variance
-    x1_grid = np.linspace(*xbounds, 100, dtype=np.float)
-    x2_grid = np.linspace(*ybounds, 90,dtype=np.float)
+    x1_grid = np.linspace(*xbounds, 100, dtype=np.float64)
+    x2_grid = np.linspace(*ybounds, 90,dtype=np.float64)
 
     x1,x2 = np.meshgrid(x1_grid, x2_grid)
     X = np.hstack([x1.flatten()[:,None],x2.flatten()[:,None]])
@@ -52,7 +52,8 @@ def plot2D(RV:RegressionTest,n_train, output_path, plot_type = 1):
         # cbar.set_ticks(list(range(6)))
         # cbar.set_ticklabels(list(range(6)))
         if plot_type == 2 or plot_type == 1:
-            c = ax.contourf(x1,x2, mu_pred, np.linspace(mu_pred.min(), mu_pred.max(),40), cmap="twilight_shifted")
+            #c = ax.contourf(x1,x2, mu_pred, np.linspace(mu_pred.min(), mu_pred.max(),40), cmap="twilight_shifted")
+            c = ax.contourf(x1,x2, mu_pred, np.linspace(mu_pred.min(), mu_pred.max(),10), cmap="twilight_shifted")
             cbar = plt.colorbar(c,ax=ax)
             ax.plot(*X_train.T,'*', color='black', alpha=0.5,
                         markersize=10, markeredgewidth=0, label="data")
@@ -62,7 +63,8 @@ def plot2D(RV:RegressionTest,n_train, output_path, plot_type = 1):
 
         if plot_type == 3 or plot_type == 1:
             #c2 = ax2.contourf(x1,x2, sigma_pred, np.linspace(sigma_pred.min(), sigma_pred.max(),40), cmap="Reds_r")
-            c2 = ax2.contourf(x1,x2, sigma_pred, np.linspace(0, sigma_pred.max(),40), cmap="Reds_r")
+            #c2 = ax2.contourf(x1,x2, sigma_pred, np.linspace(0, sigma_pred.max(),40), cmap="Reds_r")
+            c2 = ax2.contourf(x1,x2, sigma_pred, np.linspace(0, sigma_pred.max(),10), cmap="Reds_r")
             cbar2 = plt.colorbar(c2, ax=ax2)
             #ax2.plot(*X_train.T,'*', color='black', alpha=0.5,
             #        markersize=10, markeredgewidth=0, label="data")
@@ -70,8 +72,8 @@ def plot2D(RV:RegressionTest,n_train, output_path, plot_type = 1):
             ax2.set_xlabel(r"$x_1$")
 
         #ax.set_ylim(0,10)
-        #plt.show()
-        plt.savefig(output_path+f"{plot_type}.pdf")
+        plt.show()
+        #plt.savefig(output_path+f"{plot_type}.pdf")
 
 # reg_models = [#MeanRegression(), 
 #             NaiveGMRegression(optimize=True), 
@@ -83,7 +85,10 @@ def plot2D(RV:RegressionTest,n_train, output_path, plot_type = 1):
 #             SumProductNetworkRegression(optimize=True)]
             
 
-reg_models = [SumProductNetworkRegression(optimize=False)]
+reg_models = [SumProductNetworkRegression(optimize=False,
+                        alpha0_x=6.188900996704582, alpha0_y=7.544489215988586, 
+                        beta0_x=0.7, beta0_y=0.14627658075704839, 
+                        train_epochs=1000)]
 
 ### main ###
 n_train_array = [int(x) for x in np.logspace(1, 2.5, 9)]
@@ -122,7 +127,7 @@ for problem in suite:
     for random_seed in np.random.randint(99999, size=1):
         for regression_model in reg_models:
             print(regression_model.name, f"{name_problem} in {dim}")
-            RV = RegressionTest(regression_model,problem, random_seed)
+            RV = RegressionTest(regression_model,problem, random_seed, disp=True)
             output_path=path+f"/{name_problem}_{regression_model.name}"
             plot2D(RV,100, output_path, plot_type=2)
             #RV.train_test_loop(n_train_array, n_test, output_path = f"{path}")

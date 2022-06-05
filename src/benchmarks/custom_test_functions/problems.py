@@ -22,6 +22,27 @@ class general_setup(Benchmark):
         self.nfev += 1
         return self.objective_function(x)
 
+class SimonsTest2_probibalistic(Benchmark):
+
+    def __init__(self, dimensions=1):
+        Benchmark.__init__(self, dimensions)
+        assert dimensions == 1
+        self._bounds = list(zip([-100] * self.N,
+                           [100] * self.N))
+        self.custom_bounds = ([-5, 5], [-5, 5])
+
+        self.global_optimum = [[0. for _ in range(self.N)]]
+        self.fglob = 0.0
+        self.change_dimensionality = True
+    def fun(self,x, *args): 
+        x = x/200 + 0.5
+        self.nfev += 1
+        result = 50 * (np.sign(x-0.5) + 1)+np.sin(100*x)*10 + 100+30*np.random.randint(2)
+        if result.ndim == 0:
+            return result
+        else:
+            return result[0]
+
 class SimonsTest4_cosine_fuction(Benchmark):
     #sin more and more intensively
     def __init__(self, dimensions=1):

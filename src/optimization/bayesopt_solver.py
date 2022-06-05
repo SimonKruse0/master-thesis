@@ -66,13 +66,32 @@ class BayesOptSolverBase(PlottingClass):
         assert Y_init.ndim == 2
         return X_init, Y_init
 
+    def batch(self,iterable, n=1):
+        l = len(iterable)
+        for ndx in range(0, l, n):
+            yield iterable[ndx:min(ndx + n, l)]
+
+    def predictive_pdf(self, X,Y):
+        try:
+            predictive_pdfs = self.model.predictive_pdf(X,Y) 
+        except:
+            print(f"{self.model.name} didn't have a predictive_pdf")
+            predictive_pdfs = None
+        return predictive_pdfs
+
     def predict(self,X, gaussian_approx = True, get_px = False):
+        # if X.shape[0] > 1000:
         if get_px:
-            Y_mu,Y_sigma,p_x = self.model.predict(X)
+            Y_mu,Y_sigma,p_x = self.model.predict(X_batch)
             return Y_mu,Y_sigma, p_x
+        Y_mu_list = []
+        Y_sigma_list = []
         assert gaussian_approx == True
-        Y_mu,Y_sigma,_ = self.model.predict(X)
-        return Y_mu,Y_sigma
+        for X_batch in self.batch(X, 1000):
+            Y_mu,Y_sigma,_ = self.model.predict(X_batch)
+            Y_mu_list.append(Y_mu)
+            Y_sigma_list.append(Y_sigma)
+        return np.array(Y_mu_list).flatten(),np.array(Y_sigma_list).flatten()
 
     def lower_confidense_bound(self,X, beta = 2):
         mu, sigma = self.predict(X)
@@ -245,7 +264,9 @@ class PlotBayesOpt1D(BayesOptSolver_sklearn):
             outer_gs = gridspec.GridSpec(1, 1)
             self.plot_surrogate_and_acquisition_function(outer_gs[0])
             number = f"{i}".zfill(3)
-            plt.savefig(path+f"{self.problem_name}{self.model.name}{number}.jpg")
+            fig_path = path+f"{self.problem_name}{self.model.name}{number}.jpg"
+            fig_path = fig_path.replace(" ", "_")
+            plt.savefig(fig_path)
         print(f"-- End of optimization -- best objective y = {self.y_min:0.2f}\n")
 
     def plot_surrogate_and_acquisition_function(self,subplot_spec):
