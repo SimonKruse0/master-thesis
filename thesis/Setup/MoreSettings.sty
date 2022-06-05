@@ -6,6 +6,26 @@
 \usepackage{xparse}
 \usepackage{lipsum}
 
+\definecolor{darkred}{cmyk}{0,0.91,0.72,0.23}
+\newtcolorbox{mybox}[3][]
+{
+   sharp corners,
+   boxrule=0mm,
+   enhanced,
+   borderline west={4pt}{-2pt}{darkred},
+   borderline north={1pt}{0pt}{darkred},
+   borderline south={1pt}{0pt}{darkred},
+   borderline east={1pt}{0pt}{darkred},
+   colframe=drGray,
+   colback=drGray,
+   %coltitle=red,
+   %title    = {#3},
+   %fonttitle=\bfseries,
+   %boxed title style={empty,size=minimal,toprule=0pt,top=4pt,left=3mm,overlay={}}
+   %boxsep=3pt,left=4pt,right=4pt,top=2pt,bottom=2pt
+}
+
+
 \def\exampletext{Example} % If English
 \NewDocumentEnvironment{testexample}{ O{} }
 {
