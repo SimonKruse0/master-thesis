@@ -18,7 +18,7 @@ conditional of a Gaussian mixture model (or kernel estimator) for regression has
 briefly in \cite{bishop1995neural} and using kernel estimator \cite{ALStatisticalModels} and
 \cite{JordanPaper} for active learning. According to these sources, the good reasons for using the
 mixtures for regression are that they can be used to represent any relations between the variables,
-e.g. $p(y|x)$ or $p(x|y)$. They are both applicable in supervised and unsupervised machine learning.
+e.g., $p(y|x)$ or $p(x|y)$. They are both applicable in supervised and unsupervised machine learning.
 And they are good at dealing with incomplete data, i.e. missing values in the data set <change
 this>. We hypothesize that it will allow for an expressive surrogate model, which competently
 can deal with complex BO tasks, as they do not assume continuity. In this thesis we will first look
@@ -50,6 +50,84 @@ neural network. To summarize, the mixture regression models are:
 % \end{figure}
 
 
+\section{Conditional of mixture regression}
+To exploit a generative model as a surrogate model in Bayesian optimization, we need to calculate
+the condtional distribution. Fortunately, all generative models used in this thesis are mixture
+models, which simplifies the upcomming deveriations. We define a general mixture model as, 
+$$p(x,y) = \sum_z \lambda_z p_z(x,y)$$ where $p_z(x,y)$ are mixture components, i.e. simpler
+generative models with same support, $(x,y) \in \mathcal{X}\times \mathbb{R}$. The goal is to define
+the conditional distribution exact for all the mixture models. As we will soon see, this is again a
+mixture model, 
+$$p(y|x) = \sum_z \gamma_z(x) p_z(y|x).$$ with $\sum_z \gamma_z(x) = 1$ and $\gamma_z(x) \in [0,1]$.
+First, we calcalculate the marginal distribution $p(x)$ of the mixture, 
+%assuming that it is possible to marginalize $p_z(x) = \int p_z(x,y) dy$
+\begin{align*}
+    p(x) &= \int p(x,y) dy =\sum_{z} \lambda_z \int p_z(x,y) dy =\sum_{z} \lambda_z p_z(x)
+\end{align*}
+
+Next, we can calculate the conditional in terms of the conditional of the individual mixture
+components, 
+\begin{align}
+    p(y|x) &= \frac{p(y,x)}{p(x)}\\
+    &= \sum_{z} \frac{\lambda_z}{p_z(x)} p_z(x,y)\\
+    &=  \sum_{z}  \frac{\lambda_z p_z(x)}{p(x)}p_z(y|x)\\
+    &=  \sum_{z}  \underbrace{ \frac{\lambda_z p_z(x)}{\sum_{z^*} \lambda_{z^*} p_{z^*}(x)}}_{\gamma_z(x)} p_z(y|x)
+\end{align}
+
+So we see that the conditional of a mixture model is again a mixture model. 
+We also see that $\sum_z \gamma_z(x) = 1$ and hence we can interpret the above as the following, 
+$$p(y|x) = p_z(y|x)  \hspace*{1cm} z \sim Cat(\gamma_1(x), \dots, \gamma_Z(x)) $$
+And we name $p(z|x) = \gamma_z(x) \in [0,1]$ the \textit{responsibility} of mixture component $z$ 
+at a given location $x \in \mathcal{X}$, (The probability that $y$ to belong to component $z$ at a given 
+location $x$). 
+
+We will present all the models and show how their conditional distributions are calculated concretely.
+
+\subsection{Kernel density estimator}
+The kernel density estimator is just a gaussian mixture models, with no correlation 
+between any of the variables, i.e. $p_z(y|x) = p_z(y)$. More concretely we get
+$$p(y|x) = \sum_{z=1}^n \gamma_z(x) \mathcal{N}(y|\mu_{y}^{(z)},\Sigma_{yy}^{(z)} )$$ with
+$\gamma_z(x) := \frac{\lambda_z \mathcal{N}(x|\mu_{x}^{(z)},\Sigma_{xx}^{(z)})}{\sum_{z^*}
+\lambda_{z^*} \mathcal{N}(x|\mu_{x}^{(z^*)},\Sigma_{xx}^{(z^*)})}$ where $z = 1,2,\dots, n$, which
+is why the computational complexity is $O(n)$. Note that the denominator in $\gamma_z(x)$ can be
+reused for all combonents. 
+
+\subsection{Gaussian mixture model}
+The Gaussian mixture regression is defined straight forward, 
+$$p(y|x) = \sum_{z=1}^K \gamma_z(x) \mathcal{N}(y|\mu_{y|x}^{(z)},\Sigma_{y|x}^{(z)} )$$ 
+with $\gamma_z(x) :=
+\frac{\lambda_z \mathcal{N}(x|\mu_{x}^{(z)},\Sigma_{xx}^{(z)})}{\sum_{z^*} \lambda_{z^*}
+\mathcal{N}(x|\mu_{x}^{(z^*)},\Sigma_{xx}^{(z^*)})}$
+note here the computational complexity is only $O(K)$, 
+
+\begin{testexample2}[Conditional og multivariate Gaussian]
+    The conditional distribution is defined as \cite{bishop} ..?
+    $$p(y|x,\mu, \Sigma) = \mathcal{N}(y|\mu_{y|x},\Sigma_{y|x} )\hspace{1cm} \mu=\begin{bmatrix}
+        \mu_x \\ \mu_y
+    \end{bmatrix},\hspace{0.1cm} \Sigma = \begin{bmatrix}
+        \Sigma_{xx} & \Sigma_{xy}\\ \Sigma_{yx}& \Sigma_{yy}
+    \end{bmatrix}$$ 
+    where 
+    \begin{align}
+        \mu_{y|x} &= \mu_y+\Sigma_{yx}\Sigma_{xx}^{-1}(x-\mu_x)\\
+        \Sigma_{y|x} &= \Sigma_{yy}-\Sigma_{yx}\Sigma_{xx}^{-1}\Sigma_{xy} 
+    \end{align}
+\end{testexample2}
+
+\subsection{SPN}
+\begin{align*}
+    p_z(x,y) &= \prod_{l \in \mathcal{L}eaf(z_x)} \phi_l(x)\prod_{l \in \mathcal{L}eaf(z_y)} \phi_l(y)\\
+            &=: p_{z_x}(x) p_{z_y}(y) 
+\end{align*}
+where $\phi_l$ is the density of the $l$'th leafs tractable distribution. Recall that we can interpret an SPN
+as the mixture model, 
+$$p(x,y) = \sum_{z \in \Sigma(S)} \lambda_z p_z(x,y)$$
+where $\lambda_z = \prod_{(q,j) \in \mathcal{E}(z)} w_{q,j}$.
+
+$$p(y|x)=\sum_{z \in \Sigma(S)} \gamma(x) p_{z_y}(y)$$
+With $\gamma(x) = \frac{ \lambda_z p_{z_x}(x)}{\sum_{z \in \Sigma(S)} \lambda_z p_{z_x}(x)}$ 
+
+
 \section{Kernel estimator regression}
 Maybe the most simple mixture model one could think about is to put a small variance Gaussian mixture
 component around all data points and weight all the components equally. So for $n$ datapoints,
@@ -57,22 +135,22 @@ $\{(x_i,y_i)\}_{i=1}^n$, the generative model is given as,
 
 $$p(x,y) = \frac{1}{N} \sum_{i=1}^n \mathcal{N}\left(\begin{bmatrix}x\\y\end{bmatrix} |
 \begin{bmatrix}x_i\\y_i\end{bmatrix}, \sigma^2 I \right) = \frac{1}{N} \sum_{i=1}^n 
-\mathcal{N}(x|x_i, \sigma^2)\mathcal{N}(y|y_i, \sigma^2) $$
+\mathcal{N}(x|x_i, \sigma^2 I)\mathcal{N}(y|y_i, \sigma^2) $$
 where $\sigma^2$ is refered as the bandwidth, when the literature refers to the above as a kernel estimator. 
 Small $\sigma^2$ yields a complex model and large $\sigma^2$ yields a simple model. Therefore chosing $\sigma^2$
 just rigth is crucial for a good model. 
 
-\subsection{Conditional distribution}
-The conditional distribution is very simple to calculate; first, we need the marginal distribution
-$$p(x) = \int p(x,y) dy =  \frac{1}{N} \sum_{i=1}^n \mathcal{N}(x|x_i, \sigma^2)  \int
-\mathcal{N}(y|y_i, \sigma^2) dy =  \frac{1}{N} \sum_{i=1}^n \mathcal{N}(x|x_i, \sigma^2)$$
-and then we can calculate the conditional distribution,
-\begin{align*}
-    p(y|x) &= \frac{p(x,y)}{p(x)}\\
-    &=  \frac{\frac{1}{N} \sum_{i=1}^n \mathcal{N}(x|x_i, \sigma^2)\mathcal{N}(y|y_i, \sigma^2)}{ \frac{1}{N} \sum_{j=1}^n \mathcal{N}(x|x_j, \sigma^2)}\\
-    &= \sum_{i=1}^n \gamma_i \mathcal{N}(y|y_i, \sigma^2)
-\end{align*}
-where $\gamma_i = \frac{\mathcal{N}(x|x_i, \sigma^2)}{\sum_{j=1}^n \mathcal{N}(x|x_j, \sigma^2)}$. 
+% \subsection{Conditional distribution}
+% The conditional distribution is very simple to calculate; first, we need the marginal distribution
+% $$p(x) = \int p(x,y) dy =  \frac{1}{N} \sum_{i=1}^n \mathcal{N}(x|x_i, \sigma^2)  \int
+% \mathcal{N}(y|y_i, \sigma^2) dy =  \frac{1}{N} \sum_{i=1}^n \mathcal{N}(x|x_i, \sigma^2)$$
+% and then we can calculate the conditional distribution,
+% \begin{align*}
+%     p(y|x) &= \frac{p(x,y)}{p(x)}\\
+%     &=  \frac{\frac{1}{N} \sum_{i=1}^n \mathcal{N}(x|x_i, \sigma^2)\mathcal{N}(y|y_i, \sigma^2)}{ \frac{1}{N} \sum_{j=1}^n \mathcal{N}(x|x_j, \sigma^2)}\\
+%     &= \sum_{i=1}^n \gamma_i \mathcal{N}(y|y_i, \sigma^2)
+% \end{align*}
+% where $\gamma_i = \frac{\mathcal{N}(x|x_i, \sigma^2)}{\sum_{j=1}^n \mathcal{N}(x|x_j, \sigma^2)}$. 
 
 
 \section{Gaussian mixture regression}
@@ -90,48 +168,48 @@ $$p(x,y)= \sum_{k=1}^K \pi^{(k)} \mathcal{N}(x,y|\mu^{(k)},\Sigma^{(k)}),
 where $\sum_{k=1}^K \pi^{(k)} = 1$. The parameters $\left(\Sigma^{(k)}, \pi^{(k)}, \mu^{(k)}\right)_{k=1}^K$
 need to be trained, which is done using the EM algorithm. We will now show how the conditional is
 calculated exactly. 
-\subsection{Conditional distribution}
-We will now formulate the conditial distribution in terms of conditional and marginals of
-the individual mixture components. First of all the marginal distribution $p(x)$ 
-of the mixture is given as,
-\begin{align*}
-    p(x) &= \int p(x,y) dy \\
-    &=\sum_{k=1}^K \pi^{(k)} \int \mathcal{N}(x,y|\mu^{(k)},\Sigma^{(k)}) dy\\
-    &=\sum_{k=1}^K \pi^{(k)} \mathcal{N}(x|\mu_{x}^{(k)},\Sigma_{xx}^{(k)})
-\end{align*}
-next the joint distribution can be decomposed with the probability chain rule,
-\begin{align*}
-    p(x,y) &= p(x)p(y|x)\\
-    \implies \hspace{1cm} \mathcal{N}(x,y|\mu,\Sigma) &= 
-    \mathcal{N}(x|\mu_{x},\Sigma_{xx}) \mathcal{N}(y|\mu_{y|x},\Sigma_{y|x})
-\end{align*} 
-And we can formulate the conditional in terms of individual multivariate Gaussians, 
+% \subsection{Conditional distribution}
+% We will now formulate the conditial distribution in terms of conditional and marginals of
+% the individual mixture components. First of all the marginal distribution $p(x)$ 
+% of the mixture is given as,
+% \begin{align*}
+%     p(x) &= \int p(x,y) dy \\
+%     &=\sum_{k=1}^K \pi^{(k)} \int \mathcal{N}(x,y|\mu^{(k)},\Sigma^{(k)}) dy\\
+%     &=\sum_{k=1}^K \pi^{(k)} \mathcal{N}(x|\mu_{x}^{(k)},\Sigma_{xx}^{(k)})
+% \end{align*}
+% next the joint distribution can be decomposed with the probability chain rule,
+% \begin{align*}
+%     p(x,y) &= p(x)p(y|x)\\
+%     \implies \hspace{1cm} \mathcal{N}(x,y|\mu,\Sigma) &= 
+%     \mathcal{N}(x|\mu_{x},\Sigma_{xx}) \mathcal{N}(y|\mu_{y|x},\Sigma_{y|x})
+% \end{align*} 
+% And we can formulate the conditional in terms of individual multivariate Gaussians, 
 
-\begin{align}
-    p(y|x) &= \frac{p(y,x)}{p(x)}\\
-    &= \sum_{k=1}^K \frac{\pi^{(k)}}{p(x)} \mathcal{N}(x,y|\mu^{(k)},\Sigma^{(k)})\\
-    &=  \sum_{k=1}^K \frac{\pi^{(k)} \mathcal{N}(x|\mu_{x}^{(k)},\Sigma_{xx}^{(k)})}{p(x)}\mathcal{N}(y|\mu_{y|x}^{(k)},\Sigma_{y|x}^{(k)})\\
-    &=  \sum_{k=1}^K \pi_{y|x}^{(k)} p(y|x,\mu_{y|x}^{(k)},\Sigma_{y|x}^{(k)})
-\end{align}
+% \begin{align}
+%     p(y|x) &= \frac{p(y,x)}{p(x)}\\
+%     &= \sum_{k=1}^K \frac{\pi^{(k)}}{p(x)} \mathcal{N}(x,y|\mu^{(k)},\Sigma^{(k)})\\
+%     &=  \sum_{k=1}^K \frac{\pi^{(k)} \mathcal{N}(x|\mu_{x}^{(k)},\Sigma_{xx}^{(k)})}{p(x)}\mathcal{N}(y|\mu_{y|x}^{(k)},\Sigma_{y|x}^{(k)})\\
+%     &=  \sum_{k=1}^K \pi_{y|x}^{(k)} p(y|x,\mu_{y|x}^{(k)},\Sigma_{y|x}^{(k)})
+% \end{align}
 
-where $\pi_{y|x}^{(k)} := \frac{\pi^{(k)} \mathcal{N}(x|\mu_{x}^{(k)},\Sigma_{xx}^{(k)})}
-{\sum_{i=1}^K \mathcal{N}(x|\mu_{x}^{(i)},\Sigma_{xx}^{(i)})}$. So we see that 
-the conditional of a Gaussian mixture model is again a Gaussian mixture model.
+% where $\pi_{y|x}^{(k)} := \frac{\pi^{(k)} \mathcal{N}(x|\mu_{x}^{(k)},\Sigma_{xx}^{(k)})}
+% {\sum_{i=1}^K \mathcal{N}(x|\mu_{x}^{(i)},\Sigma_{xx}^{(i)})}$. So we see that 
+% the conditional of a Gaussian mixture model is again a Gaussian mixture model.
 
 
-\begin{testexample2}[Conditional og multivariate Gaussian]
-    The conditional distribution is defined as \cite{bishop} ..?
-    $$p(y|x,\mu, \Sigma) = \mathcal{N}(y|\mu_{y|x},\Sigma_{y|x} )\hspace{1cm} \mu=\begin{bmatrix}
-        \mu_x \\ \mu_y
-    \end{bmatrix},\hspace{0.1cm} \Sigma = \begin{bmatrix}
-        \Sigma_{xx} & \Sigma_{xy}\\ \Sigma_{yx}& \Sigma_{yy}
-    \end{bmatrix}$$ 
-    where 
-    \begin{align}
-        \mu_{y|x} &= \mu_y+\Sigma_{yx}\Sigma_{xx}^{-1}(x-\mu_x)\\
-        \Sigma_{y|x} &= \Sigma_{yy}-\Sigma_{yx}\Sigma_{xx}^{-1}\Sigma_{xy} 
-    \end{align}
-\end{testexample2}
+% \begin{testexample2}[Conditional og multivariate Gaussian]
+%     The conditional distribution is defined as \cite{bishop} ..?
+%     $$p(y|x,\mu, \Sigma) = \mathcal{N}(y|\mu_{y|x},\Sigma_{y|x} )\hspace{1cm} \mu=\begin{bmatrix}
+%         \mu_x \\ \mu_y
+%     \end{bmatrix},\hspace{0.1cm} \Sigma = \begin{bmatrix}
+%         \Sigma_{xx} & \Sigma_{xy}\\ \Sigma_{yx}& \Sigma_{yy}
+%     \end{bmatrix}$$ 
+%     where 
+%     \begin{align}
+%         \mu_{y|x} &= \mu_y+\Sigma_{yx}\Sigma_{xx}^{-1}(x-\mu_x)\\
+%         \Sigma_{y|x} &= \Sigma_{yy}-\Sigma_{yx}\Sigma_{xx}^{-1}\Sigma_{xy} 
+%     \end{align}
+% \end{testexample2}
 
 
 \section{Sum product networks}
@@ -139,7 +217,7 @@ the conditional of a Gaussian mixture model is again a Gaussian mixture model.
 A sum-product network is a mixture model, which allows for exponentially many mixture components, 
 but only with linearly many parameters. Figure \ref{SPN_fig} illustrates how
 simple distributions from two different scopes $x$ and $y$ can be multiplied
-together and define as many mixtures as the product of the numbers of 
+together and defined as many mixtures as the product of the numbers of 
 distributions in each scope. In the SPN implementation used in this thesis, 
 the number of distribution in each scope is called the number of channels.  
 
@@ -176,51 +254,82 @@ if no data is present there.
     3, giving 9 product nodes, which are weighted in the final sum node.}
 \end{figure}
 
-
-\subsection{Conditional of SPN}
-
-We will soon see how it is possible to write the conditional distribution as the mixture, 
-$$p(y|x) = \sum_{z \in \Sigma(S)} \gamma(x) p_{z_y}(y)$$
-where $ \Sigma(S)$ is the set of all sub-networks in the SPN, $S$ - \todo{IT IS EXPONENTIALLY LARGE}.  
-And where $p_{z_y}(y)$ is defined through $p_z(x,y)$, 
+\subsection{SPN as a mixture model}
+<source> we can interpret an SPN as the mixture model, 
+$$p(x,y) = \sum_{z \in \Sigma(S)} \lambda_z p_z(x,y)$$
+where $\lambda_z = \prod_{(q,j) \in \mathcal{E}(z)} w_{q,j}$. And where
+the mixture components are given as 
 \begin{align*}
     p_z(x,y) &= \prod_{l \in \mathcal{L}eaf(z_x)} \phi_l(x)\prod_{l \in \mathcal{L}eaf(z_y)} \phi_l(y)\\
-            &=: p_{z_x}(x) p_{z_y}(y) 
+            &=: p_{z}(x) p_{z}(y) 
 \end{align*}
-where $\phi_l$ is the density of the $l$'th leafs tractable distribution. Recall that we can interpret an SPN
-as the mixture model, 
-$$p(x,y) = \sum_{z \in \Sigma(S)} \lambda_z p_z(x,y)$$
-where $\lambda_z = \prod_{(q,j) \in \mathcal{E}(z)} w_{q,j}$. First we calculate the marginal density,
-$p(x)$, 
-\begin{align*}
-    p(x) &= \int p(x,y)dy\\
-    &= \int \sum_{z \in \Sigma(S)} \lambda_z p_z(x,y)dy\\
-    %&= \sum_{z \in \Sigma(S)} \lambda_z  \int p_z(x,y)dy\\
-    &= \sum_{z \in \Sigma(S)} \lambda_z p_{z_x}(x)\int p_{z_y}(y)dy \\
-    &= \sum_{z \in \Sigma(S)} \lambda_z p_{z_x}(x)
-\end{align*}
-Now we are ready to calculate the conditional density, 
-\begin{align*}
-    p(y|x) &=  \frac{p(x,y)}{p(x)}\\
-            &= \frac{\sum_{z \in \Sigma(S)} \lambda_z p_z(x,y)}{p(x)}\\
-            &=\sum_{z \in \Sigma(S)}\frac{ \lambda_z p_{z_x}(x)}{p(x)} p_{z_y}(y)\\
-            &=\sum_{z \in \Sigma(S)}\frac{ \lambda_z p_{z_x}(x)}{\sum_{z \in \Sigma(S)} \lambda_z p_{z_x}(x)} p_{z_y}(y)\\
-            &=\sum_{z \in \Sigma(S)} \gamma(x) p_{z_y}(y)
-\end{align*}
-So we defined $\gamma(x) = \frac{ \lambda_z p_{z_x}(x)}{\sum_{z \in \Sigma(S)} \lambda_z p_{z_x}(x)}$ 
-and this is very convinient, as we will see soon is 
-equavalent to the derivative of the log-likehood
-of the SPN, which is easily obtained by automatic differentiation. 
+where $\phi_l$ is the density of the $l$'th leafs tractable distribution. The last equation
+is splitting the products up in the two marginals $p_z(x)$ and $p_z(y)$ since they are uncorrelated. 
 
-\subsection{calculation of responsibility, $\gamma(x)$}
-expectation maximization of a mixture model, is given by Bishop..
-the responsibility of a datapoint to belong to one mixture component, is given by
-$$\gamma(z_{nk}) = \frac{w_k p_j(x_n)}{\sum_i w_i p_i(x_n)}$$
+The responsibility 
+$$p(z|x) = \frac{ \lambda_z p_{z_x}(x)}{\sum_{z \in \Sigma(S)} }$$
+is calculated easily using autograd. 
+
+\subsection{calculation of responsibility}
+The responsibility of a datapoint to belong to one mixture component, is given by
+$$\gamma_z(x) = \frac{\lambda_z p_z(x)}{\sum_{z^*} \lambda_{z^*} p_{z^*}(x)}$$
 We can prove that the responsibility is equal to the gradient of the log likehood, 
-$$L:= \sum_n \log \sum_j w_j \exp \psi_j(x_n)$$
-where we define $\psi_j(x_n) = \log p_j(x_n)$. Take the gradient 
-$$\frac{\partial L}{\partial \psi_{j}(x_{n})} = \frac{w_k p_j(x_n)}{\sum_i w_i p_i(x_n)}$$
-Note that the gradient easily can be found using autograd. 
+$$L:= \sum_n \log \sum_z \lambda_z \exp \psi_z(x_n)$$
+where we define $\psi_z(x_n) = \log p_z(x_n)$. Take the gradient 
+$$\frac{\partial L}{\partial \psi_{z}(x_{n})} = \frac{\lambda_z p_z(x_n)}{\sum_{z^*} \lambda_{z^*} p_{z^*}(x)}$$
+Note that the gradient easily can be found using automatic differentiation. 
+
+\begin{figure}
+    \includegraphics[width=0.5\textwidth]{Pictures/1D_mixture_regression_Naive GMR_N_10.pdf}
+\end{figure}
+
+% \subsection{Conditional of SPN}
+
+% We will soon see how it is possible to write the conditional distribution as the mixture, 
+% $$p(y|x) = \sum_{z \in \Sigma(S)} \gamma(x) p_{z_y}(y)$$
+% where $ \Sigma(S)$ is the set of all sub-networks in the SPN, $S$ - \todo{IT IS EXPONENTIALLY LARGE}.  
+% And where $p_{z_y}(y)$ is defined through $p_z(x,y)$, 
+% \begin{align*}
+%     p_z(x,y) &= \prod_{l \in \mathcal{L}eaf(z_x)} \phi_l(x)\prod_{l \in \mathcal{L}eaf(z_y)} \phi_l(y)\\
+%             &=: p_{z_x}(x) p_{z_y}(y) 
+% \end{align*}
+% where $\phi_l$ is the density of the $l$'th leafs tractable distribution. Recall that we can interpret an SPN
+% as the mixture model, 
+% $$p(x,y) = \sum_{z \in \Sigma(S)} \lambda_z p_z(x,y)$$
+% where $\lambda_z = \prod_{(q,j) \in \mathcal{E}(z)} w_{q,j}$. First we calculate the marginal density,
+% $p(x)$, 
+% \begin{align*}
+%     p(x) &= \int p(x,y)dy\\
+%     &= \int \sum_{z \in \Sigma(S)} \lambda_z p_z(x,y)dy\\
+%     %&= \sum_{z \in \Sigma(S)} \lambda_z  \int p_z(x,y)dy\\
+%     &= \sum_{z \in \Sigma(S)} \lambda_z p_{z_x}(x)\int p_{z_y}(y)dy \\
+%     &= \sum_{z \in \Sigma(S)} \lambda_z p_{z_x}(x)
+% \end{align*}
+% Now we are ready to calculate the conditional density, 
+% \begin{align*}
+%     p(y|x) &=  \frac{p(x,y)}{p(x)}\\
+%             &= \frac{\sum_{z \in \Sigma(S)} \lambda_z p_z(x,y)}{p(x)}\\
+%             &=\sum_{z \in \Sigma(S)}\frac{ \lambda_z p_{z_x}(x)}{p(x)} p_{z_y}(y)\\
+%             &=\sum_{z \in \Sigma(S)}\frac{ \lambda_z p_{z_x}(x)}{\sum_{z \in \Sigma(S)} \lambda_z p_{z_x}(x)} p_{z_y}(y)\\
+%             &=\sum_{z \in \Sigma(S)} \gamma(x) p_{z_y}(y)
+% \end{align*}
+% So we defined $\gamma(x) = \frac{ \lambda_z p_{z_x}(x)}{\sum_{z \in \Sigma(S)} \lambda_z p_{z_x}(x)}$ 
+% and this is very convinient, as we will see soon is 
+% equavalent to the derivative of the log-likehood
+% of the SPN, which is easily obtained by automatic differentiation. 
+
+
+
+
+
+
+
+
+
+
+
+\section{Gaussian approximation of mixture regression}
+
 
 
 \subsection{Mean and variance of conditional SPN}
@@ -236,9 +345,6 @@ and the variance is found using the second moment,
     E_{p(y|x)}[y^2] &= \sum_{z \in \Sigma(S)} \gamma(x) \int  y^2 p_{z_y}(y) dy \\
     &= \sum_{z \in \Sigma(S)} \gamma(x) \prod_{l \in \mathcal{L}eaf(z_y)} (Var_{\phi_l}[y]+E_{\phi_l}[y]^2)
 \end{align*}
-
-
-
 
 \section{Mixture model training}
 The following section presents the expectation-maximization algorithm, which is used to 

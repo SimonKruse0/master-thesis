@@ -5,47 +5,162 @@ the concept of optimization.
 
 \input{Chapters/01_optimization.tex}
 
+% <Cope with inacuracies> i.e. allows for stochastic objective function. 
+% <Uncertainty measure with prediction based on simple and clear prior 
+% assumptions about the characteristic about the objective function. >
+% <Provides an adequate termination condition for the opt. process>. 
 
-\section{Bayesian Regression}
-<Cope with inacuracies> i.e. allows for stochastic objective function. 
-<Uncertainty measure with prediction based on simple and clear prior 
-assumptions about the characteristic about the objective function. >
-<Provides an adequate termination condition for the opt. process>. 
+% <kilde 151. Bayes Opt is assumed superior to other global optimization technics 
+% with limited budget>
 
-<kilde 151. Bayes Opt is assumes superior to other global optimization tequnies 
-with limited budget>
+\section{Bayesian Regression (surrogate model)}
 
-
-Whereas traditional regression workflow is the following: From data, fit model parameters, make predictions using the parameters. 
-The Bayesian framework allows us to skip the dependency of a single set of parameters and instead use all sets of parameters 
-by treating the set of parameters as a random quantity, $\theta$. What is of interest is the predictive posterior distribution,  
+Whereas traditional regression workflow is the following: From data, fit model parameters, make
+predictions using the parameters. The Bayesian framework allows us to skip the dependency of a
+single set of parameters and instead use all possible parameters by treating the set of parameters
+as a random quantity, $\Theta$, where some values/realizations of $\Theta$ are more probable than
+others. What is of interest is the predictive posterior distribution,  
 \begin{align}\label{Predictive2}
-    p(y|x, \mathcal{D})
+    p(y|x, \mathcal{D}) &= \int p(y,\theta|x, \mathcal{D}) d\theta\\
+    &= \int p(y|x,\theta)p(\theta|\mathcal{D}) d\theta
 \end{align}
-% Before bringing the parameters/unknown quantities into play, we can ask: What quantities can we play
-% with? This question is answered in two different ways in Gaussian process regression and Bayesian
-% Neural network regression.
+where the second equation is true because of the probability chain rule and that $Y$ is fully
+described by the parametric model $p(y|x,\theta)$ and the parameters $\Theta$ is fully described by
+the posterior distribution $p(\theta|\mathcal{D})$.
 
-Bayesian optimization is essentially two steps: First, a probabilistic surrogate-model is fitted
-to the available data $\mathcal{D}$ giving the predictive distribution \eqref{Predictive2}. Second,
-the next sample point is chosen according to a so-called acquisition function, which in a sense
-balance out the well-known concept, exploitation and exploration. Where exploitation will be chooing
-the next point according to its expected improvement and exploration will be choosing the next point
-in a region of high uncertainty and thereby help lower the overall uncertainty. We will first look at
-the acquisition function used in this thesis, which is also the most commonly used: E   xpected improvement. 
+\subsection{surrogate model}
+A surrogate model in a Bayesian optimization setting is just a Bayesian regression model. The most
+used surrogate model is a Gaussian Process. But there have been investigations on other types of
+surrogates, such as Bayesian neural networks and Bayesian regression trees. These are all
+discriminative models, and another approach, which we focus on in this project, is to model $y$ and
+$x$ jointly in a so-called generative model, $p(x,y)$. A generative model can be used implicitly
+as a surrogate from the conditional distribution of $y$ given $x$, $p(y|x)$.
+
+In this thesis, the Bayesian regression models investigated as Bayesian optimization surrogates are
+the following:
+\begin{itemize}[noitemsep]
+    \item Gaussian Process (discriminative)
+    \item Bayesian Neural network (discriminative)
+    \item Kernel density regression (generative)
+    \item Gaussian mixture regression (generative)
+    \item SPN (generative)
+\end{itemize}
+
+% \subsubsection{Discriminative model as surrogate model}
+% When talking about a probabilistic surrogate model, we are always implicit talking about a
+% discriminative model: A model of the conditional distribution of the observation, $y$, 
+% conditional on $x$, i.e., 
+% $$p(y|x)$$
+% we also refer to this as the predictive distribution. Gaussian processes and Bayesian neural networks
+% are both discriminative models. There is no distribution over the input $x$; it is just given. 
+% This is indeed sufficient for a surrogate model, where we are interested in the predictive distribution. 
+
+% \subsubsection{Using a generative model as surrogate model}
+% ..
+
+\subsection{Inference of surrogate models}
+Inference is the process of computing answers to queries about a probabilistic model after observing
+data. In Bayesian regression, the query is the predictive distribution, $p(y|x,\mathcal{D})$, as we
+are interested in the distribution of $y$ given $x$ and already observed data, $\mathcal{D}$. This
+often indirectly create the posterior query, $p(\theta|\mathcal{D})$, the probability of model
+parameters $\theta$ given data $\mathcal{D}$. Lastly, it is also inference when we train a Gaussian
+mixture model or SPN using the expectation-maximization algorithm (EM) since we are iteratively
+answering the query $E_{p(z|\theta^{(k)})}[z|\theta]$.
+
+%\subsection{Exact and approximate inference}
+We distinguish between two different ways of inference, exact and approximate inference. It is
+\textit{exact inference} when a probabilistic query is calculated exact. It is possible to
+calculate exact inference on the predictive distribution for the Gaussian mixture model, Sum product
+network, and Gaussian processes. Models which allow for exact inference have a powerful advantage
+over the models with approximate inference since we can guarantee the answers to the queries are
+correct; however, they are usually also less expressive. It is possible to make exact inference of
+SPN, Gaussian Process, and Gaussian Mixture Regression. 
+% \begin{itemize}
+%     \item SPN
+%     \item Gaussian Process
+%     \item Gaussian Mixture Regression
+% \end{itemize}
+
+When it is not possible to answer a probabilistic query exact, we can approximate the answer using
+\textit{approximate inference}. When dealing with complicated and expressive statistical models,
+exact inference is often intractable, and we need to use approximate inference. Approximate inference
+is a broad category of methods, which includes variational inference, Laplace approximation, and
+Markov chain Monte Carlo (MCMC). The two Bayesian Neural networks we deal with in this project
+Bohamiann and Numpyro BNN are similar regression models but are inferred using two different
+versions of the MCMC method, Hamiltonian Monte Carlo. As revealed later (see result
+section), approximate inference might indeed be flawed and inexact. 
+%When dealing with complicated and expressive statistical models, exact inference is often
+%intractable, and we need to use approximate inference, which might indeed be flawed and 
+%inexact. 
+% \begin{itemize}
+%     \item Bohamiann (Adaptive stochastic MCMC)
+%     \item Numpyro Bayesian Neural Network (NUTS)
+% \end{itemize}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{l|l|l}
+    %\rowcolor[HTML]{C0C0C0} 
+    \textbf{Model}       & \textbf{Predictive inference}    &   \textbf{Learning} \\ \hline
+    GP                          & Exact $O(n^3)$            & Emperical Bayes\\
+    Numpyro BNN                 & No U-Turn Sampler         & \\
+    Bohamiann BNN               & Adaptive stochatic HMC    & \\
+    Kernel density regression   & Exact $O(n)$              & \\
+    Gaussian mixture regression & Exact $O(K)$              & EM  \\
+    SPN                         & Exact $O(E)$              &  EM $O(E)$\\
+    \end{tabular}
+    \caption{Overview of inference methods applied on the statistical models 
+            used in this project. $E$ is the number of edges in the SPN. $n$ is the number of datapoints. 
+            $K \leq n$ is the number of mixture comonents. We will soon learn that for an
+            SPN the number of mixture compenets is exponential larger than number of edges
+            i.e. $E << K$. In theory MCMC methods samples 
+            from true the posterior distribution, and do not need any fitting/learning. 
+            }
+\end{table}
+
 
 \section{Acquisition function}
+Given a well fitted predictive distribution $p(y|x\mathcal{D})$ \eqref{Predictive2}. The next sample point is chosen
+according to a so-called acquisition function, which balances out the well-known concept of
+exploitation and exploration. Where exploitation will be choosing the next location, $x \in
+\mathcal{X}$ according to its average improvement, and exploration will be choosing the next point
+in a region of high uncertainty and thereby help lower the overall uncertainty. We will first look
+at the acquisition function used in the thesis: Expected improvement. But also shortly
+go over different types of acquisition functions. 
 
-\subsection{Expected improvement - gaussian predictive distribution}
+\subsection{Expected improvement}
 A popular choice of acquisition function is expected improvement, 
-$$EI(x) = \mathbb{E}_{p(y|x,\mathcal{D})}[\max(0, y_{\min}-y)]$$
-this will only look at the expectation of the values $y$, which improves the current best value.
+$$EI(x) = \mathbb{E}_{p(y|x,\mathcal{D})}[\max(0, y_{\min}-y)]$$ where we only consider the values
+$y$, which improves the current best value in the expectation of the predictive distribution,
+$p(y|x,\mathcal{D})$. Therefore $x$ which yield a bad predictive mean value
+$\mathbb{E}_{p(y|x,\mathcal{D})}[y]> y_{\min}$ might still be maximizing the expectated improvement,
+if its uncertainty is very large. Figure \ref{EI_illustration} illustrates that a large uncertainty
+in the predictive distribution could lead to relative large values even for non-improving mean
+predictions.
 
-\begin{figure}[H]
+\begin{figure}%[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{Pictures/expected_improvement_illustration.pdf}
+    \includegraphics[width=\textwidth]{Pictures/expected_improvement_illustration.pdf}
+    \caption{When then predictive distribution is Gaussian, expected improvement becomes closed
+    form. The figure illustrates the values of expected improvement for different predictive
+    uncertainties $\sigma_x = \sqrt{\mathbb{V}ar_{p(y|x,\mathcal{D})}[y]}$ versus the average
+    improvement $y_{\min}-\mu_x$, where $\mu_x = E_{p(y|x,\mathcal{D})}[y]$}
+    \label{EI_illustration}
 \end{figure}
 
+
+\begin{note}
+    \textbf{Why defining expected improvment with max}    
+    Note that $\max(0,\cdot)$ is important since the Bayesian optimization othervise reduces to
+    a simple non-probabilistic surrogate-based optimization method,
+    \begin{align*}
+        \mathbb{E}_{p(y|x,\mathcal{D})}[y_{\min}-y] = y_{\min} - \mathbb{E}_{p(y|x,\mathcal{D})}[y]
+    \end{align*}
+    i.e. maximizing the above is equivalent to maximizing the predictive mean, and thereby we loose
+    all the valuable information about the predictive uncertainties from the Bayesian regression model. 
+\end{note}
+
+\subsubsection{Exact expected improvement}
 In the following deveration
 we assume the predictive distribution can be approxiamted by a normal distribution dependent on
 the point of interest $x$ and the data $\mathcal{D}$ (note for the GP
@@ -76,9 +191,9 @@ where $u:=\frac{y_{\min}-\mu_x}{\sigma_x}$. To understand the identity $\phi(u) 
 (-\epsilon)  \phi(\epsilon) d\epsilon$ used in the last equality, we first see that the antiderivative
 is $\phi(\epsilon) = \frac{1}{\sqrt{2\pi}} \exp(\frac{-\epsilon^2}{2})$,
 \begin{align*}
-    \frac{d}{d \epsilon} \phi(\epsilon) &=  \frac{1}{\sqrt{2\pi}}\frac{d}{d \epsilon} \exp(\frac{-\epsilon^2}{2})\\
-    &=  \frac{1}{\sqrt{2\pi}}\exp(\frac{-\epsilon^2}{2})(-\epsilon)\\
-    &= -\epsilon \phi(\epsilon)
+    \frac{d}{d \epsilon} \phi(\epsilon) =  \frac{1}{\sqrt{2\pi}}\frac{d}{d \epsilon} \left( \exp(\frac{-\epsilon^2}{2}) \right)
+    =  \frac{1}{\sqrt{2\pi}}\exp(\frac{-\epsilon^2}{2})(-\epsilon)
+    = -\epsilon \phi(\epsilon)
 \end{align*}
 and evaluating the rieman integral is equivalent to evaluate the antiderivative in its boundaries, giving the 
 solution, 
@@ -97,9 +212,10 @@ $$\frac{\partial EI(x)}{\partial I(x)} = \Phi\left(\frac{y_{\min}-\mu_x}{\sigma_
 <obs mistake in the book!!!?>
 
 
-\subsection{Expected improvement - non-Gaussian predictive distribution}
-If the predictive distribution is non-Gaussian it either possible to approximate it as a Gaussian
-or calculate the expected improvement as follows, 
+\subsubsection{Approximate expected improvement}
+If the predictive distribution is non-Gaussian, it is either possible to approximate it as a Gaussian
+(By using the mean and variance of the predictive distribution to define the Gaussian approximation)
+or calculate the expected improvement approximately as follows, 
 \begin{align*}
     E_{p(y|x,\mathcal{D})}[\max(0,y_{\min}-y)] &= \int \max(0,y_{\min}-y) p(y|x,\mathcal{D}) dy\\
     &\approx \frac{1}{K} \sum_{k=1}^K  \max(0,y_{\min}-y^{(k)})
@@ -111,45 +227,57 @@ $p(y|x,\mathcal{D} = \mathcal{N}(y|NN_w,\sigma))$. So essentially we should samp
 distribution, but instead the PhD thesis \cite{PhDthesis}, just sample the mean and set $K_2 = 1$... 
 
 
-\begin{align*}
-    \mathbb{E}_{y_*|\textbf{x}_*,D_n}[\max(0,y_{\min}-y_*)] &= ??\\
-    \mathbb{E}[\min(0,y_{\min}-y_*)|\textbf{x}_*,D_n] &= \int_{-\infty}^\infty \min(0,y_{\min}-y_*) p(y_*|\textbf{x}_*,D_n) dy_*\\
-    &= \int_{-\infty}^{y_{\min}} (y_{\min}-y_*) p(y_*|\textbf{x}_*,D_n) dy_*\\
-    &\approx \frac{1}{N} \sum_{\theta \in \Omega } [y_{\min}-f_\theta(x)]
-\end{align*}
+% \begin{align*}
+%     \mathbb{E}_{y_*|\textbf{x}_*,D_n}[\max(0,y_{\min}-y_*)] &= ??\\
+%     \mathbb{E}[\min(0,y_{\min}-y_*)|\textbf{x}_*,D_n] &= \int_{-\infty}^\infty \min(0,y_{\min}-y_*) p(y_*|\textbf{x}_*,D_n) dy_*\\
+%     &= \int_{-\infty}^{y_{\min}} (y_{\min}-y_*) p(y_*|\textbf{x}_*,D_n) dy_*\\
+%     &\approx \frac{1}{N} \sum_{\theta \in \Omega } [y_{\min}-f_\theta(x)]
+% \end{align*}
 
-where $\Omega = \{\theta|f_{\theta}(x)< y_{\min}\}$
+% where $\Omega = \{\theta|f_{\theta}(x)< y_{\min}\}$
 
 %\section{uncertainties}
 %Alatoric vs epistemic uncertainties 
 
+\subsection{Lower confidense bound}
+
+negative 
+\begin{figure}%[H]
+    \centering
+    \includegraphics[width=\textwidth]{Pictures/neg_lower_confidence_illustration.pdf}
+    \caption{Illustration of the values of the negative lower confidence bound for different predictive
+    uncertainties $\sigma_x = \sqrt{\mathbb{V}ar_{p(y|x,\mathcal{D})}[y]}$ versus the average
+    improvement $y_{\min}-\mu_x$, where $\mu_x = E_{p(y|x,\mathcal{D})}[y]$}
+    \label{nLCB_illustration}
+\end{figure}
+
 \subsection{Entropy search}
 % We then discuss the knowledge
-% gradient (Section 4.2), entropy search and predictive entropy search (Section 4.3) acquisition functions.
+% gradient (Section 4.2), entropy search, and predictive entropy search (Section 4.3) acquisition functions.
 % These alternate acquisition functions are most useful in exotic problems where an assumption made by
-% expected improvement, that the primary benefit of sampling occurs through an improvement at the point
-% sampled, is no longer true.
+% expected improvement that the primary benefit of sampling occurs through an improvement at the point
+% sampled is no longer true.
 
 
 % The entropy search (ES) (Hennig and Schuler, 2012) acquisition function values the information we have
 % about the location of the global maximum according to its differential entropy
 
-% ES seeks the point to evaluate that causes the largest decrease in differential entropy
+% ES seeks the point to evaluate what causes the largest decrease in differential entropy
 
 % (Recall from, e.g., Cover and Thomas (2012),
 % that the differential entropy of a continuous probability distribution p(x) is R
 % p(x) log(p(x)) dx, and that
 % smaller differential entropy indicates less uncertainty.)
 
-% Predictive entropy search (PES) (Hern´andezLobato et al., 2014) seeks the same point, but uses a reformulation of the entropy reduction objective
+% Predictive entropy search (PES) (Hern´andezLobato et al., 2014) seeks the same point but uses a reformulation of the entropy reduction objective
 % based on mutual information. Exact calculations of PES and ES would give equivalent acquisition functions, but exact calculation is not typically possible, and so the difference in computational techniques
 % used to approximate the PES and ES acquisition functions creates practical differences in the sampling
 % decisions that result from the two approaches. We first discuss ES and then PES.
 
 % Let x  be the global optimum of f. The posterior distribution on f at time n induces a probability
 % distribution for x
-% . Indeed, if the domain A were finite, then we could represent f over its domain by a
-% vector (f(x) : x ∈ A), and x
+% . Indeed, if domain A were finite, we could represent f over its domain by a
+% vector (f(x): x ∈ A), and x
 % would correspond to the largest element in this vector. The distribution of
 % this vector under the time-n posterior distribution would be multivariate normal, and this multivariate
 % normal distribution would imply the distribution of x
@@ -161,88 +289,3 @@ where $\Omega = \{\theta|f_{\theta}(x)< y_{\min}\}$
 
 
 
-\section{surrogate model}
-As mentioned in the previous sections, the first of two repeated steps in Bayesian optimization
-is to create a good Bayesian regression model. %why not non bayesian regression? 
-i.e. finding the probility of prediction for a arbitrary point $x$ given datapoints 
-$\mathcal{D} = \{x_1, y_1, \dots, x_n, y_n\}$, 
- $$p(y|x,\mathcal{D})$$
-
-The surrogate model of choice in Bayesian optimization is a Gaussian Process, and Bayesian Neural Network.
-These are discriminative models, however, another approach, which we focus on in this project, is
-to model $y$ and $x$ jointly in a so-called generative model.
-
-
-
-\subsection{Discriminative model as surrogate model}
-When talking about a probabilistic surrogate model we are always implicit talking about a
-discriminative model: A model of the conditional distribution of the observation, $y$, 
-conditional on $x$, i.e., 
-$$p(y|x)$$
-we also refer to this as the predictive distribution. Gaussian processes and Bayesian neural networks
-are both discriminative models. There is no distribution over the input $x$, it is just given. 
-This is indeed sufficient for a surrogate model, where we are interested in the predictive distribution. 
-
-\subsection{Using a generative model as surrogate model}
-..
-
-\section{Inference of surrogate models}
-Inference is the process of computing answers to queries about a probabilistic model after observing data. 
-In Bayesian regression, the
-query is the predictive distribution, $p(y|x,\mathcal{D})$, as we are interested in the distribution of $y$ given $x$ 
-and already observed data, $\mathcal{D}$. 
-This often indirectly create the posterior query, $p(\theta|\mathcal{D})$, the probability of model parameters $\theta$ given data
-$\mathcal{D}$. Lastly it is also inference, when we train 
-a Gaussian mixture model or SPN using the expectation-maximization algorithm (EM), since we are iteratively answering the query
-$E_{p(z|\theta^{(k)})}[z|\theta]$.
-
-%\subsection{Exact and approximate inference}
-We distinguish between two different ways of inference, exact and approximate inference.
-It is \textit{exact inference} when a probabilistic query is calculated exact. It is possible to calculate exact inference on 
-the predictive distribution for the Gaussian mixture model, Sum product network, and Gaussian processes. Models which allow 
-for exact inference have a powerful advantage over the models with approximate inference since we can guarantee
- the answers to the queries are
-correct, however, they are usually also less expressive. It is possible to
-make exact inference of SPN, Gaussian Process, and Gaussian Mixture Regression. 
-% \begin{itemize}
-%     \item SPN
-%     \item Gaussian Process
-%     \item Gaussian Mixture Regression
-% \end{itemize}
-
-When it is not possible to answer a probabilistic query exact, we can approximate the
-answer using \textit{approximate inference}. When dealing with complicated and expressive statistical models, exact inference is often
-intractable and we need to use approximate inference. Approximate inference 
-is a broad category of methods, which includes 
-variational inference, Laplace approximation, and Markov chain Monte Carlo (MCMC).
-The two Bayesian Neural networks we deal with in this project Bohamiann and Numpyro BNN are
-similar regression models, but are infered using two different versions of the MCMC 
-method, Hamiltonian Monte Carlo. As it will be revealed later (see result section) 
-approximate inference might indeed be flawed and inexact. 
-%When dealing with complicated and expressive statistical models, exact inference is often
-%intractable and we need to use approximate inference, which might indeed be flawed and 
-%inexact. 
-% \begin{itemize}
-%     \item Bohamiann (Adaptive stochastic MCMC)
-%     \item Numpyro Bayesian Neural Network (NUTS)
-% \end{itemize}
-
-\begin{table}[H]
-    \centering
-    \begin{tabular}{l|l|l}
-    %\rowcolor[HTML]{C0C0C0} 
-    \textbf{Model} & \textbf{Predictive inference} &   \textbf{Learning} \\ \hline
-    GP          & Exact $O(n^3)$  & Emperical Bayes\\
-    SPN             & Exact $O(E)$ &  EM $O(E)$\\
-    Gaussian Mixture Regression & Exact $O(K)$ & EM  \\
-    Bohamiann                             & Adaptive stochatic HMC & \\
-    Numpyro BNN                           & No U-Turn Sampler & 
-    \end{tabular}
-    \caption{Overview of inference methods applied on the statistical models 
-            used in this project. $E$ is the number of edges in the SPN. $n$ is the number of datapoints. 
-            $K \leq n$ is the number of mixture comonents. We will soon learn that for an
-            SPN the number of mixture compenets is exponential larger than number of edges
-            i.e. $E << K$. In theory MCMC methods samples 
-            from true the posterior distribution, and do not need any fitting/learning. 
-            }
-\end{table}

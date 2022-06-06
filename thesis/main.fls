@@ -565,6 +565,7 @@ INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/BO_vs_Gri
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/BO_vs_Grid1.eps
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/SimonsTestGaussian Process - sklearn002.jpg
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/expected_improvement_illustration.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/neg_lower_confidence_illustration.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_04_discriminative_surrogates.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_04_discriminative_surrogates.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_gaussian_process_regression.tex
@@ -585,15 +586,7 @@ INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/SPN_illus
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/SPN_illustration3.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/SPN_illustration4.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/SPN_graph2.pdf
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmmi12.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmsy10.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmex10.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmmib10.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbsy10.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmr12.tfm
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/1D_mixture_regression_Naive GMR_N_10.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_b_EM.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_b_EM.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/06_results.tex

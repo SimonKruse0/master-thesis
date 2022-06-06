@@ -107,13 +107,13 @@ This project deals with a dominating observation cost, i.e. the cost of the poli
 neglectable,  $$C_{\text{observe}}>>C_{\text{policy}}.$$
 
 \begin{testexample}[Surrogate-based optimization]
-    <SVR> <Radial Basis function> <Polynomal model/respons surface>
-    In surrogate-based optimization all available data is fitted by a cheap-to-evaluate approximation
-    to the objective function - this approximation is called a \textit{surrogate} model. Examples
-    of surrogate models could be a neural network or a random forest. The next point is 
-    chosen as the point where the surrogate model is minimized. 
-    $$\text{policy}_{sur}(\mathcal{D}) = \min_x \hat f(x)$$
-    where $\hat f(x) \approx f(x)$ for $x$ close to the data $\mathcal{D}$. And we hope the approximation
+    %<SVR> <Radial Basis function> <Polynomal model/respons surface>
+    In surrogate-based optimization all available data is fitted by a cheap-to-evaluate
+    approximation to the objective function - this approximation is called a \textit{surrogate
+    model}, $f_{\text{sur}}(x)$. Examples of surrogate models could be a neural network or a random forest. The next
+    point is chosen as the point where the surrogate model is minimized. 
+    $$\text{policy}_{\text{sur}}(\mathcal{D}) = \min_x f_{\text{sur}}(x)$$
+    where $f_{\text{sur}}(x) \approx f(x)$ for $x$ close to the data $\mathcal{D}$. And we hope the approximation
     holds for $x$ far away from the the data.
 \end{testexample}
 
@@ -134,7 +134,7 @@ neglectable,  $$C_{\text{observe}}>>C_{\text{policy}}.$$
 Many optimization algorithms assume \textit{exact} evaluations of the objective function. However,
 this assumption is often wrong, especially for objective functions with real-life experiments,
 imperfect simulations, human interaction where measurement noise is well known. A potentially noisy
-objective function is the main reason why we in  Algorithm \eqref{algOPT} use the termology
+objective function is the main reason why we in Algorithm \eqref{algOPT} use the termology
 $\text{observe}(x)$ and not just \textit{evaluate }$f(x)$.
 
 The observation model is typically noisy and described as
@@ -208,6 +208,6 @@ as it defines a Bayesian regression model over the observations.
 \end{algorithm}
 
 
-\begin{mybox}{red}{A red box}
-    Test
-\end{mybox}
+% \begin{mybox}{darkred}{A red box}
+%     Test
+% \end{mybox}
