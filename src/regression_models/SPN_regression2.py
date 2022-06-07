@@ -10,7 +10,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from math import sqrt
 from skopt import BayesSearchCV
-from skopt.space import Real
+from src.utils import batch
 # Marginalization query
 from sklearn.base import BaseEstimator, RegressorMixin
 #from ..utils import normalize, denormalize
@@ -39,8 +39,10 @@ class SumProductNetworkRegression(BaseEstimator):
                 , train_epochs = 10000,
                 alpha0_x=5,alpha0_y=5, 
                 beta0_x = 0.1,beta0_y = 0.01, 
-                prior_settings = {"Ndx": 1,"sig_prior":1.2},
-                optimize=False, opt_n_iter  =20, opt_cv = 3):
+                prior_weight = 1,
+                sig_prior = 1.1,
+                optimize=False, opt_n_iter  =20, opt_cv = 3,
+                predictive_score = True):
         self.epochs = train_epochs
         # Priors for variance of x and y
         self.alpha0_x = alpha0_x#invers gamma
@@ -56,12 +58,13 @@ class SumProductNetworkRegression(BaseEstimator):
         self.channels = channels
         self.model = None
         # Define prior conditional p(y|x)
-        self.prior_settings = prior_settings#
+        self.sig_prior = sig_prior#
+        self.prior_weight = prior_weight
         self.manipulate_variance = manipulate_variance
         self.optimize_hyperparams = optimize #important it is initialised as false
         self.opt_n_iter, self.opt_cv = opt_n_iter, opt_cv
         self.verbose = True
-        self.predictive_score = True
+        self.predictive_score = predictive_score
     
     # def _train_all_parmeters(self):
     #     self.model[0].marginalize = torch.zeros(self.xy_variables , dtype=torch.bool)
@@ -161,15 +164,15 @@ class SumProductNetworkRegression(BaseEstimator):
             self.params = f"sig_x = InvGa({self.alpha0_x:0.0f},{self.beta0_x:0.1e})"
             self.params += f", sig_y =InvGa({self.alpha0_y:0.0f},{self.beta0_y:0.1e})"
             self.params += f",\n channels={self.channels}, tracks={self.tracks}"
-            Ndx = self.prior_settings["Ndx"]
-            sig_prior = self.prior_settings["sig_prior"]
-            self.params += f",\n likelihood:prior weight = p(x){self.N/Ndx}:1,\nprior_std= {sig_prior}"
+            prior_weight = self.prior_weight
+            sig_prior = self.sig_prior
+            self.params += f",\n likelihood:prior weight = p(x){self.N/prior_weight}:1,\nprior_std= {sig_prior}"
 
 
     def score(self, X_test, y_test):
         y_test = y_test.squeeze()
         assert y_test.ndim <= 1 
-        m_pred, sd_pred, _ = self.predict(X_test)
+        m_pred, sd_pred = self._batched_predict(X_test)
         assert m_pred.ndim == 1
         assert sd_pred.ndim == 1
         if self.predictive_score:
@@ -192,7 +195,7 @@ class SumProductNetworkRegression(BaseEstimator):
         out["tracks"] = self.tracks
         out["channels"] = self.channels 
         out["manipulate_variance"] = self.manipulate_variance 
-        out["prior_settings"] = self.prior_settings
+        out["prior_weight"] = self.prior_weight
         #out["optimize"] = self.optimize_hyperparams #gets into trouble with the CV code
         return out
 
@@ -206,6 +209,7 @@ class SumProductNetworkRegression(BaseEstimator):
                 'beta0_x': (1e-2, 7e-1, 'log-uniform'),
                 #'beta0_x': (0.1, 2, 'log-uniform'),
                 'beta0_y': (1e-3, 7e-1, 'log-uniform'),
+                'prior_weight' : (1e-6, 1., 'uniform'),
             },
             n_iter=self.opt_n_iter,
             cv=self.opt_cv
@@ -220,12 +224,20 @@ class SumProductNetworkRegression(BaseEstimator):
         # self.fit(X,y) #Not nessesary done by opt.fit
         self.optimize_hyperparams = True
 
+    def _batched_predict(self,X_test):
+        Y_mu_list = []
+        Y_sigma_list = []
+        for X_batch in batch(X_test, 1000):
+            Y_mu,Y_sigma,_ = self.predict(X_batch)
+            Y_mu_list.append(Y_mu)
+            Y_sigma_list.append(Y_sigma)
+        return np.array(Y_mu_list).flatten(),np.array(Y_sigma_list).flatten()
 
     def predict(self,X_test):
         model = copy.deepcopy(self.model)
         X_test, *_ = normalize(X_test, self.x_mean, self.x_std)
-        Ndx = self.prior_settings["Ndx"]
-        sig_prior = self.prior_settings["sig_prior"]
+        prior_weight = self.prior_weight
+        sig_prior = self.sig_prior
         x_grid = torch.tensor(X_test, dtype=torch.double)
         XX_grid = torch.hstack([x_grid, torch.zeros(len(x_grid),1)])
         
@@ -238,9 +250,9 @@ class SumProductNetworkRegression(BaseEstimator):
         with torch.no_grad():
             # Compute normal approximation
             mean_prior =0
-            m_pred = (self.N*(model.mean())[:, -1]*p_x + Ndx*mean_prior)/(self.N*p_x+Ndx)
+            m_pred = (self.N*(model.mean())[:, -1]*p_x + prior_weight*mean_prior)/(self.N*p_x+prior_weight)
             v_pred = (self.N*p_x*(model.var()[:, -1]+model.mean()[:, -1]
-                    ** 2) + Ndx*sig_prior**2)/(self.N*p_x+Ndx) - m_pred**2
+                    ** 2) + prior_weight*sig_prior**2)/(self.N*p_x+prior_weight) - m_pred**2
             assert not any(v_pred<0) 
             if self.manipulate_variance:
                 v_pred /= torch.clamp(p_x*50, 1,40)
@@ -256,12 +268,12 @@ class SumProductNetworkRegression(BaseEstimator):
         X = torch.from_numpy(X)
         Y = torch.from_numpy(Y)
         model = copy.deepcopy(self.model)
-        #model = self.model.clone()
+
         XY = torch.hstack((X, Y))
         XX = torch.hstack((X, torch.zeros(X.shape[0],1)))
         N = self.N
-        Ndx = self.prior_settings["Ndx"]
-        sig_prior = self.prior_settings["sig_prior"]
+        prior_weight = self.prior_weight
+        sig_prior = self.sig_prior
         assert X.ndim ==2
         assert Y.ndim ==2
 
@@ -273,7 +285,7 @@ class SumProductNetworkRegression(BaseEstimator):
             p_x = torch.exp(log_p_x)
             normal_sig_prior = torch.distributions.Normal(0,sig_prior)
             p_prior_y= torch.exp(normal_sig_prior.log_prob(Y))
-            p_predictive = (N*p_xy + Ndx*p_prior_y.squeeze()) / (N*p_x + Ndx)
+            p_predictive = (N*p_xy + prior_weight*p_prior_y.squeeze()) / (N*p_x + prior_weight)
             return p_predictive.detach().numpy(), p_x.detach().numpy()
 
     def _bayesian_conditional_pdf(self,x_grid,y_grid): #FAILS!!
@@ -282,8 +294,8 @@ class SumProductNetworkRegression(BaseEstimator):
         x_grid = torch.tensor(x_grid,dtype=torch.float)
         y_grid = torch.tensor(y_grid,dtype=torch.float)
         x_res, y_res = self.x_res, self.y_res
-        Ndx = self.prior_settings["Ndx"]
-        sig_prior = self.prior_settings["sig_prior"]
+        prior_weight = self.prior_weight
+        sig_prior = self.sig_prior
         N = self.N
 
         XY_grid = torch.stack(
@@ -304,7 +316,7 @@ class SumProductNetworkRegression(BaseEstimator):
         with torch.no_grad():
             p_prior_y = norm(0, sig_prior).pdf(y_grid)
             print((p_prior_y[None, :]).shape)
-            p_predictive = (N*p_xy + Ndx*p_prior_y[None, :]) / (N*p_x[:, None] + Ndx)
+            p_predictive = (N*p_xy + prior_weight*p_prior_y[None, :]) / (N*p_x[:, None] + prior_weight)
             return p_predictive, mean, p_x
 
     def y_gradient(self,y_grid):
@@ -355,8 +367,8 @@ class SumProductNetworkRegression(BaseEstimator):
         if p_x is not None:
             ax1 = ax.twinx()  # instantiate a second axes that shares the same x-axis
             color = 'tab:green'
-            Ndx = self.prior_settings["Ndx"]
-            a = self.N*p_x.detach().numpy()/Ndx
+            prior_weight = self.prior_weight
+            a = self.N*p_x.detach().numpy()/prior_weight
             ax1.plot(x_grid, a/(a+1), color = color)
             #ax1.set_ylabel(r'$\alpha_x$', color=color)
             ax1.set_ylim(0,5)
@@ -385,7 +397,7 @@ if __name__ == "__main__":
     SPN_regression = SumProductNetworkRegression(
                     tracks=1,
                     channels = 30, train_epochs= 1000,
-                    optimize=False)
+                    optimize=True)
     SPN_regression.fit(X_sample, Y_sample)
 
     X = X_sample[:5,:]+np.random.randn(5,xdim)*0.001

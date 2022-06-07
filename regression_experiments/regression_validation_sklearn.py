@@ -5,7 +5,7 @@ from src.regression_models.SPN_regression2 import SumProductNetworkRegression
 import random
 from src.regression_validation.reg_validation import RegressionTest_sklearn
 
-from src.benchmarks.custom_test_functions.problems import SimonsTest2_probibalistic, Step_random
+from src.benchmarks.custom_test_functions.problems import SimonsTest2Probibalistic, StepRandom, SimonsTest2Probibalistic2
 import os
 from datetime import datetime
 
@@ -18,13 +18,13 @@ import random
 
 
 reg_models = [MeanRegression(), 
-            #NaiveGMRegression(optimize=True), 
+            NaiveGMRegression(optimize=True), 
             GaussianProcess_sklearn(), 
             BOHAMIANN(num_keep_samples=500), 
             NumpyroNeuralNetwork(num_warmup=200,num_samples=200,
                                 num_chains=4, num_keep_samples=200, 
-                                extra_name="200-200"),]
-            #SumProductNetworkRegression(optimize=True)]
+                                extra_name="200-200"),
+            SumProductNetworkRegression(optimize=True)]
             
 # random.seed()
 # random.shuffle(reg_models)
@@ -44,8 +44,9 @@ except:
     print(f"Couldn't create {path}")
 
 
-problems = [SimonsTest2_probibalistic()]
+#problems = [SimonsTest2_probibalistic()]
 problems = [Step_random()]
+problems += [SimonsTest2_probibalistic2()]
 for problem in problems:
     # name_problem = problem.name.split(" ")[3]
     # dim = problem.name.split(" ")[-1]
@@ -53,7 +54,7 @@ for problem in problems:
     # if int(name_problem[1:])%3 != 2:
     #     continue
     np.random.seed()
-    for random_seed in np.random.randint(99999, size=1):
+    for random_seed in np.random.randint(99999, size=10):
         for regression_model in reg_models:
             #print(regression_model.name, f"{name_problem} in {dim}")
             RV = RegressionTest_sklearn(regression_model,problem, random_seed)

@@ -12,10 +12,10 @@ def sigmoid(x):
   return 1 / (1 + math.exp(-x))
 
 class GMM_bayesian(GMM):
-    def __init__(self, n_components,N, Ndx, sig_prior, priors=None, means=None, covariances=None, verbose=0, random_state=None):
+    def __init__(self, n_components,N, prior_weight, sig_prior, priors=None, means=None, covariances=None, verbose=0, random_state=None):
         super().__init__(n_components, priors, means, covariances, verbose, random_state)
         self.N = N
-        self.Ndx = Ndx
+        self.prior_weight = prior_weight
         self.sig_prior = sig_prior
     #Manipulation of gmr.GMM functions
     # def predict():
@@ -29,12 +29,12 @@ class GMM_bayesian(GMM):
                 print(f"Points tested {100*i/X_test.shape[0]:0.1f}%", end="\r")
             conditional_gmm = self.condition(x)
             p_x = self.marginalize(x) #probability of data at the x. 
-            Ndx = self.Ndx 
+            prior_weight = self.prior_weight 
             sig_prior = self.sig_prior
 
-            m_pred = (p_x*n_data*conditional_gmm.mean() + Ndx*0)/(n_data*p_x+Ndx)
+            m_pred = (p_x*n_data*conditional_gmm.mean() + prior_weight*0)/(n_data*p_x+prior_weight)
             v_pred = (p_x*n_data*(conditional_gmm.variance()+conditional_gmm.mean()**2)+
-                        Ndx*sig_prior**2)/(n_data*p_x+Ndx) - m_pred**2
+                        prior_weight*sig_prior**2)/(n_data*p_x+prior_weight) - m_pred**2
 
             m_preds.append(m_pred)
             if manipulate_variance:
@@ -43,7 +43,7 @@ class GMM_bayesian(GMM):
         return np.array(m_preds), np.array(std_preds)
     
     def _bayesian_conditional_pdf(self, x_grid,y_grid , manipulate_variance = False):
-        Ndx = self.Ndx
+        prior_weight = self.prior_weight
         sig_prior = self.sig_prior
         n_data = self.N
         p_predictive = np.zeros((len(x_grid),len(y_grid)))
@@ -56,9 +56,9 @@ class GMM_bayesian(GMM):
             p_x = self.marginalize(x) #probability of data at the x. 
             for j,y in enumerate(y_grid):
                 p_conditional_gmm = conditional_gmm.to_probability_density(y)
-                p_predictive[i,j] = (p_x*n_data*p_conditional_gmm)/(p_x*n_data+Ndx)
-                #p_predictive[i,j] = (p_x*n_data*p_conditional_gmm + Ndx*p_prior_y)/(p_x*n_data+Ndx)
-            p_predictive[i,:] += Ndx*p_prior_y/(p_x*n_data+Ndx)
+                p_predictive[i,j] = (p_x*n_data*p_conditional_gmm)/(p_x*n_data+prior_weight)
+                #p_predictive[i,j] = (p_x*n_data*p_conditional_gmm + prior_weight*p_prior_y)/(p_x*n_data+prior_weight)
+            p_predictive[i,:] += prior_weight*p_prior_y/(p_x*n_data+prior_weight)
             p_x_list.append(p_x)
         return p_predictive,np.array(p_x_list)
 
@@ -121,7 +121,7 @@ class GMM_bayesian(GMM):
             self.priors * marginal_norm_factors,
             marginal_prior_exponents[np.newaxis])[0]
 
-        return GMM_bayesian(self.n_components, self.N, self.Ndx, self.sig_prior,priors=priors, means=means,
+        return GMM_bayesian(self.n_components, self.N, self.prior_weight, self.sig_prior,priors=priors, means=means,
                    covariances=covariances, random_state=self.random_state)
 
 def _safe_probability_density(norm_factors, exponents):
@@ -134,7 +134,7 @@ class GMRegression():
     def __init__(self,component_variance = 1e-2, manipulate_variance = False) -> None:
         self.model = None
         self.name = "Gaussian Mixture Regression"
-        self.Ndx, self.sig_prior = 1e-2,1.1
+        self.prior_weight, self.sig_prior = 1e-2,1.1
         #self.n_components = 
         self.component_variance = component_variance
         self.manipulate_variance = manipulate_variance
@@ -158,7 +158,7 @@ class GMRegression():
         gmm_sklearn.fit(XY_train)
 
         self.model = GMM_bayesian(
-        n_components, self.N, self.Ndx, self.sig_prior, priors=gmm_sklearn.weights_, means=gmm_sklearn.means_,
+        n_components, self.N, self.prior_weight, self.sig_prior, priors=gmm_sklearn.weights_, means=gmm_sklearn.means_,
         covariances=gmm_sklearn.covariances_)
         self.params = f"component_variance = {self.component_variance}, manipulate_variance = {self.manipulate_variance}"
 
@@ -204,8 +204,8 @@ class GMRegression():
         if p_x is not None:
             ax1 = ax.twinx()  # instantiate a second axes that shares the same x-axis
             color = 'tab:green'
-            Ndx = 1 #self.prior_settings["Ndx"]
-            a = self.N*p_x/Ndx
+            prior_weight = 1 #self.prior_settings["prior_weight"]
+            a = self.N*p_x/prior_weight
             ax1.plot(x_grid, a/(a+1), color = color)
             #ax1.set_ylabel(r'$\alpha_x$', color=color)
             ax1.set_ylim(0,5)

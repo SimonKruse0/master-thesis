@@ -71,23 +71,18 @@ class naive_GMR:
 class NaiveGMRegression(naive_GMR, BaseEstimator):
     def __init__(self,x_component_std = 5e-2,
                     y_component_std= 5e-2, 
-                    prior_settings = {"Ndx": 1,"sig_prior":1.2, "prior_type":1},
-                    Ndx =  1,
+                    prior_weight =  1,
                     manipulate_variance = False, 
-                    optimize=False, opt_n_iter=10, opt_cv = 3, 
-                    prior_type = 1, predictive_score = True
-                    ):
-        self.model = None #necessary?
-        self.prior_type = prior_settings["prior_type"]
+                    optimize=False, opt_n_iter=20, opt_cv = 5, 
+                    predictive_score = False):
         if optimize:
-            self.name = f"Naive Gaussian Mixture Regression optimized-prior {self.prior_type}"
+            self.name = f"Kernel estimator regression optimized"
         else:
-            self.name = f"Naive Gaussian Mixture Regression-prior {self.prior_type}"
-        
+            self.name = f"Kernel estimator regression"
         self.x_component_std = x_component_std
         self.y_component_std = y_component_std
-        self.prior_settings = prior_settings
-        self.Ndx = Ndx
+        self.sig_prior = 1.1
+        self.prior_weight = prior_weight
         self.manipulate_variance = manipulate_variance
         self.optimize_hyperparams = optimize
         self.opt_n_iter, self.opt_cv = opt_n_iter, opt_cv
@@ -102,8 +97,7 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
             else:
                 print("-- Fitting with default hyperparams since too little data for CV-- ")
 
-        self.N, self.nX = X.shape
-        #nXY = self.nX+1        
+        self.N, self.nX = X.shape     
         self.n_components = self.N
 
         X, self.x_mean, self.x_std = normalize(X)
@@ -125,7 +119,6 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
             Z_pred = (y_test-m_pred)/sd_pred #std. normal distributed. 
             score = np.mean(norm.pdf(Z_pred))
             print(f"mean pred likelihood = {score:0.3f}")
-        print(" ")
         return score
 
     def _optimize(self, X, y):
@@ -135,7 +128,7 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
             {
                 'x_component_std': (1e-3, 3e-1, 'uniform'),
                 'y_component_std': (1e-3, 3e-1, 'uniform'),
-                'Ndx' : (1e-6, 1., 'uniform')
+                'prior_weight' : (1e-6, 1., 'uniform')
             },
             n_iter=self.opt_n_iter,
             cv=self.opt_cv
@@ -155,18 +148,17 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
         out["x_component_std"] = self.x_component_std
         out["y_component_std"] = self.y_component_std
         out["manipulate_variance"] = self.manipulate_variance 
-        out["prior_settings"] = self.prior_settings
         out["opt_n_iter"] = self.opt_n_iter
         out["opt_cv"] = self.opt_cv
-        out["Ndx"] = self.Ndx
+        out["prior_weight"] = self.prior_weight
         #out["optimize"] = self.optimize_hyperparams #gets into trouble with the CV code
         return out
 
     def predictive_pdf(self,X,Y):
         X,*_ = normalize(X,self.x_mean, self.x_std)
         Y,*_ = normalize(Y,self.y_mean, self.y_std)
-        Ndx = self.Ndx
-        sig_prior = self.prior_settings["sig_prior"]
+        prior_weight = self.prior_weight
+        sig_prior = self.sig_prior
         N = self.N
         assert X.ndim ==2
         assert Y.ndim ==2
@@ -174,13 +166,13 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
         print("p_xy", p_xy)
         p_x = np.exp(self.lp_x(X))
         p_prior_y = norm(0, sig_prior).pdf(Y)
-        p_predictive = (N*p_xy + Ndx*p_prior_y.squeeze()) / (N*p_x + Ndx)    
+        p_predictive = (N*p_xy + prior_weight*p_prior_y.squeeze()) / (N*p_x + prior_weight)    
         return p_predictive, p_x
 
     def predict(self, X_test):
         X_test,*_ = normalize(X_test,self.x_mean, self.x_std)
-        Ndx = self.Ndx
-        sig_prior = self.prior_settings["sig_prior"]
+        prior_weight = self.prior_weight
+        sig_prior = self.sig_prior
 
         # likelihood
         m_pred = self.E_predictive(X_test)
@@ -191,20 +183,10 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
         # evidens
         p_x = np.exp(self.lp_x(X_test))
 
-        if self.prior_type ==1:
-            # posterior 
-            m_pred_bayes = (self.N*p_x*m_pred + Ndx*0)/(self.N*p_x+Ndx)
-            E2_pred_bayes = (self.N*p_x*(v_pred+m_pred**2) + Ndx*sig_prior**2)/(self.N*p_x+Ndx) 
-            v_pred_bayes = E2_pred_bayes - m_pred_bayes**2
-
-        elif self.prior_type ==2:
-            alpha = np.clip(10*self.N*p_x,0,1)
-            m_pred_bayes = alpha*m_pred #+ (1-alpha)* 0
-            v_pred_bayes = alpha*v_pred+ (1-alpha)*sig_prior**2
-        else:# self.prior_type ==3:
-            alpha = self.N*p_x/(self.N*p_x+Ndx) 
-            m_pred_bayes = alpha*m_pred #+ (1-alpha)* 0
-            v_pred_bayes = alpha*v_pred+ (1-alpha)*sig_prior**2
+        # posterior 
+        m_pred_bayes = (self.N*p_x*m_pred + prior_weight*0)/(self.N*p_x+prior_weight)
+        E2_pred_bayes = (self.N*p_x*(v_pred+m_pred**2) + prior_weight*sig_prior**2)/(self.N*p_x+prior_weight) 
+        v_pred_bayes = E2_pred_bayes - m_pred_bayes**2
 
         std_pred_bayes = np.sqrt(v_pred_bayes)
 
@@ -218,19 +200,15 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
         y_grid, *_ = normalize(y_grid, self.y_mean, self.y_std)
 
         x_res, y_res = x_grid.shape[0], y_grid.shape[0]
-        Ndx = self.Ndx
-        sig_prior = self.prior_settings["sig_prior"]
+        prior_weight = self.prior_weight
+        sig_prior = self.sig_prior
         N = self.N
 
         X, Y = np.meshgrid(x_grid, y_grid, indexing="ij")
         p_xy = self.p_xy(X, Y)
         p_x = np.exp(self.lp_x(x_grid[:,None]))
         p_prior_y = norm(0, sig_prior).pdf(y_grid)
-        if self.prior_type ==1:
-            p_predictive = (N*p_xy + Ndx*p_prior_y[None, :]) / (N*p_x[:, None] + Ndx)
-        else:
-            alpha = np.clip(10*self.N*p_x,0,1)[:, None]
-            p_predictive = alpha*(p_xy/p_x[:, None]) + (1-alpha)*p_prior_y[None, :]
+        p_predictive = (N*p_xy + prior_weight*p_prior_y[None, :]) / (N*p_x[:, None] + prior_weight)
         return p_predictive, p_x
 
     def y_gradient(self,y_grid):
@@ -280,8 +258,8 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
         if p_x is not None:
             ax1 = ax.twinx()  # instantiate a second axes that shares the same x-axis
             color = 'tab:green'
-            Ndx = self.Ndx
-            a = self.N*p_x/Ndx
+            prior_weight = self.prior_weight
+            a = self.N*p_x/prior_weight
             ax1.plot(x_grid, a/(a+1), color = color)
             #ax1.set_ylabel(r'$\alpha_x$', color=color)
             ax1.set_ylim(0,5)
@@ -302,6 +280,6 @@ if __name__ == "__main__":
     X_sample =  np.random.uniform(*bounds,size = (datasize,3))
     Y_sample = obj_fun_nd(X_sample)[:,None]
 
-    SPN_regression = NaiveGMRegression(optimize=True)
-    SPN_regression.fit(X_sample, Y_sample)
-    print(SPN_regression.predictive_pdf(X_sample[:10,:]+0.01*np.random.rand(10)[:, None], Y_sample[:10,:]))
+    reg_model = NaiveGMRegression(optimize=True)
+    reg_model.fit(X_sample, Y_sample)
+    print(reg_model.predictive_pdf(X_sample[:10,:]+0.01*np.random.rand(10)[:, None], Y_sample[:10,:]))

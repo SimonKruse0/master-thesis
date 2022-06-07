@@ -18,11 +18,5 @@ thesis/Pictures/Logos/white_rgb.pdf
 bayes_opt_experiments/figures*
 exdata
 coco_reg_data
-sklearn_reg_data/0604_2158/SPN regression_SimonsTest2_probibalistic_dim_1_seed_50231_time_2022-06-04-22_00.json
-sklearn_reg_data/0604_2202/BOHAMIANN_SimonsTest2_probibalistic_dim_1_seed_52184_time_2022-06-04-22_05.json
-sklearn_reg_data/0604_2202/empirical mean and std regression_SimonsTest2_probibalistic_dim_1_seed_52184_time_2022-06-04-22_02.json
-sklearn_reg_data/0604_2202/Gaussian Process - sklearn_SimonsTest2_probibalistic_dim_1_seed_52184_time_2022-06-04-22_03.json
-sklearn_reg_data/0604_2202/Naive Gaussian Mixture Regression-prior 1_SimonsTest2_probibalistic_dim_1_seed_52184_time_2022-06-04-22_02.json
-sklearn_reg_data/0604_2202/numpyro neural network200-200_SimonsTest2_probibalistic_dim_1_seed_52184_time_2022-06-04-22_11.json
-sklearn_reg_data/0604_2247/Naive Gaussian Mixture Regression-prior 1_SimonsTest2_probibalistic_dim_1_seed_49736_time_2022-06-04-22_47.json
-sklearn_reg_data/0604_2247/SPN regression_SimonsTest2_probibalistic_dim_1_seed_49736_time_2022-06-04-22_49.json
+sklearn_reg_data/*
+regression_experiments/1D_reg_plots/*

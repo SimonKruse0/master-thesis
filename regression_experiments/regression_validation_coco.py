@@ -27,7 +27,7 @@ reg_models = [MeanRegression(),
             
 random.seed()
 random.shuffle(reg_models)
-reg_models = [SumProductNetworkRegression(optimize=True, opt_n_iter=5)]
+#reg_models = [SumProductNetworkRegression(optimize=True, opt_n_iter=5)]
 
 ### main ###
 n_train_array = [int(x) for x in np.logspace(1, 2.5, 9)]

@@ -7,6 +7,13 @@ import json
 import os
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
+from matplotlib.patches import Patch
+font = {'family' : 'normal',
+        'weight' : 'bold',
+        'size'   : 12}
+import matplotlib
+matplotlib.rc('font', **font)
+
 
 def jsonize_array(array):
     if array is None or array[0] is None:
@@ -25,6 +32,8 @@ class PlotReg1D_mixturemodel(BayesOptSolver_sklearn):
 
     def __call__(self, n,show_gauss= False, show_name = False, path=""):
         fig,ax = plt.subplots()
+        
+        np.random.seed(self.seednr)
         self.init_XY_and_fit(n)
         self.fit()
         self.plot_predictive_dist(ax, show_name=show_name)
@@ -34,10 +43,10 @@ class PlotReg1D_mixturemodel(BayesOptSolver_sklearn):
         self.plot_train_data(ax)
 
         number = f"{n}"
-        fig_path = path+f"{self.problem_name}{self.model.name}_n_{number}.jpg"
+        fig_path = path+f"{self.problem_name}_{self.model.name}_n_{number}_seed_{self.seednr}.jpg"
         fig_path = fig_path.replace(" ", "_")
-        plt.show()
-        #plt.savefig(fig_path)
+        #plt.show()
+        plt.savefig(fig_path, dpi=600)
 
     def plot_true_function(self,ax):
         X_true =  np.linspace(*self.bounds,10000)[:,None]
@@ -45,7 +54,7 @@ class PlotReg1D_mixturemodel(BayesOptSolver_sklearn):
         ax.plot(X_true, Y_true, ".", markersize = 1, color="Black")
     
     def plot_train_data(self,ax):
-        ax.plot(self._X,self._Y, ".", markersize = 10, color="black")  # plot all observed data
+        ax.plot(self._X,self._Y, ".", markersize = 10, color="tab:orange")  # plot all observed data
 
 
     def plot_gaussian_approximation(self,ax,show_name = False):
@@ -90,6 +99,11 @@ class PlotReg1D_mixturemodel(BayesOptSolver_sklearn):
             cmap='Blues',
             vmin=-5, vmax=1
         )
+        cmap = plt.cm.Blues
+        legend_elements = [Patch(facecolor=cmap(0.6), edgecolor=cmap(0.6),
+                         label="predictive distribution")]
+                         #label=r'$\hat p(y|x)$')]
+        ax.legend(handles=legend_elements)
 
         Ymu, Ysigma = self.predict(self.Xgrid)
         Xgrid = self.Xgrid.squeeze()
@@ -99,7 +113,8 @@ class PlotReg1D_mixturemodel(BayesOptSolver_sklearn):
         # ax.set_xlim(*self.bounds)
         # #ax.set_ylim(-0.7+np.min(self._Y), 0.5+0.7+np.max(self._Y))
         if show_name:
-            ax.set_title(f"{self.model.name}({self.model.params})")
+            #ax.set_title(f"{self.model.name}({self.model.params})")
+            ax.set_title(f"{self.model.name}")
         
         if p_x is not None:
             p_x = p_x.reshape(x_res, y_res)[:,0]
@@ -116,7 +131,6 @@ class PlotReg1D_mixturemodel(BayesOptSolver_sklearn):
             ax1.tick_params(axis='y', labelcolor=color)
             ax1.text(x_grid[len(x_grid)//2],1.1,r"$\alpha(x)$", color=color, size="large")
         
-        ax.legend(loc=2)
 
 
 class RegressionTestBase():
