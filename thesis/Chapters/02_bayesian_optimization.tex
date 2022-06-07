@@ -13,7 +13,7 @@ the concept of optimization.
 % <kilde 151. Bayes Opt is assumed superior to other global optimization technics 
 % with limited budget>
 
-\section{Bayesian Regression (surrogate model)}
+\section{Bayesian regression (surrogate)}
 
 Whereas traditional regression workflow is the following: From data, fit model parameters, make
 predictions using the parameters. The Bayesian framework allows us to skip the dependency of a
@@ -187,29 +187,39 @@ of the predictive distribution yiels closed form solution to the expected improv
     &= \sigma_x [u\Phi(u)+ \phi(u)]
 \end{align*}
 
-where $u:=\frac{y_{\min}-\mu_x}{\sigma_x}$. To understand the identity $\phi(u) = \int_{-\infty}^u
-(-\epsilon)  \phi(\epsilon) d\epsilon$ used in the last equality, we first see that the antiderivative
-is $\phi(\epsilon) = \frac{1}{\sqrt{2\pi}} \exp(\frac{-\epsilon^2}{2})$,
+where $u:=\frac{y_{\min}-\mu_x}{\sigma_x}$. 
+
+\begin{note}
+    \textbf{Derivation details}
+    To understand the identity $\phi(u) = \int_{-\infty}^u
+    (-\epsilon)  \phi(\epsilon) d\epsilon$ used in the last equality, we first see that the antiderivative
+is $\phi(\epsilon) = \frac{1}{\sqrt{2\pi}} \exp\left(\frac{-\epsilon^2}{2}\right)$,
 \begin{align*}
-    \frac{d}{d \epsilon} \phi(\epsilon) =  \frac{1}{\sqrt{2\pi}}\frac{d}{d \epsilon} \left( \exp(\frac{-\epsilon^2}{2}) \right)
-    =  \frac{1}{\sqrt{2\pi}}\exp(\frac{-\epsilon^2}{2})(-\epsilon)
+    \frac{d}{d \epsilon} \phi(\epsilon) =  \frac{1}{\sqrt{2\pi}}\frac{d}{d \epsilon}  \exp\left(\frac{-\epsilon^2}{2}\right) 
+    =  \frac{1}{\sqrt{2\pi}}\exp\left(\frac{-\epsilon^2}{2}\right)(-\epsilon)
     = -\epsilon \phi(\epsilon)
 \end{align*}
 and evaluating the rieman integral is equivalent to evaluate the antiderivative in its boundaries, giving the 
 solution, 
 $$\int_{-\infty}^u
 (-\epsilon)  \phi(\epsilon) d\epsilon = \left[\phi(\epsilon)\right]_{-\infty}^u = \phi(u)-0 = \phi(u)$$ 
+\end{note}
 
 We can also explicily write the expected improvement as, 
 $$EI(x) = (y_{\min}-\mu_x)\Phi\left(\frac{y_{\min}-\mu_x}{\sigma_x}\right)+ \sigma_x
-\phi\left(\frac{y_{\min}-\mu_x}{\sigma_x}\right)]$$
-where the first part can be interpretted as exploitation (favouring points with a large improvement $I(x) := (y_{\min}-\mu_x)$)
-and the second part can be seen a exploitation (favouring points with high uncertainty.)
-taking the derivative with respect to $I(x) := (y_{\min}-\mu_x)$ and $\sigma_x$, we see that expected improvement is 
-is increasing if the improvement grows or if the variance $\sigma_x$ grows, i.e
-$$\frac{\partial EI(x)}{\partial I(x)} = \Phi\left(\frac{y_{\min}-\mu_x}{\sigma_x}\right) > 0, \hspace*{0.5cm} 
-\frac{\partial EI(x)}{\partial \sigma_x} = \phi\left(\frac{y_{\min}-\mu_x}{\sigma_x}\right) >0$$ 
-<obs mistake in the book!!!?>
+\phi\left(\frac{y_{\min}-\mu_x}{\sigma_x}\right)]$$ where the first part can be interpretted as
+exploitation (favouring points with a large average improvement $I(x) := (y_{\min}-\mu_x)$) and the second
+part can be seen a exploitation (favouring points with high uncertainty.). This can also be seen
+in Figure \eqref{EI_illustration}, where it is clear that the expected improvement is growing for
+growing average improvement $I(x)$ and also for growing prediction uncertainty $\sigma_x$.
+
+
+% taking the derivative with
+% respect to $I(x) := (y_{\min}-\mu_x)$ and $\sigma_x$, we see that expected improvement is is
+% increasing if the improvement grows or if the variance $\sigma_x$ grows, i.e
+% $$\frac{\partial EI(x)}{\partial I(x)} = \Phi\left(\frac{y_{\min}-\mu_x}{\sigma_x}\right) > 0, \hspace*{0.5cm} 
+% \frac{\partial EI(x)}{\partial \sigma_x} = \phi\left(\frac{y_{\min}-\mu_x}{\sigma_x}\right) >0$$ 
+% <obs mistake in the book!!!?>
 
 
 \subsubsection{Approximate expected improvement}
@@ -240,8 +250,12 @@ distribution, but instead the PhD thesis \cite{PhDthesis}, just sample the mean 
 %Alatoric vs epistemic uncertainties 
 
 \subsection{Lower confidense bound}
-
-negative 
+Lower confidence bound is defined by a confidence paramter $\pi \in [0,1]$
+and then the lower quantile $\int_{\infty}^x p(y|x,\mathcal{D})dy = (1-\pi)$
+is chosen as the acquisition. For a Gaussian predictive distribution this is 
+simply 
+$$nLCB(x) = - (\mu_x - \beta \sigma_x)$$
+where $\beta = \Phi^{-1}(1-\pi)$.  
 \begin{figure}%[H]
     \centering
     \includegraphics[width=\textwidth]{Pictures/neg_lower_confidence_illustration.pdf}

@@ -163,11 +163,9 @@ distribtuion,
 $$p(y_*|x_*,\mathcal{D}) = \mathcal{N}(y_*|AM^{-1}\sigma^{-2}\textbf{y}, c(x_*, x_*)^{-1}+
 AM^{-1}A^T+\sigma^2)$$
 
-\todo{Some questions about a naive approach..!}
-
 \subsubsection*{Learning - Emperical bayes inference}
 
-Anther inference which is done is then optimizing the hyper parameters using emperical bayes i.e.
+Another inference which is done is then optimizing the hyper parameters using emperical bayes i.e.
 the variance and length scale for the kernel. Here we optimize the marginalized likelihood function
 $$p(y_1, \dots, y_n|x_1, \dots, x_n, \theta) = -\frac{1}{2}[(y-\mu)^T (\Sigma+N)^{-1}(y-\mu)+ \log |\Sigma+N|+n \log 2\pi]$$
 <and how to get to there?>

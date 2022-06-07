@@ -2198,10 +2198,9 @@
     <bcf:citekey order="14">JordanPaper</bcf:citekey>
     <bcf:citekey order="15">bishop</bcf:citekey>
     <bcf:citekey order="16">bishop</bcf:citekey>
-    <bcf:citekey order="17">bishop</bcf:citekey>
-    <bcf:citekey order="18">PhDthesis</bcf:citekey>
-    <bcf:citekey order="19">snoek2015scalable</bcf:citekey>
-    <bcf:citekey order="20">NIPS2016_a96d3afe</bcf:citekey>
+    <bcf:citekey order="17">PhDthesis</bcf:citekey>
+    <bcf:citekey order="18">snoek2015scalable</bcf:citekey>
+    <bcf:citekey order="19">NIPS2016_a96d3afe</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">

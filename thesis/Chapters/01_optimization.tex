@@ -145,11 +145,15 @@ $$p(y|f(x),\sigma^2) = \mathcal{N}(y|f(x),\sigma^2)$$
 
 % (note from now on we define $\phi := f(x)$ in order to avoid confusion and a extra set of paranteses)
 % $$p(y|x,\phi,\sigma) = \mathcal{N}(y;\phi,\sigma^2)$$ 
-Note The termology \textit{to sample} is also refering to a probabilistic observation model - we
-can, however, extend this model to deal with noiseless observations as well, simply by setting
-$\sigma = 0$ and let the model colaps into a Direct delta distribution, $p(y|f(x)) =
-\mathcal{\delta}(y-f(x))$ i.e. all probability mass for $y$ is on the value $f(x)$ giving the
-observation sample $y = f(x)$. 
+
+\begin{note}
+    \textbf{"Sample" or "evaluate" objective function} 
+    The terminology \textit{to sample} is also refering to a probabilistic observation model - we
+    can, however, extend this model to deal with noiseless observations as well, simply by setting
+    $\sigma = 0$ and let the model colaps into a Direct delta distribution, $p(y|f(x)) =
+    \mathcal{\delta}(y-f(x))$ i.e. all probability mass for $y$ is on the value $f(x)$ giving the
+    observation sample $y = f(x)$. 
+\end{note}
 
 Bayesian optimization or probabilistic surrogate-based optimization deals with both noiseless and noisy objective functions,
 as it defines a Bayesian regression model over the observations.
@@ -183,15 +187,21 @@ as it defines a Bayesian regression model over the observations.
     regression model. This interpretation is done through a so-called acquisition
     function (more about this later). The policy is as following,
     $$\text{policy}_{BO}(\mathcal{D}) = \max_x AQ(p(y|x,\mathcal{D}))$$
-    \begin{minipage}[t]{\textwidth}
-        \vspace*{0pt}
-            \includegraphics[width=\textwidth]{Pictures/SimonsTestGaussian Process - sklearn002.jpg}
-            \captionof{figure}{Top: Bayesian regression model (Gaussian Process) is fitted to the
-            observed data. Bottom: The negated lower confidense bound acquisition function,
-            $LCB(p(y|x,\mathcal{D}))$, the maxima, i.e. the orange point, is the location of the
-            next sample}\label{fig:fig1}
+
+    \begin{figure}[H]
+        \begin{minipage}[c]{0.67\textwidth}
+          \includegraphics[width=\textwidth]{Pictures/SimonsTestGaussian Process - sklearn002.jpg}
+        \end{minipage}\hfill
+        \begin{minipage}[c]{0.3\textwidth}
+          \caption{Top: Bayesian regression model (Gaussian Process) is fitted to the
+          observed data. Bottom: The negated lower confidense bound acquisition function,
+          $LCB(p(y|x,\mathcal{D}))$, the maxima, i.e. the orange point, is the location of the
+          next sample} \label{fig:03-03}
         \end{minipage}
+    \end{figure}
+   
 \end{tcolorbox}
+
 
 \begin{algorithm}[H]
     \caption{Bayesian Optimization}

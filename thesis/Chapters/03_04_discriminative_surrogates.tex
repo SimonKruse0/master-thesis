@@ -17,40 +17,6 @@ This is indeed sufficient for a surrogate model, where we are interested in the 
 \input{Chapters/03_gaussian_process_regression.tex}
 \input{Chapters/04_bayesian_nn_regression.tex}
 
-\section{implementation}
-The Gaussian process regression is implemented using the Scikit-learn Gaussian process
-implementation with the Matern kernel with $\nu=1.5$ and the y-values are normalized in order for
-the prior distribution to be reasonable (mean 0 and variance 1). The lengthscale is optimized by
-maximizing the marginalized likelihood using the limited memory quasi newton solver with bounds
-l-bfgs-b with 200 restarts. 
-
-The Bayesian neural network is implemented using Numpyro - which is a python library for
-probabilistic machine learning, developed by some of the people behind Pyro, but instead of using
-pyTorch as backend, Numpyro uses Jax. This allows for significantly large speedup when doing MCMC,
-i.e. NUTS sampling. This was however still very slow and we therefore limited the network size to a
-small 3 layer with 10 nodes on each layer network. The prior distribution for weights is a standard
-normal distribution, and the bias normal priors are sat 
-a bit less restrictive with a standard deviation of 2 instead. 
-This is reasonable since the data is always standardized. 
-
-\subsection{standardized data}
-Before the data reach any of the models, it is standardized. Which is 
-a scaling and translation such that the datas empirical mean and standard deviation are 0 and 1, respectively. 
-In that way is much easier to control the parameters in the models, since the data it fits and predicts
-is always the same scale. The transformation is as following, first time the models sees the data, 
-the empirical mean and standard deviation is recorded both for $x$ and $y$, (note $x$ can be a vector),
-giving $\mu_x$,$\mu_y$, $\sigma_x$and $\sigma_y$.
-next all data is transformed using the transformation, 
-
-$$T_x(\cdot) := \frac{\cdot-\mu_x}{\sigma_x}$$
-
-When we predict the $x$ is transformed, the model output a prediction 
-and then the inverse transform is mapping the prediction from the standardised
-domain to the original domain, 
- $T^{-1}_y(\hat y) := \hat y \cdot \sigma_x+\mu_x$
 
 
-
-
-\section{Regression analysis}
 

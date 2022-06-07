@@ -3,6 +3,39 @@
 Egne forsøg med SPN og mixture regression
 
 
+\section{implementation}
+The Gaussian process regression is implemented using the Scikit-learn Gaussian process
+implementation with the Matern kernel with $\nu=1.5$ and the y-values are normalized in order for
+the prior distribution to be reasonable (mean 0 and variance 1). The lengthscale is optimized by
+maximizing the marginalized likelihood using the limited memory quasi newton solver with bounds
+l-bfgs-b with 200 restarts. 
+
+The Bayesian neural network is implemented using Numpyro - which is a python library for
+probabilistic machine learning, developed by some of the people behind Pyro, but instead of using
+pyTorch as backend, Numpyro uses Jax. This allows for significantly large speedup when doing MCMC,
+i.e. NUTS sampling. This was however still very slow and we therefore limited the network size to a
+small 3 layer with 10 nodes on each layer network. The prior distribution for weights is a standard
+normal distribution, and the bias normal priors are sat 
+a bit less restrictive with a standard deviation of 2 instead. 
+This is reasonable since the data is always standardized. 
+
+\subsection{standardized data}
+Before the data reach any of the models, it is standardized. Which is 
+a scaling and translation such that the datas empirical mean and standard deviation are 0 and 1, respectively. 
+In that way is much easier to control the parameters in the models, since the data it fits and predicts
+is always the same scale. The transformation is as following, first time the models sees the data, 
+the empirical mean and standard deviation is recorded both for $x$ and $y$, (note $x$ can be a vector),
+giving $\mu_x$,$\mu_y$, $\sigma_x$and $\sigma_y$.
+next all data is transformed using the transformation, 
+
+$$T_x(\cdot) := \frac{\cdot-\mu_x}{\sigma_x}$$
+
+When we predict the $x$ is transformed, the model output a prediction 
+and then the inverse transform is mapping the prediction from the standardised
+domain to the original domain, 
+ $T^{-1}_y(\hat y) := \hat y \cdot \sigma_x+\mu_x$
+
+
 \section{Regression analysis}
 As described in the previous sections an essential part of Bayesian optimization and the decision theory build 
 around Bayesian optimization, that the regression model is correct. We will therefore look at how good the
@@ -34,6 +67,12 @@ where $\bar{\textbf{y}} = \frac{1}{n}\sum_{i=1}^n \textbf{y}_i $ and
 $\bar{\sigma}^2 (\textbf{y})) = \frac{1}{n-1}\sum_{i=1}^n (\textbf{y}_i-\bar{\textbf{y}})^2 $
 this is however not a good model for Bayesian optimization, as it will not provide a
 new candidate point, as all points are equally good. 
+
+
+\section{Mixture regression}
+
+
+
 
 \section{Regression analysis of GP, BOHAMIANN and NumpyNN 1D}
 
