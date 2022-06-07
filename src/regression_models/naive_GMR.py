@@ -72,9 +72,10 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
     def __init__(self,x_component_std = 5e-2,
                     y_component_std= 5e-2, 
                     prior_settings = {"Ndx": 1,"sig_prior":1.2, "prior_type":1},
+                    Ndx =  1,
                     manipulate_variance = False, 
                     optimize=False, opt_n_iter=10, opt_cv = 3, 
-                    prior_type = 1
+                    prior_type = 1, predictive_score = True
                     ):
         self.model = None #necessary?
         self.prior_type = prior_settings["prior_type"]
@@ -86,10 +87,11 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
         self.x_component_std = x_component_std
         self.y_component_std = y_component_std
         self.prior_settings = prior_settings
+        self.Ndx = Ndx
         self.manipulate_variance = manipulate_variance
         self.optimize_hyperparams = optimize
         self.opt_n_iter, self.opt_cv = opt_n_iter, opt_cv
-        self.predictive_score = True
+        self.predictive_score = predictive_score
 
     def fit(self, X, Y):
         if self.optimize_hyperparams:
@@ -133,6 +135,7 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
             {
                 'x_component_std': (1e-3, 3e-1, 'uniform'),
                 'y_component_std': (1e-3, 3e-1, 'uniform'),
+                'Ndx' : (1e-6, 1., 'uniform')
             },
             n_iter=self.opt_n_iter,
             cv=self.opt_cv
@@ -155,13 +158,14 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
         out["prior_settings"] = self.prior_settings
         out["opt_n_iter"] = self.opt_n_iter
         out["opt_cv"] = self.opt_cv
+        out["Ndx"] = self.Ndx
         #out["optimize"] = self.optimize_hyperparams #gets into trouble with the CV code
         return out
 
     def predictive_pdf(self,X,Y):
         X,*_ = normalize(X,self.x_mean, self.x_std)
         Y,*_ = normalize(Y,self.y_mean, self.y_std)
-        Ndx = self.prior_settings["Ndx"]
+        Ndx = self.Ndx
         sig_prior = self.prior_settings["sig_prior"]
         N = self.N
         assert X.ndim ==2
@@ -171,11 +175,11 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
         p_x = np.exp(self.lp_x(X))
         p_prior_y = norm(0, sig_prior).pdf(Y)
         p_predictive = (N*p_xy + Ndx*p_prior_y.squeeze()) / (N*p_x + Ndx)    
-        return p_predictive
+        return p_predictive, p_x
 
     def predict(self, X_test):
         X_test,*_ = normalize(X_test,self.x_mean, self.x_std)
-        Ndx = self.prior_settings["Ndx"]
+        Ndx = self.Ndx
         sig_prior = self.prior_settings["sig_prior"]
 
         # likelihood
@@ -214,7 +218,7 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
         y_grid, *_ = normalize(y_grid, self.y_mean, self.y_std)
 
         x_res, y_res = x_grid.shape[0], y_grid.shape[0]
-        Ndx = self.prior_settings["Ndx"]
+        Ndx = self.Ndx
         sig_prior = self.prior_settings["sig_prior"]
         N = self.N
 
@@ -276,7 +280,7 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
         if p_x is not None:
             ax1 = ax.twinx()  # instantiate a second axes that shares the same x-axis
             color = 'tab:green'
-            Ndx = self.prior_settings["Ndx"]
+            Ndx = self.Ndx
             a = self.N*p_x/Ndx
             ax1.plot(x_grid, a/(a+1), color = color)
             #ax1.set_ylabel(r'$\alpha_x$', color=color)

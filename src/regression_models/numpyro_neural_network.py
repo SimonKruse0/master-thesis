@@ -15,7 +15,7 @@ import os
 
 class NumpyroNeuralNetwork:
     def __init__(self, hidden_units = 10, num_warmup=1000, num_samples = 500, num_chains=4, 
-                     num_keep_samples = 50, extra_name="", 
+                     num_keep_samples = 500, extra_name="", 
                      hidden_units_variance = 2, 
                      hidden_units_bias_variance = 1):
         self.kernel = None 

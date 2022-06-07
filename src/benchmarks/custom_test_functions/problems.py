@@ -181,6 +181,26 @@ class SimonsTest0(Benchmark):
         else:
             return result[0]
 
+class Step_random(Benchmark):
+
+    def __init__(self, dimensions=2):
+        Benchmark.__init__(self, dimensions)
+        self._bounds = list(zip([-17.5] * self.N,
+                           [17.5] * self.N))
+        self.custom_bounds = ([-5, 5], [-5, 5])
+
+        self.global_optimum = [[0. for _ in range(self.N)]]
+        self.fglob = 0.0
+        self.change_dimensionality = True
+
+    def fun(self, x, *args):
+        self.nfev += 1
+        tspans = [0,3,5,7,9,12,16,18,20,22,24,28,32,35]
+        u = [700,600,500,100,300,200,800,400,500,600,700,200,700,800]
+        kk = next(float(y) for t,y in zip(tspans, u) if t >= x[0]+17.5)
+
+        return sum(floor(abs(x)))+kk*np.random.randint(2)
+
 class Step(Benchmark):
 
     r"""

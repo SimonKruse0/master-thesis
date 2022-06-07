@@ -260,7 +260,8 @@ class SumProductNetworkRegression(BaseEstimator):
         XY = torch.hstack((X, Y))
         XX = torch.hstack((X, torch.zeros(X.shape[0],1)))
         N = self.N
-        sig_prior = 1
+        Ndx = self.prior_settings["Ndx"]
+        sig_prior = self.prior_settings["sig_prior"]
         assert X.ndim ==2
         assert Y.ndim ==2
 
@@ -272,8 +273,8 @@ class SumProductNetworkRegression(BaseEstimator):
             p_x = torch.exp(log_p_x)
             normal_sig_prior = torch.distributions.Normal(0,sig_prior)
             p_prior_y= torch.exp(normal_sig_prior.log_prob(Y))
-            p_predictive = (N*p_xy + p_prior_y.squeeze()) / (N*p_x + 1)
-            return p_predictive.detach().numpy()
+            p_predictive = (N*p_xy + Ndx*p_prior_y.squeeze()) / (N*p_x + Ndx)
+            return p_predictive.detach().numpy(), p_x.detach().numpy()
 
     def _bayesian_conditional_pdf(self,x_grid,y_grid): #FAILS!!
         x_grid, *_ = normalize(x_grid, self.x_mean, self.x_std)
@@ -377,7 +378,8 @@ if __name__ == "__main__":
     #datasize = int(input("Enter number of datapoints: "))
     datasize = 200
     np.random.seed(20)
-    X_sample =  np.random.uniform(*bounds,size = (datasize,3))
+    xdim = 1
+    X_sample =  np.random.uniform(*bounds,size = (datasize,xdim))
     Y_sample = obj_fun_nd(X_sample)[:,None]
 
     SPN_regression = SumProductNetworkRegression(
@@ -386,7 +388,7 @@ if __name__ == "__main__":
                     optimize=False)
     SPN_regression.fit(X_sample, Y_sample)
 
-    X = X_sample[:5,:]+np.random.randn(5,3)*0.001
+    X = X_sample[:5,:]+np.random.randn(5,xdim)*0.001
     Y = Y_sample[:5,:]+np.random.randn(5,1)*0.001
     print("result 1 = ", SPN_regression.predictive_pdf(X, Y)) 
     print("result 2 = ", SPN_regression.predictive_pdf(X, Y)) 

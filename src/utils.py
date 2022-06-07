@@ -40,6 +40,7 @@ def plot_inv_gamma(ax,alpha, beta):
 
 
 
+
 class PlottingClass:
     def __init__(self) -> None:
         pass

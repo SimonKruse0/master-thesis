@@ -5,7 +5,7 @@ from src.regression_models.SPN_regression2 import SumProductNetworkRegression
 import random
 from src.regression_validation.reg_validation import RegressionTest_sklearn
 
-from src.benchmarks.custom_test_functions.problems import SimonsTest2_probibalistic
+from src.benchmarks.custom_test_functions.problems import SimonsTest2_probibalistic, Step_random
 import os
 from datetime import datetime
 
@@ -18,17 +18,17 @@ import random
 
 
 reg_models = [MeanRegression(), 
-            NaiveGMRegression(optimize=True), 
+            #NaiveGMRegression(optimize=True), 
             GaussianProcess_sklearn(), 
             BOHAMIANN(num_keep_samples=500), 
             NumpyroNeuralNetwork(num_warmup=200,num_samples=200,
                                 num_chains=4, num_keep_samples=200, 
-                                extra_name="200-200"),
-            SumProductNetworkRegression(optimize=True)]
+                                extra_name="200-200"),]
+            #SumProductNetworkRegression(optimize=True)]
             
 # random.seed()
 # random.shuffle(reg_models)
-reg_models = [NaiveGMRegression(optimize=False), SumProductNetworkRegression(optimize=False, opt_n_iter=5)]
+#reg_models = [NaiveGMRegression(optimize=False), SumProductNetworkRegression(optimize=False, opt_n_iter=5)]
 
 ### main ###
 n_train_array = [int(x) for x in np.logspace(1, 2.5, 9)]
@@ -45,6 +45,7 @@ except:
 
 
 problems = [SimonsTest2_probibalistic()]
+problems = [Step_random()]
 for problem in problems:
     # name_problem = problem.name.split(" ")[3]
     # dim = problem.name.split(" ")[-1]

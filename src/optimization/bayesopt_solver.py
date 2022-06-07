@@ -71,18 +71,43 @@ class BayesOptSolverBase(PlottingClass):
         for ndx in range(0, l, n):
             yield iterable[ndx:min(ndx + n, l)]
 
-    def predictive_pdf(self, X,Y):
+    def predictive_pdf(self, X,Y, return_px = False, grid1D = False):
+        
+        if grid1D: #making grid prediction.
+            x_res = X.shape[0]
+            y_res = Y.shape[0]
+            XY_grid = [x.flatten() for x in np.meshgrid(X.flatten(), Y.flatten(), indexing="ij")]
+            X,Y = XY_grid[0][:,None],  XY_grid[1][:,None]
         try:
-            predictive_pdfs = self.model.predictive_pdf(X,Y) 
+            predictive_pdfs, p_x = self.model.predictive_pdf(X,Y) 
         except:
-            print(f"{self.model.name} didn't have a predictive_pdf")
-            predictive_pdfs = None
+            print(f"{self.model.name} didn't have a predictive_pdf - using Gaussian")
+
+            Y = Y.squeeze()
+            if grid1D:
+                Y_mu,Y_sigma = self.predict(X[::y_res]) 
+                Y_mu = Y_mu.squeeze()
+                Y_sigma = Y_sigma.squeeze()
+                Y = Y.reshape(x_res,y_res)
+                Z_pred = (Y-Y_mu[:,None])/Y_sigma[:,None] #std. normal distributed. 
+                Z_pred = Z_pred.flatten()
+            else:
+                Y_mu,Y_sigma = self.predict(X)
+                Z_pred = (Y-Y_mu)/Y_sigma #std. normal distributed. 
+            
+            predictive_pdfs = norm.pdf(Z_pred)
+            p_x = None
+        if return_px:
+            return predictive_pdfs, p_x
         return predictive_pdfs
 
     def predict(self,X, gaussian_approx = True, get_px = False):
         # if X.shape[0] > 1000:
+        if X.ndim == 1:
+            X = X[:,None]
+        assert X.ndim == 2
         if get_px:
-            Y_mu,Y_sigma,p_x = self.model.predict(X_batch)
+            Y_mu,Y_sigma,p_x = self.model.predict(X)
             return Y_mu,Y_sigma, p_x
         Y_mu_list = []
         Y_sigma_list = []
@@ -254,6 +279,7 @@ class PlotBayesOpt1D(BayesOptSolver_sklearn):
         self.bounds = (self.bounds[0][0], self.bounds[1][0])
         self.Xgrid = np.linspace(*self.bounds, 1000)[:, None]
         self.show_name = True
+        self.deterministic = False
     def optimize(self, path=""):
         for i in range(self.budget):
             print(f"-- finding x{i+1} --",end="\n")
@@ -276,9 +302,14 @@ class PlotBayesOpt1D(BayesOptSolver_sklearn):
         ax2 = plt.subplot(gs[1])
 
         self.plot_regression_gaussian_approx(ax1, show_name =self.show_name)
-        X_true =  np.linspace(*self.bounds,1000)[:,None]
-        Y_true = self.obj_fun(X_true)
-        ax1.plot(X_true, Y_true, "--", color="Black")
+        if self.deterministic:
+            X_true =  np.linspace(*self.bounds,1000)[:,None]
+            Y_true = self.obj_fun(X_true)
+            ax1.plot(X_true, Y_true, "--", color="Black")
+        else:
+            X_true =  np.linspace(*self.bounds,10000)[:,None]
+            Y_true = self.obj_fun(X_true)
+            ax1.plot(X_true, Y_true, ".", markersize = 1, color="Black")
         ax1.plot(self._X[:-1],self._Y[:-1], ".", markersize = 10, color="black")  # plot all observed data
         #ax1.plot(self._X[-1],self._Y[-1], ".", markersize = 10, color="tab:orange")  # plot
 

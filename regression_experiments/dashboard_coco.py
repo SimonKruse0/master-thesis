@@ -7,10 +7,11 @@ from dash.dependencies import Input, Output
 from src.regression_validation.analysis_helpers import get_data2, get_names
 import numpy as np
 
+data_folder = "sklearn_reg_data" #"coco_reg_data"
 
 app = dash.Dash()
 
-names = [{"label":x, 'value': x} for x in get_names(data_folder="coco_reg_data")]
+names = [{"label":x, 'value': x} for x in get_names(data_folder=data_folder)]
 LETTER = "W"
 app.layout = html.Div(id = 'parent', children = [
     html.H1(id = 'H1', children = 'Regression Analysis', style = {'textAlign':'center',\
@@ -70,7 +71,7 @@ def ls(name):
               )])
 def analysis_regression_performance_plotly(problem, means, rel_abs):
     print_file_paths = True
-    data_list,name_list, problem_name, file_path_list, file_path_list2 = get_data2(problem, use_exact_name=True, data_folder="coco_reg_data")
+    data_list,name_list, problem_name, file_path_list, file_path_list2 = get_data2(problem, use_exact_name=True, data_folder=data_folder)
 
     type = rel_abs
     #type ="mean_abs_pred_error"
@@ -151,7 +152,7 @@ def analysis_regression_performance_plotly(problem, means, rel_abs):
               ),Input(component_id='means', component_property= 'value',
               )])
 def analysis_regression_performance_plotly(problem,means):
-    data_list,name_list, problem_name, *_ = get_data2(problem, use_exact_name=True,data_folder="coco_reg_data")
+    data_list,name_list, problem_name, *_ = get_data2(problem, use_exact_name=True,data_folder=data_folder)
 
     type ="mean_pred_likelihod"
 
@@ -162,15 +163,20 @@ def analysis_regression_performance_plotly(problem,means):
     if means == "means":
 
         for data, name in zip(data_list,name_list):
-            if len(data[type]) != 9: #KÆMPE HACK
+            try:
+                data_inst = data["mean_pred_mass"]
+                assert data_inst is not None
+            except:
+                data_inst = data[type]
+            if len(data_inst) != 9: #KÆMPE HACK
                 print("#KÆMPE HACK")
                 continue
             if name in name_visted:
-                data3[name]+=(data[type])
+                data3[name]+=(data_inst)
                 
             else:
                 data2[name] = data["n_train_list"]
-                data3[name] = data[type]
+                data3[name] = data_inst
                 name_visted.append(name)
         
         for name in name_visted:
@@ -182,14 +188,20 @@ def analysis_regression_performance_plotly(problem,means):
     else:
 
         for data, name in zip(data_list,name_list):
+            try:
+                data_inst = data["mean_pred_mass"]
+                assert data_inst is not None
+            except:
+                data_inst = data[type]
+
             if name in name_visted:
                 data2[name]+=["None"]
                 data3[name]+=["None"]
                 data2[name]+=(data["n_train_list"])
-                data3[name]+=(data[type])
+                data3[name]+=(data_inst)
             else:
                 data2[name] = data["n_train_list"]
-                data3[name] = data[type]
+                data3[name] = data_inst
                 name_visted.append(name)
 
     fig = go.Figure()

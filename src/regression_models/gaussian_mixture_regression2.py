@@ -1,5 +1,5 @@
 from gmr import GMM, plot_error_ellipses
-from sklearn.mixture import BayesianGaussianMixture
+from sklearn.mixture import BayesianGaussianMixture, GaussianMixture
 from gmr.mvn import MVN
 import numpy as np
 import matplotlib.pyplot as plt
@@ -12,20 +12,25 @@ def sigmoid(x):
   return 1 / (1 + math.exp(-x))
 
 class GMM_bayesian(GMM):
+    def __init__(self, n_components,N, Ndx, sig_prior, priors=None, means=None, covariances=None, verbose=0, random_state=None):
+        super().__init__(n_components, priors, means, covariances, verbose, random_state)
+        self.N = N
+        self.Ndx = Ndx
+        self.sig_prior = sig_prior
     #Manipulation of gmr.GMM functions
     # def predict():
     #     raise "don't use this"
 
     def predict(self, X_test , manipulate_variance = False):
-        n_data = self.means.shape[0]
+        n_data = self.N
         m_preds,std_preds  = [], []
         for i,x in enumerate(X_test):
             if i%10 ==0:
                 print(f"Points tested {100*i/X_test.shape[0]:0.1f}%", end="\r")
             conditional_gmm = self.condition(x)
             p_x = self.marginalize(x) #probability of data at the x. 
-            Ndx = 1
-            sig_prior = 1
+            Ndx = self.Ndx 
+            sig_prior = self.sig_prior
 
             m_pred = (p_x*n_data*conditional_gmm.mean() + Ndx*0)/(n_data*p_x+Ndx)
             v_pred = (p_x*n_data*(conditional_gmm.variance()+conditional_gmm.mean()**2)+
@@ -38,11 +43,12 @@ class GMM_bayesian(GMM):
         return np.array(m_preds), np.array(std_preds)
     
     def _bayesian_conditional_pdf(self, x_grid,y_grid , manipulate_variance = False):
-        Ndx = 1e-6
-        sig_prior = 1
-        n_data = self.means.shape[0]
+        Ndx = self.Ndx
+        sig_prior = self.sig_prior
+        n_data = self.N
         p_predictive = np.zeros((len(x_grid),len(y_grid)))
         p_prior_y = norm(0, sqrt(sig_prior)).pdf(y_grid)
+        p_x_list = []
         for i,x in enumerate(x_grid):
             if i%10 ==0:
                 print(f"Points evaluated {100*i/x_grid.shape[0]:0.1f}%", end="\r")
@@ -53,7 +59,8 @@ class GMM_bayesian(GMM):
                 p_predictive[i,j] = (p_x*n_data*p_conditional_gmm)/(p_x*n_data+Ndx)
                 #p_predictive[i,j] = (p_x*n_data*p_conditional_gmm + Ndx*p_prior_y)/(p_x*n_data+Ndx)
             p_predictive[i,:] += Ndx*p_prior_y/(p_x*n_data+Ndx)
-        return p_predictive
+            p_x_list.append(p_x)
+        return p_predictive,np.array(p_x_list)
 
     def mean(self):
         mean = 0 #only 1D since we only need E[y|x]
@@ -114,7 +121,7 @@ class GMM_bayesian(GMM):
             self.priors * marginal_norm_factors,
             marginal_prior_exponents[np.newaxis])[0]
 
-        return GMM_bayesian(n_components=self.n_components, priors=priors, means=means,
+        return GMM_bayesian(self.n_components, self.N, self.Ndx, self.sig_prior,priors=priors, means=means,
                    covariances=covariances, random_state=self.random_state)
 
 def _safe_probability_density(norm_factors, exponents):
@@ -124,32 +131,34 @@ def _safe_probability_density(norm_factors, exponents):
     return p
 
 class GMRegression():
-    def __init__(self,component_variance = 1e-2, manipulate_variance = True) -> None:
+    def __init__(self,component_variance = 1e-2, manipulate_variance = False) -> None:
         self.model = None
         self.name = "Gaussian Mixture Regression"
-        
+        self.Ndx, self.sig_prior = 1e-2,1.1
+        #self.n_components = 
         self.component_variance = component_variance
         self.manipulate_variance = manipulate_variance
 
     def fit(self, X, Y):
-        N, self.nX = X.shape
+        self.N, self.nX = X.shape
         nXY = self.nX+1
         X_, self.x_mean, self.x_std = normalize(X)
         Y_, self.y_mean, self.y_std = normalize(Y)
         XY_train = np.column_stack((X_, Y_))
-        n_components = 10
+        n_components = self.N//5
         gmm_sklearn = BayesianGaussianMixture(n_components=n_components,
                                         covariance_type = "full",
-                                        weight_concentration_prior = 1. / n_components, 
-                                        mean_precision_prior = 0.001, 
-                                        covariance_prior =np.array([[0.02,0],[0,0.01]]),
-                                        n_init = 10)
+                                        weight_concentration_prior =  1e-9,#1. / n_components, 
+                                        mean_precision_prior = 1e-9,#0.001, 
+                                        covariance_prior =np.array([[0.01,0],[0,0.01]]),
+                                        n_init = 5, init_params="kmeans")
                                         #covariance_prior =np.diag(np.diag(np.cov(XY_train.T)))/1000)
                                         #weight_concentration_prior_type="dirichlet_distribution")
+        #gmm_sklearn = GaussianMixture(n_components=n_components, covariance_type="full", max_iter=100)
         gmm_sklearn.fit(XY_train)
 
         self.model = GMM_bayesian(
-        n_components=n_components, priors=gmm_sklearn.weights_, means=gmm_sklearn.means_,
+        n_components, self.N, self.Ndx, self.sig_prior, priors=gmm_sklearn.weights_, means=gmm_sklearn.means_,
         covariances=gmm_sklearn.covariances_)
         self.params = f"component_variance = {self.component_variance}, manipulate_variance = {self.manipulate_variance}"
 
@@ -168,12 +177,12 @@ class GMRegression():
         y_grid, *_ = normalize(y_grid, self.y_mean, self.y_std)
         return self.model._bayesian_conditional_pdf(x_grid, y_grid)
 
-    def plot(self, ax, xbounds=(0,1),ybounds=(-2.5,2.5)):
-        x_res, y_res  = 300, 300
-        x_grid = np.linspace(*xbounds, x_res, dtype=np.float)
-        y_grid = np.linspace(*ybounds, y_res,dtype=np.float)
+    def plot(self, ax, xbounds=(-0.1,1.1),ybounds=(-2.5,2.5)):
+        x_res, y_res  = 100, 300
+        x_grid = np.linspace(*xbounds, x_res, dtype=float)
+        y_grid = np.linspace(*ybounds, y_res,dtype=float)
 
-        p_predictive = self._bayesian_conditional_pdf(x_grid,y_grid)
+        p_predictive,p_x = self._bayesian_conditional_pdf(x_grid,y_grid)
 
         dx = (x_grid[1] - x_grid[0]) / 2.0
         dy = (y_grid[1] - y_grid[0]) / 2.0
@@ -188,15 +197,30 @@ class GMRegression():
             extent=extent,
             aspect="auto",
             origin="lower",
-            cmap='Blues'
+            cmap='Blues',
+            vmin=-5, vmax=1
         )  # , vmin=-3, vmax=1)
+
+        if p_x is not None:
+            ax1 = ax.twinx()  # instantiate a second axes that shares the same x-axis
+            color = 'tab:green'
+            Ndx = 1 #self.prior_settings["Ndx"]
+            a = self.N*p_x/Ndx
+            ax1.plot(x_grid, a/(a+1), color = color)
+            #ax1.set_ylabel(r'$\alpha_x$', color=color)
+            ax1.set_ylim(0,5)
+            ax1.grid(color=color, alpha = 0.2)
+            ticks = [0,0.2,0.4,0.6,0.8,1.0]
+            ax1.set_yticks(ticks)
+            ax1.tick_params(axis='y', labelcolor=color)
+            ax1.text(x_grid[len(x_grid)//2],1.1,r"$\alpha(x)$", color=color, size="large")
 
 
 def obj_fun(x): 
     return 0.5 * (np.sign(x-0.5) + 1)+np.sin(100*x)*0.1
 if __name__ == "__main__":
 
-    N = 20
+    N = 200
     np.random.seed(20) #weird thing happening!
     np.random.seed(1)
     X =  np.random.uniform(0,1,size = (N,1))
@@ -219,9 +243,12 @@ if __name__ == "__main__":
         plt.legend()
         # plt.show()
         # ax = plt.subplot(111)
-        plot_error_ellipses(ax, GMR.model, alpha = 1)
-        ax.set_ylim([-1,2])
-        ax.set_xlim([-1,1.2])
+        GMR.plot(ax)
+
+
+        # plot_error_ellipses(ax, GMR.model, alpha = 1)
+        # ax.set_ylim([-1,2])
+        # ax.set_xlim([-1,1.2])
         plt.show()
     else:
         XY_train = np.column_stack((x, y))
@@ -245,7 +272,7 @@ if __name__ == "__main__":
 
         alpha_list = []
         for x_test in x_test_list:
-            conditional_gmm, alpha = gmm.condition([0], [x_test], manipulate_test_bounds = True)
+            conditional_gmm, alpha = gmm.condition([0], [x_test], manipulate_test_bounds = False)
 
             mu.append(conditional_gmm.mean())
             var = conditional_gmm.variance()
