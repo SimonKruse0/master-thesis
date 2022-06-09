@@ -17,9 +17,9 @@ class GMM_bayesian(GMM):
         self.N = N
         self.prior_weight = prior_weight
         self.sig_prior = sig_prior
-    #Manipulation of gmr.GMM functions
-    # def predict():
-    #     raise "don't use this"
+        #Manipulation of gmr.GMM functions
+        # def predict():
+        #     raise "don't use this"
 
     def predict(self, X_test , manipulate_variance = False):
         n_data = self.N

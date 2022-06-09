@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt 
 from src.regression_models.gaussian_process_regression import GaussianProcess_sklearn
+from src.regression_models.GPy_regression import GaussianProcess_GPy
 from src.regression_models.bohamiann import BOHAMIANN
 from src.regression_models.numpyro_neural_network import NumpyroNeuralNetwork
 
@@ -16,14 +17,14 @@ y = f(x)
 grid = np.linspace(0, 1, 200)
 fvals = f(grid)
 
-plt.plot(grid, fvals, "k--")
-plt.plot(x, y, "ro")
-plt.grid()
-plt.xlim(0, 1)
+# plt.plot(grid, fvals, "k--")
+# plt.plot(x, y, "ro")
+# plt.grid()
+# plt.xlim(0, 1)
 
-plt.show()
+# plt.show()
 plt.figure()
-GP_reg = GaussianProcess_sklearn()
+GP_reg = GaussianProcess_GPy()
 GP_reg.fit(x[:, None],y[:, None])
 m, sd, _ = GP_reg.predict(grid[:,None])
 
@@ -37,9 +38,9 @@ plt.fill_between(grid, m + 3 * sd, m - 3 * sd, color="tab:blue", alpha=0.4)
 plt.xlim(0, 1)
 plt.xlabel(r"Input $x$")
 plt.ylabel(r"Output $f(x)$")
-
+plt.show()
 path = "/home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures"
-plt.savefig(f'{path}/GP_vs_BNN1.pdf', bbox_inches='tight')
+#plt.savefig(f'{path}/GP_vs_BNN1_b.pdf', bbox_inches='tight')
 
 
 plt.figure()

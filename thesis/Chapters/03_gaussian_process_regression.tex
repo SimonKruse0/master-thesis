@@ -57,6 +57,25 @@ So now want to calculate $p(f(x_*)|\mathcal{D})$,
 
 Assuming corr
 
+\begin{figure}[h]
+    \centering
+    \begin{minipage}[b]{0.49\textwidth}
+     \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Figures/reg_illustrations/GP/Test1_GP_n_10_seed_42.jpg}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.49\textwidth}
+      \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Figures/reg_illustrations/GP/Test2_GP_n_40_seed_42.jpg}
+     \end{minipage}
+    
+     \begin{minipage}[b]{0.49\textwidth}
+      \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Figures/reg_illustrations/GP/Test3_GP_n_40_seed_42.jpg}
+     \end{minipage}
+     \hfill
+     \begin{minipage}[b]{0.49\textwidth}
+       \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Figures/reg_illustrations/GP/Test4_GP_n_40_seed_42.jpg}
+      \end{minipage}
+      \caption{GP tested on all problems.}
+\end{figure}
 
 Using a GP as a surrogate model is very popular in Bayesian Optimization, one of the reasons
 are its exact inference, and often its assumption is a very good characteristic of the true
@@ -65,7 +84,7 @@ function.
 \subsection{Exact predictive distribution}
 We now show how the preditive distribution is calculated exact for
 Gaussian Processes, i.e. 
-\begin{equation}\label{GP_predictive}
+\begin{equation}\label{GP_predictive2}
     p(y|x,\mathcal{D}) = \int \mathcal{N}(y|f(x), \sigma^2) p(f(x)|\mathcal{D})df(x)
 \end{equation}
 we will soon see that $p(f(x)|\mathcal{D}) = \mathcal{N}(f(x)| .., ...)$ and

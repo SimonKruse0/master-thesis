@@ -46,8 +46,7 @@ class BOHAMIANN:
         self.lr=lr
         self.name = f"BOHAMIANN{extra_name}"
         self.latex_architecture = "nn.Linear(input_dimensionality, 50), nn.Tanh(), nn.Linear(50, 50), nn.Tanh(), nn.Linear(50, 1), AppendLayer()"
-        self.params = f"layers = 3, hidden_units = 50, num_warmup = {num_warmup},\
-                            num_samples = {num_samples}"
+        self.params = f"n_warmup = {num_warmup},n_samples = {num_samples}"
 
     def fit(self, X, Y):
         self.model.train(

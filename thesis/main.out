@@ -22,8 +22,10 @@
 \BOOKMARK [0][]{chapter.0.5}{5\040Results}{}% 22
 \BOOKMARK [1][]{section.0.5.1}{5.1\040implementation}{chapter.0.5}% 23
 \BOOKMARK [1][]{section.0.5.2}{5.2\040Regression\040analysis}{chapter.0.5}% 24
-\BOOKMARK [1][]{section.0.5.3}{5.3\040Regression\040analysis\040of\040GP,\040BOHAMIANN\040and\040NumpyNN\0401D}{chapter.0.5}% 25
-\BOOKMARK [1][]{section.0.5.4}{5.4\040Regression\040analysis\040of\040GP,\040BOHAMIANN\040and\040NumpyNN\0402D}{chapter.0.5}% 26
-\BOOKMARK [1][]{section.0.5.5}{5.5\040Mixture\040regression\040on\040simple\040functions}{chapter.0.5}% 27
-\BOOKMARK [0][]{chapter.0.6}{6\040Conclusion\040and\040further\040work}{}% 28
-\BOOKMARK [0][]{chapter*.36}{Bibliography}{}% 29
+\BOOKMARK [1][]{section.0.5.3}{5.3\040Mixture\040regression}{chapter.0.5}% 25
+\BOOKMARK [1][]{section.0.5.4}{5.4\040Regression\040analysis\040of\040GP,\040BOHAMIANN\040and\040NumpyNN\0401D}{chapter.0.5}% 26
+\BOOKMARK [1][]{section.0.5.5}{5.5\040Regression\040analysis\040of\040GP,\040BOHAMIANN\040and\040NumpyNN\0402D}{chapter.0.5}% 27
+\BOOKMARK [1][]{section.0.5.6}{5.6\040Mixture\040regression\040on\040simple\040functions}{chapter.0.5}% 28
+\BOOKMARK [0][]{chapter.0.6}{6\040Conclusion\040and\040further\040work}{}% 29
+\BOOKMARK [1][]{section.0.6.1}{6.1\040further\040work}{chapter.0.6}% 30
+\BOOKMARK [0][]{chapter*.42}{Bibliography}{}% 31

@@ -23,18 +23,17 @@ class NumpyroNeuralNetwork:
         self.hidden_units_variance = hidden_units_variance
         self.hidden_units_bias_variance = hidden_units_bias_variance
         self.obs_variance = 0.01
-        #self.obs_variance_prior = 1000 #Obs E[sigma] = 1/lambda
-        self.obs_variance_prior = 10 #Obs E[sigma] = 1/lambda
+        self.obs_variance_prior = 100000 #Obs E[sigma] = 1/lambda
+        #self.obs_variance_prior = 10 #Obs E[sigma] = 1/lambda
         self.target_accept_prob = 0.6
         self.num_warmup = num_warmup
         self.num_samples = num_samples
         self.num_chains = num_chains
         self.keep_every = num_samples//num_keep_samples
-        self.name = f"numpyro neural network{extra_name}"
+        self.name = f"numpyro BNN"
         self.latex_architecture = r"$\theta_{\mu} \sim \mathcal{N}(0,{self.hidden_units_variance})$"
         self.samples = None
-        self.params = f"layers = 3, hidden_units = {hidden_units}, num_warmup = {num_warmup},\
-                            num_samples = {num_samples}, num_chains = {num_chains}"
+        self.params = f"n_warmup = {num_warmup},n_samples = {num_samples}, n_chains = {num_chains}"
         text_observation = r"$y \sim \mathcal{N}(f_{\theta}(x),\sigma)$"
         text_prior = r" $\theta_{w}   \sim \mathcal{N}(0,$"+f"{self.hidden_units_variance}"+r"$I_{30})$"
         text_prior_bias = r" $\theta_{b} \sim \mathcal{N}(0,$"+f"{self.hidden_units_bias_variance}"+r"$I_{3})$"
@@ -86,7 +85,8 @@ class NumpyroNeuralNetwork:
         with numpyro.plate("data", N):
             # note we use to_event(1) because each observation has shape (1,)
             Y = numpyro.sample("Y", dist.Normal(z3, sigma_obs).to_event(1), obs=Y,rng_key=self.rng_key)
-            #numpyro.sample("Y", dist.Delta(z3).to_event(1), obs=Y)
+            #Y = numpyro.sample("Y", z3, obs=Y,rng_key=self.rng_key)
+            #Y = numpyro.sample("Y", dist.Delta(z3).to_event(1), obs=Y)
         return Y
         
     def model(self, X, Y=None):
@@ -149,8 +149,8 @@ class NumpyroNeuralNetwork:
             mcmc.print_summary()
             print("\nMCMC elapsed time:", time.time() - start)
         samples = mcmc.get_samples()
-        for random_variable in samples: #THIS DOESN'T WORK!
-            samples[random_variable] = samples[random_variable][::self.keep_every]
+        # for random_variable in samples: #THIS DOESN'T WORK!
+        #     samples[random_variable] = samples[random_variable][::self.keep_every]
         self.samples = samples
         # self.X = X
         # self.y = Y

@@ -12,45 +12,47 @@
 \contentsline {subsubsection}{Noisy objective functions}{7}{subsubsection*.4}%
 \contentsline {section}{\numberline {2.2}Bayesian regression (surrogate)}{9}{section.0.2.2}%
 \contentsline {subsection}{\numberline {2.2.1}surrogate model}{9}{subsection.0.2.2.1}%
-\contentsline {subsection}{\numberline {2.2.2}Inference of surrogate models}{10}{subsection.0.2.2.2}%
-\contentsline {section}{\numberline {2.3}Acquisition function}{11}{section.0.2.3}%
-\contentsline {subsection}{\numberline {2.3.1}Expected improvement}{11}{subsection.0.2.3.1}%
-\contentsline {subsubsection}{Exact expected improvement}{12}{subsubsection*.9}%
-\contentsline {subsubsection}{Approximate expected improvement}{13}{subsubsection*.10}%
+\contentsline {subsection}{\numberline {2.2.2}Inference of surrogate models}{9}{subsection.0.2.2.2}%
+\contentsline {section}{\numberline {2.3}Acquisition function}{10}{section.0.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Expected improvement}{10}{subsection.0.2.3.1}%
+\contentsline {subsubsection}{Exact expected improvement}{11}{subsubsection*.8}%
+\contentsline {subsubsection}{Approximate expected improvement}{12}{subsubsection*.9}%
 \contentsline {subsection}{\numberline {2.3.2}Lower confidense bound}{13}{subsection.0.2.3.2}%
 \contentsline {subsection}{\numberline {2.3.3}Entropy search}{13}{subsection.0.2.3.3}%
 \contentsline {chapter}{\numberline {3}Discriminative surrogate models}{15}{chapter.0.3}%
 \contentsline {section}{\numberline {3.1}Gaussian process surrogate}{15}{section.0.3.1}%
-\contentsline {subsection}{\numberline {3.1.1}Exact predictive distribution}{16}{subsection.0.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.1}Exact predictive distribution}{17}{subsection.0.3.1.1}%
 \contentsline {section}{\numberline {3.2}Bayesian Neural Networks}{19}{section.0.3.2}%
 \contentsline {subsection}{\numberline {3.2.1}No U-Turn sampling}{22}{subsection.0.3.2.1}%
 \contentsline {subsection}{\numberline {3.2.2}Adaptive stochatic HMC}{22}{subsection.0.3.2.2}%
-\contentsline {chapter}{\numberline {4}Generative models as surrogate}{23}{chapter.0.4}%
-\contentsline {section}{\numberline {4.1}Conditional distribution in a Bayesian setting}{23}{section.0.4.1}%
-\contentsline {subsubsection}{Mean and variance of predictive distribution v1}{25}{subsubsection*.15}%
-\contentsline {section}{\numberline {4.2}Conditional of mixture model}{25}{section.0.4.2}%
-\contentsline {section}{\numberline {4.3}Kernel estimator regression}{26}{section.0.4.3}%
-\contentsline {subsection}{\numberline {4.3.1}Conditional of Kernel density estimator}{26}{subsection.0.4.3.1}%
-\contentsline {section}{\numberline {4.4}Gaussian mixture regression}{27}{section.0.4.4}%
-\contentsline {subsection}{\numberline {4.4.1}Conditional of Gaussian mixture model}{27}{subsection.0.4.4.1}%
-\contentsline {section}{\numberline {4.5}Sum product networks}{27}{section.0.4.5}%
-\contentsline {subsection}{\numberline {4.5.1}SPN as mixture regression}{28}{subsection.0.4.5.1}%
-\contentsline {subsection}{\numberline {4.5.2}SPN as a mixture model}{30}{subsection.0.4.5.2}%
-\contentsline {subsection}{\numberline {4.5.3}Conditional of SPN}{30}{subsection.0.4.5.3}%
-\contentsline {subsubsection}{calculation of responsibility}{31}{subsubsection*.19}%
-\contentsline {section}{\numberline {4.6}Gaussian approximation of mixture regression}{31}{section.0.4.6}%
-\contentsline {subsection}{\numberline {4.6.1}Mean and variance of conditional SPN}{31}{subsection.0.4.6.1}%
-\contentsline {section}{\numberline {4.7}Mixture model training}{31}{section.0.4.7}%
-\contentsline {subsection}{\numberline {4.7.1}Expectation-maximization for mixture models}{32}{subsection.0.4.7.1}%
-\contentsline {chapter}{\numberline {5}Results}{37}{chapter.0.5}%
-\contentsline {section}{\numberline {5.1}implementation}{37}{section.0.5.1}%
-\contentsline {subsection}{\numberline {5.1.1}standardized data}{37}{subsection.0.5.1.1}%
-\contentsline {section}{\numberline {5.2}Regression analysis}{37}{section.0.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}uncertainty quantification}{37}{subsection.0.5.2.1}%
-\contentsline {subsection}{\numberline {5.2.2}prediction quantification}{38}{subsection.0.5.2.2}%
-\contentsline {subsection}{\numberline {5.2.3}regression benchmark}{38}{subsection.0.5.2.3}%
-\contentsline {section}{\numberline {5.3}Regression analysis of GP, BOHAMIANN and NumpyNN 1D}{38}{section.0.5.3}%
-\contentsline {section}{\numberline {5.4}Regression analysis of GP, BOHAMIANN and NumpyNN 2D}{38}{section.0.5.4}%
-\contentsline {section}{\numberline {5.5}Mixture regression on simple functions}{38}{section.0.5.5}%
-\contentsline {chapter}{\numberline {6}Conclusion and further work}{47}{chapter.0.6}%
-\contentsline {chapter}{Bibliography}{48}{chapter*.36}%
+\contentsline {chapter}{\numberline {4}Generative models as surrogate}{25}{chapter.0.4}%
+\contentsline {section}{\numberline {4.1}Conditional distribution in a Bayesian setting}{25}{section.0.4.1}%
+\contentsline {subsubsection}{Mean and variance of predictive distribution v1}{27}{subsubsection*.17}%
+\contentsline {section}{\numberline {4.2}Conditional of mixture model}{27}{section.0.4.2}%
+\contentsline {section}{\numberline {4.3}Kernel estimator regression}{28}{section.0.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Conditional of Kernel density estimator}{28}{subsection.0.4.3.1}%
+\contentsline {section}{\numberline {4.4}Gaussian mixture regression}{29}{section.0.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Conditional of Gaussian mixture model}{29}{subsection.0.4.4.1}%
+\contentsline {section}{\numberline {4.5}Sum product networks}{30}{section.0.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}SPN as mixture regression}{31}{subsection.0.4.5.1}%
+\contentsline {subsection}{\numberline {4.5.2}SPN as a mixture model}{33}{subsection.0.4.5.2}%
+\contentsline {subsection}{\numberline {4.5.3}Conditional of SPN}{33}{subsection.0.4.5.3}%
+\contentsline {subsubsection}{calculation of responsibility}{34}{subsubsection*.23}%
+\contentsline {section}{\numberline {4.6}Gaussian approximation of mixture regression}{34}{section.0.4.6}%
+\contentsline {subsection}{\numberline {4.6.1}Mean and variance of conditional SPN}{34}{subsection.0.4.6.1}%
+\contentsline {section}{\numberline {4.7}Mixture model training}{35}{section.0.4.7}%
+\contentsline {subsection}{\numberline {4.7.1}Expectation-maximization for mixture models}{35}{subsection.0.4.7.1}%
+\contentsline {chapter}{\numberline {5}Results}{39}{chapter.0.5}%
+\contentsline {section}{\numberline {5.1}implementation}{39}{section.0.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}standardized data}{39}{subsection.0.5.1.1}%
+\contentsline {section}{\numberline {5.2}Regression analysis}{39}{section.0.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}uncertainty quantification}{39}{subsection.0.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}prediction quantification}{40}{subsection.0.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}regression benchmark}{40}{subsection.0.5.2.3}%
+\contentsline {section}{\numberline {5.3}Mixture regression}{40}{section.0.5.3}%
+\contentsline {section}{\numberline {5.4}Regression analysis of GP, BOHAMIANN and NumpyNN 1D}{40}{section.0.5.4}%
+\contentsline {section}{\numberline {5.5}Regression analysis of GP, BOHAMIANN and NumpyNN 2D}{40}{section.0.5.5}%
+\contentsline {section}{\numberline {5.6}Mixture regression on simple functions}{40}{section.0.5.6}%
+\contentsline {chapter}{\numberline {6}Conclusion and further work}{49}{chapter.0.6}%
+\contentsline {section}{\numberline {6.1}further work}{49}{section.0.6.1}%
+\contentsline {chapter}{Bibliography}{50}{chapter*.42}%

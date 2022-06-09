@@ -26,27 +26,32 @@ class PlotReg1D_mixturemodel(BayesOptSolver_sklearn):
         self.seednr = random_seed
         assert self.problem_dim == 1
         self.bounds = (self.bounds[0][0], self.bounds[1][0]) #redefine bounds. 
-        self.Xgrid = np.linspace(*self.bounds, 300)[:, None]
         self.show_name = True
         self.deterministic = False
 
-    def __call__(self, n,show_gauss= False, show_name = False, path=""):
+    def __call__(self, n,show_gauss= False, show_pred= True, show_name = False, path=""):
         fig,ax = plt.subplots()
         
         np.random.seed(self.seednr)
         self.init_XY_and_fit(n)
         self.fit()
-        self.plot_predictive_dist(ax, show_name=show_name)
+        self.bounds = (self.bounds[0]-10, self.bounds[1]+10)
+        self.Xgrid = np.linspace(*self.bounds, 300)[:, None]
+        if show_pred:
+            self.plot_predictive_dist(ax, show_name=show_name)
         if show_gauss:
             self.plot_gaussian_approximation(ax)
         self.plot_true_function(ax)
         self.plot_train_data(ax)
 
-        number = f"{n}"
-        fig_path = path+f"{self.problem_name}_{self.model.name}_n_{number}_seed_{self.seednr}.jpg"
-        fig_path = fig_path.replace(" ", "_")
-        #plt.show()
-        plt.savefig(fig_path, dpi=600)
+        if path == "":
+            plt.show()
+
+        else:
+            number = f"{n}"
+            fig_path = path+f"{self.problem_name}_{self.model.name}_n_{number}_seed_{self.seednr}.jpg"
+            fig_path = fig_path.replace(" ", "_")
+            plt.savefig(fig_path, dpi=600)
 
     def plot_true_function(self,ax):
         X_true =  np.linspace(*self.bounds,10000)[:,None]
@@ -114,14 +119,14 @@ class PlotReg1D_mixturemodel(BayesOptSolver_sklearn):
         # #ax.set_ylim(-0.7+np.min(self._Y), 0.5+0.7+np.max(self._Y))
         if show_name:
             #ax.set_title(f"{self.model.name}({self.model.params})")
-            ax.set_title(f"{self.model.name}")
+            ax.set_title(f"{self.model.name}({self.model.params})")
         
         if p_x is not None:
             p_x = p_x.reshape(x_res, y_res)[:,0]
             ax1 = ax.twinx()  # instantiate a second axes that shares the same x-axis
             color = 'tab:green'
-            Ndx = self.model.Ndx
-            a = self.model.N*p_x/Ndx
+            prior_weight = self.model.prior_weight
+            a = self.model.N*p_x/prior_weight
             ax1.plot(x_grid, a/(a+1), color = color)
             #ax1.set_ylabel(r'$\alpha_x$', color=color)
             ax1.set_ylim(0,5)

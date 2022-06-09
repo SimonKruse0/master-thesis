@@ -8,6 +8,7 @@ from src.regression_models.SPN_regression2 import SumProductNetworkRegression
 from src.benchmarks.go_benchmark_functions.go_funcs_S import Step
 from src.benchmarks.go_benchmark_functions.go_funcs_W import Weierstrass
 from src.benchmarks.custom_test_functions.problems import Step,SimonsTest,SimonsTestStep, SimonsTest0,SimonsTest3_cosine_fuction, SimonsTest4_cosine_fuction
+from src.benchmarks.custom_test_functions.problems import SimonsTest2_probibalistic
 import numpy as np
 import os
 
@@ -17,16 +18,16 @@ n_init_samples = 3
 samples = 30
 
 ## main ##
-#reg_model = GaussianProcess_sklearn()
+reg_model = GaussianProcess_sklearn()
 #reg_model = NaiveGMRegression(optimize=True, opt_n_iter=10,opt_cv=10)
-reg_model = SumProductNetworkRegression()
+#reg_model = SumProductNetworkRegression()
 # reg_model = SumProductNetworkRegression(optimize=False,
 #                         alpha0_x=6.188900996704582, alpha0_y=7.544489215988586, 
 #                         beta0_x=0.7, beta0_y=0.14627658075704839, 
 #                         train_epochs=1000)
 
 #reg_model = BOHAMIANN()
-problem_sklearn = SimonsTestStep(dimensions=1)
+problem_sklearn = SimonsTest2_probibalistic(dimensions=1)
 plot_BO = PlotBayesOpt1D(reg_model, problem_sklearn, acquisition=acquisition,budget=n_init_samples+samples, n_init_samples=n_init_samples,disp=True)
 plot_BO.beta = 2.5
 

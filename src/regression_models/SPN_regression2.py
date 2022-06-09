@@ -49,10 +49,9 @@ class SumProductNetworkRegression(BaseEstimator):
         self.alpha0_y = alpha0_y#invers gamma
         self.beta0_x = beta0_x
         self.beta0_y = beta0_y
-        if optimize:
-            self.name = "SPN regression optimized"
-        else:
-            self.name = "SPN regression"
+
+        self.name = "SPN"
+
         #self.params = f"manipulate_variance = {manipulate_variance}, optimize = {optimize}, tracks = {tracks}, channels = {channels}"
         self.tracks = tracks
         self.channels = channels
@@ -162,11 +161,11 @@ class SumProductNetworkRegression(BaseEstimator):
         if self.verbose:
             print(f"-- stopped training --")
             self.params = f"sig_x = InvGa({self.alpha0_x:0.0f},{self.beta0_x:0.1e})"
-            self.params += f", sig_y =InvGa({self.alpha0_y:0.0f},{self.beta0_y:0.1e})"
-            self.params += f",\n channels={self.channels}, tracks={self.tracks}"
+            self.params += f", sig_y =InvGa({self.alpha0_y:0.0f},{self.beta0_y:0.1e}), prior_w = {self.prior_weight:0.2e}"
+            #self.params += f",\n channels={self.channels}, tracks={self.tracks}"
             prior_weight = self.prior_weight
             sig_prior = self.sig_prior
-            self.params += f",\n likelihood:prior weight = p(x){self.N/prior_weight}:1,\nprior_std= {sig_prior}"
+            #self.params += f",\n likelihood:prior weight = p(x){self.N/prior_weight}:1,\nprior_std= {sig_prior}"
 
 
     def score(self, X_test, y_test):

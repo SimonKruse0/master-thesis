@@ -8,7 +8,7 @@ from scipy.optimize import rosen
 #Corana, CosineMixture
 
 class GeneralSetup(Benchmark):
-    def __init__(self, dimensions=2, bounds=(0,5), objective_function=None):
+    def __init__(self, dimensions=1, bounds=(-100,100)):
         Benchmark.__init__(self, dimensions)
         self._bounds = list(zip([bounds[0]] * self.N,
                            [bounds[1]] * self.N))
@@ -16,11 +16,73 @@ class GeneralSetup(Benchmark):
         self.global_optimum = [[0. for _ in range(self.N)]]
         self.fglob = 0.0
         self.change_dimensionality = True
-        self.objective_function = objective_function
+        #self.objective_function = objective_function
 
     def fun(self,x, *args):
         self.nfev += 1
         return self.objective_function(x)
+
+
+class Test1(GeneralSetup):
+
+    def objective_function(self,x):
+        x = x/100
+        result =  100*x*sin(x * (2 * pi)) + 150 + 10*x + np.sin(100*x)
+        if result.ndim == 0:
+            return result
+        else:
+            return result[0]
+
+class Test2(GeneralSetup):
+
+    def objective_function(self,x):
+        tspans = np.array([0,3,5,7,9,12,16,18,20,22,24,28,32,35])/35
+        tspans = tspans*200-100
+        u = np.array([700,600,500,100,300,200,800,400,500,600,700,200,700,800])*150/800+50
+        try:
+            result = next(float(y) for t,y in zip(tspans, u) if t >= x[0])
+        except:
+            result = 200
+        result =  result+sin(x)
+        if result.ndim == 0:
+            return result
+        else:
+            return result[0]
+
+class Test3b(GeneralSetup):
+    def objective_function(self,x):
+        x = x/200 + 0.5
+        self.nfev += 1
+        gap = (np.sign(x-0.5) + 1)
+        intercept = 150
+        result = 50 * gap +np.sin(100*x)*10 + intercept + (30-90*gap)*np.random.randint(2)
+        if result.ndim == 0:
+            return result
+        else:
+            return result[0]
+
+class Test3(GeneralSetup):
+    def objective_function(self,x):
+        x = x/200 + 0.5
+        self.nfev += 1
+        gap = (np.sign(x-0.5) + 1)
+        intercept = 100
+        result = 50 * gap +np.sin(100*x)*10 + intercept + (30)*np.random.randint(2)
+        if result.ndim == 0:
+            return result
+        else:
+            return result[0]
+
+class Test4(GeneralSetup):
+
+    def objective_function(self,x):
+        x = x/100 # in [-1,1]
+        angle_speed = 50*min(max(0,(1+x)**2), 3)
+        result =  50*cos((1+x) * pi) + 150 + max(10,abs(x*50))*sin(angle_speed*x)
+        if result.ndim == 0:
+            return result
+        else:
+            return result[0]
 
 class SimonsTest2Probibalistic2(Benchmark):
     def __init__(self, dimensions=1):

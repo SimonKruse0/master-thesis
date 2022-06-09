@@ -97,6 +97,27 @@ where $\sigma^2$ is refered as the bandwidth, when the literature refers to the 
 Small $\sigma^2$ yields a complex model and large $\sigma^2$ yields a simple model. Therefore chosing $\sigma^2$
 just rigth is crucial for a good model. 
 
+
+\begin{figure}[h]
+    \centering
+    \begin{minipage}[b]{0.49\textwidth}
+     \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Figures/reg_illustrations/KDE/Test1_KDE_n_10_seed_42.jpg}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.49\textwidth}
+      \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Figures/reg_illustrations/KDE/Test2_KDE_n_40_seed_42.jpg}
+     \end{minipage}
+    
+     \begin{minipage}[b]{0.49\textwidth}
+      \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Figures/reg_illustrations/KDE/Test3_KDE_n_40_seed_42.jpg}
+     \end{minipage}
+     \hfill
+     \begin{minipage}[b]{0.49\textwidth}
+       \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Figures/reg_illustrations/KDE/Test4_KDE_n_40_seed_42.jpg}
+      \end{minipage}
+      \caption{KDE tested on all problems.}
+\end{figure}
+
 \subsection{Conditional of Kernel density estimator}
 Since the kernel density estimator is just a Gaussian mixture model, with no correlation between
 any of the variables, yeilding i.e. $p_z(y|x) = p_z(y)$, therefor the conditional distribution is
@@ -180,6 +201,27 @@ if no data is present there.
     \includegraphics[width=0.5\textwidth]{Figures/SPN_graph2.pdf}
     \caption{The SPN trained in Figure \ref{SPN_fig}. Number of channels are
     3, giving 9 product nodes, which are weighted in the final sum node.}
+\end{figure}
+
+
+\begin{figure}[h]
+    \centering
+    \begin{minipage}[b]{0.49\textwidth}
+     \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Figures/reg_illustrations/SPN/Test1_SPN_n_10_seed_42.jpg}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.49\textwidth}
+      \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Figures/reg_illustrations/SPN/Test2_SPN_n_40_seed_42.jpg}
+     \end{minipage}
+    
+     \begin{minipage}[b]{0.49\textwidth}
+      \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Figures/reg_illustrations/SPN/Test3_SPN_n_40_seed_42.jpg}
+     \end{minipage}
+     \hfill
+     \begin{minipage}[b]{0.49\textwidth}
+       \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Figures/reg_illustrations/SPN/Test4_SPN_n_40_seed_42.jpg}
+      \end{minipage}
+      \caption{SPN tested on all problems.}
 \end{figure}
 
 \subsection{SPN as mixture regression}

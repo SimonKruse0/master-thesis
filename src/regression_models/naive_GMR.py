@@ -4,6 +4,7 @@ from scipy.stats import norm
 from src.utils import normalize, denormalize
 from math import sqrt
 from skopt import BayesSearchCV
+from sklearn.model_selection import GridSearchCV
 from sklearn.base import BaseEstimator
 from scipy.special import logsumexp
 #logsumexp(a,b)
@@ -73,12 +74,9 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
                     y_component_std= 5e-2, 
                     prior_weight =  1,
                     manipulate_variance = False, 
-                    optimize=False, opt_n_iter=20, opt_cv = 5, 
+                    optimize=False, opt_n_iter=30, opt_cv = 5, 
                     predictive_score = False):
-        if optimize:
-            self.name = f"Kernel estimator regression optimized"
-        else:
-            self.name = f"Kernel estimator regression"
+        self.name = f"KDE"
         self.x_component_std = x_component_std
         self.y_component_std = y_component_std
         self.sig_prior = 1.1
@@ -91,6 +89,7 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
     def fit(self, X, Y):
         if self.optimize_hyperparams:
             if X.shape[0] >= self.opt_cv:
+                self.opt_cv = X.shape[0]//2 #leave one out!!
                 self._optimize( X, Y)
                 print("-- Fitted with optimized hyperparams --")
                 return
@@ -104,7 +103,8 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
         Y, self.y_mean, self.y_std = normalize(Y)
         self.means = np.column_stack((X, Y))
         self.prior = 1/self.n_components
-        self.params = f"x_k_std = {self.x_component_std}, y_k_std= {self.y_component_std}"
+        self.params = f"sig_x = {self.x_component_std:0.2e}, sig_y = {self.y_component_std:0.2e}, w_prior = {self.prior_weight:0.2e}"
+        print(self.params)
 
     def score(self, X_test, y_test):
         y_test = y_test.squeeze()
@@ -116,9 +116,18 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
             score = -np.mean(abs(y_test-m_pred))
             print(f"negative mean pred error = {score:0.3f}")
         else:
-            Z_pred = (y_test-m_pred)/sd_pred #std. normal distributed. 
-            score = np.mean(norm.pdf(Z_pred))
-            print(f"mean pred likelihood = {score:0.3f}")
+            #score = -np.mean(abs(y_test-m_pred))/10
+            if y_test.ndim == 0:
+                y_test = np.array([y_test, y_test])
+                X_test = X_test.repeat(2)[:,None]
+            p_predictive, p_x = self.predictive_pdf(X_test, y_test[:,None])
+            score = np.mean(p_predictive)
+
+            print(f"mean pred dist = {score:0.3f}")
+
+            # Z_pred = (y_test-m_pred)/sd_pred #std. normal distributed. 
+            # score = np.mean(norm.pdf(Z_pred))
+            # print(f"mean pred likelihood = {score:0.3f}")
         return score
 
     def _optimize(self, X, y):
@@ -127,12 +136,20 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
             self,
             {
                 'x_component_std': (1e-3, 3e-1, 'uniform'),
-                'y_component_std': (1e-3, 3e-1, 'uniform'),
+                'y_component_std': (1e-2, 3e-1, 'uniform'),
                 'prior_weight' : (1e-6, 1., 'uniform')
             },
             n_iter=self.opt_n_iter,
-            cv=self.opt_cv
+            cv=self.opt_cv,
+            #n_points = 2,
+            n_jobs = 4,
+            #optimizer_kwargs={'base_estimator': 'RF'}
         )
+        # parameters = {'x_component_std':np.linspace(1e-3, 3e-1,30), 
+        #                 'y_component_std':np.linspace(1e-3, 3e-1,30),
+        #                 'prior_weight':np.linspace(1e-6, 1,20)}
+        # opt = GridSearchCV(self, parameters,cv=self.opt_cv)
+
         opt.fit(X, y)
         print(" ")
         print(f"best score = {opt.best_score_}")
@@ -163,7 +180,7 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
         assert X.ndim ==2
         assert Y.ndim ==2
         p_xy = self.p_xy_nd(X, Y)
-        print("p_xy", p_xy)
+        #print("p_xy", p_xy)
         p_x = np.exp(self.lp_x(X))
         p_prior_y = norm(0, sig_prior).pdf(Y)
         p_predictive = (N*p_xy + prior_weight*p_prior_y.squeeze()) / (N*p_x + prior_weight)    
