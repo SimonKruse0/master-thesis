@@ -1,19 +1,67 @@
 \chapter{Discriminative surrogate models}
 \todo{Lav en historie, forklar hvorfor man skal læse om det næste! Hvad er formålet}
 \todo{Hvilke egenskaber har modellerne? Giv dem et eksempel med en fordel!}
-When talking about a surrogate model we usually refer to a discriminative model, meaning
-that we model the conditional distribution of y given x directly, typically paramatised by some parameters, $\theta$. 
-$$p(y|x, \theta)$$
+
 When talking about a probabilistic surrogate model we are always implicit talking about a
 discriminative model: A model of the conditional distribution of the observation, $y$, 
-conditional on $x$, i.e., 
-$$p(y|x)$$
-we also refer to this as the predictive distribution. Gaussian processes and Bayesian neural networks
-are both discriminative models. There is no distribution over the input $x$, it is just given. 
-This is indeed sufficient for a surrogate model, where we are interested in the predictive distribution. 
+conditional on $x$ parameterized by parameters $\theta$, i.e., 
+$$p(y|x, \theta)$$ 
+which, in a Bayesian context, is utilized in the predictive (posterior)
+distribution:
+$$p(y|x,\mathcal{D}) = \int p(y|x, \theta)p(\theta|\mathcal{D}) d\theta,$$ where we take all
+possible models $\theta \in Dom(\theta)$ into account, weighted accordingly to how probable the
+model is $p(\theta|\mathcal{D})$ (the posterior distribution). 
 
-<Better illustration of GP>
-<Illustration of BNN>
+Gaussian processes and Bayesian neural networks are both discriminative models. There is no
+distribution over the input $x$, it is just given. They are, however, using two very different
+approaches to defining the probabilistic model. Bayesian neural networks are regression models in
+the typical setting with $y=f_w(x)+\epsilon$, where $\textbf{w}$ and $\epsilon$ are random vector and variable
+with distribution of $\epsilon \sim \mathcal{N}(0,\sigma^2)$ and $(w, \sigma) \sim p(w, sigma | \mathcal{D})$, 
+such that the predictive posterior is given as, 
+$$ p(y|x,\mathcal{D}) = \int p(y|x, \textbf{w},\sigma)p(w,\sigma|\mathcal{D}) d \textbf{w}
+d\sigma$$ Gaussian processes take a different approach and directly model the true predictions
+$f(x_i)$ (in the underlying regression function $f(\cdot)$) in the context of the true predictions
+and similarity amoung the data $\mathcal{D}$ i.e $f(x_j)$ and how similar $x_i$ and $x_j$ are. 
+The predictive posterior of a GP is given as
+
+$$ p(y|x,\mathcal{D}) = \int p(y|\textbf{f}_*, \sigma) p(\textbf{f}_*|\mathcal{D}) d \textbf{f}_*$$
+
+where $p(\textbf{f}_*|\mathcal{D})$ is infered using the following posterior on the unknown vector $\textbf{f} :=
+[f(x_1),\dots,f(x_n)]$, where the distribution of each element is determined by the similarity between its $x$
+and the other elements,  
+$$p(\textbf{f}_*|\mathcal{D}) = \int p(\textbf{f}_*|\textbf{f})p(\textbf{f}|\mathcal{D}) d \textbf{f}$$
+
+As Gaussian processes are most used 
+
+% In Bayesian neural networks, we treat the model parameters as random quantities, and assign them a
+% distribution before observing any data, this is the prior distribution. For the model neural network
+% parameters, $w$, we typically assign a standard normal distribution and the observation variance
+% parameter $\sigma$ is often assigned a lognormal or half-Cauchy, with support on the positive real
+% domain, since a variance parameter can only be non-negative. We write the priors of the BNN model as
+% \begin{align*}
+%     p(w) &= \mathcal{N}(w;\textbf{0},I)\\
+%     p(\sigma) &= \log\mathcal{N}(\sigma;\dots)
+% \end{align*}
+
+% Next, we look at the observation model of a BNN, this is essentially the same as described in
+% section \ref{ObsModel}. We use the neural network output $f_w(x)$ to predict the mean value of the
+% objective function and add some Gaussian noise $\sigma$. In order to simplify notation we collect
+% all BNN parameters i.e. $\theta = (w,\sigma)$. And $\theta$ is given en Bayesian treatmeant.
+
+% In Gaussian process regression we step up an abstraction level
+% from modeling the objective function, to model the objective function "output" itself. 
+% This is done by treating the objective function, $f$, as a random quantity, inducing
+% a prior over it $p(f(\cdot))$ and a observation model given as, 
+% $$p(y|x_i,\textbf{f}_i) = \mathcal{N}(y;\textbf{f}_i,\sigma)$$
+% Where we define $\textbf{f}_i := f(x_i)$ to be the evaulation of the objective function 
+% at point $x$.
+
+% Now, given data, $\mathcal{D} =\{(x_i,y_i)\}_{i=1}^n$ we can find the posterior of
+% the unknown quantaties $\textbf{f} = (f(x_1), \dots,f(x_n))$ i.e. the objective function
+% value at the $n$ locations giving, 
+% $$p(\textbf{f},\sigma|\mathcal{D}) = \frac{p(y_1,\dots,y_n|x_1,\dots,x_n,\textbf{f},\sigma)
+% p(\textbf{f},\sigma|x)}{c} = \frac{p(\textbf{f},\sigma|x)\prod_{i=1}^n p(y_i|x_i,\textbf{f},\sigma)
+% }{c} $$
 
 
 \input{Chapters/03_gaussian_process_regression.tex}

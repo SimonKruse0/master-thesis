@@ -3,10 +3,10 @@
 \BOOKMARK [1][]{section.0.1.1}{1.1\040Contribution}{chapter.0.1}% 3
 \BOOKMARK [1][]{section.0.1.2}{1.2\040Related\040work}{chapter.0.1}% 4
 \BOOKMARK [1][]{section.0.1.3}{1.3\040Structure\040of\040the\040thesis}{chapter.0.1}% 5
-\BOOKMARK [1][]{section.0.1.4}{1.4\040notation}{chapter.0.1}% 6
+\BOOKMARK [1][]{section.0.1.4}{1.4\040Notation}{chapter.0.1}% 6
 \BOOKMARK [0][]{chapter.0.2}{2\040Bayesian\040Optimization}{}% 7
 \BOOKMARK [1][]{section.0.2.1}{2.1\040Optimization\040methodology}{chapter.0.2}% 8
-\BOOKMARK [1][]{section.0.2.2}{2.2\040Bayesian\040regression\040\(surrogate\)}{chapter.0.2}% 9
+\BOOKMARK [1][]{section.0.2.2}{2.2\040Bayesian\040regression}{chapter.0.2}% 9
 \BOOKMARK [1][]{section.0.2.3}{2.3\040Acquisition\040function}{chapter.0.2}% 10
 \BOOKMARK [0][]{chapter.0.3}{3\040Discriminative\040surrogate\040models}{}% 11
 \BOOKMARK [1][]{section.0.3.1}{3.1\040Gaussian\040process\040surrogate}{chapter.0.3}% 12
@@ -28,4 +28,4 @@
 \BOOKMARK [1][]{section.0.5.6}{5.6\040Mixture\040regression\040on\040simple\040functions}{chapter.0.5}% 28
 \BOOKMARK [0][]{chapter.0.6}{6\040Conclusion\040and\040further\040work}{}% 29
 \BOOKMARK [1][]{section.0.6.1}{6.1\040further\040work}{chapter.0.6}% 30
-\BOOKMARK [0][]{chapter*.42}{Bibliography}{}% 31
+\BOOKMARK [0][]{chapter*.45}{Bibliography}{}% 31

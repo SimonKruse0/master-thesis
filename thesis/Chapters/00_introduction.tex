@@ -39,7 +39,7 @@ Evaluation of the objective function can be cheap (e.g., if it just requires sum
 numbers) or highly expensive (e.g., if it involves human rating, large simulation, or physical
 experiments). In the latter case, we want to avoid evaluating the objective function as much as
 possible - we want to use \textit{sample-efficient} optimization. The overall topic of this
-thesis, \textit{Bayesian optimization}, is one of the preferred frameworks for sample-efficient optimization. 
+thesis, \textit{Bayesian optimization} (BO), is one of the preferred frameworks for sample-efficient optimization. 
 %maybe mention more?
 
 Bayesian optimization is a probabilistic surrogate-based optimization methodology: Assuming some
@@ -47,7 +47,7 @@ initial samples $\{(x_1,f(x_1)), \dots, (x_n,f(x_n))\}$ from a highly expensive 
 (surrogate) function is fitted to the samples (in a Bayesian manner). The next sample is found by
 minimizing the surrogate, and the process is repeated. Bayesian optimization seeks to enhance this
 procedure with probability theory, where the surrogate function becomes a probabilistic (Bayesian)
-regression model. The most common surrogate model is a Gaussian Process, as it encapsulates the
+regression model. The most common surrogate model is a Gaussian Process (GP), as it encapsulates the
 uncertainty very well, and its inference procedure (computing answers to probability queries like
 $p(y|x)$) is exact.
 
@@ -69,13 +69,14 @@ and computation of these more complex GPs can be significantly challenging \cite
 
 \begin{figure}[H]%
     \centering
-    \subfloat[\centering GP]{{\includegraphics[trim=0.1cm 0.3cm 0.2cm 0.2cm,clip,width=0.46\textwidth]{Pictures/GP_vs_BNN1.pdf} }}%
+    \subfloat[\centering GP]{{\includegraphics[trim=0.1cm 0.3cm 0.2cm 0.2cm,clip,width=0.46\textwidth]{Pictures/GP_vs_BNN1_b.pdf} }}%
     \qquad
     \subfloat[\centering BNN]{{\includegraphics[trim=0.1cm 0.3cm 0.2cm 0.2cm,clip,width=0.46\textwidth]{Pictures/GP_vs_BNN2.pdf} }}%
-    \caption{Left: GP fitted to 20 data points. Right: A Bayesian neural network fitted to the same points.
-    The objective function is the dashed black line. This examplifies how a discontinuerity makes the 
-    standard implemented GP (optimized with emperical bayes) overreact to all other areas in the domain $[0,1]$,
-    while the Bayesian NN only express uncertainty where the discontinuerity happen $x = 0.5$}\label{GP_vs_BNN}
+    \caption{GP (left) and BNN (right) fitted to 18 data points. The objective function is the
+    dashed black line. This examplifies how a discontinuerity makes the standard implemented GP
+    (optimized with emperical Bayes) overreact to all other areas in the domain $[0,1]$, while the
+    Bayesian NN only express uncertainty where the discontinuerity happens at $x =
+    0.5$}\label{GP_vs_BNN}
 \end{figure}
 
 
@@ -88,9 +89,9 @@ and computation of these more complex GPs can be significantly challenging \cite
 %   11. outline the methodology
 
 GPs are attractive models since they allow for exact inference, a closed-form expected improvement
- (more on this later) and, in general, give a good uncertainty quantification. However, as we saw in
- the figure \ref{fig:GP_vs_BNN} we can maybe do better - especially if we have some insights into
- the behavior of the objective function (i.e. a more transparent the black-box optimization
+ (see Section \ref{ExactEI}) and, in general, give a good uncertainty quantification. However, as we saw in
+ the figure \ref{GP_vs_BNN} we can maybe do better - especially if we have some insights into
+ the behavior of the objective function (i.e. a more transparent black-box optimization
  problem). Suppose it is possible to evaluate the expensive objective function a few times. Then it
  can potentially save work hours, lots of money, or energy (depending on what makes the objective
  function expensive). It is, therefore, relevant to investigate if other models will perform better.
@@ -195,7 +196,7 @@ problems are shown first on Bayesian regression and next on Bayesian optimizatio
     \item \textbf{Discriminative models as surrogates}: Gaussian processes and Bayesian neural
     networks are presented and discussed in terms of inference procedures and regression performance. 
     \item \textbf{Generative(/mixture) models as surrogates}: Since the mixture models are not 
-    inherently Bayesian, we present the conditional distribution of in a Bayesian setting. 
+    inherently Bayesian, we present the conditional distribution in a Bayesian setting. 
     Next, the three different mixture regression models are presented: Kernel density regression, Gaussian mixture regression,
     and the novel (in a regression setting) Sum-product networks.
     \item \textbf{Results} on regression performance and on Bayesian Optimization performance (sample-efficiency)
@@ -212,7 +213,7 @@ problems are shown first on Bayesian regression and next on Bayesian optimizatio
 % \end{itemize}
 
 
-\section{notation}
+\section{Notation}
 Throughout this thesis we will be using Bayesian notation, i.e. $p(x) := P(X=x)$ is the probability
 density function of the random variable $X$ evaluated in $x$. and $p(y|x) := P(Y=y|X=x)$ or $p(y|x)
 := P(Y|X=x)$. And writing $p(y^2|x)$ means $P(Y^2=y^2|X=x)$ and \textbf{not} $P(Y=y^2|X=x)$

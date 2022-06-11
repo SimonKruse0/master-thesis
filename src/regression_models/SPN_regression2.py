@@ -42,7 +42,7 @@ class SumProductNetworkRegression(BaseEstimator):
                 prior_weight = 1,
                 sig_prior = 1.1,
                 optimize=False, opt_n_iter  =20, opt_cv = 3,
-                predictive_score = True):
+                predictive_score = False):
         self.epochs = train_epochs
         # Priors for variance of x and y
         self.alpha0_x = alpha0_x#invers gamma
@@ -96,7 +96,7 @@ class SumProductNetworkRegression(BaseEstimator):
             model.train()
             logp = model(XY).sum()
             if epoch%10==0:
-                print(f"Log-posterior ∝ {logp:.2f} ")#, end="\r")
+                print(f"Log-posterior ∝ {logp:.2f} ", end="\r")
             model.zero_grad(True)
             logp.backward()
             model.eval()  # swap?
@@ -118,6 +118,7 @@ class SumProductNetworkRegression(BaseEstimator):
         assert Y.ndim == 2
         if self.optimize_hyperparams:
             if X.shape[0] >= 10:
+                self.opt_cv = X.shape[0]//2 
                 self._optimize( X, Y)
                 print("-- Fitted with optimized hyperparams --")
                 return
@@ -163,23 +164,25 @@ class SumProductNetworkRegression(BaseEstimator):
             self.params = f"sig_x = InvGa({self.alpha0_x:0.0f},{self.beta0_x:0.1e})"
             self.params += f", sig_y =InvGa({self.alpha0_y:0.0f},{self.beta0_y:0.1e}), prior_w = {self.prior_weight:0.2e}"
             #self.params += f",\n channels={self.channels}, tracks={self.tracks}"
-            prior_weight = self.prior_weight
-            sig_prior = self.sig_prior
+            # prior_weight = self.prior_weight
+            # sig_prior = self.sig_prior
             #self.params += f",\n likelihood:prior weight = p(x){self.N/prior_weight}:1,\nprior_std= {sig_prior}"
 
 
     def score(self, X_test, y_test):
         y_test = y_test.squeeze()
         assert y_test.ndim <= 1 
-        m_pred, sd_pred = self._batched_predict(X_test)
-        assert m_pred.ndim == 1
-        assert sd_pred.ndim == 1
         if self.predictive_score:
+            m_pred, sd_pred = self._batched_predict(X_test)
+            assert m_pred.ndim == 1
+            assert sd_pred.ndim == 1
             score = -np.mean(abs(y_test-m_pred))
             print(f"negative mean pred error = {score:0.3f}")
         else:
-            Z_pred = (y_test-m_pred)/sd_pred #std. normal distributed. 
-            score = np.mean(norm.pdf(Z_pred))
+            p_predictive, p_x = self.predictive_pdf(X_test, y_test[:,None])
+            score = np.mean(p_predictive)
+            # Z_pred = (y_test-m_pred)/sd_pred #std. normal distributed. 
+            # score = np.mean(norm.pdf(Z_pred))
             print(f"mean pred likelihood = {score:0.3f}")
         print(" ")
         return score
@@ -211,7 +214,8 @@ class SumProductNetworkRegression(BaseEstimator):
                 'prior_weight' : (1e-6, 1., 'uniform'),
             },
             n_iter=self.opt_n_iter,
-            cv=self.opt_cv
+            cv=self.opt_cv, 
+            n_jobs=4
         )
         opt.fit(X, y)
         print(" ")
@@ -221,7 +225,7 @@ class SumProductNetworkRegression(BaseEstimator):
         self.__dict__.update(opt.best_estimator_.__dict__)
         #self.set_params(**opt.best_estimator_.get_params())
         # self.fit(X,y) #Not nessesary done by opt.fit
-        self.optimize_hyperparams = True
+        self.optimize_hyperparams = True #important. 
 
     def _batched_predict(self,X_test):
         Y_mu_list = []

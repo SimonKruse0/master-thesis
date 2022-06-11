@@ -74,7 +74,7 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
                     y_component_std= 5e-2, 
                     prior_weight =  1,
                     manipulate_variance = False, 
-                    optimize=False, opt_n_iter=30, opt_cv = 5, 
+                    optimize=False, opt_n_iter=50, opt_cv = 5, 
                     predictive_score = False):
         self.name = f"KDE"
         self.x_component_std = x_component_std
@@ -89,7 +89,7 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
     def fit(self, X, Y):
         if self.optimize_hyperparams:
             if X.shape[0] >= self.opt_cv:
-                self.opt_cv = X.shape[0]//2 #leave one out!!
+                self.opt_cv = min(30,X.shape[0]) #leave one out!!
                 self._optimize( X, Y)
                 print("-- Fitted with optimized hyperparams --")
                 return

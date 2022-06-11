@@ -17,7 +17,7 @@ where $\bm{\mu}$ typically is $0$ and the covariance matrix, is depeneded on the
     c(x_n,x_1) & \dots & c(x_n,x_n)
 \end{bmatrix}\hspace{1cm} c(x, y) := Matern(x,y)...$$ 
 this means that a realization of the vector $\textbf{f}$ is often close to 0 with a variance of the diagonal $\bm{\Sigma}$,
-but also with a correlation between the elements in $\textbf{f}$ given by the off-diagonals in $\bm{\Sigma}$. This is a very important
+\todo{NO!! Change}but also with a correlation between the elements in $\textbf{f}$ given by the off-diagonals in $\bm{\Sigma}$. This is a very important
 ingredience of a GP, if $c(x_1,x_2) \approx 1$ (assuming that the variances of $\textbf{f}$ is 1, then $\bm{\Sigma}$ is a correlation error)
 then realizations of $\textbf{f}$ always lead to similar values of $f(x_1)$ and $f(x_2)$. This encapsulates the idea of a GP: 
 similarities (could be distance or other measures) in $x$ should lead to similarities in $f(x)$. Now, in the case of extending it to 

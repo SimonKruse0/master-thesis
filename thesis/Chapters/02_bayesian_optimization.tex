@@ -13,7 +13,7 @@ the concept of optimization.
 % <kilde 151. Bayes Opt is assumed superior to other global optimization technics 
 % with limited budget>
 
-\section{Bayesian regression (surrogate)}
+\section{Bayesian regression}
 
 Whereas traditional regression workflow is the following: From data, fit model parameters, make
 predictions using the parameters. The Bayesian framework allows us to skip the dependency of a
@@ -46,17 +46,8 @@ the following:
     \item SPN (generative)
 \end{itemize}
 
-% \subsubsection{Discriminative model as surrogate model}
-% When talking about a probabilistic surrogate model, we are always implicit talking about a
-% discriminative model: A model of the conditional distribution of the observation, $y$, 
-% conditional on $x$, i.e., 
-% $$p(y|x)$$
-% we also refer to this as the predictive distribution. Gaussian processes and Bayesian neural networks
-% are both discriminative models. There is no distribution over the input $x$; it is just given. 
-% This is indeed sufficient for a surrogate model, where we are interested in the predictive distribution. 
-
-% \subsubsection{Using a generative model as surrogate model}
-% ..
+We now introduce the concept of inference, which is necessary for using the probabilistic surrogate models
+in Bayesian Optimization. 
 
 \subsection{Inference of surrogate models}
 Inference is the process of computing answers to queries about a probabilistic model after observing
@@ -73,29 +64,18 @@ We distinguish between two different ways of inference, exact and approximate in
 calculate exact inference on the predictive distribution for the Gaussian mixture model, Sum product
 network, and Gaussian processes. Models which allow for exact inference have a powerful advantage
 over the models with approximate inference since we can guarantee the answers to the queries are
-correct; however, they are usually also less expressive. It is possible to make exact inference of
-SPN, Gaussian Process, and Gaussian Mixture Regression. 
-% \begin{itemize}
-%     \item SPN
-%     \item Gaussian Process
-%     \item Gaussian Mixture Regression
-% \end{itemize}
+correct; however, they are usually also less expressive.
+
+\todo{Note: Explain what expressive mean!}
 
 When it is not possible to answer a probabilistic query exact, we can approximate the answer using
 \textit{approximate inference}. When dealing with complicated and expressive statistical models,
-exact inference is often intractable, and we need to use approximate inference. Approximate inference
-is a broad category of methods, which includes variational inference, Laplace approximation, and
-Markov chain Monte Carlo (MCMC). The two Bayesian Neural networks we deal with in this project
-Bohamiann and Numpyro BNN are similar regression models but are inferred using two different
-versions of the MCMC method, Hamiltonian Monte Carlo. As revealed later (see result
-section), approximate inference might indeed be flawed and inexact. 
-%When dealing with complicated and expressive statistical models, exact inference is often
-%intractable, and we need to use approximate inference, which might indeed be flawed and 
-%inexact. 
-% \begin{itemize}
-%     \item Bohamiann (Adaptive stochastic MCMC)
-%     \item Numpyro Bayesian Neural Network (NUTS)
-% \end{itemize}
+exact inference is often intractable, and we need to use approximate inference. Approximate
+inference is a broad category of methods, which includes variational inference, Laplace
+approximation, and Markov chain Monte Carlo (MCMC). The two Bayesian Neural networks we deal with in
+this project Bohamiann and Numpyro BNN are similar regression models but are inferred using two
+different versions of the MCMC method, Hamiltonian Monte Carlo. As revealed later (see in section
+\ref{BNN}), approximate inference might indeed be flawed and inexact. 
 
 \begin{table}[H]
     \centering
@@ -120,7 +100,8 @@ section), approximate inference might indeed be flawed and inexact.
 
 
 \section{Acquisition function}
-Given a well fitted predictive distribution $p(y|x\mathcal{D})$ \eqref{Predictive2}. The next sample point is chosen
+Given a well fitted predictive distribution $p(y|x\mathcal{D})$ \eqref{Predictive2}. The next sample
+point is chosen
 according to a so-called acquisition function, which balances out the well-known concept of
 exploitation and exploration. Where exploitation will be choosing the next location, $x \in
 \mathcal{X}$ according to its average improvement, and exploration will be choosing the next point
@@ -160,11 +141,10 @@ predictions.
     all the valuable information about the predictive uncertainties from the Bayesian regression model. 
 \end{note}
 
-\subsubsection{Exact expected improvement}
-In the following deveration
-we assume the predictive distribution can be approxiamted by a normal distribution dependent on
-the point of interest $x$ and the data $\mathcal{D}$ (note for the GP
-it is in fact not an approximation), 
+\subsubsection{Exact expected improvement} \label{ExactEI} 
+In the following derivation we assume the
+predictive distribution can be approxiamted by a normal distribution dependent on the point of
+interest $x$ and the data $\mathcal{D}$ (note for the GP it is in fact not an approximation), 
 $$p(y|x,\mathcal{D}) \approx \mathcal{N}(y|\mu(x,\mathcal{D}), \sigma^2(x,\mathcal{D}))$$ where we
 will change to a less clumpsy notation $\mathcal{N}(y|\mu_x,
 \sigma^2_x):=\mathcal{N}(y|\mu(x,\mathcal{D}), \sigma^2(x,\mathcal{D}))$. This is completely fine
@@ -207,7 +187,7 @@ $$\int_{-\infty}^u
 
 We can also explicily write the expected improvement as, 
 $$EI(x) = (y_{\min}-\mu_x)\Phi\left(\frac{y_{\min}-\mu_x}{\sigma_x}\right)+ \sigma_x
-\phi\left(\frac{y_{\min}-\mu_x}{\sigma_x}\right)]$$ where the first part can be interpretted as
+\phi\left(\frac{y_{\min}-\mu_x}{\sigma_x}\right)$$ where the first part can be interpretted as
 exploitation (favouring points with a large average improvement $I(x) := (y_{\min}-\mu_x)$) and the second
 part can be seen a exploitation (favouring points with high uncertainty.). This can also be seen
 in Figure \eqref{EI_illustration}, where it is clear that the expected improvement is growing for
@@ -220,7 +200,12 @@ growing average improvement $I(x)$ and also for growing prediction uncertainty $
 % $$\frac{\partial EI(x)}{\partial I(x)} = \Phi\left(\frac{y_{\min}-\mu_x}{\sigma_x}\right) > 0, \hspace*{0.5cm} 
 % \frac{\partial EI(x)}{\partial \sigma_x} = \phi\left(\frac{y_{\min}-\mu_x}{\sigma_x}\right) >0$$ 
 % <obs mistake in the book!!!?>
-
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{Pictures/4_methods_EI_000.pdf}
+    \caption{The same points as fig .. where the acquisition function is the
+    expected improvement. }
+\end{figure}
 
 \subsubsection{Approximate expected improvement}
 If the predictive distribution is non-Gaussian, it is either possible to approximate it as a Gaussian
@@ -230,11 +215,13 @@ or calculate the expected improvement approximately as follows,
     E_{p(y|x,\mathcal{D})}[\max(0,y_{\min}-y)] &= \int \max(0,y_{\min}-y) p(y|x,\mathcal{D}) dy\\
     &\approx \frac{1}{K} \sum_{k=1}^K  \max(0,y_{\min}-y^{(k)})
 \end{align*}
-where $y^{(k)}$ are samples from the predictive distribution. In the case of a parametric model
-like a Bayesian NN, then we already got posterior samples from posterior $\theta^{(k)} \sim p(\theta | \mathcal{D})$, giving, 
-$$p(y|x,\mathcal{D}) \approx \frac{1}{K_2} \sum_{k=1}^{K_2} p(y|x,\theta^{(k)})$$ where
-$p(y|x,\mathcal{D} = \mathcal{N}(y|NN_w,\sigma))$. So essentially we should sample from a sampled
-distribution, but instead the PhD thesis \cite{PhDthesis}, just sample the mean and set $K_2 = 1$... 
+where $y^{(k)}$ are samples from the predictive distribution.
+
+% In the case of a parametric model
+% like a Bayesian NN, then we already got posterior samples from posterior $\theta^{(k)} \sim p(\theta | \mathcal{D})$, giving, 
+% $$p(y|x,\mathcal{D}) \approx \frac{1}{K_2} \sum_{k=1}^{K_2} p(y|x,\theta^{(k)})$$ where
+% $p(y|x,\mathcal{D} = \mathcal{N}(y|NN_w,\sigma))$. So essentially we should sample from a sampled
+% distribution, but instead the PhD thesis \cite{PhDthesis}, just sample the mean and set $K_2 = 1$... 
 
 
 % \begin{align*}
@@ -264,6 +251,15 @@ where $\beta = \Phi^{-1}(1-\pi)$.
     improvement $y_{\min}-\mu_x$, where $\mu_x = E_{p(y|x,\mathcal{D})}[y]$}
     \label{nLCB_illustration}
 \end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{Pictures/4_methods_LCB_000.pdf}
+    \caption{The same points as fig .. where the acquisition function is the
+    negative lower confidence bound. }
+\end{figure}
+
 
 \subsection{Entropy search}
 % We then discuss the knowledge

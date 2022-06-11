@@ -68,10 +68,10 @@ well-known optimization rutines fits into Algorithm \eqref{algOPT}.
     $$\text{policy}_{RS}(\mathcal{D}) = x, \hspace{0.5cm} x \sim Unif(\mathcal{X})$$
 \end{testexample}
 \begin{testexample}[Gradient descent]
-    Gradient descent is the most simple gradient-based optimization approach. The gradient of a continuous 
-    function points in the most ascending direction from the location where it is evaluated.
-    In the minimization task, \eqref{OPT}, we can iteratively use the opposite gradient direction, i.e. the most 
-    descending direction. This yields the policy:
+    Gradient descent is the most simple gradient-based optimization approach. The gradient of a
+    continuous function points in the most ascending direction from the location where it is
+    evaluated. In the minimization task, \eqref{OPT}, we can iteratively use the opposite gradient
+    direction, i.e. the most descending direction. This yields the policy:
     $$\text{policy}_{GD}(\mathcal{D}) = x_n - \eta \nabla f(x_n)$$
     where we for a brief moment in Algorithm \eqref{algOPT} modify $y$ to be a vector, since the observation model 
     is given as:

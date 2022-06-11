@@ -290,9 +290,12 @@ class PlotBayesOpt1D(BayesOptSolver_sklearn):
             outer_gs = gridspec.GridSpec(1, 1)
             self.plot_surrogate_and_acquisition_function(outer_gs[0])
             number = f"{i}".zfill(3)
-            fig_path = path+f"{self.problem_name}{self.model.name}{number}.jpg"
-            fig_path = fig_path.replace(" ", "_")
-            plt.savefig(fig_path)
+            if path == "":
+                plt.show()
+            else:
+                fig_path = path+f"{self.problem_name}{self.model.name}{number}.jpg"
+                fig_path = fig_path.replace(" ", "_")
+                plt.savefig(fig_path)
         print(f"-- End of optimization -- best objective y = {self.y_min:0.2f}\n")
 
     def plot_surrogate_and_acquisition_function(self,subplot_spec):
@@ -330,7 +333,7 @@ class PlotBayesOpt1D(BayesOptSolver_sklearn):
         ax.set_xlim(*self.bounds)
         #ax.set_ylim(-0.7+np.min(self._Y), 0.5+0.7+np.max(self._Y))
         if show_name:
-            ax.set_title(f"{self.model.name}({self.model.params})")
+            ax.set_title(f"{self.model.name}")#({self.model.params})")
         ax.legend(loc=2)
 
     def plot_acquisition_function(self,ax):
@@ -340,8 +343,8 @@ class PlotBayesOpt1D(BayesOptSolver_sklearn):
             EI_of_Xgrid, exploitation, exploration  = self.expected_improvement(Xgrid, return_analysis = True)
             # plot the acquisition function ##
             ax.plot(Xgrid, EI_of_Xgrid, color="tab:blue", label = "EI") 
-            ax.plot(Xgrid, exploitation, "--", color = "cyan", label="exploitation") 
-            ax.plot(Xgrid, exploration, "--", color = "red", label="exploration") 
+            # ax.plot(Xgrid, exploitation, "--", color = "cyan", label="exploitation") 
+            # ax.plot(Xgrid, exploration, "--", color = "red", label="exploration") 
         if self.acquisition == "LCB":
             LCB_of_Xgrid = -self.lower_confidense_bound(Xgrid)
             # plot the acquisition function ##

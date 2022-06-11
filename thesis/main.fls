@@ -538,7 +538,7 @@ INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/main.toc
 OUTPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/main.toc
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/00_introduction.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/00_introduction.tex
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/GP_vs_BNN1.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/GP_vs_BNN1_b.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/GP_vs_BNN2.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/02_bayesian_optimization.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/02_bayesian_optimization.tex
@@ -565,7 +565,10 @@ INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/BO_vs_Gri
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/BO_vs_Grid1.eps
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/SimonsTestGaussian Process - sklearn002.jpg
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/expected_improvement_illustration.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/4_methods_EI_000.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/neg_lower_confidence_illustration.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/illustrationBayesOpt.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/4_methods_LCB_000.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_04_discriminative_surrogates.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_04_discriminative_surrogates.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_gaussian_process_regression.tex

@@ -1,3 +1,4 @@
+from pickletools import optimize
 from gmr import GMM, plot_error_ellipses
 from sklearn.mixture import BayesianGaussianMixture, GaussianMixture
 from gmr.mvn import MVN
@@ -7,6 +8,9 @@ import math
 from math import sqrt
 from scipy.stats import norm
 from src.utils import normalize, denormalize
+from skopt import BayesSearchCV
+from skopt.space import Real, Integer
+from sklearn.base import BaseEstimator
 
 def sigmoid(x):
   return 1 / (1 + math.exp(-x))
@@ -42,12 +46,30 @@ class GMM_bayesian(GMM):
             std_preds.append(sqrt(v_pred))
         return np.array(m_preds), np.array(std_preds)
     
+    def predictive_pdf(self,X,Y):
+        p_predictive = []
+        p_x_list = []
+        N = self.N
+        prior_weight = self.prior_weight
+        sig_prior = self.sig_prior
+
+        for x,y in zip(X,Y):
+            conditional_gmm = self.condition(x)
+            p_x = self.marginalize(x)[0]
+            p_conditional_gmm = conditional_gmm.to_probability_density(y)[0]
+            p_prior_y = norm(0, sig_prior).pdf(y)[0]
+            p_predictive_tmp = (p_x*N*p_conditional_gmm+ prior_weight*p_prior_y)/(p_x*N+prior_weight)
+            p_predictive.append(p_predictive_tmp)
+            p_x_list.append(p_x)
+
+        return np.array(p_predictive), np.array(p_x_list)
+
     def _bayesian_conditional_pdf(self, x_grid,y_grid , manipulate_variance = False):
         prior_weight = self.prior_weight
         sig_prior = self.sig_prior
         n_data = self.N
         p_predictive = np.zeros((len(x_grid),len(y_grid)))
-        p_prior_y = norm(0, sqrt(sig_prior)).pdf(y_grid)
+        p_prior_y = norm(0, sig_prior).pdf(y_grid)
         p_x_list = []
         for i,x in enumerate(x_grid):
             if i%10 ==0:
@@ -57,7 +79,7 @@ class GMM_bayesian(GMM):
             for j,y in enumerate(y_grid):
                 p_conditional_gmm = conditional_gmm.to_probability_density(y)
                 p_predictive[i,j] = (p_x*n_data*p_conditional_gmm)/(p_x*n_data+prior_weight)
-                #p_predictive[i,j] = (p_x*n_data*p_conditional_gmm + prior_weight*p_prior_y)/(p_x*n_data+prior_weight)
+                #p_predictive[i,j] = (p_x*n_data*p_conditional_gmm + prior_weight*p_prior_y[j])/(p_x*n_data+prior_weight)
             p_predictive[i,:] += prior_weight*p_prior_y/(p_x*n_data+prior_weight)
             p_x_list.append(p_x)
         return p_predictive,np.array(p_x_list)
@@ -130,37 +152,116 @@ def _safe_probability_density(norm_factors, exponents):
     p /= np.sum(p, axis=1)[:, np.newaxis]
     return p
 
-class GMRegression():
-    def __init__(self,component_variance = 1e-2, manipulate_variance = False) -> None:
+class GMRegression(BaseEstimator):
+    def __init__(self,optimize=False, manipulate_variance = False, 
+                    n_components = 10,
+                    prior_weight = 1,
+                    opt_n_iter  =20, opt_cv = 3,
+                    train_epochs = 10000) -> None:
         self.model = None
         self.name = "Gaussian Mixture Regression"
-        self.prior_weight, self.sig_prior = 1e-2,1.1
-        #self.n_components = 
-        self.component_variance = component_variance
+        self.prior_weight, self.sig_prior = prior_weight,1.1
         self.manipulate_variance = manipulate_variance
+        self.n_components = n_components
+        self.predictive_score = False
+        self.optimize_hyperparams = optimize
+        self.opt_n_iter = opt_n_iter
+        self.opt_cv = opt_cv
+        self.train_epochs = train_epochs
+        
 
     def fit(self, X, Y):
         self.N, self.nX = X.shape
-        nXY = self.nX+1
+        assert Y.ndim == 2
+        if self.optimize_hyperparams:
+            if X.shape[0] >= 10:
+                #self.opt_cv = max(X.shape[0],40)
+                self._optimize( X, Y, int(self.N * (self.opt_cv-1)/(self.opt_cv)))
+                print("-- Fitted with optimized hyperparams --")
+                return
+            else:
+                print("-- Fitting with default hyperparams since too little data for CV-- ")
+        self.params = f"n_components = {self.n_components}, prior_w = {self.prior_weight}"
+        print(self.params)
+
         X_, self.x_mean, self.x_std = normalize(X)
         Y_, self.y_mean, self.y_std = normalize(Y)
         XY_train = np.column_stack((X_, Y_))
-        n_components = self.N//5
-        gmm_sklearn = BayesianGaussianMixture(n_components=n_components,
+        gmm_sklearn = BayesianGaussianMixture(n_components=self.n_components,
                                         covariance_type = "full",
                                         weight_concentration_prior =  1e-9,#1. / n_components, 
                                         mean_precision_prior = 1e-9,#0.001, 
-                                        covariance_prior =np.array([[0.01,0],[0,0.01]]),
-                                        n_init = 5, init_params="kmeans")
+                                        #covariance_prior =np.array([[0.001,0],[0,0.001]]),
+                                        n_init = 10, init_params="kmeans", 
+                                        verbose=2
+                                        )
                                         #covariance_prior =np.diag(np.diag(np.cov(XY_train.T)))/1000)
                                         #weight_concentration_prior_type="dirichlet_distribution")
-        #gmm_sklearn = GaussianMixture(n_components=n_components, covariance_type="full", max_iter=100)
+        # gmm_sklearn = GaussianMixture(n_components=self.n_components, 
+        #                             covariance_type="full", 
+        #                             max_iter=self.train_epochs, 
+        #                             verbose = 1,
+        #                             tol = 1e-6,
+        #                             init_params="kmeans")
         gmm_sklearn.fit(XY_train)
 
         self.model = GMM_bayesian(
-        n_components, self.N, self.prior_weight, self.sig_prior, priors=gmm_sklearn.weights_, means=gmm_sklearn.means_,
+        self.n_components, self.N, self.prior_weight, self.sig_prior, priors=gmm_sklearn.weights_, means=gmm_sklearn.means_,
         covariances=gmm_sklearn.covariances_)
-        self.params = f"component_variance = {self.component_variance}, manipulate_variance = {self.manipulate_variance}"
+    def score(self, X_test, y_test):
+        y_test = y_test.squeeze()
+        assert y_test.ndim <= 1 
+        if self.predictive_score:
+            m_pred, sd_pred = self.predict(X_test)
+            assert m_pred.ndim == 1
+            assert sd_pred.ndim == 1
+            score = -np.mean(abs(y_test-m_pred))
+            print(f"negative mean pred error = {score:0.3f}")
+        else:
+            if y_test.ndim == 0:
+                y_test = np.array([y_test, y_test])
+                X_test = X_test.repeat(2)[:,None]
+            p_predictive, p_x = self.predictive_pdf(X_test, y_test[:,None])
+            score = np.mean(p_predictive)
+            # Z_pred = (y_test-m_pred)/sd_pred #std. normal distributed. 
+            # score = np.mean(norm.pdf(Z_pred))
+            print(f"mean pred likelihood = {score:0.3f}")
+        print(" ")
+        return score
+
+    def get_params(self, deep=False):
+        out = dict()
+        out["n_components"] = self.n_components
+        out["prior_weight"] = self.prior_weight
+        #out["optimize"] = self.optimize_hyperparams #gets into trouble with the CV code
+        return out
+
+    def _optimize(self, X, y, n):
+        #OBS! BayesSearchCV only look at the init params! if they are not decleared in params!
+        opt = BayesSearchCV(
+            self,
+            {
+                'n_components': Integer(1,n),
+                'prior_weight' : Real(1e-6, 1., 'uniform'),
+            },
+            n_iter=self.opt_n_iter,
+            cv=self.opt_cv, 
+            n_jobs=4
+        )
+        opt.fit(X, y)
+        print(" ")
+        print(f"best score = {opt.best_score_}")
+        print("best params",opt.best_params_)
+
+        self.__dict__.update(opt.best_estimator_.__dict__)
+        #self.set_params(**opt.best_estimator_.get_params())
+        # self.fit(X,y) #Not nessesary done by opt.fit
+        self.optimize_hyperparams = True
+
+    def predictive_pdf(self,X,Y):
+        X,*_ = normalize(X,self.x_mean, self.x_std)
+        Y,*_ = normalize(Y,self.y_mean, self.y_std)
+        return self.model.predictive_pdf(X,Y)
 
     def predict(self,X_test, CI=[0.05,0.95]):
         #print(X_test.shape)
@@ -178,7 +279,7 @@ class GMRegression():
         return self.model._bayesian_conditional_pdf(x_grid, y_grid)
 
     def plot(self, ax, xbounds=(-0.1,1.1),ybounds=(-2.5,2.5)):
-        x_res, y_res  = 100, 300
+        x_res, y_res  = 100, 100
         x_grid = np.linspace(*xbounds, x_res, dtype=float)
         y_grid = np.linspace(*ybounds, y_res,dtype=float)
 
@@ -228,7 +329,7 @@ if __name__ == "__main__":
 
 
     if True:
-        GMR = GMRegression()
+        GMR = GMRegression(optimize=False, n_components=100)
         GMR.fit(X,y)
         plt.figure(figsize=(10, 5))
         ax = plt.subplot(111)

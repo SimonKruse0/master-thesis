@@ -14,22 +14,20 @@ import time
 import os
 
 class NumpyroNeuralNetwork:
-    def __init__(self, hidden_units = 10, num_warmup=1000, num_samples = 500, num_chains=4, 
-                     num_keep_samples = 500, extra_name="", 
-                     hidden_units_variance = 2, 
+    def __init__(self, hidden_units = 50, num_warmup=100, num_samples = 100, num_chains=4, 
+                     obs_variance_prior = 10000,
+                     hidden_units_variance = 1, 
                      hidden_units_bias_variance = 1):
         self.kernel = None 
         self.hidden_units = hidden_units
         self.hidden_units_variance = hidden_units_variance
         self.hidden_units_bias_variance = hidden_units_bias_variance
-        self.obs_variance = 0.01
-        self.obs_variance_prior = 100000 #Obs E[sigma] = 1/lambda
+        self.obs_variance_prior = obs_variance_prior #Obs E[sigma] = 1/lambda
         #self.obs_variance_prior = 10 #Obs E[sigma] = 1/lambda
         self.target_accept_prob = 0.6
         self.num_warmup = num_warmup
         self.num_samples = num_samples
         self.num_chains = num_chains
-        self.keep_every = num_samples//num_keep_samples
         self.name = f"numpyro BNN"
         self.latex_architecture = r"$\theta_{\mu} \sim \mathcal{N}(0,{self.hidden_units_variance})$"
         self.samples = None
@@ -37,10 +35,7 @@ class NumpyroNeuralNetwork:
         text_observation = r"$y \sim \mathcal{N}(f_{\theta}(x),\sigma)$"
         text_prior = r" $\theta_{w}   \sim \mathcal{N}(0,$"+f"{self.hidden_units_variance}"+r"$I_{30})$"
         text_prior_bias = r" $\theta_{b} \sim \mathcal{N}(0,$"+f"{self.hidden_units_bias_variance}"+r"$I_{3})$"
-        if self.obs_variance_prior<1e-9:
-            text_obs_prior = r" $\sigma = $"+f"{self.obs_variance},"
-        else:
-            text_obs_prior = r" $\sigma \sim Exp($"+f"{self.obs_variance_prior}"+r"$)$,"
+        text_obs_prior = r" $\sigma \sim Exp($"+f"{self.obs_variance_prior}"+r"$)$,"
         text_f = r" $f_{\theta} = NN("+f"{hidden_units},{hidden_units},{hidden_units}"+r")$"
         self.latex_architecture = text_observation + text_prior + text_prior_bias+ text_obs_prior+text_f
         self.text_priors = text_prior + ", "+text_prior_bias
@@ -69,13 +64,10 @@ class NumpyroNeuralNetwork:
         b3 = sample("b3", dist.Normal(jnp.zeros((1,1)), sigma_b*jnp.ones((1,1))),rng_key=self.rng_key)
 
         # we put a prior on the observation noise
-        #prec_obs = sample("prec_obs", dist.Gamma(3.0, 1.0))
-        #sigma_obs = 0.1 / jnp.sqrt(prec_obs)
+        prec_obs = sample("prec_obs", dist.Gamma(20.0, 0.001))
+        sigma_obs = 1 / jnp.sqrt(prec_obs)
         
-        if self.obs_variance_prior<1e-9:
-            sigma_obs = self.obs_variance
-        else:
-            sigma_obs = sample("sigma", dist.Exponential(jnp.ones((1,1))*self.obs_variance_prior),rng_key=self.rng_key)+0.00001
+        #sigma_obs = sample("sigma", dist.Exponential(jnp.ones((1,1))*self.obs_variance_prior),rng_key=self.rng_key)+0.00001
         
         #sigma_obs = 0.000001
         #likelihood 
@@ -107,13 +99,13 @@ class NumpyroNeuralNetwork:
         b3 = sample("b3", dist.Normal(jnp.zeros((1,1)), sigma_b*jnp.ones((1,1))))
 
         # we put a prior on the observation noise
-        #prec_obs = sample("prec_obs", dist.Gamma(3.0, 1.0))
-        #sigma_obs = 0.1 / jnp.sqrt(prec_obs)
+        prec_obs = sample("prec_obs", dist.Gamma(20.0, 0.0001))
+        sigma_obs = 0.1 / jnp.sqrt(prec_obs)
         
-        if self.obs_variance_prior<1e-9:
-            sigma_obs = self.obs_variance
-        else:
-            sigma_obs = sample("sigma", dist.Exponential(jnp.ones((1,1))*self.obs_variance_prior))+0.00001
+        # if self.obs_variance_prior<1e-9:
+        #     sigma_obs = self.obs_variance
+        # else:
+        #     sigma_obs = sample("sigma", dist.Exponential(jnp.ones((1,1))*self.obs_variance_prior))+0.00001
 
         #sigma_obs = 0.000001
         #likelihood 

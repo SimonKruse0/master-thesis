@@ -261,7 +261,8 @@ def normalize(X, mean=None, std=None):
         mean = np.mean(X, axis=0)
     if std is None:
         std = np.std(X, axis=0)
-
+        if std<1e-20:
+            std = 1e-20
     X_normalized = (X - mean) / std
 
     return X_normalized, mean, std

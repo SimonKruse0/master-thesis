@@ -36,11 +36,13 @@ class PlotReg1D_mixturemodel(BayesOptSolver_sklearn):
         self.init_XY_and_fit(n)
         self.fit()
         self.bounds = (self.bounds[0]-10, self.bounds[1]+10)
-        self.Xgrid = np.linspace(*self.bounds, 300)[:, None]
+        self.Xgrid = np.linspace(*self.bounds, 100)[:, None]
         if show_pred:
-            self.plot_predictive_dist(ax, show_name=show_name)
+            self.plot_predictive_dist(ax)
         if show_gauss:
             self.plot_gaussian_approximation(ax)
+        if show_name:
+            ax.set_title(f"{self.model.name}({self.model.params})")
         self.plot_true_function(ax)
         self.plot_train_data(ax)
 
@@ -117,9 +119,7 @@ class PlotReg1D_mixturemodel(BayesOptSolver_sklearn):
         #                 color="C0", alpha=0.3, label=r"$E[y]\pm 2  \sqrt{Var[y]}$")  # plot uncertainty intervals
         # ax.set_xlim(*self.bounds)
         # #ax.set_ylim(-0.7+np.min(self._Y), 0.5+0.7+np.max(self._Y))
-        if show_name:
-            #ax.set_title(f"{self.model.name}({self.model.params})")
-            ax.set_title(f"{self.model.name}({self.model.params})")
+        
         
         if p_x is not None:
             p_x = p_x.reshape(x_res, y_res)[:,0]

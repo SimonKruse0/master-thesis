@@ -85,10 +85,12 @@ def plot2D(RV:RegressionTest,n_train, output_path, plot_type = 1):
 #             SumProductNetworkRegression(optimize=True)]
             
 
-reg_models = [SumProductNetworkRegression(optimize=False,
+reg_models = [SumProductNetworkRegression(optimize=True,
                         alpha0_x=6.188900996704582, alpha0_y=7.544489215988586, 
                         beta0_x=0.7, beta0_y=0.14627658075704839, 
                         train_epochs=1000)]
+
+#best params OrderedDict([('alpha0_x', 7.529885648796402), ('alpha0_y', 10.212607761994901), ('beta0_x', 0.11261177095819143), ('beta0_y', 0.24708355040788302), ('prior_weight', 1e-06)])
 
 ### main ###
 n_train_array = [int(x) for x in np.logspace(1, 2.5, 9)]
