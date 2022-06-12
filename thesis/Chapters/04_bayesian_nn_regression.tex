@@ -8,12 +8,20 @@ distribution (usually a standard normal distribution), which provides a regressi
 prior to any observed data. Choosing the prior of a standard normal distribution of a 
 3 layers with 10 nodes on each layer the we get the following regression model, 
 \begin{figure}
-    \centering
-    \subfloat[\centering prior]{{\includegraphics[width=0.45\textwidth]{Pictures/bayesian_nn_prior_samples.pdf} }}%
-    \qquad
-    \subfloat[\centering posterior]{{\includegraphics[width=0.45\textwidth]{Pictures/bayesian_nn_posterior_samples.pdf} }}%
+    %\subfloat[\centering prior]{{\includegraphics[width=0.45\textwidth]{Pictures/bayesian_nn_prior_samples.pdf} }}%
+    %\qquad
+    %\subfloat[\centering posterior]{{\includegraphics[width=0.45\textwidth]{Pictures/bayesian_nn_posterior_samples.pdf} }}%
     \caption{BNN with $\tan^{-1}(\cdot)$ activation functions and different prior distributions. }%
     \label{fig:example2}%
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{Pictures/BNN_illustration.png}
+    \caption*{Bayesian neural network compared to a neural network, were the weights are assigned a
+    probability density , note that we often prior assume no correlation and a standard normal
+    distribution, but the posterior (after observing data) might contain correlations between the
+    weights (i.e. a realization of $w_1$ might influence the realization of $w_2$) (from CYDA)}
 \end{figure}
 
 when observing data the distribution of the weights is adjusted accordingly - note that 
@@ -172,7 +180,7 @@ The desired distribution $p(x)$ is found as the marginal of $p(x,q)$
 \end{testexample}
 
 since some intuition is now established around Hamiltonian Monte Carlo, 
-we look a bit on the two versions used in Numpyro-BNN and Bohamiann, 
+we look a bit at the two versions used in Numpyro-BNN and Bohamiann, 
 
 \subsection{No U-Turn sampling}
 

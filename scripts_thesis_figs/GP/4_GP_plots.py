@@ -32,7 +32,8 @@ def plot_gpr_samples(gpr_model, n_samples, ax, plot_type = 0):
         The matplotlib axis where to plot the samples.
     """
     if plot_type == 1:
-        x = np.linspace(0, 5, 6)
+        x = np.linspace(0, 5, 11)
+        #x[2]=1.2
     else:
         x = np.linspace(0, 5, 100)
     X = x.reshape(-1, 1)
@@ -45,43 +46,46 @@ def plot_gpr_samples(gpr_model, n_samples, ax, plot_type = 0):
             ax.plot(
             x,
             single_prior,
-            linestyle="--",
+            linestyle=":",
             marker="*",
-            alpha=0.7,
+            markersize = 10,
+            color = "black",
+            alpha=0.5,
             label=f"Sampled function #{idx + 1}",
             )
         else:
             ax.plot(
             x,
             single_prior,
-            linestyle="--",
+            linestyle="-",
             #marker="*",
+            color = "black",
             alpha=0.7,
             label=f"Sampled function #{idx + 1}",
             )
     if plot_type == 1:
-        xx = list(x)+list(x+0.05) +list(x-0.05) +list(x+0.5)[:-1]
+        xx = list(x)+list(x+0.05) +list(x-0.05) +list(x+0.25)[:-1]
         xx.sort()
         xx = np.array(xx)
         y_mean, y_std = gpr_model.predict(xx[:,None], return_std=True)
-        xx[[abs(k.round()-k) == 0.5 for k in xx]] = np.NaN
+        xx[[abs(k.round()-k) == 0.25 for k in xx]] = np.NaN
         x = xx
         #x+(x+0.01
-        ax.plot(x, y_mean, color="black", label="Mean")
+        ax.plot(x, y_mean, color="red", label="Mean")
         ax.fill_between(
             x,
-            y_mean - y_std,
-            y_mean + y_std,
+            y_mean - 1.96*y_std,
+            y_mean + 1.96*y_std,
             alpha=0.5,
             color="tab:blue",
             label=r"$\pm$ 1 std. dev.",
         )
     else:
-        ax.plot(x, y_mean, color="black", label="Mean")
+        ax.plot(x, y_mean, color="red", label="Mean")
         ax.fill_between(
             x,
-            y_mean - y_std,
-            y_mean + y_std,
+            y_mean - 1.96*y_std,
+            y_mean + 1.96*y_std,
             alpha=0.5,
             color="tab:blue",
             label=r"$\pm$ 1 std. dev.",
@@ -98,19 +102,24 @@ gpr = GaussianProcessRegressor(kernel=kernel, random_state=0)
 fig, axs = plt.subplots(ncols=2, sharex=True, sharey=True)#, figsize=(10, 8))
 
 # plot prior
-plot_gpr_samples(gpr, n_samples=10, ax=axs[0], plot_type=1)
+plot_gpr_samples(gpr, n_samples=4, ax=axs[0], plot_type=1)
 #axs[0].set_title(r"$\mathcal{N}([f(x_1), \dots, f(x_6)]|0, \kappa([x_1,\dots, x_6]^2))$")
-axs[0].set_title(r"$\mathcal{N}([f(0), \dots, f(5)]|0, \kappa([0,\dots, 5]^2))$")
+#axs[0].set_title(r"$\mathcal{N}([f(0), \dots, f(5)]|0, \kappa([0,\dots, 5]^2))$")
+axs[0].set_title(r"11-dim normal distribution")
 
 # plot posterior
 #gpr.fit(X_train, y_train)
 plot_gpr_samples(gpr, n_samples=20, ax=axs[1], plot_type=2)
 # axs[1].scatter(X_train[:, 0], y_train, color="red", zorder=10, label="Observations")
 # #axs[1].legend(bbox_to_anchor=(1.05, 1.5), loc="upper left")
-axs[1].set_title("$\mathcal{N}(f(X)|0, \kappa(X,X))$")
+#axs[1].set_title("$\mathcal{N}(f(X)|0, \kappa(X,X))$")
+axs[1].set_title("GP Prior")
 
 #fig.suptitle("Mattern kernel", fontsize=18)
 plt.tight_layout()
-#plt.show()
+# plt.show()
+fig = plt.gcf()
+fig.set_size_inches(8, 3)
+
 path = "/home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures"
 plt.savefig(f'{path}/GP_samples_mattern.pdf', bbox_inches='tight')
