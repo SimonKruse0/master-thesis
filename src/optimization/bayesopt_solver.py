@@ -27,6 +27,7 @@ class BayesOptSolverBase(PlottingClass):
         self.opt = OptimizationStruct()
         self.disp = disp
         self.beta = None #for LCB
+        self.init_train = False
 
     def problem_init(self):
         raise NotImplementedError
@@ -37,9 +38,10 @@ class BayesOptSolverBase(PlottingClass):
     def init_XY_and_fit(self, n_init_samples):
         if n_init_samples >0:
             self._X, self._Y = self._init_XY(n_init_samples)
+            self.y_min = np.min(self._Y)
+            self.init_train = True
             # print(f"\n-- initial training -- \t {self.model.name}")
             # self.fit()
-            # self.y_min = np.min(self._Y)
         else:
             self._X, self._Y = None,None
 
@@ -122,12 +124,11 @@ class BayesOptSolverBase(PlottingClass):
         mu, sigma = self.predict(X)
         if self.beta is None:
             self.beta = beta
-        return mu - self.beta*sigma #note since symetric around mu, minimizing the LCB is the same as maximizing the UCB
+        imp = self.y_min - mu
+        return -imp - self.beta*sigma #note since symetric around mu, minimizing the LCB is the same as maximizing the UCB
 
     def expected_improvement(self,X, return_analysis = False):
-        if self.y_min is None:
-            self.y_min = np.min(self._Y)
-
+        assert self.y_min is not None
         assert X.ndim == 2
         if self.model.name == "Naive Gaussian Mixture Regression":
             mu, sigma, p_x = self.predict(X, get_px=True) 
@@ -138,11 +139,11 @@ class BayesOptSolverBase(PlottingClass):
         exploitation = imp*norm.cdf(Z)
         exploration = sigma*norm.pdf(Z)
         EI = exploitation + exploration
-        if self.model.name == "Naive Gaussian Mixture Regression":
-            N = self._X.shape[0]
-            factor =  np.clip(1/(N*p_x),1e-8,100)
-            EI *= factor
-            EI[factor > 99] = EI.max() #For at undgå inanpropiate bump.!
+        # if self.model.name == "Naive Gaussian Mixture Regression":
+        #     N = self._X.shape[0]
+        #     factor =  np.clip(1/(N*p_x),1e-8,100)
+        #     EI *= factor
+        #     EI[factor > 99] = EI.max() #For at undgå inanpropiate bump.!
         if return_analysis:
             return EI, exploitation, exploration
         else:
@@ -168,7 +169,7 @@ class BayesOptSolverBase(PlottingClass):
     def find_a_candidate_on_randomgrid(self, n_batches  = 1):
         if self.model.name == "empirical mean and std regression": #random search
             opt = OptimizationStruct()
-            opt.x_next = next(self._randomgrid(1,n=1)).squeeze()*0
+            opt.x_next = next(self._randomgrid(1,n=1)).squeeze()
             self.opt = opt
             return
         
@@ -183,6 +184,7 @@ class BayesOptSolverBase(PlottingClass):
                 x_id = max_id[0]
 
             max_AQ_batch = AQ[x_id]
+            print(max_AQ_batch)
             if max_AQ_batch > max_AQ:
                 max_AQ = max_AQ_batch
                 x_next = Xgrid_batch[x_id]
@@ -190,8 +192,11 @@ class BayesOptSolverBase(PlottingClass):
         opt = OptimizationStruct()  #insert results in struct
         opt.x_next          = x_next
         opt.max_AQ          = max_AQ
-
+        print(x_next,"x_next")
         self.opt = opt #redefines self.opt!
+
+    def update_y_min(self):
+        self.y_min = np.min(self._Y)
 
     def observe(self,x_next):
         assert x_next is not None
@@ -199,7 +204,6 @@ class BayesOptSolverBase(PlottingClass):
         y_next = self.obj_fun(x_next)
         self._X = np.vstack((self._X, x_next))
         self._Y = np.vstack((self._Y, np.array([[y_next]])))
-        self.y_min = np.min(self._Y)
 
     def fit(self, X = None, Y = None):
         try:
@@ -210,14 +214,17 @@ class BayesOptSolverBase(PlottingClass):
         except:
             raise Exception("No data to fit")
 
-    def optimization_step(self):
-        if self.y_min is None:
+    def optimization_step(self, update_y_min = True):
+        if self.init_train:
             print(f"-- training on +{self._X.shape[0]} data points, nettobudget {self.budget} -- \t {self.model.name}")
+            self.init_train = False
         self.fit()
         n_batches = min(self.problem_dim,20)
         self.find_a_candidate_on_randomgrid(n_batches = n_batches)
         x_next = self.opt.x_next
         self.observe(x_next)
+        if update_y_min:
+            self.update_y_min()
 
     def optimize(self):
         for i in range(self.budget):
@@ -273,22 +280,25 @@ class BayesOptSolver_sklearn(BayesOptSolverBase):
 
 
 class PlotBayesOpt1D(BayesOptSolver_sklearn):
-    def __init__(self, reg_model, problem, acquisition="EI", budget=5, n_init_samples=2, disp=False) -> None:
+    def __init__(self, reg_model, problem, acquisition="EI", budget=5, n_init_samples=2, disp=False, show_name = True) -> None:
         super().__init__(reg_model, problem, acquisition, budget, n_init_samples, disp)
         assert self.problem_dim == 1
         self.bounds = (self.bounds[0][0], self.bounds[1][0])
         self.Xgrid = np.linspace(*self.bounds, 1000)[:, None]
-        self.show_name = True
+        self.show_name = show_name
         self.deterministic = False
     def optimize(self, path=""):
         for i in range(self.budget):
             print(f"-- finding x{i+1} --",end="\n")
-            self.optimization_step()
+
+            self.optimization_step(update_y_min=False)
+
             x_next = self.opt.x_next
             x_next_text = " , ".join([f"{x:.2f}" for x in x_next])
             print(f"-- x{i+1} = {x_next_text} --")
             outer_gs = gridspec.GridSpec(1, 1)
             self.plot_surrogate_and_acquisition_function(outer_gs[0])
+            self.update_y_min()
             number = f"{i}".zfill(3)
             if path == "":
                 plt.show()
@@ -312,7 +322,7 @@ class PlotBayesOpt1D(BayesOptSolver_sklearn):
         else:
             X_true =  np.linspace(*self.bounds,10000)[:,None]
             Y_true = self.obj_fun(X_true)
-            ax1.plot(X_true, Y_true, ".", markersize = 1, color="Black")
+            ax1.plot(X_true, Y_true, ".", markersize = 0.5, color="Black")
         ax1.plot(self._X[:-1],self._Y[:-1], ".", markersize = 10, color="black")  # plot all observed data
         #ax1.plot(self._X[-1],self._Y[-1], ".", markersize = 10, color="tab:orange")  # plot
 
@@ -320,7 +330,8 @@ class PlotBayesOpt1D(BayesOptSolver_sklearn):
         x_next = opt.x_next[:,None]
         max_AQ= self.acquisition_function(x_next)
         ax2.plot(x_next, max_AQ, "^", markersize=10,color="tab:orange", label=f"x_next = {opt.x_next[0]:.2f}")
-
+        ax1.legend(loc=2)
+        ax2.legend(loc=1)
 
     def plot_regression_gaussian_approx(self,ax,show_name = False):
         assert self._X.shape[1] == 1   #Can only plot 1D functions
@@ -334,25 +345,26 @@ class PlotBayesOpt1D(BayesOptSolver_sklearn):
         #ax.set_ylim(-0.7+np.min(self._Y), 0.5+0.7+np.max(self._Y))
         if show_name:
             ax.set_title(f"{self.model.name}")#({self.model.params})")
-        ax.legend(loc=2)
+        
 
-    def plot_acquisition_function(self,ax):
+    def plot_acquisition_function(self,ax, color = "tab:blue", show_y_label = True):
         Xgrid = self.Xgrid
 
         if self.acquisition == "EI":
             EI_of_Xgrid, exploitation, exploration  = self.expected_improvement(Xgrid, return_analysis = True)
             # plot the acquisition function ##
-            ax.plot(Xgrid, EI_of_Xgrid, color="tab:blue", label = "EI") 
+            ax.plot(Xgrid, EI_of_Xgrid, color=color, label = "EI") 
             # ax.plot(Xgrid, exploitation, "--", color = "cyan", label="exploitation") 
             # ax.plot(Xgrid, exploration, "--", color = "red", label="exploration") 
         if self.acquisition == "LCB":
             LCB_of_Xgrid = -self.lower_confidense_bound(Xgrid)
             # plot the acquisition function ##
             lvl = norm.cdf(self.beta)
-            ax.plot(Xgrid, LCB_of_Xgrid, color="tab:blue", label = f"LCB({lvl:0.3f})") 
+            ax.plot(Xgrid, LCB_of_Xgrid, color=color, label = f"LCB({lvl:0.3f})") 
 
         ax.set_xlim(*self.bounds)
-        ax.set_ylabel("Acquisition Function")
+        if show_y_label:
+            ax.set_ylabel("Acquisition Function")
         ax.legend(loc=1)
 
 class PlotBayesOpt2D(BayesOptSolver_sklearn):

@@ -110,33 +110,13 @@ in figure
     \centering
     \includegraphics[width = \textwidth]{Pictures/GP2_samples_mattern.pdf}
     \caption{Left: Samples from posterior function distribution for
-    $\mathcal{N}(\textbf{f}_*|m(x_1,\dots, x_{11}),V(x_1,\dots, x_{11}))$ where $x_i= 0.5(i-1)$.
-    Illustration that a samples from a Gaussian process is just samples from the multivariate normal
-    distribution. We could potentially choose $\textbf{x}$ to be all of the real line, which will
-    give us the GP - an infinitely large multivariate normal distribution.}
+    $\mathcal{N}(\textbf{f}_*|m(\textbf{x}),V(\textbf{x}))$ where $\textbf{x} = \{x_1,\dots, x_{11}\}$
+    and $x_i= 0.5(i-1)$. Illustration that a samples from a Gaussian process is just samples from
+    the multivariate normal distribution. We could potentially choose $\textbf{x}$ to be all of the
+    real line, which will give us the GP - an infinitely large multivariate normal distribution.}
     \label{GP_illustration2}
 \end{figure}
 
-
-\begin{figure}[h]
-    \centering
-    \begin{minipage}[b]{0.49\textwidth}
-     \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Figures/reg_illustrations/GP/Test1_GP_n_10_seed_42.jpg}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.49\textwidth}
-      \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Figures/reg_illustrations/GP/Test2_GP_n_40_seed_42.jpg}
-     \end{minipage}
-    
-     \begin{minipage}[b]{0.49\textwidth}
-      \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Figures/reg_illustrations/GP/Test3_GP_n_40_seed_42.jpg}
-     \end{minipage}
-     \hfill
-     \begin{minipage}[b]{0.49\textwidth}
-       \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Figures/reg_illustrations/GP/Test4_GP_n_40_seed_42.jpg}
-      \end{minipage}
-      \caption{GP tested on all problems.}
-\end{figure}
 
 
 \begin{testexample2}[Trick with normal distributions [from Bishops book?]]
@@ -160,11 +140,29 @@ in figure
 
 \subsection{Learning - Emperical bayes inference}
 
+The Gaussian process does contain some hyperparameters, a variance $\sigma^2$ and kernel parameters. 
+Very often GP hyperparameters are chosen using Emperical bayes, which is simply to choose
+the hypter parameters, which maximize the marginalized likehood,  
+$$\nu = \argmin_{\nu} p(\textbf{y}|\textbf{x}, \nu)$$
+where for a Gaussian process the marginal is given as 
+\begin{align*}
+    p(\textbf{y}|\textbf{x}, \nu) &= \int  p(\textbf{y}, \textbf{f}|\textbf{x}, \nu) d\textbf{f}\\
+    &= p(\textbf{y}|\textbf{f},\nu)p(\textbf{f}|\textbf{x},\nu) d\textbf{f}
+\end{align*}
+where  $p(\textbf{y}|\textbf{f},\nu) = \mathcal{N}(\textbf{y}|\textbf{f},\sigma^2)$ and the prior is
+just the Gaussian $p(\textbf{f}|\textbf{x},\nu) = \mathcal{N}(\textbf{f}|0, c_{\nu}(\textbf{x}, \textbf{x}))$
+And now we can easily perform the integration using <...>, 
+$$p(\textbf{y}|\textbf{x}, \nu) = -\frac{1}{2}[(y-\mu)^T (\Sigma+N)^{-1}(y-\mu)+ \log |\Sigma+N|+n \log 2\pi]$$
 
-Another inference which is done is then optimizing the hyper parameters using emperical bayes i.e.
-the variance and length scale for the kernel. Here we optimize the marginalized likelihood function
-$$p(y_1, \dots, y_n|x_1, \dots, x_n, \theta) = -\frac{1}{2}[(y-\mu)^T (\Sigma+N)^{-1}(y-\mu)+ \log |\Sigma+N|+n \log 2\pi]$$
-<and how to get to there?>
+we can define the predictive prior distribution, in the same way as \eqref{GP_predictive}, we have that
+$p(\textbf{f}| \textbf{x}) = \mathcal{N}(\textbf{f}|0, c(\textbf{x},\textbf{x}))$, thereby, 
+\begin{equation}\label{GP_predictive_prior}
+    p(\textbf{y}|\textbf{x}) = \int \mathcal{N}(\textbf{x}|\textbf{f}, I\sigma^2) p(\textbf{f}|\textbf{x})d\textbf{f}
+\end{equation}
+Using ... we arrive at 
+just observe that $p(\textbf{y}|\textbf{x}) = \mathcal{N}(\textbf{y}|0, c(\textbf{x},\textbf{x})+ \sigma^2)$
+
+
 
 \todo{Model assessment becomes trivial in light of the model posterior if we
 simply establish preferences over models according to their posterior
@@ -172,7 +170,7 @@ probability. When using the uniform model prior (4.6)
  the model posterior is proportional to the marginal likelihood alone,
 which can be then used directly for model assessment. ??! Youtube - good video! Go through that!}
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \begin{minipage}[b]{0.49\textwidth}
      \includegraphics[width=\textwidth]{Pictures/GP_vs_BNN1.pdf}
@@ -192,3 +190,27 @@ which can be then used directly for model assessment. ??! Youtube - good video! 
         \includegraphics[width=\textwidth]{Figures/reg_illustrations/GP/Test3_GP_n_40_seed_42.jpg}
     \end{figure}
 \end{testexample}
+
+
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[b]{0.49\textwidth}
+     \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Figures/reg_illustrations/GP/Test1_GP_n_10_seed_42.jpg}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.49\textwidth}
+      \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Figures/reg_illustrations/GP/Test2_GP_n_40_seed_42.jpg}
+     \end{minipage}
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minipage}[b]{0.49\textwidth}
+        \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Figures/reg_illustrations/GP/Test3_GP_n_40_seed_42.jpg}
+       \end{minipage}
+       \hfill
+       \begin{minipage}[b]{0.49\textwidth}
+         \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Figures/reg_illustrations/GP/Test4_GP_n_40_seed_42.jpg}
+        \end{minipage}
+        \caption{GP tested on all problems.}
+\end{figure}

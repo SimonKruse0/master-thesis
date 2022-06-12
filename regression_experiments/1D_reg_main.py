@@ -14,11 +14,11 @@ reg_models = [NaiveGMRegression(optimize=False),
             GaussianProcess_GPy(), 
             BOHAMIANN(num_keep_samples=500), 
             NumpyroNeuralNetwork(num_warmup=200,num_samples=200,
-                                num_chains=4, num_keep_samples=200),
+                                num_chains=4),
             SumProductNetworkRegression(optimize=False)]
-reg_models = [NumpyroNeuralNetwork(hidden_units = 100, num_warmup=200,num_samples=200,
-                                num_chains=4, num_keep_samples=200)]
-reg_models = [GMRegression(optimize=True)]
+reg_models = [NumpyroNeuralNetwork(hidden_units = 100, num_warmup=1000,num_samples=1000,
+                                num_chains=4)]
+# reg_models = [GMRegression(optimize=True)]
 #reg_models = [BOHAMIANN(num_warmup=3000, num_samples=10000,num_keep_samples=500)]
 for problem_sklearn in [Test4()]:
     for reg_model in reg_models:
@@ -29,8 +29,7 @@ for problem_sklearn in [Test4()]:
             pass
         for samples in [200]:
             plot_reg = PlotReg1D_mixturemodel(reg_model, problem_sklearn, disp=True)
-            plot_reg(samples,show_pred=False,show_gauss = True,path= "",show_name=True)
-            #plot_reg(samples,show_gauss = True,path= "master-thesis/regression_experiments/1D_reg_plots/GP/",show_name=True)
+            plot_reg(samples,show_pred=False,show_gauss = True,path= path+"/",show_name=True)
 
 
 # for problem_sklearn in [Test1(),Test2(),Test3(),Test4(), Test3b()]:

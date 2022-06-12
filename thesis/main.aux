@@ -92,139 +92,150 @@
 \newlabel{ExactEI}{{2.3.1}{11}{Exact expected improvement}{subsubsection*.8}{}}
 \newlabel{ExactEI@cref}{{[subsection][1][0,2,3]2.3.1}{[1][11][]11}}
 \@writefile{toc}{\contentsline {subsubsection}{Approximate expected improvement}{12}{subsubsection*.10}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2.4}{\ignorespaces The same points as fig .. where the acquisition function is the expected improvement. \relax }}{13}{figure.caption.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.2}Lower confidense bound}{13}{subsection.0.2.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.3}Entropy search}{13}{subsection.0.2.3.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.4}{\ignorespaces The same points as fig .. where the acquisition function is the expected improvement. Whereas Expected improvement is fixed, LCB does have a tunable parameter, which can trade off exploration and exploitation \relax }}{13}{figure.caption.9}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {2.5}{\ignorespaces Illustration of the values of the negative lower confidence bound for different predictive uncertainties $\sigma _x = \sqrt  {\mathbb  {V}ar_{p(y|x,\mathcal  {D})}[y]}$ versus the average improvement $y_{\qopname  \relax m{min}}-\mu _x$, where $\mu _x = E_{p(y|x,\mathcal  {D})}[y]$\relax }}{14}{figure.caption.11}\protected@file@percent }
 \newlabel{nLCB_illustration}{{2.5}{14}{Illustration of the values of the negative lower confidence bound for different predictive uncertainties $\sigma _x = \sqrt {\mathbb {V}ar_{p(y|x,\mathcal {D})}[y]}$ versus the average improvement $y_{\min }-\mu _x$, where $\mu _x = E_{p(y|x,\mathcal {D})}[y]$\relax }{figure.caption.11}{}}
-\newlabel{nLCB_illustration@cref}{{[figure][5][0,2]2.5}{[1][13][]14}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.6}{\ignorespaces The same points as fig .. where the acquisition function is the negative lower confidence bound. \relax }}{14}{figure.caption.12}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {3}Discriminative surrogate models}{15}{chapter.0.3}\protected@file@percent }
+\newlabel{nLCB_illustration@cref}{{[figure][5][0,2]2.5}{[1][14][]14}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.2}Lower confidense bound}{14}{subsection.0.2.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.3}Entropy search}{14}{subsection.0.2.3.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.6}{\ignorespaces The same points as fig .. where the acquisition function is the negative lower confidence bound. \relax }}{15}{figure.caption.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {3}Discriminative surrogate models}{17}{chapter.0.3}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {3.1}Gaussian process surrogate}{15}{section.0.3.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Left: Samples from $\mathcal  {N}(\textbf  {f}|0,\kappa (x_1,\dots  , x_{11}))$ where $x_i= 0.5(i-1)$. Illustration that a samples from a Gaussian process is just samples from the multivariate normal distribution. We could potentially choose $\textbf  {x}$ to be all of the real line, which will give us the GP - an infinitely large multivariate normal distribution.\relax }}{16}{figure.caption.13}\protected@file@percent }
-\newlabel{GP_illustration}{{3.1}{16}{Left: Samples from $\mathcal {N}(\textbf {f}|0,\kappa (x_1,\dots , x_{11}))$ where $x_i= 0.5(i-1)$. Illustration that a samples from a Gaussian process is just samples from the multivariate normal distribution. We could potentially choose $\textbf {x}$ to be all of the real line, which will give us the GP - an infinitely large multivariate normal distribution.\relax }{figure.caption.13}{}}
-\newlabel{GP_illustration@cref}{{[figure][1][0,3]3.1}{[1][16][]16}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.1}Exact predictive distribution}{16}{subsection.0.3.1.1}\protected@file@percent }
-\newlabel{GP_predictive}{{3.2}{16}{Exact predictive distribution}{equation.0.3.1.2}{}}
-\newlabel{GP_predictive@cref}{{[equation][2][0,3]3.2}{[1][16][]16}}
-\@writefile{toc}{\contentsline {subsubsection}{Posterior function distribution}{17}{subsubsection*.14}\protected@file@percent }
-\newlabel{posterior_function_new}{{3.3}{17}{Posterior function distribution}{equation.0.3.1.3}{}}
-\newlabel{posterior_function_new@cref}{{[equation][3][0,3]3.3}{[1][16][]17}}
-\newlabel{marginal_distribution}{{3.4}{17}{Posterior function distribution}{equation.0.3.1.4}{}}
-\newlabel{marginal_distribution@cref}{{[equation][4][0,3]3.4}{[1][17][]17}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Left: Samples from posterior function distribution for $\mathcal  {N}(\textbf  {f}_*|m(x_1,\dots  , x_{11}),V(x_1,\dots  , x_{11}))$ where $x_i= 0.5(i-1)$. Illustration that a samples from a Gaussian process is just samples from the multivariate normal distribution. We could potentially choose $\textbf  {x}$ to be all of the real line, which will give us the GP - an infinitely large multivariate normal distribution.\relax }}{18}{figure.caption.15}\protected@file@percent }
-\newlabel{GP_illustration2}{{3.2}{18}{Left: Samples from posterior function distribution for $\mathcal {N}(\textbf {f}_*|m(x_1,\dots , x_{11}),V(x_1,\dots , x_{11}))$ where $x_i= 0.5(i-1)$. Illustration that a samples from a Gaussian process is just samples from the multivariate normal distribution. We could potentially choose $\textbf {x}$ to be all of the real line, which will give us the GP - an infinitely large multivariate normal distribution.\relax }{figure.caption.15}{}}
-\newlabel{GP_illustration2@cref}{{[figure][2][0,3]3.2}{[1][17][]18}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.2}Learning - Emperical bayes inference}{18}{subsection.0.3.1.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.3}Performance characteristic for GP}{18}{subsection.0.3.1.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces GP tested on all problems.\relax }}{19}{figure.caption.16}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces There is large difference beween the two GPs the different lenght scales in the kernel matters a lot. Left is chosen 9 out of 10 times, when minimizing the \relax }}{20}{figure.caption.17}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces BNN with $\qopname  \relax o{tan}^{-1}(\cdot )$ activation functions and different prior distributions. \relax }}{20}{figure.caption.19}\protected@file@percent }
-\newlabel{fig:example2}{{3.5}{20}{BNN with $\tan ^{-1}(\cdot )$ activation functions and different prior distributions. \relax }{figure.caption.19}{}}
-\newlabel{fig:example2@cref}{{[figure][5][0,3]3.5}{[1][19][]20}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.2}Bayesian Neural Networks}{20}{section.0.3.2}\protected@file@percent }
-\newlabel{BNN}{{3.2}{20}{Bayesian Neural Networks}{section.0.3.2}{}}
-\newlabel{BNN@cref}{{[section][2][0,3]3.2}{[1][19][]20}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}No U-Turn sampling}{23}{subsection.0.3.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Adaptive stochatic HMC}{23}{subsection.0.3.2.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces BOHAMIANN tested on all problems.\relax }}{24}{figure.caption.21}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.7}{\ignorespaces numpyro BNN tested on all problems.\relax }}{24}{figure.caption.22}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.1}Gaussian process surrogate}{17}{section.0.3.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Left: Samples from $\mathcal  {N}(\textbf  {f}|0,\kappa (x_1,\dots  , x_{11}))$ where $x_i= 0.5(i-1)$. Illustration that a samples from a Gaussian process is just samples from the multivariate normal distribution. We could potentially choose $\textbf  {x}$ to be all of the real line, which will give us the GP - an infinitely large multivariate normal distribution.\relax }}{18}{figure.caption.13}\protected@file@percent }
+\newlabel{GP_illustration}{{3.1}{18}{Left: Samples from $\mathcal {N}(\textbf {f}|0,\kappa (x_1,\dots , x_{11}))$ where $x_i= 0.5(i-1)$. Illustration that a samples from a Gaussian process is just samples from the multivariate normal distribution. We could potentially choose $\textbf {x}$ to be all of the real line, which will give us the GP - an infinitely large multivariate normal distribution.\relax }{figure.caption.13}{}}
+\newlabel{GP_illustration@cref}{{[figure][1][0,3]3.1}{[1][18][]18}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.1}Exact predictive distribution}{18}{subsection.0.3.1.1}\protected@file@percent }
+\newlabel{GP_predictive}{{3.2}{18}{Exact predictive distribution}{equation.0.3.1.2}{}}
+\newlabel{GP_predictive@cref}{{[equation][2][0,3]3.2}{[1][18][]18}}
+\@writefile{toc}{\contentsline {subsubsection}{Posterior function distribution}{19}{subsubsection*.14}\protected@file@percent }
+\newlabel{posterior_function_new}{{3.3}{19}{Posterior function distribution}{equation.0.3.1.3}{}}
+\newlabel{posterior_function_new@cref}{{[equation][3][0,3]3.3}{[1][18][]19}}
+\newlabel{marginal_distribution}{{3.4}{19}{Posterior function distribution}{equation.0.3.1.4}{}}
+\newlabel{marginal_distribution@cref}{{[equation][4][0,3]3.4}{[1][19][]19}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Left: Samples from posterior function distribution for $\mathcal  {N}(\textbf  {f}_*|m(\textbf  {x}),V(\textbf  {x}))$ where $\textbf  {x} = \{x_1,\dots  , x_{11}\}$ and $x_i= 0.5(i-1)$. Illustration that a samples from a Gaussian process is just samples from the multivariate normal distribution. We could potentially choose $\textbf  {x}$ to be all of the real line, which will give us the GP - an infinitely large multivariate normal distribution.\relax }}{20}{figure.caption.15}\protected@file@percent }
+\newlabel{GP_illustration2}{{3.2}{20}{Left: Samples from posterior function distribution for $\mathcal {N}(\textbf {f}_*|m(\textbf {x}),V(\textbf {x}))$ where $\textbf {x} = \{x_1,\dots , x_{11}\}$ and $x_i= 0.5(i-1)$. Illustration that a samples from a Gaussian process is just samples from the multivariate normal distribution. We could potentially choose $\textbf {x}$ to be all of the real line, which will give us the GP - an infinitely large multivariate normal distribution.\relax }{figure.caption.15}{}}
+\newlabel{GP_illustration2@cref}{{[figure][2][0,3]3.2}{[1][19][]20}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.2}Learning - Emperical bayes inference}{20}{subsection.0.3.1.2}\protected@file@percent }
+\newlabel{GP_predictive_prior}{{3.7}{20}{Learning - Emperical bayes inference}{equation.0.3.1.7}{}}
+\newlabel{GP_predictive_prior@cref}{{[equation][7][0,3]3.7}{[1][20][]20}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces There is large difference beween the two GPs the different lenght scales in the kernel matters a lot. Left is chosen 9 out of 10 times, when minimizing the \relax }}{21}{figure.caption.16}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.3}Performance characteristic for GP}{21}{subsection.0.3.1.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces BNN with $\qopname  \relax o{tan}^{-1}(\cdot )$ activation functions and different prior distributions. \relax }}{22}{figure.caption.20}\protected@file@percent }
+\newlabel{fig:example2}{{3.5}{22}{BNN with $\tan ^{-1}(\cdot )$ activation functions and different prior distributions. \relax }{figure.caption.20}{}}
+\newlabel{fig:example2@cref}{{[figure][5][0,3]3.5}{[1][22][]22}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces GP tested on all problems.\relax }}{22}{figure.caption.19}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}Bayesian Neural Networks}{22}{section.0.3.2}\protected@file@percent }
+\newlabel{BNN}{{3.2}{22}{Bayesian Neural Networks}{section.0.3.2}{}}
+\newlabel{BNN@cref}{{[section][2][0,3]3.2}{[1][22][]22}}
+\abx@aux@cite{PhDthesis}
+\abx@aux@segm{0}{0}{PhDthesis}
+\abx@aux@cite{BOHAMIANN}
+\abx@aux@segm{0}{0}{BOHAMIANN}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}No U-Turn sampling}{26}{subsection.0.3.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Adaptive stochatic HMC}{26}{subsection.0.3.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.3}Design of Bayesian neural network}{26}{subsection.0.3.2.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces Number of units in each of the 3 layers have a large influence of the BNNs ability to be expressive\relax }}{27}{figure.caption.22}\protected@file@percent }
+\newlabel{n_unit_BNN}{{3.6}{27}{Number of units in each of the 3 layers have a large influence of the BNNs ability to be expressive\relax }{figure.caption.22}{}}
+\newlabel{n_unit_BNN@cref}{{[figure][6][0,3]3.6}{[1][26][]27}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.7}{\ignorespaces Example where 100 nodes on each of three layers, lead to the better expressive model. \relax }}{27}{figure.caption.23}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.8}{\ignorespaces BOHAMIANN tested on all problems.\relax }}{28}{figure.caption.24}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.9}{\ignorespaces numpyro BNN tested on all problems.\relax }}{28}{figure.caption.25}\protected@file@percent }
 \abx@aux@cite{bishop1995neural}
 \abx@aux@segm{0}{0}{bishop1995neural}
 \abx@aux@cite{ALStatisticalModels}
 \abx@aux@segm{0}{0}{ALStatisticalModels}
 \abx@aux@cite{JordanPaper}
 \abx@aux@segm{0}{0}{JordanPaper}
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Generative models as surrogate}{25}{chapter.0.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Generative models as surrogate}{29}{chapter.0.4}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Conditional distribution in a Bayesian setting}{25}{section.0.4.1}\protected@file@percent }
-\newlabel{mixture_include_prior}{{4.1}{25}{Conditional distribution in a Bayesian setting}{section.0.4.1}{}}
-\newlabel{mixture_include_prior@cref}{{[section][1][0,4]4.1}{[1][25][]25}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Left: Illustration of how the preditive distribution is manipulated according the the scaling function $S(x) := p(x)\cdot N\cdot \Delta $. Right: Illustration of why it makes sense to manipulate the predictive distribution $p(y|x)$, if there is a small amount of input data at a region, then the predictive distribution should transform into the uncertain prior\relax }}{26}{figure.caption.23}\protected@file@percent }
-\newlabel{pred_dist_manipulation}{{4.1}{26}{Left: Illustration of how the preditive distribution is manipulated according the the scaling function $S(x) := p(x)\cdot N\cdot \Delta $. Right: Illustration of why it makes sense to manipulate the predictive distribution $p(y|x)$, if there is a small amount of input data at a region, then the predictive distribution should transform into the uncertain prior\relax }{figure.caption.23}{}}
-\newlabel{pred_dist_manipulation@cref}{{[figure][1][0,4]4.1}{[1][26][]26}}
-\@writefile{toc}{\contentsline {subsubsection}{Mean and variance of predictive distribution v1}{27}{subsubsection*.24}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}Conditional of mixture model}{27}{section.0.4.2}\protected@file@percent }
-\newlabel{Conditional_mixture}{{4.2}{27}{Conditional of mixture model}{section.0.4.2}{}}
-\newlabel{Conditional_mixture@cref}{{[section][2][0,4]4.2}{[1][27][]27}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}Kernel estimator regression}{28}{section.0.4.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.1}Conditional of Kernel density estimator}{28}{subsection.0.4.3.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces KDE tested on all problems.\relax }}{29}{figure.caption.25}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.4}Gaussian mixture regression}{29}{section.0.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.1}Conditional of Gaussian mixture model}{29}{subsection.0.4.4.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.5}Sum product networks}{30}{section.0.4.5}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces left: the data lies perfect for the SPN. Right: The data distribution is not suited for SPN\relax }}{30}{figure.caption.26}\protected@file@percent }
-\newlabel{SPN_fig}{{4.3}{30}{left: the data lies perfect for the SPN. Right: The data distribution is not suited for SPN\relax }{figure.caption.26}{}}
-\newlabel{SPN_fig@cref}{{[figure][3][0,4]4.3}{[1][30][]30}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces The SPN trained in Figure \ref  {SPN_fig}. Number of channels are 3, giving 9 product nodes, which are weighted in the final sum node.\relax }}{31}{figure.caption.28}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Example of how the weight of each mixture component is turned up and down according the amount of data observed.\relax }}{31}{figure.caption.27}\protected@file@percent }
-\newlabel{WeightedSPN}{{4.4}{31}{Example of how the weight of each mixture component is turned up and down according the amount of data observed.\relax }{figure.caption.27}{}}
-\newlabel{WeightedSPN@cref}{{[figure][4][0,4]4.4}{[1][30][]31}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.1}SPN as mixture regression}{31}{subsection.0.4.5.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces SPN tested on all problems.\relax }}{32}{figure.caption.29}\protected@file@percent }
-\newlabel{SPN4}{{\caption@xref {SPN4}{ on input line 236}}{32}{SPN as mixture regression}{definition.1}{}}
-\newlabel{SPN4@cref}{{[subsection][1][0,4,5]4.5.1}{[1][31][]32}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.2}SPN as a mixture model}{33}{subsection.0.4.5.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.3}Conditional of SPN}{33}{subsection.0.4.5.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{calculation of responsibility}{34}{subsubsection*.30}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.6}Gaussian approximation of mixture regression}{34}{section.0.4.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.6.1}Mean and variance of conditional SPN}{34}{subsection.0.4.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Conditional distribution in a Bayesian setting}{29}{section.0.4.1}\protected@file@percent }
+\newlabel{mixture_include_prior}{{4.1}{29}{Conditional distribution in a Bayesian setting}{section.0.4.1}{}}
+\newlabel{mixture_include_prior@cref}{{[section][1][0,4]4.1}{[1][29][]29}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Left: Illustration of how the preditive distribution is manipulated according the the scaling function $S(x) := p(x)\cdot N\cdot \Delta $. Right: Illustration of why it makes sense to manipulate the predictive distribution $p(y|x)$, if there is a small amount of input data at a region, then the predictive distribution should transform into the uncertain prior\relax }}{30}{figure.caption.26}\protected@file@percent }
+\newlabel{pred_dist_manipulation}{{4.1}{30}{Left: Illustration of how the preditive distribution is manipulated according the the scaling function $S(x) := p(x)\cdot N\cdot \Delta $. Right: Illustration of why it makes sense to manipulate the predictive distribution $p(y|x)$, if there is a small amount of input data at a region, then the predictive distribution should transform into the uncertain prior\relax }{figure.caption.26}{}}
+\newlabel{pred_dist_manipulation@cref}{{[figure][1][0,4]4.1}{[1][30][]30}}
+\@writefile{toc}{\contentsline {subsubsection}{Mean and variance of predictive distribution v1}{31}{subsubsection*.27}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Conditional of mixture model}{31}{section.0.4.2}\protected@file@percent }
+\newlabel{Conditional_mixture}{{4.2}{31}{Conditional of mixture model}{section.0.4.2}{}}
+\newlabel{Conditional_mixture@cref}{{[section][2][0,4]4.2}{[1][31][]31}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Kernel estimator regression}{32}{section.0.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.1}Conditional of Kernel density estimator}{32}{subsection.0.4.3.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces KDE tested on all problems. It is seen that we might loose a lot of generalization properties optained from GPs and BNN, however, for the very complicated cases, KDE might have an advantage.\relax }}{33}{figure.caption.28}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.4}Gaussian mixture regression}{33}{section.0.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.1}Conditional of Gaussian mixture model}{33}{subsection.0.4.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.5}Sum product networks}{34}{section.0.4.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces left: the data lies perfect for the SPN. Right: The data distribution is not suited for SPN\relax }}{34}{figure.caption.29}\protected@file@percent }
+\newlabel{SPN_fig}{{4.3}{34}{left: the data lies perfect for the SPN. Right: The data distribution is not suited for SPN\relax }{figure.caption.29}{}}
+\newlabel{SPN_fig@cref}{{[figure][3][0,4]4.3}{[1][34][]34}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces The SPN trained in Figure \ref  {SPN_fig}. Number of channels are 3, giving 9 product nodes, which are weighted in the final sum node.\relax }}{35}{figure.caption.31}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Example of how the weight of each mixture component is turned up and down according the amount of data observed.\relax }}{35}{figure.caption.30}\protected@file@percent }
+\newlabel{WeightedSPN}{{4.4}{35}{Example of how the weight of each mixture component is turned up and down according the amount of data observed.\relax }{figure.caption.30}{}}
+\newlabel{WeightedSPN@cref}{{[figure][4][0,4]4.4}{[1][34][]35}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.1}SPN as mixture regression}{35}{subsection.0.4.5.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces SPN tested on all problems.\relax }}{36}{figure.caption.32}\protected@file@percent }
+\newlabel{SPN4}{{\caption@xref {SPN4}{ on input line 237}}{36}{SPN as mixture regression}{definition.1}{}}
+\newlabel{SPN4@cref}{{[subsection][1][0,4,5]4.5.1}{[1][35][]36}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.2}SPN as a mixture model}{37}{subsection.0.4.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.3}Conditional of SPN}{37}{subsection.0.4.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{calculation of responsibility}{38}{subsubsection*.33}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.6}Gaussian approximation of mixture regression}{38}{section.0.4.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.6.1}Mean and variance of conditional SPN}{38}{subsection.0.4.6.1}\protected@file@percent }
 \abx@aux@cite{bishop}
 \abx@aux@segm{0}{0}{bishop}
-\@writefile{toc}{\contentsline {section}{\numberline {4.7}Mixture model training}{35}{section.0.4.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.7.1}Expectation-maximization for mixture models}{35}{subsection.0.4.7.1}\protected@file@percent }
-\newlabel{mixture_pdf}{{4.12}{35}{Expectation-maximization for mixture models}{equation.0.4.7.12}{}}
-\newlabel{mixture_pdf@cref}{{[equation][12][0,4]4.12}{[1][35][]35}}
-\newlabel{EM}{{\caption@xref {EM}{ on input line 56}}{36}{Expectation-maximization for mixture models}{testexample2.4}{}}
-\newlabel{EM@cref}{{[subsection][1][0,4,7]4.7.1}{[1][35][]36}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.7}Mixture model training}{39}{section.0.4.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.7.1}Expectation-maximization for mixture models}{39}{subsection.0.4.7.1}\protected@file@percent }
+\newlabel{mixture_pdf}{{4.12}{39}{Expectation-maximization for mixture models}{equation.0.4.7.12}{}}
+\newlabel{mixture_pdf@cref}{{[equation][12][0,4]4.12}{[1][39][]39}}
+\newlabel{EM}{{\caption@xref {EM}{ on input line 56}}{40}{Expectation-maximization for mixture models}{testexample2.4}{}}
+\newlabel{EM@cref}{{[subsection][1][0,4,7]4.7.1}{[1][39][]40}}
 \abx@aux@cite{bishop}
 \abx@aux@segm{0}{0}{bishop}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Results}{39}{chapter.0.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Results}{43}{chapter.0.5}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {5.1}implementation}{39}{section.0.5.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.1}standardized data}{39}{subsection.0.5.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.2}Regression analysis}{39}{section.0.5.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.1}uncertainty quantification}{39}{subsection.0.5.2.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces Regression of a probabilistic objective function, is not a smart choice using anything else than a mixture regression model. Top we see the performance of 5 different regression models fitted to an increasing amount of training data, the underlying function is tricky, as it jumps between multiple objective functions yielding a violation to most of the generative models, where most are capable of handling gaussian noise this is not gaussian noise and hence a very difficult problem. This kind of objective function could definitely be relevant in certain cases.\relax }}{40}{figure.caption.32}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Plots visulising the results in above figure.\relax }}{40}{figure.caption.33}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.2}prediction quantification}{40}{subsection.0.5.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.3}regression benchmark}{40}{subsection.0.5.2.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.3}Mixture regression}{40}{section.0.5.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.4}Regression analysis of GP, BOHAMIANN and NumpyNN 1D}{40}{section.0.5.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.5}Regression analysis of GP, BOHAMIANN and NumpyNN 2D}{40}{section.0.5.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.6}Mixture regression on simple functions}{40}{section.0.5.6}\protected@file@percent }
-\newlabel{f1_reg_2D}{{\caption@xref {f1_reg_2D}{ on input line 135}}{41}{Regression analysis of GP, BOHAMIANN and NumpyNN 2D}{figure.caption.34}{}}
-\newlabel{f1_reg_2D@cref}{{[section][5][0,5]5.5}{[1][40][]41}}
-\newlabel{f1_reg_2D}{{\caption@xref {f1_reg_2D}{ on input line 160}}{42}{Regression analysis of GP, BOHAMIANN and NumpyNN 2D}{figure.caption.35}{}}
-\newlabel{f1_reg_2D@cref}{{[section][5][0,5]5.5}{[1][40][]42}}
-\newlabel{f23_reg_2D}{{\caption@xref {f23_reg_2D}{ on input line 188}}{43}{Regression analysis of GP, BOHAMIANN and NumpyNN 2D}{figure.caption.36}{}}
-\newlabel{f23_reg_2D@cref}{{[section][5][0,5]5.5}{[1][40][]43}}
-\newlabel{f1_reg_2D}{{\caption@xref {f1_reg_2D}{ on input line 213}}{44}{Regression analysis of GP, BOHAMIANN and NumpyNN 2D}{figure.caption.37}{}}
-\newlabel{f1_reg_2D@cref}{{[section][5][0,5]5.5}{[1][40][]44}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces 2D Regression plot for a few of the problems, with the correct \relax }}{44}{figure.caption.38}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.4}{\ignorespaces Regression plot for one problem with all dims: Number of data points / dims, mean squared error, with bayesline mean prediction\relax }}{44}{figure.caption.39}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.5}{\ignorespaces Regression plot for anther problem\relax }}{44}{figure.caption.40}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.6}{\ignorespaces Distance to optima $f(x^{best})-f^*$ using Bayesian optimization with different surrogates and using expected improvement with a budget of $40$ samples for group 1: "5 separable functions"\relax }}{45}{figure.caption.41}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.7}{\ignorespaces Distance to optima $f(x^{best})-f^*$ using Bayesian optimization with different surrogates and using expected improvement with a budget of $40$ samples for group 2: "4 functions with low or moderate conditioning"\relax }}{45}{figure.caption.42}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.8}{\ignorespaces Distance to optima $f(x^{best})-f^*$ using Bayesian optimization with different surrogates and using expected improvement with a budget of $40$ samples for group 3: "5 functions with high conditioning, unimodal"\relax }}{45}{figure.caption.43}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.9}{\ignorespaces Distance to optima $f(x^{best})-f^*$ using Bayesian optimization with different surrogates and using expected improvement with a budget of $40$ samples for group 4: "5 multi-modal functions with adequate global structure"\relax }}{45}{figure.caption.44}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.10}{\ignorespaces Distance to optima $f(x^{best})-f^*$ using Bayesian optimization with different surrogates and using expected improvement with a budget of $40$ samples for group 5: "5 multi-modal functions with weak global structure"\relax }}{46}{figure.caption.45}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.11}{\ignorespaces BayesOpt plot: Number of iterations, distance to optima using EI, with bayesline random search\relax }}{46}{figure.caption.46}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.12}{\ignorespaces Test functions f1 to f12\relax }}{46}{figure.caption.47}\protected@file@percent }
-\newlabel{2DBlockcyclic}{{5.12}{46}{Test functions f1 to f12\relax }{figure.caption.47}{}}
-\newlabel{2DBlockcyclic@cref}{{[figure][12][0,5]5.12}{[1][40][]46}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.13}{\ignorespaces Test functions f13-24\relax }}{47}{figure.caption.48}\protected@file@percent }
-\newlabel{f13-24}{{5.13}{47}{Test functions f13-24\relax }{figure.caption.48}{}}
-\newlabel{f13-24@cref}{{[figure][13][0,5]5.13}{[1][40][]47}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Conclusion and further work}{49}{chapter.0.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}implementation}{43}{section.0.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.1}standardized data}{43}{subsection.0.5.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}Regression analysis}{43}{section.0.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.1}uncertainty quantification}{43}{subsection.0.5.2.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces Regression of a probabilistic objective function, is not a smart choice using anything else than a mixture regression model. Top we see the performance of 5 different regression models fitted to an increasing amount of training data, the underlying function is tricky, as it jumps between multiple objective functions yielding a violation to most of the generative models, where most are capable of handling gaussian noise this is not gaussian noise and hence a very difficult problem. This kind of objective function could definitely be relevant in certain cases.\relax }}{44}{figure.caption.35}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Plots visulising the results in above figure.\relax }}{44}{figure.caption.36}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.2}prediction quantification}{44}{subsection.0.5.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.3}regression benchmark}{44}{subsection.0.5.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.3}Mixture regression}{44}{section.0.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.4}Regression analysis of GP, BOHAMIANN and NumpyNN 1D}{44}{section.0.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.5}Regression analysis of GP, BOHAMIANN and NumpyNN 2D}{44}{section.0.5.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.6}Mixture regression on simple functions}{44}{section.0.5.6}\protected@file@percent }
+\newlabel{f1_reg_2D}{{\caption@xref {f1_reg_2D}{ on input line 144}}{45}{Regression analysis of GP, BOHAMIANN and NumpyNN 2D}{figure.caption.37}{}}
+\newlabel{f1_reg_2D@cref}{{[section][5][0,5]5.5}{[1][44][]45}}
+\newlabel{f1_reg_2D}{{\caption@xref {f1_reg_2D}{ on input line 169}}{46}{Regression analysis of GP, BOHAMIANN and NumpyNN 2D}{figure.caption.38}{}}
+\newlabel{f1_reg_2D@cref}{{[section][5][0,5]5.5}{[1][44][]46}}
+\newlabel{f23_reg_2D}{{\caption@xref {f23_reg_2D}{ on input line 197}}{47}{Regression analysis of GP, BOHAMIANN and NumpyNN 2D}{figure.caption.39}{}}
+\newlabel{f23_reg_2D@cref}{{[section][5][0,5]5.5}{[1][44][]47}}
+\newlabel{f1_reg_2D}{{\caption@xref {f1_reg_2D}{ on input line 222}}{48}{Regression analysis of GP, BOHAMIANN and NumpyNN 2D}{figure.caption.40}{}}
+\newlabel{f1_reg_2D@cref}{{[section][5][0,5]5.5}{[1][44][]48}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces 2D Regression plot for a few of the problems, with the correct \relax }}{48}{figure.caption.41}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.4}{\ignorespaces Regression plot for one problem with all dims: Number of data points / dims, mean squared error, with bayesline mean prediction\relax }}{48}{figure.caption.42}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.5}{\ignorespaces Regression plot for anther problem\relax }}{48}{figure.caption.43}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.6}{\ignorespaces Distance to optima $f(x^{best})-f^*$ using Bayesian optimization with different surrogates and using expected improvement with a budget of $40$ samples for group 1: "5 separable functions"\relax }}{49}{figure.caption.44}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.7}{\ignorespaces Distance to optima $f(x^{best})-f^*$ using Bayesian optimization with different surrogates and using expected improvement with a budget of $40$ samples for group 2: "4 functions with low or moderate conditioning"\relax }}{49}{figure.caption.45}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.8}{\ignorespaces Distance to optima $f(x^{best})-f^*$ using Bayesian optimization with different surrogates and using expected improvement with a budget of $40$ samples for group 3: "5 functions with high conditioning, unimodal"\relax }}{49}{figure.caption.46}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.9}{\ignorespaces Distance to optima $f(x^{best})-f^*$ using Bayesian optimization with different surrogates and using expected improvement with a budget of $40$ samples for group 4: "5 multi-modal functions with adequate global structure"\relax }}{49}{figure.caption.47}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.10}{\ignorespaces Distance to optima $f(x^{best})-f^*$ using Bayesian optimization with different surrogates and using expected improvement with a budget of $40$ samples for group 5: "5 multi-modal functions with weak global structure"\relax }}{50}{figure.caption.48}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.11}{\ignorespaces BayesOpt plot: Number of iterations, distance to optima using EI, with bayesline random search\relax }}{50}{figure.caption.49}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.12}{\ignorespaces Test functions f1 to f12\relax }}{50}{figure.caption.50}\protected@file@percent }
+\newlabel{2DBlockcyclic}{{5.12}{50}{Test functions f1 to f12\relax }{figure.caption.50}{}}
+\newlabel{2DBlockcyclic@cref}{{[figure][12][0,5]5.12}{[1][44][]50}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.13}{\ignorespaces Test functions f13-24\relax }}{51}{figure.caption.51}\protected@file@percent }
+\newlabel{f13-24}{{5.13}{51}{Test functions f13-24\relax }{figure.caption.51}{}}
+\newlabel{f13-24@cref}{{[figure][13][0,5]5.13}{[1][44][]51}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Conclusion and further work}{53}{chapter.0.6}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {6.1}further work}{49}{section.0.6.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{Bibliography}{50}{chapter*.49}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6.1}further work}{53}{section.0.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{Bibliography}{54}{chapter*.52}\protected@file@percent }
 \abx@aux@cite{PhDthesis}
 \abx@aux@segm{0}{0}{PhDthesis}
 \abx@aux@cite{snoek2015scalable}

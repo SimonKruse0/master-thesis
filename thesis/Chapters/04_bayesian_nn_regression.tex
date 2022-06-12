@@ -59,10 +59,10 @@ the joint distribution $p(\mathcal{D},\theta)$ is available, but calulating the 
 marginalized likehood, $p(\mathcal{D}) = \int_{\theta} p(\mathcal{D},\theta)$. This integral is often intractable
 since the space of $\theta$ typically is abnomous - so not even nummerical appriximations of the intergral is tractable.
 From Bayes rule, we have the equality, 
-$$p(\theta|\mathcal{D}) = \frac{p(\mathcal{D},\theta)}{p(\mathcal{D})} \propto p(\mathcal{D},\theta),$$
-where the propotional sign is true, since $p(\theta|\mathcal{D})$ is a function of $\theta$. 
-Knowing the $p(\mathcal{D},\theta)$ joint distribution thereby allow for using Markov chain Monte Carlo
-for sampling from the posterior distribution.  
+$$p(\theta|\mathcal{D}) = \frac{p(\mathcal{D},\theta)}{p(\mathcal{D})} \propto
+p(\mathcal{D},\theta),$$ where the propotional sign is true, since $p(\theta|\mathcal{D})$ is a
+function of $\theta$. Knowing the $p(\mathcal{D},\theta)$ joint distribution allow for using Markov
+chain Monte Carlo (MCMC) to obtain samples from the posterior distribution.  
 
 \begin{testexample2}[Markov chain Monte Carlo]
     We can conviniently use MCMC for sampling from a probability density $p(x)$, with only the knowledge of a 
@@ -189,6 +189,51 @@ No U-turn (NUTS) sampling avoid this.
 
 \subsection{Adaptive stochatic HMC}
 BOHAMIANN is using an adaptive stochastic Hamiltonian monte carlo method to train the BNN. 
+
+
+\subsection{Design of Bayesian neural network}
+The architecture of a BNN is a large topic to discuss. There are certain tradeoffs to be taken into
+consideration: How expressive should the network be (i.e. how deep and how many nodes per layer) vs
+how much time do we have for the sampler to converge to the true posterior distribution? One very
+annoying part of MCMC is that it is very hard to know when the samples are actually true samples
+from the posterior. A consideration when training deterministic neural networks are overfitting
+however this is not a big consideration when fitting Bayesian neural networks; Choosing a prior
+around 0 will regulate the parameters, and thereby postpone overfitting. 
+
+This thesis is inspired by the PhD thesis \cite{PhDthesis}, which uses an architecture of a 2 layers
+with 50 sigmoid-nodes in each layer, and the BOHAMIANN paper \cite{BOHAMIANN}, default uses an architecture
+of 3 layers with 50 tanh-nodes in each layer. As we want to make sure always to do the 
+inference correctly, we want to be able to take a proper amount of samples, while also
+have an explicit model. Figure \eqref{n_unit_BNN} shows prior samples of BNN with a different
+number of tanh-nodes on each of the 3 layers, this provides an intuition that choosing a larger
+BNN leads to a more expressive regression model. When doing Bayesian optimization it is very limited
+amount of training data, i.e. complicated patterns in data is not possible to discover, and hence 
+highly expressive models are not important. 
+
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Pictures/bayesian_nn_prior_samples_hidden_units.pdf}
+    \caption{Number of units in each of the 3 layers have a large influence of the BNNs ability to be expressive}
+    \label{n_unit_BNN}
+\end{figure}
+
+Here is the test function 4, where the sampled using 50 points
+\begin{figure}[h]
+    \centering
+    \begin{minipage}[b]{0.49\textwidth}
+     \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Figures/reg_illustrations/BOHAMIANN/Test4_BOHAMIANN_n_40_seed_42.jpg}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.49\textwidth}
+      \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Figures/reg_illustrations/BOHAMIANN/100nodesBNN.png}
+     \end{minipage}
+     \caption{Example where 100 nodes on each of three layers, lead to the better expressive model. }
+\end{figure}
+
+Another variance! Sometimes the complexity of the problem is incapsled as noise.
+
 
 
 \begin{figure}[h]

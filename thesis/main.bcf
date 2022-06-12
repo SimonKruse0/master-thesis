@@ -2192,14 +2192,16 @@
     <bcf:citekey order="8">bayesoptbook</bcf:citekey>
     <bcf:citekey order="9">bayesoptbook</bcf:citekey>
     <bcf:citekey order="10">bayesoptbook</bcf:citekey>
-    <bcf:citekey order="11">bishop1995neural</bcf:citekey>
-    <bcf:citekey order="12">ALStatisticalModels</bcf:citekey>
-    <bcf:citekey order="13">JordanPaper</bcf:citekey>
-    <bcf:citekey order="14">bishop</bcf:citekey>
-    <bcf:citekey order="15">bishop</bcf:citekey>
-    <bcf:citekey order="16">PhDthesis</bcf:citekey>
-    <bcf:citekey order="17">snoek2015scalable</bcf:citekey>
-    <bcf:citekey order="18">NIPS2016_a96d3afe</bcf:citekey>
+    <bcf:citekey order="11">PhDthesis</bcf:citekey>
+    <bcf:citekey order="12">BOHAMIANN</bcf:citekey>
+    <bcf:citekey order="13">bishop1995neural</bcf:citekey>
+    <bcf:citekey order="14">ALStatisticalModels</bcf:citekey>
+    <bcf:citekey order="15">JordanPaper</bcf:citekey>
+    <bcf:citekey order="16">bishop</bcf:citekey>
+    <bcf:citekey order="17">bishop</bcf:citekey>
+    <bcf:citekey order="18">PhDthesis</bcf:citekey>
+    <bcf:citekey order="19">snoek2015scalable</bcf:citekey>
+    <bcf:citekey order="20">NIPS2016_a96d3afe</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">

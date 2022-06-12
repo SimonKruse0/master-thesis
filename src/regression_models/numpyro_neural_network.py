@@ -17,7 +17,8 @@ class NumpyroNeuralNetwork:
     def __init__(self, hidden_units = 50, num_warmup=100, num_samples = 100, num_chains=4, 
                      obs_variance_prior = 10000,
                      hidden_units_variance = 1, 
-                     hidden_units_bias_variance = 1):
+                     hidden_units_bias_variance = 1,
+                     extra_name=""):
         self.kernel = None 
         self.hidden_units = hidden_units
         self.hidden_units_variance = hidden_units_variance
@@ -28,7 +29,9 @@ class NumpyroNeuralNetwork:
         self.num_warmup = num_warmup
         self.num_samples = num_samples
         self.num_chains = num_chains
-        self.name = f"numpyro BNN"
+        if extra_name == "":
+            extra_name = f"{num_warmup}-{num_samples}-hu-{hidden_units}"
+        self.name = f"BNN{extra_name}"
         self.latex_architecture = r"$\theta_{\mu} \sim \mathcal{N}(0,{self.hidden_units_variance})$"
         self.samples = None
         self.params = f"n_warmup = {num_warmup},n_samples = {num_samples}, n_chains = {num_chains}"
@@ -64,8 +67,7 @@ class NumpyroNeuralNetwork:
         b3 = sample("b3", dist.Normal(jnp.zeros((1,1)), sigma_b*jnp.ones((1,1))),rng_key=self.rng_key)
 
         # we put a prior on the observation noise
-        prec_obs = sample("prec_obs", dist.Gamma(20.0, 0.001))
-        sigma_obs = 1 / jnp.sqrt(prec_obs)
+        sigma_obs = sample("sigma_obs", dist.InverseGamma(20.0, 0.0001))
         
         #sigma_obs = sample("sigma", dist.Exponential(jnp.ones((1,1))*self.obs_variance_prior),rng_key=self.rng_key)+0.00001
         
@@ -99,8 +101,7 @@ class NumpyroNeuralNetwork:
         b3 = sample("b3", dist.Normal(jnp.zeros((1,1)), sigma_b*jnp.ones((1,1))))
 
         # we put a prior on the observation noise
-        prec_obs = sample("prec_obs", dist.Gamma(20.0, 0.0001))
-        sigma_obs = 0.1 / jnp.sqrt(prec_obs)
+        sigma_obs = sample("sigma_obs", dist.InverseGamma(20.0, 0.0001))
         
         # if self.obs_variance_prior<1e-9:
         #     sigma_obs = self.obs_variance

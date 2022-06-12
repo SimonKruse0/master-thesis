@@ -33,6 +33,17 @@ class Test1(GeneralSetup):
         else:
             return result[0]
 
+class Test1b(GeneralSetup):
+
+    def objective_function(self,x):
+        x = x/100
+        result =  60*cos(2*x * (2 * pi)) + 150
+        if result.ndim == 0:
+            return result
+        else:
+            return result[0]
+
+
 class Test2(GeneralSetup):
 
     def objective_function(self,x):

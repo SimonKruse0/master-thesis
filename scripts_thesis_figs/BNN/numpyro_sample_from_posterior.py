@@ -12,6 +12,7 @@ def obj_fun(x):
     return 0.5 * (np.sign(x-0.5) + 1)+np.sin(100*x)*0.1
 
 X_train =  np.random.uniform(-10,10,size = (10,1))
+X_train =  np.random.uniform(-10,10,size = (2,1))
 Y_train = obj_fun(X_train)
 
 fig, ax = plt.subplots(nrows=2, ncols=2, sharex="all")#, sharey="row")
@@ -23,8 +24,8 @@ for b, row in zip(b_var, ax):
     for w, ax in zip(w_var,row):
 
         NNN_regression = NumpyroNeuralNetwork(
-            num_chains = 4, num_warmup= 200, num_samples=200, 
-            num_keep_samples= 50, hidden_units_bias_variance=b, 
+            num_chains = 4, num_warmup= 100, num_samples=30, 
+            hidden_units_bias_variance=b, 
             hidden_units_variance=w)
 
         NNN_regression.fit(X_train, Y_train, do_normalize = False)
@@ -39,7 +40,7 @@ for b, row in zip(b_var, ax):
         #plt.text(-8,Y_max-4,NNN_regression.text_priors)
         ax.set_title(NNN_regression.text_priors)
         ax.plot(X_train, Y_train, "*")
-        #plt.show()
+        plt.show()
 path = "/home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures"
 # plt.savefig(f'{path}/bayesian_nn_posterior_samples.pdf', bbox_inches='tight')
 

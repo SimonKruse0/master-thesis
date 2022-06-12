@@ -553,8 +553,8 @@
       \strng{editornamehash}{a39670f7069dc3237dbc92fe523ad0c6}
       \strng{editorfullhash}{12a698699c223bd18ce3abc205938f9b}
       \field{extraname}{2}
-      \field{sortinit}{1}
-      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{sortinit}{2}
+      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{Advances in Neural Information Processing Systems}
