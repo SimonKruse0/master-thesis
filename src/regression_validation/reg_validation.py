@@ -84,7 +84,7 @@ class PlotReg1D_mixturemodel(BayesOptSolver_sklearn):
     def plot_predictive_dist(self,ax,show_name = False):
         assert self._X.shape[1] == 1   #Can only plot 1D functions
         x_grid = self.Xgrid.squeeze()
-        y_grid = np.linspace(0,300, 100)
+        y_grid = np.linspace(0,300, 300)
         predictive_pdf, p_x = self.predictive_pdf(x_grid[:,None], y_grid[:,None], return_px=True, grid1D = True)
         
         dx = (x_grid[1] - x_grid[0]) / 2.0

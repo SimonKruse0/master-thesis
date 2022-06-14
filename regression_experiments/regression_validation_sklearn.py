@@ -47,17 +47,16 @@ except:
 #problems = [SimonsTest2_probibalistic()]
 # problems = [Step_random()]
 # problems += [SimonsTest2_probibalistic2()]
-problems = [Test1(),Test2(),Test3(),Test4(),Test3b]
-
-for problem in problems:
+problems = [Test1(),Test2(),Test3(),Test4(),Test3b()]
+for regression_model in reg_models:
     # name_problem = problem.name.split(" ")[3]
     # dim = problem.name.split(" ")[-1]
     # print(name_problem)
     # if int(name_problem[1:])%3 != 2:
     #     continue
     np.random.seed()
-    for random_seed in np.random.randint(99999, size=10):
-        for regression_model in reg_models:
+    for random_seed in np.random.randint(99999, size=3):
+        for problem in problems:
             #print(regression_model.name, f"{name_problem} in {dim}")
             
             RV = RegressionTest_sklearn(regression_model,problem, random_seed)
