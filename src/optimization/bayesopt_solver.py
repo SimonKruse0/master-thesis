@@ -206,13 +206,13 @@ class BayesOptSolverBase(PlottingClass):
         self._Y = np.vstack((self._Y, np.array([[y_next]])))
 
     def fit(self, X = None, Y = None):
-        try:
-            if X is None:
-                self.model.fit(self._X,self._Y)
-            else:
-                self.model.fit(X,Y)
-        except:
-            raise Exception("No data to fit")
+        #try:
+        if X is None:
+            self.model.fit(self._X,self._Y)
+        else:
+            self.model.fit(X,Y)
+        # except:
+        #     raise Exception("No data to fit")
 
     def optimization_step(self, update_y_min = True):
         if self.init_train:

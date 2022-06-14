@@ -175,7 +175,7 @@ class GMRegression(BaseEstimator):
         assert Y.ndim == 2
         if self.optimize_hyperparams:
             if X.shape[0] >= 10:
-                self.opt_cv = max(X.shape[0],40)
+                self.opt_cv = min(X.shape[0],30)
                 self._optimize( X, Y, int(self.N * (self.opt_cv-1)/(self.opt_cv)))
                 print("-- Fitted with optimized hyperparams --")
                 return
