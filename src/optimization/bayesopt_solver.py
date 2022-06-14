@@ -287,7 +287,7 @@ class PlotBayesOpt1D(BayesOptSolver_sklearn):
         self.Xgrid = np.linspace(*self.bounds, 1000)[:, None]
         self.show_name = show_name
         self.deterministic = False
-    def optimize(self, path=""):
+    def optimize(self, path="", extension= "jpg"):
         for i in range(self.budget):
             print(f"-- finding x{i+1} --",end="\n")
 
@@ -303,7 +303,7 @@ class PlotBayesOpt1D(BayesOptSolver_sklearn):
             if path == "":
                 plt.show()
             else:
-                fig_path = path+f"{self.problem_name}{self.model.name}{number}.jpg"
+                fig_path = path+f"{self.problem_name}{self.model.name}{number}.{extension}"
                 fig_path = fig_path.replace(" ", "_")
                 plt.savefig(fig_path)
         print(f"-- End of optimization -- best objective y = {self.y_min:0.2f}\n")

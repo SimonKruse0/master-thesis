@@ -18,6 +18,7 @@ class NumpyroNeuralNetwork:
                      obs_variance_prior = 10000,
                      hidden_units_variance = 1, 
                      hidden_units_bias_variance = 1,
+                     alpha = 200,
                      extra_name=""):
         self.kernel = None 
         self.hidden_units = hidden_units
@@ -25,12 +26,13 @@ class NumpyroNeuralNetwork:
         self.hidden_units_bias_variance = hidden_units_bias_variance
         self.obs_variance_prior = obs_variance_prior #Obs E[sigma] = 1/lambda
         #self.obs_variance_prior = 10 #Obs E[sigma] = 1/lambda
+        self.alpha = alpha
         self.target_accept_prob = 0.6
         self.num_warmup = num_warmup
         self.num_samples = num_samples
         self.num_chains = num_chains
         if extra_name == "":
-            extra_name = f"{num_warmup}-{num_samples}-hu-{hidden_units}"
+            extra_name = f"{num_warmup}-{num_samples}-hu-{hidden_units}-alpha-{alpha}"
         self.name = f"BNN{extra_name}"
         self.latex_architecture = r"$\theta_{\mu} \sim \mathcal{N}(0,{self.hidden_units_variance})$"
         self.samples = None
@@ -50,6 +52,9 @@ class NumpyroNeuralNetwork:
         self.rng_key, self.rng_key_predict = random.split(random.PRNGKey(r))
 
     def model_sample(self,X, Y=None):
+
+        #OBOSOBSOBSOSBOBSOBS NOT THE USED MODEL!!!
+
         n_output = 1 #output dim
         N, n_input = X.shape
         
@@ -67,7 +72,7 @@ class NumpyroNeuralNetwork:
         b3 = sample("b3", dist.Normal(jnp.zeros((1,1)), sigma_b*jnp.ones((1,1))),rng_key=self.rng_key)
 
         # we put a prior on the observation noise
-        sigma_obs = sample("sigma_obs", dist.InverseGamma(20.0, 0.0001))
+        sigma_obs = sample("sigma_obs", dist.InverseGamma(20.0, rate=0.0001))
         
         #sigma_obs = sample("sigma", dist.Exponential(jnp.ones((1,1))*self.obs_variance_prior),rng_key=self.rng_key)+0.00001
         
@@ -101,7 +106,7 @@ class NumpyroNeuralNetwork:
         b3 = sample("b3", dist.Normal(jnp.zeros((1,1)), sigma_b*jnp.ones((1,1))))
 
         # we put a prior on the observation noise
-        sigma_obs = sample("sigma_obs", dist.InverseGamma(20.0, 0.0001))
+        sigma_obs = sample("sigma_obs", dist.InverseGamma(self.alpha, rate=1))
         
         # if self.obs_variance_prior<1e-9:
         #     sigma_obs = self.obs_variance

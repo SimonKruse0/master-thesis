@@ -29,20 +29,23 @@ class PlotReg1D_mixturemodel(BayesOptSolver_sklearn):
         self.show_name = True
         self.deterministic = False
 
-    def __call__(self, n,show_gauss= False, show_pred= True, show_name = False, path=""):
+    def __call__(self, n, grid_points=1000,show_gauss= False, show_pred= True, show_name = False, path=""):
         fig,ax = plt.subplots()
         
         np.random.seed(self.seednr)
         self.init_XY_and_fit(n)
         self.fit()
         self.bounds = (self.bounds[0]-10, self.bounds[1]+10)
-        self.Xgrid = np.linspace(*self.bounds, 100)[:, None]
+        self.Xgrid = np.linspace(*self.bounds, grid_points)[:, None]
         if show_pred:
             self.plot_predictive_dist(ax)
         if show_gauss:
             self.plot_gaussian_approximation(ax)
         if show_name:
-            ax.set_title(f"{self.model.name}({self.model.params})")
+            name = self.model.name
+            if "BNN" in name:
+                name = "BNN"
+            ax.set_title(f"{name}({self.model.params})")
         self.plot_true_function(ax)
         self.plot_train_data(ax)
 
@@ -51,9 +54,9 @@ class PlotReg1D_mixturemodel(BayesOptSolver_sklearn):
 
         else:
             number = f"{n}"
-            fig_path = path+f"{self.problem_name}_{self.model.name}_n_{number}_seed_{self.seednr}.jpg"
+            fig_path = path+f"{self.problem_name}_{self.model.name}_n_{number}_seed_{self.seednr}.pdf"
             fig_path = fig_path.replace(" ", "_")
-            plt.savefig(fig_path, dpi=600)
+            plt.savefig(fig_path)
 
     def plot_true_function(self,ax):
         X_true =  np.linspace(*self.bounds,10000)[:,None]
@@ -61,7 +64,7 @@ class PlotReg1D_mixturemodel(BayesOptSolver_sklearn):
         ax.plot(X_true, Y_true, ".", markersize = 1, color="Black")
     
     def plot_train_data(self,ax):
-        ax.plot(self._X,self._Y, ".", markersize = 10, color="tab:orange")  # plot all observed data
+        ax.plot(self._X,self._Y, ".", markersize = 5, color="tab:orange")  # plot all observed data
 
 
     def plot_gaussian_approximation(self,ax,show_name = False):

@@ -74,7 +74,7 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
                     y_component_std= 5e-2, 
                     prior_weight =  1,
                     manipulate_variance = False, 
-                    optimize=False, opt_n_iter=50, opt_cv = 5, 
+                    optimize=False, opt_n_iter=40, opt_cv = 5, 
                     predictive_score = False):
         self.name = f"KDE"
         self.x_component_std = x_component_std
@@ -136,7 +136,7 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
             self,
             {
                 'x_component_std': (1e-3, 3e-1, 'uniform'),
-                'y_component_std': (1e-2, 3e-1, 'uniform'),
+                'y_component_std': (1e-3, 3e-1, 'uniform'),
                 'prior_weight' : (1e-6, 1., 'uniform')
             },
             n_iter=self.opt_n_iter,

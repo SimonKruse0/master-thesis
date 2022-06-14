@@ -156,7 +156,7 @@ class GMRegression(BaseEstimator):
     def __init__(self,optimize=False, manipulate_variance = False, 
                     n_components = 10,
                     prior_weight = 1,
-                    opt_n_iter  =20, opt_cv = 3,
+                    opt_n_iter  =40, opt_cv = 3,
                     train_epochs = 10000) -> None:
         self.model = None
         self.name = "Gaussian Mixture Regression"
@@ -175,7 +175,7 @@ class GMRegression(BaseEstimator):
         assert Y.ndim == 2
         if self.optimize_hyperparams:
             if X.shape[0] >= 10:
-                #self.opt_cv = max(X.shape[0],40)
+                self.opt_cv = max(X.shape[0],40)
                 self._optimize( X, Y, int(self.N * (self.opt_cv-1)/(self.opt_cv)))
                 print("-- Fitted with optimized hyperparams --")
                 return

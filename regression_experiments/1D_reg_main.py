@@ -10,40 +10,52 @@ import os
 from src.benchmarks.custom_test_functions.problems import Test1,Test2, Test3, Test4, Test3b
 
 ## main ##
-reg_models = [NaiveGMRegression(optimize=False), 
+reg_models = [GMRegression(optimize=True),
+            NaiveGMRegression(optimize=True), 
             GaussianProcess_GPy(), 
-            BOHAMIANN(num_keep_samples=500), 
-            NumpyroNeuralNetwork(num_warmup=200,num_samples=200,
-                                num_chains=4),
-            SumProductNetworkRegression(optimize=False)]
-reg_models = [NumpyroNeuralNetwork(hidden_units = 100, num_warmup=1000,num_samples=1000,
-                                num_chains=4)]
-# reg_models = [GMRegression(optimize=True)]
+            BOHAMIANN(num_keep_samples=100), 
+            NumpyroNeuralNetwork(hidden_units = 50,num_warmup=300,num_samples=300,
+                                num_chains=4,alpha=1000),
+            SumProductNetworkRegression(optimize=True)]
+
+
+# reg_models = [NumpyroNeuralNetwork(hidden_units = 50, num_warmup=200,num_samples=200,
+#                                 num_chains=4, alpha=1000)]
+#reg_models = [GaussianProcess_GPy()]
 #reg_models = [BOHAMIANN(num_warmup=3000, num_samples=10000,num_keep_samples=500)]
-for problem_sklearn in [Test4()]:
-    for reg_model in reg_models:
-        path = f"master-thesis/thesis/Figures/reg_illustrations/{reg_model.name}".replace(" ", "")
-        try:
-            os.mkdir(path)
-        except:
-            pass
-        for samples in [200]:
-            plot_reg = PlotReg1D_mixturemodel(reg_model, problem_sklearn, disp=True)
-            plot_reg(samples,show_pred=False,show_gauss = True,path= path+"/",show_name=True)
 
-
-# for problem_sklearn in [Test1(),Test2(),Test3(),Test4(), Test3b()]:
+# #SINGLE TEST
+# for problem_sklearn in [Test2()]:
 #     for reg_model in reg_models:
 #         path = f"master-thesis/thesis/Figures/reg_illustrations/{reg_model.name}".replace(" ", "")
 #         try:
 #             os.mkdir(path)
 #         except:
 #             pass
-#         for samples in [10,20,40]:
+#         for samples in [200]:
 #             plot_reg = PlotReg1D_mixturemodel(reg_model, problem_sklearn, disp=True)
-#             #plot_reg(samples,show_gauss = True,path= "",show_name=True)
-#             #plot_reg(samples,show_gauss = True,path= "master-thesis/regression_experiments/1D_reg_plots/GP/",show_name=True)
-#             if "SPN" in reg_model.name or "KDE" in reg_model.name:
-#                 plot_reg(samples,show_pred = True,show_gauss = False,path= path+"/",show_name=False)
-#             else:
-#                 plot_reg(samples,show_pred = False,show_gauss = True,path= path+"/",show_name=False)
+#             plot_reg(samples,show_pred=False,show_gauss = True,path= path+"/",show_name=True)
+
+
+for samples,problem_sklearn in zip([20,50,100, 200, 200], [Test1(),Test2(),Test3(),Test4(),Test3b]):
+    for reg_model in reg_models:
+        try:
+            name = reg_model.name.replace(" ", "")
+            if "BNN" in name:
+                name = "BNN"
+            path = f"master-thesis/thesis/Figures/reg_illustrations/{name}"
+            try:
+                os.mkdir(path)
+            except:
+                pass
+
+            plot_reg = PlotReg1D_mixturemodel(reg_model, problem_sklearn, disp=True)
+            #plot_reg(samples,show_gauss = True,path= "",show_name=True)
+            #plot_reg(samples,show_gauss = True,path= "master-thesis/regression_experiments/1D_reg_plots/GP/",show_name=True)
+            if "SPN" in reg_model.name or "KDE" in reg_model.name:
+                plot_reg(samples,grid_points = 100, show_pred = True,show_gauss = False,path= path+"/",show_name=False)
+            else:
+                plot_reg(samples,show_pred = False,show_gauss = True,path= path+"/",show_name=False)
+        except:
+            print("OMGOMGOMG")
+            pass

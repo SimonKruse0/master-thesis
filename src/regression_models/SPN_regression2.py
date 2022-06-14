@@ -38,10 +38,10 @@ class SumProductNetworkRegression(BaseEstimator):
                 manipulate_variance = False
                 , train_epochs = 10000,
                 alpha0_x=5,alpha0_y=5, 
-                beta0_x = 0.1,beta0_y = 0.01, 
+                beta0_x = 1,beta0_y = 1, 
                 prior_weight = 1,
                 sig_prior = 1.1,
-                optimize=False, opt_n_iter  =20, opt_cv = 3,
+                optimize=False, opt_n_iter  =40, opt_cv = 3,
                 predictive_score = False):
         self.epochs = train_epochs
         # Priors for variance of x and y
@@ -118,7 +118,7 @@ class SumProductNetworkRegression(BaseEstimator):
         assert Y.ndim == 2
         if self.optimize_hyperparams:
             if X.shape[0] >= 10:
-                self.opt_cv = X.shape[0]//2 
+                self.opt_cv =min(30,X.shape[0])
                 self._optimize( X, Y)
                 print("-- Fitted with optimized hyperparams --")
                 return
@@ -179,6 +179,9 @@ class SumProductNetworkRegression(BaseEstimator):
             score = -np.mean(abs(y_test-m_pred))
             print(f"negative mean pred error = {score:0.3f}")
         else:
+            if y_test.ndim == 0:
+                y_test = np.array([y_test, y_test])
+                X_test = X_test.repeat(2)[:,None]
             p_predictive, p_x = self.predictive_pdf(X_test, y_test[:,None])
             score = np.mean(p_predictive)
             # Z_pred = (y_test-m_pred)/sd_pred #std. normal distributed. 
@@ -206,11 +209,11 @@ class SumProductNetworkRegression(BaseEstimator):
         opt = BayesSearchCV(
             self,
             {
-                'alpha0_x': (5e0, 2e1, 'uniform'), #inversGamma params. E[var_x] = beta/(1+alpha)
-                'alpha0_y': (5e0, 2e1, 'uniform'),
-                'beta0_x': (1e-2, 7e-1, 'log-uniform'),
+                'alpha0_x': (1e0, 2e2, 'uniform'), #inversGamma params. E[var_x] = beta/(1+alpha)
+                'alpha0_y': (1e0, 2e2, 'uniform'),
+                #'beta0_x': (1e-2, 7e-1, 'log-uniform'),
                 #'beta0_x': (0.1, 2, 'log-uniform'),
-                'beta0_y': (1e-3, 7e-1, 'log-uniform'),
+                #'beta0_y': (1e-3, 7e-1, 'log-uniform'),
                 'prior_weight' : (1e-6, 1., 'uniform'),
             },
             n_iter=self.opt_n_iter,
