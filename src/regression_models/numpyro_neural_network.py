@@ -14,11 +14,11 @@ import time
 import os
 
 class NumpyroNeuralNetwork:
-    def __init__(self, hidden_units = 50, num_warmup=100, num_samples = 100, num_chains=4, 
+    def __init__(self, hidden_units = 50, num_warmup=500, num_samples = 500, num_chains=4, 
                      obs_variance_prior = 10000,
                      hidden_units_variance = 1, 
                      hidden_units_bias_variance = 1,
-                     alpha = 200,
+                     alpha = 1000,
                      extra_name=""):
         self.kernel = None 
         self.hidden_units = hidden_units

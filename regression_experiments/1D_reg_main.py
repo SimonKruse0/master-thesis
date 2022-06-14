@@ -18,7 +18,9 @@ reg_models = [GMRegression(optimize=True),
                                 num_chains=4,alpha=1000),
             SumProductNetworkRegression(optimize=True)]
 
-
+reg_models = [NaiveGMRegression(x_component_std=1e-3, 
+y_component_std=1e-3,optimize=True)]
+reg_models = [GMRegression(optimize=True)]
 # reg_models = [NumpyroNeuralNetwork(hidden_units = 50, num_warmup=200,num_samples=200,
 #                                 num_chains=4, alpha=1000)]
 #reg_models = [GaussianProcess_GPy()]
@@ -37,7 +39,7 @@ reg_models = [GMRegression(optimize=True),
 #             plot_reg(samples,show_pred=False,show_gauss = True,path= path+"/",show_name=True)
 
 
-for samples,problem_sklearn in zip([20,50,100, 200, 200], [Test1(),Test2(),Test3(),Test4(),Test3b]):
+for samples,problem_sklearn in zip([40,50,100, 200, 200], [Test1(),Test2(),Test3(),Test4(),Test3b]):
     for reg_model in reg_models:
         #try:
         name = reg_model.name.replace(" ", "")
@@ -53,7 +55,9 @@ for samples,problem_sklearn in zip([20,50,100, 200, 200], [Test1(),Test2(),Test3
         #plot_reg(samples,show_gauss = True,path= "",show_name=True)
         #plot_reg(samples,show_gauss = True,path= "master-thesis/regression_experiments/1D_reg_plots/GP/",show_name=True)
         if "SPN" in reg_model.name or "KDE" in reg_model.name or "Mixture" in reg_model.name:
-            plot_reg(samples,grid_points = 100, show_pred = True,show_gauss = False,path= path+"/",show_name=False)
+            grid_points = 1000 if "KDE" in reg_model.name else 100
+            #plot_reg(samples,grid_points = 100, show_pred = True,show_gauss = False,path= path+"/",show_name=False)
+            plot_reg(samples,grid_points = grid_points, show_pred = True,show_gauss = False,path="")
         else:
             plot_reg(samples,show_pred = False,show_gauss = True,path= path+"/",show_name=False)
         # except:

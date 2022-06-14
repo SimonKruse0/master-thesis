@@ -1,3 +1,4 @@
+from turtle import Turtle
 import numpy as np
 from scipy.stats import multivariate_normal
 from scipy.stats import norm
@@ -72,9 +73,9 @@ class naive_GMR:
 class NaiveGMRegression(naive_GMR, BaseEstimator):
     def __init__(self,x_component_std = 5e-2,
                     y_component_std= 5e-2, 
-                    prior_weight =  1,
+                    prior_weight =  1e-6,
                     manipulate_variance = False, 
-                    optimize=False, opt_n_iter=40, opt_cv = 5, 
+                    optimize=False, opt_n_iter=40, opt_cv = 10, 
                     predictive_score = False):
         self.name = f"KDE"
         self.x_component_std = x_component_std
@@ -89,7 +90,7 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
     def fit(self, X, Y):
         if self.optimize_hyperparams:
             if X.shape[0] >= self.opt_cv:
-                self.opt_cv = min(30,X.shape[0]) #leave one out!!
+                #self.opt_cv = min(30,X.shape[0]) #leave one out!!
                 self._optimize( X, Y)
                 print("-- Fitted with optimized hyperparams --")
                 return
@@ -137,13 +138,13 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
             {
                 'x_component_std': (1e-3, 3e-1, 'uniform'),
                 'y_component_std': (1e-3, 3e-1, 'uniform'),
-                'prior_weight' : (1e-6, 1., 'uniform')
+                #'prior_weight' : (1e-6, 1., 'uniform')
             },
             n_iter=self.opt_n_iter,
             cv=self.opt_cv,
             #n_points = 2,
             n_jobs = 4,
-            #optimizer_kwargs={'base_estimator': 'RF'}
+           #optimizer_kwargs={'base_estimator': 'RF'} #33 vs 35.5
         )
         # parameters = {'x_component_std':np.linspace(1e-3, 3e-1,30), 
         #                 'y_component_std':np.linspace(1e-3, 3e-1,30),
@@ -232,8 +233,8 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
         y_grid, *_ = normalize(y_grid, self.y_mean, self.y_std)
         return np.gradient(y_grid)
 
-    def plot(self, ax, xbounds=(0,1),ybounds=(-2.5,2.5), plot_credible_set = True):
-        self.x_res, self.y_res  = 800, 1000
+    def plot(self, ax, xbounds=(0,1),ybounds=(-2.5,2.5), plot_credible_set = False):
+        self.x_res, self.y_res  = 300, 200
         x_res, y_res = self.x_res, self.y_res
         x_grid = np.linspace(*xbounds, self.x_res, dtype=np.float)
         y_grid = np.linspace(*ybounds, self.y_res,dtype=np.float)
@@ -290,13 +291,17 @@ def obj_fun_nd(x):
     return np.sum(0.5 * (np.sign(x-0.5) + 1)+np.sin(100*x)*0.1, axis = 1)
 
 if __name__ == "__main__":
+    import matplotlib.pyplot as plt
     bounds = [0,1]
     #datasize = int(input("Enter number of datapoints: "))
     datasize = 200
     np.random.seed(20)
-    X_sample =  np.random.uniform(*bounds,size = (datasize,3))
+    X_sample =  np.random.uniform(*bounds,size = (datasize,1))
     Y_sample = obj_fun_nd(X_sample)[:,None]
 
-    reg_model = NaiveGMRegression(optimize=True)
+    reg_model = NaiveGMRegression(optimize=True, opt_n_iter=5)
     reg_model.fit(X_sample, Y_sample)
+    fig,ax = plt.subplots()
+    reg_model.plot(ax)
+    plt.show()
     print(reg_model.predictive_pdf(X_sample[:10,:]+0.01*np.random.rand(10)[:, None], Y_sample[:10,:]))

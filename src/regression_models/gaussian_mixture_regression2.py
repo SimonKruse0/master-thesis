@@ -156,10 +156,11 @@ class GMRegression(BaseEstimator):
     def __init__(self,optimize=False, manipulate_variance = False, 
                     n_components = 10,
                     prior_weight = 1,
-                    opt_n_iter  =40, opt_cv = 3,
-                    train_epochs = 10000) -> None:
+                    opt_n_iter  =40, opt_cv = 10,
+                    train_epochs = 10000, 
+                    extra_name=""):
         self.model = None
-        self.name = "Gaussian Mixture Regression"
+        self.name = f"GMR-{extra_name}"
         self.prior_weight, self.sig_prior = prior_weight,1.1
         self.manipulate_variance = manipulate_variance
         self.n_components = n_components
@@ -187,22 +188,22 @@ class GMRegression(BaseEstimator):
         X_, self.x_mean, self.x_std = normalize(X)
         Y_, self.y_mean, self.y_std = normalize(Y)
         XY_train = np.column_stack((X_, Y_))
-        gmm_sklearn = BayesianGaussianMixture(n_components=self.n_components,
-                                        covariance_type = "full",
-                                        weight_concentration_prior =  1e-9,#1. / n_components, 
-                                        mean_precision_prior = 1e-9,#0.001, 
-                                        #covariance_prior =np.array([[0.001,0],[0,0.001]]),
-                                        n_init = 10, init_params="kmeans", 
-                                        verbose=2
-                                        )
-                                        #covariance_prior =np.diag(np.diag(np.cov(XY_train.T)))/1000)
-                                        #weight_concentration_prior_type="dirichlet_distribution")
-        # gmm_sklearn = GaussianMixture(n_components=self.n_components, 
-        #                             covariance_type="full", 
-        #                             max_iter=self.train_epochs, 
-        #                             verbose = 1,
-        #                             tol = 1e-6,
-        #                             init_params="kmeans")
+        # gmm_sklearn = BayesianGaussianMixture(n_components=self.n_components,
+        #                                 covariance_type = "full",
+        #                                 weight_concentration_prior =  1e-9,#1. / n_components, 
+        #                                 mean_precision_prior = 1e-9,#0.001, 
+        #                                 #covariance_prior =np.array([[0.001,0],[0,0.001]]),
+        #                                 n_init = 10, init_params="kmeans", 
+        #                                 verbose=2
+        #                                 )
+        #                                 #covariance_prior =np.diag(np.diag(np.cov(XY_train.T)))/1000)
+        #                                 #weight_concentration_prior_type="dirichlet_distribution")
+        gmm_sklearn = GaussianMixture(n_components=self.n_components, 
+                                    covariance_type="full", 
+                                    max_iter=self.train_epochs, 
+                                    verbose = 0,
+                                    tol = 1e-6,
+                                    init_params="kmeans")
         gmm_sklearn.fit(XY_train)
 
         self.model = GMM_bayesian(
