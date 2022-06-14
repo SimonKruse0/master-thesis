@@ -17,7 +17,7 @@ prior to any observed data. Choosing the prior of a standard normal distribution
 
 \begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{Pictures/BNN_illustration.png}
+    \includegraphics[width=\textwidth]{Pictures/BNN_illustration.pdf}
     \caption*{Bayesian neural network compared to a neural network, were the weights are assigned a
     probability density , note that we often prior assume no correlation and a standard normal
     distribution, but the posterior (after observing data) might contain correlations between the
@@ -223,17 +223,25 @@ Here is the test function 4, where the sampled using 50 points
 \begin{figure}[h]
     \centering
     \begin{minipage}[b]{0.49\textwidth}
-     \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Figures/reg_illustrations/BOHAMIANN/Test4_BOHAMIANN_n_40_seed_42.jpg}
+     \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Figures/reg_illustrations/BayesianNN_plots/Test4_BNN500-500-hu-10-alpha-1000_n_100_seed_42.pdf}
     \end{minipage}
     \hfill
     \begin{minipage}[b]{0.49\textwidth}
-      \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Figures/reg_illustrations/BOHAMIANN/100nodesBNN.png}
+      \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Figures/reg_illustrations/BayesianNN_plots/Test4_BNN500-500-hu-50-alpha-1000_n_100_seed_42.pdf}
      \end{minipage}
-     \caption{Example where 100 nodes on each of three layers, lead to the better expressive model. }
+     \caption{Example where 100 nodes on each of three layers, lead to a much more expressive model.
+     $\sigma^2$ follows a informative prior $InvGamma(1000,1)$, i.e. prior mean $E[\sigma^2] \approx
+     \frac{1}{1000}$, and variance $\approx \frac{1}{1000^3}$, however since the data is distributed in such 
+     a complex way the limited expressiveness of the model, forces the model to infer make $\sigma^2$ large, 
+     i.e. including the data in the noise}
 \end{figure}
 
 Another variance! Sometimes the complexity of the problem is incapsled as noise.
 
+
+\subsubsection{Number of samples}
+The number of MCMC samples is of large importance. Theoretically speaking the more samples the better
+however, 
 
 
 \begin{figure}[h]

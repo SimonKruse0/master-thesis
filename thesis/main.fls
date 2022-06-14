@@ -563,7 +563,7 @@ INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/BO_vs_Gri
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/BO_vs_Grid2.eps
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/BO_vs_Grid1.eps
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/BO_vs_Grid1.eps
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/SimonsTestGaussian Process - sklearn002.jpg
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/Test1Gaussian_Process_-_sklearn000.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/expected_improvement_illustration.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/illustration_AQs.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/neg_lower_confidence_illustration.pdf
@@ -583,10 +583,10 @@ INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/reg_illust
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/reg_illustrations/GP/Test4_GP_n_40_seed_42.jpg
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/04_bayesian_nn_regression.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/04_bayesian_nn_regression.tex
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/BNN_illustration.png
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/BNN_illustration.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/bayesian_nn_prior_samples_hidden_units.pdf
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/reg_illustrations/BOHAMIANN/Test4_BOHAMIANN_n_40_seed_42.jpg
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/reg_illustrations/BOHAMIANN/100nodesBNN.png
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/reg_illustrations/BayesianNN_plots/Test4_BNN500-500-hu-10-alpha-1000_n_100_seed_42.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/reg_illustrations/BayesianNN_plots/Test4_BNN500-500-hu-50-alpha-1000_n_100_seed_42.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/reg_illustrations/BOHAMIANN/Test1_BOHAMIANN_n_10_seed_42.jpg
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/reg_illustrations/BOHAMIANN/Test2_BOHAMIANN_n_40_seed_42.jpg
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/reg_illustrations/BOHAMIANN/Test3_BOHAMIANN_n_40_seed_42.jpg

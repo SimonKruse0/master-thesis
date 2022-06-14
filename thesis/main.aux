@@ -73,21 +73,20 @@
 \newlabel{fig:example}{{2.1}{7}{Example of an optimization task tuning a parameterised regression model with parameters $\lambda $ and $\sigma $, on a test set, i.e. minimization of prediction error. We see the first 23 evaluations out of 100 in grid search vs 23 evaluations using a sample-efficient solver (Bayesian optimization). This illustrates the idea of a sample-efficient solver\relax }{figure.caption.3}{}}
 \newlabel{fig:example@cref}{{[figure][1][0,2]2.1}{[1][7][]7}}
 \@writefile{toc}{\contentsline {subsubsection}{Noisy objective functions}{7}{subsubsection*.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2.2}{\ignorespaces Top: Bayesian regression model (Gaussian Process) is fitted to the observed data. Bottom: The negated lower confidense bound acquisition function, $LCB(p(y|x,\mathcal  {D}))$, the maxima, i.e. the orange point, is the location of the next sample\relax }}{8}{figure.caption.5}\protected@file@percent }
-\newlabel{fig:03-03}{{2.2}{8}{Top: Bayesian regression model (Gaussian Process) is fitted to the observed data. Bottom: The negated lower confidense bound acquisition function, $LCB(p(y|x,\mathcal {D}))$, the maxima, i.e. the orange point, is the location of the next sample\relax }{figure.caption.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.2}{\ignorespaces Top: Bayesian regression model (Gaussian Process) is fitted to the observed data, which are sampled from the underlying black objective. Bottom: The expected improvement \textit  {acquisition function} is maximied at the orange arrow, i.e. the location of the next sample. $\text  {policy}_{BO}(\mathcal  {D}) = -79,27$\relax }}{8}{figure.caption.5}\protected@file@percent }
+\newlabel{fig:03-03}{{2.2}{8}{Top: Bayesian regression model (Gaussian Process) is fitted to the observed data, which are sampled from the underlying black objective. Bottom: The expected improvement \textit {acquisition function} is maximied at the orange arrow, i.e. the location of the next sample. $\text {policy}_{BO}(\mathcal {D}) = -79,27$\relax }{figure.caption.5}{}}
 \newlabel{fig:03-03@cref}{{[figure][2][0,2]2.2}{[1][8][]8}}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces Bayesian Optimization\relax }}{9}{algorithm.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {2.2}Bayesian regression}{9}{section.0.2.2}\protected@file@percent }
 \newlabel{Predictive2}{{2.2}{9}{Bayesian regression}{equation.0.2.2.2}{}}
 \newlabel{Predictive2@cref}{{[equation][2][0,2]2.2}{[1][9][]9}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.1}surrogate model}{9}{subsection.0.2.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.1}Surrogate model}{9}{subsection.0.2.2.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2.2}Inference of surrogate models}{9}{subsection.0.2.2.2}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {2.1}{\ignorespaces Overview of inference methods applied on the statistical models used in this project. $E$ is the number of edges in the SPN. $n$ is the number of datapoints. $K \leq n$ is the number of mixture comonents. We will soon learn that for an SPN the number of mixture compenets is exponential larger than number of edges i.e. $E << K$. In theory MCMC methods samples from true the posterior distribution, and do not need any fitting/learning. \relax }}{10}{table.caption.6}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {2.3}Acquisition function}{10}{section.0.2.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.3.1}Expected improvement}{10}{subsection.0.2.3.1}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {2.3}{\ignorespaces When then predictive distribution is Gaussian, expected improvement becomes closed form. The figure illustrates the values of expected improvement for different predictive uncertainties $\sigma _x = \sqrt  {\mathbb  {V}ar_{p(y|x,\mathcal  {D})}[y]}$ versus the average improvement $y_{\qopname  \relax m{min}}-\mu _x$, where $\mu _x = E_{p(y|x,\mathcal  {D})}[y]$\relax }}{11}{figure.caption.7}\protected@file@percent }
 \newlabel{EI_illustration}{{2.3}{11}{When then predictive distribution is Gaussian, expected improvement becomes closed form. The figure illustrates the values of expected improvement for different predictive uncertainties $\sigma _x = \sqrt {\mathbb {V}ar_{p(y|x,\mathcal {D})}[y]}$ versus the average improvement $y_{\min }-\mu _x$, where $\mu _x = E_{p(y|x,\mathcal {D})}[y]$\relax }{figure.caption.7}{}}
-\newlabel{EI_illustration@cref}{{[figure][3][0,2]2.3}{[1][11][]11}}
+\newlabel{EI_illustration@cref}{{[figure][3][0,2]2.3}{[1][10][]11}}
 \@writefile{toc}{\contentsline {subsubsection}{Exact expected improvement}{11}{subsubsection*.8}\protected@file@percent }
 \newlabel{ExactEI}{{2.3.1}{11}{Exact expected improvement}{subsubsection*.8}{}}
 \newlabel{ExactEI@cref}{{[subsection][1][0,2,3]2.3.1}{[1][11][]11}}

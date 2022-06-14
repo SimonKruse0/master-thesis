@@ -24,7 +24,7 @@ For Bayesian neural networks, the predictive posterior is given as:
 % with distribution of $\epsilon \sim \mathcal{N}(0,\sigma^2)$ and $(w, \sigma) \sim p(w, sigma | \mathcal{D})$, 
 % such that the predictive posterior is given as, 
 $$ p(y|x,\mathcal{D}) = \int \mathcal{N}(y|f_{\textbf{w}}(x),
-\sigma^2)p(\textbf{w},\sigma|\mathcal{D}) d \textbf{w} d\sigma$$ where $f_\textbf{w}(x)$ is the
+\sigma^2)p(\textbf{w},\sigma^2|\mathcal{D}) d \textbf{w} d\sigma^2$$ where $f_\textbf{w}(x)$ is the
 neural network output for a specific realization of $\textbf{w}$ and
 $p(\textbf{w},\sigma|\mathcal{D})$ is the posterior distribution. Gaussian processes take a
 different approach and directly model the noisefree prediction $\textbf{f}_* := f(x)$ as a random

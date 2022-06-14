@@ -223,5 +223,11 @@ The density of a normal distribution evaluated in $x$ is denoted as, $\mathcal{N
 We will not distinguish between vectors and scalars notation-wise unless it is not clear from the 
 context. 
 
-% We refer to the "Optimization landscape" defined as the joint set of points in the domain and the objective function
-% evaluated in the points, i.e. $\{(x,f(x))\in \mathcal{X} \times \mathbb{R}| x \in \mathcal{X}\}$
+We will refer to $y$ as an observation or sample at a given location or point $x$. This terminology will fit into the intuitive
+way of understanding an optimization problem as a (high dimensional) \textit{landscape}, 
+where the objective function is the altitude in the landscape. 
+We refer to \textit{optimization landscape} as the joint set of points in the domain and the objective function
+evaluated in the points, i.e. $\{(x,f(x))\in \mathcal{X} \times \mathbb{R}| x \in \mathcal{X}\}$. Since
+the evaluation of $f(\cdot)$ might be noisy or inprecise, we just observe $y = observe(x)$. The typical
+connection between $f(x)$ and $y$ are $y = f(x)$ or $y = f(x) + \epsilon$, where $\epsilon$ is additive white noise, 
+but different connections might be present as well. 

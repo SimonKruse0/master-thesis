@@ -7,18 +7,18 @@ from src.regression_models.SPN_regression2 import SumProductNetworkRegression
 
 from src.benchmarks.go_benchmark_functions.go_funcs_S import Step
 from src.benchmarks.go_benchmark_functions.go_funcs_W import Weierstrass
-from src.benchmarks.custom_test_functions.problems import Test2
+from src.benchmarks.custom_test_functions.problems import Test1
 import numpy as np
 import os
 
 ## INPUT ##
 acquisition = "EI" #LCB, EI
-n_init_samples = 20
+n_init_samples = 5
 samples = 30
 
 ## main ##
-#reg_model = GaussianProcess_sklearn()
-reg_model = NaiveGMRegression(optimize=True, opt_n_iter=50,opt_cv=10)
+reg_model = GaussianProcess_sklearn()
+#reg_model = NaiveGMRegression(optimize=True, opt_n_iter=50,opt_cv=10)
 #reg_model = SumProductNetworkRegression()
 # reg_model = SumProductNetworkRegression(optimize=False,
 #                         alpha0_x=6.188900996704582, alpha0_y=7.544489215988586, 
@@ -26,11 +26,12 @@ reg_model = NaiveGMRegression(optimize=True, opt_n_iter=50,opt_cv=10)
 #                         train_epochs=1000)
 
 #reg_model = BOHAMIANN()
-problem_sklearn = Test2()
-plot_BO = PlotBayesOpt1D(reg_model, problem_sklearn, acquisition=acquisition,budget=n_init_samples+samples, n_init_samples=n_init_samples,disp=True)
+problem_sklearn = Test1()
+plot_BO = PlotBayesOpt1D(reg_model, problem_sklearn, acquisition=acquisition,
+budget=n_init_samples+samples, n_init_samples=n_init_samples,disp=True, show_name=False)
 plot_BO.beta = 2.5
 
-#np.random.seed(2)
+np.random.seed(2)
 extra_name = "score_MAE"
 fig_name = f"{plot_BO.problem_name[:20]}_{plot_BO.model.name[:10]}_{acquisition}_{extra_name}"
 path = f"/home/simon/Documents/MasterThesis/master-thesis/bayes_opt_experiments/1D_figures/{fig_name}/"
@@ -47,4 +48,4 @@ while True:
     except:
         #a = input("folder already exists, ok? (y=yes) ")    
         pathnumber += 1
-plot_BO.optimize(path_more_runs)
+plot_BO.optimize(path_more_runs, extension="pdf")

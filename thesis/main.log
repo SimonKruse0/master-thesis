@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  12 JUN 2022 21:39
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  14 JUN 2022 13:12
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1471,7 +1471,7 @@ File: Pictures/GP_vs_BNN2.pdf Graphic file (type pdf)
  [2] [3]) [4] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/02_bayesian_optimization.tex
 Chapter 2.
 (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/01_optimization.tex
-Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 34.
+Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 35.
  [5
 
 
@@ -1481,56 +1481,51 @@ File: Pictures/BO_vs_Grid2.eps Graphic file (type eps)
 File: Pictures/BO_vs_Grid1.eps Graphic file (type eps)
 <Pictures/BO_vs_Grid1.eps>
  [7]
-File: Pictures/SimonsTestGaussian Process - sklearn002.jpg Graphic file (type bmp)
-<Pictures/SimonsTestGaussian Process - sklearn002.jpg>
+File: Pictures/Test1Gaussian_Process_-_sklearn000.pdf Graphic file (type pdf)
+<use Pictures/Test1Gaussian_Process_-_sklearn000.pdf>
 
-Underfull \hbox (badness 8113) in paragraph at lines 199--199
+Underfull \hbox (badness 8113) in paragraph at lines 203--203
 \TU/TimesNewRoman(0)/m/n/10.95 regression model (Gaus-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 199--199
-\TU/TimesNewRoman(0)/m/n/10.95 sian Process) is fitted
+Underfull \hbox (badness 2005) in paragraph at lines 203--203
+\TU/TimesNewRoman(0)/m/n/10.95 sian Process) is fitted to
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 199--199
-\TU/TimesNewRoman(0)/m/n/10.95 to the observed data.
+Underfull \hbox (badness 1371) in paragraph at lines 203--203
+\TU/TimesNewRoman(0)/m/n/10.95 the observed data, which
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 199--199
-\TU/TimesNewRoman(0)/m/n/10.95 Bottom: The negated
+Underfull \hbox (badness 10000) in paragraph at lines 203--203
+\TU/TimesNewRoman(0)/m/n/10.95 are sampled from the
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 199--199
-\TU/TimesNewRoman(0)/m/n/10.95 lower confidense bound
+Underfull \hbox (badness 10000) in paragraph at lines 203--203
+\TU/TimesNewRoman(0)/m/n/10.95 Bottom: The expected
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 199--199
-\TU/TimesNewRoman(0)/m/n/10.95 acquisition function,
+Underfull \hbox (badness 10000) in paragraph at lines 203--203
+\TU/TimesNewRoman(0)/m/n/10.95 improvement \TU/TimesNewRoman(0)/m/it/10.95 acquisition
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 199--199
-\OML/cmm/m/it/10.95 LCB\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 y\OMS/cmsy/m/n/10.95 j\OML/cmm/m/it/10.95 x; \OMS/cmsy/m/n/10.95 D\OT1/cmr/m/n/10.95 ))$\TU/TimesNewRoman(0)/m/n/10.95 , the
+Underfull \hbox (badness 6364) in paragraph at lines 203--203
+\TU/TimesNewRoman(0)/m/it/10.95 function \TU/TimesNewRoman(0)/m/n/10.95 is maximied at
  []
 
-
-Underfull \hbox (badness 1062) in paragraph at lines 199--199
-\TU/TimesNewRoman(0)/m/n/10.95 maxima, i.e. the orange
- []
-
-
-Underfull \vbox (badness 4505) has occurred while \output is active []
-
- [8]) [9] [10]
+) [8] [9]
 File: Pictures/expected_improvement_illustration.pdf Graphic file (type pdf)
 <use Pictures/expected_improvement_illustration.pdf>
 
-Underfull \vbox (badness 6493) has occurred while \output is active []
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [10]
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [11]
 File: Pictures/illustration_AQs.pdf Graphic file (type pdf)
@@ -1597,8 +1592,8 @@ File: Figures/reg_illustrations/GP/Test3_GP_n_40_seed_42.jpg Graphic file (type 
 File: Figures/reg_illustrations/GP/Test4_GP_n_40_seed_42.jpg Graphic file (type bmp)
 <Figures/reg_illustrations/GP/Test4_GP_n_40_seed_42.jpg>
 ) (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/04_bayesian_nn_regression.tex
-File: Pictures/BNN_illustration.png Graphic file (type bmp)
-<Pictures/BNN_illustration.png>
+File: Pictures/BNN_illustration.pdf Graphic file (type pdf)
+<use Pictures/BNN_illustration.pdf>
  [22] [23] [24]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
@@ -1609,10 +1604,10 @@ File: Pictures/bayesian_nn_prior_samples_hidden_units.pdf Graphic file (type pdf
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [26]
-File: Figures/reg_illustrations/BOHAMIANN/Test4_BOHAMIANN_n_40_seed_42.jpg Graphic file (type bmp)
-<Figures/reg_illustrations/BOHAMIANN/Test4_BOHAMIANN_n_40_seed_42.jpg>
-File: Figures/reg_illustrations/BOHAMIANN/100nodesBNN.png Graphic file (type bmp)
-<Figures/reg_illustrations/BOHAMIANN/100nodesBNN.png>
+File: Figures/reg_illustrations/BayesianNN_plots/Test4_BNN500-500-hu-10-alpha-1000_n_100_seed_42.pdf Graphic file (type pdf)
+<use Figures/reg_illustrations/BayesianNN_plots/Test4_BNN500-500-hu-10-alpha-1000_n_100_seed_42.pdf>
+File: Figures/reg_illustrations/BayesianNN_plots/Test4_BNN500-500-hu-50-alpha-1000_n_100_seed_42.pdf Graphic file (type pdf)
+<use Figures/reg_illustrations/BayesianNN_plots/Test4_BNN500-500-hu-50-alpha-1000_n_100_seed_42.pdf>
 File: Figures/reg_illustrations/BOHAMIANN/Test1_BOHAMIANN_n_10_seed_42.jpg Graphic file (type bmp)
 <Figures/reg_illustrations/BOHAMIANN/Test1_BOHAMIANN_n_10_seed_42.jpg>
 File: Figures/reg_illustrations/BOHAMIANN/Test2_BOHAMIANN_n_40_seed_42.jpg Graphic file (type bmp)
@@ -1924,12 +1919,12 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 57092 strings out of 481731
- 1356144 string characters out of 5935437
- 2302084 words of memory out of 5000000
- 73009 multiletter control sequences out of 15000+600000
+ 57099 strings out of 481731
+ 1357085 string characters out of 5935437
+ 2302144 words of memory out of 5000000
+ 73013 multiletter control sequences out of 15000+600000
  551909 words of font info for 140 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  82i,17n,138p,2818b,4682s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (60 pages, 1000956 bytes).
+Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (60 pages, 1010196 bytes).

@@ -22,25 +22,25 @@ as a random quantity, $\Theta$, where some values/realizations of $\Theta$ are m
 others. What is of interest is the predictive posterior distribution,  
 \begin{align}\label{Predictive2}
     p(y|x, \mathcal{D}) &= \int p(y,\theta|x, \mathcal{D}) d\theta\\
-    &= \int p(y|x,\theta)p(\theta|\mathcal{D}) d\theta
+    &= \int p(y|x,\theta)p(\theta|\mathcal{D}) d\theta.
 \end{align}
-where the second equation is true because of the probability chain rule and that $Y$ is fully
-described by the parametric model $p(y|x,\theta)$ and the parameters $\Theta$ is fully described by
+The second equation is true because of the probability chain rule and that $Y$ is fully
+described by the parametric model $p(y|x,\theta)$ and the parameters $\Theta$ are fully described by
 the posterior distribution $p(\theta|\mathcal{D})$.
 
-\subsection{surrogate model}
+\subsection{Surrogate model}
 A surrogate model in a Bayesian optimization setting is just a Bayesian regression model. The most
 used surrogate model is a Gaussian Process. But there have been investigations on other types of
 surrogates, such as Bayesian neural networks and Bayesian regression trees. These are all
-discriminative models, and another approach, which we focus on in this project, is to model $y$ and
+discriminative models, and another approach we focus on in this project is to model $y$ and
 $x$ jointly in a so-called generative model, $p(x,y)$. A generative model can be used implicitly
 as a surrogate from the conditional distribution of $y$ given $x$, $p(y|x)$.
 
 In this thesis, the Bayesian regression models investigated as Bayesian optimization surrogates are
 the following:
 \begin{itemize}[noitemsep]
-    \item Gaussian Process (discriminative)
-    \item Bayesian Neural network (discriminative)
+    \item Gaussian process (discriminative)
+    \item Bayesian neural network (discriminative)
     \item Kernel density regression (generative)
     \item Gaussian mixture regression (generative)
     \item SPN (generative)
