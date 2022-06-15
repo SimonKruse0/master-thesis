@@ -311,6 +311,79 @@
       \field{title}{{Bayesian Optimization}}
       \field{year}{2022}
     \endentry
+    \entry{Adam}{misc}{}
+      \name{author}{2}{}{%
+        {{hash=b6fbd171848aad4edf3925543f1f1522}{%
+           family={Kingma},
+           familyi={K\bibinitperiod},
+           given={Diederik\bibnamedelima P.},
+           giveni={D\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=8aa66e8231cc2fdbe67aa4f18ca970c6}{%
+           family={Ba},
+           familyi={B\bibinitperiod},
+           given={Jimmy},
+           giveni={J\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {arXiv}%
+      }
+      \strng{namehash}{a09df9f123146b8e2c7f1134c9496932}
+      \strng{fullhash}{a09df9f123146b8e2c7f1134c9496932}
+      \strng{bibnamehash}{a09df9f123146b8e2c7f1134c9496932}
+      \strng{authorbibnamehash}{a09df9f123146b8e2c7f1134c9496932}
+      \strng{authornamehash}{a09df9f123146b8e2c7f1134c9496932}
+      \strng{authorfullhash}{a09df9f123146b8e2c7f1134c9496932}
+      \field{sortinit}{1}
+      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Adam: A Method for Stochastic Optimization}
+      \field{year}{2014}
+      \verb{doi}
+      \verb 10.48550/ARXIV.1412.6980
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1412.6980
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1412.6980
+      \endverb
+      \keyw{Machine Learning (cs.LG),FOS: Computer and information sciences,FOS: Computer and information sciences}
+    \endentry
+    \entry{deterministicsurrogatemodels}{article}{}
+      \name{author}{2}{}{%
+        {{hash=e27ae6f7a7acb2e63d56ff5e38da2dfb}{%
+           family={Forrester},
+           familyi={F\bibinitperiod},
+           given={Alexander\bibnamedelima IJ},
+           giveni={A\bibinitperiod\bibinitdelim I\bibinitperiod}}}%
+        {{hash=dd6f95cde11b8f0830db83dcaffb00e3}{%
+           family={Keane},
+           familyi={K\bibinitperiod},
+           given={Andy\bibnamedelima J},
+           giveni={A\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{8b797e5d340a104359e3b6d80dde6827}
+      \strng{fullhash}{8b797e5d340a104359e3b6d80dde6827}
+      \strng{bibnamehash}{8b797e5d340a104359e3b6d80dde6827}
+      \strng{authorbibnamehash}{8b797e5d340a104359e3b6d80dde6827}
+      \strng{authornamehash}{8b797e5d340a104359e3b6d80dde6827}
+      \strng{authorfullhash}{8b797e5d340a104359e3b6d80dde6827}
+      \field{sortinit}{1}
+      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Progress in aerospace sciences}
+      \field{number}{1-3}
+      \field{title}{Recent advances in surrogate-based optimization}
+      \field{volume}{45}
+      \field{year}{2009}
+      \field{pages}{50\bibrangedash 79}
+      \range{pages}{30}
+    \endentry
     \entry{bishop1995neural}{book}{}
       \true{moreauthor}
       \true{morelabelname}

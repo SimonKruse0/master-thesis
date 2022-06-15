@@ -52,7 +52,14 @@ predictive likelihood/ probability of the observation, given a test input $x_i$ 
 the density of predictive distribution is evaluated in the coresponding test output $y_i$,
 
 $$\overline{p(y_i|x_i,\mathcal{D})} := \frac{1}{n}\sum_{i=1}^n p(y_i|x_i,\mathcal{D})$$
-there the bigger the mean predictive likelihood is, the better. \todo{it is not called preditive
+note that the above might lead to that it is more important to classify one test point
+really well, so what we actually would rather test is the test point evaluated in the predictive
+posterior $$p(\textbf{y}|\textbf{x}, \mathcal{D}) = \prod p(y_i|x_i, \mathcal{D})$$
+where it is much more convinient to deal with it in the log space, 
+ $$\log p(\textbf{y}|\textbf{x}, \mathcal{D}) = \sum \log p(y_i|x_i, \mathcal{D})$$
+which makes it convinient to get the mean log prediction. 
+
+there the bigger the mean predictive likelihood is, the better. \todo{it is not called predictive
 likelihood!!}
 
 \subsection{prediction quantification}

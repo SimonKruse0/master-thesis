@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  14 JUN 2022 13:12
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  15 JUN 2022 22:11
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1480,62 +1480,59 @@ File: Pictures/BO_vs_Grid2.eps Graphic file (type eps)
 <Pictures/BO_vs_Grid2.eps>
 File: Pictures/BO_vs_Grid1.eps Graphic file (type eps)
 <Pictures/BO_vs_Grid1.eps>
+
+Underfull \vbox (badness 3168) has occurred while \output is active []
+
  [7]
 File: Pictures/Test1Gaussian_Process_-_sklearn000.pdf Graphic file (type pdf)
 <use Pictures/Test1Gaussian_Process_-_sklearn000.pdf>
 
-Underfull \hbox (badness 8113) in paragraph at lines 203--203
+Underfull \hbox (badness 8113) in paragraph at lines 222--222
 \TU/TimesNewRoman(0)/m/n/10.95 regression model (Gaus-
  []
 
 
-Underfull \hbox (badness 2005) in paragraph at lines 203--203
+Underfull \hbox (badness 2005) in paragraph at lines 222--222
 \TU/TimesNewRoman(0)/m/n/10.95 sian Process) is fitted to
  []
 
 
-Underfull \hbox (badness 1371) in paragraph at lines 203--203
+Underfull \hbox (badness 1371) in paragraph at lines 222--222
 \TU/TimesNewRoman(0)/m/n/10.95 the observed data, which
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 203--203
+Underfull \hbox (badness 10000) in paragraph at lines 222--222
 \TU/TimesNewRoman(0)/m/n/10.95 are sampled from the
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 203--203
+Underfull \hbox (badness 10000) in paragraph at lines 222--222
 \TU/TimesNewRoman(0)/m/n/10.95 Bottom: The expected
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 203--203
+Underfull \hbox (badness 10000) in paragraph at lines 222--222
 \TU/TimesNewRoman(0)/m/n/10.95 improvement \TU/TimesNewRoman(0)/m/it/10.95 acquisition
  []
 
 
-Underfull \hbox (badness 6364) in paragraph at lines 203--203
+Underfull \hbox (badness 6364) in paragraph at lines 222--222
 \TU/TimesNewRoman(0)/m/it/10.95 function \TU/TimesNewRoman(0)/m/n/10.95 is maximied at
  []
 
-) [8] [9]
+)
+Underfull \vbox (badness 5939) has occurred while \output is active []
+
+ [8] [9] [10]
 File: Pictures/expected_improvement_illustration.pdf Graphic file (type pdf)
 <use Pictures/expected_improvement_illustration.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [10]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [11]
+ [11] [12]
 File: Pictures/illustration_AQs.pdf Graphic file (type pdf)
 <use Pictures/illustration_AQs.pdf>
-
-Underfull \vbox (badness 2512) has occurred while \output is active []
-
- [12] [13]
 File: Pictures/neg_lower_confidence_illustration.pdf Graphic file (type pdf)
 <use Pictures/neg_lower_confidence_illustration.pdf>
+ [13]
 File: Pictures/4_methods_LCB_000.pdf Graphic file (type pdf)
 <use Pictures/4_methods_LCB_000.pdf>
 ) [14] [15] [16
@@ -1616,10 +1613,7 @@ File: Figures/reg_illustrations/BOHAMIANN/Test3_BOHAMIANN_n_40_seed_42.jpg Graph
 <Figures/reg_illustrations/BOHAMIANN/Test3_BOHAMIANN_n_40_seed_42.jpg>
 File: Figures/reg_illustrations/BOHAMIANN/Test4_BOHAMIANN_n_40_seed_42.jpg Graphic file (type bmp)
 <Figures/reg_illustrations/BOHAMIANN/Test4_BOHAMIANN_n_40_seed_42.jpg>
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
+ [27]
 File: Figures/reg_illustrations/numpyroBNN/Test1_numpyro_BNN_n_10_seed_42.jpg Graphic file (type bmp)
 <Figures/reg_illustrations/numpyroBNN/Test1_numpyro_BNN_n_10_seed_42.jpg>
 File: Figures/reg_illustrations/numpyroBNN/Test2_numpyro_BNN_n_40_seed_42.jpg Graphic file (type bmp)
@@ -1629,24 +1623,26 @@ File: Figures/reg_illustrations/numpyroBNN/Test3_numpyro_BNN_n_40_seed_42.jpg Gr
 File: Figures/reg_illustrations/numpyroBNN/Test4_numpyro_BNN_n_40_seed_42.jpg Graphic file (type bmp)
 <Figures/reg_illustrations/numpyroBNN/Test4_numpyro_BNN_n_40_seed_42.jpg>
 
+
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-)) [27] [28] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_mixture_regression.tex
-Chapter 4.
-(/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_a_prior_inclusion.tex [29
+)) [28] [29] [30
 
+] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_mixture_regression.tex
+Chapter 4.
+(/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_a_prior_inclusion.tex [31
 
 ]
 File: Pictures/mixture_predictive_bayesian.pdf Graphic file (type pdf)
 <use Pictures/mixture_predictive_bayesian.pdf>
 File: Pictures/mixture_predictive_bayesian2D.pdf Graphic file (type pdf)
 <use Pictures/mixture_predictive_bayesian2D.pdf>
- [30]
+ [32]
 Overfull \hbox (1.85567pt too wide) in paragraph at lines 86--88
 []\TU/TimesNewRoman(0)/m/n/10.95 And the predictive variance is calcualted, using the definition of variance, $\OML/cmm/m/it/10.95 V[]\OT1/cmr/m/n/10.95 [\OML/cmm/m/it/10.95 y\OT1/cmr/m/n/10.95 ] = \OML/cmm/m/it/10.95 E[]\OT1/cmr/m/n/10.95 [\OML/cmm/m/it/10.95 y[]\OT1/cmr/m/n/10.95 ] \OMS/cmsy/m/n/10.95 ^^@
  []
 
-) [31]
+) [33]
 File: Figures/reg_illustrations/KDE/Test1_KDE_n_10_seed_42.jpg Graphic file (type bmp)
 <Figures/reg_illustrations/KDE/Test1_KDE_n_10_seed_42.jpg>
 File: Figures/reg_illustrations/KDE/Test2_KDE_n_40_seed_42.jpg Graphic file (type bmp)
@@ -1659,7 +1655,7 @@ File: Figures/reg_illustrations/KDE/Test4_KDE_n_40_seed_42.jpg Graphic file (typ
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[32] [33]
+[34] [35]
 File: Pictures/SPN_illustration1.pdf Graphic file (type pdf)
 <use Pictures/SPN_illustration1.pdf>
 File: Pictures/SPN_illustration2.pdf Graphic file (type pdf)
@@ -1671,7 +1667,7 @@ File: Pictures/SPN_illustration4.pdf Graphic file (type pdf)
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [34]
+ [36]
 File: Figures/SPN_graph2.pdf Graphic file (type pdf)
 <use Figures/SPN_graph2.pdf>
 File: Figures/reg_illustrations/SPN/Test1_SPN_n_10_seed_42.jpg Graphic file (type bmp)
@@ -1693,17 +1689,17 @@ LaTeX Font Warning: Font shape `TU/TimesNewRoman(0)/m/sc' undefined
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [35] [36] [37]
+ [37] [38] [39]
 File: Pictures/1D_mixture_regression_Naive GMR_N_10.pdf Graphic file (type pdf)
 <use Pictures/1D_mixture_regression_Naive GMR_N_10.pdf>
- [38] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_b_EM.tex
+ [40] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_b_EM.tex
 Overfull \hbox (15.32054pt too wide) detected at line 94
 [] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j\OML/cmm/m/it/10.95 ^^R\OT1/cmr/m/n/10.95 ) \OMS/cmsy/m/n/10.95 ^^@ [] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j\OML/cmm/m/it/10.95 ^^R[]\OT1/cmr/m/n/10.95 ) = \OML/cmm/m/it/10.95 Q\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 ^^R; ^^R[]\OT1/cmr/m/n/10.95 ) \OMS/cmsy/m/n/10.95 ^^@ \OML/cmm/m/it/10.95 Q\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 ^^R[]; ^^R[]\OT1/cmr/m/n/10.95 ) + \OML/cmm/m/it/10.95 E[]\OT1/cmr/m/n/10.95 [[] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j[]\OML/cmm/m/it/10.95 ; ^^R\OT1/cmr/m/n/10.95 )] \OMS/cmsy/m/n/10.95 ^^@ \OML/cmm/m/it/10.95 E[]\OT1/cmr/m/n/10.95 [[] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j[]\OML/cmm/m/it/10.95 ; ^^R[]\OT1/cmr/m/n/10.95 )]
  []
 
-[39] [40] [41])) [42] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/06_results.tex
+[41] [42] [43])) [44] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/06_results.tex
 Chapter 5.
-[43
+[45
 
 
 ]
@@ -1719,16 +1715,14 @@ File: Figures/coco_reg/f1_Naive Gaussian Mixture Regression optimized2.pdf Graph
 <use Figures/coco_reg/f1_Naive Gaussian Mixture Regression optimized2.pdf>
 File: Figures/coco_reg/f1_Naive Gaussian Mixture Regression optimized3.pdf Graphic file (type pdf)
 <use Figures/coco_reg/f1_Naive Gaussian Mixture Regression optimized3.pdf>
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
+ [46]
 File: Figures/coco_reg/f1_numpyro neural network200-2002.pdf Graphic file (type pdf)
 <use Figures/coco_reg/f1_numpyro neural network200-2002.pdf>
 File: Figures/coco_reg/f1_numpyro neural network200-2003.pdf Graphic file (type pdf)
 <use Figures/coco_reg/f1_numpyro neural network200-2003.pdf>
 File: Figures/coco/f1.pdf Graphic file (type pdf)
 <use Figures/coco/f1.pdf>
+
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
@@ -1846,20 +1840,20 @@ File: Figures/coco/f24.png Graphic file (type bmp)
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-) [44] [45] [46] [47] [48] [49] [50] [51] [52
+) [47] [48] [49] [50] [51] [52] [53] [54
 
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/07_conclusion.tex
 Chapter 6.
-) [53
+) [55
 
 ]
 Overfull \hbox (31.82188pt too wide) in paragraph at lines 54--54
 []\TU/TimesNewRoman(0)/m/sc/10.95 Mashall Aryan. “  Sample-efficient Optimization Using Neural Networks”. []$[][][][][] [] [] [] [][][][][][][][][][][][][][][] []
  []
 
-[54
+[56
 
-] [55
+] [57
 
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Backpage.tex
 *geometry* verbose mode - [ newgeometry ] result:
@@ -1894,7 +1888,7 @@ Overfull \hbox (31.82188pt too wide) in paragraph at lines 54--54
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-) [56
+) [58
 
 ]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 61.
@@ -1903,7 +1897,7 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 61.
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 61.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 61.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 37362DEE467A301C204003F4431FD27A;2542.
+(rerunfilecheck)             Checksum: 35D580FFB8E9E4B41D1605A23998FEC7;2542.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -1919,12 +1913,12 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 57099 strings out of 481731
- 1357085 string characters out of 5935437
- 2302144 words of memory out of 5000000
- 73013 multiletter control sequences out of 15000+600000
+ 57105 strings out of 481731
+ 1357365 string characters out of 5935437
+ 2296268 words of memory out of 5000000
+ 73019 multiletter control sequences out of 15000+600000
  551909 words of font info for 140 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 82i,17n,138p,2818b,4682s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 82i,17n,138p,2818b,4686s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (60 pages, 1010196 bytes).
+Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (62 pages, 1039824 bytes).
