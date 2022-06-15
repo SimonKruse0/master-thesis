@@ -3,7 +3,7 @@
 ### -- specify queue -- 
 #BSUB -q hpc
 ### -- set the job Name -- 
-#BSUB -J reg_test_coco
+#BSUB -J reg_KDE
 ### -- ask for number of cores (default: 1) -- 
 #BSUB -n 4 
 ### -- specify that the cores must be on the same host -- 
@@ -30,5 +30,5 @@
 # here follow the commands you want to execute 
 #/zhome/17/6/118138/master-thesis/env/bin/python /zhome/17/6/118138/master-thesis/regression_experiments/regression_validation_coco.py
 #/zhome/17/6/118138/master-thesis/env/bin/python /zhome/17/6/118138/master-thesis/regression_experiments/regression_coco_2D_illustration.py
-#/zhome/17/6/118138/master-thesis/env/bin/python /zhome/17/6/118138/master-thesis/regression_experiments/regression_validation_sklearn.py
-/zhome/17/6/118138/master-thesis/env/bin/python /zhome/17/6/118138/master-thesis/regression_experiments/1D_reg_main.py
+/zhome/17/6/118138/master-thesis/env/bin/python /zhome/17/6/118138/master-thesis/regression_experiments/regression_validation_sklearn.py
+#/zhome/17/6/118138/master-thesis/env/bin/python /zhome/17/6/118138/master-thesis/regression_experiments/1D_reg_main.py

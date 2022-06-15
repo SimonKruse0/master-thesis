@@ -42,7 +42,7 @@ class SumProductNetworkRegression(BaseEstimator):
                 prior_weight = 1,
                 sig_prior = 1.1,
                 optimize=False, opt_n_iter  =40, opt_cv = 3,
-                predictive_score = False):
+                predictive_score = False, extra_name=""):
         self.epochs = train_epochs
         # Priors for variance of x and y
         self.alpha0_x = alpha0_x#invers gamma
@@ -50,7 +50,7 @@ class SumProductNetworkRegression(BaseEstimator):
         self.beta0_x = beta0_x
         self.beta0_y = beta0_y
 
-        self.name = "SPN"
+        self.name = f"SPN-{extra_name}"
 
         #self.params = f"manipulate_variance = {manipulate_variance}, optimize = {optimize}, tracks = {tracks}, channels = {channels}"
         self.tracks = tracks
