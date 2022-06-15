@@ -90,7 +90,7 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
     def fit(self, X, Y):
         if self.optimize_hyperparams:
             if X.shape[0] >= self.opt_cv:
-                #self.opt_cv = min(30,X.shape[0]) #leave one out!!
+                self.opt_cv = min(30,X.shape[0]) #leave one out!!
                 self._optimize( X, Y)
                 print("-- Fitted with optimized hyperparams --")
                 return
@@ -233,8 +233,8 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
         y_grid, *_ = normalize(y_grid, self.y_mean, self.y_std)
         return np.gradient(y_grid)
 
-    def plot(self, ax, xbounds=(0,1),ybounds=(-2.5,2.5), plot_credible_set = False):
-        self.x_res, self.y_res  = 300, 200
+    def plot(self, ax, xbounds=(0,1),ybounds=(-2.5,2.5), plot_credible_set = True):
+        self.x_res, self.y_res  = 300, 1000
         x_res, y_res = self.x_res, self.y_res
         x_grid = np.linspace(*xbounds, self.x_res, dtype=np.float)
         y_grid = np.linspace(*ybounds, self.y_res,dtype=np.float)
@@ -294,7 +294,7 @@ if __name__ == "__main__":
     import matplotlib.pyplot as plt
     bounds = [0,1]
     #datasize = int(input("Enter number of datapoints: "))
-    datasize = 200
+    datasize = 20
     np.random.seed(20)
     X_sample =  np.random.uniform(*bounds,size = (datasize,1))
     Y_sample = obj_fun_nd(X_sample)[:,None]

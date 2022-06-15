@@ -34,11 +34,12 @@ def denormalize(X_normalized, mean, std):
 
 class SumProductNetworkRegression(BaseEstimator):
     def __init__(self,
-                tracks=10, channels=30,
+                tracks=2, channels=20,
                 manipulate_variance = False
                 , train_epochs = 10000,
                 alpha0_x=5,alpha0_y=5, 
                 beta0_x = 1,beta0_y = 1, 
+                n_trainings = 2,
                 prior_weight = 1,
                 sig_prior = 1.1,
                 optimize=False, opt_n_iter  =40, opt_cv = 3,
@@ -55,7 +56,7 @@ class SumProductNetworkRegression(BaseEstimator):
         #self.params = f"manipulate_variance = {manipulate_variance}, optimize = {optimize}, tracks = {tracks}, channels = {channels}"
         self.tracks = tracks
         self.channels = channels
-        self.model = None
+        self.n_trainings = n_trainings
         # Define prior conditional p(y|x)
         self.sig_prior = sig_prior#
         self.prior_weight = prior_weight
@@ -148,7 +149,7 @@ class SumProductNetworkRegression(BaseEstimator):
         beta =torch.cat([beta_x, beta_y])[None,:,None]
 
         bestlogp = -np.inf
-        n_trainings = 2
+        n_trainings = self.n_trainings
         for i in range(n_trainings):
             if self.verbose:
                 print(f"training {i+1} out of {n_trainings}",end="\r")
