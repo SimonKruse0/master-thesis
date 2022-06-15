@@ -29,9 +29,9 @@ reg_models = [MeanRegression(),
             
 random.seed()
 random.shuffle(reg_models)
-#reg_models = [NaiveGMRegression(optimize=True, opt_n_iter=10)]#, 
+reg_models = [NaiveGMRegression(optimize=True, opt_n_iter=10)]#, 
 #reg_models = [SumProductNetworkRegression(optimize=False, opt_n_iter=10, extra_name="no-optimized-low-test")]
-reg_models = [GMRegression(optimize=True,opt_n_iter=10, extra_name="no-optimized-low-test")]
+#reg_models = [GMRegression(optimize=False,opt_n_iter=10, extra_name="no-optimized-low-test")]
 ### main ###
 n_train_array = [int(x) for x in np.logspace(1, 2.5, 9)]
 n_test = 10000

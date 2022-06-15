@@ -122,9 +122,9 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
                 y_test = np.array([y_test, y_test])
                 X_test = X_test.repeat(2)[:,None]
             p_predictive, p_x = self.predictive_pdf(X_test, y_test[:,None])
-            score = np.mean(p_predictive)
+            score = np.mean(np.log(p_predictive))
 
-            print(f"mean pred dist = {score:0.3f}")
+            print(f"mean log predictive = {score:0.3f}")
 
             # Z_pred = (y_test-m_pred)/sd_pred #std. normal distributed. 
             # score = np.mean(norm.pdf(Z_pred))
