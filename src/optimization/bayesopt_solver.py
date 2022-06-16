@@ -73,6 +73,15 @@ class BayesOptSolverBase(PlottingClass):
         for ndx in range(0, l, n):
             yield iterable[ndx:min(ndx + n, l)]
 
+    def _batched_predictive_pdf(self,X_test):
+        Y_mu_list = []
+        Y_sigma_list = []
+        for X_batch in batch(X_test, 1000):
+            Y_mu,Y_sigma,_ = self.predict(X_batch)
+            Y_mu_list.append(Y_mu)
+            Y_sigma_list.append(Y_sigma)
+        return np.array(Y_mu_list).flatten(),np.array(Y_sigma_list).flatten()
+
     def predictive_pdf(self, X,Y, return_px = False, grid1D = False):
         
         if grid1D: #making grid prediction.
@@ -81,7 +90,15 @@ class BayesOptSolverBase(PlottingClass):
             XY_grid = [x.flatten() for x in np.meshgrid(X.flatten(), Y.flatten(), indexing="ij")]
             X,Y = XY_grid[0][:,None],  XY_grid[1][:,None]
         try:
-            predictive_pdfs, p_x = self.model.predictive_pdf(X,Y) 
+            predictive_pdfs = []
+            p_x = []
+            for X_batch, Y_batch in zip(self.batch(X, 1000), self.batch(Y, 1000)):
+                temp = self.model.predictive_pdf(X_batch,Y_batch) 
+                predictive_pdfs.append(temp[0])
+                p_x.append(temp[1])
+
+            predictive_pdfs = np.array(predictive_pdfs)
+            p_x = np.array(p_x)
         except:
             print(f"{self.model.name} didn't have a predictive_pdf - using Gaussian")
 

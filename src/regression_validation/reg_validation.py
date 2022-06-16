@@ -13,7 +13,7 @@ font = {'family' : 'normal',
         'size'   : 12}
 import matplotlib
 matplotlib.rc('font', **font)
-
+from src.utils import normalize
 
 def jsonize_array(array):
     if array is None or array[0] is None:
@@ -29,7 +29,7 @@ class PlotReg1D_mixturemodel(BayesOptSolver_sklearn):
         self.show_name = True
         self.deterministic = False
 
-    def __call__(self, n, grid_points=1000,show_gauss= False, show_pred= True, show_name = False, path=""):
+    def __call__(self, n, grid_points=2000,show_gauss= False, show_pred= True, show_name = False, path=""):
         fig,ax = plt.subplots()
         
         np.random.seed(self.seednr)
@@ -37,16 +37,27 @@ class PlotReg1D_mixturemodel(BayesOptSolver_sklearn):
         self.fit()
         self.bounds = (self.bounds[0]-10, self.bounds[1]+10)
         self.Xgrid = np.linspace(*self.bounds, grid_points)[:, None]
+        try:
+            self.plot_true_function2(ax)
+        except:
+            self.plot_true_function(ax)
+
         if show_pred:
             self.plot_predictive_dist(ax)
-        if show_gauss:
+            cmap = plt.cm.Blues
+            legend_elements = [Patch(facecolor=cmap(0.6), edgecolor=cmap(0.6),
+                         label="predictive distribution")]
+                         #label=r'$\hat p(y|x)$')]
+            ax.legend(handles=legend_elements)
+        if show_gauss and show_pred:
+            self.plot_gaussian_approximation(ax, only_mean = True)
+        if show_gauss and not show_pred:
             self.plot_gaussian_approximation(ax)
         if show_name:
             name = self.model.name
             if "BNN" in name:
                 name = "BNN"
             ax.set_title(f"{name}({self.model.params})")
-        self.plot_true_function(ax)
         self.plot_train_data(ax)
 
         if path == "":
@@ -59,32 +70,74 @@ class PlotReg1D_mixturemodel(BayesOptSolver_sklearn):
             plt.savefig(fig_path)
 
     def plot_true_function(self,ax):
-        X_true =  np.linspace(*self.bounds,10000)[:,None]
+        X_true =  np.linspace(*self.bounds,1000)[:,None]
         Y_true = self.obj_fun(X_true)
-        ax.plot(X_true, Y_true, ".", markersize = 1, color="Black")
+        ax.plot(X_true, Y_true, "-", color="Black", zorder=0)
+    
+    def plot_true_function2(self,ax):
+        X_true =  np.linspace(*self.bounds,10000)[:,None]
+        Y_true = [self.problem.plot_objectiv_function(x,nr=0) for x in X_true]
+        ax.plot(X_true, Y_true, "-", color="Black", zorder=0)
+        Y_true = [self.problem.plot_objectiv_function(x,nr=1) for x in X_true]
+        ax.plot(X_true, Y_true, "-", color="Black", zorder=0)
+        Y_true = [self.problem.plot_objectiv_function(x,nr=2) for x in X_true]
+        ax.plot(X_true, Y_true, "-", color="Black", zorder=0)
+        Y_true = [self.problem.plot_objectiv_function(x,nr=3) for x in X_true]
+        ax.plot(X_true, Y_true, "-", color="Black", zorder=0)
     
     def plot_train_data(self,ax):
-        ax.plot(self._X,self._Y, ".", markersize = 5, color="tab:orange")  # plot all observed data
+        ax.plot(self._X,self._Y, ".", markersize = 10, color="tab:orange")  # plot all observed data
 
+    def y_gradient(self,y_grid):
+        y_grid, *_ = normalize(y_grid, self.model.y_mean, self.model.y_std)
+        return np.gradient(y_grid)
 
-    def plot_gaussian_approximation(self,ax,show_name = False):
+    def plot_credible_interval(self, ax, p_predictive,y_grid,x_res,y_res , extent):
+          # Compute 95% highest-posterior region
+        hpr = np.ones((x_res, y_res))
+        for k in range(x_res):
+            p_sorted = -np.sort(-(p_predictive[k] * self.y_gradient(y_grid)))
+            total_p = (p_predictive[k] * self.y_gradient(y_grid)).sum()
+            if total_p<0.01:
+                hpr[k, :] = np.nan
+                continue
+            i = np.searchsorted(np.cumsum(p_sorted/total_p), 0.95)
+            idx = (p_predictive[k]*self.y_gradient(y_grid)) < p_sorted[i]
+            # j = np.searchsorted(np.cumsum(p_sorted/total_p), 0.99)
+            # idx2 = (p_predictive[k]*self.y_gradient(y_grid)) < p_sorted[j]
+            # assert idx.sum()<idx2.sum()
+            # hpr[k, idx2] = 2
+            hpr[k, idx] = 0
+        # ax.imshow(hpr.T, extent=extent,
+        #     aspect="auto",
+        #     origin="lower",
+        #     cmap='Blues',
+        #     vmin=0, vmax=2, 
+        #     alpha = 0.9, zorder=1)
+        #ax.contour(hpr.T, levels=[1], colors="tab:blue", extent=extent , zorder=2)
+        ax.contour(hpr.T, levels=[1], colors="red", extent=extent , zorder=2)
+
+    def plot_gaussian_approximation(self,ax,show_name = False, only_mean=False):
         assert self._X.shape[1] == 1   #Can only plot 1D functions
 
         Ymu, Ysigma = self.predict(self.Xgrid)
         Xgrid = self.Xgrid.squeeze()
         ax.plot(Xgrid, Ymu, "red", lw=2)  # plot predictive mean
-        ax.fill_between(Xgrid, Ymu - 2*Ysigma, Ymu + 2*Ysigma,
-                        color="C0", alpha=0.3, label=r"$E[y]\pm 2  \sqrt{Var[y]}$")  # plot uncertainty intervals
+        if not only_mean:
+            ax.fill_between(Xgrid, Ymu - 2*Ysigma, Ymu + 2*Ysigma, #alpha = 0.3
+                            color="C0", alpha=0.9, label=r"$E[y]\pm 2  \sqrt{Var[y]}$",
+                            zorder=1 )  # plot uncertainty intervals
         ax.set_xlim(*self.bounds)
         #ax.set_ylim(-0.7+np.min(self._Y), 0.5+0.7+np.max(self._Y))
         if show_name:
             ax.set_title(f"{self.model.name}({self.model.params})")
-        ax.legend(loc=2)
+        if not only_mean:
+            ax.legend(loc=2)
 
     def plot_predictive_dist(self,ax,show_name = False):
         assert self._X.shape[1] == 1   #Can only plot 1D functions
         x_grid = self.Xgrid.squeeze()
-        y_grid = np.linspace(0,300, 300)
+        y_grid = np.linspace(0,300, 1000)
         predictive_pdf, p_x = self.predictive_pdf(x_grid[:,None], y_grid[:,None], return_px=True, grid1D = True)
         
         dx = (x_grid[1] - x_grid[0]) / 2.0
@@ -100,23 +153,23 @@ class PlotReg1D_mixturemodel(BayesOptSolver_sklearn):
         x_res = len(x_grid)
         y_res = len(y_grid)
         
-
+        picture = np.log(predictive_pdf.reshape(x_res, y_res)).T
+        picture[picture<-5] = np.nan
         ax.imshow(
-            np.log(predictive_pdf.reshape(x_res, y_res)).T,
+            picture,
             extent=extent,
             aspect="auto",
             origin="lower",
             cmap='Blues',
-            vmin=-5, vmax=1
+            vmin=-5, vmax=1, 
+            alpha = 0.9
         )
-        cmap = plt.cm.Blues
-        legend_elements = [Patch(facecolor=cmap(0.6), edgecolor=cmap(0.6),
-                         label="predictive distribution")]
-                         #label=r'$\hat p(y|x)$')]
-        ax.legend(handles=legend_elements)
+        
 
-        Ymu, Ysigma = self.predict(self.Xgrid)
-        Xgrid = self.Xgrid.squeeze()
+        self.plot_credible_interval( ax, predictive_pdf.reshape(x_res, y_res),y_grid,x_res,y_res , extent )
+
+        # Ymu, Ysigma = self.predict(self.Xgrid)
+        # Xgrid = self.Xgrid.squeeze()
         # ax.plot(Xgrid, Ymu, "red", lw=2)  # plot predictive mean
         # ax.fill_between(Xgrid, Ymu - 2*Ysigma, Ymu + 2*Ysigma,
         #                 color="C0", alpha=0.3, label=r"$E[y]\pm 2  \sqrt{Var[y]}$")  # plot uncertainty intervals

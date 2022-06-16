@@ -95,6 +95,22 @@ class Test3(GeneralSetup):
         else:
             return result[0]
 
+    def plot_objectiv_function(self,x, nr=1):
+        x = x/200 + 0.5
+        self.nfev += 1
+        gap = (np.sign(x-0.5) + 1)
+        intercept = 100
+        result = 50 * gap +np.sin(100*x)*10 + intercept + (30)*(nr%2)
+        if x >= 0.5 and nr<2:
+            return np.nan
+        if x <= 0.5 and nr>=2:
+            return np.nan
+
+        if result.ndim == 0:
+            return result
+        else:
+            return result[0]
+
 class Test4(GeneralSetup):
 
     def objective_function(self,x):

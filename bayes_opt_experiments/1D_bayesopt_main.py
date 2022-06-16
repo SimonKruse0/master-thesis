@@ -7,7 +7,7 @@ from src.regression_models.SPN_regression2 import SumProductNetworkRegression
 
 from src.benchmarks.go_benchmark_functions.go_funcs_S import Step
 from src.benchmarks.go_benchmark_functions.go_funcs_W import Weierstrass
-from src.benchmarks.custom_test_functions.problems import Test1
+from src.benchmarks.custom_test_functions.problems import Test4
 import numpy as np
 import os
 
@@ -26,7 +26,7 @@ reg_model = GaussianProcess_sklearn()
 #                         train_epochs=1000)
 
 #reg_model = BOHAMIANN()
-problem_sklearn = Test1()
+problem_sklearn = Test4()
 plot_BO = PlotBayesOpt1D(reg_model, problem_sklearn, acquisition=acquisition,
 budget=n_init_samples+samples, n_init_samples=n_init_samples,disp=True, show_name=False)
 plot_BO.beta = 2.5

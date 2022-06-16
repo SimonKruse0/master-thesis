@@ -11,7 +11,7 @@ import numpy as np
 from src.benchmarks.custom_test_functions.problems import Test1,Test2, Test3, Test4, Test3b
 
 ## main ##
-reg_models = [GMRegression(optimize=True),
+reg_models = [#GMRegression(optimize=False),
             NaiveGMRegression(optimize=True), 
             GaussianProcess_GPy(), 
             BOHAMIANN(num_keep_samples=100), 
@@ -24,8 +24,8 @@ random.shuffle(reg_models)
 # reg_models = [NumpyroNeuralNetwork(hidden_units = 50, num_warmup=200,num_samples=200,
 #                                 num_chains=4, alpha=1000)]
 #reg_models = [GaussianProcess_GPy()]
-reg_models = [NaiveGMRegression(optimize=True)]
-reg_models = [SumProductNetworkRegression(optimize=True)]
+#reg_models = [NaiveGMRegression(optimize=False)]
+#reg_models = [SumProductNetworkRegression(optimize=True)]
 from datetime import datetime
 run_name = datetime.today().strftime('%m%d_%H%M')
 dirname=os.path.dirname
@@ -46,8 +46,9 @@ for reg_model in reg_models:
             os.mkdir(path2)
         except:
             pass
-        for samples in [20]:#[int(x) for x in np.logspace(1, 2.5, 9)]:
+        for samples in [10]:#[int(x) for x in np.logspace(1, 2.5, 9)]:
             plot_reg = PlotReg1D_mixturemodel(reg_model, problem_sklearn, disp=False)
+            #plot_reg(samples,show_pred=True,show_gauss = True,path= "",show_name=True)
             plot_reg(samples,show_pred=True,show_gauss = True,path= path2+"/",show_name=True)
 
 
