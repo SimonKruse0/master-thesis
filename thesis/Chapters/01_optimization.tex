@@ -120,26 +120,6 @@ on improving the number of iterations to reach the minima $N_{\text{iter}}$.
     where $f_{\text{sur}}(x) \approx f(x)$ for $x$ close to the data $\mathcal{D}$. And we hope the approximation
     holds for $x$ far away from the the data.
 \end{testexample}
-
-\subsection{Exploitation and exploration}
-The balance between an optimization procedure's local/exploitation and global/exploration elements
-is key to its performance (statement in thesis \cite{} ok?). Explained here:
-\begin{enumerate}
-    \item Local element: Exploiting the obtained information $\mathcal{D}$ to find the best point
-    \item Global element: Obtaining new information about the characteristics of the objective
-    function.
-\end{enumerate}
-Essentially, the only explorative phase of the deterministic surrogate optimization is the first initial samples
-from the objective, where if done poorly, the optimization might get stuck in a local minima. This a consequence
-of not represent uncertainties about the objective function. They dont pay attention to less-explored regaions 
-very essential characteristics of a global search method. 
-
-Bayesian formalism. Incorporate uncertainty into modelling. Our prior knowledge. about the characteristics. 
--> defining a prior distribtuion of possible functions.. 
-1) Cope with noise
-2) provide a uncertainty measure. And theoretical motivated aq functions ballance exploitation/exploration. 
-3) Termination process -> when no more uncertainty?. 
-
 \begin{figure}[H]%
     \centering
     {\includegraphics[width=0.46\textwidth]{Pictures/BO_vs_Grid2.eps} }%
@@ -151,6 +131,31 @@ Bayesian formalism. Incorporate uncertainty into modelling. Our prior knowledge.
     optimization). This illustrates the idea of a sample-efficient solver}%
     \label{fig:example}%
 \end{figure}
+
+\subsection{Exploitation and exploration}
+The balance between an optimization procedure's local/exploitation and global/exploration elements
+is key to its performance (statement in thesis \cite{PhDthesis} ok?). Explained here:
+\begin{enumerate}
+    \item Local element: Exploiting the obtained information $\mathcal{D}$ to find the best point
+    \item Global element: Obtaining new information about the characteristics of the objective
+    function.
+\end{enumerate}
+Essentially, the only explorative phase of the deterministic surrogate optimization is the first
+initial samples from the objective, i.e. when creating the initial $\mathcal{D}$. If done poorly,
+the optimization might get stuck in a local minimum. This is a consequence of their nonexisting
+ability to express uncertainty about the objective function. Deterministic surrogate models do not
+pay attention to less-explored regions, which is the essential characteristic of a global
+optimization method \cite{GlobalOptimization}. 
+
+Bayesian formalism is a powerful and sound tool for incorporating uncertainty into the surrogate
+model. Prior to any observed data, we can easily integrate our beliefs about the distribution of
+the objective function. When observing data, the likelihood and prior collaborate to create a
+predictive (posterior) distribution, $p(y|x,\mathcal{D})$. The next location $x$ to explore is now
+determined with a theoretically motivated policy (acquisition function) which might balance the
+exploitation and exploration tradeoff. 
+
+Moreover, Bayesian optimization (or \textit{probabilistic} surrogate-based optimization) is motivated by
+its ability to deal with noisy objective functions. 
 
 
 \subsection{Noisy objective functions}
@@ -168,15 +173,22 @@ $$p(y|f(x),\sigma^2) = \mathcal{N}(y|f(x),\sigma^2)$$
 
 % (note from now on we define $\phi := f(x)$ in order to avoid confusion and a extra set of paranteses)
 % $$p(y|x,\phi,\sigma) = \mathcal{N}(y;\phi,\sigma^2)$$ 
-
-\begin{note}
-    \textbf{"Sample" or "evaluate" objective function} 
+\begin{note2}["Sampling" from objective function]
     The terminology \textit{to sample} is refering to a probabilistic observation model. Formally, we
     can extend this model to deal with noiseless observations as well, simply by setting
     $\sigma = 0$ and letting the model colaps into a Direct delta distribution, $p(y|f(x)) =
     \mathcal{\delta}(y-f(x))$, i.e. all probability mass for $y$ is on the value $f(x)$ giving the
     observation sample $y = f(x)$. 
-\end{note}
+\end{note2}
+
+% \begin{note}
+%     \textbf{"Sampling" from objective function} 
+%     The terminology \textit{to sample} is refering to a probabilistic observation model. Formally, we
+%     can extend this model to deal with noiseless observations as well, simply by setting
+%     $\sigma = 0$ and letting the model colaps into a Direct delta distribution, $p(y|f(x)) =
+%     \mathcal{\delta}(y-f(x))$, i.e. all probability mass for $y$ is on the value $f(x)$ giving the
+%     observation sample $y = f(x)$. 
+% \end{note}
 
 Bayesian optimization or probabilistic surrogate-based optimization deals with both noiseless and noisy objective functions,
 as it defines a Bayesian regression model over the observations.
@@ -188,20 +200,8 @@ as it defines a Bayesian regression model over the observations.
 %     35 evaluation in grid search vs 39 evaluations using Bayesian optimization}
 %     \label{optimhist}
 % \end{figure}
-\begin{tcolorbox}[
-    sharp corners,
-    boxrule=0mm,
-    enhanced,
-    borderline west={4pt}{-2pt}{darkred},
-    borderline north={1pt}{0pt}{darkred},
-    borderline south={1pt}{0pt}{darkred},
-    borderline east={1pt}{0pt}{darkred},
-    %colframe=darkred!0,
-    %colback=darkred!10,
-    %coltitle=darkred,
-    %boxsep=3pt,left=4pt,right=4pt,top=2pt,bottom=2pt
-]
-{ \textcolor{darkred}{\textbf{Example: Bayesian Optimization}}}\\
+
+\begin{testexample}[Bayesian Optimization]
     Bayesian optimization is a \textit{probabilistic} surrogate-based optimization
     methodology. Here a cheap probabilistic regression model $p(y|x)$ is fitted to the
     the observations $\mathcal{D}$ and in contrast to (deterministic) surrogate-based
@@ -213,17 +213,54 @@ as it defines a Bayesian regression model over the observations.
 
     \begin{figure}[H]
         \begin{minipage}[c]{0.67\textwidth}
-          \includegraphics[width=\textwidth]{Pictures/Test1Gaussian_Process_-_sklearn000.pdf}
+          \includegraphics[width=\textwidth]{Pictures/BO_example.pdf}
         \end{minipage}\hfill
         \begin{minipage}[c]{0.3\textwidth}
           \caption{Top: Bayesian regression model (Gaussian Process) is fitted to the observed data,
-          which are sampled from the underlying black objective. Bottom: The expected improvement
+          which are sampled from the underlying objective (black sin-function). Bottom: The expected improvement
           \textit{acquisition function} is maximied at the orange arrow, i.e. the location of the
-          next sample.  $\text{policy}_{BO}(\mathcal{D}) = -79,27$} \label{fig:03-03}
+          next sample.  $\text{policy}_{BO}(\mathcal{D}) = 26,06$} \label{BO_example}
         \end{minipage}
     \end{figure}
+\end{testexample}
+
+
+% \begin{tcolorbox}[
+%     sharp corners,
+%     boxrule=0mm,
+%     enhanced,
+%     borderline west={4pt}{-2pt}{darkred},
+%     borderline north={1pt}{0pt}{darkred},
+%     borderline south={1pt}{0pt}{darkred},
+%     borderline east={1pt}{0pt}{darkred},
+%     %colframe=darkred!0,
+%     %colback=darkred!10,
+%     %coltitle=darkred,
+%     %boxsep=3pt,left=4pt,right=4pt,top=2pt,bottom=2pt
+% ]
+% { \textcolor{darkred}{\textbf{Example: Bayesian Optimization}}}\\
+%     Bayesian optimization is a \textit{probabilistic} surrogate-based optimization
+%     methodology. Here a cheap probabilistic regression model $p(y|x)$ is fitted to the
+%     the observations $\mathcal{D}$ and in contrast to (deterministic) surrogate-based
+%     optimization, it is not possible right away to find the minima in the cheap
+%     surrogate model; first, we need to interpret the meaning of minima in a probabilistic
+%     regression model. This interpretation is done through a so-called acquisition
+%     function (more about this later). The policy is as following,
+%     $$\text{policy}_{BO}(\mathcal{D}) = \max_x AQ(p(y|x,\mathcal{D}))$$
+
+%     \begin{figure}[H]
+%         \begin{minipage}[c]{0.67\textwidth}
+%           \includegraphics[width=\textwidth]{Pictures/Test1Gaussian_Process_-_sklearn000.pdf}
+%         \end{minipage}\hfill
+%         \begin{minipage}[c]{0.3\textwidth}
+%           \caption{Top: Bayesian regression model (Gaussian Process) is fitted to the observed data,
+%           which are sampled from the underlying black objective. Bottom: The expected improvement
+%           \textit{acquisition function} is maximied at the orange arrow, i.e. the location of the
+%           next sample.  $\text{policy}_{BO}(\mathcal{D}) = -79,27$} \label{fig:03-03}
+%         \end{minipage}
+%     \end{figure}
    
-\end{tcolorbox}
+% \end{tcolorbox}
 
 
 % \begin{algorithm}[H]

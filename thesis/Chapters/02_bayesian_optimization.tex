@@ -15,22 +15,23 @@ the concept of optimization.
 
 \section{Bayesian regression}
 
-Whereas traditional regression workflow is the following: From data, fit model parameters, make
-predictions using the parameters. The Bayesian framework allows us to skip the dependency of a
-single set of parameters and instead use all possible parameters by treating the set of parameters
-as a random quantity, $\Theta$, where some values/realizations of $\Theta$ are more probable than
-others. What is of interest is the predictive posterior distribution,  
+Whereas traditional regression workflow is the following: Given data, choose the best fitting model
+parameters, make predictions using those parameters. The Bayesian framework allows us to skip the
+dependency of a single set of parameters and instead use \textit{all possible} parameters by treating the set
+of parameters as a random quantity, $\theta \sim p(\theta)$, where some values/realizations of $\theta$ are more
+probable than others. In Bayesian regression we are interest is the predictive posterior distribution,  
 \begin{align}\label{Predictive2}
     p(y|x, \mathcal{D}) &= \int p(y,\theta|x, \mathcal{D}) d\theta\\
-    &= \int p(y|x,\theta)p(\theta|\mathcal{D}) d\theta.
+    &= \int p(y|x,\theta)p(\theta|\mathcal{D}) d\theta,
 \end{align}
-The second equation is true because of the probability chain rule and that $Y$ is fully
-described by the parametric model $p(y|x,\theta)$ and the parameters $\Theta$ are fully described by
+where the posterior $p(\theta|\mathcal{D})$ gives weighting to the proposed regression model $p(y|x,\theta)$. 
+Note that the second equation is true because of the probability chain rule and that $y$ is fully
+described by the parametric model $p(y|x,\theta)$ and the parameters $\theta$ are fully described by
 the posterior distribution $p(\theta|\mathcal{D})$.
 
 \subsection{Surrogate model}
-A surrogate model in a Bayesian optimization setting is just a Bayesian regression model. The most
-used surrogate model is a Gaussian Process. But there have been investigations on other types of
+A surrogate model in a Bayesian optimization setting is a Bayesian regression model. The most
+used surrogate model is a Gaussian Process. But there have been investigations on other 
 surrogates, such as Bayesian neural networks and Bayesian regression trees. These are all
 discriminative models, and another approach we focus on in this project is to model $y$ and
 $x$ jointly in a so-called generative model, $p(x,y)$. A generative model can be used implicitly
@@ -59,14 +60,12 @@ mixture model or SPN using the expectation-maximization algorithm (EM) since we 
 answering the query $E_{p(z|\theta^{(k)})}[z|\theta]$.
 
 %\subsection{Exact and approximate inference}
-We distinguish between two different ways of inference, exact and approximate inference. It is
+We distinguish between two different ways of inference: Exact and approximate inference. It is
 \textit{exact inference} when a probabilistic query is calculated exact. It is possible to
 calculate exact inference on the predictive distribution for the Gaussian mixture model, Sum product
 network, and Gaussian processes. Models which allow for exact inference have a powerful advantage
 over the models with approximate inference since we can guarantee the answers to the queries are
-correct; however, they are usually also less expressive.
-
-\todo{Note: Explain what expressive mean!}
+correct; however, they are usually also less expressive (unable to explain complicated models). 
 
 When it is not possible to answer a probabilistic query exact, we can approximate the answer using
 \textit{approximate inference}. When dealing with complicated and expressive statistical models,
@@ -74,8 +73,8 @@ exact inference is often intractable, and we need to use approximate inference. 
 inference is a broad category of methods, which includes variational inference, Laplace
 approximation, and Markov chain Monte Carlo (MCMC). The two Bayesian Neural networks we deal with in
 this project Bohamiann and Numpyro BNN are similar regression models but are inferred using two
-different versions of the MCMC method, Hamiltonian Monte Carlo. As revealed later (see in section
-\ref{BNN}), approximate inference might indeed be flawed and inexact. 
+different versions of the MCMC method, Hamiltonian Monte Carlo - giving different results. As
+revealed later (see in section \ref{BNN}), approximate inference might be flawed and inexact. 
 
 \begin{table}[H]
     \centering
@@ -98,40 +97,50 @@ different versions of the MCMC method, Hamiltonian Monte Carlo. As revealed late
             }
 \end{table}
 
-
+\newpage
 \section{Acquisition function}
 Given a well fitted predictive distribution $p(y|x\mathcal{D})$ \eqref{Predictive2}. The next sample
-point is chosen
-according to a so-called acquisition function, which balances out the well-known concept of
-exploitation and exploration. Where exploitation will be choosing the next location, $x \in
-\mathcal{X}$ according to its average improvement, and exploration will be choosing the next point
-in a region of high uncertainty and thereby help lower the overall uncertainty. We will first look
-at the acquisition function used in the thesis: Expected improvement. But also shortly
-go over different types of acquisition functions. 
+point is chosen according to a so-called acquisition function, which balances out the well-known
+concept of exploitation and exploration. It is exploitation if the next chosen location, $x \in
+\mathcal{X}$ according to its average improvement. It is exploration if the next point is chosen in
+a region of high uncertainty and thereby helps lower the overall uncertainty. First, we will look at
+the acquisition function used in the thesis: Expected improvement. But also shortly go over
+different types of acquisition functions. In Figure \ref{Different_AQ_functions} we see three
+different acquisition functions. The expected improvement (EI) is known for being biased towards
+exploitation. In contrast, the negative lower confidence bound (LCB) has a parameter $\beta$, which
+can be tuned to make it focus more on exploration. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Pictures/illustration_AQs.pdf}
+    \caption{The same regression model and points as Figure \ref{BO_example}, but with three
+    different acquisition functions: Expected improvement and negative lower confidence bound for
+    two different lower quantiles $0.841$ and $0.999$. The latter yields more exploration.}\label{Different_AQ_functions}
+\end{figure}
+
 
 \subsection{Expected improvement}
 A popular choice of acquisition function is expected improvement, 
 $$EI(x) = \mathbb{E}_{p(y|x,\mathcal{D})}[\max(0, y_{\min}-y)]$$ where we only consider the values
 $y$, which improves the current best value in the expectation of the predictive distribution,
-$p(y|x,\mathcal{D})$. Therefore $x$ which yield a bad predictive mean value
+$p(y|x,\mathcal{D})$. Therefore, a $x$ which yield a bad predictive mean value
 $\mathbb{E}_{p(y|x,\mathcal{D})}[y]> y_{\min}$ might still be maximizing the expectated improvement,
-if its uncertainty is very large. Figure \ref{EI_illustration} illustrates that a large uncertainty
-in the predictive distribution could lead to relative large values even for non-improving mean
-predictions.
+if the predictive uncertainty is very large at $x$. Figure \ref{EI_illustration} illustrates that a
+large uncertainty in the predictive distribution (represented as the predictive variance) can lead
+to relative large values even for non-improving mean predictions.
 
-\begin{figure}%[H]
+\begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Pictures/expected_improvement_illustration.pdf}
-    \caption{When then predictive distribution is Gaussian, expected improvement becomes closed
-    form. The figure illustrates the values of expected improvement for different predictive
+    \caption{Contourplot of expected improvement for different (Gaussian) predictive
     uncertainties $\sigma_x = \sqrt{\mathbb{V}ar_{p(y|x,\mathcal{D})}[y]}$ versus the average
-    improvement $y_{\min}-\mu_x$, where $\mu_x = E_{p(y|x,\mathcal{D})}[y]$}
+    improvement $y_{\min}-\mu_x$, where $\mu_x = E_{p(y|x,\mathcal{D})}[y]$. The blue line 
+    is the acquisition function at Figure \ref{BO_example} for $x = [-100, 100]$ via the
+    follwoing map $x \mapsto (\sigma_x, y_{\min}-\mu_x)$. The orange dot represent $x_{next} = 26.06$}
     \label{EI_illustration}
 \end{figure}
 
 
-\begin{note}
-    \textbf{Why defining expected improvment with max}    
+\begin{note2}[Why defining expected improvment with max]    
     Note that $\max(0,\cdot)$ is important since the Bayesian optimization othervise reduces to
     a simple non-probabilistic surrogate-based optimization method,
     \begin{align*}
@@ -139,7 +148,7 @@ predictions.
     \end{align*}
     i.e. maximizing the above is equivalent to maximizing the predictive mean, and thereby we loose
     all the valuable information about the predictive uncertainties from the Bayesian regression model. 
-\end{note}
+\end{note2}
 
 \subsubsection{Exact expected improvement} \label{ExactEI} 
 In the following derivation we assume the
@@ -158,8 +167,7 @@ density function (CDF) of a standard normal distribution is denoted, $\Phi(\cdot
 of the predictive distribution yiels closed form solution to the expected improvement function, 
 
 \begin{align*}
-    E_{p(y|x,\mathcal{D})}[\max(0,y_{\min}-y)] &= \int \max(0,y_{\min}-y) p(y|x,\mathcal{D}) dy\\
-    &\approx \int \max(0,y_{\min}-y) \mathcal{N}(y|\mu_x, \sigma_x^2) dy\\
+    E_{\mathcal{N}(y|\mu_x, \sigma_x^2)}[\max(0,y_{\min}-y)] &= \int \max(0,y_{\min}-y) \mathcal{N}(y|\mu_x, \sigma_x^2) dy\\
     &= \int_{-\infty}^{y_{\min}} (y_{\min}-y) \frac{1}{\sigma_x}\phi\left(\frac{y-\mu_x}{\sigma_x}\right) dy\\
     &= \int_{-\infty}^{\frac{y_{\min}-\mu_x}{\sigma_x}} (y_{\min}-\mu_x-\sigma_x\epsilon) \frac{1}{\sigma_x}\phi\left(\epsilon\right) \sigma_x d\epsilon\\
     &= \int_{-\infty}^u \sigma_x \cdot (u-\epsilon) \phi(\epsilon) d\epsilon\\
@@ -169,8 +177,7 @@ of the predictive distribution yiels closed form solution to the expected improv
 
 where $u:=\frac{y_{\min}-\mu_x}{\sigma_x}$. 
 
-\begin{note}
-    \textbf{Derivation details}
+\begin{note2}[Derivation details]
     To understand the identity $\phi(u) = \int_{-\infty}^u
     (-\epsilon)  \phi(\epsilon) d\epsilon$ used in the last equality, we first see that the antiderivative
 is $\phi(\epsilon) = \frac{1}{\sqrt{2\pi}} \exp\left(\frac{-\epsilon^2}{2}\right)$,
@@ -183,7 +190,7 @@ and evaluating the rieman integral is equivalent to evaluate the antiderivative 
 solution, 
 $$\int_{-\infty}^u
 (-\epsilon)  \phi(\epsilon) d\epsilon = \left[\phi(\epsilon)\right]_{-\infty}^u = \phi(u)-0 = \phi(u)$$ 
-\end{note}
+\end{note2}
 
 We can also explicily write the expected improvement as, 
 $$EI(x) = (y_{\min}-\mu_x)\Phi\left(\frac{y_{\min}-\mu_x}{\sigma_x}\right)+ \sigma_x
@@ -200,13 +207,6 @@ growing average improvement $I(x)$ and also for growing prediction uncertainty $
 % $$\frac{\partial EI(x)}{\partial I(x)} = \Phi\left(\frac{y_{\min}-\mu_x}{\sigma_x}\right) > 0, \hspace*{0.5cm} 
 % \frac{\partial EI(x)}{\partial \sigma_x} = \phi\left(\frac{y_{\min}-\mu_x}{\sigma_x}\right) >0$$ 
 % <obs mistake in the book!!!?>
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{Pictures/illustration_AQs.pdf}
-    \caption{The same points as fig .. where the acquisition function is the
-    expected improvement. Whereas Expected improvement is fixed, LCB does have a tunable parameter, which can trade off 
-    exploration and exploitation }
-\end{figure}
 
 \subsubsection{Approximate expected improvement}
 If the predictive distribution is non-Gaussian, it is either possible to approximate it as a Gaussian
@@ -244,32 +244,27 @@ is chosen as the acquisition. For a Gaussian predictive distribution this is
 simply 
 $$nLCB(x) = - (\mu_x - \beta \sigma_x)$$
 where $\beta = \Phi^{-1}(1-\pi)$.  
-\begin{figure}%[H]
+\begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Pictures/neg_lower_confidence_illustration.pdf}
-    \caption{Illustration of the values of the negative lower confidence bound for different predictive
-    uncertainties $\sigma_x = \sqrt{\mathbb{V}ar_{p(y|x,\mathcal{D})}[y]}$ versus the average
-    improvement $y_{\min}-\mu_x$, where $\mu_x = E_{p(y|x,\mathcal{D})}[y]$}
+    \caption{<Soon similar plot as Figure \ref{EI_illustration}> Illustration of the values of the
+    negative lower confidence bound for different predictive uncertainties $\sigma_x =
+    \sqrt{\mathbb{V}ar_{p(y|x,\mathcal{D})}[y]}$ versus the average improvement $y_{\min}-\mu_x$,
+    where $\mu_x = E_{p(y|x,\mathcal{D})}[y]$}
     \label{nLCB_illustration}
 \end{figure}
 
-
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{Pictures/4_methods_LCB_000.pdf}
-    \caption{The same points as fig .. where the acquisition function is the
-    negative lower confidence bound. }
-\end{figure}
-
-
 \subsection{Entropy search}
 
-An information theoretic approach
+<copy> An information theoretic approach
 which accounts for the overall information gain on the optimizer ob-
 tained from a new evaluation has also been presented. This is known
 as informational approach to global optimization (IAGO), and uses en-
 tropy as a measure for information (Villemonteix, Vazquez, and Walter,
 2009).
+
+\subsection{probability of improvement}
+
 
 % We then discuss the knowledge
 % gradient (Section 4.2), entropy search, and predictive entropy search (Section 4.3) acquisition functions.

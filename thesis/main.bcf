@@ -2194,16 +2194,18 @@
     <bcf:citekey order="10">bayesoptbook</bcf:citekey>
     <bcf:citekey order="11">Adam</bcf:citekey>
     <bcf:citekey order="12">deterministicsurrogatemodels</bcf:citekey>
-    <bcf:citekey order="14">PhDthesis</bcf:citekey>
-    <bcf:citekey order="15">BOHAMIANN</bcf:citekey>
-    <bcf:citekey order="16">bishop1995neural</bcf:citekey>
-    <bcf:citekey order="17">ALStatisticalModels</bcf:citekey>
-    <bcf:citekey order="18">JordanPaper</bcf:citekey>
-    <bcf:citekey order="19">bishop</bcf:citekey>
+    <bcf:citekey order="13">PhDthesis</bcf:citekey>
+    <bcf:citekey order="14">GlobalOptimization</bcf:citekey>
+    <bcf:citekey order="15">PhDthesis</bcf:citekey>
+    <bcf:citekey order="16">BOHAMIANN</bcf:citekey>
+    <bcf:citekey order="17">bishop1995neural</bcf:citekey>
+    <bcf:citekey order="18">ALStatisticalModels</bcf:citekey>
+    <bcf:citekey order="19">JordanPaper</bcf:citekey>
     <bcf:citekey order="20">bishop</bcf:citekey>
-    <bcf:citekey order="21">PhDthesis</bcf:citekey>
-    <bcf:citekey order="22">snoek2015scalable</bcf:citekey>
-    <bcf:citekey order="23">NIPS2016_a96d3afe</bcf:citekey>
+    <bcf:citekey order="21">bishop</bcf:citekey>
+    <bcf:citekey order="22">PhDthesis</bcf:citekey>
+    <bcf:citekey order="23">snoek2015scalable</bcf:citekey>
+    <bcf:citekey order="24">NIPS2016_a96d3afe</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">

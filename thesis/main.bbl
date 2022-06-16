@@ -384,6 +384,35 @@
       \field{pages}{50\bibrangedash 79}
       \range{pages}{30}
     \endentry
+    \entry{GlobalOptimization}{article}{}
+      \name{author}{1}{}{%
+        {{hash=9832ff500d1e39bf1fb044ae64909f1c}{%
+           family={Jones},
+           familyi={J\bibinitperiod},
+           given={Donald\bibnamedelima R},
+           giveni={D\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{9832ff500d1e39bf1fb044ae64909f1c}
+      \strng{fullhash}{9832ff500d1e39bf1fb044ae64909f1c}
+      \strng{bibnamehash}{9832ff500d1e39bf1fb044ae64909f1c}
+      \strng{authorbibnamehash}{9832ff500d1e39bf1fb044ae64909f1c}
+      \strng{authornamehash}{9832ff500d1e39bf1fb044ae64909f1c}
+      \strng{authorfullhash}{9832ff500d1e39bf1fb044ae64909f1c}
+      \field{sortinit}{1}
+      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of global optimization}
+      \field{number}{4}
+      \field{title}{A taxonomy of global optimization methods based on response surfaces}
+      \field{volume}{21}
+      \field{year}{2001}
+      \field{pages}{345\bibrangedash 383}
+      \range{pages}{39}
+    \endentry
     \entry{bishop1995neural}{book}{}
       \true{moreauthor}
       \true{morelabelname}
@@ -489,8 +518,8 @@
       \strng{authorbibnamehash}{777504ebb73f750912508fc1b666e109}
       \strng{authornamehash}{777504ebb73f750912508fc1b666e109}
       \strng{authorfullhash}{777504ebb73f750912508fc1b666e109}
-      \field{sortinit}{1}
-      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{sortinit}{2}
+      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{number}{4}

@@ -145,7 +145,8 @@ class BayesOptSolverBase(PlottingClass):
         #     EI *= factor
         #     EI[factor > 99] = EI.max() #For at undgå inanpropiate bump.!
         if return_analysis:
-            return EI, exploitation, exploration
+            #return EI, exploitation, exploration
+            return EI, imp, sigma
         else:
             return EI, None, None
 
@@ -280,13 +281,13 @@ class BayesOptSolver_sklearn(BayesOptSolverBase):
 
 
 class PlotBayesOpt1D(BayesOptSolver_sklearn):
-    def __init__(self, reg_model, problem, acquisition="EI", budget=5, n_init_samples=2, disp=False, show_name = True) -> None:
+    def __init__(self, reg_model, problem, acquisition="EI", budget=5,deterministic = False, n_init_samples=2, disp=False, show_name = True) -> None:
         super().__init__(reg_model, problem, acquisition, budget, n_init_samples, disp)
         assert self.problem_dim == 1
         self.bounds = (self.bounds[0][0], self.bounds[1][0])
         self.Xgrid = np.linspace(*self.bounds, 1000)[:, None]
         self.show_name = show_name
-        self.deterministic = False
+        self.deterministic = deterministic
     def optimize(self, path="", extension= "jpg"):
         for i in range(self.budget):
             print(f"-- finding x{i+1} --",end="\n")
@@ -314,19 +315,22 @@ class PlotBayesOpt1D(BayesOptSolver_sklearn):
         ax1 = plt.subplot(gs[0])
         ax2 = plt.subplot(gs[1])
 
-        self.plot_regression_gaussian_approx(ax1, show_name =self.show_name)
         if self.deterministic:
             X_true =  np.linspace(*self.bounds,1000)[:,None]
             Y_true = self.obj_fun(X_true)
             ax1.plot(X_true, Y_true, "--", color="Black")
+            ax1.set_ylabel("y")
+            ax1.set_xlabel("x")
         else:
             X_true =  np.linspace(*self.bounds,10000)[:,None]
             Y_true = self.obj_fun(X_true)
             ax1.plot(X_true, Y_true, ".", markersize = 0.5, color="Black")
+        self.plot_regression_gaussian_approx(ax1, show_name =self.show_name)
         ax1.plot(self._X[:-1],self._Y[:-1], ".", markersize = 10, color="black")  # plot all observed data
         #ax1.plot(self._X[-1],self._Y[-1], ".", markersize = 10, color="tab:orange")  # plot
 
         self.plot_acquisition_function(ax2)
+        ax2.set_xlabel("x")
         x_next = opt.x_next[:,None]
         max_AQ= self.acquisition_function(x_next)
         ax2.plot(x_next, max_AQ, "^", markersize=10,color="tab:orange", label=f"x_next = {opt.x_next[0]:.2f}")
@@ -347,11 +351,12 @@ class PlotBayesOpt1D(BayesOptSolver_sklearn):
             ax.set_title(f"{self.model.name}")#({self.model.params})")
         
 
-    def plot_acquisition_function(self,ax, color = "tab:blue", show_y_label = True):
+    def plot_acquisition_function(self,ax, color = "tab:blue", show_y_label = True, return_path = False):
         Xgrid = self.Xgrid
 
         if self.acquisition == "EI":
-            EI_of_Xgrid, exploitation, exploration  = self.expected_improvement(Xgrid, return_analysis = True)
+            #EI_of_Xgrid, exploitation, exploration  = self.expected_improvement(Xgrid, return_analysis = True)
+            EI_of_Xgrid, imp, sigma  = self.expected_improvement(Xgrid, return_analysis = True)
             # plot the acquisition function ##
             ax.plot(Xgrid, EI_of_Xgrid, color=color, label = "EI") 
             # ax.plot(Xgrid, exploitation, "--", color = "cyan", label="exploitation") 
@@ -366,6 +371,9 @@ class PlotBayesOpt1D(BayesOptSolver_sklearn):
         if show_y_label:
             ax.set_ylabel("Acquisition Function")
         ax.legend(loc=1)
+        if return_path:
+            return imp, sigma
+
 
 class PlotBayesOpt2D(BayesOptSolver_sklearn):
     #raise NotImplementedError

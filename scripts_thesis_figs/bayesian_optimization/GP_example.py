@@ -8,8 +8,7 @@ import os
 ## INPUT ##
 acquisition = "EI" #LCB, EI
 n_init_samples = 10
-samples = 30
-
+samples = 0
 ## main ##
 reg_model = GaussianProcess_GPy()
 
@@ -41,9 +40,10 @@ for iter in range(1):
             plot_BO.plot_regression_gaussian_approx(ax1, show_name =False)
             ax1.plot(plot_BO._X[:-1],plot_BO._Y[:-1], ".", markersize = 10, color="black")
             ax = ax2
+            imp, sigma = plot_BO.plot_acquisition_function(ax, color = f"C{i}", show_y_label = False, return_path = True)
         else:
             ax = ax3
-        plot_BO.plot_acquisition_function(ax, color = f"C{i}", show_y_label = False)
+            plot_BO.plot_acquisition_function(ax, color = f"C{i}", show_y_label = False)
         x_next = plot_BO.opt.x_next[:,None]
         max_AQ= plot_BO.acquisition_function(x_next)
         ax.plot(x_next, max_AQ, "^", markersize=10,color="tab:orange")#, label=f"x_next = {plot_BO.opt.x_next[0]:.2f}")
@@ -52,7 +52,9 @@ for iter in range(1):
         #plt.show()
         number = f"{iter}".zfill(3)
     ax1.set_ylabel("y")
+    #plt.show()
+    path_data = "/home/simon/Documents/MasterThesis/master-thesis/scripts_thesis_figs/bayesian_optimization"
+    np.savetxt(path_data+"/GP_imp_sig_data.txt", np.array([imp,sigma]))
 
-    plt.show()
 path  = "/home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures"
 plt.savefig(f"{path}/illustration_AQs.pdf")

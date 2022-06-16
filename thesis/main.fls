@@ -533,6 +533,8 @@ INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/Logos/whi
 OUTPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Abstract.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Abstract.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Acknowledgements.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Acknowledgements.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/main.toc
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/main.toc
 OUTPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/main.toc
@@ -563,11 +565,10 @@ INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/BO_vs_Gri
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/BO_vs_Grid2.eps
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/BO_vs_Grid1.eps
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/BO_vs_Grid1.eps
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/Test1Gaussian_Process_-_sklearn000.pdf
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/expected_improvement_illustration.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/BO_example.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/illustration_AQs.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/expected_improvement_illustration.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/neg_lower_confidence_illustration.pdf
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/4_methods_LCB_000.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_04_discriminative_surrogates.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_04_discriminative_surrogates.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_gaussian_process_regression.tex
