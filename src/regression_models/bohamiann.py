@@ -53,6 +53,7 @@ class BOHAMIANN:
             X, Y, num_steps=self.num_steps, num_burn_in_steps=self.num_burnin, 
             lr= self.lr, keep_every=self.keep_every, verbose=True
         )
+        self.y_mean, self.y_std = self.model.y_mean, self.model.y_std
 
     def predict(self,X_test):
         assert X_test.ndim == 2

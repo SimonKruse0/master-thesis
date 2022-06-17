@@ -21,8 +21,8 @@ reg_models = [#GMRegression(optimize=False),
 import random
 random.seed()
 random.shuffle(reg_models)
-# reg_models = [NumpyroNeuralNetwork(hidden_units = 50, num_warmup=200,num_samples=200,
-#                                 num_chains=4, alpha=1000)]
+reg_models = [NumpyroNeuralNetwork(hidden_units = 50, num_warmup=200,num_samples=200,
+                                 num_chains=4, alpha=1000)]
 #reg_models = [GaussianProcess_GPy()]
 #reg_models = [NaiveGMRegression(optimize=False)]
 #reg_models = [SumProductNetworkRegression(optimize=True)]
@@ -38,15 +38,15 @@ except:
 
 
 # #SINGLE TEST
-for reg_model in reg_models:
-    for problem_sklearn in [Test1(),Test2(),Test3(),Test4(),Test3b()]:
+for problem_sklearn in [Test4()]:# [Test1(),Test2(),Test3(),Test4(),Test3b()]:
+    for reg_model in reg_models:
         #path = f"master-thesis/thesis/Figures/reg_illustrations/{reg_model.name}".replace(" ", "")
         path2 = f"{path}/{reg_model.name}".replace(" ", "")
         try:
             os.mkdir(path2)
         except:
             pass
-        for samples in [10]:#[int(x) for x in np.logspace(1, 2.5, 9)]:
+        for samples in [100]:#[int(x) for x in np.logspace(1, 2.5, 9)]:
             plot_reg = PlotReg1D_mixturemodel(reg_model, problem_sklearn, disp=False)
             #plot_reg(samples,show_pred=True,show_gauss = True,path= "",show_name=True)
             plot_reg(samples,show_pred=True,show_gauss = True,path= path2+"/",show_name=True)

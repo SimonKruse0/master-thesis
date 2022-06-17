@@ -38,10 +38,84 @@ domain to the original domain,
  $T^{-1}_y(\hat y) := \hat y \cdot \sigma_x+\mu_x$
 
 
+\section{Model compartment on test problems}
+% Experiment section. For each experiment
+%  1. Introduction. What is the purpose of the experiment
+%  2. Data, materials, methods. Exactly how was the experiment conducted.
+%  3. Results
+%  4. Discussion. Conclusions.
+As Bayesian optimization is performed on black-box functions, we want to test the surrogates on
+performance on different types of problems. 
+
+> Well-behaved
+> Discontinous
+> Multi-modal 
+> anisotropic problem. 
+
+It is common to have many parameters to tune in Bayesian
+optimization (in 1D a human could potentially assist the surrogate model since the regression can
+be plotted and judged by eye). Nevertheless, we will keep the domain in 1D to establish  
+a more informative judgment of the model performance.
+This will establish some intuition about the models and 
+
+\subsection{Model definintions}
+Whereas a true Bayesian would not choose a specific type of model, but using all models
+however, this would indeed be infeasible. We need to limit the scope, 
+
+For the GP, we do 20 restarts in the emperical maximization. And the manteen kernel prior
+with $\nu = 2.5$. 
+
+BNN, is a 50x50x50 tanh layers with standard Gaussain priors on. And a inverse gamma (1000, 1)
+prior on the noise. Trained with 100 burn in and 100 samples. 
+BOHAMIANN is similar but uses a different noise prior, and trains using adaptive HMC method. 
+
+The mixture models are trained using crossvalidation scored on the mean predictive log .. posterior
+(formally speaking this is not a likelihood, but we will keep it as it is almost the same)
+The tuning parameters 
+We do 40 iterations 
+
+SPN is trained using EM with maximum 1000 epochs (is terminated if the progress is stalling). 
+it is trained 2 times. \todo{Lav den historie}
+
+GMR is trained using EM but this is done by the sklearn software. 
+
+\subsection{Test1: Well-behaved problem}
+The first problem will establish some benchmark since this is a straightforward function
+to fit. This should be an easy task for the discriminative models. But the mixture models
+Should also have an easy time. 
+
+The problem is a sine wave. 
+
+<WHat did you do!> E.g. change in basic model?
+
+Picture + regression of all. 
+
+We see that GP is very good here. 
+
+
+\subsection{Test2: Discontinous problem}
+This is a type of problem where we would expect the GP to not perform well, 
+BNN should be the better 
+
+
+\subsection{Test3: multi-modal problem}
+Multimodal problems. 
+
+Here is the more intersting problems for the mixture regression methods. 
+
+
+
+
+\subsection{Test4: anisotropic problem}
+Finally this problem is designed to
+
+
+
 \section{Regression analysis}
-As described in the previous sections an essential part of Bayesian optimization and the decision theory build 
-around Bayesian optimization, that the regression model is correct. We will therefore look at how good the
-regression models are, both in terms of correct prediction and in terms of correct uncertainty estimation. 
+As described in the previous sections, an essential part of Bayesian optimization and the decision
+theory built around Bayesian optimization is that the regression model is correct. We will therefore
+look at how good the regression models are in terms of accurate prediction and 
+correct uncertainty estimation. 
 
 \subsection{uncertainty quantification}
 The probibalistic model is given as 

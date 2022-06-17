@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  16 JUN 2022 13:21
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  17 JUN 2022 09:33
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1452,14 +1452,13 @@ File: Pictures/Logos/white_cmyk.pdf Graphic file (type pdf)
  [2
 
 
-] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Abstract.tex) [3] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Acknowledgements.tex) [4
+] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Abstract.tex) [3] [4
 
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/main.toc)
 \tf@toc=\write8
 \openout8 = `main.toc'.
 
  [5
-
 
 ] [6
 
@@ -1669,7 +1668,7 @@ Chapter 5.
 [43
 
 
-]
+] [44] [45]
 File: Figures/coco_reg/f1_BOHAMIANN2.pdf Graphic file (type pdf)
 <use Figures/coco_reg/f1_BOHAMIANN2.pdf>
 File: Figures/coco_reg/f1_BOHAMIANN3.pdf Graphic file (type pdf)
@@ -1682,14 +1681,16 @@ File: Figures/coco_reg/f1_Naive Gaussian Mixture Regression optimized2.pdf Graph
 <use Figures/coco_reg/f1_Naive Gaussian Mixture Regression optimized2.pdf>
 File: Figures/coco_reg/f1_Naive Gaussian Mixture Regression optimized3.pdf Graphic file (type pdf)
 <use Figures/coco_reg/f1_Naive Gaussian Mixture Regression optimized3.pdf>
- [44]
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
 File: Figures/coco_reg/f1_numpyro neural network200-2002.pdf Graphic file (type pdf)
 <use Figures/coco_reg/f1_numpyro neural network200-2002.pdf>
 File: Figures/coco_reg/f1_numpyro neural network200-2003.pdf Graphic file (type pdf)
 <use Figures/coco_reg/f1_numpyro neural network200-2003.pdf>
 File: Figures/coco/f1.pdf Graphic file (type pdf)
 <use Figures/coco/f1.pdf>
-
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
@@ -1807,20 +1808,20 @@ File: Figures/coco/f24.png Graphic file (type bmp)
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-) [45] [46] [47] [48] [49] [50] [51] [52
+) [46] [47] [48] [49] [50] [51] [52] [53] [54
 
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/07_conclusion.tex
 Chapter 6.
-) [53
+) [55
 
 ]
 Overfull \hbox (31.82188pt too wide) in paragraph at lines 54--54
 []\TU/TimesNewRoman(0)/m/sc/10.95 Mashall Aryan. “  Sample-efficient Optimization Using Neural Networks”. []$[][][][][] [] [] [] [][][][][][][][][][][][][][][] []
  []
 
-[54
+[56
 
-] [55
+] [57
 
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Backpage.tex
 *geometry* verbose mode - [ newgeometry ] result:
@@ -1855,7 +1856,7 @@ Overfull \hbox (31.82188pt too wide) in paragraph at lines 54--54
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-) [56
+) [58
 
 ]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 61.
@@ -1864,7 +1865,7 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 61.
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 61.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 61.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: FE07061CECE828DE38D1A06CF95C0436;2593.
+(rerunfilecheck)             Checksum: A56CC61F27AF47D2F17B20B89B558F7B;2645.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -1880,12 +1881,12 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 57129 strings out of 481731
- 1357754 string characters out of 5935437
- 2297860 words of memory out of 5000000
- 73041 multiletter control sequences out of 15000+600000
+ 57125 strings out of 481731
+ 1357530 string characters out of 5935437
+ 2298901 words of memory out of 5000000
+ 73040 multiletter control sequences out of 15000+600000
  551909 words of font info for 140 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  82i,17n,138p,2818b,4686s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (62 pages, 1071764 bytes).
+Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (64 pages, 1085524 bytes).

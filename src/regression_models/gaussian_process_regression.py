@@ -13,7 +13,7 @@ class GaussianProcess_GPy:
         Y, self.y_mean, self.y_std = normalize(Y)
         kernel = GPy.kern.Matern52(input_dim=1, variance=1., lengthscale=1.)
         self.model = GPy.models.GPRegression(X,Y,kernel)
-        self.model.optimize_restarts(num_restarts = 10)
+        self.model.optimize_restarts(num_restarts = 20)
         kernel_ls = self.model.parameters[0].lengthscale[0]
         kernel_var = self.model.parameters[0].variance[0]
         noise_var = self.model.parameters[1].variance[0] #noise

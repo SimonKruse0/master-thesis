@@ -13,7 +13,7 @@ font = {'family' : 'normal',
         'size'   : 12}
 import matplotlib
 matplotlib.rc('font', **font)
-from src.utils import normalize
+from src.utils import normalize, PlottingClass2
 
 def jsonize_array(array):
     if array is None or array[0] is None:
@@ -37,6 +37,8 @@ class PlotReg1D_mixturemodel(BayesOptSolver_sklearn):
         self.fit()
         self.bounds = (self.bounds[0]-10, self.bounds[1]+10)
         self.Xgrid = np.linspace(*self.bounds, grid_points)[:, None]
+        self.ygrid = np.linspace(0,300, 1000)
+        plt.ylim(0,300)
         try:
             self.plot_true_function2(ax)
         except:
@@ -51,6 +53,7 @@ class PlotReg1D_mixturemodel(BayesOptSolver_sklearn):
             ax.legend(handles=legend_elements)
         if show_gauss and show_pred:
             self.plot_gaussian_approximation(ax, only_mean = True)
+            #self.plot_gaussian_approximation(ax, only_mean = False)
         if show_gauss and not show_pred:
             self.plot_gaussian_approximation(ax)
         if show_name:
@@ -60,6 +63,7 @@ class PlotReg1D_mixturemodel(BayesOptSolver_sklearn):
             ax.set_title(f"{name}({self.model.params})")
         self.plot_train_data(ax)
 
+        
         if path == "":
             plt.show()
 
@@ -72,28 +76,29 @@ class PlotReg1D_mixturemodel(BayesOptSolver_sklearn):
     def plot_true_function(self,ax):
         X_true =  np.linspace(*self.bounds,1000)[:,None]
         Y_true = self.obj_fun(X_true)
-        ax.plot(X_true, Y_true, "-", color="Black", zorder=0)
+        ax.plot(X_true, Y_true, "-",lw = 1, color="Black", zorder=0)
     
     def plot_true_function2(self,ax):
-        X_true =  np.linspace(*self.bounds,10000)[:,None]
+        X_true =  np.linspace(*self.bounds,1000)[:,None]
         Y_true = [self.problem.plot_objectiv_function(x,nr=0) for x in X_true]
-        ax.plot(X_true, Y_true, "-", color="Black", zorder=0)
+        ax.plot(X_true, Y_true, "-",lw = 1, color="Black", zorder=0)
         Y_true = [self.problem.plot_objectiv_function(x,nr=1) for x in X_true]
-        ax.plot(X_true, Y_true, "-", color="Black", zorder=0)
+        ax.plot(X_true, Y_true, "-",lw = 1, color="Black", zorder=0)
         Y_true = [self.problem.plot_objectiv_function(x,nr=2) for x in X_true]
-        ax.plot(X_true, Y_true, "-", color="Black", zorder=0)
+        ax.plot(X_true, Y_true, "-",lw = 1, color="Black", zorder=0)
         Y_true = [self.problem.plot_objectiv_function(x,nr=3) for x in X_true]
-        ax.plot(X_true, Y_true, "-", color="Black", zorder=0)
+        ax.plot(X_true, Y_true, "-",lw = 1, color="Black", zorder=0)
     
     def plot_train_data(self,ax):
-        ax.plot(self._X,self._Y, ".", markersize = 10, color="tab:orange")  # plot all observed data
+        ax.plot(self._X,self._Y, ".", markersize = 5, color="black")  # plot all observed data
+        #ax.plot(self._X,self._Y, ".", markersize = 5, color="tab:orange")  # plot all observed data
 
     def y_gradient(self,y_grid):
         y_grid, *_ = normalize(y_grid, self.model.y_mean, self.model.y_std)
         return np.gradient(y_grid)
 
     def plot_credible_interval(self, ax, p_predictive,y_grid,x_res,y_res , extent):
-          # Compute 95% highest-posterior region
+        # Compute 95% highest-posterior region
         hpr = np.ones((x_res, y_res))
         for k in range(x_res):
             p_sorted = -np.sort(-(p_predictive[k] * self.y_gradient(y_grid)))
@@ -103,19 +108,9 @@ class PlotReg1D_mixturemodel(BayesOptSolver_sklearn):
                 continue
             i = np.searchsorted(np.cumsum(p_sorted/total_p), 0.95)
             idx = (p_predictive[k]*self.y_gradient(y_grid)) < p_sorted[i]
-            # j = np.searchsorted(np.cumsum(p_sorted/total_p), 0.99)
-            # idx2 = (p_predictive[k]*self.y_gradient(y_grid)) < p_sorted[j]
-            # assert idx.sum()<idx2.sum()
-            # hpr[k, idx2] = 2
             hpr[k, idx] = 0
-        # ax.imshow(hpr.T, extent=extent,
-        #     aspect="auto",
-        #     origin="lower",
-        #     cmap='Blues',
-        #     vmin=0, vmax=2, 
-        #     alpha = 0.9, zorder=1)
-        #ax.contour(hpr.T, levels=[1], colors="tab:blue", extent=extent , zorder=2)
-        ax.contour(hpr.T, levels=[1], colors="red", extent=extent , zorder=2)
+
+        ax.contour(hpr.T, levels=[1], colors="tab:blue", extent=extent , zorder=2)
 
     def plot_gaussian_approximation(self,ax,show_name = False, only_mean=False):
         assert self._X.shape[1] == 1   #Can only plot 1D functions
@@ -137,7 +132,7 @@ class PlotReg1D_mixturemodel(BayesOptSolver_sklearn):
     def plot_predictive_dist(self,ax,show_name = False):
         assert self._X.shape[1] == 1   #Can only plot 1D functions
         x_grid = self.Xgrid.squeeze()
-        y_grid = np.linspace(0,300, 1000)
+        y_grid = self.ygrid
         predictive_pdf, p_x = self.predictive_pdf(x_grid[:,None], y_grid[:,None], return_px=True, grid1D = True)
         
         dx = (x_grid[1] - x_grid[0]) / 2.0
@@ -164,18 +159,7 @@ class PlotReg1D_mixturemodel(BayesOptSolver_sklearn):
             vmin=-5, vmax=1, 
             alpha = 0.9
         )
-        
-
         self.plot_credible_interval( ax, predictive_pdf.reshape(x_res, y_res),y_grid,x_res,y_res , extent )
-
-        # Ymu, Ysigma = self.predict(self.Xgrid)
-        # Xgrid = self.Xgrid.squeeze()
-        # ax.plot(Xgrid, Ymu, "red", lw=2)  # plot predictive mean
-        # ax.fill_between(Xgrid, Ymu - 2*Ysigma, Ymu + 2*Ysigma,
-        #                 color="C0", alpha=0.3, label=r"$E[y]\pm 2  \sqrt{Var[y]}$")  # plot uncertainty intervals
-        # ax.set_xlim(*self.bounds)
-        # #ax.set_ylim(-0.7+np.min(self._Y), 0.5+0.7+np.max(self._Y))
-        
         
         if p_x is not None:
             p_x = p_x.reshape(x_res, y_res)[:,0]
@@ -194,7 +178,7 @@ class PlotReg1D_mixturemodel(BayesOptSolver_sklearn):
         
 
 
-class RegressionTestBase():
+class RegressionTestBase(PlottingClass2):
     def data_generator(self, n_train, n_test):
         #obs, important that already test on the same test-data
         if self.Y_test is None:
@@ -215,17 +199,64 @@ class RegressionTestBase():
         assert y_pred.shape == y_true.shape
         return np.mean(np.abs(y_pred-y_true)/(np.abs(y_true)+0.000001))
 
-    def mean_pred_gaussian(self, mu_pred,sigma_pred,y_true):
+    def mean_pred_log_gaussian(self, mu_pred,sigma_pred,y_true):
         assert mu_pred.shape == y_true.shape
         assert sigma_pred.shape == y_true.shape
         Z_pred = (y_true-mu_pred)/sigma_pred #std. normal distributed. 
-        return np.mean(norm.pdf(Z_pred))
+        return np.mean(norm.logpdf(Z_pred))
     
-    def mean_pred_mass(self, x_true,y_true):
+    def mean_pred_log_mass(self, x_true,y_true):
         try:
-            return np.mean(self.predictive_pdf(x_true,y_true))
+            return np.mean(np.log(self.predictive_pdf(x_true,y_true)))
         except:
             return None
+
+    def plot(self,n,output_path):
+        assert self.problem_dim==1
+        fig,ax = plt.subplots()
+        name = self.model.name
+        if "BNN" in name:
+            name = "BNN"
+
+
+        np.random.seed(self.seednr)
+        bounds_tmp = self.bounds
+        self.bounds = (self.bounds[0][0]-10, self.bounds[1][0]+10)
+        if "GMR" in name:
+            x_res = 100
+            y_res = 100
+        else:    
+            x_res = 500
+            y_res = 1000
+        self.Xgrid = np.linspace(*self.bounds, x_res)[:, None]
+        self.ygrid = np.linspace(0,300, y_res)
+        plt.ylim(0,300)
+        try:
+            self.plot_true_function2(ax)
+        except:
+            self.plot_true_function(ax)
+
+        self.plot_predictive_dist(ax)
+        cmap = plt.cm.Blues
+        legend_elements = [Patch(facecolor=cmap(0.6), edgecolor=cmap(0.6),
+                        label="predictive distribution")]
+                        #label=r'$\hat p(y|x)$')]
+        ax.legend(handles=legend_elements)
+
+        self.plot_gaussian_approximation(ax, only_mean = True)
+
+   
+        ax.set_title(f"{name}({self.model.params})")
+        self.plot_train_data(ax)
+
+        
+
+        number = f"{n}"
+        fig_path = output_path+"/"+f"{self.problem_name}_{self.model.name}_n_{number}_seed_{self.seednr}.pdf"
+        fig_path = fig_path.replace(" ", "_")
+        plt.savefig(fig_path)
+        
+        self.bounds = bounds_tmp
 
     def train_test_loop(self, n_train_list, n_test, output_path):
         assert isinstance(n_train_list, list)
@@ -250,10 +281,15 @@ class RegressionTestBase():
             mean_abs_error.append(self.mean_abs_error(mu_pred, y_test))
             mean_rel_error.append(self.mean_rel_error(mu_pred, y_test))
             mean_pred_likelihod.append(
-                self.mean_pred_gaussian(mu_pred,sigma_pred,y_test))
+                self.mean_pred_log_gaussian(mu_pred,sigma_pred,y_test))
             mean_pred_mass.append(
-                self.mean_pred_mass(X_test,Y_test))
+                self.mean_pred_log_mass(X_test,Y_test))
             print(n_train)
+            self._X = X_train
+            self._Y = Y_train
+            self.plot(n_train,output_path)
+
+
         
         # save data
         data = dict()

@@ -34,9 +34,9 @@ def denormalize(X_normalized, mean, std):
 
 class SumProductNetworkRegression(BaseEstimator):
     def __init__(self,
-                tracks=1, channels=20,
+                tracks=2, channels=20, #channels*dim*tracks components
                 manipulate_variance = False
-                , train_epochs = 10000,
+                , train_epochs = 1000,
                 alpha0_x=5,alpha0_y=5, 
                 beta0_x = 1,beta0_y = 1, 
                 n_trainings = 2,

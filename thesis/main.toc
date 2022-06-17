@@ -1,7 +1,6 @@
 \boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
 \babel@toc {english}{}
 \contentsline {section}{Abstract}{iii}{Doc-Start}%
-\contentsline {section}{Acknowledgements}{iv}{Doc-Start}%
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.0.1}%
 \contentsline {section}{\numberline {1.1}Contribution}{2}{section.0.1.1}%
 \contentsline {section}{\numberline {1.2}Related work}{3}{section.0.1.2}%
@@ -53,14 +52,20 @@
 \contentsline {chapter}{\numberline {5}Results}{43}{chapter.0.5}%
 \contentsline {section}{\numberline {5.1}implementation}{43}{section.0.5.1}%
 \contentsline {subsection}{\numberline {5.1.1}standardized data}{43}{subsection.0.5.1.1}%
-\contentsline {section}{\numberline {5.2}Regression analysis}{43}{section.0.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}uncertainty quantification}{43}{subsection.0.5.2.1}%
-\contentsline {subsection}{\numberline {5.2.2}prediction quantification}{44}{subsection.0.5.2.2}%
-\contentsline {subsection}{\numberline {5.2.3}regression benchmark}{44}{subsection.0.5.2.3}%
-\contentsline {section}{\numberline {5.3}Mixture regression}{44}{section.0.5.3}%
-\contentsline {section}{\numberline {5.4}Regression analysis of GP, BOHAMIANN and NumpyNN 1D}{45}{section.0.5.4}%
-\contentsline {section}{\numberline {5.5}Regression analysis of GP, BOHAMIANN and NumpyNN 2D}{45}{section.0.5.5}%
-\contentsline {section}{\numberline {5.6}Mixture regression on simple functions}{45}{section.0.5.6}%
-\contentsline {chapter}{\numberline {6}Conclusion and further work}{53}{chapter.0.6}%
-\contentsline {section}{\numberline {6.1}further work}{53}{section.0.6.1}%
-\contentsline {chapter}{Bibliography}{54}{chapter*.51}%
+\contentsline {section}{\numberline {5.2}Model compartment on test problems}{43}{section.0.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Model definintions}{44}{subsection.0.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Test1: Well-behaved problem}{44}{subsection.0.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Test2: Discontinous problem}{44}{subsection.0.5.2.3}%
+\contentsline {subsection}{\numberline {5.2.4}Test3: multi-modal problem}{44}{subsection.0.5.2.4}%
+\contentsline {subsection}{\numberline {5.2.5}Test4: anisotropic problem}{44}{subsection.0.5.2.5}%
+\contentsline {section}{\numberline {5.3}Regression analysis}{44}{section.0.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}uncertainty quantification}{45}{subsection.0.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}prediction quantification}{45}{subsection.0.5.3.2}%
+\contentsline {subsection}{\numberline {5.3.3}regression benchmark}{45}{subsection.0.5.3.3}%
+\contentsline {section}{\numberline {5.4}Mixture regression}{45}{section.0.5.4}%
+\contentsline {section}{\numberline {5.5}Regression analysis of GP, BOHAMIANN and NumpyNN 1D}{46}{section.0.5.5}%
+\contentsline {section}{\numberline {5.6}Regression analysis of GP, BOHAMIANN and NumpyNN 2D}{46}{section.0.5.6}%
+\contentsline {section}{\numberline {5.7}Mixture regression on simple functions}{46}{section.0.5.7}%
+\contentsline {chapter}{\numberline {6}Conclusion and further work}{55}{chapter.0.6}%
+\contentsline {section}{\numberline {6.1}further work}{55}{section.0.6.1}%
+\contentsline {chapter}{Bibliography}{56}{chapter*.51}%

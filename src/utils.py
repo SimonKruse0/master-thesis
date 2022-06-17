@@ -44,6 +44,111 @@ def batch(iterable, n=1):
         for ndx in range(0, l, n):
             yield iterable[ndx:min(ndx + n, l)]
 
+class PlottingClass2:
+    def plot_true_function(self,ax):
+        X_true =  np.linspace(*self.bounds,1000)[:,None]
+        Y_true = self.obj_fun(X_true)
+        ax.plot(X_true, Y_true, "-",lw = 1.5, color="Black", zorder=0)
+    
+    def plot_true_function2(self,ax):
+        X_true =  np.linspace(*self.bounds,1000)[:,None]
+        Y_true = [self.problem.plot_objectiv_function(x,nr=0) for x in X_true]
+        ax.plot(X_true, Y_true, "-",lw = 1.5, color="Black", zorder=0)
+        Y_true = [self.problem.plot_objectiv_function(x,nr=1) for x in X_true]
+        ax.plot(X_true, Y_true, "-",lw = 1.5, color="Black", zorder=0)
+        Y_true = [self.problem.plot_objectiv_function(x,nr=2) for x in X_true]
+        ax.plot(X_true, Y_true, "-",lw = 1.5, color="Black", zorder=0)
+        Y_true = [self.problem.plot_objectiv_function(x,nr=3) for x in X_true]
+        ax.plot(X_true, Y_true, "-",lw = 1.5, color="Black", zorder=0)
+    
+    def plot_train_data(self,ax):
+        ax.plot(self._X,self._Y, ".", markersize = 5, color="black")  # plot all observed data
+        #ax.plot(self._X,self._Y, ".", markersize = 5, color="tab:orange")  # plot all observed data
+
+    def y_gradient(self,y_grid):
+        y_grid, *_ = normalize(y_grid, self.model.y_mean, self.model.y_std)
+        return np.gradient(y_grid)
+
+    def plot_credible_interval(self, ax, p_predictive,y_grid,x_res,y_res , extent):
+        # Compute 95% highest-posterior region
+        hpr = np.ones((x_res, y_res))
+        for k in range(x_res):
+            p_sorted = -np.sort(-(p_predictive[k] * self.y_gradient(y_grid)))
+            total_p = (p_predictive[k] * self.y_gradient(y_grid)).sum()
+            if total_p<0.01:
+                hpr[k, :] = np.nan
+                continue
+            i = np.searchsorted(np.cumsum(p_sorted/total_p), 0.95)
+            idx = (p_predictive[k]*self.y_gradient(y_grid)) < p_sorted[i]
+            hpr[k, idx] = 0
+
+        ax.contour(hpr.T, levels=[1], colors="tab:blue", extent=extent , zorder=2)
+
+    def plot_gaussian_approximation(self,ax,show_name = False, only_mean=False):
+        assert self._X.shape[1] == 1   #Can only plot 1D functions
+
+        Ymu, Ysigma = self.predict(self.Xgrid)
+        Xgrid = self.Xgrid.squeeze()
+        ax.plot(Xgrid, Ymu, "red", lw=2)  # plot predictive mean
+        if not only_mean:
+            ax.fill_between(Xgrid, Ymu - 2*Ysigma, Ymu + 2*Ysigma, #alpha = 0.3
+                            color="C0", alpha=0.9, label=r"$E[y]\pm 2  \sqrt{Var[y]}$",
+                            zorder=1 )  # plot uncertainty intervals
+        ax.set_xlim(*self.bounds)
+        #ax.set_ylim(-0.7+np.min(self._Y), 0.5+0.7+np.max(self._Y))
+        if show_name:
+            ax.set_title(f"{self.model.name}({self.model.params})")
+        if not only_mean:
+            ax.legend(loc=2)
+
+    def plot_predictive_dist(self,ax,show_name = False):
+        assert self._X.shape[1] == 1   #Can only plot 1D functions
+        x_grid = self.Xgrid.squeeze()
+        y_grid = self.ygrid
+        predictive_pdf, p_x = self.predictive_pdf(x_grid[:,None], y_grid[:,None], return_px=True, grid1D = True)
+        
+        dx = (x_grid[1] - x_grid[0]) / 2.0
+        dy = (y_grid[1] - y_grid[0]) / 2.0
+
+        extent = [
+            x_grid[0] - dx,
+            x_grid[-1] + dx,
+            y_grid[0] - dy,
+            y_grid[-1] + dy,
+        ]
+
+        x_res = len(x_grid)
+        y_res = len(y_grid)
+        
+        picture = np.log(predictive_pdf.reshape(x_res, y_res)).T
+        picture[picture<-5] = np.nan
+        ax.imshow(
+            picture,
+            extent=extent,
+            aspect="auto",
+            origin="lower",
+            cmap='Blues',
+            vmin=-5, vmax=1, 
+            alpha = 0.9
+        )
+        self.plot_credible_interval( ax, predictive_pdf.reshape(x_res, y_res),y_grid,x_res,y_res , extent )
+        
+        if p_x is not None:
+            p_x = p_x.reshape(x_res, y_res)[:,0]
+            ax1 = ax.twinx()  # instantiate a second axes that shares the same x-axis
+            color = 'tab:green'
+            prior_weight = self.model.prior_weight
+            a = self.model.N*p_x/prior_weight
+            ax1.plot(x_grid, a/(a+1), color = color)
+            #ax1.set_ylabel(r'$\alpha_x$', color=color)
+            ax1.set_ylim(0,5)
+            ax1.grid(color=color, alpha = 0.2)
+            ticks = [0,0.2,0.4,0.6,0.8,1.0]
+            ax1.set_yticks(ticks)
+            ax1.tick_params(axis='y', labelcolor=color)
+            ax1.text(x_grid[len(x_grid)//2],1.1,r"$\alpha(x)$", color=color, size="large")
+
+
 class PlottingClass:
     def __init__(self) -> None:
         pass

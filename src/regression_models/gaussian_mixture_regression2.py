@@ -53,6 +53,8 @@ class GMM_bayesian(GMM):
         prior_weight = self.prior_weight
         sig_prior = self.sig_prior
 
+        #sort() ??
+
         for x,y in zip(X,Y):
             conditional_gmm = self.condition(x)
             p_x = self.marginalize(x)[0]
@@ -157,7 +159,7 @@ class GMRegression(BaseEstimator):
                     n_components = 10,
                     prior_weight = 1,
                     opt_n_iter  =40, opt_cv = 10,
-                    train_epochs = 10000, 
+                    train_epochs = 1000, 
                     extra_name=""):
         self.model = None
         self.name = f"GMR-{extra_name}"
