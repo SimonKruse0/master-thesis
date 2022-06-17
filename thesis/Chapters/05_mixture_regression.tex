@@ -36,6 +36,15 @@ neural network. To summarize, the mixture regression models are:
      \item Sum-product networks.
  \end{itemize}
 
+\textbf{Note:}
+
+Initially, we wanted to investigate sum-product networks, untill we realised that they are just
+mixture models. Therefor it made sense to develop regression theory for the more simple Gaussian
+mixture models. However, it results weren't always relyable, and
+when the most easy way was just to place a gaussian distribution around
+all data point i.e. the Kernel density estimator. 
+
+
  \section{Conditional distribution in a Bayesian setting}\label{mixture_include_prior}
  \input{Chapters/05_a_prior_inclusion.tex}
 
