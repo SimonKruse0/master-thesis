@@ -120,6 +120,44 @@ class BayesOptSolverBase(PlottingClass):
             return predictive_pdfs, p_x
         return predictive_pdfs
 
+    def predictive_logpdf(self, X,Y, return_px = False, grid1D = False):
+        
+        if grid1D: #making grid prediction.
+            x_res = X.shape[0]
+            y_res = Y.shape[0]
+            XY_grid = [x.flatten() for x in np.meshgrid(X.flatten(), Y.flatten(), indexing="ij")]
+            X,Y = XY_grid[0][:,None],  XY_grid[1][:,None]
+        try:
+            predictive_logpdfs = []
+            p_x = []
+            for X_batch, Y_batch in zip(self.batch(X, 1000), self.batch(Y, 1000)):
+                temp = self.model.predictive_pdf(X_batch,Y_batch) 
+                predictive_logpdfs.append(np.log(temp[0]))
+                p_x.append(temp[1])
+
+            predictive_logpdfs = np.array(predictive_logpdfs)
+            p_x = np.array(p_x)
+        except:
+            print(f"{self.model.name} didn't have a predictive_pdf - using Gaussian")
+
+            Y = Y.squeeze()
+            if grid1D:
+                Y_mu,Y_sigma = self.predict(X[::y_res]) 
+                Y_mu = Y_mu.squeeze()
+                Y_sigma = Y_sigma.squeeze()
+                Y = Y.reshape(x_res,y_res)
+                Z_pred = (Y-Y_mu[:,None])/Y_sigma[:,None] #std. normal distributed. 
+                Z_pred = Z_pred.flatten()
+            else:
+                Y_mu,Y_sigma = self.predict(X)
+                Z_pred = (Y-Y_mu)/Y_sigma #std. normal distributed. 
+            
+            predictive_logpdfs = norm.logpdf(Z_pred)
+            p_x = None
+        if return_px:
+            return predictive_logpdfs, p_x
+        return predictive_logpdfs
+
     def predict(self,X, gaussian_approx = True, get_px = False):
         # if X.shape[0] > 1000:
         if X.ndim == 1:

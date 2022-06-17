@@ -31,7 +31,7 @@ reg_models = [MeanRegression(),
 # random.shuffle(reg_models)
 #reg_models = [SumProductNetworkRegression(optimize=False)]#, 
 #reg_models = [SumProductNetworkRegression(optimize=False, opt_n_iter=10, extra_name="no-optimized-low-test")]
-reg_models = [GMRegression(optimize=True)]
+reg_models = [GaussianProcess_GPy()]
 ### main ###
 n_train_array = [int(x) for x in np.logspace(1, 2.5, 9)]
 n_test = 10000
@@ -50,7 +50,7 @@ except:
 #problems = [SimonsTest2_probibalistic()]
 # problems = [Step_random()]
 # problems += [SimonsTest2_probibalistic2()]
-problems = [Test1(),Test2(),Test3(),Test4(),Test3b()]
+problems = [Test1()]
 #for regression_model in reg_models:
 np.random.seed()
 for random_seed in np.random.randint(99999, size=5):

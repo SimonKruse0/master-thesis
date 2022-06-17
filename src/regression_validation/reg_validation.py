@@ -207,7 +207,7 @@ class RegressionTestBase(PlottingClass2):
     
     def mean_pred_log_mass(self, x_true,y_true):
         try:
-            return np.mean(np.log(self.predictive_pdf(x_true,y_true)))
+            return np.mean(self.predictive_logpdf(x_true,y_true))
         except:
             return None
 

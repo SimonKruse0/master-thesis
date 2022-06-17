@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  17 JUN 2022 09:33
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  17 JUN 2022 23:24
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1603,6 +1603,9 @@ File: Pictures/mixture_predictive_bayesian.pdf Graphic file (type pdf)
 <use Pictures/mixture_predictive_bayesian.pdf>
 File: Pictures/mixture_predictive_bayesian2D.pdf Graphic file (type pdf)
 <use Pictures/mixture_predictive_bayesian2D.pdf>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
  [30]
 Overfull \hbox (1.85567pt too wide) in paragraph at lines 86--88
 []\TU/TimesNewRoman(0)/m/n/10.95 And the predictive variance is calcualted, using the definition of variance, $\OML/cmm/m/it/10.95 V[]\OT1/cmr/m/n/10.95 [\OML/cmm/m/it/10.95 y\OT1/cmr/m/n/10.95 ] = \OML/cmm/m/it/10.95 E[]\OT1/cmr/m/n/10.95 [\OML/cmm/m/it/10.95 y[]\OT1/cmr/m/n/10.95 ] \OMS/cmsy/m/n/10.95 ^^@
@@ -1630,9 +1633,6 @@ File: Pictures/SPN_illustration3.pdf Graphic file (type pdf)
 <use Pictures/SPN_illustration3.pdf>
 File: Pictures/SPN_illustration4.pdf Graphic file (type pdf)
 <use Pictures/SPN_illustration4.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
  [34]
 File: Figures/SPN_graph2.pdf Graphic file (type pdf)
 <use Figures/SPN_graph2.pdf>
@@ -1650,7 +1650,7 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 LaTeX Font Warning: Font shape `TU/TimesNewRoman(0)/m/sc' undefined
-(Font)              using `TU/TimesNewRoman(0)/m/n' instead on input line 240.
+(Font)              using `TU/TimesNewRoman(0)/m/n' instead on input line 249.
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -1668,7 +1668,99 @@ Chapter 5.
 [43
 
 
-] [44] [45]
+]
+File: Figures/results_regression/Test1_dim_1_0.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test1_dim_1_0.pdf>
+File: Figures/results_regression/Test1_dim_1_1.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test1_dim_1_1.pdf>
+File: Figures/results_regression/Test1/1.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test1/1.pdf>
+File: Figures/results_regression/Test1/2.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test1/2.pdf>
+File: Figures/results_regression/Test1/7_W.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test1/7_W.pdf>
+File: Figures/results_regression/Test1/4.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test1/4.pdf>
+File: Figures/results_regression/Test1/5.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test1/5.pdf>
+File: Figures/results_regression/Test1/6.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test1/6.pdf>
+
+Underfull \vbox (badness 3098) has occurred while \output is active []
+
+ [44]
+File: Figures/results_regression/Test2_dim_1_0.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test2_dim_1_0.pdf>
+File: Figures/results_regression/Test2_dim_1_1.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test2_dim_1_1.pdf>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [45]
+File: Figures/results_regression/Test2/1.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test2/1.pdf>
+File: Figures/results_regression/Test2/2.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test2/2.pdf>
+File: Figures/results_regression/Test2/3.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test2/3.pdf>
+File: Figures/results_regression/Test2/4.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test2/4.pdf>
+File: Figures/results_regression/Test2/5.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test2/5.pdf>
+File: Figures/results_regression/Test2/6.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test2/6.pdf>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [46]
+File: Figures/results_regression/Test3_dim_1_0.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test3_dim_1_0.pdf>
+File: Figures/results_regression/Test3_dim_1_1.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test3_dim_1_1.pdf>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [47]
+File: Figures/results_regression/Test3/1.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test3/1.pdf>
+File: Figures/results_regression/Test3/2.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test3/2.pdf>
+File: Figures/results_regression/Test3/3.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test3/3.pdf>
+File: Figures/results_regression/Test3/4.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test3/4.pdf>
+File: Figures/results_regression/Test3/5.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test3/5.pdf>
+File: Figures/results_regression/Test3/6.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test3/6.pdf>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [48]
+File: Figures/results_regression/Test4_dim_1_0.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test4_dim_1_0.pdf>
+File: Figures/results_regression/Test4_dim_1_1.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test4_dim_1_1.pdf>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [49]
+File: Figures/results_regression/Test4/1.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test4/1.pdf>
+File: Figures/results_regression/Test4/2.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test4/2.pdf>
+File: Figures/results_regression/Test4/3.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test4/3.pdf>
+File: Figures/results_regression/Test4/4.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test4/4.pdf>
+File: Figures/results_regression/Test4/5.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test4/5.pdf>
+File: Figures/results_regression/Test4/6.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test4/6.pdf>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [50] [51] [52]
 File: Figures/coco_reg/f1_BOHAMIANN2.pdf Graphic file (type pdf)
 <use Figures/coco_reg/f1_BOHAMIANN2.pdf>
 File: Figures/coco_reg/f1_BOHAMIANN3.pdf Graphic file (type pdf)
@@ -1681,16 +1773,13 @@ File: Figures/coco_reg/f1_Naive Gaussian Mixture Regression optimized2.pdf Graph
 <use Figures/coco_reg/f1_Naive Gaussian Mixture Regression optimized2.pdf>
 File: Figures/coco_reg/f1_Naive Gaussian Mixture Regression optimized3.pdf Graphic file (type pdf)
 <use Figures/coco_reg/f1_Naive Gaussian Mixture Regression optimized3.pdf>
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
 File: Figures/coco_reg/f1_numpyro neural network200-2002.pdf Graphic file (type pdf)
 <use Figures/coco_reg/f1_numpyro neural network200-2002.pdf>
 File: Figures/coco_reg/f1_numpyro neural network200-2003.pdf Graphic file (type pdf)
 <use Figures/coco_reg/f1_numpyro neural network200-2003.pdf>
 File: Figures/coco/f1.pdf Graphic file (type pdf)
 <use Figures/coco/f1.pdf>
+
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
@@ -1808,20 +1897,20 @@ File: Figures/coco/f24.png Graphic file (type bmp)
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-) [46] [47] [48] [49] [50] [51] [52] [53] [54
+) [53] [54] [55] [56] [57] [58] [59] [60
 
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/07_conclusion.tex
 Chapter 6.
-) [55
+) [61
 
 ]
 Overfull \hbox (31.82188pt too wide) in paragraph at lines 54--54
 []\TU/TimesNewRoman(0)/m/sc/10.95 Mashall Aryan. “  Sample-efficient Optimization Using Neural Networks”. []$[][][][][] [] [] [] [][][][][][][][][][][][][][][] []
  []
 
-[56
+[62
 
-] [57
+] [63
 
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Backpage.tex
 *geometry* verbose mode - [ newgeometry ] result:
@@ -1856,7 +1945,7 @@ Overfull \hbox (31.82188pt too wide) in paragraph at lines 54--54
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-) [58
+) [64
 
 ]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 61.
@@ -1865,7 +1954,7 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 61.
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 61.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 61.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: A56CC61F27AF47D2F17B20B89B558F7B;2645.
+(rerunfilecheck)             Checksum: 35A286F4B53261F261D94D92AF8D54B8;2645.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -1881,12 +1970,12 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 57125 strings out of 481731
- 1357530 string characters out of 5935437
+ 57310 strings out of 481731
+ 1365595 string characters out of 5935437
  2298901 words of memory out of 5000000
- 73040 multiletter control sequences out of 15000+600000
+ 73200 multiletter control sequences out of 15000+600000
  551909 words of font info for 140 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  82i,17n,138p,2818b,4686s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (64 pages, 1085524 bytes).
+Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (70 pages, 1113396 bytes).
