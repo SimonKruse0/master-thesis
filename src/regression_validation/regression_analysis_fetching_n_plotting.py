@@ -99,7 +99,11 @@ if __name__ == "__main__":
             #type = input("what type 0,1? ")
             problem_name = f"Test{number}_dim_1"
             plot_regression_paths(ax, problem_name, plot_type=int(type))
-            #plt.ylim(-5,4)
+            if type == "1":
+                if number == "1" or number == "2":
+                    plt.ylim(-5,3)
+                else:
+                    plt.ylim(-5,1)
             plt.grid()
             plt.savefig(result_folder+problem_name+f"_{type}"+".pdf")
     
@@ -119,6 +123,6 @@ if __name__ == "__main__":
             type = input("what type 0,1? ")
             problem_name = f"Test{number}_dim_1"
             plot_regression_paths(ax, problem_name, plot_type=int(type))
-            plt.ylim(-5,4)
+            #plt.ylim(-5,4)
             plt.show()
     

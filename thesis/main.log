@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  17 JUN 2022 23:24
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  18 JUN 2022 16:33
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -965,7 +965,7 @@ Package: bm 2019/07/24 v1.2d Bold Symbol Support (DPC/FMi)
 \symboldsymbols=\mathgroup8
 LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 141.
 LaTeX Info: Redefining \bm on input line 209.
-)) (/usr/share/texlive/texmf-dist/tex/latex/enumitem/enumitem.sty
+) (/usr/share/texlive/texmf-dist/tex/latex/enumitem/enumitem.sty
 Package: enumitem 2019/06/20 v3.9 Customized lists
 \labelindent=\skip95
 \enit@outerparindent=\dimen332
@@ -973,6 +973,28 @@ Package: enumitem 2019/06/20 v3.9 Customized lists
 \enit@inbox=\box75
 \enit@count@id=\count502
 \enitdp@description=\count503
+)) (/usr/share/texlive/texmf-dist/tex/latex/overpic/overpic.sty
+Package: overpic 2018/09/02 1.2 picture overlays (RN)
+ (/usr/share/texlive/texmf-dist/tex/latex/eepic/epic.sty
+Enhancements to Picture Environment. Version 1.2 - Released June 1, 1986
+\@@multicnt=\count504
+\d@lta=\count505
+\@delta=\dimen333
+\@@delta=\dimen334
+\@gridcnt=\count506
+\@joinkind=\count507
+\@dotgap=\dimen335
+\@ddotgap=\dimen336
+\@x@diff=\count508
+\@y@diff=\count509
+\x@diff=\dimen337
+\y@diff=\dimen338
+\@dotbox=\box76
+\num@segments=\count510
+\num@segmentsi=\count511
+\@datafile=\read5
+)
+\OVP@box=\box77
 ) (/home/simon/Documents/MasterThesis/master-thesis/thesis/Setup/Settings.tex
 
 Package fontspec Info: Font family 'TimesNewRoman(0)' created for font 'Times
@@ -996,7 +1018,7 @@ Package fontspec Info: Font family 'TimesNewRoman(0)' created for font 'Times
 
  (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryspy.code.tex
 File: tikzlibraryspy.code.tex 2020/01/08 v3.1.5b (3.1.5b)
-\tikz@lib@spybox=\box76
+\tikz@lib@spybox=\box78
 ) (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/libs/tikzlibrarypgfplots.statistics.code.tex) (/usr/share/texlive/texmf-dist/tex/generic/stringenc/se-ascii-print.def
 File: se-ascii-print.def 2019/11/29 v1.12 stringenc: Printable ASCII characters
 )
@@ -1014,50 +1036,50 @@ Package: tcolorbox 2019/11/15 version 4.22 text color boxes
 Package: verbatim 2019/11/10 v1.5r LaTeX2e package for verbatim enhancements
 \every@verbatim=\toks45
 \verbatim@line=\toks46
-\verbatim@in@stream=\read5
+\verbatim@in@stream=\read6
 ) (/usr/share/texlive/texmf-dist/tex/latex/environ/environ.sty
 Package: environ 2014/05/04 v0.3 A new way to define environments
  (/usr/share/texlive/texmf-dist/tex/latex/trimspaces/trimspaces.sty
 Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
 ))
-\tcb@titlebox=\box77
-\tcb@upperbox=\box78
-\tcb@lowerbox=\box79
-\tcb@phantombox=\box80
-\c@tcbbreakpart=\count504
-\c@tcblayer=\count505
-\tcolorbox@number=\count506
-\tcb@temp=\box81
-\tcb@temp=\box82
+\tcb@titlebox=\box79
+\tcb@upperbox=\box80
+\tcb@lowerbox=\box81
+\tcb@phantombox=\box82
+\c@tcbbreakpart=\count512
+\c@tcblayer=\count513
+\tcolorbox@number=\count514
 \tcb@temp=\box83
 \tcb@temp=\box84
+\tcb@temp=\box85
+\tcb@temp=\box86
 \tcb@out=\write5
 \tcb@record@out=\write6
  (/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcbraster.code.tex
 Library (tcolorbox): 'tcbraster.code.tex' version '4.22'
-\c@tcbrastercolumn=\count507
-\c@tcbrasterrow=\count508
-\c@tcbraster=\count509
+\c@tcbrastercolumn=\count515
+\c@tcbrasterrow=\count516
+\c@tcbraster=\count517
 ) (/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcbskins.code.tex
 Library (tcolorbox): 'tcbskins.code.tex' version '4.22'
-\tcb@waterbox=\box85
+\tcb@waterbox=\box87
 (/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcbskinsjigsaw.code.tex
 Library (tcolorbox): 'tcbskinsjigsaw.code.tex' version '4.22'
 )) (/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcbbreakable.code.tex
 Library (tcolorbox): 'tcbbreakable.code.tex' version '4.22'
-\tcb@testbox=\box86
-\tcb@totalupperbox=\box87
-\tcb@totallowerbox=\box88
+\tcb@testbox=\box88
+\tcb@totalupperbox=\box89
+\tcb@totallowerbox=\box90
 ) (/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcbhooks.code.tex
 Library (tcolorbox): 'tcbhooks.code.tex' version '4.22'
 ) (/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcbtheorems.code.tex
 Library (tcolorbox): 'tcbtheorems.code.tex' version '4.22'
 ) (/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcbfitting.code.tex
 Library (tcolorbox): 'tcbfitting.code.tex' version '4.22'
-\tcbfitdim=\dimen333
-\tcb@lowerfitdim=\dimen334
-\tcb@upperfitdim=\dimen335
-\tcb@cur@hbadness=\count510
+\tcbfitdim=\dimen339
+\tcb@lowerfitdim=\dimen340
+\tcb@upperfitdim=\dimen341
+\tcb@cur@hbadness=\count518
 ) (/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcbxparse.code.tex
 Library (tcolorbox): 'tcbxparse.code.tex' version '4.22'
 ) (/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcblistingsutf8.code.tex
@@ -1079,7 +1101,7 @@ Library (tcolorbox): 'tcbprocessing.code.tex' version '4.22'
 Package: shellesc 2019/11/08 v1.0c unified shell escape interface for LaTeX
 Package shellesc Info: Restricted shell escape enabled on input line 77.
 ))
-\c@tcblisting=\count511
+\c@tcblisting=\count519
 ))) (/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcbexternal.code.tex
 Library (tcolorbox): 'tcbexternal.code.tex' version '4.22'
 ) (/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcbmagazine.code.tex
@@ -1093,9 +1115,9 @@ File: pgflibraryfadings.code.tex 2020/01/08 v3.1.5b (3.1.5b)
 ))) (/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcbposter.code.tex
 Library (tcolorbox): 'tcbposter.code.tex' version '4.22'
 ))
-\c@testexample=\count512
-\c@testexample2=\count513
-\c@note2=\count514
+\c@testexample=\count520
+\c@testexample2=\count521
+\c@note2=\count522
  (/usr/share/texlive/texmf-dist/tex/latex/lipsum/lipsum.sty
 Package: lipsum 2019/01/02 v2.2 150 paragraphs of Lorem Ipsum dummy text
  (/usr/share/texlive/texmf-dist/tex/latex/lipsum/lipsum.ltd.tex
@@ -1104,28 +1126,28 @@ File: lipsum.ltd.tex 2019/01/02 v2.2 The Lorem ipsum dummy text
 Invalid UTF-8 byte or sequence at line 11 replaced by U+FFFD.
 Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating environment
 \@float@every@algorithm=\toks47
-\c@algorithm=\count515
+\c@algorithm=\count523
 ) (/usr/share/texlive/texmf-dist/tex/latex/algorithmicx/algpseudocode.sty
 Package: algpseudocode 
  (/usr/share/texlive/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
 Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
 
 Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
-\c@ALG@line=\count516
-\c@ALG@rem=\count517
-\c@ALG@nested=\count518
+\c@ALG@line=\count524
+\c@ALG@rem=\count525
+\c@ALG@nested=\count526
 \ALG@tlm=\skip97
 \ALG@thistlm=\skip98
-\c@ALG@Lnr=\count519
-\c@ALG@blocknr=\count520
-\c@ALG@storecount=\count521
-\c@ALG@tmpcounter=\count522
+\c@ALG@Lnr=\count527
+\c@ALG@blocknr=\count528
+\c@ALG@storecount=\count529
+\c@ALG@tmpcounter=\count530
 \ALG@tmplength=\skip99
 )
 Document Style - pseudocode environments for use with the `algorithmicx' style
 )
-\c@definition=\count523
-\c@proposition=\count524
+\c@definition=\count531
+\c@proposition=\count532
 ) (/usr/share/texlive/texmf-dist/tex/latex/tikz-bayesnet/tikzlibrarybayesnet.code.tex (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryshapes.code.tex
 File: tikzlibraryshapes.code.tex 2020/01/08 v3.1.5b (3.1.5b)
  (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryshapes.geometric.code.tex
@@ -1148,26 +1170,26 @@ File: pgflibraryshapes.arrows.code.tex 2020/01/08 v3.1.5b (3.1.5b)
 File: tikzlibraryshapes.multipart.code.tex 2020/01/08 v3.1.5b (3.1.5b)
  (/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/shapes/pgflibraryshapes.multipart.code.tex
 File: pgflibraryshapes.multipart.code.tex 2020/01/08 v3.1.5b (3.1.5b)
-\pgfnodepartlowerbox=\box89
-\pgfnodeparttwobox=\box90
-\pgfnodepartthreebox=\box91
-\pgfnodepartfourbox=\box92
-\pgfnodeparttwentybox=\box93
-\pgfnodepartnineteenbox=\box94
-\pgfnodeparteighteenbox=\box95
-\pgfnodepartseventeenbox=\box96
-\pgfnodepartsixteenbox=\box97
-\pgfnodepartfifteenbox=\box98
-\pgfnodepartfourteenbox=\box99
-\pgfnodepartthirteenbox=\box100
-\pgfnodeparttwelvebox=\box101
-\pgfnodepartelevenbox=\box102
-\pgfnodeparttenbox=\box103
-\pgfnodepartninebox=\box104
-\pgfnodeparteightbox=\box105
-\pgfnodepartsevenbox=\box106
-\pgfnodepartsixbox=\box107
-\pgfnodepartfivebox=\box108
+\pgfnodepartlowerbox=\box91
+\pgfnodeparttwobox=\box92
+\pgfnodepartthreebox=\box93
+\pgfnodepartfourbox=\box94
+\pgfnodeparttwentybox=\box95
+\pgfnodepartnineteenbox=\box96
+\pgfnodeparteighteenbox=\box97
+\pgfnodepartseventeenbox=\box98
+\pgfnodepartsixteenbox=\box99
+\pgfnodepartfifteenbox=\box100
+\pgfnodepartfourteenbox=\box101
+\pgfnodepartthirteenbox=\box102
+\pgfnodeparttwelvebox=\box103
+\pgfnodepartelevenbox=\box104
+\pgfnodeparttenbox=\box105
+\pgfnodepartninebox=\box106
+\pgfnodeparteightbox=\box107
+\pgfnodepartsevenbox=\box108
+\pgfnodepartsixbox=\box109
+\pgfnodepartfivebox=\box110
 ))) (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryfit.code.tex
 File: tikzlibraryfit.code.tex 2020/01/08 v3.1.5b (3.1.5b)
 ) (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarychains.code.tex
@@ -1178,7 +1200,7 @@ File: tikzlibrarypositioning.code.tex 2020/01/08 v3.1.5b (3.1.5b)
 File: tikzlibraryarrows.code.tex 2020/01/08 v3.1.5b (3.1.5b)
  (/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.code.tex
 File: pgflibraryarrows.code.tex 2020/01/08 v3.1.5b (3.1.5b)
-\arrowsize=\dimen336
+\arrowsize=\dimen342
 )))
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
@@ -1323,8 +1345,8 @@ Dictionary: translator-basic-dictionary, Language: English
 ) (/usr/share/texlive/texmf-dist/tex/latex/siunitx/siunitx-abbreviations.cfg
 File: siunitx-abbreviations.cfg 2017/11/26 v2.7k siunitx: Abbreviated units
 )
-\c@lstlisting=\count525
-\AtBeginShipoutBox=\box109
+\c@lstlisting=\count533
+\AtBeginShipoutBox=\box111
 Package hyperref Info: Link coloring OFF on input line 15.
  (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
@@ -1333,7 +1355,7 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 ) (/usr/share/texlive/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count526
+\c@section@level=\count534
 )
 LaTeX Info: Redefining \ref on input line 15.
 LaTeX Info: Redefining \pageref on input line 15.
@@ -1669,34 +1691,65 @@ Chapter 5.
 
 
 ]
+Overfull \hbox (17.9671pt too wide) in paragraph at lines 134--134
+[]|[]| 
+ []
+
+
+Overfull \hbox (49.29329pt too wide) in paragraph at lines 134--134
+[]|[]| 
+ []
+
+
+Overfull \hbox (49.29329pt too wide) in paragraph at lines 134--134
+[]|[]| 
+ []
+
+
+Overfull \hbox (49.29329pt too wide) in paragraph at lines 134--134
+[]|[]| 
+ []
+
 File: Figures/results_regression/Test1_dim_1_0.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test1_dim_1_0.pdf>
 File: Figures/results_regression/Test1_dim_1_1.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test1_dim_1_1.pdf>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [44]
 File: Figures/results_regression/Test1/1.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test1/1.pdf>
 File: Figures/results_regression/Test1/2.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test1/2.pdf>
-File: Figures/results_regression/Test1/7_W.pdf Graphic file (type pdf)
-<use Figures/results_regression/Test1/7_W.pdf>
-File: Figures/results_regression/Test1/4.pdf Graphic file (type pdf)
-<use Figures/results_regression/Test1/4.pdf>
 File: Figures/results_regression/Test1/5.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test1/5.pdf>
+File: Figures/results_regression/Test1/4.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test1/4.pdf>
+File: Figures/results_regression/Test1/7_W.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test1/7_W.pdf>
 File: Figures/results_regression/Test1/6.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test1/6.pdf>
-
-Underfull \vbox (badness 3098) has occurred while \output is active []
-
- [44]
-File: Figures/results_regression/Test2_dim_1_0.pdf Graphic file (type pdf)
-<use Figures/results_regression/Test2_dim_1_0.pdf>
-File: Figures/results_regression/Test2_dim_1_1.pdf Graphic file (type pdf)
-<use Figures/results_regression/Test2_dim_1_1.pdf>
+File: Figures/results_regression/Test1b/1.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test1b/1.pdf>
+File: Figures/results_regression/Test1b/2.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test1b/2.pdf>
+File: Figures/results_regression/Test1b/4.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test1b/4.pdf>
+File: Figures/results_regression/Test1b/3.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test1b/3.pdf>
+File: Figures/results_regression/Test1b/6.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test1b/6.pdf>
+File: Figures/results_regression/Test1b/5.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test1b/5.pdf>
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [45]
+File: Figures/results_regression/Test2_dim_1_0.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test2_dim_1_0.pdf>
+File: Figures/results_regression/Test2_dim_1_1.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test2_dim_1_1.pdf>
 File: Figures/results_regression/Test2/1.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test2/1.pdf>
 File: Figures/results_regression/Test2/2.pdf Graphic file (type pdf)
@@ -1954,7 +2007,7 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 61.
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 61.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 61.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 35A286F4B53261F261D94D92AF8D54B8;2645.
+(rerunfilecheck)             Checksum: 9C8E4DD5D68A17F7CABBD86ADD36F4AF;2645.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -1970,12 +2023,12 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 57310 strings out of 481731
- 1365595 string characters out of 5935437
- 2298901 words of memory out of 5000000
- 73200 multiletter control sequences out of 15000+600000
+ 57486 strings out of 481731
+ 1368953 string characters out of 5935437
+ 2303446 words of memory out of 5000000
+ 73366 multiletter control sequences out of 15000+600000
  551909 words of font info for 140 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 82i,17n,138p,2818b,4686s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 82i,21n,138p,2818b,4686s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (70 pages, 1113396 bytes).
+Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (70 pages, 1137440 bytes).

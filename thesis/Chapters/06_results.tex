@@ -44,110 +44,249 @@ domain to the original domain,
 %  2. Data, materials, methods. Exactly how was the experiment conducted.
 %  3. Results
 %  4. Discussion. Conclusions.
-As Bayesian optimization is performed on black-box functions, we want to test the surrogates on
-performance on different types of problems. 
+Bayesian optimization is typically performed on black-box functions, and thereby the Bayesian
+regression model is trained on data from all kinds of underlying problems. Now we want to test the
+performance of different regression models on different types of 1D problems, all in the interval $x
+\in [-100,100]$:
 
-> Well-behaved
-> Discontinous
-> Multi-modal 
-> anisotropic problem. 
+\begin{itemize}
+  \item Test 1: A well bahaved sine-function,
+  \item Test 2: A highly discontinous function,
+  \item Test 3: A multi-modal objective function,
+  \item Test 4: An anisotropic objective function.
+\end{itemize}
 
-It is common to have many parameters to tune in Bayesian
-optimization (in 1D a human could potentially assist the surrogate model since the regression can
-be plotted and judged by eye). Nevertheless, we will keep the domain in 1D to establish  
+It is common to have many parameters to tune in Bayesian optimization (in 1D a human could
+potentially assist the surrogate model since the regression can be plotted and judged by eye).
+Nevertheless, we will keep the domain in 1D to establish  
 a more informative judgment of the model performance.
 This will establish some intuition about the models and 
 
-\subsection{Model definintions}
-Whereas a true Bayesian would not choose a specific type of model, but using all models
-however, this would indeed be infeasible. We need to limit the scope, 
+\begin{table}[H]
+  \centering
+  \resizebox{\textwidth}{!}{\begin{tabular}[t]{p{.20\textwidth} | p{.40\textwidth}  | p{.40\textwidth}}
+  \textbf{Model}       & \textbf{Specification}    &   \textbf{Training} \\ \hline
+  BNN& 
+  \begin{tabular}[t]{l}
+    3 layers of 50 tanh nodes\\ 
+    $p(\textbf{w}, b) \sim \mathcal{N}(0,1)$ \\
+    $p(\sigma) \sim \text{InvGa}(1000,1)$ 
+  \end{tabular} &
+  \begin{tabular}[t]{l}
+    NUTS(500 burn-in, 500 samples) 
+  \end{tabular} \\\hline
 
+  BOHamiANN& 
+  \begin{tabular}[t]{l}
+    3 layers of 50 tanh nodes\\ 
+    $p(\textbf{w}, b) \sim \mathcal{N}(0, \sigma_{w})$ \\
+    $p(\sigma) \sim \text{LogNormal}(??)$ \\
+    $p(\sigma_{w}) \sim \text{Gamma}(??)$
+  \end{tabular} &
+  \begin{tabular}[t]{l}
+    Adaptive stochatic HMC \\
+    (1000 burn-in, every 5 of 2000 samples) 
+  \end{tabular} \\\hline
+
+  GP& 
+  \begin{tabular}[t]{l}
+    Mantern kernel 52
+  \end{tabular} &
+  \begin{tabular}[t]{l}
+    Maximize marginalized likelihood \\
+    20 restarts of BFGS optimization
+  \end{tabular} \\\hline
+
+  GMR& 
+  \begin{tabular}[t]{l}
+    Training sklearn GMM, \\
+    pluggin into GMR. 
+  \end{tabular} &
+  \begin{tabular}[t]{l}
+    BO Cross-validation 30 fold, \\
+    testing number of components and prior weight\\
+    3 restarts. 
+  \end{tabular} \\\hline
+
+
+  SPN& 
+  \begin{tabular}[t]{l}
+    Training sklearn GMM,\\ 
+    pluggin into GMR. 
+  \end{tabular} &
+  \begin{tabular}[t]{l}
+    BO Cross-validation 30 fold,\\
+     testing number of components and prior weight\\
+    3 restarts. 
+  \end{tabular} \\\hline
+
+
+  KDE& 
+  \begin{tabular}[t]{l}
+    Training sklearn GMM, \\
+    pluggin into GMR. 
+  \end{tabular} &
+  \begin{tabular}[t]{l}
+    BO Cross-validation 30 fold,\\
+     testing number of components and prior weight\\
+    3 restarts. 
+  \end{tabular} \\\hline
+  \end{tabular}}
+  \caption{Overview of chosen models  
+          }
+\end{table}
+%\subsection{Model definintions}
+Whereas a true Bayesian would not choose a specific type of model, but using all models
+, however, this would indeed be infeasible. We need to limit the scope, 
 For the GP, we do 20 restarts in the emperical maximization. And the manteen kernel prior
 with $\nu = 2.5$. 
-
 BNN, is a 50x50x50 tanh layers with standard Gaussain priors on. And a inverse gamma (1000, 1)
 prior on the noise. Trained with 100 burn in and 100 samples. 
 BOHAMIANN is similar but uses a different noise prior, and trains using adaptive HMC method. 
-
 The mixture models are trained using crossvalidation scored on the mean predictive log .. posterior
 (formally speaking this is not a likelihood, but we will keep it as it is almost the same)
 The tuning parameters 
 We do 40 iterations 
-
 SPN is trained using EM with maximum 1000 epochs (is terminated if the progress is stalling). 
 it is trained 2 times. \todo{Lav den historie}
-
 GMR is trained using EM but this is done by the sklearn software. 
 
-\subsection{Test1: Well-behaved problem}
-The first problem will establish some benchmark since this is a straightforward function
-to fit. This should be an easy task for the discriminative models. But the mixture models
-Should also have an easy time. 
-
-The problem is a sine wave. 
-
-<WHat did you do!> E.g. change in basic model?
-
-Picture + regression of all. 
-
-We see that GP is very good here. 
+\subsection*{Test1: Well-behaved problem}
+The first problem will establish some benchmark since this is a simple function to fit. This should
+be an easy task for the discriminative models and indeed the predictive mean yields a small relative
+error for the test1.  
 
 \begin{figure}[H]
   \centering
   \begin{minipage}[b]{0.49\textwidth}
-   \includegraphics[trim=1.2cm 0.7cm 2cm 1cm,clip,width=\textwidth]{Figures/results_regression/Test1_dim_1_0.pdf}
+   \includegraphics[trim=0.5cm 0.2cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1_dim_1_0.pdf}
   \end{minipage}
   \hfill
   \begin{minipage}[b]{0.49\textwidth}
-    \includegraphics[trim=1.2cm 0.7cm 2cm 1cm,clip,width=\textwidth]{Figures/results_regression/Test1_dim_1_1.pdf}
+    \includegraphics[trim=0.5cm 0.2cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1_dim_1_1.pdf}
    \end{minipage}
-  \caption{Plots visulising the results in above figure.}
+  \caption{Mean predictive performance MAE (left) and mean predictiv probalility (right) as
+  functions of number of data points. All curves reprecent the average across 10 runs for each
+  model. The Gaussian process has the bedst predictive power, however it scores very low in the }
+  \label{Test1_reg_plot}
 \end{figure}
 
+To get a deeper understanding of Figure \ref{Test1_reg_plot}, we plot one of the 10 runs for 23 data points, 
+in Figure \ref{Test1_reg_visual_1}, and for 56 data points in Figure \ref{Test1_reg_visual_2}.
+
+
 \begin{figure}[H]
   \centering
-  \begin{minipage}[b]{0.49\textwidth}
-   \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1/1.pdf}
+  \begin{minipage}[b]{0.32\textwidth}
+    \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1/1.pdf}
+      \put (10,65) {BNN}
+      \put (-5,40) {\small y}
+  \end{overpic}
   \end{minipage}
   \hfill
-  \begin{minipage}[b]{0.49\textwidth}
-    \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1/2.pdf}
-   \end{minipage}
-   
-   \begin{minipage}[b]{0.49\textwidth}
-    \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1/7_W.pdf}
+  \begin{minipage}[b]{0.32\textwidth}
+    \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1/2.pdf}
+      \put (10,65) {BOHamiANN}
+    \end{overpic}
    \end{minipage}
    \hfill
-   \begin{minipage}[b]{0.49\textwidth}
-     \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1/4.pdf}
+   \begin{minipage}[b]{0.32\textwidth}
+    \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1/5.pdf}
+      \put (10,65) {GP}
+    \end{overpic}
     \end{minipage}
-    
-    
-    \begin{minipage}[b]{0.49\textwidth}
-     \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1/5.pdf}
+     
+   \begin{minipage}[b]{0.32\textwidth}
+    \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1/4.pdf}
+      \put (10,65) {GMR}
+      \put (-5,40) {\small y}
+      \put (51,5) {\small x}
+    \end{overpic}
+    \end{minipage}
+  \hfill
+    \begin{minipage}[b]{0.32\textwidth}
+     \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1/7_W.pdf}
+      \put (10,65) {SPN}
+     \end{overpic}
     \end{minipage}
     \hfill
-    \begin{minipage}[b]{0.49\textwidth}
-      \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1/6.pdf}
-     \end{minipage}
+    \begin{minipage}[b]{0.32\textwidth}
+      \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1/6.pdf}
+        \put (10,65) {KDE}
+      \end{overpic}
+      \end{minipage}
 
-  \caption{Plots visulising the results in above figure.}
+  \caption{Plots visulising the results in figure at $n_{data} = 23$}
+  \label{Test1_reg_visual_1}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \begin{minipage}[b]{0.32\textwidth}
+    \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1b/1.pdf}
+      \put (10,65) {BNN}
+      \put (-5,40) {\small y}
+  \end{overpic}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.32\textwidth}
+    \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1b/2.pdf}
+      \put (10,65) {BOHamiANN}
+    \end{overpic}
+   \end{minipage}
+   \hfill
+   \begin{minipage}[b]{0.32\textwidth}
+    \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1b/4.pdf}
+      \put (10,65) {GP}
+    \end{overpic}
+    \end{minipage}
+     
+   \begin{minipage}[b]{0.32\textwidth}
+    \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1b/3.pdf}
+      \put (10,65) {GMR}
+      \put (-5,40) {\small y}
+      \put (51,5) {\small x}
+    \end{overpic}
+    \end{minipage}
+  \hfill
+    \begin{minipage}[b]{0.32\textwidth}
+     \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1b/6.pdf}
+      \put (10,65) {SPN}
+     \end{overpic}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.32\textwidth}
+      \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1b/5.pdf}
+        \put (10,65) {KDE}
+      \end{overpic}
+      \end{minipage}
+
+  \caption{Plots visulising the results in figure at $n_{data} = 133$}
+  \label{Test1_reg_visual_2}
 \end{figure}
 
 
+The Gaussian process is however overconfident in its prediction and assigns
+almost 0 probability to some of the 10000 test points, yielding very low mean log predictive
+likelihood. The Bayesian neural networks learning curve stagnates around 100 data points, however,
+it provides a decent mean log predictive likelihood. BOHamiANN performs well in the beginning 
+but seems not expressive enough for this task. The architecture of the neural network is besides
+they use a log-normal piror on the variance, and a hyper prior on the variance parameter of the weights.
+But it seems like the algorithm does not converge?. The mixture models are crossvalidated to maximize
+the predive likelihood, 
 
-\subsection{Test2: Discontinous problem}
+\subsection*{Test2: Discontinous problem}
 This is a type of problem where we would expect the GP to not perform well, 
 BNN should be the better 
 
 \begin{figure}[H]
   \centering
   \begin{minipage}[b]{0.49\textwidth}
-   \includegraphics[trim=1.2cm 0.7cm 2cm 1cm,clip,width=\textwidth]{Figures/results_regression/Test2_dim_1_0.pdf}
+   \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test2_dim_1_0.pdf}
   \end{minipage}
   \hfill
   \begin{minipage}[b]{0.49\textwidth}
-    \includegraphics[trim=1.2cm 0.7cm 2cm 1cm,clip,width=\textwidth]{Figures/results_regression/Test2_dim_1_1.pdf}
+    \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test2_dim_1_1.pdf}
    \end{minipage}
   \caption{Plots visulising the results in above figure.}
 \end{figure}
@@ -194,11 +333,11 @@ Here is the more intersting problems for the mixture regression methods.
 \begin{figure}[H]
   \centering
   \begin{minipage}[b]{0.49\textwidth}
-   \includegraphics[trim=1.2cm 0.7cm 2cm 1cm,clip,width=\textwidth]{Figures/results_regression/Test3_dim_1_0.pdf}
+   \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test3_dim_1_0.pdf}
   \end{minipage}
   \hfill
   \begin{minipage}[b]{0.49\textwidth}
-    \includegraphics[trim=1.2cm 0.7cm 2cm 1cm,clip,width=\textwidth]{Figures/results_regression/Test3_dim_1_1.pdf}
+    \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test3_dim_1_1.pdf}
    \end{minipage}
   \caption{Plots visulising the results in above figure.}
 \end{figure}
@@ -240,11 +379,11 @@ Finally this problem is designed to
 \begin{figure}[H]
   \centering
   \begin{minipage}[b]{0.49\textwidth}
-   \includegraphics[trim=1.2cm 0.7cm 2cm 1cm,clip,width=\textwidth]{Figures/results_regression/Test4_dim_1_0.pdf}
+   \includegraphics[width=\textwidth]{Figures/results_regression/Test4_dim_1_0.pdf}
   \end{minipage}
   \hfill
   \begin{minipage}[b]{0.49\textwidth}
-    \includegraphics[trim=1.2cm 0.7cm 2cm 1cm,clip,width=\textwidth]{Figures/results_regression/Test4_dim_1_1.pdf}
+    \includegraphics[width=\textwidth]{Figures/results_regression/Test4_dim_1_1.pdf}
    \end{minipage}
   \caption{Plots visulising the results in above figure.}
 \end{figure}

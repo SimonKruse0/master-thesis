@@ -53,11 +53,8 @@
 \contentsline {section}{\numberline {5.1}implementation}{43}{section.0.5.1}%
 \contentsline {subsection}{\numberline {5.1.1}standardized data}{43}{subsection.0.5.1.1}%
 \contentsline {section}{\numberline {5.2}Model compartment on test problems}{43}{section.0.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}Model definintions}{44}{subsection.0.5.2.1}%
-\contentsline {subsection}{\numberline {5.2.2}Test1: Well-behaved problem}{44}{subsection.0.5.2.2}%
-\contentsline {subsection}{\numberline {5.2.3}Test2: Discontinous problem}{45}{subsection.0.5.2.3}%
-\contentsline {subsection}{\numberline {5.2.4}Test3: multi-modal problem}{47}{subsection.0.5.2.4}%
-\contentsline {subsection}{\numberline {5.2.5}Test4: anisotropic problem}{49}{subsection.0.5.2.5}%
+\contentsline {subsection}{\numberline {5.2.1}Test3: multi-modal problem}{47}{subsection.0.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Test4: anisotropic problem}{49}{subsection.0.5.2.2}%
 \contentsline {section}{\numberline {5.3}Regression analysis}{51}{section.0.5.3}%
 \contentsline {subsection}{\numberline {5.3.1}uncertainty quantification}{51}{subsection.0.5.3.1}%
 \contentsline {subsection}{\numberline {5.3.2}prediction quantification}{52}{subsection.0.5.3.2}%
@@ -68,4 +65,4 @@
 \contentsline {section}{\numberline {5.7}Mixture regression on simple functions}{53}{section.0.5.7}%
 \contentsline {chapter}{\numberline {6}Conclusion and further work}{61}{chapter.0.6}%
 \contentsline {section}{\numberline {6.1}further work}{61}{section.0.6.1}%
-\contentsline {chapter}{Bibliography}{62}{chapter*.59}%
+\contentsline {chapter}{Bibliography}{62}{chapter*.61}%
