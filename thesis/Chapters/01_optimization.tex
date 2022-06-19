@@ -1,19 +1,19 @@
 \section{Optimization methodology}
-Given an objective function $f: \mathcal{X} \rightarrow \mathbb{R}$, where the domain
-$\mathcal{X}$ could be a subset of $\mathbb{R}^n$,
-optimization is a methodology which seeks to find an optimal point, $x^*$, and value
-$f^* = f(x)$, given as
+Given an objective function $f: \mathcal{X} \rightarrow \mathbb{R}$, where the domain $\mathcal{X}$
+could be a subset of $\mathbb{R}^n$\footnote{The thesis only work with this subset $\mathcal{X}
+\subset \mathbb{R}^n$}, optimization is a methodology which seeks to find an optimal point, $x^*$,
+and value $f^* = f(x)$, given as
 \begin{align}\label{OPT}
-    x^* \in \argmin_{x \in \mathcal{X}} f(x) \hspace{1cm} f^* = \min_{x \in \mathcal{X}} f(x) = f(x^*).
+    x^* \in \argmin_{x \in \mathcal{X}} f(x), \hspace{1cm} f^* = \min_{x \in \mathcal{X}} f(x) = f(x^*).
 \end{align}
-Note that the above formulation is a minimization problem, which is equivalent to a
-maximization problem maximizing $-f(\cdot)$. Throughout this thesis, we choose to only work
-with a minimization problem. 
+% Note that the above formulation is a minimization problem, which is equivalent to a
+% maximization problem maximizing $-f(\cdot)$. Throughout this thesis, we choose to only work
+% with a minimization problem. 
 Solving this problem (close to) exact is often intractable except for rare cases e.g. if $f$ is 
 convex and analytically directly solvable or the domain of $f$ is very limited. The following example
 with linear least squares is an example of such a problem. 
 
-\begin{testexample}[Direct solution method]
+\begin{testexample}[Example: Direct solution method]
     The unconstrained linear least squares, $$\min_{x\in \mathbb{R}^n} f(x) := ||Ax-b||_2^2$$
     where $A \in \mathbb{R}^{m\times n}$ and $b \in \mathbb{R}^m$, is a convex problem,
     i.e. finding $x^*$ such that $\nabla f(x^*) = 0$ is equivalent to finding the solution
@@ -21,17 +21,17 @@ with linear least squares is an example of such a problem.
     directly by the normal equations, 
     $$\nabla f(x) = 2A^TAx + 2b^TA = 0 \hspace{0.5cm} \Leftrightarrow \hspace{0.5cm} x^* = (A^TA)^{-1} A^Tb$$
 \end{testexample}
+%Optimization problems can easily be non-convex with multiple local minima. 
+Even if the gradient is given analytically, the problem can be non-convex, implying that the
+solution is found among a potentially infinitely large set of stationary points ($\nabla f(x) = 0$)
+or (for constraint problems) KKT points \cite{boyd2004convex} - this might be tedious or impossible.
+Therefore, when the problem is not directly solvable, mathematical optimization takes an indirect
+approach: Design a sequence of experiments that reveal information about the objective function.
+This information can hopefully lead us to the solution of \eqref{OPT}. This general way of
+sequentially solving is presented in the book "Bayesian Optimization" \cite{bayesoptbook} and
+presented here as Algorithm \ref{algOPT}. 
 
-Most optimization problems are non-convex with multiple local minima. And even if the gradient is
-given analytically, the solution is still found among a potentially infinitely large set of
-stationary points ($\nabla f(x) = 0$) and boundary points ($x \in \partial \mathcal{X}$) - this
-might be tedious or impossible. Therefore, when the problem is not directly solvable, mathematical optimization
-takes an indirect approach: Design a sequence of experiments that reveal information about the
-objective function. This information can hopefully lead us to the solution of \eqref{OPT}. This
-general way of sequentially solving is presented in the book Bayesian Optimization by Roman Garnett
-\cite{bayesoptbook} and presented here as Algorithm \ref{algOPT}. 
-
-\begin{algorithm}
+\begin{algorithm}[H]
 \caption{Sequencial Optimization \cite{bayesoptbook} }\label{algOPT}
 \begin{algorithmic}
 \State \textbf{Input:} Initial dataset $\mathcal{D}$  \Comment{can be empty}
@@ -44,14 +44,18 @@ general way of sequentially solving is presented in the book Bayesian Optimizati
 \end{algorithmic}
 \end{algorithm}
 
-Given data points in the \textit{optimization landscape}\footnote{"Optimization landscape" defined
-as the joint set of points in the domain and the objective function evaluated in the points, i.e.
-$\{(x,f(x))\in \mathcal{X} \times \mathbb{R}| x \in \mathcal{X}\}$} a policy selects a location $x
+Given data points in the \textit{optimization landscape}
+% \footnote{"Optimization landscape" defined
+% as the joint set of points in the domain and the objective function evaluated in the points, i.e.
+% $\{(x,f(x))\in \mathcal{X} \times \mathbb{R}| x \in \mathcal{X}\}$} 
+a policy selects a location $x
 \in \mathcal{X}$ where we make our next observation. Policies can be deterministic or probabilistic;
-examples of each type could be grid search and random search. The next observation provides us a $y$
-value, which combined with $x$ is included in the available data $\mathcal{D}$. Finally, a stopping
+examples of each type could be grid search and random search. The next observation provides us a $y = f(x)$
+value\footnote{Since the evaluation of $f(\cdot)$ might be noisy or inprecise, we just observe $y = observe(x)$. The typical
+connection between $f(x)$ and $y$ are $y = f(x)$ or $y = f(x) + \epsilon$, where $\epsilon$ is additive white noise, 
+but different connections might be present as well.}, which combined with $x$ is included in the available data $\mathcal{D}$. Finally, a stopping
 criterion decides whether to repeat or terminate the procedure. We will now present how different
-examples of well-known optimization routines fits into Algorithm \eqref{algOPT}.
+examples of well-known optimization routines fits into Algorithm \ref{algOPT}.
 
 
 \begin{testexample}[Grid search]
@@ -59,14 +63,14 @@ examples of well-known optimization routines fits into Algorithm \eqref{algOPT}.
     other, which thereby defines a parrellel grid in the optimization domain $\mathcal{X}$. All
     grid points are ordered and systematically selected. In the context of algorhtim \ref{algOPT} we define
     the grid search policy as 
-    $$\text{policy}_{GS}(\mathcal{D}) = x_{|\mathcal{D}|+1}$$
+    $$\text{policy}_{GS}(\mathcal{D}) = x_{|\mathcal{D}|+1},$$
     assuming $x_1,x_2, \dots, x_{m} \in \mathcal{X}$ are the ordered grid points and the size of the obtained 
     data is $|\mathcal{D}|$. Termination will happen when $|\mathcal{D}| = m$.
 \end{testexample}
 \begin{testexample}[Random search]
     In random search a point is randomly drawn from a uniform distribution supported over the domain
     space $\mathcal{X}$, 
-    $$\text{policy}_{RS}(\mathcal{D}) = x, \hspace{0.5cm} x \sim Unif(\mathcal{X})$$
+    $$\text{policy}_{RS}(\mathcal{D}) = x, \hspace{0.5cm} x \sim Unif(\mathcal{X}).$$
 \end{testexample}
 \begin{testexample}[Gradient descent]
     Gradient descent (GD) is the most simple gradient-based optimization approach. The gradient of a
@@ -128,7 +132,7 @@ on improving the number of iterations to reach the minima $N_{\text{iter}}$.
     \caption{Example of an optimization task tuning a parameterised regression model with parameters
     $\lambda$ and $\sigma$, on a test set, i.e. minimization of prediction error. We see the first
     23 evaluations out of 100 in grid search vs 23 evaluations using a sample-efficient solver (Bayesian
-    optimization). This illustrates the idea of a sample-efficient solver}%
+    optimization). This illustrates the idea of a sample-efficient solver.}%
     \label{fig:example}%
 \end{figure}
 
@@ -169,8 +173,8 @@ The observation model is typically noisy and described as
 $$y = f(x)+\epsilon$$ where $\epsilon$ is the measurement error, this is
 typically assumed to be Gaussian with zero mean and a variance
 $\sigma^2$ (which could depend on $x$ in a heteroskedastic setting) and implies a Gaussian observation model, 
-$$p(y|f(x),\sigma^2) = \mathcal{N}(y|f(x),\sigma^2)$$ 
-
+$$p(y|f(x),\sigma_x^2) = \mathcal{N}(y|f(x),\sigma_x^2)$$ where $f(x)$ is the mean value and
+$\sigma_x^2$ is the variance (with the subscript indicating the potentially dependency on $x$). 
 % (note from now on we define $\phi := f(x)$ in order to avoid confusion and a extra set of paranteses)
 % $$p(y|x,\phi,\sigma) = \mathcal{N}(y;\phi,\sigma^2)$$ 
 \begin{note2}["Sampling" from objective function]
@@ -208,7 +212,7 @@ as it defines a Bayesian regression model over the observations.
     optimization, it is not possible right away to find the minima in the cheap
     surrogate model; first, we need to interpret the meaning of minima in a probabilistic
     regression model. This interpretation is done through a so-called acquisition
-    function (more about this later). The policy is as following,
+    function (AQ) - more about this later. The policy is as following,
     $$\text{policy}_{BO}(\mathcal{D}) = \max_x AQ(p(y|x,\mathcal{D}))$$
 
     \begin{figure}[H]

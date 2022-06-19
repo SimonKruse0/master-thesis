@@ -1,18 +1,24 @@
-\section{Bayesian Neural Networks}\label{BNN}
-Neural networks have become increasingly popular in the recent years, due to their ability to
-approximate any function arbitrary well (universial approximation theorem). And with the amount of
-data in the world today, neural
-networks are very powerful regression models for finding the complex patterns. Bayesian neural
-network are essentially neural networks, but instead of point estimates, each weight is assigned a
-distribution (usually a standard normal distribution), which provides a regression model, 
-prior to any observed data. Choosing the prior of a standard normal distribution of a 
-3 layers with 10 nodes on each layer the we get the following regression model, 
-\begin{figure}
-    %\subfloat[\centering prior]{{\includegraphics[width=0.45\textwidth]{Pictures/bayesian_nn_prior_samples.pdf} }}%
-    %\qquad
-    %\subfloat[\centering posterior]{{\includegraphics[width=0.45\textwidth]{Pictures/bayesian_nn_posterior_samples.pdf} }}%
-    \caption{BNN with $\tan^{-1}(\cdot)$ activation functions and different prior distributions. }%
-    \label{fig:example2}%
+\section{Bayesian Neural Networks}\label{BNN} 
+
+Neural networks have become increasingly popular in recent years, due to their ability to
+approximate any function arbitrary well (universal approximation theorem). And with the amount of
+data in the world today, neural networks are very powerful regression models for finding complex
+patterns. Bayesian neural networks are essentially neural networks, but instead of point estimates,
+each weight is assigned a distribution, which provides a probabilistic regression model. Prior to
+any observed data, each weight usually follows a standard normal distribution. After observing data
+the joint distribution of the weights might be complicated and correlated, such that the regression
+model is fitting the data and provides good uncertainty estimation. In Figure
+\ref{BNN_prior_posterior} we see how the regression model can do predictions even when no data is
+observed, i.e. prior samples (left), when observing data the posterior combines the likelihood and
+the prior and we get the predictive posterior distribution (right).
+\begin{figure}[H]
+    \subfloat{{\includegraphics[width=0.45\textwidth]{Pictures/BNN_prior.pdf} }}%
+    \qquad
+    \subfloat{{\includegraphics[width=0.45\textwidth]{Pictures/BNN_posterior.pdf} }}%
+    \caption{3 layers BNN with 50 $\tanh(\cdot)$ nodes, standard normal prior distributions. 
+    Left: 20 black predictive prior samples (blue is $\pm$ 2 predictive prior std from the red predictive prior mean). Right: 
+    20 black predictive posterior samples and predictive posterior mean and standard deviation}%
+    \label{BNN_prior_posterior}%
 \end{figure}
 
 \begin{figure}
@@ -215,7 +221,7 @@ highly expressive models are not important.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Pictures/bayesian_nn_prior_samples_hidden_units.pdf}
-    \caption{Number of units in each of the 3 layers have a large influence of the BNNs ability to be expressive}
+    \caption{Number of units in each of the 3 layers have a large influence of the BNNs ability to be expressive <lav om>}
     \label{n_unit_BNN}
 \end{figure}
 
@@ -246,21 +252,17 @@ however,
 
 \begin{figure}[h]
     \centering
-    \begin{minipage}[b]{0.49\textwidth}
+    \begin{minipage}[b]{0.32\textwidth}
      \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Figures/reg_illustrations/BOHAMIANN/Test1_BOHAMIANN_n_10_seed_42.jpg}
     \end{minipage}
     \hfill
-    \begin{minipage}[b]{0.49\textwidth}
+    \begin{minipage}[b]{0.32\textwidth}
       \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Figures/reg_illustrations/BOHAMIANN/Test2_BOHAMIANN_n_40_seed_42.jpg}
      \end{minipage}
-    
-     \begin{minipage}[b]{0.49\textwidth}
+     \hfill
+     \begin{minipage}[b]{0.32\textwidth}
       \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Figures/reg_illustrations/BOHAMIANN/Test3_BOHAMIANN_n_40_seed_42.jpg}
      \end{minipage}
-     \hfill
-     \begin{minipage}[b]{0.49\textwidth}
-       \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Figures/reg_illustrations/BOHAMIANN/Test4_BOHAMIANN_n_40_seed_42.jpg}
-      \end{minipage}
       \caption{BOHAMIANN tested on all problems.}
 \end{figure}
 

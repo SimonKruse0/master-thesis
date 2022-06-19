@@ -44,7 +44,6 @@
    %boxsep=3pt,left=4pt,right=4pt,top=2pt,bottom=2pt
 }
 
-\def\exampletext{Example} % If English
 \NewDocumentEnvironment{testexample}{ O{} }
 {
 \definecolor{colexam}{cmyk}{0,0.91,0.72,0.23}
@@ -52,7 +51,7 @@
 \newtcolorbox[use counter=testexample]{testexamplebox}{%
     % Example Frame Start
     empty,% Empty previously set parameters
-    title={\exampletext: #1},% use \thetcbcounter to access the testexample counter text
+    title={#1},% use \thetcbcounter to access the testexample counter text
     % Attaching a box requires an overlay
     attach boxed title to top left,
        % Ensures proper line breaking in longer titles

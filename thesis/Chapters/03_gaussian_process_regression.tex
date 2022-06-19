@@ -35,12 +35,12 @@ just a new element in the multivariate normal distribution,
         c(\textbf{x}, x_*) & c(\textbf{x}, \textbf{x})
     \end{bmatrix} \right)
 \end{align}
-yielding many possible outcomes for $f_*$, but with an average $E[f_*] = 0$ and variance of $V[f_*] = 1$.
-but note, we treate $\textbf{f}$ as random quantaty, but if we get a realization of $\textbf{f}$, then
-the distribution of $f_*$ is changed. Fortunately, a multivariate normal distribution is easy
-to deal with, givng the conditional distribution of $f_*$ given $\textbf{f}$, 
+yielding many possible outcomes for $f_*$, but with an average $E[f_*] = 0$ and variance of $V[f_*]
+= 1$. Note given a realization of $\textbf{f}$, then the distribution of $f_*$ is changed.
+Fortunately, a multivariate normal distribution is easy to deal with: The conditional
+distribution of $f_*$ given $\textbf{f}$ is, 
 $$p(f_*|\textbf{x}, \textbf{f}) = \mathcal{N}(f_*|c(x_*, x_*)^{-1}c(x_*, \textbf{x})\textbf{f}, c(x_*, x_*)^{-1})$$
-
+using appendix...
 \begin{figure}[h]
     \centering
     \includegraphics[width = \textwidth]{Pictures/GP_samples_mattern.pdf}
@@ -48,7 +48,7 @@ $$p(f_*|\textbf{x}, \textbf{f}) = \mathcal{N}(f_*|c(x_*, x_*)^{-1}c(x_*, \textbf
     $x_i= 0.5(i-1)$. Illustration that a samples from a Gaussian process is just
     samples from the multivariate normal distribution. We could potentially choose
     $\textbf{x}$ to be all of the real line, which will give us the GP - an infinitely
-    large multivariate normal distribution.}
+    large multivariate normal distribution (right).}
     \label{GP_illustration}
 \end{figure}
 
@@ -181,36 +181,4 @@ which can be then used directly for model assessment. ??! Youtube - good video! 
      \end{minipage}
      \caption{There is large difference beween the two GPs the different lenght scales in the kernel
      matters a lot. Left is chosen 9 out of 10 times, when minimizing the }
-\end{figure}
-
-
-\subsection{Performance characteristic for GP}
-\begin{testexample}[Test function 1]
-    \begin{figure}[H]
-        \includegraphics[width=\textwidth]{Figures/reg_illustrations/GP/Test3_GP_n_40_seed_42.jpg}
-    \end{figure}
-\end{testexample}
-
-
-
-\begin{figure}[H]
-    \centering
-    \begin{minipage}[b]{0.49\textwidth}
-     \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Figures/reg_illustrations/GP/Test1_GP_n_10_seed_42.jpg}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.49\textwidth}
-      \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Figures/reg_illustrations/GP/Test2_GP_n_40_seed_42.jpg}
-     \end{minipage}
-\end{figure}
-
-\begin{figure}[H]
-    \begin{minipage}[b]{0.49\textwidth}
-        \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Figures/reg_illustrations/GP/Test3_GP_n_40_seed_42.jpg}
-       \end{minipage}
-       \hfill
-       \begin{minipage}[b]{0.49\textwidth}
-         \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Figures/reg_illustrations/GP/Test4_GP_n_40_seed_42.jpg}
-        \end{minipage}
-        \caption{GP tested on all problems.}
 \end{figure}

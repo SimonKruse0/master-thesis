@@ -2,36 +2,66 @@
 \todo{Lav en historie, forklar hvorfor man skal læse om det næste! Hvad er formålet}
 \todo{Hvilke egenskaber har modellerne? Giv dem et eksempel med en fordel!}
 
-When talking about a probabilistic surrogate model we are always implicit talking about a
+When talking about a probabilistic surrogate model we are always implicitly talking about a
 discriminative model: A statistical model of the conditional distribution of the observation, $y$, 
 conditional on $x$ often parameterized by parameters $\theta$, i.e., $p(y|x, \theta)$ 
 which, in a Bayesian context, is utilized in the \textit{predictive posterior
 distribution}:
 $$p(y|x,\mathcal{D}) = \int p(y|x, \theta)p(\theta|\mathcal{D}) d\theta,$$ where we take all
-possible models $\theta \in Dom(\theta)$ into account weighted accordingly to how probable the
-model is $p(\theta|\mathcal{D})$ (the posterior distribution). 
+possible models $\theta \in \text{Dom}(\theta)$ into account weighted accordingly to how probable
+the model is $p(\theta|\mathcal{D})$ (the posterior distribution). Gaussian processes and Bayesian
+neural networks are both discriminative models and they both assume that the observation is noisy in the
+following way, 
+$$y = f_{\textbf{w}}(x) + \epsilon, \hspace*{0.5cm} \epsilon \sim \mathcal{N}(0, \sigma^2).$$ They
+are, however, using two very different approaches to define a discriminative model. A BNN define
+$f_{\textbf{w}}(x)$ as the the neural network output for a specific realization of the network
+weights and biases $\textbf{w}$. Given a realization of $\theta = (\textbf{w}, \sigma^2)$, the BNN
+likelihood is defined as
+$$p_{\text{\tiny BNN}} (y|x, \theta) = \mathcal{N}(y| f_{\textbf{w}}(x),\sigma^2).$$
+A GP takes a different approach and directly model the noisefree prediction $f_* := f(x)$ as a random
+variable. Given a realization of $\theta = (f_*,\sigma^2)$, the likelihood for a GP is given as
+$$ p_{\text{\tiny GP}}(y|x, \theta) = \mathcal{N}(y| f_*,\sigma^2).$$
+It has been shown that a Bayesian neural network with Gaussian prior on infinitely amount of nodes
+is equavalent to a GP \cite{??}. So the similarities ... 
 
-Gaussian processes and Bayesian neural networks are both discriminative models. There is no
-distribution over the input $x$, it is just given. They are, however, using two very different
-approaches to define the probabilistic model. 
-% Bayesian neural networks are regression models in
-% the typical setting, i.e a non-linear regression model where all weights are random variables, and
-% with some additive Gaussian noise, and its mean is modeled as the prediction
-% $$\mathcal{N}(y|f_{\textbf{w}}(x), \sigma^2)$$ After observing data (in the Bayesian setting)
-% $\textbf{w}$ and $\sigma$ follows the posterior distribution $p(w,\sigma|\mathcal{D})$. 
-For Bayesian neural networks, the predictive posterior is given as:
-% with $y=f_w(x)+\epsilon$, where $\textbf{w}$ and $\epsilon$ are random vector and variable
-% with distribution of $\epsilon \sim \mathcal{N}(0,\sigma^2)$ and $(w, \sigma) \sim p(w, sigma | \mathcal{D})$, 
-% such that the predictive posterior is given as, 
-$$ p(y|x,\mathcal{D}) = \int \mathcal{N}(y|f_{\textbf{w}}(x),
-\sigma^2)p(\textbf{w},\sigma^2|\mathcal{D}) d \textbf{w} d\sigma^2$$ where $f_\textbf{w}(x)$ is the
-neural network output for a specific realization of $\textbf{w}$ and
-$p(\textbf{w},\sigma|\mathcal{D})$ is the posterior distribution. Gaussian processes take a
-different approach and directly model the noisefree prediction $\textbf{f}_* := f(x)$ as a random
-variable. The predictive posterior of a GP is given as
-$$ p(y|x,\mathcal{D}) = \int \mathcal{N}(y|\textbf{f}_*, \sigma^2) p(\textbf{f}_*|\mathcal{D}) d \textbf{f}_*$$
-where $p(\textbf{f}_*|\mathcal{D})$ defines a posterior of the
-predicition $f(x)$. We will now dive into Gaussian processes.
+
+In the following chapter, we will provide more details on both models, how they are defined, can be trained
+and used for predictions and discuss their properties. First, we dive into GPs.
+
+% The predictive posterior of a GP is given as
+% $$ p_{gp}(y|x,\mathcal{D}) = \int \mathcal{N}(y|f_*, \sigma^2) p(f_*|\mathcal{D}) d f_*$$
+% where $p(\textbf{f}_*|\mathcal{D})$ defines a posterior of the
+% predicition $f(x)$. We will now dive into Gaussian processes.
+
+
+
+% Bayesian neural networks is
+% defined as a typical probabilistic regression model with some additive gaussian noise
+% $\mathcal{N}(0,\sigma^2)$,  
+% \begin{equation}\label{typicalregmodel}
+%     p(y|x, \theta) = \mathcal{N}(y| f_{\textbf{w}}(x),\sigma^2)
+% \end{equation}
+% where $\theta = (\textbf{w}, \sigma^2)$ and $f_{\textbf{w}}(x)$ is the neural network output for a
+% specific realization of $\textbf{w}$. The formulation \eqref{typicalregmodel} is typical in the
+% sense that $f_{\textbf{w}}$ could describe a linear model, $f_{\textbf{w}}(x) = \textbf{w}^Tx$ or a
+% polynomial $f(x) = \sum_i^n \mathbf{w}_i\cdot x_i^2$ etc. 
+% %The performance of the regression model is varies depending
+% %on how expressive and prone to overfitting the model is. 
+% Gaussian processes take a
+% different approach and directly model the noisefree prediction $f_* := f(x)$ as a random
+% variable. The likelihood for a GP is given as
+% $$ p(y|x, \theta) = \mathcal{N}(y| f_*,\sigma^2)$$ where $\theta = f_*$. Note that $x$ is always
+% given in all probabilistic quires, but for clearification we could add the subscript $\theta_x$, since $f_*$ is always depended
+% on $x$. 
+
+
+
+
+% The predictive posterior for Bayesian neural networks is given as:
+% $$ p_{bnn}(y|x,\mathcal{D}) = \int \mathcal{N}(y|f_{\textbf{w}}(x),
+% \sigma^2)p(\textbf{w},\sigma^2|\mathcal{D}) d \textbf{w} d\sigma^2$$ where 
+% $p(\textbf{w},\sigma|\mathcal{D})$ is the posterior distribution.
+
 
 % is infered using the
 % following posterior on the unknown vector $\textbf{f} := [f(x_1),\dots,f(x_n)]$, where the
@@ -71,6 +101,7 @@ predicition $f(x)$. We will now dive into Gaussian processes.
 
 
 \input{Chapters/03_gaussian_process_regression.tex}
+\newpage
 \input{Chapters/04_bayesian_nn_regression.tex}
 
 

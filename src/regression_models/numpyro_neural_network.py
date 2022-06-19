@@ -72,7 +72,7 @@ class NumpyroNeuralNetwork:
         b3 = sample("b3", dist.Normal(jnp.zeros((1,1)), sigma_b*jnp.ones((1,1))),rng_key=self.rng_key)
 
         # we put a prior on the observation noise
-        sigma_obs = sample("sigma_obs", dist.InverseGamma(20.0, rate=0.0001))
+        sigma_obs = sample("sigma_obs", dist.InverseGamma(self.alpha, rate=1),rng_key=self.rng_key)
         
         #sigma_obs = sample("sigma", dist.Exponential(jnp.ones((1,1))*self.obs_variance_prior),rng_key=self.rng_key)+0.00001
         
@@ -156,11 +156,11 @@ class NumpyroNeuralNetwork:
     def predict(self,X_test,CI=[5.0, 95.0], get_y_pred = False): #TODO: Make a numpy model, which should be easier to compute predictions!!?
         assert X_test.ndim == 2
 
-        if get_y_pred:
-            print("OBS not normalized")
-            X_test_ = X_test
-        else:
-            X_test_, *_ = normalize(X_test, self.x_mean, self.x_std)
+        # if get_y_pred:
+        #     print("OBS not normalized")
+        #     X_test_ = X_test
+        # else:
+        X_test_, *_ = normalize(X_test, self.x_mean, self.x_std)
 
         predictive = Predictive(self.model, posterior_samples=self.samples, return_sites = ["Y"])
         y_pred_ = predictive(self.rng_key_predict, X_test_, Y=None)["Y"]

@@ -1,7 +1,7 @@
 \chapter{Introduction}
 
-\todo{Findes der klasser af problemer hvor GPen fejler? Hvad karakterisere de klasser?, Mere blødt, undersøg
-Kig på functions klasser. }
+% \todo{Findes der klasser af problemer hvor GPen fejler? Hvad karakterisere de klasser?, Mere blødt, undersøg
+% Kig på functions klasser. }
 
 % Introduction section
 %  1. Introduction.
@@ -24,27 +24,28 @@ using limited material. In general, optimization is the methodology of choosing 
 among a set of possible decisions. Often we try to quantify how good a decision is: A specific bus
 takes 20 min to go from A to B, you rate a specific song 4 out of 5, and a particular bridge design
 costs 10 million DKK. Suppose it is possible to come up with a quantification of how good a
-decision is in terms of a real number. In that case, we can formluate the optimization problem as
-a \textit{mathematical optimization problem}: 
+decision is in terms of a real number. In that case, we can formulate the optimization problem as
+a \textit{mathematical optimization problem} \cite[123]{boyd2004convex}: 
 $$\min_{x\in \mathcal{X}} f(x)$$ where the functional $f: \mathcal{X} \rightarrow \mathbb{R}$ is
-called the objective function and $\mathcal{X}$ is the set of possible decisions (or decisions you
+called the \textit{objective function} and $\mathcal{X}$ is the set of possible decisions (or decisions you
 consider). Note that the optimization problem is formulated as a minimization problem. If one
 identifies the optimal decision as a maximum of $f$ (instead of the minima), finding the minima in
 the negated objective function $-f(x)$ is equivalent. Throughout this thesis, we refer to
 optimization as minimizing the objective function. Solving the mathematical optimization problem is
 an active research field, and many algorithms have been developed to find the minimum of the function
-$f(\cdot)$.
+$f(\cdot)$ \cite{boyd2004convex}.
 
 Evaluation of the objective function can be cheap (e.g., if it just requires summing/multiplying
 numbers) or highly expensive (e.g., if it involves human rating, large simulation, or physical
 experiments). In the latter case, we want to avoid evaluating the objective function as much as
-possible - we want to use \textit{sample-efficient} optimization. The overall topic of this
-thesis, \textit{Bayesian optimization} (BO), is one of the preferred frameworks for sample-efficient optimization. 
+possible - we want to use \textit{sample-efficient} optimization. The overall topic of this thesis,
+\textit{Bayesian optimization} (BO), is one of the preferred frameworks for sample-efficient
+optimization \cite{TakeHumanOutOfLoop}.
 %maybe mention more?
 
 Bayesian optimization is a probabilistic surrogate-based optimization methodology: Assuming some
 initial samples $\{(x_1,f(x_1)), \dots, (x_n,f(x_n))\}$ from a highly expensive objective, a cheap
-(surrogate) function is fitted to the samples (in a Bayesian manner). The next sample is found by
+(surrogate) function is fitted to the samples. The next sample is found by
 minimizing the surrogate, and the process is repeated. Bayesian optimization seeks to enhance this
 procedure with probability theory, where the surrogate function becomes a probabilistic (Bayesian)
 regression model. The most common surrogate model is a Gaussian Process (GP), as it encapsulates the
@@ -59,7 +60,7 @@ Even though GP has proven suitable for many cases, there will be problems where 
 not hold. For example, the commonly seen GP with an isotropic kernel (covariance between two points
 is invariant to translation in input) yields a strong assumption about the continuity of the
 objective function and that the objective function behaves similarly throughout the domain
-$\mathcal{X}$. However, in Figure \ref{GP_vs_BNN} we see an example of how the GP's uncertainty
+$\mathcal{X}$. In Figure \ref{GP_vs_BNN} we see an example of how the GP's uncertainty
 quantification is going wild due to a discontinuity in the underlying objective function. in some
 areas, it is prevalent to have these discontinuities, for instance, in material discovery, where it
 is well known that materials often change very suddenly \cite{Nature_BO_paper}. To accommodate the
@@ -67,12 +68,13 @@ strong assumptions of the GP the literature introduces more flexible kernel func
 introduces additional hyperparameters. Since we often only deal with a small amount of data, tuning
 and computation of these more complex GPs can be significantly challenging \cite{Nature_BO_paper}.
 
+% make better figure!
 \begin{figure}[H]%
     \centering
-    \subfloat[\centering GP]{{\includegraphics[trim=0.1cm 0.3cm 0.2cm 0.2cm,clip,width=0.46\textwidth]{Pictures/GP_vs_BNN1_b.pdf} }}%
+    \subfloat{{\includegraphics[trim=0.1cm 0.3cm 0.2cm 0.2cm,clip,width=0.46\textwidth]{Pictures/GP_vs_BNN1_b.pdf} }}%
     \qquad
-    \subfloat[\centering BNN]{{\includegraphics[trim=0.1cm 0.3cm 0.2cm 0.2cm,clip,width=0.46\textwidth]{Pictures/GP_vs_BNN2.pdf} }}%
-    \caption{GP (left) and BNN (right) fitted to 18 data points. The objective function is the
+    \subfloat{{\includegraphics[trim=0.1cm 0.3cm 0.2cm 0.2cm,clip,width=0.46\textwidth]{Pictures/GP_vs_BNN2.pdf} }}%
+    \caption{Gaussian process (GP) and Bayesian neural network (BNN) fitted to 18 data points. The objective function is the
     dashed black line. This examplifies how a discontinuerity makes the standard implemented GP
     (optimized with emperical Bayes) overreact to all other areas in the domain $[0,1]$, while the
     Bayesian NN only express uncertainty where the discontinuerity happens at $x =
@@ -89,22 +91,22 @@ and computation of these more complex GPs can be significantly challenging \cite
 %   11. outline the methodology
 
 GPs are attractive models since they allow for exact inference, a closed-form expected improvement
- (see Section \ref{ExactEI}) and, in general, give a good uncertainty quantification. However, as we saw in
- the figure \ref{GP_vs_BNN} we can maybe do better - especially if we have some insights into
- the behavior of the objective function (i.e. a more transparent black-box optimization
- problem). Suppose it is possible to evaluate the expensive objective function a few times. Then it
- can potentially save work hours, lots of money, or energy (depending on what makes the objective
- function expensive). It is, therefore, relevant to investigate if other models will perform better.
- As mentioned, the assumptions of GP can be too strong. In this thesis, we aim to create models with
- less strong assumptions, which can perform better on certain classes of (complex) problems, and
- just as well as the GP on most classes of problems. 
+ (see Section \ref{ExactEI}) and, in general, give a good uncertainty quantification. However, as we
+ saw in the figure \ref{GP_vs_BNN} we can maybe do better - especially if we have some insights into
+ the behavior of the objective function (i.e. yielding a more transparent black-box optimization
+ problem). A better surrogate model ultimately implies fewer samples to reach an optimal solution,
+ and can, thereby, potentially save work hours, lots of money, or energy (depending on what makes
+ the objective function expensive).  Therefore, the investigation of the performance of other
+ surrogate models is highly relevant. In this thesis, we aim to create surrogate models alternative
+ to GPs, which can perform better on certain classes of (complex) problems, and just as well on most
+ classes of problems. 
 
-%Even though, it would be interesting to also look at different types of GPs such as deep kernel learning
-We limit the scope of the project to deal with the following surrogate models, 
+ \section{Project limitation}
+Even though, it would be interesting to also look at different types of GPs such as deep kernel
+learning, we limit the scope of the project to deal with the following surrogate models:
 \begin{itemize}[noitemsep]
-    \item GP with Matérn kernel (Scikit-learn implementation)
-    \item Bayesian Neural network (Numpyro implementation)
-    \item Bayesian Neural network (BOHAMIANN)
+    \item GP with Matérn kernel
+    \item Bayesian neural network
     \item Mixture regression (Gaussian mixture, kernel density estimator, sum-product networks)
 \end{itemize}
 and we choose only to test the Bayesian optimization with the widely used acquisition function:
@@ -114,16 +116,12 @@ $\mathcal{X} \in \mathbb{R}^m$.
 \section{Contribution}
 This thesis investigates surrogate models alternative to the isotropic GP - more concretely Bayesian NN
 and mixture regression. The proposed hypotheses are,
-\begin{enumerate}[noitemsep]
-    \item Neural Networks perform better applied to complex BO problems than GPs.
-    \item Mixture regression models like SPN can be an effective surrogate model
-    performing better than GPs and Neural Networks in some complex cases. 
-\end{enumerate}
+
 
 \begin{enumerate}[noitemsep]
-    \item There exists classes of problems where GP is not a preferred model. 
+    \item There exists classes of BO problems where GP is not a preferred model. 
     \item Mixture regression models like SPN can be an effective surrogate model
-    performing better than GPs and Neural Networks in some complex cases. 
+    performing better than GPs and Neural Networks in some complex BO problems. 
 \end{enumerate}
 
 
@@ -214,14 +212,26 @@ problems are shown first on Bayesian regression and next on Bayesian optimizatio
 
 
 \section{Notation}
+Following is the general notation used in the thesis, but some chapters (e.g. about GPs) will alter the notation a bit. 
+\begin{itemize}[noitemsep]
+    \item $y$: Observation or sample at a given $x$.
+    \item $x \in \mathcal{X}$: Location or point in the sample space.
+    \item $\textbf{x}$: Set of location or points in the sample space.
+    \item $\textbf{y}$: Set of observations or samples for corresponding $\textbf{x}$.
+    \item $\mathcal{D}$: Collection of samples in the optimization landscape. 
+    \item $\mathcal{N}(x|\mu, \Sigma)$: The density of a normal distribution evaluated in $x$.
+    \item \textit{optimization landscape}: joint set of points in the domain and the objective function
+    evaluated in the points, i.e. $\{(x,f(x))\in \mathcal{X} \times \mathbb{R}| x \in \mathcal{X}\}$.
+\end{itemize}
+
+\subsection{Bayesian notation}
 Throughout this thesis we will be using Bayesian notation, i.e. $p(x) := P(X=x)$ is the probability
 density function of the random variable $X$ evaluated in $x$. and $p(y|x) := P(Y=y|X=x)$ or $p(y|x)
 := P(Y|X=x)$. And writing $p(y^2|x)$ means $P(Y^2=y^2|X=x)$ and \textbf{not} $P(Y=y^2|X=x)$
 
-The density of a normal distribution evaluated in $x$ is denoted as, $\mathcal{N}(x|\mu, \Sigma)$. 
 
-We will not distinguish between vectors and scalars notation-wise unless it is not clear from the 
-context. 
+
+
 
 We will refer to $y$ as an observation or sample at a given location or point $x$. This terminology will fit into the intuitive
 way of understanding an optimization problem as a (high dimensional) \textit{landscape}, 

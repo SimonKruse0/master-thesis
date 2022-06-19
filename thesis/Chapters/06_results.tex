@@ -152,9 +152,11 @@ it is trained 2 times. \todo{Lav den historie}
 GMR is trained using EM but this is done by the sklearn software. 
 
 \subsection*{Test1: Well-behaved problem}
-The first problem will establish some benchmark since this is a simple function to fit. This should
-be an easy task for the discriminative models and indeed the predictive mean yields a small relative
-error for the test1.  
+The first problem will establish some benchmark since this is a simple function to fit. Its exact definition is,
+$$f(x) = x\cdot \sin(\frac{x}{50} \pi) + 150 + \frac{x}{10} + \sin(x) \hspace{0.5cm} x \in [-100,100]$$
+giving a smooth wave function, with the optimium around $-80$. Note that $\sin(x)\in [-1,1]$ contribute with
+some small high frequency surface waves. This should be an easy task for the discriminative models, this is indeed 
+also what we see in the learning curve left of Figure \ref{Test1_reg_plot} where the beginning is dominated by them. 
 
 \begin{figure}[H]
   \centering

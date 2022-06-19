@@ -1,7 +1,9 @@
 \chapter{Bayesian Optimization}
-This chapter will introduce Bayesian optimization. We start with a general introduction to 
-the concept of optimization. 
-
+This chapter will introduce Bayesian optimization. We start with a general introduction to the
+concept of optimization (mainly based on \cite{bayesoptbook}), which culminates with the
+introduction of the idea of Bayesian optimization (BO). Next, we dive into the first BO component:
+The Bayesian regression methodology. Finally, the concept of an acquisition function is introduced,
+with a focus on expected improvement and a brief description of the other types. 
 
 \input{Chapters/01_optimization.tex}
 
@@ -14,6 +16,8 @@ the concept of optimization.
 % with limited budget>
 
 \section{Bayesian regression}
+
+Bayesian framework $$p(\theta|\mathcal{D}) = \frac{p(\mathcal{D}|\theta)p(\theta)}{p(\mathcal{D})}$$
 
 Whereas traditional regression workflow is the following: Given data, choose the best fitting model
 parameters, make predictions using those parameters. The Bayesian framework allows us to skip the

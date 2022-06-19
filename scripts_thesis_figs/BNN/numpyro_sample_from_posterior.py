@@ -9,7 +9,7 @@ import jax.random as random
 
 def obj_fun(x): 
     x = x/5
-    return 0.5 * (np.sign(x-0.5) + 1)+np.sin(100*x)*0.1
+    return 10 * (np.sign(x-0.5) + 1)+np.sin(100*x)*0.1
 
 X_train =  np.random.uniform(-10,10,size = (10,1))
 X_train =  np.random.uniform(-10,10,size = (2,1))
