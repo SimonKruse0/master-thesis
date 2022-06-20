@@ -570,7 +570,8 @@ INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/BO_vs_Gri
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/BO_example.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/illustration_AQs.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/expected_improvement_illustration.pdf
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/neg_lower_confidence_illustration.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/neg_lower_confidence_illustration_1.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/neg_lower_confidence_illustration_3.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_04_discriminative_surrogates.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_04_discriminative_surrogates.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_gaussian_process_regression.tex
@@ -593,20 +594,11 @@ INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_a_prio
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_a_prior_inclusion.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/mixture_predictive_bayesian.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/mixture_predictive_bayesian2D.pdf
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/reg_illustrations/KDE/Test1_KDE_n_10_seed_42.jpg
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/reg_illustrations/KDE/Test2_KDE_n_40_seed_42.jpg
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/reg_illustrations/KDE/Test3_KDE_n_40_seed_42.jpg
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/reg_illustrations/KDE/Test4_KDE_n_40_seed_42.jpg
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/SPN_illustration1.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/SPN_illustration2.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/SPN_illustration3.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/SPN_illustration4.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/SPN_graph2.pdf
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/reg_illustrations/SPN/Test1_SPN_n_10_seed_42.jpg
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/reg_illustrations/SPN/Test2_SPN_n_40_seed_42.jpg
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/reg_illustrations/SPN/Test3_SPN_n_40_seed_42.jpg
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/reg_illustrations/SPN/Test4_SPN_n_40_seed_42.jpg
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/1D_mixture_regression_Naive GMR_N_10.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_b_EM.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_b_EM.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/06_results.tex

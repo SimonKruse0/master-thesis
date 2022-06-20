@@ -1,117 +1,137 @@
 \section{Bayesian Neural Networks}\label{BNN} 
 
 Neural networks have become increasingly popular in recent years, due to their ability to
-approximate any function arbitrary well (universal approximation theorem) and with the amount of
-data in the world today, neural networks are very powerful regression models for finding complex
-patterns. Bayesian neural networks are essentially neural networks, but instead of point estimates,
-each weight is assigned a distribution, which provides a probabilistic regression model (see Figure
-\ref{BNN_illustration2}). Prior to any observed data, each weight usually follows a standard normal
-distribution. After observing data the joint distribution of the weights might be complicated and
-correlated, such that the regression model is fitting the data and provides good uncertainty
-estimation. In Figure \ref{BNN_prior_posterior} we see how the regression model can do predictions
-even when no data is observed, i.e. prior samples (left), when observing data the posterior combines
-the likelihood and the prior and we get the predictive posterior distribution (right). 
+approximate any function arbitrary well (showed via the universal approximation theorem) and with
+the amount of data in the world today, neural networks are very powerful regression models for
+finding complex patterns. Bayesian neural networks are essentially neural networks, but instead of
+point estimates, each weight is assigned a distribution, which provides a probabilistic regression
+model (see Figure \ref{BNN_illustration2}). Prior to any observed data, the weights are assigned a
+distribution (typically a standard Gaussian). After observing data a joint (posterior) distribution
+of the weights are inferred, such that the regression model is fitting the data and provides good
+uncertainty estimation (note that the weights might be complicated and correlated). In Figure
+\ref{BNN_prior_posterior} we see how the regression model can do predictions even when no data is
+observed, i.e. prior samples (left), when observing data the posterior combines the likelihood and
+the prior and we get the predictive posterior distribution (right). 
 \begin{figure}[H]
     \subfloat{{\includegraphics[width=0.45\textwidth]{Pictures/BNN_prior.pdf} }}%
     \qquad
     \subfloat{{\includegraphics[width=0.45\textwidth]{Pictures/BNN_posterior.pdf} }}%
-    \caption{3 layers BNN with 50 $\tanh(\cdot)$ nodes, standard normal prior distributions. 
-    Left: 20 black predictive prior samples (blue is $\pm$ 2 predictive prior std from the red predictive prior mean). Right: 
-    20 black predictive posterior samples and predictive posterior mean and standard deviation}%
+    \caption{Left: 20 black predictive \textit{prior} samples from a 3 layers BNN with 50 $\tanh$ nodes, with standard Gaussian prior distributions. 
+     Right: 20 predictive \textit{posterior} samples. The blue areas are $\pm$ 2 predictive standard
+     deviations from the red predictive mean.}%
     \label{BNN_prior_posterior}%
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{Pictures/BNN_illustration.pdf}
-    \caption*{Bayesian neural network compared to a neural network, were the weights are assigned a
-    probability density , note that we often prior assume no correlation and a standard normal
-    distribution, but the posterior (after observing data) might contain correlations between the
-    weights (i.e. a realization of $w_1$ might influence the realization of $w_2$) (from CYDA)}
+    \caption{Graphical representation of a Bayesian neural network compared to a neural network. The
+    weights are assigned a probability density. Note that we often prior assume no correlation and
+    a standard normal distribution, but the posterior (after observing data) might contain
+    correlations between the weights (from CYDA)}
     \label{BNN_illustration2}
 \end{figure}
 
 The likelihood of a Bayesian Neural network is typically defined as a normal distribution with mean
-equal the neural network output (which is a random variable) and a variance $\sigma^2$ which in the
+equal the neural network output and a observation variance $\sigma^2$ (both are random variables) which in the
 thesis is assumed constant throughout the domain.  
 $$p_{\text{\tiny BNN}}(y|x, \theta) = \mathcal{N}(y|f_{\textbf{w}}(x),\sigma^2)$$
 
-The prior distribution of the weights (including the biases) are uncorrelated standard normal
-distributed, $\mathcal{N}(\textbf{w}|\bm{0},I)$, and the prior distribution of the observation
-variance is following a inverse gamma distribution $\text{InvGa}(\sigma^2|1000,1)$ yielding a quite 
-informative prior of $\sigma^2 \approx 0$, i.e. believing that there is no oberservation noise. 
 
-Note that the posterior distribution of the weights and $\sigma$ might not be normal
-or anything of the known analytically distributions, it might be highly complex and correlated. 
-Therefore, exact inference of BNNs is intractable and we approximate the predicitve posterior distribtuion 
-with monte carlo samples from posterior, 
+The prior distribution of the weights (including the biases) are typically assumed uncorrelated
+standard normal distributed and the observation variance $\sigma^2$ can be assigned a lognormal or
+half-Cauchy, with support on the positive real domain, since a variance parameter can only be
+non-negative. We can write the priors of the BNN model as
+\begin{align*}
+    p(\theta = (w, \sigma)) &= \mathcal{N}(w;\textbf{0},I) \log\mathcal{N}(\sigma;\dots)
+\end{align*}
+Now we can define the posterior distribution, i.e. the probability of the unknown quantaties given
+the observations. We define it using Bayes rule, 
+\begin{align*}
+    p(\theta|x,y) &= \frac{p(\theta,y|x)}{p(y|x)}\\
+    &=\frac{p_{\text{\tiny BNN}}(y|x, \theta)p(\theta|x)}{p(y|x)}.
+\end{align*}
+Note that the prior distribution $p(\theta|x)$ just like the likelihood can depend on $x$ - we could
+for example extend $\sigma$ to depend on the location of the sample $x$ and define it as
+$\sigma(x)$. Note that the posterior distribution of the weights and $\sigma^2$ is
+complex and correlated due to the multiplication of the compllicated likelihood and the prior. 
+Therefore, exact inference of BNNs is intractable and we approximate the predicitve posterior distribution 
+with Monte Carlo samples from posterior, 
 \begin{align*}
     p(y_*|x_*,\mathcal{D}) &= \int p_{\text{\tiny BNN}}(y_*|x_*, \theta)p(\theta|\mathcal{D})d\theta\\
     &\approx \frac{1}{K} \sum_{k=1}^K p_{\text{\tiny BNN}}(y_*|x_*, \theta^{(k)})
 \end{align*}
-where the integral is intractable as $\theta$ can live in a highly dimensional space. The approximation sign
-is true, since we can aproximate the integral with monte carlo sampling: $\theta^{(k)}$ are iid samples from the posterior 
-distribution, $\theta^{(k)} \sim p(\theta|\mathcal{D})$. We can get samples from the posterior distriution using MCMC
-
+where the integral is intractable. As indecated in the second line, we can approximated the
+integral with Monte Carlo sampling: $\theta^{(k)}$ are iid samples from the posterior distribution,
+$\theta^{(k)} \sim p(\theta|\mathcal{D})$. 
 \begin{testexample2}[Monte Carlo approximation]
     Assuming we have a number of iid samples, $\theta^{(1)}, \dots, \theta^{(K)}$ drawn from the
     distribution $p(x)$, then the following appriximation $$E[f(x)] \approx \frac{1}{K} \sum_{k=1}^K
     f(x^{(k)}) =: \Theta_{K}(f)$$ holds according to the law of large numbers. In fact,  $$E[f(x)] =
     \lim_{K \rightarrow \infty} \Theta_{K}(f)$$ and the central limit theorem ensures that the
-    variance of the unbiased estimator of the expecation decreases with number of samples, $K$, i.e.
+    variance of the unbiased estimator of the expectation decreases with number of samples, $K$, i.e.
     $$p(\hat \Theta) \approx \mathcal{N}(\hat \Theta |\mu_f, \frac{\sigma_f^2}{K}),$$ where $\mu_f :=
     E[f(x)] $ and $\sigma_f^2 = Var(f(x))$. \cite{??}
 \end{testexample2}
-
-Left is to sample the $iid$ samples from the distribution $p(x)$
+We try to get iid samples from the posterior distribution using MCMC.
 
 \subsection*{Posterior samples}
-For BNN the joint distribution $p(\mathcal{D},\theta)$ is available, but calulating the posterior distribution requires the
-marginalized likehood, $p(\mathcal{D}) = \int_{\theta} p(\mathcal{D},\theta)$. This integral is often intractable
-since the space of $\theta$ typically is abnomous - so not even nummerical appriximations of the intergral is tractable.
-From Bayes rule, we have the equality, 
+For BNN the joint distribution $p(\mathcal{D},\theta)$ is available, but calulating the posterior
+distribution requires the marginalized likehood, $p(\mathcal{D}) = \int_{\theta}
+p(\mathcal{D},\theta)$. This integral is often intractable since the space of $\theta$ typically is
+abnomous - so not even nummerical approximations of the intergral is tractable. From Bayes rule, we
+have the equality, 
 $$p(\theta|\mathcal{D}) = \frac{p(\mathcal{D},\theta)}{p(\mathcal{D})} \propto
 p(\mathcal{D},\theta),$$ where the propotional sign is true, since $p(\theta|\mathcal{D})$ is a
 function of $\theta$. Knowing the joint distribution, $p(\mathcal{D},\theta)$, allow for using Markov
 chain Monte Carlo (MCMC) to obtain samples from the posterior distribution.  
 
-\begin{testexample2}[Markov chain Monte Carlo]
-    We can conviniently use \textit{MCMC} for sampling from a probability density $p(x)$, with only the knowledge of a 
-    propotional/unnormalised density $\hat p(x) \geq 0$ i.e
+\begin{testexample2}[Markov chain Monte Carlo (MCMC)]
+    We can use MCMC for sampling from a probability density $p(x)$, with only the knowledge of a 
+    proportional/unnormalised density $\hat p(x) \geq 0$ i.e
     $$\hat p(x) = c\cdot p(x) \propto p(x), \hspace{1cm} c = \int \hat p(x) dx,$$ where $\int \hat
-    p(x) dx$ is a possible intractable integral. The MCMC procedure constructs an ergodic Markov
+    p(x) dx$ may be intractable. The MCMC procedure constructs an ergodic Markov
     chain/process, such that its stationary distribution is exactly $p(x)$, but only
     with the knowledge of $\hat p(x)$. 
+    \begin{itemize}[noitemsep]
+        \item \textbf{Ergodic}: A Markov process which spans/visits all the space. 
+        \item \textbf{Stationary distribution}: A Markov process has reached stationary distribution if
+                            we stay there at the next sample. 
+        \item \textbf{Detailed balance relation}: A way to check if a Markov chain is
+        stationary is by the detailed ballance equation: $$p(x)p(x\rightarrow y) =
+        p(y)p(y\rightarrow x)$$ note we introduce the notation $p(x\rightarrow y)$ for the
+        transition probablity from x to y, this can also be interpreted as a conditional
+        distribution of state $y$ given state $x$  
+    \end{itemize}
 \end{testexample2}
 So since the known joint distribution is proportional to the posterior distribution, we can use MCMC
 to get samples from the posterior distribution, even when it is intractable. To better introduce
-what MCMC is, we know here present the most simple MCMC procedure, i.e. the Metropolis-Hasting
-algorithm (HM), and give a proof of why its produced Markov chain stays in its stationary distribution
-(checked by \textit{detailed balance}).
+what MCMC is, we here present a simple MCMC procedure, the Metropolis-Hasting algorithm (HM), and
+give proof of why its produced Markov chain stays in its stationary distribution.
 
 \begin{testexample}[MCMC example: Metropolis-Hasting (MH)]
      At iteration $n$ we already have a sample $x_n$,
     \begin{enumerate}
-        \item Propose $\hat x$ from a proposal density $q(x_n,\cdot)$
-        \item Compute acceptance probability $$\alpha(x_n,\hat x) = \min \left(1, \frac{p(\hat x)}{p(x_n)} \frac{q(\hat x, x_n)}{q(x_n,\hat x)}\right)$$
+        \item Propose $\hat x$ from a proposal density $q(\cdot|x_n)$
+        \item Compute acceptance probability $$\alpha(x_n,\hat x) = \min \left(1, \frac{p(\hat
+        x)}{p(x_n)} \frac{q(x_n| \hat x)}{q(\hat x|x_n)}\right)$$
         \item Set the next sample $$x_{n+1} = \begin{cases}
             \hat x &\text{with probability } \alpha(x_n, \hat x)\\
              x_n &\text{with probability } 1-\alpha(x_n, \hat x)
         \end{cases}$$
     \end{enumerate}
-    note that $\alpha(x_n,\hat x)$ requires $p(x)$, but since the algorithm only
-    requires the fraction $\frac{p(\hat x)}{p(x_n)} = \frac{p(\hat x)\cdot c}{p(x_n)\cdot c} = \frac{\hat p(\hat x)}{\hat p(x_n)}$
-    we only need $\hat p(x)$.  
+    note that $\alpha(x_n,\hat x)$ uses $p(x)$ in the fraction $\frac{p(\hat x)}{p(x_n)} =
+    \frac{p(\hat x)\cdot c}{p(x_n)\cdot c} = \frac{\hat p(\hat x)}{\hat p(x_n)}$, so we only need $\hat
+    p(x)$.  
     
     \textbf{Proof:} Assuming discrete states, the transition probability between the states are given as, 
     $$p(x\rightarrow y) = \begin{cases}
-        q(x,y)\alpha(x,y) & \text{if } x\neq y\\
-        q(x,x) + \sum_{z\neq x} q(x,z)(1-\alpha(x,z)) & \text{if } x=y
+        q(y|x)\alpha(x,y) & \text{if } x\neq y\\
+        q(x|x) + \sum_{z\neq x} q(z|x)(1-\alpha(x,z)) & \text{if } x=y
     \end{cases}$$
-    Now, let us look at the so-called \textit{detailed balance} relation, i.e. when we are sampling from the
-    stationary distribution we stay there at the next state. Assume $x\neq y$, 
+    Now, let us look at the detailed balance relation. Assume $x\neq y$, 
     \begin{align*}
-        p(x)p(x\rightarrow y) &= p(x)q(x,y)\alpha(x,y)\\
+        p(x)p(x\rightarrow y) &= p(x)q(y|x)\alpha(x,y)\\
         &=p(x)q(x,y) \min \left(1, \frac{p(\hat x)}{p(x_n)} \frac{q(\hat x, x_n)}{q(x_n,\hat x)}\right)\\
         &= \min(p(x)q(x,y), p(y)q(y,x))
     \end{align*}
@@ -120,9 +140,9 @@ algorithm (HM), and give a proof of why its produced Markov chain stays in its s
     and summing over $x$ on both sides yields,
     \begin{align}
         \sum_x p(x)p(x\rightarrow y) &= p(y) \sum_x p(y\rightarrow x)\\
-        \implies \hspace{0.5cm} p(y) &= \sum_x p(x)p(x\rightarrow y)
+        \implies \hspace{0.5cm} p(y) &= \sum_x p(x)p(x\rightarrow y).
     \end{align}
-    similar conclusion will be obtained for $x = y$, all in all, this reveals that $p(x)$ is in fact
+     The detailed balance is trivially obtained for $x = y$, all in all, this reveals that $p(x)$ is in fact
      invariant for the chain $\{x_1, \dots , x_n\}$ and thereby that MH is a MCMC algorithm. 
 \end{testexample}
 % Markov assumption -> history doesn't matter
@@ -149,20 +169,20 @@ algorithm (HM), and give a proof of why its produced Markov chain stays in its s
 HM with its random walk transition is very simple and it comes with some serious disadvantages: Slow
 convergence speed, it might stay in the same region for a long time and produce highly correlated
 samples(i.e. not the iid samples we need for the Monte Carlo approximation to be correct) \cite{??}.
-The golden standard in MCMC, Hamilton Monte Carlo (HMC), replaces HMs random walk with
+The gold standard in MCMC, Hamiltonian Monte Carlo (HMC), replaces HMs random walk with
 gradient-guided movements and interpret the probability landscape as a physical system.
  
-\begin{testexample}[HMC]
-Hamilton Monte Carlo exploits arguments from classical mechanics around the Hamiltonian equations.
+\begin{testexample}[Hamiltonian Monte Carlo (HMC)]
+HMC exploits arguments from classical mechanics around the Hamiltonian equations.
 This method leads to more efficient sampling as the Hamiltonian interpretation allows the system to
 consider regions with high probability more - this is obtained using a gradient of the probability
 landscape, $\frac{-\partial E(x)}{\partial x} $.
  
-We bring the potential energy $E(x)$ into the game by defining the joint probability as, 
+We introduce the potential energy $E(x)$ by defining the joint probability as, 
 $$p(x) = \frac{1}{Z_E}\exp(-E(x))$$ Now, a latent vector $q$ is introduced in order to represent the
 momentum of the system, which gives us the kinetic energy of the system. 
 $$K(q) = \frac{1}{2}\sum_{i=1}^l q_i^2$$ Combining the kinetic and potential energy yields, the the
-Hamilton function and its coresponing distribution
+Hamilton function and its corresponing distribution
 $$H(x,q)= E(x)+K(q)$$
 and 
 \begin{align}
@@ -171,7 +191,8 @@ and
     &= p(x)p(q)
 \end{align}
 
-The desired distribution $p(x)$ is found as the marginal of $p(x,q)$
+The desired distribution $p(x)$ is found as the marginal of $p(x,q)$.
+<MORE!!>
 \end{testexample}
 
 \subsection{MCMC used in thesis}
@@ -180,22 +201,23 @@ we look a bit at the two versions used in the thesis. Our implementation in Nump
 and the one from the paper, BOHamiANN, 
 
 \subsubsection{NUTS}
-Often the physical simulation in HMC goes forth and back the same path (a u-turn), and we risk getting bad samples.
+<LAV om>
+Often the physical simulation in HMC goes back and forth the same path (a u-turn), and we risk getting bad samples.
 No U-turn (NUTS) sampling avoids this, by forcing the HMC path to not take u-turns. 
 
 \subsubsection{Adaptive stochatic HMC}
+<Læs BOHamiANN paper igennem>
 BOHAMIANN is using an adaptive stochastic Hamiltonian monte carlo method to train the BNN. 
-
 
 
 \subsection{Design and properties of Bayesian neural network}
 The architecture of a BNN is a large topic to discuss. There are certain tradeoffs to be taken into
-consideration: How expressive should the network be (i.e. how deep and how many nodes per layer) versus
-how much time do we have for the sampler to converge to the true posterior distribution? One very
-annoying part of MCMC is that it is difficult to know when the samples are true samples
-from the posterior. A consideration when training deterministic neural networks are overfitting
-however this is not a big consideration when fitting Bayesian neural networks; Choosing a prior
-around 0 will regulate the parameters, and thereby postpone overfitting. 
+consideration: How expressive should the network be (i.e. how deep and how many nodes per layer)
+versus how much time do we have for the sampler to converge to the true posterior distribution? A
+challenging part of MCMC is that it is difficult to know when the samples are true samples from the
+posterior. A consideration when training deterministic neural networks are overfitting however this
+is not a big consideration when fitting Bayesian neural networks; Choosing a prior around 0 will
+regulate the parameters, and thereby postpone overfitting. 
 
 This thesis is inspired by the PhD thesis \cite{PhDthesis}, which uses an architecture of a 2 layers
 with 50 sigmoid nodes in each layer, and the BOHAMIANN paper \cite{BOHAMIANN}, default uses an architecture
@@ -218,6 +240,9 @@ highly expressive models are not important.
 % The number of MCMC samples is of large importance. Theoretically speaking the more samples the better
 % however, 
 
+$\mathcal{N}(\textbf{w}|\bm{0},I)$, and the prior distribution of the observation
+variance is following a inverse gamma distribution $\text{InvGa}(\sigma^2|1000,1)$ yielding a quite 
+informative prior of $\sigma^2 \approx 0$, i.e. believing that there is no oberservation noise.
 
 \begin{figure}[h]
     \centering

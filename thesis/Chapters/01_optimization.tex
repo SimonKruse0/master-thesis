@@ -48,14 +48,15 @@ Given data points in the \textit{optimization landscape}
 % \footnote{"Optimization landscape" defined
 % as the joint set of points in the domain and the objective function evaluated in the points, i.e.
 % $\{(x,f(x))\in \mathcal{X} \times \mathbb{R}| x \in \mathcal{X}\}$} 
-a policy selects a location $x
-\in \mathcal{X}$ where we make our next observation. Policies can be deterministic or probabilistic;
-examples of each type could be grid search and random search. The next observation provides us a $y = f(x)$
-value\footnote{Since the evaluation of $f(\cdot)$ might be noisy or inprecise, we just observe $y = observe(x)$. The typical
-connection between $f(x)$ and $y$ are $y = f(x)$ or $y = f(x) + \epsilon$, where $\epsilon$ is additive white noise, 
-but different connections might be present as well.}, which combined with $x$ is included in the available data $\mathcal{D}$. Finally, a stopping
-criterion decides whether to repeat or terminate the procedure. We will now present how different
-examples of well-known optimization routines fits into Algorithm \ref{algOPT}.
+a policy selects a location $x \in \mathcal{X}$ where we make our next observation. Policies can be
+deterministic or probabilistic; examples of each type could be grid search and random search. The
+next observation provides us a $y = f(x)$ value\footnote{Since the evaluation of $f(\cdot)$ might be
+noisy or inprecise, we more generally write $y = observe(x)$. The typical connection between $f(x)$
+and $y$ are $y = f(x)$ or $y = f(x) + \epsilon$, where $\epsilon$ is additive white noise, but
+different connections might be present as well.}, which combined with $x$ is included in the
+available data $\mathcal{D}$. Finally, a stopping criterion decides whether to repeat or terminate
+the procedure. We will now present how different examples of well-known optimization routines fits
+into Algorithm \ref{algOPT}.
 
 
 \begin{testexample}[Grid search]
@@ -104,13 +105,12 @@ end, solving the optimization problem can be divided into the following componen
 Assuming same cost pr iterations and for all evaluations, the total optimization cost, $C_{\text{total}}$, is given as 
 $$C_{\text{total}} = N_{\text{iter}} \cdot \left[ C_{\text{policy}} + C_{\text{observe}}\right]$$
 
-A sample efficient solver has a large $C_{\text{policy}}$ but a small $N_{\text{iter}}$, whereas a
-simple optimization scheme like random search has a very small $C_{\text{policy}}$ but a large
-$N_{\text{iter}}$. Choosing the right optimization solver depends highly on $C_{\text{observe}}$.
+A sample efficient solver has a large $C_{\text{policy}}$ and a small $N_{\text{iter}}$, which is
+completely opposite for a simple optimization scheme like random search. Choosing the right optimization solver depends highly on $C_{\text{observe}}$.
 For small $C_{\text{observe}}$ it is favorable to find a good trade-off between $N_{\text{iter}}$
 and $C_{\text{policy}}$: In deep learning the solver Adam is very popular, due to its cheap
 but advanced policy \cite{Adam}. This project deals with a dominating observation cost, i.e. the cost of the policy is assumed
-neglectable $C_{\text{observe}}>>C_{\text{policy}}$. So focus is not on finding a cheap policy but rather
+neglectable $C_{\text{observe}}>>C_{\text{policy}}$. So focus is not on finding a cheap policy, but rather
 on improving the number of iterations to reach the minima $N_{\text{iter}}$.
 
 \begin{testexample}[Surrogate-based optimization]
@@ -124,6 +124,9 @@ on improving the number of iterations to reach the minima $N_{\text{iter}}$.
     where $f_{\text{sur}}(x) \approx f(x)$ for $x$ close to the data $\mathcal{D}$. And we hope the approximation
     holds for $x$ far away from the the data.
 \end{testexample}
+Figure \ref{Sample_efficient_illustration} illustrates the idea of a sample-efficient solver; the solver adapts
+the obtained data into its decision and, thereby, faster discovers the minimum. 
+
 \begin{figure}[H]%
     \centering
     {\includegraphics[width=0.46\textwidth]{Pictures/BO_vs_Grid2.eps} }%
@@ -132,8 +135,8 @@ on improving the number of iterations to reach the minima $N_{\text{iter}}$.
     \caption{Example of an optimization task tuning a parameterised regression model with parameters
     $\lambda$ and $\sigma$, on a test set, i.e. minimization of prediction error. We see the first
     23 evaluations out of 100 in grid search vs 23 evaluations using a sample-efficient solver (Bayesian
-    optimization). This illustrates the idea of a sample-efficient solver.}%
-    \label{fig:example}%
+    optimization).}%
+    \label{Sample_efficient_illustration}%
 \end{figure}
 
 \subsection{Exploitation and exploration}
@@ -163,14 +166,13 @@ its ability to deal with noisy objective functions.
 
 
 \subsection{Noisy objective functions}
-Many optimization algorithms assume \textit{exact} evaluations of the objective function. However,
-this assumption is often wrong, especially for objective functions with real-life experiments,
-imperfect simulations, human interaction where measurement noise is well known. A potentially noisy
-objective function is the main reason why we in Algorithm \eqref{algOPT} use the terminology
-$\text{observe}(x)$ and not just \textit{evaluate }$f(x)$.
-
-The observation model is typically noisy and described as
-$$y = f(x)+\epsilon$$ where $\epsilon$ is the measurement error, this is
+Many optimization algorithms (e.g. gradient descent and grid search) assume \textit{exact}
+evaluations of the objective function. However, this assumption is often wrong, especially for
+objective functions with real-life experiments, imperfect simulations, and human interaction where
+measurement noise is well known. A potentially noisy objective function is the main reason why we in
+Algorithm \eqref{algOPT} use the terminology $\text{observe}(x)$ and not just
+$\text{evaluate}(f(x))$. The observation model is typically noisy and described as
+$$y = f(x)+\epsilon,$$ where $\epsilon$ is the measurement error, this is
 typically assumed to be Gaussian with zero mean and a variance
 $\sigma^2$ (which could depend on $x$ in a heteroskedastic setting) and implies a Gaussian observation model, 
 $$p(y|f(x),\sigma_x^2) = \mathcal{N}(y|f(x),\sigma_x^2)$$ where $f(x)$ is the mean value and
@@ -223,7 +225,7 @@ as it defines a Bayesian regression model over the observations.
           \caption{Top: Bayesian regression model (Gaussian Process) is fitted to the observed data,
           which are sampled from the underlying objective (black sin-function). Bottom: The expected improvement
           \textit{acquisition function} is maximied at the orange arrow, i.e. the location of the
-          next sample.  $\text{policy}_{BO}(\mathcal{D}) = 26,06$} \label{BO_example}
+          next sample.  $\text{policy}_{BO}(\mathcal{D}) = 26.06$} \label{BO_example}
         \end{minipage}
     \end{figure}
 \end{testexample}

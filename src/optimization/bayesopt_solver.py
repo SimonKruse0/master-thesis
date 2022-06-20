@@ -175,12 +175,16 @@ class BayesOptSolverBase(PlottingClass):
             Y_sigma_list.append(Y_sigma)
         return np.array(Y_mu_list).flatten(),np.array(Y_sigma_list).flatten()
 
-    def lower_confidense_bound(self,X, beta = 2):
+    def nlower_confidense_bound(self,X, beta = 2,  return_analysis = False):
         mu, sigma = self.predict(X)
         if self.beta is None:
             self.beta = beta
         imp = self.y_min - mu
-        return -imp - self.beta*sigma #note since symetric around mu, minimizing the LCB is the same as maximizing the UCB
+        lcb = -imp - self.beta*sigma
+        if return_analysis:
+            return -lcb,imp, sigma  #note since symetric around mu, minimizing the LCB is the same as maximizing the UCB
+        else:
+            return -lcb
 
     def expected_improvement(self,X, return_analysis = False):
         assert self.y_min is not None
@@ -217,7 +221,7 @@ class BayesOptSolverBase(PlottingClass):
 
     def acquisition_function(self,x):
         if self.acquisition=='LCB':
-            return -self.lower_confidense_bound(x)
+            return self.nlower_confidense_bound(x)
         if self.acquisition=='EI':
             EI, exploitation, exploration = self.expected_improvement(x, return_analysis=False)
             return EI
@@ -417,7 +421,7 @@ class PlotBayesOpt1D(BayesOptSolver_sklearn):
             # ax.plot(Xgrid, exploitation, "--", color = "cyan", label="exploitation") 
             # ax.plot(Xgrid, exploration, "--", color = "red", label="exploration") 
         if self.acquisition == "LCB":
-            LCB_of_Xgrid = -self.lower_confidense_bound(Xgrid)
+            LCB_of_Xgrid, imp, sigma = self.nlower_confidense_bound(Xgrid, return_analysis = True)
             # plot the acquisition function ##
             lvl = norm.cdf(self.beta)
             ax.plot(Xgrid, LCB_of_Xgrid, color=color, label = f"LCB({lvl:0.3f})") 
@@ -494,7 +498,7 @@ class PlotBayesOpt2D(BayesOptSolver_sklearn):
             ax.plot(Xgrid, exploitation, "--", color = "cyan", label="exploitation") 
             ax.plot(Xgrid, exploration, "--", color = "red", label="exploration") 
         if self.acquisition == "LCB":
-            LCB_of_Xgrid = -self.lower_confidense_bound(Xgrid)
+            LCB_of_Xgrid = self.nlower_confidense_bound(Xgrid)
             # plot the acquisition function ##
             ax.plot(Xgrid, LCB_of_Xgrid, color="tab:blue", label = "LCB") 
 

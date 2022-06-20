@@ -35,15 +35,18 @@ extent = [
 
 #c = ax.contourf(imp,sigma, EI, np.linspace(EI.min(), EI.max(),40), cmap="twilight_shifted")
 c = ax.contourf(imp,sigma, np.log(EI), np.linspace(-7, np.max(np.log(EI)),10), cmap="Greys")
-cbar = plt.colorbar(c)
-cbar.set_ticks(list(cbar.get_ticks()))
-cbar.set_ticklabels(list(np.round(np.exp(cbar.get_ticks()),3)))
+# cbar = plt.colorbar(c)
+# cbar.set_ticks(list(cbar.get_ticks()))
+# cbar.set_ticklabels(list(np.round(np.exp(cbar.get_ticks()),3)))
 
-ax.set_title(r"$\mathbb{EI}(x)$")
+ax.set_title(r"$EI(x)$")
 ax.set_xlabel(r"$y_{\min}-\mu_x$")
 #ax.set_ylabel(r"$\sqrt{\mathbb{V}_{p(y|x,\mathcal{D})}[y]}$")
 ax.set_ylabel(r"$\sigma_x$")
 ax.set_ylim(0,ybounds[1])
+
+
+
 
 path_data = "/home/simon/Documents/MasterThesis/master-thesis/scripts_thesis_figs/bayesian_optimization/GP_imp_sig_data.txt"
 data = np.loadtxt(path_data)
@@ -56,7 +59,11 @@ plt.plot(data[0][0], data[1][0],".",markersize = 10,color="tab:blue",label="x=-1
 
 #
 #plt.show()
+ax.set_yticks([0,1,2])
+ax.set_xticks([-3,0,1])
+# plt.show()
+
 fig = plt.gcf()
-fig.set_size_inches(8, 3)
+fig.set_size_inches(3, 3)
 path = "/home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures"
 plt.savefig(f'{path}/expected_improvement_illustration.pdf', bbox_inches='tight',format='pdf')

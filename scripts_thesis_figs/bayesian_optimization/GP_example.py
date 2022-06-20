@@ -41,20 +41,30 @@ for iter in range(1):
             ax1.plot(plot_BO._X[:-1],plot_BO._Y[:-1], ".", markersize = 10, color="black")
             ax = ax2
             imp, sigma = plot_BO.plot_acquisition_function(ax, color = f"C{i}", show_y_label = False, return_path = True)
+        elif i==2:
+            ax = ax3
+            imp2, sigma2 = plot_BO.plot_acquisition_function(ax, color = f"C{i}", show_y_label = False,  return_path = True)
         else:
             ax = ax3
-            plot_BO.plot_acquisition_function(ax, color = f"C{i}", show_y_label = False)
+            imp3, sigma3 = plot_BO.plot_acquisition_function(ax, color = f"C{i}", show_y_label = False,  return_path = True)
+
         x_next = plot_BO.opt.x_next[:,None]
         max_AQ= plot_BO.acquisition_function(x_next)
         ax.plot(x_next, max_AQ, "^", markersize=10,color="tab:orange")#, label=f"x_next = {plot_BO.opt.x_next[0]:.2f}")
-        #ax.legend(loc=1)
+        #ax.plot(x_next, max_AQ, "^", markersize=10,color="tab:orange",label=f"x_next = {plot_BO.opt.x_next[0]:.2f}")
+        ax.legend(loc=1)
         
         #plt.show()
         number = f"{iter}".zfill(3)
     ax1.set_ylabel("y")
+    ax3.set_xlabel("x")
+    fig = plt.gcf()
+    fig.set_size_inches(10, 4)
     #plt.show()
     path_data = "/home/simon/Documents/MasterThesis/master-thesis/scripts_thesis_figs/bayesian_optimization"
-    np.savetxt(path_data+"/GP_imp_sig_data.txt", np.array([imp,sigma]))
+#     np.savetxt(path_data+"/GP_imp_sig_data.txt", np.array([imp,sigma]))
+#     np.savetxt(path_data+"/GP_imp_sig_data2.txt", np.array([imp2,sigma2]))
+#     np.savetxt(path_data+"/GP_imp_sig_data3.txt", np.array([imp3,sigma3]))
 
 path  = "/home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures"
 plt.savefig(f"{path}/illustration_AQs.pdf")

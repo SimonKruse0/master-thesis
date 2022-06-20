@@ -16,22 +16,25 @@ with a focus on expected improvement and a brief description of the other types.
 % with limited budget>
 
 \section{Bayesian regression}
-
-Bayesian framework $$p(\theta|\mathcal{D}) = \frac{p(\mathcal{D}|\theta)p(\theta)}{p(\mathcal{D})}$$
-
+% \begin{testexample2}[Bayesian methodology]
+%     In Bayesian statistics $p(\theta|\mathcal{D})$ is the posterior distribution, and it is 
+% of $\theta$ is linked to the likelihood and prior via Bayes rule,
+% $$p(\theta|\mathcal{D}) = \frac{p(\mathcal{D}|\theta)p(\theta)}{p(\mathcal{D})}$$
+% \end{testexample2}
 Whereas traditional regression workflow is the following: Given data, choose the best fitting model
 parameters, make predictions using those parameters. The Bayesian framework allows us to skip the
 dependency of a single set of parameters and instead use \textit{all possible} parameters by treating the set
-of parameters as a random quantity, $\theta \sim p(\theta)$, where some values/realizations of $\theta$ are more
-probable than others. In Bayesian regression we are interest is the predictive posterior distribution,  
+of parameters as a random quantity, $\theta \sim p(\theta|\mathcal{D})$, where some values/realizations of $\theta$ are more
+probable than others given data. In Bayesian regression we are interest is the predictive posterior distribution,  
 \begin{align}\label{Predictive2}
     p(y|x, \mathcal{D}) &= \int p(y,\theta|x, \mathcal{D}) d\theta\\
     &= \int p(y|x,\theta)p(\theta|\mathcal{D}) d\theta,
 \end{align}
-where the posterior $p(\theta|\mathcal{D})$ gives weighting to the proposed regression model $p(y|x,\theta)$. 
-Note that the second equation is true because of the probability chain rule and that $y$ is fully
-described by the parametric model $p(y|x,\theta)$ and the parameters $\theta$ are fully described by
-the posterior distribution $p(\theta|\mathcal{D})$.
+where the posterior $p(\theta|\mathcal{D})$ gives weighting to the proposed regression model
+$p(y|x,\theta)$. Note that the second equation is true because of the probability chain rule and
+that $y$ is fully described by the parametric model $p(y|x,\theta)$ and the parameters $\theta$ are
+fully described by the posterior distribution $p(\theta|\mathcal{D})$.
+
 
 \subsection{Surrogate model}
 A surrogate model in a Bayesian optimization setting is a Bayesian regression model. The most
@@ -44,11 +47,11 @@ as a surrogate from the conditional distribution of $y$ given $x$, $p(y|x)$.
 In this thesis, the Bayesian regression models investigated as Bayesian optimization surrogates are
 the following:
 \begin{itemize}[noitemsep]
-    \item Gaussian process (discriminative)
-    \item Bayesian neural network (discriminative)
-    \item Kernel density regression (generative)
-    \item Gaussian mixture regression (generative)
-    \item SPN (generative)
+    \item Gaussian process (GP)
+    \item Bayesian neural network (BNN)
+    \item Kernel density regression (KDE)
+    \item Gaussian mixture regression (GMR)
+    \item Sum-product networks (SPN)
 \end{itemize}
 
 We now introduce the concept of inference, which is necessary for using the probabilistic surrogate models
@@ -74,11 +77,11 @@ correct; however, they are usually also less expressive (unable to explain compl
 When it is not possible to answer a probabilistic query exact, we can approximate the answer using
 \textit{approximate inference}. When dealing with complicated and expressive statistical models,
 exact inference is often intractable, and we need to use approximate inference. Approximate
-inference is a broad category of methods, which includes variational inference, Laplace
-approximation, and Markov chain Monte Carlo (MCMC). The two Bayesian Neural networks we deal with in
-this project Bohamiann and Numpyro BNN are similar regression models but are inferred using two
-different versions of the MCMC method, Hamiltonian Monte Carlo - giving different results. As
-revealed later (see in section \ref{BNN}), approximate inference might be flawed and inexact. 
+inference is a broad category of methods, which includes variational inference and Markov chain
+Monte Carlo (MCMC). The two Bayesian Neural networks, we deal with in this project, Bohamiann and
+Numpyro BNN are similar regression models but are inferred using two different MCMC methods,
+Hamiltonian Monte Carlo - giving different results. As revealed later (see in section \ref{BNN})
+approximate inference might be flawed and inexact. 
 
 \begin{table}[H]
     \centering
@@ -92,33 +95,57 @@ revealed later (see in section \ref{BNN}), approximate inference might be flawed
     Gaussian mixture regression & Exact $O(K)$              & EM  \\
     SPN                         & Exact $O(E)$              &  EM $O(E)$\\
     \end{tabular}
-    \caption{Overview of inference methods applied on the statistical models 
-            used in this project. $E$ is the number of edges in the SPN. $n$ is the number of datapoints. 
-            $K \leq n$ is the number of mixture comonents. We will soon learn that for an
-            SPN the number of mixture compenets is exponential larger than number of edges
-            i.e. $E << K$. In theory MCMC methods samples 
-            from true the posterior distribution, and do not need any fitting/learning. 
-            }
+    \caption{Overview of inference methods applied on the statistical models used in this project.
+            $E$ is the number of edges in the SPN. $n$ is the number of data points. $K \leq n$ is
+            the number of mixture components. We will soon learn that for an SPN the number of
+            mixture components is exponentially larger than the number of edges i.e. $E << K$. In theory
+            MCMC methods samples from true the posterior distribution, and do not need any
+            fitting/learning. }
 \end{table}
 
 \newpage
 \section{Acquisition function}
-Given a well fitted predictive distribution $p(y|x\mathcal{D})$ \eqref{Predictive2}. The next sample
-point is chosen according to a so-called acquisition function, which balances out the well-known
-concept of exploitation and exploration. It is exploitation if the next chosen location, $x \in
-\mathcal{X}$ according to its average improvement. It is exploration if the next point is chosen in
-a region of high uncertainty and thereby helps lower the overall uncertainty. First, we will look at
-the acquisition function used in the thesis: Expected improvement. But also shortly go over
-different types of acquisition functions. In Figure \ref{Different_AQ_functions} we see three
-different acquisition functions. The expected improvement (EI) is known for being biased towards
-exploitation. In contrast, the negative lower confidence bound (LCB) has a parameter $\beta$, which
-can be tuned to make it focus more on exploration. 
+Given a correct predictive distribution $p(y|x\mathcal{D})$ the next step in Bayesian optimization
+is to select the next location $x \in \mathcal{X}$ to sample from. The next location is chosen
+according to a so-called acquisition function (AQ function), which balances out the well-known
+concept of exploitation and exploration. It is exploitation if the next chosen location according to
+its average improvement. It is exploration if the next point is chosen in a region of high
+uncertainty and thereby helps lower the overall uncertainty. First, we will look at the acquisition
+function used in the thesis: Expected improvement. Secondly, we shortly present other different
+types of acquisition functions. In Figure \ref{Different_AQ_functions} we see three different
+acquisition functions. The expected improvement (EI) is known for being biased towards exploitation.
+In contrast, the negative lower confidence bound (LCB) has a parameter $\beta$, which can be tuned
+to make it focus more on exploration. 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{Pictures/illustration_AQs.pdf}
+    \includegraphics[trim=1cm 0cm 1cm 1cm,clip,width=\textwidth]{Pictures/illustration_AQs.pdf}
     \caption{The same regression model and points as Figure \ref{BO_example}, but with three
     different acquisition functions: Expected improvement and negative lower confidence bound for
     two different lower quantiles $0.841$ and $0.999$. The latter yields more exploration.}\label{Different_AQ_functions}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[b]{0.32\textwidth}
+      \includegraphics[trim=0.2cm 0.2cm 0cm 0.1cm,clip,width=\textwidth]{Pictures/expected_improvement_illustration.pdf}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.32\textwidth}
+        \includegraphics[trim=0.2cm 0.2cm 0cm 0.1cm,clip,width=\textwidth]{Pictures/neg_lower_confidence_illustration_1.pdf}
+      \end{minipage}
+     \hfill
+     \begin{minipage}[b]{0.32\textwidth}
+        \includegraphics[trim=0.2cm 0.2cm 0cm 0.1cm,clip,width=\textwidth]{Pictures/neg_lower_confidence_illustration_3.pdf}
+      \end{minipage}
+    \caption{Contourplot of expected improvement and lower confidence bound (for two different
+    quantiles) for different (Gaussian) predictive uncertainties $\sigma_x =
+    \sqrt{\mathbb{V}ar_{p(y|x,\mathcal{D})y]}}$ versus the average improvement $y_{\min}-\mu_x$,
+    where $\mu_x = E_{p(y|x,\mathcal{D})}[y]$ (high values are dark). The colored lines are the
+    mapping $x \mapsto (\sigma_x, y_{\min}-\mu_x)$ for $x = [-100, 100]$ for the Bayesian regression
+    function in Figure \ref{Different_AQ_functions} - and thereby explains how the acquisition
+    functions balances exploitation and exploration. The orange dot represent the point maximizing
+    the acquisition function}
+    \label{EI_illustration}
 \end{figure}
 
 
@@ -131,17 +158,6 @@ $\mathbb{E}_{p(y|x,\mathcal{D})}[y]> y_{\min}$ might still be maximizing the exp
 if the predictive uncertainty is very large at $x$. Figure \ref{EI_illustration} illustrates that a
 large uncertainty in the predictive distribution (represented as the predictive variance) can lead
 to relative large values even for non-improving mean predictions.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{Pictures/expected_improvement_illustration.pdf}
-    \caption{Contourplot of expected improvement for different (Gaussian) predictive
-    uncertainties $\sigma_x = \sqrt{\mathbb{V}ar_{p(y|x,\mathcal{D})}[y]}$ versus the average
-    improvement $y_{\min}-\mu_x$, where $\mu_x = E_{p(y|x,\mathcal{D})}[y]$. The blue line 
-    is the acquisition function at Figure \ref{BO_example} for $x = [-100, 100]$ via the
-    follwoing map $x \mapsto (\sigma_x, y_{\min}-\mu_x)$. The orange dot represent $x_{next} = 26.06$}
-    \label{EI_illustration}
-\end{figure}
 
 
 \begin{note2}[Why defining expected improvment with max]    
@@ -248,15 +264,15 @@ is chosen as the acquisition. For a Gaussian predictive distribution this is
 simply 
 $$nLCB(x) = - (\mu_x - \beta \sigma_x)$$
 where $\beta = \Phi^{-1}(1-\pi)$.  
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{Pictures/neg_lower_confidence_illustration.pdf}
-    \caption{<Soon similar plot as Figure \ref{EI_illustration}> Illustration of the values of the
-    negative lower confidence bound for different predictive uncertainties $\sigma_x =
-    \sqrt{\mathbb{V}ar_{p(y|x,\mathcal{D})}[y]}$ versus the average improvement $y_{\min}-\mu_x$,
-    where $\mu_x = E_{p(y|x,\mathcal{D})}[y]$}
-    \label{nLCB_illustration}
-\end{figure}
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=\textwidth]{Pictures/neg_lower_confidence_illustration.pdf}
+%     \caption{<Soon similar plot as Figure \ref{EI_illustration}> Illustration of the values of the
+%     negative lower confidence bound for different predictive uncertainties $\sigma_x =
+%     \sqrt{\mathbb{V}ar_{p(y|x,\mathcal{D})}[y]}$ versus the average improvement $y_{\min}-\mu_x$,
+%     where $\mu_x = E_{p(y|x,\mathcal{D})}[y]$}
+%     \label{nLCB_illustration}
+% \end{figure}
 
 \subsection{Entropy search}
 
