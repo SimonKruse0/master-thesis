@@ -663,8 +663,8 @@
       \strng{authornamehash}{ed6793cb5ec5e5b336b96236df5b354f}
       \strng{authorfullhash}{43861213e8477bc71a2d2f7504b8848d}
       \field{extraname}{2}
-      \field{sortinit}{2}
-      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
+      \field{sortinit}{3}
+      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprintclass}{stat.ML}

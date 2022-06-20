@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  19 JUN 2022 19:20
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  19 JUN 2022 21:02
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1541,74 +1541,69 @@ File: Pictures/GP_samples_mattern.pdf Graphic file (type pdf)
 <use Pictures/GP_samples_mattern.pdf>
 
 
-LaTeX Warning: Reference `..' on page 16 undefined on input line 61.
+LaTeX Warning: Reference `..' on page 16 undefined on input line 62.
 
 [16]
 
-LaTeX Warning: Reference `' on page 17 undefined on input line 77.
+LaTeX Warning: Reference `' on page 17 undefined on input line 78.
 
 
-LaTeX Warning: Reference `' on page 17 undefined on input line 86.
+LaTeX Warning: Reference `' on page 17 undefined on input line 87.
 
 
-Overfull \hbox (17.85037pt too wide) in paragraph at lines 85--89
+Overfull \hbox (17.85037pt too wide) in paragraph at lines 86--90
 \TU/TimesNewRoman(0)/m/n/10.95 from [] the prior of $[]$ is defined using similarities between it corresponding $[]$, $\OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j[]\OT1/cmr/m/n/10.95 ) = \OMS/cmsy/m/n/10.95 N\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j[]\OML/cmm/m/it/10.95 ; c\OT1/cmr/m/n/10.95 ([]\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 ))$
  []
 
 
-LaTeX Warning: Reference `' on page 17 undefined on input line 92.
+LaTeX Warning: Reference `' on page 17 undefined on input line 93.
 
 File: Pictures/GP2_samples_mattern.pdf Graphic file (type pdf)
 <use Pictures/GP2_samples_mattern.pdf>
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[17] [18]
+[17]
 File: Pictures/GP_vs_BNN1.pdf Graphic file (type pdf)
 <use Pictures/GP_vs_BNN1.pdf>
 File: Pictures/GP_vs_BNN1_b.pdf Graphic file (type pdf)
 <use Pictures/GP_vs_BNN1_b.pdf>
-) [19] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/04_bayesian_nn_regression.tex
+) [18] [19] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/04_bayesian_nn_regression.tex
+
+Package caption Warning: \label without proper reference on input line 31.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `BNN_illustration2' on page 20 undefined on input line 8.
+
 File: Pictures/BNN_prior.pdf Graphic file (type pdf)
 <use Pictures/BNN_prior.pdf>
 File: Pictures/BNN_posterior.pdf Graphic file (type pdf)
 <use Pictures/BNN_posterior.pdf>
 File: Pictures/BNN_illustration.pdf Graphic file (type pdf)
 <use Pictures/BNN_illustration.pdf>
- [20] [21] [22] [23]
+
+Underfull \vbox (badness 7685) has occurred while \output is active []
+
+ [20] [21] [22]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [23]
 File: Pictures/bayesian_nn_prior_samples_hidden_units.pdf Graphic file (type pdf)
 <use Pictures/bayesian_nn_prior_samples_hidden_units.pdf>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [24]
 File: Figures/reg_illustrations/BayesianNN_plots/Test4_BNN500-500-hu-10-alpha-1000_n_100_seed_42.pdf Graphic file (type pdf)
 <use Figures/reg_illustrations/BayesianNN_plots/Test4_BNN500-500-hu-10-alpha-1000_n_100_seed_42.pdf>
 File: Figures/reg_illustrations/BayesianNN_plots/Test4_BNN500-500-hu-50-alpha-1000_n_100_seed_42.pdf Graphic file (type pdf)
 <use Figures/reg_illustrations/BayesianNN_plots/Test4_BNN500-500-hu-50-alpha-1000_n_100_seed_42.pdf>
+)) [25] [26
 
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-File: Figures/reg_illustrations/BOHAMIANN/Test1_BOHAMIANN_n_10_seed_42.jpg Graphic file (type bmp)
-<Figures/reg_illustrations/BOHAMIANN/Test1_BOHAMIANN_n_10_seed_42.jpg>
-File: Figures/reg_illustrations/BOHAMIANN/Test2_BOHAMIANN_n_40_seed_42.jpg Graphic file (type bmp)
-<Figures/reg_illustrations/BOHAMIANN/Test2_BOHAMIANN_n_40_seed_42.jpg>
-File: Figures/reg_illustrations/BOHAMIANN/Test3_BOHAMIANN_n_40_seed_42.jpg Graphic file (type bmp)
-<Figures/reg_illustrations/BOHAMIANN/Test3_BOHAMIANN_n_40_seed_42.jpg>
-[24]
-File: Figures/reg_illustrations/numpyroBNN/Test1_numpyro_BNN_n_10_seed_42.jpg Graphic file (type bmp)
-<Figures/reg_illustrations/numpyroBNN/Test1_numpyro_BNN_n_10_seed_42.jpg>
-File: Figures/reg_illustrations/numpyroBNN/Test2_numpyro_BNN_n_40_seed_42.jpg Graphic file (type bmp)
-<Figures/reg_illustrations/numpyroBNN/Test2_numpyro_BNN_n_40_seed_42.jpg>
-File: Figures/reg_illustrations/numpyroBNN/Test3_numpyro_BNN_n_40_seed_42.jpg Graphic file (type bmp)
-<Figures/reg_illustrations/numpyroBNN/Test3_numpyro_BNN_n_40_seed_42.jpg>
-File: Figures/reg_illustrations/numpyroBNN/Test4_numpyro_BNN_n_40_seed_42.jpg Graphic file (type bmp)
-<Figures/reg_illustrations/numpyroBNN/Test4_numpyro_BNN_n_40_seed_42.jpg>
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-)) [25] [26] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_mixture_regression.tex
+] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_mixture_regression.tex
 Chapter 4.
 (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_a_prior_inclusion.tex [27
-
 
 ]
 File: Pictures/mixture_predictive_bayesian.pdf Graphic file (type pdf)
@@ -1997,7 +1992,7 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 61.
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 61.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 61.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 9F4B9CA4BF93A1D848FF59235860CE7A;2723.
+(rerunfilecheck)             Checksum: 925918DFFA065973D455304B14959807;2723.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -2013,12 +2008,12 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 57469 strings out of 481731
- 1367746 string characters out of 5935437
- 2302701 words of memory out of 5000000
- 73354 multiletter control sequences out of 15000+600000
+ 57424 strings out of 481731
+ 1364756 string characters out of 5935437
+ 2304035 words of memory out of 5000000
+ 73320 multiletter control sequences out of 15000+600000
  551909 words of font info for 140 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  82i,21n,138p,2818b,4686s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (68 pages, 1146236 bytes).
+Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (68 pages, 1149596 bytes).

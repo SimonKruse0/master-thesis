@@ -5,7 +5,8 @@ in more detail. Typically, a probabilistic regression model is on the from
 $$y = f_w(x) + \epsilon$$
 where weights are trained. $f$ could describe a linear model, $f(x) = w^Tx$ or a polynomial
 $f(x) = w\cdot x^2$ etc. the performance of the regression model is very dependend on the 
-regression model. The Gaussian process takes a completely different approach, its model $f$ does not
+regression model. 
+The Gaussian process takes a completely different approach, its model $f$ does not
 include any parameters. If we collect the data in a vector $\textbf{f} := [f(x_1),\dots,f(x_n)]$
 then the GP assign it a multivariate normal distribution, 
 $$\textbf{f} \sim \mathcal{N}(\bm{\mu}, \bm{\Sigma})$$
