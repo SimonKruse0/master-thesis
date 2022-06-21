@@ -27,7 +27,7 @@
 \contentsline {section}{\numberline {3.1}Gaussian process surrogate}{15}{section.0.3.1}%
 \contentsline {subsection}{\numberline {3.1.1}Exact predictive distribution}{16}{subsection.0.3.1.1}%
 \contentsline {subsubsection}{Posterior function distribution}{17}{subsubsection*.11}%
-\contentsline {subsection}{\numberline {3.1.2}Learning - Emperical bayes inference}{18}{subsection.0.3.1.2}%
+\contentsline {subsection}{\numberline {3.1.2}Learning - Empirical Bayes inference}{18}{subsection.0.3.1.2}%
 \contentsline {section}{\numberline {3.2}Bayesian Neural Networks}{20}{section.0.3.2}%
 \contentsline {subsection}{\numberline {3.2.1}MCMC used in thesis}{24}{subsection.0.3.2.1}%
 \contentsline {subsubsection}{NUTS}{24}{subsubsection*.16}%
@@ -35,21 +35,18 @@
 \contentsline {subsection}{\numberline {3.2.2}Design and properties of Bayesian neural network}{24}{subsection.0.3.2.2}%
 \contentsline {chapter}{\numberline {4}Generative models as surrogate}{27}{chapter.0.4}%
 \contentsline {section}{\numberline {4.1}Conditional distribution in a Bayesian setting}{27}{section.0.4.1}%
-\contentsline {subsubsection}{Mean and variance of predictive distribution v1}{29}{subsubsection*.21}%
+\contentsline {subsection}{\numberline {4.1.1}Mean and variance of predictive distribution v1}{29}{subsection.0.4.1.1}%
 \contentsline {section}{\numberline {4.2}Conditional of mixture model}{29}{section.0.4.2}%
-\contentsline {section}{\numberline {4.3}Kernel estimator regression}{30}{section.0.4.3}%
+\contentsline {section}{\numberline {4.3}Kernel estimator regression}{31}{section.0.4.3}%
 \contentsline {subsection}{\numberline {4.3.1}Conditional of Kernel density estimator}{31}{subsection.0.4.3.1}%
 \contentsline {section}{\numberline {4.4}Gaussian mixture regression}{31}{section.0.4.4}%
-\contentsline {subsection}{\numberline {4.4.1}Conditional of Gaussian mixture model}{31}{subsection.0.4.4.1}%
-\contentsline {section}{\numberline {4.5}Sum product networks}{31}{section.0.4.5}%
-\contentsline {subsection}{\numberline {4.5.1}SPN as mixture regression}{32}{subsection.0.4.5.1}%
-\contentsline {subsection}{\numberline {4.5.2}SPN as a mixture model}{34}{subsection.0.4.5.2}%
-\contentsline {subsection}{\numberline {4.5.3}Conditional of SPN}{34}{subsection.0.4.5.3}%
-\contentsline {subsubsection}{calculation of responsibility}{35}{subsubsection*.25}%
-\contentsline {section}{\numberline {4.6}Gaussian approximation of mixture regression}{35}{section.0.4.6}%
-\contentsline {subsection}{\numberline {4.6.1}Mean and variance of conditional SPN}{35}{subsection.0.4.6.1}%
-\contentsline {section}{\numberline {4.7}Mixture model training}{35}{section.0.4.7}%
-\contentsline {subsection}{\numberline {4.7.1}Expectation-maximization for mixture models}{35}{subsection.0.4.7.1}%
+\contentsline {subsection}{\numberline {4.4.1}Conditional of Gaussian mixture model}{32}{subsection.0.4.4.1}%
+\contentsline {section}{\numberline {4.5}Sum product networks}{32}{section.0.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}SPN as a mixture model}{34}{subsection.0.4.5.1}%
+\contentsline {subsection}{\numberline {4.5.2}Conditional of SPN}{35}{subsection.0.4.5.2}%
+\contentsline {subsubsection}{calculation of responsibility}{35}{subsubsection*.24}%
+\contentsline {section}{\numberline {4.6}Mixture model training}{36}{section.0.4.6}%
+\contentsline {subsection}{\numberline {4.6.1}Expectation-maximization for mixture models}{36}{subsection.0.4.6.1}%
 \contentsline {chapter}{\numberline {5}Results}{41}{chapter.0.5}%
 \contentsline {section}{\numberline {5.1}implementation}{41}{section.0.5.1}%
 \contentsline {subsection}{\numberline {5.1.1}standardized data}{41}{subsection.0.5.1.1}%
@@ -66,4 +63,4 @@
 \contentsline {section}{\numberline {5.7}Mixture regression on simple functions}{51}{section.0.5.7}%
 \contentsline {chapter}{\numberline {6}Conclusion and further work}{59}{chapter.0.6}%
 \contentsline {section}{\numberline {6.1}further work}{59}{section.0.6.1}%
-\contentsline {chapter}{Bibliography}{60}{chapter*.53}%
+\contentsline {chapter}{Bibliography}{60}{chapter*.52}%

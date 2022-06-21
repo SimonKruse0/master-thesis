@@ -4,10 +4,13 @@
 
 When talking about a probabilistic surrogate model we are always implicitly talking about a
 discriminative model: A statistical model of the conditional distribution of the observation, $y$, 
-conditional on $x$ often parameterized by parameters $\theta$, i.e., $p(y|x, \theta)$ 
+conditional on $x$ often parameterized by parameters $\theta$, i.e. $p(y|x, \theta)$ 
 which, in a Bayesian context, is utilized in the \textit{predictive posterior
 distribution}:
-$$p(y|x,\mathcal{D}) = \int p(y|x, \theta)p(\theta|\mathcal{D}) d\theta,$$ where we take all
+\begin{equation}\label{predictive_posterior_dist}
+    p(y|x,\mathcal{D}) = \int p(y|x, \theta)p(\theta|\mathcal{D}) d\theta, 
+\end{equation}
+where we take all
 possible models $\theta \in \text{Dom}(\theta)$ into account weighted accordingly to how probable
 the model is $p(\theta|\mathcal{D})$ (the posterior distribution). Gaussian processes and Bayesian
 neural networks are both discriminative models and they both assume that the observation is noisy in the
@@ -20,9 +23,11 @@ likelihood is defined as
 $$p_{\text{\tiny BNN}} (y|x, \theta) = \mathcal{N}(y| f_{\textbf{w}}(x),\sigma^2).$$
 A GP takes a different approach and directly model the noisefree prediction $f_* := f(x)$ as a random
 variable. Given a realization of $\theta = (f_*,\sigma^2)$, the likelihood for a GP is given as
-$$ p_{\text{\tiny GP}}(y|x, \theta) = \mathcal{N}(y| f_*,\sigma^2).$$
-It has been shown that a Bayesian neural network with Gaussian prior on infinitely amount of nodes
-is equavalent to a GP \cite{??}. So the similarities ... 
+\begin{equation}\label{GP_likelihood}
+    p_{\text{\tiny GP}}(y|x, \theta) = \mathcal{N}(y| f_*,\sigma^2).
+\end{equation}
+% It has been shown that a Bayesian neural network with Gaussian prior on infinitely amount of nodes
+% is equavalent to a GP \cite{??}. So the similarities ... 
 
 
 In the following chapter, we will provide more details on both models, how they are defined, can be trained

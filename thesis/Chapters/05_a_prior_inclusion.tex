@@ -64,8 +64,8 @@ of Gaussians, these could be manipulated in the same way.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.45\textwidth]{Pictures/mixture_predictive_bayesian.pdf}
-    \includegraphics[width=0.45\textwidth]{Pictures/mixture_predictive_bayesian2D.pdf}
+    \includegraphics[trim=0.3cm 0cm 0.1cm 0.2cm,clip,width=0.49\textwidth]{Pictures/mixture_predictive_bayesian.pdf}
+    \includegraphics[trim=0.3cm 0cm 0.1cm 0.2cm,clip,width=0.49\textwidth]{Pictures/mixture_predictive_bayesian2D.pdf}
     \caption{Left: Illustration of how the preditive distribution is manipulated according
     the the scaling function $S(x) := p(x)\cdot N\cdot \Delta$. Right: Illustration of why it makes
     sense to manipulate the predictive distribution $p(y|x)$, if there is a small amount of input data
@@ -73,7 +73,7 @@ of Gaussians, these could be manipulated in the same way.
     \label{pred_dist_manipulation}
 \end{figure}
 
-\subsubsection{Mean and variance of predictive distribution v1}
+\subsection{Mean and variance of predictive distribution v1}\label{mean_variance_pred_mixture}
 If we just are interested in a Gaussian approximation of the predictive
 distribution, this can be easily done assuming we know the mean, variance
 and the second moment of the conditional distribution, first the predictive mean

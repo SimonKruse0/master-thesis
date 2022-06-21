@@ -579,6 +579,70 @@
       \verb https://proceedings.neurips.cc/paper/1993/file/f2201f5191c4e92cc5af043eebfd0946-Paper.pdf
       \endverb
     \endentry
+    \entry{RAT_SPN}{misc}{}
+      \name{author}{7}{}{%
+        {{hash=ccf70c55dd0ddddfb671a98b2afd8ead}{%
+           family={Peharz},
+           familyi={P\bibinitperiod},
+           given={Robert},
+           giveni={R\bibinitperiod}}}%
+        {{hash=b7a65ac5093b490ca4aba4d8fedf8a1c}{%
+           family={Vergari},
+           familyi={V\bibinitperiod},
+           given={Antonio},
+           giveni={A\bibinitperiod}}}%
+        {{hash=01bd83aa1117355d99ce66ff03e28975}{%
+           family={Stelzner},
+           familyi={S\bibinitperiod},
+           given={Karl},
+           giveni={K\bibinitperiod}}}%
+        {{hash=7c3dc56f57b9380877111b52745420ed}{%
+           family={Molina},
+           familyi={M\bibinitperiod},
+           given={Alejandro},
+           giveni={A\bibinitperiod}}}%
+        {{hash=27fcdcc6b1e53f00e165d520549c9bc5}{%
+           family={Trapp},
+           familyi={T\bibinitperiod},
+           given={Martin},
+           giveni={M\bibinitperiod}}}%
+        {{hash=231ca1992b128d48dbc73100fd196d87}{%
+           family={Kersting},
+           familyi={K\bibinitperiod},
+           given={Kristian},
+           giveni={K\bibinitperiod}}}%
+        {{hash=bf5cf30deddddad00a6341ad7a414445}{%
+           family={Ghahramani},
+           familyi={G\bibinitperiod},
+           given={Zoubin},
+           giveni={Z\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {arXiv}%
+      }
+      \strng{namehash}{0e538e9999df2db587ccf2679d4fc124}
+      \strng{fullhash}{86786aa57dfc7a239799c2e82f2870c0}
+      \strng{bibnamehash}{0e538e9999df2db587ccf2679d4fc124}
+      \strng{authorbibnamehash}{0e538e9999df2db587ccf2679d4fc124}
+      \strng{authornamehash}{0e538e9999df2db587ccf2679d4fc124}
+      \strng{authorfullhash}{86786aa57dfc7a239799c2e82f2870c0}
+      \field{sortinit}{2}
+      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Probabilistic Deep Learning using Random Sum-Product Networks}
+      \field{year}{2018}
+      \verb{doi}
+      \verb 10.48550/ARXIV.1806.01910
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1806.01910
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1806.01910
+      \endverb
+      \keyw{Machine Learning (cs.LG),Artificial Intelligence (cs.AI),Machine Learning (stat.ML),FOS: Computer and information sciences,FOS: Computer and information sciences}
+    \endentry
     \entry{bishop}{book}{}
       \name{author}{2}{}{%
         {{hash=9dfd0135a5e80aa6d81cea2c10fb7f73}{%

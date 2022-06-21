@@ -28,7 +28,7 @@ cmap = matplotlib.cm.Blues
 cmap.set_bad('w',1.)
 
 
-plot_navigator = 2#1,2,3,4
+plot_navigator = 3#1,2,3,4
 Nc = 30
 #Nc = 20
 K = 3
@@ -107,6 +107,8 @@ if plot_navigator == 2:
     assert logp>200
 if plot_navigator == 1:
     assert logp>400
+if plot_navigator == 3:
+    assert logp>300
 
 # Plot data and model
 # -------------------------------------------------------------------------
@@ -168,13 +170,18 @@ for i in range(len(mu[1])):
 # plt.plot(p_y/50+x_min,y_grid, "-",color = "green")
 off_set = 0
 #plt.fill_betweenx(y_grid, 0*p_y+y_min+off_set, p_y/30+y_min+off_set, color = "#D0021B")
-plt.fill_between(x_grid, 0*p_x+x_min+off_set, (4+np.log(p_x))/40+x_min+off_set, color = "green", alpha = 0.2,label="x-leaf dists")
-plt.fill_betweenx(y_grid, 0*p_y+y_min+off_set, (4+np.log(p_y))/40+y_min+off_set, color = "red", alpha = 0.2, label="y-leaf dists")
+## OG!
+# plt.fill_between(x_grid, 0*p_x+x_min+off_set, (4+np.log(p_x))/40+x_min+off_set, color = "green", alpha = 0.2,label="x-leaf dists")
+# plt.fill_betweenx(y_grid, 0*p_y+y_min+off_set, (4+np.log(p_y))/40+y_min+off_set, color = "red", alpha = 0.2, label="y-leaf dists")
+
+plt.plot(x_grid,(4+np.log(p_x))/40+x_min+off_set, color = "green", alpha = 1,label="x-leaf dists")
+plt.plot((4+np.log(p_y))/40+y_min+off_set,y_grid, color = "red", alpha = 1, label="y-leaf dists")
+
 
 #plt.legend()
 
 #plt.
 
-plt.show()
-# path = "/home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures"
-# plt.savefig(f'{path}/SPN_illustration{plot_navigator}.pdf', bbox_inches='tight',format='pdf')
+#plt.show()
+path = "/home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures"
+plt.savefig(f'{path}/SPN_illustration{plot_navigator}.pdf', bbox_inches='tight',format='pdf')

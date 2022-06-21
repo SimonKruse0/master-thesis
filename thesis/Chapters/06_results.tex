@@ -7,15 +7,15 @@ Egne forsøg med SPN og mixture regression
 
 \section{implementation}
 The Gaussian process regression is implemented using the Scikit-learn Gaussian process
-implementation with the Matern kernel with $\nu=1.5$ and the y-values are normalized in order for
+implementation with the Matern kernel with $\nu=1.5$ and the y-values are normalized for
 the prior distribution to be reasonable (mean 0 and variance 1). The lengthscale is optimized by
-maximizing the marginalized likelihood using the limited memory quasi newton solver with bounds
+maximizing the marginalized likelihood using the limited memory quasi-newton solver with bounds
 l-bfgs-b with 200 restarts. 
 
 The Bayesian neural network is implemented using Numpyro - which is a python library for
 probabilistic machine learning, developed by some of the people behind Pyro, but instead of using
-pyTorch as backend, Numpyro uses Jax. This allows for significantly large speedup when doing MCMC,
-i.e. NUTS sampling. This was however still very slow and we therefore limited the network size to a
+PyTorch as backend, Numpyro uses Jax. This allows for a significantly large speedup when doing MCMC,
+i.e. NUTS sampling. This was however still very slow and we, therefore, limited the network size to a
 small 3 layer with 10 nodes on each layer network. The prior distribution for weights is a standard
 normal distribution, and the bias normal priors are sat 
 a bit less restrictive with a standard deviation of 2 instead. 
@@ -25,10 +25,10 @@ This is reasonable since the data is always standardized.
 Before the data reach any of the models, it is standardized. Which is 
 a scaling and translation such that the datas empirical mean and standard deviation are 0 and 1, respectively. 
 In that way is much easier to control the parameters in the models, since the data it fits and predicts
-is always the same scale. The transformation is as following, first time the models sees the data, 
+is always on the same scale. The transformation is as follows, the first time the models see the data, 
 the empirical mean and standard deviation is recorded both for $x$ and $y$, (note $x$ can be a vector),
 giving $\mu_x$,$\mu_y$, $\sigma_x$and $\sigma_y$.
-next all data is transformed using the transformation, 
+Next, all data is transformed using the transformation, 
 
 $$T_x(\cdot) := \frac{\cdot-\mu_x}{\sigma_x}$$
 
@@ -50,8 +50,8 @@ performance of different regression models on different types of 1D problems, al
 \in [-100,100]$:
 
 \begin{itemize}
-  \item Test 1: A well bahaved sine-function,
-  \item Test 2: A highly discontinous function,
+  \item Test 1: A well-bahaved sine-function,
+  \item Test 2: A highly discontinuous function,
   \item Test 3: A multi-modal objective function,
   \item Test 4: An anisotropic objective function.
 \end{itemize}
@@ -111,24 +111,21 @@ This will establish some intuition about the models and
 
   SPN& 
   \begin{tabular}[t]{l}
-    Training sklearn GMM,\\ 
-    pluggin into GMR. 
+    Trained using 3 restarts of EM MAP,\\  
   \end{tabular} &
   \begin{tabular}[t]{l}
     BO Cross-validation 30 fold,\\
-     testing number of components and prior weight\\
-    3 restarts. 
+     testing: hyperpriors and prior weight
   \end{tabular} \\\hline
-
 
   KDE& 
   \begin{tabular}[t]{l}
-    Training sklearn GMM, \\
-    pluggin into GMR. 
+    Gaussian around all datapoints \\
+    with a x-variance and y-variance
   \end{tabular} &
   \begin{tabular}[t]{l}
     BO Cross-validation 30 fold,\\
-     testing number of components and prior weight\\
+     testing x-variance and y-variance and prior weight\\
     3 restarts. 
   \end{tabular} \\\hline
   \end{tabular}}
@@ -273,11 +270,11 @@ almost 0 probability to some of the 10000 test points, yielding very low mean lo
 likelihood. The Bayesian neural networks learning curve stagnates around 100 data points, however,
 it provides a decent mean log predictive likelihood. BOHamiANN performs well in the beginning 
 but seems not expressive enough for this task. The architecture of the neural network is besides
-they use a log-normal piror on the variance, and a hyper prior on the variance parameter of the weights.
+they use a log-normal prior on the variance and a hyper prior on the variance parameter of the weights.
 But it seems like the algorithm does not converge?. The mixture models are crossvalidated to maximize
 the predive likelihood, 
 
-\subsection*{Test2: Discontinous problem}
+\subsection*{Test2: Discontinuous problem}
 This is a type of problem where we would expect the GP to not perform well, 
 BNN should be the better 
 
@@ -329,7 +326,7 @@ BNN should be the better
 \subsection{Test3: multi-modal problem}
 Multimodal problems. 
 
-Here is the more intersting problems for the mixture regression methods. 
+Here are the more interesting problems for the mixture regression methods. 
 
 
 \begin{figure}[H]

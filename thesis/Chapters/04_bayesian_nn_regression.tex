@@ -93,6 +93,7 @@ chain Monte Carlo (MCMC) to obtain samples from the posterior distribution.
     p(x) dx$ may be intractable. The MCMC procedure constructs an ergodic Markov
     chain/process, such that its stationary distribution is exactly $p(x)$, but only
     with the knowledge of $\hat p(x)$. 
+    <short more details on MCMC>
     \begin{itemize}[noitemsep]
         \item \textbf{Ergodic}: A Markov process which spans/visits all the space. 
         \item \textbf{Stationary distribution}: A Markov process has reached stationary distribution if
@@ -192,7 +193,13 @@ and
 \end{align}
 
 The desired distribution $p(x)$ is found as the marginal of $p(x,q)$.
-<MORE!!>
+The sampling procedure is as follows, 
+\begin{enumerate}[noitemsep]
+    \item At the $(x_n,q_n)$ sample momentum $q_n$ by gibbs sampling
+    \item Simulate the Hamiltonian dynamics with Leap-frog integration (i.e. walking the contour lines of $p(x,q)$).
+    New position is $(x_{n+1}, q_{n+1})$
+    \item Accept new position with MH acceptance probability $\min(1,\frac{p(x_{n+1}, q_{n+1})}{p(x_{n}, q_{n})} )$
+\end{enumerate}
 \end{testexample}
 
 \subsection{MCMC used in thesis}

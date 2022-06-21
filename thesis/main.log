@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  20 JUN 2022 19:50
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  21 JUN 2022 20:37
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -973,7 +973,7 @@ Package: enumitem 2019/06/20 v3.9 Customized lists
 \enit@inbox=\box75
 \enit@count@id=\count502
 \enitdp@description=\count503
-)) (/usr/share/texlive/texmf-dist/tex/latex/overpic/overpic.sty
+) (/usr/share/texlive/texmf-dist/tex/latex/overpic/overpic.sty
 Package: overpic 2018/09/02 1.2 picture overlays (RN)
  (/usr/share/texlive/texmf-dist/tex/latex/eepic/epic.sty
 Enhancements to Picture Environment. Version 1.2 - Released June 1, 1986
@@ -995,7 +995,18 @@ Enhancements to Picture Environment. Version 1.2 - Released June 1, 1986
 \@datafile=\read5
 )
 \OVP@box=\box77
-) (/home/simon/Documents/MasterThesis/master-thesis/thesis/Setup/Settings.tex
+)) (/usr/share/texlive/texmf-dist/tex/latex/wrapfig/wrapfig.sty
+\wrapoverhang=\dimen339
+\WF@size=\dimen340
+\c@WF@wrappedlines=\count512
+\WF@box=\box78
+\WF@everypar=\toks45
+Package: wrapfig 2003/01/31  v 3.6
+) (/usr/share/texlive/texmf-dist/tex/latex/lipsum/lipsum.sty
+Package: lipsum 2019/01/02 v2.2 150 paragraphs of Lorem Ipsum dummy text
+ (/usr/share/texlive/texmf-dist/tex/latex/lipsum/lipsum.ltd.tex
+File: lipsum.ltd.tex 2019/01/02 v2.2 The Lorem ipsum dummy text
+)) (/home/simon/Documents/MasterThesis/master-thesis/thesis/Setup/Settings.tex
 
 Package fontspec Info: Font family 'TimesNewRoman(0)' created for font 'Times
 (fontspec)             New Roman' with options [Ligatures=TeX].
@@ -1018,7 +1029,7 @@ Package fontspec Info: Font family 'TimesNewRoman(0)' created for font 'Times
 
  (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryspy.code.tex
 File: tikzlibraryspy.code.tex 2020/01/08 v3.1.5b (3.1.5b)
-\tikz@lib@spybox=\box78
+\tikz@lib@spybox=\box79
 ) (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/libs/tikzlibrarypgfplots.statistics.code.tex) (/usr/share/texlive/texmf-dist/tex/generic/stringenc/se-ascii-print.def
 File: se-ascii-print.def 2019/11/29 v1.12 stringenc: Printable ASCII characters
 )
@@ -1034,52 +1045,52 @@ Package hyperref Info: Option `colorlinks' set `false' on input line 141.
 Package: tcolorbox 2019/11/15 version 4.22 text color boxes
  (/usr/share/texlive/texmf-dist/tex/latex/tools/verbatim.sty
 Package: verbatim 2019/11/10 v1.5r LaTeX2e package for verbatim enhancements
-\every@verbatim=\toks45
-\verbatim@line=\toks46
+\every@verbatim=\toks46
+\verbatim@line=\toks47
 \verbatim@in@stream=\read6
 ) (/usr/share/texlive/texmf-dist/tex/latex/environ/environ.sty
 Package: environ 2014/05/04 v0.3 A new way to define environments
  (/usr/share/texlive/texmf-dist/tex/latex/trimspaces/trimspaces.sty
 Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
 ))
-\tcb@titlebox=\box79
-\tcb@upperbox=\box80
-\tcb@lowerbox=\box81
-\tcb@phantombox=\box82
-\c@tcbbreakpart=\count512
-\c@tcblayer=\count513
-\tcolorbox@number=\count514
-\tcb@temp=\box83
+\tcb@titlebox=\box80
+\tcb@upperbox=\box81
+\tcb@lowerbox=\box82
+\tcb@phantombox=\box83
+\c@tcbbreakpart=\count513
+\c@tcblayer=\count514
+\tcolorbox@number=\count515
 \tcb@temp=\box84
 \tcb@temp=\box85
 \tcb@temp=\box86
+\tcb@temp=\box87
 \tcb@out=\write5
 \tcb@record@out=\write6
  (/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcbraster.code.tex
 Library (tcolorbox): 'tcbraster.code.tex' version '4.22'
-\c@tcbrastercolumn=\count515
-\c@tcbrasterrow=\count516
-\c@tcbraster=\count517
+\c@tcbrastercolumn=\count516
+\c@tcbrasterrow=\count517
+\c@tcbraster=\count518
 ) (/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcbskins.code.tex
 Library (tcolorbox): 'tcbskins.code.tex' version '4.22'
-\tcb@waterbox=\box87
+\tcb@waterbox=\box88
 (/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcbskinsjigsaw.code.tex
 Library (tcolorbox): 'tcbskinsjigsaw.code.tex' version '4.22'
 )) (/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcbbreakable.code.tex
 Library (tcolorbox): 'tcbbreakable.code.tex' version '4.22'
-\tcb@testbox=\box88
-\tcb@totalupperbox=\box89
-\tcb@totallowerbox=\box90
+\tcb@testbox=\box89
+\tcb@totalupperbox=\box90
+\tcb@totallowerbox=\box91
 ) (/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcbhooks.code.tex
 Library (tcolorbox): 'tcbhooks.code.tex' version '4.22'
 ) (/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcbtheorems.code.tex
 Library (tcolorbox): 'tcbtheorems.code.tex' version '4.22'
 ) (/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcbfitting.code.tex
 Library (tcolorbox): 'tcbfitting.code.tex' version '4.22'
-\tcbfitdim=\dimen339
-\tcb@lowerfitdim=\dimen340
-\tcb@upperfitdim=\dimen341
-\tcb@cur@hbadness=\count518
+\tcbfitdim=\dimen341
+\tcb@lowerfitdim=\dimen342
+\tcb@upperfitdim=\dimen343
+\tcb@cur@hbadness=\count519
 ) (/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcbxparse.code.tex
 Library (tcolorbox): 'tcbxparse.code.tex' version '4.22'
 ) (/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcblistingsutf8.code.tex
@@ -1101,7 +1112,7 @@ Library (tcolorbox): 'tcbprocessing.code.tex' version '4.22'
 Package: shellesc 2019/11/08 v1.0c unified shell escape interface for LaTeX
 Package shellesc Info: Restricted shell escape enabled on input line 77.
 ))
-\c@tcblisting=\count519
+\c@tcblisting=\count520
 ))) (/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcbexternal.code.tex
 Library (tcolorbox): 'tcbexternal.code.tex' version '4.22'
 ) (/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcbmagazine.code.tex
@@ -1115,39 +1126,35 @@ File: pgflibraryfadings.code.tex 2020/01/08 v3.1.5b (3.1.5b)
 ))) (/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcbposter.code.tex
 Library (tcolorbox): 'tcbposter.code.tex' version '4.22'
 ))
-\c@testexample=\count520
-\c@testexample2=\count521
-\c@note2=\count522
- (/usr/share/texlive/texmf-dist/tex/latex/lipsum/lipsum.sty
-Package: lipsum 2019/01/02 v2.2 150 paragraphs of Lorem Ipsum dummy text
- (/usr/share/texlive/texmf-dist/tex/latex/lipsum/lipsum.ltd.tex
-File: lipsum.ltd.tex 2019/01/02 v2.2 The Lorem ipsum dummy text
-)) (/usr/share/texlive/texmf-dist/tex/latex/algorithms/algorithm.sty
+\c@testexample=\count521
+\c@testexample2=\count522
+\c@note2=\count523
+ (/usr/share/texlive/texmf-dist/tex/latex/algorithms/algorithm.sty
 Invalid UTF-8 byte or sequence at line 11 replaced by U+FFFD.
 Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating environment
-\@float@every@algorithm=\toks47
-\c@algorithm=\count523
+\@float@every@algorithm=\toks48
+\c@algorithm=\count524
 ) (/usr/share/texlive/texmf-dist/tex/latex/algorithmicx/algpseudocode.sty
 Package: algpseudocode 
  (/usr/share/texlive/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
 Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
 
 Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
-\c@ALG@line=\count524
-\c@ALG@rem=\count525
-\c@ALG@nested=\count526
+\c@ALG@line=\count525
+\c@ALG@rem=\count526
+\c@ALG@nested=\count527
 \ALG@tlm=\skip97
 \ALG@thistlm=\skip98
-\c@ALG@Lnr=\count527
-\c@ALG@blocknr=\count528
-\c@ALG@storecount=\count529
-\c@ALG@tmpcounter=\count530
+\c@ALG@Lnr=\count528
+\c@ALG@blocknr=\count529
+\c@ALG@storecount=\count530
+\c@ALG@tmpcounter=\count531
 \ALG@tmplength=\skip99
 )
 Document Style - pseudocode environments for use with the `algorithmicx' style
 )
-\c@definition=\count531
-\c@proposition=\count532
+\c@definition=\count532
+\c@proposition=\count533
 ) (/usr/share/texlive/texmf-dist/tex/latex/tikz-bayesnet/tikzlibrarybayesnet.code.tex (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryshapes.code.tex
 File: tikzlibraryshapes.code.tex 2020/01/08 v3.1.5b (3.1.5b)
  (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryshapes.geometric.code.tex
@@ -1170,26 +1177,26 @@ File: pgflibraryshapes.arrows.code.tex 2020/01/08 v3.1.5b (3.1.5b)
 File: tikzlibraryshapes.multipart.code.tex 2020/01/08 v3.1.5b (3.1.5b)
  (/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/shapes/pgflibraryshapes.multipart.code.tex
 File: pgflibraryshapes.multipart.code.tex 2020/01/08 v3.1.5b (3.1.5b)
-\pgfnodepartlowerbox=\box91
-\pgfnodeparttwobox=\box92
-\pgfnodepartthreebox=\box93
-\pgfnodepartfourbox=\box94
-\pgfnodeparttwentybox=\box95
-\pgfnodepartnineteenbox=\box96
-\pgfnodeparteighteenbox=\box97
-\pgfnodepartseventeenbox=\box98
-\pgfnodepartsixteenbox=\box99
-\pgfnodepartfifteenbox=\box100
-\pgfnodepartfourteenbox=\box101
-\pgfnodepartthirteenbox=\box102
-\pgfnodeparttwelvebox=\box103
-\pgfnodepartelevenbox=\box104
-\pgfnodeparttenbox=\box105
-\pgfnodepartninebox=\box106
-\pgfnodeparteightbox=\box107
-\pgfnodepartsevenbox=\box108
-\pgfnodepartsixbox=\box109
-\pgfnodepartfivebox=\box110
+\pgfnodepartlowerbox=\box92
+\pgfnodeparttwobox=\box93
+\pgfnodepartthreebox=\box94
+\pgfnodepartfourbox=\box95
+\pgfnodeparttwentybox=\box96
+\pgfnodepartnineteenbox=\box97
+\pgfnodeparteighteenbox=\box98
+\pgfnodepartseventeenbox=\box99
+\pgfnodepartsixteenbox=\box100
+\pgfnodepartfifteenbox=\box101
+\pgfnodepartfourteenbox=\box102
+\pgfnodepartthirteenbox=\box103
+\pgfnodeparttwelvebox=\box104
+\pgfnodepartelevenbox=\box105
+\pgfnodeparttenbox=\box106
+\pgfnodepartninebox=\box107
+\pgfnodeparteightbox=\box108
+\pgfnodepartsevenbox=\box109
+\pgfnodepartsixbox=\box110
+\pgfnodepartfivebox=\box111
 ))) (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryfit.code.tex
 File: tikzlibraryfit.code.tex 2020/01/08 v3.1.5b (3.1.5b)
 ) (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarychains.code.tex
@@ -1200,7 +1207,7 @@ File: tikzlibrarypositioning.code.tex 2020/01/08 v3.1.5b (3.1.5b)
 File: tikzlibraryarrows.code.tex 2020/01/08 v3.1.5b (3.1.5b)
  (/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.code.tex
 File: pgflibraryarrows.code.tex 2020/01/08 v3.1.5b (3.1.5b)
-\arrowsize=\dimen342
+\arrowsize=\dimen344
 )))
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
@@ -1345,8 +1352,8 @@ Dictionary: translator-basic-dictionary, Language: English
 ) (/usr/share/texlive/texmf-dist/tex/latex/siunitx/siunitx-abbreviations.cfg
 File: siunitx-abbreviations.cfg 2017/11/26 v2.7k siunitx: Abbreviated units
 )
-\c@lstlisting=\count533
-\AtBeginShipoutBox=\box111
+\c@lstlisting=\count534
+\AtBeginShipoutBox=\box112
 Package hyperref Info: Link coloring OFF on input line 15.
  (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
@@ -1355,7 +1362,7 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 ) (/usr/share/texlive/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count534
+\c@section@level=\count535
 )
 LaTeX Info: Redefining \ref on input line 15.
 LaTeX Info: Redefining \pageref on input line 15.
@@ -1366,6 +1373,7 @@ LaTeX Info: Redefining \nameref on input line 15.
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
+Package caption Info: wrapfig package is loaded.
 Package caption Info: End \AtBeginDocument code.
 Package biblatex Info: Trying to load language 'english'...
 Package biblatex Info: ... file 'english.lbx' found.
@@ -1393,8 +1401,8 @@ Package biblatex Info: Reference section=0 on input line 15.
 Package biblatex Info: Reference segment=0 on input line 15.
  (/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
 Package: inputenc 2018/08/11 v1.3c Input encoding file
-\inpenc@prehook=\toks48
-\inpenc@posthook=\toks49
+\inpenc@prehook=\toks49
+\inpenc@posthook=\toks50
 )
 LaTeX Font Info:    Trying to load font information for U+msa on input line 15.
  (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
@@ -1536,32 +1544,20 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_04_discriminative_surrogates.tex
 Chapter 3.
-(/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_gaussian_process_regression.tex [15
+(/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_gaussian_process_regression.tex
+Overfull \hbox (17.20857pt too wide) in paragraph at lines 5--12
+\TU/TimesNewRoman(0)/m/n/10.95 tion[][][], $\OML/cmm/m/it/10.95 f\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 x\OT1/cmr/m/n/10.95 )$\TU/TimesNewRoman(0)/m/n/10.95 , does not depend any parameters $[]$, instead it depends on the vector $[] \OT1/cmr/m/n/10.95 := [\OML/cmm/m/it/10.95 f\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 x[]\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; [] ; f\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 x[]\OT1/cmr/m/n/10.95 )]$
+ []
+
+[15
 
 ]
 File: Pictures/GP_samples_mattern.pdf Graphic file (type pdf)
 <use Pictures/GP_samples_mattern.pdf>
-
-
-LaTeX Warning: Reference `..' on page 16 undefined on input line 62.
-
-[16]
-
-LaTeX Warning: Reference `' on page 17 undefined on input line 78.
-
-
-LaTeX Warning: Reference `' on page 17 undefined on input line 87.
-
-
-Overfull \hbox (17.85037pt too wide) in paragraph at lines 86--90
-\TU/TimesNewRoman(0)/m/n/10.95 from [] the prior of $[]$ is defined using similarities between it corresponding $[]$, $\OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j[]\OT1/cmr/m/n/10.95 ) = \OMS/cmsy/m/n/10.95 N\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j[]\OML/cmm/m/it/10.95 ; c\OT1/cmr/m/n/10.95 ([]\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 ))$
- []
-
-
-LaTeX Warning: Reference `' on page 17 undefined on input line 93.
-
+ [16]
 File: Pictures/GP2_samples_mattern.pdf Graphic file (type pdf)
 <use Pictures/GP2_samples_mattern.pdf>
+
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
@@ -1570,20 +1566,16 @@ File: Pictures/GP_vs_BNN1.pdf Graphic file (type pdf)
 <use Pictures/GP_vs_BNN1.pdf>
 File: Pictures/GP_vs_BNN1_b.pdf Graphic file (type pdf)
 <use Pictures/GP_vs_BNN1_b.pdf>
-) [18] [19] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/04_bayesian_nn_regression.tex
+ [18]) [19] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/04_bayesian_nn_regression.tex
 File: Pictures/BNN_prior.pdf Graphic file (type pdf)
 <use Pictures/BNN_prior.pdf>
 File: Pictures/BNN_posterior.pdf Graphic file (type pdf)
 <use Pictures/BNN_posterior.pdf>
 File: Pictures/BNN_illustration.pdf Graphic file (type pdf)
 <use Pictures/BNN_illustration.pdf>
- [20] [21] [22] [23]
+ [20] [21] [22] [23] [24]
 File: Pictures/bayesian_nn_prior_samples_hidden_units.pdf Graphic file (type pdf)
 <use Pictures/bayesian_nn_prior_samples_hidden_units.pdf>
-
-Underfull \vbox (badness 4291) has occurred while \output is active []
-
- [24]
 File: Figures/reg_illustrations/BayesianNN_plots/Test4_BNN500-500-hu-10-alpha-1000_n_100_seed_42.pdf Graphic file (type pdf)
 <use Figures/reg_illustrations/BayesianNN_plots/Test4_BNN500-500-hu-10-alpha-1000_n_100_seed_42.pdf>
 File: Figures/reg_illustrations/BayesianNN_plots/Test4_BNN500-500-hu-50-alpha-1000_n_100_seed_42.pdf Graphic file (type pdf)
@@ -1607,24 +1599,29 @@ Overfull \hbox (1.85567pt too wide) in paragraph at lines 86--88
 []\TU/TimesNewRoman(0)/m/n/10.95 And the predictive variance is calcualted, using the definition of variance, $\OML/cmm/m/it/10.95 V[]\OT1/cmr/m/n/10.95 [\OML/cmm/m/it/10.95 y\OT1/cmr/m/n/10.95 ] = \OML/cmm/m/it/10.95 E[]\OT1/cmr/m/n/10.95 [\OML/cmm/m/it/10.95 y[]\OT1/cmr/m/n/10.95 ] \OMS/cmsy/m/n/10.95 ^^@
  []
 
-) [29] [30]
-File: Pictures/SPN_illustration1.pdf Graphic file (type pdf)
-<use Pictures/SPN_illustration1.pdf>
-File: Pictures/SPN_illustration2.pdf Graphic file (type pdf)
-<use Pictures/SPN_illustration2.pdf>
- [31]
-File: Pictures/SPN_illustration3.pdf Graphic file (type pdf)
-<use Pictures/SPN_illustration3.pdf>
-File: Pictures/SPN_illustration4.pdf Graphic file (type pdf)
-<use Pictures/SPN_illustration4.pdf>
-File: Figures/SPN_graph2.pdf Graphic file (type pdf)
-<use Figures/SPN_graph2.pdf>
-
+) [29] [30] [31]
 
 LaTeX Font Warning: Font shape `TU/TimesNewRoman(0)/m/sc' undefined
-(Font)              using `TU/TimesNewRoman(0)/m/n' instead on input line 229.
+(Font)              using `TU/TimesNewRoman(0)/m/n' instead on input line 185.
 
-[32] [33] [34] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_b_EM.tex [35]
+[32]
+File: Pictures/SPN_illustration_graph3.pdf Graphic file (type pdf)
+<use Pictures/SPN_illustration_graph3.pdf>
+File: Pictures/SPN_illustration_graph1.pdf Graphic file (type pdf)
+<use Pictures/SPN_illustration_graph1.pdf>
+
+Underfull \hbox (badness 4832) in paragraph at lines 246--246
+\TU/TimesNewRoman(0)/m/n/10.95 resentation of the SPN
+ []
+
+[33]
+File: Pictures/SPN_illustration1.pdf Graphic file (type pdf)
+<use Pictures/SPN_illustration1.pdf>
+File: Pictures/SPN_illustration3.pdf Graphic file (type pdf)
+<use Pictures/SPN_illustration3.pdf>
+File: Pictures/SPN_illustration2.pdf Graphic file (type pdf)
+<use Pictures/SPN_illustration2.pdf>
+ [34] [35] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_b_EM.tex
 Overfull \hbox (15.32054pt too wide) detected at line 94
 [] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j\OML/cmm/m/it/10.95 ^^R\OT1/cmr/m/n/10.95 ) \OMS/cmsy/m/n/10.95 ^^@ [] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j\OML/cmm/m/it/10.95 ^^R[]\OT1/cmr/m/n/10.95 ) = \OML/cmm/m/it/10.95 Q\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 ^^R; ^^R[]\OT1/cmr/m/n/10.95 ) \OMS/cmsy/m/n/10.95 ^^@ \OML/cmm/m/it/10.95 Q\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 ^^R[]; ^^R[]\OT1/cmr/m/n/10.95 ) + \OML/cmm/m/it/10.95 E[]\OT1/cmr/m/n/10.95 [[] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j[]\OML/cmm/m/it/10.95 ; ^^R\OT1/cmr/m/n/10.95 )] \OMS/cmsy/m/n/10.95 ^^@ \OML/cmm/m/it/10.95 E[]\OT1/cmr/m/n/10.95 [[] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j[]\OML/cmm/m/it/10.95 ; ^^R[]\OT1/cmr/m/n/10.95 )]
  []
@@ -1636,22 +1633,27 @@ Chapter 5.
 [41
 
 ]
-Overfull \hbox (17.9671pt too wide) in paragraph at lines 134--134
+Overfull \hbox (17.9671pt too wide) in paragraph at lines 131--131
 []|[]| 
  []
 
 
-Overfull \hbox (49.29329pt too wide) in paragraph at lines 134--134
+Overfull \hbox (49.29329pt too wide) in paragraph at lines 131--131
 []|[]| 
  []
 
 
-Overfull \hbox (49.29329pt too wide) in paragraph at lines 134--134
+Overfull \hbox (3.00175pt too wide) in paragraph at lines 131--131
 []|[]| 
  []
 
 
-Overfull \hbox (49.29329pt too wide) in paragraph at lines 134--134
+Overfull \hbox (2.76471pt too wide) in paragraph at lines 131--131
+[]|[]| 
+ []
+
+
+Overfull \hbox (62.0184pt too wide) in paragraph at lines 131--131
 []|[]| 
  []
 
@@ -1660,7 +1662,7 @@ File: Figures/results_regression/Test1_dim_1_0.pdf Graphic file (type pdf)
 File: Figures/results_regression/Test1_dim_1_1.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test1_dim_1_1.pdf>
 
-Underfull \vbox (badness 4205) has occurred while \output is active []
+Underfull \vbox (badness 8019) has occurred while \output is active []
 
  [42]
 File: Figures/results_regression/Test1/1.pdf Graphic file (type pdf)
@@ -1952,13 +1954,10 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 61.
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 61.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 61.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: C6EDA4AFC0EF0127112F162F3CB6469E;2723.
+(rerunfilecheck)             Checksum: 8C84744B88B432778513C71C305FC0F4;2610.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
-
-
-LaTeX Warning: There were undefined references.
 
 
 LaTeX Warning: There were multiply-defined labels.
@@ -1968,12 +1967,12 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 57367 strings out of 481731
- 1361943 string characters out of 5935437
- 2303063 words of memory out of 5000000
- 73276 multiletter control sequences out of 15000+600000
- 551909 words of font info for 140 fonts, out of 8000000 for 9000
+ 57441 strings out of 481731
+ 1363321 string characters out of 5935437
+ 2305756 words of memory out of 5000000
+ 73347 multiletter control sequences out of 15000+600000
+ 551917 words of font info for 141 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  82i,21n,138p,2818b,4686s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (68 pages, 1151240 bytes).
+Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (68 pages, 1206820 bytes).
