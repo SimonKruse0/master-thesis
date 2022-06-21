@@ -12,10 +12,11 @@ import random
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 
-from src.utils import PlottingClass, OptimizationStruct, uniform_grid
+from src.utils import PlottingClass2, PlottingClass, OptimizationStruct, uniform_grid
 import sys
 
-class BayesOptSolverBase(PlottingClass):
+#class BayesOptSolverBase(PlottingClass):
+class BayesOptSolverBase(PlottingClass2):
     def __init__(self, reg_model, problem,acquisition, budget,disp) -> None:
         self.acquisition = acquisition
         self.problem = problem #problem.best_observed_fvalue1
@@ -374,20 +375,10 @@ class PlotBayesOpt1D(BayesOptSolver_sklearn):
         ax1 = plt.subplot(gs[0])
         ax2 = plt.subplot(gs[1])
 
-        if self.deterministic:
-            X_true =  np.linspace(*self.bounds,1000)[:,None]
-            Y_true = self.obj_fun(X_true)
-            ax1.plot(X_true, Y_true, "--", color="Black")
-            ax1.set_ylabel("y")
-            ax1.set_xlabel("x")
-        else:
-            X_true =  np.linspace(*self.bounds,10000)[:,None]
-            Y_true = self.obj_fun(X_true)
-            ax1.plot(X_true, Y_true, ".", markersize = 0.5, color="Black")
+        self.plot_true_function(ax1)
+        self.plot_train_data(ax1, self._X[:-1],self._Y[:-1], size =10)
+        #self.plot_predictive_dist(ax1)
         self.plot_regression_gaussian_approx(ax1, show_name =self.show_name)
-        ax1.plot(self._X[:-1],self._Y[:-1], ".", markersize = 10, color="black")  # plot all observed data
-        #ax1.plot(self._X[-1],self._Y[-1], ".", markersize = 10, color="tab:orange")  # plot
-
         self.plot_acquisition_function(ax2)
         ax2.set_xlabel("x")
         x_next = opt.x_next[:,None]

@@ -1,3 +1,4 @@
+from black import reformat_code
 import numpy as np
 
 from src.regression_models.SPN_regression2 import SumProductNetworkRegression
@@ -12,7 +13,7 @@ from datetime import datetime
 from src.regression_models.naive_GMR import NaiveGMRegression
 from src.regression_models.mean_regression import MeanRegression
 from src.regression_models.bohamiann import BOHAMIANN
-from src.regression_models.gaussian_process_regression import GaussianProcess_sklearn
+from src.regression_models.gaussian_process_regression import GaussianProcess_GPy
 from src.regression_models.numpyro_neural_network import NumpyroNeuralNetwork
 import random
 import matplotlib.pyplot as plt
@@ -89,6 +90,7 @@ reg_models = [SumProductNetworkRegression(optimize=True,
                         alpha0_x=6.188900996704582, alpha0_y=7.544489215988586, 
                         beta0_x=0.7, beta0_y=0.14627658075704839, 
                         train_epochs=1000)]
+reg_models =[GaussianProcess_GPy()]
 
 #best params OrderedDict([('alpha0_x', 7.529885648796402), ('alpha0_y', 10.212607761994901), ('beta0_x', 0.11261177095819143), ('beta0_y', 0.24708355040788302), ('prior_weight', 1e-06)])
 

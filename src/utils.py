@@ -46,9 +46,12 @@ def batch(iterable, n=1):
 
 class PlottingClass2:
     def plot_true_function(self,ax):
-        X_true =  np.linspace(*self.bounds,1000)[:,None]
-        Y_true = self.obj_fun(X_true)
-        ax.plot(X_true, Y_true, "-",lw = 1.5, color="Black", zorder=0)
+        try: 
+            self.plot_true_function2(ax)
+        except:
+            X_true =  np.linspace(*self.bounds,1000)[:,None]
+            Y_true = self.obj_fun(X_true)
+            ax.plot(X_true, Y_true, "-",lw = 1.5, color="Black", zorder=0)
     
     def plot_true_function2(self,ax):
         X_true =  np.linspace(*self.bounds,1000)[:,None]
@@ -61,8 +64,11 @@ class PlottingClass2:
         Y_true = [self.problem.plot_objectiv_function(x,nr=3) for x in X_true]
         ax.plot(X_true, Y_true, "-",lw = 1.5, color="Black", zorder=0)
     
-    def plot_train_data(self,ax):
-        ax.plot(self._X,self._Y, ".", markersize = 5, color="black")  # plot all observed data
+    def plot_train_data(self,ax, X=None, Y=None,size = 5):
+        if X is None:
+            ax.plot(self._X,self._Y, ".", markersize = size, color="black")  # plot all observed data
+        else:
+            ax.plot(X,Y, ".", markersize = size, color="black")  # plot all observed data
         #ax.plot(self._X,self._Y, ".", markersize = 5, color="tab:orange")  # plot all observed data
 
     def y_gradient(self,y_grid):
@@ -104,7 +110,11 @@ class PlottingClass2:
     def plot_predictive_dist(self,ax,show_name = False):
         assert self._X.shape[1] == 1   #Can only plot 1D functions
         x_grid = self.Xgrid.squeeze()
-        y_grid = self.ygrid
+        try:
+            y_grid = self.ygrid
+        except:
+            y_grid = np.linspace(0,300, 300)
+
         predictive_pdf, p_x = self.predictive_pdf(x_grid[:,None], y_grid[:,None], return_px=True, grid1D = True)
         
         dx = (x_grid[1] - x_grid[0]) / 2.0
@@ -366,8 +376,8 @@ def normalize(X, mean=None, std=None):
         mean = np.mean(X, axis=0)
     if std is None:
         std = np.std(X, axis=0)
-        if std<1e-20:
-            std = 1e-20
+        if any(std<1e-20):
+            std = np.ones_like(std)*1e-20
     X_normalized = (X - mean) / std
 
     return X_normalized, mean, std
