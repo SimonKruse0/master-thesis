@@ -2,6 +2,7 @@ from sklearn.gaussian_process.kernels import Matern
 from sklearn.gaussian_process import GaussianProcessRegressor
 from src.utils import normalize, denormalize
 import GPy
+import numpy as np
 
 class GaussianProcess_GPy:
     def __init__(self, extra_name="") -> None:
@@ -28,6 +29,12 @@ class GaussianProcess_GPy:
         sigma = sigma*self.y_std
         return mu.squeeze(), sigma.squeeze(), None
 
+    def predictive_samples(self, X_test, n_samples = 1000):
+        X_test, *_ = normalize(X_test,self.x_mean, self.x_std)
+        mu, sigma = self.model.predict(X_test)
+        y_pred = np.random.normal(mu, sigma,(mu.shape[0],n_samples))
+        y_pred = denormalize(y_pred, self.y_mean, self.y_std)
+        return y_pred
 
 class GaussianProcess_sklearn:
     def __init__(self, extra_name="") -> None:

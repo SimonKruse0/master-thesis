@@ -234,11 +234,51 @@ class SumProductNetworkRegression(BaseEstimator):
     def _batched_predict(self,X_test):
         Y_mu_list = []
         Y_sigma_list = []
-        for X_batch in batch(X_test, 1000):
+        for X_batch in batch(X_test, 100):
             Y_mu,Y_sigma,_ = self.predict(X_batch)
             Y_mu_list.append(Y_mu)
             Y_sigma_list.append(Y_sigma)
         return np.array(Y_mu_list).flatten(),np.array(Y_sigma_list).flatten()
+
+    def predictive_samples(self,X_test, n_samples):
+        model = copy.deepcopy(self.model)
+        X_test, *_ = normalize(X_test, self.x_mean, self.x_std)
+        prior_weight = self.prior_weight
+        sig_prior = self.sig_prior
+        N = self.N
+        x_grid = torch.tensor(X_test, dtype=torch.double)
+        XX_grid = torch.hstack([x_grid, torch.zeros(len(x_grid),1)])
+
+        # Evaluate marginal distribution on x-grid
+        log_p_x = model(XX_grid, marginalize=self.marginalize_y)
+        p_x = torch.exp(log_p_x)
+        model.zero_grad(True)
+        log_p_x.sum().backward()
+
+        with torch.no_grad():
+            # Generate posterior conditional samples 
+            y_sample = None
+            for x_g, p_x_g in zip(XX_grid, p_x):
+                model(x_g[None], marginalize=self.marginalize_y)
+                # Sample from either SPN conditional or background/prior
+                mask = torch.rand(n_samples) < N*p_x_g / (N*p_x_g + prior_weight)
+                y_samples_conditional  = torch.tensor([model.sample()[1] for i in range(int(mask.sum()))])
+                y_samples_prior = torch.randn(int(n_samples-mask.sum()))*sig_prior
+                if y_sample is None:
+                    y_sample = torch.hstack([y_samples_conditional, y_samples_prior])
+                else:
+                    y_sample = torch.vstack([y_sample,torch.hstack([y_samples_conditional, y_samples_prior])])
+
+                # #if torch.rand(1) < N*p_x_g / (N*p_x_g + prior_weight):
+                #     y_sample.append(torch.tensor([model.sample()[1] for i in range(n_samples)]))
+                # else:
+                #     y_sample.append(torch.randn(n_samples)*sig_prior)
+            y_sample = torch.tensor(y_sample)
+            y_sample = denormalize(y_sample, self.y_mean, self.y_std)
+            y_sample = y_sample.detach().numpy()
+            if y_sample.ndim == 1:
+                y_sample = y_sample[None,:]
+            return y_sample
 
     def predict(self,X_test):
         model = copy.deepcopy(self.model)

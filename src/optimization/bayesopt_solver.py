@@ -1,6 +1,10 @@
 from ast import Not
+from sklearn.neighbors import KernelDensity
 from src.optimization.bayesian_optimization import BayesianOptimization
 from src.regression_models.gaussian_process_regression import GaussianProcess_sklearn
+from src.regression_models.gaussian_process_regression import GaussianProcess_GPy
+from src.regression_models.SPN_regression2 import SumProductNetworkRegression
+from src.regression_models.naive_GMR import NaiveGMRegression
 import numpy as np
 from datetime import datetime
 import os
@@ -8,6 +12,7 @@ import numpy as np
 from scipy.optimize import minimize
 from scipy.stats import norm
 import random
+from matplotlib.patches import Patch
 
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
@@ -176,6 +181,13 @@ class BayesOptSolverBase(PlottingClass2):
             Y_sigma_list.append(Y_sigma)
         return np.array(Y_mu_list).flatten(),np.array(Y_sigma_list).flatten()
 
+    def predictive_samples(self, X, n_samples  =9):
+        return self.model.predictive_samples(X, n_samples = n_samples)
+        # try:
+        #     return self.model.predictive_samples(X)
+        # except:
+        #     pass
+
     def nlower_confidense_bound(self,X, beta = 2,  return_analysis = False):
         mu, sigma = self.predict(X)
         if self.beta is None:
@@ -186,6 +198,11 @@ class BayesOptSolverBase(PlottingClass2):
             return -lcb,imp, sigma  #note since symetric around mu, minimizing the LCB is the same as maximizing the UCB
         else:
             return -lcb
+
+    def approx_expected_improvement(self,X):
+        predictive_samples = self.predictive_samples(X, n_samples=1000)
+        approx_EI = np.mean(np.maximum(0,self.y_min-predictive_samples), axis=1)
+        return approx_EI
 
     def expected_improvement(self,X, return_analysis = False):
         assert self.y_min is not None
@@ -213,7 +230,7 @@ class BayesOptSolverBase(PlottingClass2):
     def _budget_is_fine(self):
         return self.budget >= self.problem.evaluations
 
-    def _randomgrid(self,n_batches,n=10000):
+    def _randomgrid(self,n_batches,n=5000):
         for _ in range(n_batches):
             yield np.random.uniform(*self.bounds , size=(n,self.problem_dim))
 
@@ -225,6 +242,9 @@ class BayesOptSolverBase(PlottingClass2):
             return self.nlower_confidense_bound(x)
         if self.acquisition=='EI':
             EI, exploitation, exploration = self.expected_improvement(x, return_analysis=False)
+            return EI
+        if self.acquisition=='aEI':
+            EI = self.approx_expected_improvement(x)
             return EI
 
     def find_a_candidate_on_randomgrid(self, n_batches  = 1):
@@ -302,7 +322,7 @@ class BayesOptSolverBase(PlottingClass2):
         print(f"-- End of optimization -- best objective y = {self.y_min:0.2f}\n")
 
     def get_optimization_hist(self):
-        return self._X, self._Y
+        return np.hstack([ self._X, self._Y])
 
 class BayesOptSolver_coco(BayesOptSolverBase):
     def __init__(self, reg_model, problem, acquisition="EI",budget = 5, n_init_samples=2, disp=False) -> None:
@@ -352,13 +372,15 @@ class PlotBayesOpt1D(BayesOptSolver_sklearn):
         for i in range(self.budget):
             print(f"-- finding x{i+1} --",end="\n")
 
+            #self.fit()
             self.optimization_step(update_y_min=False)
-
+            #self.opt.x_next = np.array([0.])
             x_next = self.opt.x_next
             x_next_text = " , ".join([f"{x:.2f}" for x in x_next])
             print(f"-- x{i+1} = {x_next_text} --")
             outer_gs = gridspec.GridSpec(1, 1)
             self.plot_surrogate_and_acquisition_function(outer_gs[0])
+
             self.update_y_min()
             number = f"{i}".zfill(3)
             if path == "":
@@ -368,6 +390,9 @@ class PlotBayesOpt1D(BayesOptSolver_sklearn):
                 fig_path = fig_path.replace(" ", "_")
                 plt.savefig(fig_path)
         print(f"-- End of optimization -- best objective y = {self.y_min:0.2f}\n")
+        opt_hist = self.get_optimization_hist()
+        txt_path =  path+f"{self.problem_name}{self.model.name}.txt"
+        np.savetxt(txt_path,opt_hist)
 
     def plot_surrogate_and_acquisition_function(self,subplot_spec):
         opt = self.opt
@@ -376,15 +401,26 @@ class PlotBayesOpt1D(BayesOptSolver_sklearn):
         ax2 = plt.subplot(gs[1])
 
         self.plot_true_function(ax1)
+        if self.acquisition == "aEI":
+            self.plot_predictive_dist(ax1)
+            cmap = plt.cm.Blues
+            legend_elements = [Patch(facecolor=cmap(0.6), edgecolor=cmap(0.6),
+                        label="predictive distribution")]
+                        #label=r'$\hat p(y|x)$')]
+            ax1.legend(handles=legend_elements)
+        else:
+            self.plot_regression_gaussian_approx(ax1, show_name =self.show_name)
+            ax1.legend(loc=2)
+        
         self.plot_train_data(ax1, self._X[:-1],self._Y[:-1], size =10)
-        #self.plot_predictive_dist(ax1)
-        self.plot_regression_gaussian_approx(ax1, show_name =self.show_name)
+        ax1.set_title(f"{self.model.name}")
+        
         self.plot_acquisition_function(ax2)
+
         ax2.set_xlabel("x")
         x_next = opt.x_next[:,None]
         max_AQ= self.acquisition_function(x_next)
         ax2.plot(x_next, max_AQ, "^", markersize=10,color="tab:orange", label=f"x_next = {opt.x_next[0]:.2f}")
-        ax1.legend(loc=2)
         ax2.legend(loc=1)
 
     def plot_regression_gaussian_approx(self,ax,show_name = False):
@@ -416,6 +452,11 @@ class PlotBayesOpt1D(BayesOptSolver_sklearn):
             # plot the acquisition function ##
             lvl = norm.cdf(self.beta)
             ax.plot(Xgrid, LCB_of_Xgrid, color=color, label = f"LCB({lvl:0.3f})") 
+
+        if self.acquisition == "aEI":
+            Xgrid = np.linspace(*self.bounds, 100)[:, None]
+            aEI_of_Xgrid = self.approx_expected_improvement(Xgrid)
+            ax.plot(Xgrid, aEI_of_Xgrid, color=color, label = "aEI") 
 
         ax.set_xlim(*self.bounds)
         if show_y_label:
@@ -499,14 +540,17 @@ class PlotBayesOpt2D(BayesOptSolver_sklearn):
 
 
 if __name__ == "__main__":
-    from src.benchmarks.custom_test_functions.problems import SimonsTest2
+    from src.benchmarks.custom_test_functions.problems import SimonsTest2, Test3b
     from src.benchmarks.go_benchmark_functions.go_funcs_K import Katsuura
     import cocoex
     suite = iter(cocoex.Suite("bbob", "", "dimensions:2 instance_indices:1"))
     problem_sklearn = SimonsTest2()
+    problem_sklearn = Test3b()
     problem_coco = next(suite)
-    regression_model = GaussianProcess_sklearn()
-    plot_BO = PlotBayesOpt1D(regression_model, problem_sklearn, acquisition="LCB",budget=24, n_init_samples=10,disp=True)
+    regression_model = GaussianProcess_GPy()
+    regression_model = NaiveGMRegression()
+    regression_model = SumProductNetworkRegression(optimize=False, opt_n_iter=40)
+    plot_BO = PlotBayesOpt1D(regression_model, problem_sklearn, acquisition="EI",budget=54, n_init_samples=50,disp=True)
     plot_BO()
     #plot_BO = PlotBayesOpt1D(regression_model, problem_sklearn, acquisition="EI",budget=14,n_init_samples=10,disp=True)
 

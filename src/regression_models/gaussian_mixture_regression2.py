@@ -156,7 +156,7 @@ def _safe_probability_density(norm_factors, exponents):
 
 class GMRegression(BaseEstimator):
     def __init__(self,optimize=False, manipulate_variance = False, 
-                    n_components = 10,
+                    n_components = 5,
                     prior_weight = 1,
                     opt_n_iter  =40, opt_cv = 10,
                     train_epochs = 1000, 

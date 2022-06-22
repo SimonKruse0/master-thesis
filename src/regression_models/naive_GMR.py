@@ -187,6 +187,17 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
         p_predictive = (N*p_xy + prior_weight*p_prior_y.squeeze()) / (N*p_x + prior_weight)    
         return p_predictive, p_x
 
+    def predictive_samples(self, X_test, n_samples = 1000):
+        
+        
+        
+        
+        #X_test, *_ = normalize(X_test,self.x_mean, self.x_std)
+        mu, sigma, _ = self.predict(X_test)
+        y_pred = np.random.normal(mu[:,None], sigma[:,None],(mu.shape[0],n_samples))
+        #y_pred = denormalize(y_pred, self.y_mean, self.y_std)
+        return y_pred
+
     def predict(self, X_test):
         X_test,*_ = normalize(X_test,self.x_mean, self.x_std)
         prior_weight = self.prior_weight
