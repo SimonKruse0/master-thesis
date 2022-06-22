@@ -21,7 +21,9 @@ reg_models = [#GMRegression(optimize=False),
 import random
 random.seed()
 random.shuffle(reg_models)
-reg_models = [NumpyroNeuralNetwork(hidden_units = 50, num_warmup=200,num_samples=200,
+reg_models = [NumpyroNeuralNetwork(hidden_units = 10, num_warmup=200,num_samples=200,
+                                 num_chains=4, alpha=1000)]
+reg_models += [NumpyroNeuralNetwork(hidden_units = 100, num_warmup=200,num_samples=200,
                                  num_chains=4, alpha=1000)]
 #reg_models = [GaussianProcess_GPy()]
 #reg_models = [NaiveGMRegression(optimize=False)]

@@ -588,8 +588,8 @@ INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/BNN_prior
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/BNN_posterior.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/BNN_illustration.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/bayesian_nn_prior_samples_hidden_units.pdf
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/reg_illustrations/BayesianNN_plots/Test4_BNN500-500-hu-10-alpha-1000_n_100_seed_42.pdf
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/reg_illustrations/BayesianNN_plots/Test4_BNN500-500-hu-50-alpha-1000_n_100_seed_42.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/Test4_BNNhu-10.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/Test4_BNNhu-50.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_mixture_regression.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_mixture_regression.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_a_prior_inclusion.tex

@@ -62,30 +62,32 @@ neural network. To summarize, the mixture regression models are:
 \section{Conditional of mixture model}\label{Conditional_mixture}
 To exploit a generative model as a surrogate model in Bayesian optimization, we need to calculate
 the condtional distribution. Fortunately, all generative models used in this thesis are mixture
-models, which simplifies the upcomming deveriations. We define a general mixture model as, 
-$$p(x,y) = \sum_z \lambda_z p_z(x,y)$$ where $p_z(x,y)$ are mixture components, i.e. simpler
-generative models with same support, $(x,y) \in \mathcal{X}\times \mathbb{R}$. The goal is to define
+models, which simplifies the upcomming deveriations. We define a general mixture model with $Z$ mixture
+components as, 
+$$p(x,y) = \sum_{z=1}^Z \lambda_z p_z(x,y)$$ where $p_z(x,y)$ are mixture components, i.e. simpler
+generative models with same support, $(x,y) \in \mathcal{X}\times \mathbb{R}$. 
+The goal is to define
 the conditional distribution exact for all the mixture models. As we will soon see, this is again a
 mixture model, 
 $$p(y|x) = \sum_z \gamma_z(x) p_z(y|x).$$ with $\sum_z \gamma_z(x) = 1$ and $\gamma_z(x) \in [0,1]$.
 First, we calcalculate the marginal distribution $p(x)$ of the mixture, 
 %assuming that it is possible to marginalize $p_z(x) = \int p_z(x,y) dy$
 \begin{align*}
-    p(x) &= \int p(x,y) dy =\sum_{z} \lambda_z \int p_z(x,y) dy =\sum_{z} \lambda_z p_z(x)
+    p(x) &= \int p(x,y) dy =\sum_{z} \lambda_z \int p_z(x,y) dy =\sum_{z} \lambda_z p_z(x).
 \end{align*}
 
 Next, we can calculate the conditional in terms of the conditional of the individual mixture
 components, 
-\begin{align}
+\begin{align*}
     p(y|x) &= \frac{p(y,x)}{p(x)}\\
-    &= \sum_{z} \frac{\lambda_z}{p_z(x)} p_z(x,y)\\
+    &= \sum_{z} \frac{\lambda_z}{p(x)} p_z(x,y)\\
     &=  \sum_{z}  \frac{\lambda_z p_z(x)}{p(x)}p_z(y|x)\\
-    &=  \sum_{z}  \underbrace{ \frac{\lambda_z p_z(x)}{\sum_{z^*} \lambda_{z^*} p_{z^*}(x)}}_{\gamma_z(x)} p_z(y|x)
-\end{align}
+    &=  \sum_{z}  \underbrace{ \frac{\lambda_z p_z(x)}{\sum_{z^*} \lambda_{z^*} p_{z^*}(x)}}_{\gamma_z(x)} p_z(y|x).
+\end{align*}
 
 So we see that the conditional of a mixture model is again a mixture model. 
 We also see that $\sum_z \gamma_z(x) = 1$ and hence we can interpret the above as the following, 
-$$p(y|x) = p_z(y|x)  \hspace*{1cm} z \sim Cat(\gamma_1(x), \dots, \gamma_Z(x)) $$ And we name
+$$p(y|x) = p_z(y|x),  \hspace*{1cm} z \sim Cat(\gamma_1(x), \dots, \gamma_Z(x)).$$ And we name
 $p(z|x) = \gamma_z(x) \in [0,1]$ the \textit{responsibility} of mixture component $z$ at a given
 location $x \in \mathcal{X}$, (The probability that $y$ to belong to component $z$ at a given
 location $x$). For implementation we notice that the denominator in $\gamma_z(x)$ can be reused for
@@ -99,13 +101,13 @@ all components.
     The mean of the conditional is just
     \begin{align*}
         E_{p(y|x)}[y] &= \sum_{z} \gamma_z(x) \int y \cdot p_z(y|x)dy \\
-        &= \sum_{z} \gamma_z(x) E_{ p_z(y|x)}[y]
+        &= \sum_{z} \gamma_z(x) E_{ p_z(y|x)}[y].
     \end{align*}
 
-    and the variance is found using the second moment, 
+    The variance is found using the variance definition $V[y] = E[y^2] - E[y]^2$, 
     \begin{align*}
         E_{p(y|x)}[y^2] &= \sum_{z} \gamma_z(x) \int  y^2 p_{z}(y|x) dy \\
-        &= \sum_{z} \gamma_z(x) (Var_{ p_z(y|x)}[y]+E_{ p_z(y|x)}[y]^2)
+        &= \sum_{z} \gamma_z(x) (Var_{ p_z(y|x)}[y]+E_{ p_z(y|x)}[y]^2).
     \end{align*}
 \end{testexample}
 
@@ -118,9 +120,9 @@ Maybe the most simple mixture model one could think about is to put a small vari
 component around all data points and weight all the components equally. So for $n$ datapoints,
 $\{(x_i,y_i)\}_{i=1}^n$, the generative model is given as, 
 
-$$p(x,y) = \frac{1}{N} \sum_{i=1}^n \mathcal{N}\left(\begin{bmatrix}x\\y\end{bmatrix} |
+$$p(x,y) = \frac{1}{N} \sum_{i=1}^n \mathcal{N}\left(\begin{bmatrix}x\\y\end{bmatrix} \middle|
 \begin{bmatrix}x_i\\y_i\end{bmatrix}, \sigma^2 I \right) = \frac{1}{N} \sum_{i=1}^n 
-\mathcal{N}(x|x_i, \sigma^2 I)\mathcal{N}(y|y_i, \sigma^2) $$
+\mathcal{N}(x|x_i, \sigma^2 I)\mathcal{N}(y|y_i, \sigma^2),$$
 where $\sigma^2$ is refered as the bandwidth, when the literature refers to the above as a kernel estimator. 
 Small $\sigma^2$ yields a complex model and large $\sigma^2$ yields a simple model. Therefore chosing $\sigma^2$
 just rigth is crucial for a good model. 
@@ -131,23 +133,23 @@ Since the kernel density estimator is just a Gaussian mixture model, with no cor
 any of the variables, yeilding i.e. $p_z(y|x) = p_z(y)$, therefor the conditional distribution is
 given as, 
 \begin{align}
-    p(y|x) &= \sum_{z=1}^n \gamma_z(x) \mathcal{N}(y|\mu_{y}^{(z)},\Sigma_{yy}^{(z)} )\\
+    p(y|x) &= \sum_{z=1}^n \gamma_z(x) \mathcal{N}(y|\mu_{y}^{(z)},\Sigma_{yy}^{(z)} ),\\
     \gamma_z(x) &= \frac{\lambda_z \mathcal{N}(x|\mu_{x}^{(z)},\Sigma_{xx}^{(z)})}{\sum_{z^*}
-\lambda_{z^*} \mathcal{N}(x|\mu_{x}^{(z^*)},\Sigma_{xx}^{(z^*)})}
+\lambda_{z^*} \mathcal{N}(x|\mu_{x}^{(z^*)},\Sigma_{xx}^{(z^*)})}.
 \end{align}
-Giving a the computational complexity of $O(n)$, since we reused the denominator of 
-$\gamma_z(x)$ for all components $z$. 
+The computational complexity of calculating the conditional or the predictive distribution is
+$O(n)$, since we reused the denominator of $\gamma_z(x)$ for all components $z$. 
 
 \section{Gaussian mixture regression}
 Extending the kernel estimator regression with covariance between the variables, only $K \leq N$ components 
-and different weighting on each component, we arrive at a Gaussian mixture model. This conditional of this
-gives the Gaussian mixture regression model. 
+and different weighting on each component, we arrive at a Gaussian mixture model. The conditional of GMM 
+gives the Gaussian mixture regression model \cite{GMR}. 
 
 We can model our data, as a generative model $p(x,y)$, 
 $$p(x,y)= \sum_{z=1}^K \lambda_z \mathcal{N}(x,y|\mu^{(z)},\Sigma^{(z)}), \hspace{1cm}
 \mu^{(z)}=\begin{bmatrix} \mu^{(z)}_x \\ \mu^{(z)}_y \end{bmatrix},\hspace{0.1cm} \Sigma^{(z)} =
 \begin{bmatrix} \Sigma^{(z)}_{xx} & \Sigma^{(z)}_{xy}\\ \Sigma^{(z)}_{yx}& \Sigma^{(z)}_{yy}
-\end{bmatrix}$$ where $\sum_{z=1}^K \lambda_z = 1$. The parameters $\left(\lambda_z,
+\end{bmatrix},$$ where $\sum_{z=1}^K \lambda_z = 1$. The parameters $\left(\lambda_z,
 \mu^{(z)}, \Sigma^{(z)} \right)_{z=1}^K$ need to be trained, which is done using the EM
 algorithm. We will now show how the conditional is calculated exactly. 
 
@@ -157,15 +159,15 @@ conditional of a multivariate Gaussian as
 \begin{align}
     p_z(y|x) &= \mathcal{N}(y|\mu^{(z)}_{y|x},\Sigma^{(z)}_{y|x} )\\
     \mu^{(z)}_{y|x} :&= \mu^{(z)}_y+\Sigma^{(z)}_{yx}(\Sigma^{(z)}_{xx})^{-1}(x-\mu^{(z)}_x)\\
-    \Sigma^{(z)}_{y|x} :&= \Sigma^{(z)}_{yy}-\Sigma^{(z)}_{yx}(\Sigma^{(z)}_{xx})^{-1}\Sigma^{(z)}_{xy} 
+    \Sigma^{(z)}_{y|x} :&= \Sigma^{(z)}_{yy}-\Sigma^{(z)}_{yx}(\Sigma^{(z)}_{xx})^{-1}\Sigma^{(z)}_{xy}.
 \end{align}
-Now, conditional is defined straight forward from Section \eqref{Conditional_mixture},
+Now, the conditional is defined straight forward from Section \eqref{Conditional_mixture},
 \begin{align}
     p(y|x) &= \sum_{z=1}^K \gamma_z(x) \mathcal{N}(y|\mu_{y|x}^{(z)},\Sigma_{y|x}^{(z)} ) \\
     \gamma_z(x) :&=\frac{\lambda_z \mathcal{N}(x|\mu_{x}^{(z)},\Sigma_{xx}^{(z)})}{\sum_{z^*=1}^K \lambda_{z^*}
 \mathcal{N}(x|\mu_{x}^{(z^*)},\Sigma_{xx}^{(z^*)})}
 \end{align}
-note here the computational complexity is $O(K\cdot dim(x)^3)$ since the matrix inversion
+The computational complexity is $O(K\cdot d^3)$ ($d$ is the dimension of $x$), since the matrix inversion
 of the covariance matrix $(\Sigma^{(z)}_{xx})^{-1}$ is the dominating cost and it happens
 for all the $K$ components. 
 
@@ -173,10 +175,27 @@ for all the $K$ components.
 %<What is SPN>
 
 A sum-product network (SPN) is a mixture model, which allows for exponentially many mixture
-components, but with only linearly many parameters and, thereby, tractable inference
-(conditionalization and marginalization queries). In short, the SPN defines a computational graph,
-with tractable leaf distributions, and combine them using products and sums nodes, in a recursive
-manner. The density of the mixture models is calculated in the following way, 
+components, but with only <linearly many parameters> and, thereby, tractable inference (i.e.
+conditionalization and marginalization queries). In short, the SPN consists of a computational
+graph, with tractable leaf distributions, which are combined using products and sums nodes,
+recursively. To keep the inference of the SPN tractable, we want to maintain certain properties when
+designing the SPN graph. First we need to define a scope. 
+\begin{testexample}[Scope of nodes in SPN]
+    A scope (sc) of a leaf node is the set of random variables among each dimension of $x = \{x_1,
+    \dots, x_{\text{dim}(x)} \}$ and $y$ of which the leaf distribution,
+    $p_i(\cdot)$, defines a distribution function (in our implementation the leaf scopes are all
+    singletons). The scope of a sum og product node, $i$, are defined recursively, $sc(i) = \cup_{j \in
+    ch(i)} sc(j)$. 
+\end{testexample}
+
+\begin{itemize}[noitemsep]
+    \item A sum nodes children must have the same scope (completeness). 
+    \item A product nodes children must have distinct scopes (decomposability).
+    \item Leaf nodes must have tractable inference.
+\end{itemize}
+
+
+The density of the mixture models is calculated in the following way, 
 \begin{algorithm}
     \caption*{Calculation of $p(x,y)$}\label{SPN_1}
     \begin{algorithmic}
@@ -194,37 +213,25 @@ manner. The density of the mixture models is calculated in the following way,
         \State $\textbf{return: } \prod_{j \in ch(i)} \text{Eval}(j)$
     \EndIf
     \EndFunction
-    \State $p(x) =  \text{Eval(root)}$
+    \State $p(x,y) =  \text{Eval(root node)}$
     \end{algorithmic}
 \end{algorithm}
 
-To keep the inference of the SPN tractable, we want to maintain certain properties when
-designing the SPN graph. First we need to define a scope. 
-\begin{testexample}[Scope of nodes in SPN]
-    A scope (sc) of a leaf node is the set of random variables among each dimension of $x = \{x_1,
-    \dots, x_{\text{dim}(x)} \}$ and $y$ of which the leaf distribution,
-    $p_i(\cdot)$, defines a distribution function (in our implementation the leaf scopes are all
-    singletons). The scope of a sum og product node, $i$, are defined recursively, $sc(i) = \cup_{j \in
-    ch(i)} sc(j)$. 
-\end{testexample}
-
-\begin{itemize}[noitemsep]
-    \item A sum nodes children must have the same scope (completeness). 
-    \item A product nodes children must have distinct scopes (decomposability).
-    \item Leaf nodes must have tractable inference.
-\end{itemize}
-
 In this thesis, we implement the SPN similar to the RAT-SPN presented in \cite{RAT_SPN}, 
-which ensures that we have a Complete and decomposable SPN,
+which ensures that we have a Complete and decomposable SPN. The following is the structure of 
+the RAT-SPN,
 \begin{enumerate}[noitemsep]
-    \item Define $C$ leaf distributions per dimension ($C$ is called "channels")
-    \item Pair up the elements in the set of random variables $\{x_1, ..., x_{\text{Dim}(x)}, y\}$ in a random way
-    \item For each pair: Define $C^2$ product nodes by combining each combination of leaf distributions. 
+    \item Define $C$ leaf distributions per random variable\footnote{Note that we define the random
+    variables as the dimensions in the joints distribution, i.e. $\{x_1, ..., x_{\text{Dim}(x)},
+    y\}$.} ($C$ is called "channels").
+    \item Pair up the elements in the set of random variables in a random way. If uneven set, then
+    one element pairs with the empty set.
+    \item For each pair: Define $C^2$ product nodes by combining each combination of leaf nodes. 
     \item For each pair: Give the $C^2$ product nodes the same $C$ sum node parents. 
-    \item Now, pair the pairs and repeat step 3 and 4. If there is an uneven amount, just pass on the single to the next round. 
+    \item Now, pair up the pairs and repeat step 3 (with sum-nodes instead of leaf nodes) and 4.  
     \item At the final iterations: Give the $C^2$ product nodes 1 sum node parent.
 \end{enumerate}
-This is a scalable and easy way to construct the SPN. For high-dimensional problems, we can limit the number
+ This is a scalable and easy way to construct the SPN. For high-dimensional problems, we can limit the number
 of pairs defined in step 2 and instead, combine more of the randomly defined SPNs in several tracks $T$. This allows the
 model to be lucky in the case e.g. dimension $x_3$ and $x_5$ was a powerful combination. Figure \ref{SPN_graph_illu}
 illustrates the concept of RAT-SPN for only one track $T=1$ (more tracks would shuffle the pairs).
@@ -233,8 +240,8 @@ illustrates the concept of RAT-SPN for only one track $T=1$ (more tracks would s
     \centering
     \includegraphics[width=\textwidth]{Pictures/SPN_illustration_graph3.pdf}
     \caption{Illustration of random constructed sum-product network (RAT-SPN) for the joint
-    distribution $p(x_1, \dots, x_5, y)$. The product nodes always combine 2 nodes from different
-    scopes, while sum nodes sum all of the product nodes for similar scopes. Note the drawing is not
+    distribution $p(x_1, \dots, x_5, y)$. The product nodes, $\otimes$, always combine 2 nodes from different
+    scopes, while sum nodes, $\oplus$, sum all of the product nodes for similar scopes. Note the drawing is not
     complete; This illustarates a RAT-SPN with 3 channels, so every cluster of product nodes has
     size 9 and every cluster of sum nodes (except the root) has size 3.}
      \label{SPN_graph_illu}
@@ -291,14 +298,14 @@ adding less flexibility.
 \end{note2}
 
 \subsection{SPN as a mixture model}
-Each sum-node can be interpreted as a categorical variable \cite{??}, i.e. a weighted dice. So each mixture
-component can be found by starting at the root sum-node and rolling the dice of which green arrow to
-continue the path through the SPN. If the path meets a product-node the path splits up. If the path
-meets a sum-node we roll a dice. Finally, if the path meets a leaf-node it terminates. The defined
-path is referred to as a sub-network, $S_z$, in the SPN and is equivalent to a mixture component. The total number
-mixture components equal the
-product of all sum-nodes children, i.e. $Z = \prod_{i\in \mathcal{S}um(S)}|ch(i)|$. 
-i.e. an exponentially large amount. 
+Each sum-node can be interpreted as a categorical variable \cite{??}, i.e. a weighted dice. So each
+mixture component can be found by starting at the root sum-node and rolling the dice of which green
+arrow to continue the path through the SPN. If the path meets a product-node all children are
+included in the path. If the path meets a sum-node we roll a dice. Finally, if the path meets a
+leaf-node it terminates. The defined path is referred to as a sub-network, $S_z$, in the SPN and is
+equivalent to a mixture component. The total number mixture components equal the product of all
+sum-nodes children, i.e. $Z = \prod_{i\in \mathcal{S}um(S)}|ch(i)|$. i.e. an exponentially large
+amount. 
 
 Denote the set of edges in the sub-network $\mathcal{E}(S_z)$.
 Now the we define a mixture coeficient, $\lambda_z$ and component for each $S_z$ as 
