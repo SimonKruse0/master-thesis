@@ -579,6 +579,44 @@
       \verb https://proceedings.neurips.cc/paper/1993/file/f2201f5191c4e92cc5af043eebfd0946-Paper.pdf
       \endverb
     \endentry
+    \entry{GMR}{article}{}
+      \name{author}{1}{}{%
+        {{hash=cc6819194087111c0aa1995a77f6dc32}{%
+           family={Fabisch},
+           familyi={F\bibinitperiod},
+           given={Alexander},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {The Open Journal}%
+      }
+      \strng{namehash}{cc6819194087111c0aa1995a77f6dc32}
+      \strng{fullhash}{cc6819194087111c0aa1995a77f6dc32}
+      \strng{bibnamehash}{cc6819194087111c0aa1995a77f6dc32}
+      \strng{authorbibnamehash}{cc6819194087111c0aa1995a77f6dc32}
+      \strng{authornamehash}{cc6819194087111c0aa1995a77f6dc32}
+      \strng{authorfullhash}{cc6819194087111c0aa1995a77f6dc32}
+      \field{sortinit}{2}
+      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Open Source Software}
+      \field{number}{62}
+      \field{title}{gmr: Gaussian Mixture Regression}
+      \field{volume}{6}
+      \field{year}{2021}
+      \field{pages}{3054}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.21105/joss.03054
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.21105/joss.03054
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.21105/joss.03054
+      \endverb
+    \endentry
     \entry{RAT_SPN}{misc}{}
       \name{author}{7}{}{%
         {{hash=ccf70c55dd0ddddfb671a98b2afd8ead}{%
@@ -665,8 +703,8 @@
       \strng{authorbibnamehash}{777504ebb73f750912508fc1b666e109}
       \strng{authornamehash}{777504ebb73f750912508fc1b666e109}
       \strng{authorfullhash}{777504ebb73f750912508fc1b666e109}
-      \field{sortinit}{2}
-      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
+      \field{sortinit}{3}
+      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{number}{4}

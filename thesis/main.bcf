@@ -2208,13 +2208,15 @@
     <bcf:citekey order="24">bishop1995neural</bcf:citekey>
     <bcf:citekey order="25">ALStatisticalModels</bcf:citekey>
     <bcf:citekey order="26">JordanPaper</bcf:citekey>
-    <bcf:citekey order="27">RAT_SPN</bcf:citekey>
-    <bcf:citekey order="28">??</bcf:citekey>
-    <bcf:citekey order="29">bishop</bcf:citekey>
+    <bcf:citekey order="27">GMR</bcf:citekey>
+    <bcf:citekey order="28">RAT_SPN</bcf:citekey>
+    <bcf:citekey order="29">??</bcf:citekey>
     <bcf:citekey order="30">bishop</bcf:citekey>
-    <bcf:citekey order="31">PhDthesis</bcf:citekey>
-    <bcf:citekey order="32">snoek2015scalable</bcf:citekey>
-    <bcf:citekey order="33">NIPS2016_a96d3afe</bcf:citekey>
+    <bcf:citekey order="31">bishop</bcf:citekey>
+    <bcf:citekey order="32">GMR</bcf:citekey>
+    <bcf:citekey order="33">PhDthesis</bcf:citekey>
+    <bcf:citekey order="34">snoek2015scalable</bcf:citekey>
+    <bcf:citekey order="35">NIPS2016_a96d3afe</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">

@@ -5,7 +5,7 @@
 Egne forsøg med SPN og mixture regression
 
 
-\section{implementation}
+\section{Implementation}
 The Gaussian process regression is implemented using the Scikit-learn Gaussian process
 implementation with the Matern kernel with $\nu=1.5$ and the y-values are normalized for
 the prior distribution to be reasonable (mean 0 and variance 1). The lengthscale is optimized by
@@ -59,7 +59,7 @@ performance of different regression models on different types of 1D problems, al
 It is common to have many parameters to tune in Bayesian optimization (in 1D a human could
 potentially assist the surrogate model since the regression can be plotted and judged by eye).
 Nevertheless, we will keep the domain in 1D to establish  
-a more informative judgment of the model performance.
+a more informative evaluation of the model performance.
 This will establish some intuition about the models and 
 
 \begin{table}[H]
@@ -100,22 +100,22 @@ This will establish some intuition about the models and
   GMR& 
   \begin{tabular}[t]{l}
     Training sklearn GMM, \\
-    pluggin into GMR. 
+    EM of MLE with 3 restarts.\\
+    pluggin into GMR software \cite{GMR}. 
   \end{tabular} &
   \begin{tabular}[t]{l}
     BO Cross-validation 30 fold, \\
-    testing number of components and prior weight\\
-    3 restarts. 
+    tuning number of components \\ 
+    and prior weight
   \end{tabular} \\\hline
-
 
   SPN& 
   \begin{tabular}[t]{l}
-    Trained using 3 restarts of EM MAP,\\  
+    Trained using 3 restarts of EM of MAP,\\  
   \end{tabular} &
   \begin{tabular}[t]{l}
     BO Cross-validation 30 fold,\\
-     testing: hyperpriors and prior weight
+     tuning: hyperpriors and prior weight
   \end{tabular} \\\hline
 
   KDE& 
@@ -125,8 +125,7 @@ This will establish some intuition about the models and
   \end{tabular} &
   \begin{tabular}[t]{l}
     BO Cross-validation 30 fold,\\
-     testing x-variance and y-variance and prior weight\\
-    3 restarts. 
+     testing x-variance and y-variance and prior weight\\ 
   \end{tabular} \\\hline
   \end{tabular}}
   \caption{Overview of chosen models  
@@ -275,6 +274,10 @@ But it seems like the algorithm does not converge?. The mixture models are cross
 the predive likelihood, 
 
 \subsection*{Test2: Discontinuous problem}
+As GP and BNN have a natural assumption of continuity we want to investigate their performance
+on a discontinuous problem. The problem is a step function, ...
+
+
 This is a type of problem where we would expect the GP to not perform well, 
 BNN should be the better 
 
@@ -292,33 +295,78 @@ BNN should be the better
 
 \begin{figure}[H]
   \centering
-  \begin{minipage}[b]{0.49\textwidth}
-   \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test2/1.pdf}
+  \begin{minipage}[b]{0.32\textwidth}
+    \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test2/1.pdf}
+      \put (10,65) {BNN}
+      \put (-5,40) {\small y}
+  \end{overpic}
   \end{minipage}
   \hfill
-  \begin{minipage}[b]{0.49\textwidth}
-    \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test2/2.pdf}
-   \end{minipage}
-   
-   \begin{minipage}[b]{0.49\textwidth}
-    \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test2/3.pdf}
+  \begin{minipage}[b]{0.32\textwidth}
+    \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test2/2.pdf}
+      \put (10,65) {BOHamiANN}
+    \end{overpic}
    \end{minipage}
    \hfill
-   \begin{minipage}[b]{0.49\textwidth}
-     \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test2/4.pdf}
+   \begin{minipage}[b]{0.32\textwidth}
+    \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test2/4.pdf}
+      \put (10,65) {GP}
+    \end{overpic}
     \end{minipage}
-    
-    
-    \begin{minipage}[b]{0.49\textwidth}
-     \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test2/5.pdf}
+     
+   \begin{minipage}[b]{0.32\textwidth}
+    \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test2/3.pdf}
+      \put (10,65) {GMR}
+      \put (-5,40) {\small y}
+      \put (51,5) {\small x}
+    \end{overpic}
+    \end{minipage}
+  \hfill
+    \begin{minipage}[b]{0.32\textwidth}
+     \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test2/6.pdf}
+      \put (10,65) {SPN}
+     \end{overpic}
     \end{minipage}
     \hfill
-    \begin{minipage}[b]{0.49\textwidth}
-      \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test2/6.pdf}
-     \end{minipage}
+    \begin{minipage}[b]{0.32\textwidth}
+      \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test2/5.pdf}
+        \put (10,65) {KDE}
+      \end{overpic}
+      \end{minipage}
 
-  \caption{Plots visulising the results in above figure.}
+  \caption{Plots visulising the results in figure at $n_{data} = ?$}
+  \label{bling}
 \end{figure}
+
+% \begin{figure}[H]
+%   \centering
+%   \begin{minipage}[b]{0.49\textwidth}
+%    \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test2/1.pdf}
+%   \end{minipage}
+%   \hfill
+%   \begin{minipage}[b]{0.49\textwidth}
+%     \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test2/2.pdf}
+%    \end{minipage}
+   
+%    \begin{minipage}[b]{0.49\textwidth}
+%     \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test2/3.pdf}
+%    \end{minipage}
+%    \hfill
+%    \begin{minipage}[b]{0.49\textwidth}
+%      \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test2/4.pdf}
+%     \end{minipage}
+    
+    
+%     \begin{minipage}[b]{0.49\textwidth}
+%      \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test2/5.pdf}
+%     \end{minipage}
+%     \hfill
+%     \begin{minipage}[b]{0.49\textwidth}
+%       \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test2/6.pdf}
+%      \end{minipage}
+
+%   \caption{Plots visulising the results in above figure.}
+% \end{figure}
 
 
 
@@ -343,37 +391,84 @@ Here are the more interesting problems for the mixture regression methods.
 
 \begin{figure}[H]
   \centering
-  \begin{minipage}[b]{0.49\textwidth}
-   \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test3/1.pdf}
+  \begin{minipage}[b]{0.32\textwidth}
+    \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test3/1.pdf}
+      \put (10,65) {BNN}
+      \put (-5,40) {\small y}
+  \end{overpic}
   \end{minipage}
   \hfill
-  \begin{minipage}[b]{0.49\textwidth}
-    \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test3/2.pdf}
-   \end{minipage}
-   
-   \begin{minipage}[b]{0.49\textwidth}
-    \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test3/3.pdf}
+  \begin{minipage}[b]{0.32\textwidth}
+    \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test3/2.pdf}
+      \put (10,65) {BOHamiANN}
+    \end{overpic}
    \end{minipage}
    \hfill
-   \begin{minipage}[b]{0.49\textwidth}
-     \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test3/4.pdf}
+   \begin{minipage}[b]{0.32\textwidth}
+    \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test3/4.pdf}
+      \put (10,65) {GP}
+    \end{overpic}
     \end{minipage}
-    
-    
-    \begin{minipage}[b]{0.49\textwidth}
-     \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test3/5.pdf}
+     
+   \begin{minipage}[b]{0.32\textwidth}
+    \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test3/3.pdf}
+      \put (10,65) {GMR}
+      \put (-5,40) {\small y}
+      \put (51,5) {\small x}
+    \end{overpic}
+    \end{minipage}
+  \hfill
+    \begin{minipage}[b]{0.32\textwidth}
+     \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test3/6.pdf}
+      \put (10,65) {SPN}
+     \end{overpic}
     \end{minipage}
     \hfill
-    \begin{minipage}[b]{0.49\textwidth}
-      \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test3/6.pdf}
-     \end{minipage}
+    \begin{minipage}[b]{0.32\textwidth}
+      \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test3/5.pdf}
+        \put (10,65) {KDE}
+      \end{overpic}
+      \end{minipage}
 
-  \caption{Plots visulising the results in above figure.}
+  \caption{Plots visulising the results in figure at $n_{data} = ?$}
+  \label{bling}
 \end{figure}
 
 
+% \begin{figure}[H]
+%   \centering
+%   \begin{minipage}[b]{0.49\textwidth}
+%    \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test3/1.pdf}
+%   \end{minipage}
+%   \hfill
+%   \begin{minipage}[b]{0.49\textwidth}
+%     \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test3/2.pdf}
+%    \end{minipage}
+   
+%    \begin{minipage}[b]{0.49\textwidth}
+%     \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test3/3.pdf}
+%    \end{minipage}
+%    \hfill
+%    \begin{minipage}[b]{0.49\textwidth}
+%      \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test3/4.pdf}
+%     \end{minipage}
+    
+    
+%     \begin{minipage}[b]{0.49\textwidth}
+%      \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test3/5.pdf}
+%     \end{minipage}
+%     \hfill
+%     \begin{minipage}[b]{0.49\textwidth}
+%       \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test3/6.pdf}
+%      \end{minipage}
+
+%   \caption{Plots visulising the results in above figure.}
+% \end{figure}
+
+
 \subsection{Test4: anisotropic problem}
-Finally this problem is designed to
+Finally this problem has low frequency in the beginning but ends out with a very high frequency. This is a difficult
+problem for the GP as its 
 
 \begin{figure}[H]
   \centering
@@ -387,35 +482,82 @@ Finally this problem is designed to
   \caption{Plots visulising the results in above figure.}
 \end{figure}
 
+
 \begin{figure}[H]
   \centering
-  \begin{minipage}[b]{0.49\textwidth}
-   \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test4/1.pdf}
+  \begin{minipage}[b]{0.32\textwidth}
+    \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test4/1.pdf}
+      \put (10,65) {BNN}
+      \put (-5,40) {\small y}
+  \end{overpic}
   \end{minipage}
   \hfill
-  \begin{minipage}[b]{0.49\textwidth}
-    \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test4/2.pdf}
-   \end{minipage}
-   
-   \begin{minipage}[b]{0.49\textwidth}
-    \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test4/3.pdf}
+  \begin{minipage}[b]{0.32\textwidth}
+    \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test4/2.pdf}
+      \put (10,65) {BOHamiANN}
+    \end{overpic}
    \end{minipage}
    \hfill
-   \begin{minipage}[b]{0.49\textwidth}
-     \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test4/4.pdf}
+   \begin{minipage}[b]{0.32\textwidth}
+    \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test4/4.pdf}
+      \put (10,65) {GP}
+    \end{overpic}
     \end{minipage}
-    
-    
-    \begin{minipage}[b]{0.49\textwidth}
-     \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test4/5.pdf}
+     
+   \begin{minipage}[b]{0.32\textwidth}
+    \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test4/3.pdf}
+      \put (10,65) {GMR}
+      \put (-5,40) {\small y}
+      \put (51,5) {\small x}
+    \end{overpic}
+    \end{minipage}
+  \hfill
+    \begin{minipage}[b]{0.32\textwidth}
+     \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test4/6.pdf}
+      \put (10,65) {SPN}
+     \end{overpic}
     \end{minipage}
     \hfill
-    \begin{minipage}[b]{0.49\textwidth}
-      \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test4/6.pdf}
-     \end{minipage}
+    \begin{minipage}[b]{0.32\textwidth}
+      \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test4/5.pdf}
+        \put (10,65) {KDE}
+      \end{overpic}
+      \end{minipage}
 
-  \caption{Plots visulising the results in above figure.}
+  \caption{Plots visulising the results in figure at $n_{data} = ?$}
+  \label{bling}
 \end{figure}
+
+
+% \begin{figure}[H]
+%   \centering
+%   \begin{minipage}[b]{0.49\textwidth}
+%    \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test4/1.pdf}
+%   \end{minipage}
+%   \hfill
+%   \begin{minipage}[b]{0.49\textwidth}
+%     \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test4/2.pdf}
+%    \end{minipage}
+   
+%    \begin{minipage}[b]{0.49\textwidth}
+%     \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test4/3.pdf}
+%    \end{minipage}
+%    \hfill
+%    \begin{minipage}[b]{0.49\textwidth}
+%      \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test4/4.pdf}
+%     \end{minipage}
+    
+    
+%     \begin{minipage}[b]{0.49\textwidth}
+%      \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test4/5.pdf}
+%     \end{minipage}
+%     \hfill
+%     \begin{minipage}[b]{0.49\textwidth}
+%       \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test4/6.pdf}
+%      \end{minipage}
+
+%   \caption{Plots visulising the results in above figure.}
+% \end{figure}
 
 
 \section{Regression analysis}

@@ -103,8 +103,8 @@ $$p(\mathcal{D}|\theta) = \sum_z p(\mathcal{D}, z|\theta)$$
     so optimizing $Q(\theta,\theta^{(t)})$ will optimize
     $\log p(\textbf{X}|\theta) $ as least as much.
 \end{testexample2}
-
- \subsection*{EM for Gaussian mixture}
+\newpage
+ \subsection{EM for Gaussian mixture}
  For a Gaussian mixture the $p_k$ distributions in \eqref{mixture_pdf} is substituted by Gaussain pdfs, 
  i.e. $p_k(x) = \mathcal{N}(x| \mu_k , \Sigma_k)$
  and the density of a catagorical distribution is $p(z) = \sum_{k=1}^K 1_{z=k} w_k = w_z$, combining the two

@@ -37,30 +37,31 @@
 \contentsline {section}{\numberline {4.1}Conditional distribution in a Bayesian setting}{27}{section.0.4.1}%
 \contentsline {subsection}{\numberline {4.1.1}Mean and variance of predictive distribution v1}{29}{subsection.0.4.1.1}%
 \contentsline {section}{\numberline {4.2}Conditional of mixture model}{29}{section.0.4.2}%
-\contentsline {section}{\numberline {4.3}Kernel estimator regression}{31}{section.0.4.3}%
+\contentsline {section}{\numberline {4.3}Kernel estimator regression}{30}{section.0.4.3}%
 \contentsline {subsection}{\numberline {4.3.1}Conditional of Kernel density estimator}{31}{subsection.0.4.3.1}%
 \contentsline {section}{\numberline {4.4}Gaussian mixture regression}{31}{section.0.4.4}%
-\contentsline {subsection}{\numberline {4.4.1}Conditional of Gaussian mixture model}{32}{subsection.0.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.1}Conditional of Gaussian mixture model}{31}{subsection.0.4.4.1}%
 \contentsline {section}{\numberline {4.5}Sum product networks}{32}{section.0.4.5}%
 \contentsline {subsection}{\numberline {4.5.1}SPN as a mixture model}{34}{subsection.0.4.5.1}%
 \contentsline {subsection}{\numberline {4.5.2}Conditional of SPN}{35}{subsection.0.4.5.2}%
 \contentsline {subsubsection}{calculation of responsibility}{35}{subsubsection*.24}%
 \contentsline {section}{\numberline {4.6}Mixture model training}{36}{section.0.4.6}%
 \contentsline {subsection}{\numberline {4.6.1}Expectation-maximization for mixture models}{36}{subsection.0.4.6.1}%
+\contentsline {subsection}{\numberline {4.6.2}EM for Gaussian mixture}{38}{subsection.0.4.6.2}%
 \contentsline {chapter}{\numberline {5}Results}{41}{chapter.0.5}%
-\contentsline {section}{\numberline {5.1}implementation}{41}{section.0.5.1}%
+\contentsline {section}{\numberline {5.1}Implementation}{41}{section.0.5.1}%
 \contentsline {subsection}{\numberline {5.1.1}standardized data}{41}{subsection.0.5.1.1}%
 \contentsline {section}{\numberline {5.2}Model compartment on test problems}{41}{section.0.5.2}%
 \contentsline {subsection}{\numberline {5.2.1}Test3: multi-modal problem}{45}{subsection.0.5.2.1}%
-\contentsline {subsection}{\numberline {5.2.2}Test4: anisotropic problem}{47}{subsection.0.5.2.2}%
-\contentsline {section}{\numberline {5.3}Regression analysis}{49}{section.0.5.3}%
-\contentsline {subsection}{\numberline {5.3.1}uncertainty quantification}{49}{subsection.0.5.3.1}%
-\contentsline {subsection}{\numberline {5.3.2}prediction quantification}{50}{subsection.0.5.3.2}%
-\contentsline {subsection}{\numberline {5.3.3}regression benchmark}{50}{subsection.0.5.3.3}%
-\contentsline {section}{\numberline {5.4}Mixture regression}{50}{section.0.5.4}%
-\contentsline {section}{\numberline {5.5}Regression analysis of GP, BOHAMIANN and NumpyNN 1D}{51}{section.0.5.5}%
-\contentsline {section}{\numberline {5.6}Regression analysis of GP, BOHAMIANN and NumpyNN 2D}{51}{section.0.5.6}%
-\contentsline {section}{\numberline {5.7}Mixture regression on simple functions}{51}{section.0.5.7}%
-\contentsline {chapter}{\numberline {6}Conclusion and further work}{59}{chapter.0.6}%
-\contentsline {section}{\numberline {6.1}further work}{59}{section.0.6.1}%
-\contentsline {chapter}{Bibliography}{60}{chapter*.52}%
+\contentsline {subsection}{\numberline {5.2.2}Test4: anisotropic problem}{46}{subsection.0.5.2.2}%
+\contentsline {section}{\numberline {5.3}Regression analysis}{47}{section.0.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}uncertainty quantification}{47}{subsection.0.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}prediction quantification}{48}{subsection.0.5.3.2}%
+\contentsline {subsection}{\numberline {5.3.3}regression benchmark}{48}{subsection.0.5.3.3}%
+\contentsline {section}{\numberline {5.4}Mixture regression}{48}{section.0.5.4}%
+\contentsline {section}{\numberline {5.5}Regression analysis of GP, BOHAMIANN and NumpyNN 1D}{48}{section.0.5.5}%
+\contentsline {section}{\numberline {5.6}Regression analysis of GP, BOHAMIANN and NumpyNN 2D}{48}{section.0.5.6}%
+\contentsline {section}{\numberline {5.7}Mixture regression on simple functions}{48}{section.0.5.7}%
+\contentsline {chapter}{\numberline {6}Conclusion and further work}{57}{chapter.0.6}%
+\contentsline {section}{\numberline {6.1}further work}{57}{section.0.6.1}%
+\contentsline {chapter}{Bibliography}{58}{chapter*.52}%
