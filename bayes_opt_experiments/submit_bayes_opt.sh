@@ -3,7 +3,7 @@
 ### -- specify queue -- 
 #BSUB -q hpc
 ### -- set the job Name -- 
-#BSUB -J 1D_bayes_opt
+#BSUB -J BayesOpt
 ### -- ask for number of cores (default: 1) -- 
 #BSUB -n 4 
 ### -- specify that the cores must be on the same host -- 
@@ -28,4 +28,4 @@
 #BSUB -e hpc_files/Error_%J.err 
 
 # here follow the commands you want to execute 
-/zhome/17/6/118138/master-thesis/env/bin/python /zhome/17/6/118138/master-thesis/bayes_opt_experiments/1D_v4_bayesopt_BOHAMIANN.py
+/zhome/17/6/118138/master-thesis/env/bin/python /zhome/17/6/118138/master-thesis/bayes_opt_experiments/1D_bayesopt_main.py

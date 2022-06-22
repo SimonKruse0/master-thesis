@@ -25,7 +25,7 @@ reg_models = [GMRegression(optimize=True),
             NumpyroNeuralNetwork(hidden_units = 50,num_warmup=300,num_samples=300,
                                 num_chains=4,alpha=1000),
             SumProductNetworkRegression(optimize=True)]
-reg_models = [GaussianProcess_GPy(),]
+
 import random
 random.seed()
 random.shuffle(reg_models)
