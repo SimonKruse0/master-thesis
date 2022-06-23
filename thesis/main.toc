@@ -21,8 +21,8 @@
 \contentsline {subsubsection}{Exact expected improvement}{12}{subsubsection*.8}%
 \contentsline {subsubsection}{Approximate expected improvement}{13}{subsubsection*.9}%
 \contentsline {subsection}{\numberline {2.3.2}Lower confidense bound}{13}{subsection.0.2.3.2}%
-\contentsline {subsection}{\numberline {2.3.3}Entropy search}{13}{subsection.0.2.3.3}%
-\contentsline {subsection}{\numberline {2.3.4}probability of improvement}{13}{subsection.0.2.3.4}%
+\contentsline {subsection}{\numberline {2.3.3}Entropy search}{14}{subsection.0.2.3.3}%
+\contentsline {subsection}{\numberline {2.3.4}probability of improvement}{14}{subsection.0.2.3.4}%
 \contentsline {chapter}{\numberline {3}Discriminative surrogate models}{15}{chapter.0.3}%
 \contentsline {section}{\numberline {3.1}Gaussian process surrogate}{15}{section.0.3.1}%
 \contentsline {subsection}{\numberline {3.1.1}Exact predictive distribution}{16}{subsection.0.3.1.1}%

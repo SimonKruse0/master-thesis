@@ -258,12 +258,20 @@ where $y^{(k)}$ are samples from the predictive distribution.
 %Alatoric vs epistemic uncertainties 
 
 \subsection{Lower confidense bound}
-Lower confidence bound is defined by a confidence paramter $\pi \in [0,1]$
-and then the lower quantile $\int_{\infty}^x p(y|x,\mathcal{D})dy = (1-\pi)$
-is chosen as the acquisition. For a Gaussian predictive distribution this is 
-simply  <more..>
-$$nLCB(x) = - (\mu_x - \beta \sigma_x)$$
-where $\beta = \Phi^{-1}(1-\pi)$.  
+Lower confidence bound acquisition function \cite[145]{bayesoptbook}\footnote{
+\cite[145]{bayesoptbook} deals with an maximization problem, and an upper confidence bound
+acquisition function is presented, however, this formulation is equivalent.} is parameterised by a
+confidence parameter $\pi \in [0,1]$ which defines the preditive $(1-\pi)$-quantile at $x$,
+ $$q_{1-\pi}(x) = \inf \{y^*|\mathbb{P}(y\leq y^* | x, \mathcal{D}) \geq (1-\pi) \},$$
+i.e. the prediction $y \sim p(y|x, \mathcal{D})$ will only be be less than the lower bound $q_{1-\pi}(x) $
+with a tunable probability of $1-\pi$. 
+The acquisition function is simply defined as the negative lower quantile
+$$LCB_{\pi}(x) = -q_{1-\pi}(x).$$ It is negative since we want to find the next location which
+maximizes the acquisition function. Choosing a confidence level close to 1, i.e. $\pi \approx 1$ yields
+exploration, as seen in figure \ref{Different_AQ_functions}. For a Gaussian predictive distribution
+this the lower confidence bound is simply given as, 
+$$LCB(x) = - (\mu_x - \beta \sigma_x)$$
+where $\beta = \Phi^{-1}(\pi)$. 
 % \begin{figure}[H]
 %     \centering
 %     \includegraphics[width=\textwidth]{Pictures/neg_lower_confidence_illustration.pdf}
@@ -275,20 +283,43 @@ where $\beta = \Phi^{-1}(1-\pi)$.
 % \end{figure}
 
 \subsection{Entropy search}
+Optimization policies known as policy search utilize information theory to select the next point
+which will provide the most information (i.e useful knowledge) about the objective function. 
+More specifically their acquisition function is \textit{mutual information} \cite[135-140]{bayesoptbook}, 
+\begin{equation}\label{mutualinfo}
+    I(x,y) = \int \int p(x,y) \log \frac{p(x,y)}{p(y)p(x)} dy dx,
+\end{equation}
+which is a measurement of dependency between the random variables. If $x$ and $y$ are independent, then
+$p(x,y) = p(x)p(y)$, i.e. the fraction in \eqref{mutualinfo} becomes 1 and thereby $I(x,y) = 0$. 
 
-<copy> An information theoretic approach
-which accounts for the overall information gain on the optimizer ob-
-tained from a new evaluation has also been presented. This is known
-as informational approach to global optimization (IAGO), and uses en-
-tropy as a measure for information (Villemonteix, Vazquez, and Walter,
-2009).
+
+
+% uncertainty about the objective function over a larger volume. Expected
+% improvement (gure 7.3) and probability of improvement (gure 7.9),
+% on the other hand, are computed only from inspection of the marginal
+% predictive distribution 𝑝(𝑦 | 𝑥, D). As a result, they cannot dierentiate
+% observation locations based on their global impact on our belief.
+
+
+% The reasoning underlying entropy search policies is somewhat different from and more general than the other acquisition functions we
+% have considered thus far, all of which ultimately focus on maximizing
+% the posterior mean function. Although this is a pragmatic concern, it is
+% information-theoretic decision making as a intimately linked to optimization. Information-theoretic experimental
+% model of the scientic method design is instead motivated by an abstract pursuit of knowledge, and may
+% be interpreted as a mathematical formulation of the scientic method.
+
+%One-step lookahead with (either) information gain yields an acquisi function known as mutual
+%information
+
+
 
 \subsection{probability of improvement}
-Probability of improvment is simple and different aqurisition. And is defined as follows, 
-$$PI(x) = \mathbb{P}{p(y|x,\mathcal{D})}(\max(0,y_{\min}-y)>0) = \mathbb{P}{p(y|x,\mathcal{D})}(y<y_{\min})$$ i.e. the
-probability of the prediction is an actually improvement. It does not take the magnitude of the
-improvement into consideration (as Expected improvement). It rather just if there is an improvement
-or not. In the case of a Gaussian predictive probability it is given on closed form
+Probability of improvment acquisitionfunction is defined as follows, 
+$$PI(x) = \mathbb{P}{p(y|x,\mathcal{D})}(\max(0,y_{\min}-y)>0) =
+\mathbb{P}{p(y|x,\mathcal{D})}(y<y_{\min})$$ i.e. the probability of the prediction is an actually
+improvement. It does not take the magnitude of the improvement into consideration (as Expected
+improvement). It rather just if there is an improvement or not. In the case of a Gaussian predictive
+probability it is given on closed form
 $$PI(x) = \Phi·\left(\frac{y_{\min}-\mu_x}{\sigma_x}\right)$$
 where $p(y|x\mathcal{D}) =\mathcal{N}(y|\mu_x,\sigma_x^2) =\mu_x + \sigma_x\cdot\mathcal{N}(y|0,1)$
 

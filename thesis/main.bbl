@@ -596,8 +596,8 @@
       \strng{authorbibnamehash}{cc6819194087111c0aa1995a77f6dc32}
       \strng{authornamehash}{cc6819194087111c0aa1995a77f6dc32}
       \strng{authorfullhash}{cc6819194087111c0aa1995a77f6dc32}
-      \field{sortinit}{2}
-      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
+      \field{sortinit}{3}
+      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Journal of Open Source Software}
@@ -664,8 +664,8 @@
       \strng{authorbibnamehash}{0e538e9999df2db587ccf2679d4fc124}
       \strng{authornamehash}{0e538e9999df2db587ccf2679d4fc124}
       \strng{authorfullhash}{86786aa57dfc7a239799c2e82f2870c0}
-      \field{sortinit}{2}
-      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
+      \field{sortinit}{3}
+      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{Probabilistic Deep Learning using Random Sum-Product Networks}

@@ -1,7 +1,10 @@
 
 from cProfile import label
 import os
+from tkinter import Y
 import numpy as np
+import pandas as pd
+
 main_data_folder = "/home/simon/Documents/MasterThesis/master-thesis/exdata"
 
 folder_name = "/home/simon/Documents/MasterThesis/master-thesis/exdata/BO_40_empirical_mean_and_std_regression-002"
@@ -29,6 +32,49 @@ def get_optimization_history(coco_folder):
                                            "F/best_f":F/abs(best_f) }
 
     return data
+
+def get_problem_name(file):
+    problem = file[:5]
+    if problem == "Test3":
+        if file[:6] == "Test3b":
+            problem = "Test3b"
+    return problem
+    
+def get_optimization_history_TESTs(sklearn_folder, model="BNN"):
+    data = dict()
+    #sklearn_folder = f"{main_data_folder}/{sklearn_folder}"
+    sklearn_folder = f"{sklearn_folder}"
+
+    for root, dirs, files in os.walk(sklearn_folder):
+        for file in files:
+            if model not in file:
+                continue
+            if file.endswith(".txt"):
+                problem_name = get_problem_name(file)
+                seed = root.split("_")[-1]
+                dat = np.loadtxt(root+"/"+file)
+                y_data = dat[:,1]
+                y_min = 1000000.
+                Y = []
+                for y in y_data:
+
+                    if y<y_min:
+                        y_min = y
+                    Y.append(y_min)
+                name = problem_name+"_"+seed
+                data[name] ={"iter": list(range(1,len(y_data)+1)), "Y": Y }
+    
+    return data
+
+def get_mean_of_data(data, problem="Test3"):
+    data_df = pd.DataFrame(index = list(range(1,36)))
+    for problem_name,dat in data.items():
+        if problem == problem_name.split("_")[0]:
+            data_series = pd.Series(data=dat["Y"], index=dat["iter"])
+            data_df[problem_name]= data_series
+    return data_df
+
+
 
 
 def plot_optimization_path(ax, problem,dim, folder_name, end_iter=40, alpha = 0.2):
@@ -66,7 +112,6 @@ def plot_multiple_paths_for_model(problem,dim, folder_names= None,search_name = 
     plt.show()
 
 
-import pandas as pd
 def plot_means(ax,problem,dim, folder_names=None, search_name = None, color = "blue", modelname = ""):
     if folder_names is None:
         folder_names = get_folders_of_similar_BO_runs(search_name)
@@ -83,11 +128,21 @@ def plot_means(ax,problem,dim, folder_names=None, search_name = None, color = "b
         #data_list.append(data)
     try:
         data_df = data_df.ffill()
-        data_df.plot(ax=ax,alpha = 0.4, color=color)#,  legend = False)
+        #data_df.plot(ax=ax,alpha = 0.4, color=color)#,  legend = False)
         means = data_df.mean(axis=1)
         ax.plot(means.index,means.values,lw=3, color = color, label=f"{modelname}")
     except:
         print(f"couldn't get data from {modelname} for {problem_dim}")
+
+def plot_means_TESTs(ax,data_model,problem="Test3", color = "blue", modelname = ""):
+    data_df = get_mean_of_data(data_model, problem=problem)
+    try:
+        #data_df = data_df.ffill()
+        #data_df.plot(ax=ax,alpha = 0.4, color=color)#,  legend = False)
+        means = data_df.mean(axis=1)
+        ax.plot(means.index,means.values,lw=3, color = color, label=f"{modelname}")
+    except:
+        print(f"couldn't get data from {modelname} for {problem}")
 
 
 def get_folders_of_similar_BO_runs(search_name):
@@ -128,13 +183,56 @@ def plot_optimization_paths(ax, problem,dim):
     ax.set_xlabel("Budget")
     ax.set_ylabel("rel error")
 
+def plot_optimization_paths_TESTs(ax, problem):
+    data_BNN = get_optimization_history_TESTs(sklearn_folder, model = "BNN")
+    data_SPN = get_optimization_history_TESTs(sklearn_folder, model = "SPN")
+    data_GP = get_optimization_history_TESTs(sklearn_folder, model = "GP")
+    data_KDE = get_optimization_history_TESTs(sklearn_folder, model = "KDE")
+    data_GMR = get_optimization_history_TESTs(sklearn_folder, model = "GMR")
+    data_BOHAMIANN = get_optimization_history_TESTs(sklearn_folder, model = "BOHAMIANN")
+
+    
+    
+    plot_means_TESTs(ax,data_BNN,problem, modelname = "BNN")
+    plot_means_TESTs(ax,data_SPN,problem,color = "cyan" ,modelname = "SPN")
+    plot_means_TESTs(ax,data_GP,problem, color = "red", modelname = "Gaussian Process")
+    plot_means_TESTs(ax,data_KDE,problem, color = "green", modelname = "KDE")
+    plot_means_TESTs(ax,data_GMR,problem, color = "orange", modelname = "GMR")
+    plot_means_TESTs(ax,data_BOHAMIANN,problem, color = "yellow", modelname = "BOHAMIANN")
+    # plot_means_TESTs(ax,model_data,problem,folder_names_BNN, color = "orange", modelname = "BNN")
+    # plot_means_TESTs(ax,model_data,problem,folder_names_KernelEstiamtor, color = "yellow", modelname = "Naive GMR")
+    #ax.set_yscale('log')
+    # handles, labels = plt.gca().get_legend_handles_labels()
+    # by_label = dict(zip(labels, handles))
+    # for name in all_folders:
+    #     try:
+    #         by_label.pop(name)
+    #     except:
+    #         print(f"No data for {name}")
+    # ax.legend(by_label.values(), by_label.keys())
+    ax.legend()
+    ax.set_title(problem)
+    ax.set_xlabel("Budget")
+    ax.set_ylabel("y_min")
+
+
+
 
 import matplotlib.pyplot as plt
 if __name__ == "__main__":
     
-    # data = get_optimization_history(folder_name)
-    # print(data)
-    # plot_optimization_path(ax,1,2,folder_name)
+    
+    sklearn_folder = "/home/simon/Documents/MasterThesis/master-thesis/bayes_opt_experiments/1D_figures_cluster"
+    data = get_optimization_history_TESTs(sklearn_folder)
+    print(data)
+    get_mean_of_data(data)
+    #plot_optimization_path(ax,1,2,folder_name)
+    for problem in ["Test1","Test2","Test3","Test4","Test3b"]:
+        fig, ax = plt.subplots()
+        plot_optimization_paths_TESTs(ax, problem)
+        plt.show()
+    ## COCO ##
+    
     for problem in list(range(1,25)):
         #fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, sharex="all")
         #for ax,dim in zip([ax1,ax2,ax3,ax4],[3,5,10,2]):
