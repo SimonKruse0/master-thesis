@@ -17,7 +17,7 @@
 %   1.  state the general topic and give some background
 %   2.  provide a review of the literature related to the topic
 %   3.  define the terms and scope of the topic
-Optimization plays an important part in our everyday life, science development, product design, and
+Optimization plays an important role in our everyday life, science development, product design, and
 much more. Examples of optimization could be choosing the optimal way to commute from A to B,
 deciding what songs should land on your playlist, or constructing the strongest possible bridge
 using limited material. In general, optimization is the methodology of choosing the best decision
@@ -75,9 +75,9 @@ and computation of these more complex GPs can be significantly challenging \cite
     \qquad
     \subfloat{{\includegraphics[trim=0.1cm 0.3cm 0.2cm 0.2cm,clip,width=0.46\textwidth]{Pictures/GP_vs_BNN2.pdf} }}%
     \caption{Gaussian process (GP) and Bayesian neural network (BNN) fitted to 18 data points. The objective function is the
-    dashed black line. This examplifies how a discontinuerity makes the standard implemented GP
+    dashed black line. This examplifies how a discontinuity makes the standard implemented GP
     (optimized with emperical Bayes) overreact to all other areas in the domain $[0,1]$, while the
-    Bayesian NN only express uncertainty where the discontinuerity happens at $x =
+    Bayesian NN only express uncertainty where the discontinuity happens at $x =
     0.5$}\label{GP_vs_BNN}
 \end{figure}
 
@@ -91,19 +91,19 @@ and computation of these more complex GPs can be significantly challenging \cite
 %   11. outline the methodology
 
 GPs are attractive models since they allow for exact inference, a closed-form expected improvement
- (see Section \ref{ExactEI}) and, in general, give a good uncertainty quantification. However, as we
- saw in the figure \ref{GP_vs_BNN} we can maybe do better - especially if we have some insights into
- the behavior of the objective function (i.e. yielding a more transparent black-box optimization
- problem). A better surrogate model ultimately implies fewer samples to reach an optimal solution,
- and can, thereby, potentially save work hours, lots of money, or energy (depending on what makes
- the objective function expensive).  Therefore, the investigation of the performance of other
- surrogate models is highly relevant. In this thesis, we aim to create surrogate models alternative
- to GPs, which can perform better on certain classes of (complex) problems, and just as well on most
- classes of problems. 
+ (see Section \ref{ExactEI}) and, in general, provide a satisfying uncertainty quantification.
+ However, as we saw in the figure \ref{GP_vs_BNN} we can maybe do better - especially if we have
+ some insights into the behavior of the objective function (i.e. yielding a more transparent
+ black-box optimization problem). A better surrogate model ultimately implies fewer samples to reach
+ an optimal solution, and can, thereby, potentially save work hours, lots of money, or energy
+ (depending on what makes the objective function expensive).  Therefore, the investigation of the
+ performance of other surrogate models is highly relevant. In this thesis, we aim to create
+ surrogate models alternative to GPs, which can perform better on certain classes of (complex)
+ problems, and have comparable performance on most classes of problems. 
 
  \section{Project limitation}
-Even though, it would be interesting to also look at different types of GPs such as deep kernel
-learning, we limit the scope of the project to deal with the following surrogate models:
+Even though, it would be interesting to also examine different types of GPs such as deep kernel
+learning, we limit the scope of this project to deal with the following surrogate models:
 \begin{itemize}[noitemsep]
     \item GP with Matérn kernel
     \item Bayesian neural network
@@ -125,9 +125,9 @@ and mixture regression. The proposed hypotheses are,
 \end{enumerate}
 
 
-Note what is meant by performance is \textit{sample efficiency}, i.e., how few evaluations/samples
+Note that we here use "performance" to describe \textit{sample efficiency}, i.e., how few evaluations/samples
 of the objective function are necessary to find the minima. So here it is assumed that the objective
-function is so expensive (whatever that means to the stakeholder) that its cost outweigh the power
+function is so expensive (whatever that means to the stakeholder) that its cost outweighs the power
 and time spend on the surrogate modeling and optimization.
 
 
@@ -156,7 +156,7 @@ Since inference time of the GP scales cubic with the number of samples, often re
 alternative surrogate models have its primary focus on lowering the computational complexity of
 inference while showing the sample efficiency is (or almost is) as good as the GPs. A popular model
 in the current time is a (deep) neural network and using a neural network as a probabilistic
-surrogate model (i.e. Bayesian Neural Network \cite{BOHAMIANN} or as basisfunctions in linear
+surrogate model (i.e. Bayesian Neural Network \cite{BOHAMIANN} or as basis functions in linear
 regression \cite{DNGO}) yields only linear complexity. However, as mentioned above, this thesis
 assumes that the objective function is always more costly than the inference cost. And cubic
 complexity for a GP does not matter for the small number of samples, which is often the case for
@@ -178,18 +178,19 @@ Active learning is closely related to Bayesian Optimization, but here the focus 
 underlying function using as few samples as possible instead of just finding its minima. In active
 learning, a Gaussian process is also very common, but the paper "Active Learning with Statistical
 Models" \cite{ALStatisticalModels} investigates using Gaussian mixtures and kernel estimator in
-active learning, i.e. as a surrogate model for selecting the next samples. These are regression
-models not seen much in the literature, which is modeling the joint distribution of x and y, and
+active learning, i.e. as a surrogate model for selecting the next samples. These regression
+models are not seen much in the literature; They are modeling the joint distribution of x and y, and
 using the conditional distribution $p(y|x)$ as the regression model. The results were ... ??
 
-\section{Structure of the thesis}
-The structure of the thesis is first to build up the foundation around Bayesian optimization, then
+\section{Structure of this thesis}
+The structure of this thesis is first to build up the foundation around Bayesian optimization, then
 present different surrogate/Bayesian regression models, and then results on different types of
-problems are shown first on Bayesian regression and next on Bayesian optimization. Finally, a discussion and conclusion. 
+problems are shown first on Bayesian regression and next on Bayesian optimization. Finally, a
+discussion and conclusion are presented. 
 
 \begin{enumerate}[noitemsep]
-    \item \textbf{Introduction to Bayesian optimization}, first by establishing its relevance as a
-    sample-efficient solver, next by understanding its components: An acquisition function and a 
+    \item \textbf{Introduction to Bayesian optimization}: First we establish the relevance for BO as a
+    sample-efficient solver. Secondly, we explain the components of BO: An acquisition function and a 
     surrogate/Bayesian regression model.
     \item \textbf{Discriminative models as surrogates}: Gaussian processes and Bayesian neural
     networks are presented and discussed in terms of inference procedures and regression performance. 
@@ -212,7 +213,7 @@ problems are shown first on Bayesian regression and next on Bayesian optimizatio
 
 
 \section{Notation}
-Following is the general notation used in the thesis, but some chapters (e.g. about GPs) will alter the notation a bit. 
+Following is the general notation used in this thesis, but some chapters (e.g. about GPs) will alter the notation a bit. 
 \begin{itemize}[noitemsep]
     \item $y$: Observation or sample at a given $x$.
     \item $x \in \mathcal{X}$: Location or point in the sample space.
