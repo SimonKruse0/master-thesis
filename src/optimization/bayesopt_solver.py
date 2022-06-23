@@ -413,7 +413,7 @@ class PlotBayesOpt1D(BayesOptSolver_sklearn):
             ax1.legend(loc=2)
         
         self.plot_train_data(ax1, self._X[:-1],self._Y[:-1], size =10)
-        ax1.set_title(f"{self.model.name}")
+        ax1.set_title(f"{self.model.name}({self.model.params})")
         
         self.plot_acquisition_function(ax2)
 

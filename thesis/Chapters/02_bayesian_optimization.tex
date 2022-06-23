@@ -137,10 +137,10 @@ to make it focus more on exploration.
      \begin{minipage}[b]{0.32\textwidth}
         \includegraphics[trim=0.2cm 0.2cm 0cm 0.1cm,clip,width=\textwidth]{Pictures/neg_lower_confidence_illustration_3.pdf}
       \end{minipage}
-    \caption{Contourplot of expected improvement and lower confidence bound (for two different
-    quantiles) for different (Gaussian) predictive uncertainties $\sigma_x =
+    \caption{Contourplot of expected improvement (EI) and lower confidence bound (LCB) for two different
+    quantiles for different (Gaussian) predictive uncertainties $\sigma_x =
     \sqrt{\mathbb{V}ar_{p(y|x,\mathcal{D})y]}}$ versus the average improvement $y_{\min}-\mu_x$,
-    where $\mu_x = E_{p(y|x,\mathcal{D})}[y]$ (high values are dark). The colored lines are the
+    where $\mu_x = E_{p(y|x,\mathcal{D})}[y]$. Darker colors indicates higher values. The colored lines are the
     mapping $x \mapsto (\sigma_x, y_{\min}-\mu_x)$ for $x = [-100, 100]$ for the Bayesian regression
     function in Figure \ref{Different_AQ_functions} - and thereby explains how the acquisition
     functions balances exploitation and exploration. The orange dot represent the point maximizing
@@ -284,7 +284,13 @@ tropy as a measure for information (Villemonteix, Vazquez, and Walter,
 2009).
 
 \subsection{probability of improvement}
-
+Probability of improvment is simple and different aqurisition. And is defined as follows, 
+$$PI(x) = \mathbb{P}{p(y|x,\mathcal{D})}(\max(0,y_{\min}-y)>0) = \mathbb{P}{p(y|x,\mathcal{D})}(y<y_{\min})$$ i.e. the
+probability of the prediction is an actually improvement. It does not take the magnitude of the
+improvement into consideration (as Expected improvement). It rather just if there is an improvement
+or not. In the case of a Gaussian predictive probability it is given on closed form
+$$PI(x) = \Phi·\left(\frac{y_{\min}-\mu_x}{\sigma_x}\right)$$
+where $p(y|x\mathcal{D}) =\mathcal{N}(y|\mu_x,\sigma_x^2) =\mu_x + \sigma_x\cdot\mathcal{N}(y|0,1)$
 
 % We then discuss the knowledge
 % gradient (Section 4.2), entropy search, and predictive entropy search (Section 4.3) acquisition functions.

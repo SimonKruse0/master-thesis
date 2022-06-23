@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  23 JUN 2022 10:03
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  23 JUN 2022 11:13
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1557,9 +1557,7 @@ File: Pictures/neg_lower_confidence_illustration_3.pdf Graphic file (type pdf)
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [11] [12]) [13] [14
-
-] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_04_discriminative_surrogates.tex
+ [11] [12] [13]) [14] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_04_discriminative_surrogates.tex
 Chapter 3.
 (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_gaussian_process_regression.tex
 Overfull \hbox (17.20857pt too wide) in paragraph at lines 5--12
@@ -1567,6 +1565,7 @@ Overfull \hbox (17.20857pt too wide) in paragraph at lines 5--12
  []
 
 [15
+
 
 ]
 File: Pictures/GP_samples_mattern.pdf Graphic file (type pdf)
@@ -1972,10 +1971,10 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 Here is how much of TeX's memory you used:
  57440 strings out of 481731
  1362486 string characters out of 5935437
- 2310929 words of memory out of 5000000
+ 2310954 words of memory out of 5000000
  73348 multiletter control sequences out of 15000+600000
  551917 words of font info for 141 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  82i,21n,138p,2818b,4693s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (66 pages, 1205432 bytes).
+Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (66 pages, 1210220 bytes).
