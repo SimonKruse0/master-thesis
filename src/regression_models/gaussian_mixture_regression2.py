@@ -160,7 +160,7 @@ class GMRegression(BaseEstimator):
                     prior_weight = 1,
                     opt_n_iter  =40, opt_cv = 10,
                     train_epochs = 1000, 
-                    sig_prior = 1.2,
+                    sig_prior = 10,
                     extra_name=""):
         self.model = None
         self.name = f"GMR-{extra_name}"

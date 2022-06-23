@@ -41,7 +41,7 @@ class SumProductNetworkRegression(BaseEstimator):
                 beta0_x = 1,beta0_y = 1, 
                 n_trainings = 2,
                 prior_weight = 1,
-                sig_prior = 1.1,
+                sig_prior = 10,
                 optimize=False, opt_n_iter  =40, opt_cv = 3,
                 predictive_score = False, extra_name=""):
         self.epochs = train_epochs
