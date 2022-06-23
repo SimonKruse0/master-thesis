@@ -140,13 +140,21 @@ the obtained data into its decision and, thereby, faster discovers the minimum.
 \end{figure}
 
 \subsection{Exploitation and exploration}
-The balance between an optimization procedure's local/exploitation and global/exploration elements
-is key to its performance (statement in thesis \cite{PhDthesis} ok?). Explained here:
+A carefully balanced exploration and exploitation trade-off is key to effective 
+global optimization \cite[11]{bayesoptbook}. These can also be referred to as 
+local search and global search,
 \begin{enumerate}
-    \item Local element: Exploiting the obtained information $\mathcal{D}$ to find the best point
-    \item Global element: Obtaining new information about the characteristics of the objective
-    function.
-\end{enumerate}
+    \item Local search: Exploiting the obtained information $\mathcal{D}$ to find the best point,
+    i.e. sampling in areas where the objective function is expected to be low. 
+    \item Global search: Obtaining new information about the characteristics of the objective
+    function i.e. improve $\mathcal{D}$ for future decisions.
+\end{enumerate} 
+% However, all notable acquisition
+% functions address the classic tension between exploitation – sampling
+% where the objective function is expected to be high – and exploration –
+% sampling where we are uncertain about the objective function to inform
+% future decisions. These opposing concerns must be carefully balanced
+% for eective global optimization.
 Essentially, the only explorative phase of the deterministic surrogate optimization is the first
 initial samples from the objective, i.e. when creating the initial $\mathcal{D}$. If done poorly,
 the optimization might get stuck in a local minimum. This is a consequence of their nonexisting
@@ -214,7 +222,7 @@ as it defines a Bayesian regression model over the observations.
     optimization, it is not possible right away to find the minima in the cheap
     surrogate model; first, we need to interpret the meaning of minima in a probabilistic
     regression model. This interpretation is done through a so-called acquisition
-    function (AQ) - more about this later. The policy is as following,
+    function (AQ) - more about this later. The policy is as follows,
     $$\text{policy}_{BO}(\mathcal{D}) = \max_x AQ(p(y|x,\mathcal{D}))$$
 
     \begin{figure}[H]

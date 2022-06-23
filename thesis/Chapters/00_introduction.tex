@@ -153,7 +153,7 @@ research we found,
 \end{itemize}
 
 Since inference time of the GP scales cubic with the number of samples, often research in
-alternative surrogate models have its primary focus on lowering the computational complexity of
+alternative surrogate models has its primary focus on lowering the computational complexity of
 inference while showing the sample efficiency is (or almost is) as good as the GPs. A popular model
 in the current time is a (deep) neural network and using a neural network as a probabilistic
 surrogate model (i.e. Bayesian Neural Network \cite{BOHAMIANN} or as basis functions in linear
@@ -167,7 +167,7 @@ Neural Networks" from 2020 \cite{PhDthesis}, but his chapter 3 showcases empiric
 neural networks as surrogate models performed better, or at least comparable to GPs on a wide number
 of problems. The performance difference was more evident for high-dimensional problems.
 
-The 2021 nature paper "Bayesian optimization with adaptive surrogate models for automated experimental design"
+The 2021 paper "Bayesian optimization with adaptive surrogate models for automated experimental design"
 \cite{Nature_BO_paper}, focus on the sample efficiency of the BO applied to autonomous materials discovery, 
 which yields a relatively high-dimensional design space and non-smooth patterns of objective functions.  
 The paper shows that using Bayesian multivariate adaptive regression splines
@@ -183,22 +183,25 @@ models are not seen much in the literature; They are modeling the joint distribu
 using the conditional distribution $p(y|x)$ as the regression model. The results were ... ??
 
 \section{Structure of this thesis}
-The structure of this thesis is first to build up the foundation around Bayesian optimization, then
-present different surrogate/Bayesian regression models, and then results on different types of
-problems are shown first on Bayesian regression and next on Bayesian optimization. Finally, a
-discussion and conclusion are presented. 
+The structure of this thesis is as follows: Firstly, build up the foundation around Bayesian
+optimization. Secondly, present different surrogate/Bayesian regression models. Thirdly, show the
+results on different types of problems on Bayesian regression performance and on Bayesian
+optimization performance. Finally, a discussion and conclusion are presented. In more detail the different
+chapters are, 
 
 \begin{enumerate}[noitemsep]
-    \item \textbf{Introduction to Bayesian optimization}: First we establish the relevance for BO as a
-    sample-efficient solver. Secondly, we explain the components of BO: An acquisition function and a 
-    surrogate/Bayesian regression model.
-    \item \textbf{Discriminative models as surrogates}: Gaussian processes and Bayesian neural
+    \item \textbf{Introduction}
+    \item \textbf{Bayesian optimization}: First we establish the relevance for BO as a
+    sample-efficient solver. Secondly, we explain the two components of BO: A 
+    surrogate/Bayesian regression model and an acquisition function.
+    \item \textbf{Discriminative models surrogates}: Gaussian processes and Bayesian neural
     networks are presented and discussed in terms of inference procedures and regression performance. 
-    \item \textbf{Generative(/mixture) models as surrogates}: Since the mixture models are not 
+    \item \textbf{Generative models as surrogates}: Since the mixture models are not 
     inherently Bayesian, we present the conditional distribution in a Bayesian setting. 
     Next, the three different mixture regression models are presented: Kernel density regression, Gaussian mixture regression,
     and the novel (in a regression setting) Sum-product networks.
-    \item \textbf{Results} on regression performance and on Bayesian Optimization performance (sample-efficiency)
+    \item \textbf{Results}: Testing regression and Bayesian Optimization performance
+    (sample-efficiency) on 4 homemade test functions and the popular benchmark COCO.
     \item \textbf{Discussion} and \textbf{conclusion}
 \end{enumerate}
 
@@ -215,7 +218,8 @@ discussion and conclusion are presented.
 \section{Notation}
 Following is the general notation used in this thesis, but some chapters (e.g. about GPs) will alter the notation a bit. 
 \begin{itemize}[noitemsep]
-    \item $y$: Observation or sample at a given $x$.
+    \item $y \in \mathbb{R}$: Observation or sample of $f(x)$ (potentially with noise).
+    \item $f(\cdot): \mathcal{X} \rightarrow \mathbb{R}$: Objective function.
     \item $x \in \mathcal{X}$: Location or point in the sample space.
     \item $\textbf{x}$: Set of location or points in the sample space.
     \item $\textbf{y}$: Set of observations or samples for corresponding $\textbf{x}$.
@@ -223,22 +227,29 @@ Following is the general notation used in this thesis, but some chapters (e.g. a
     \item $\mathcal{N}(x|\mu, \Sigma)$: The density of a normal distribution evaluated in $x$.
     \item \textit{optimization landscape}: joint set of points in the domain and the objective function
     evaluated in the points, i.e. $\{(x,f(x))\in \mathcal{X} \times \mathbb{R}| x \in \mathcal{X}\}$.
+    \item $y \sim p(y)$: A realization of $y$ with the density $p(y)$
 \end{itemize}
 
 \subsection{Bayesian notation}
 Throughout this thesis we will be using Bayesian notation, i.e. $p(x) := P(X=x)$ is the probability
 density function of the random variable $X$ evaluated in $x$. and $p(y|x) := P(Y=y|X=x)$ or $p(y|x)
-:= P(Y|X=x)$. And writing $p(y^2|x)$ means $P(Y^2=y^2|X=x)$ and \textbf{not} $P(Y=y^2|X=x)$
+:= P(Y|X=x)$. And writing $p(y^2|x)$ means $P(Y^2=y^2|X=x)$ and \textbf{not} $P(Y=y^2|X=x)$. 
+Another noteable notation is the expecation of $g(y)$ with respect to the preditive distribution 
+$$E_{p(y|x,\mathcal{D})}[g(y)] = \int g(y) p(y|x,\mathcal{D}) dy.$$
+% \begin{itemize}[noitemsep]
+%     \item Expecation of $g(y)$ with respect to the preditive distribution, $E_{p(y|x,\mathcal{D})}[g(y)] = \int g(y) p(y|x,\mathcal{D}) dy.$
+%     \item Predictive variance,$V_{p(y|x,\mathcal{D})}[y] = E_{p(y|x,\mathcal{D})}[y^2]-E_{p(y|x,\mathcal{D})}[y]^2.$
+% \end{itemize}
+% \begin{align*}
+%     &E_{p(y|x,\mathcal{D})}[g(y)] = \int g(y) p(y|x,\mathcal{D}) dy &:&\text{Expecation of $g(y)$ w.r.t. the preditive distribution}\\
+%     &V_{p(y|x,\mathcal{D})}[y] = E_{p(y|x,\mathcal{D})}[y^2]-E_{p(y|x,\mathcal{D})}[y]^2 &:&\text{Predictive variance}
+% \end{align*}
 
-
-
-
-
-We will refer to $y$ as an observation or sample at a given location or point $x$. This terminology will fit into the intuitive
-way of understanding an optimization problem as a (high dimensional) \textit{landscape}, 
-where the objective function is the altitude in the landscape. 
-We refer to \textit{optimization landscape} as the joint set of points in the domain and the objective function
-evaluated in the points, i.e. $\{(x,f(x))\in \mathcal{X} \times \mathbb{R}| x \in \mathcal{X}\}$. Since
-the evaluation of $f(\cdot)$ might be noisy or inprecise, we just observe $y = observe(x)$. The typical
-connection between $f(x)$ and $y$ are $y = f(x)$ or $y = f(x) + \epsilon$, where $\epsilon$ is additive white noise, 
-but different connections might be present as well. 
+% We will refer to $y$ as an observation or sample at a given location or point $x$. This terminology will fit into the intuitive
+% way of understanding an optimization problem as a (high dimensional) \textit{landscape}, 
+% where the objective function is the altitude in the landscape. 
+% We refer to \textit{optimization landscape} as the joint set of points in the domain and the objective function
+% evaluated in the points, i.e. $\{(x,f(x))\in \mathcal{X} \times \mathbb{R}| x \in \mathcal{X}\}$. Since
+% the evaluation of $f(\cdot)$ might be noisy or inprecise, we just observe $y = observe(x)$. The typical
+% connection between $f(x)$ and $y$ are $y = f(x)$ or $y = f(x) + \epsilon$, where $\epsilon$ is additive white noise, 
+% but different connections might be present as well. 

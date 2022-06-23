@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  23 JUN 2022 22:38
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  24 JUN 2022 00:37
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1520,12 +1520,7 @@ File: Pictures/GP_vs_BNN2.pdf Graphic file (type pdf)
 <use Pictures/GP_vs_BNN2.pdf>
 [1
 
-] [2]
-Overfull \hbox (1.36635pt too wide) in paragraph at lines 192--195
-[]\TU/TimesNewRoman(0)/b/n/10.95 Introduction to Bayesian optimization\TU/TimesNewRoman(0)/m/n/10.95 : First we establish the relevance for BO as a sample-
- []
-
-[3]) [4] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/02_bayesian_optimization.tex
+] [2] [3]) [4] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/02_bayesian_optimization.tex
 Chapter 2.
 (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/01_optimization.tex
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 35.
@@ -1541,7 +1536,7 @@ File: Pictures/BO_vs_Grid1.eps Graphic file (type eps)
 File: Pictures/BO_example.pdf Graphic file (type pdf)
 <use Pictures/BO_example.pdf>
 
-Underfull \hbox (badness 2680) in paragraph at lines 228--228
+Underfull \hbox (badness 2680) in paragraph at lines 236--236
 \TU/TimesNewRoman(0)/m/n/10.95 ange arrow, i.e. the lo-
  []
 
@@ -1971,10 +1966,10 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 Here is how much of TeX's memory you used:
  57442 strings out of 481731
  1362515 string characters out of 5935437
- 2311039 words of memory out of 5000000
+ 2311037 words of memory out of 5000000
  73350 multiletter control sequences out of 15000+600000
  551917 words of font info for 141 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  82i,21n,138p,2818b,4693s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (66 pages, 1218416 bytes).
+Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (66 pages, 1216636 bytes).
