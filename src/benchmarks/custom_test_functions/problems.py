@@ -71,6 +71,34 @@ class Test2(GeneralSetup):
         else:
             return result[0]
 
+class Test3c(GeneralSetup):
+    def objective_function(self,x):
+        x = x/200 + 0.5 #(0,1)
+        self.nfev += 1
+        gap = (np.sign(x-0.5) + 1)
+        intercept = 150
+        result = 50 * gap +np.sin(100*x)*10 + intercept + (30-90*gap-10*x+20*max(0,x-0.75))*np.random.randint(2)
+        if result.ndim == 0:
+            return result
+        else:
+            return result[0]
+
+    def plot_objectiv_function(self,x, nr=1):
+        x = x/200 + 0.5
+        self.nfev += 1
+        gap = (np.sign(x-0.5) + 1)
+        intercept = 150
+        result = 50 * gap +np.sin(100*x)*10 + intercept + (30-90*gap-10*x+20*max(0,x-0.75))*(nr%2)
+        if x >= 0.5 and nr<2:
+            return np.nan
+        if x <= 0.5 and nr>=2:
+            return np.nan
+
+        if result.ndim == 0:
+            return result
+        else:
+            return result[0]
+
 class Test3b(GeneralSetup):
     def objective_function(self,x):
         x = x/200 + 0.5
@@ -122,6 +150,17 @@ class Test3(GeneralSetup):
         if x <= 0.5 and nr>=2:
             return np.nan
 
+        if result.ndim == 0:
+            return result
+        else:
+            return result[0]
+
+class Test4c(GeneralSetup):
+
+    def objective_function(self,x):
+        x = x/100 # in [-1,1]
+        angle_speed = 50*min(max(0,(1+x)**2), 3)
+        result = max(0,200*(x-0.85))+ 50*(-x**2) + 200 + max(10,abs(x*50))*sin(angle_speed*x)
         if result.ndim == 0:
             return result
         else:
