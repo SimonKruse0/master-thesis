@@ -127,6 +127,17 @@ class Test3(GeneralSetup):
         else:
             return result[0]
 
+class Test4b(GeneralSetup):
+
+    def objective_function(self,x):
+        x = x/100 # in [-1,1]
+        angle_speed = 50*min(max(0,(1+x)**2), 3)
+        result =  50*(-x**2) + 200 + max(10,abs(x*50))*sin(angle_speed*x)
+        if result.ndim == 0:
+            return result
+        else:
+            return result[0]
+
 class Test4(GeneralSetup):
 
     def objective_function(self,x):

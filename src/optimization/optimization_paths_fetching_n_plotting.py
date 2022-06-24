@@ -40,7 +40,7 @@ def get_problem_name(file):
             problem = "Test3b"
     return problem
     
-def get_optimization_history_TESTs(sklearn_folder, model="BNN"):
+def get_optimization_history_TESTs(sklearn_folder, model="BNN", extra= ""):
     data = dict()
     #sklearn_folder = f"{main_data_folder}/{sklearn_folder}"
     sklearn_folder = f"{sklearn_folder}"
@@ -48,6 +48,9 @@ def get_optimization_history_TESTs(sklearn_folder, model="BNN"):
     for root, dirs, files in os.walk(sklearn_folder):
         for file in files:
             if model not in file:
+                continue
+            if extra not in root:
+            #if extra in root:
                 continue
             if file.endswith(".txt"):
                 problem_name = get_problem_name(file)
@@ -183,13 +186,17 @@ def plot_optimization_paths(ax, problem,dim):
     ax.set_xlabel("Budget")
     ax.set_ylabel("rel error")
 
-def plot_optimization_paths_TESTs(ax, problem):
-    data_BNN = get_optimization_history_TESTs(sklearn_folder, model = "BNN")
-    data_SPN = get_optimization_history_TESTs(sklearn_folder, model = "SPN")
-    data_GP = get_optimization_history_TESTs(sklearn_folder, model = "GP")
-    data_KDE = get_optimization_history_TESTs(sklearn_folder, model = "KDE")
-    data_GMR = get_optimization_history_TESTs(sklearn_folder, model = "GMR")
-    data_BOHAMIANN = get_optimization_history_TESTs(sklearn_folder, model = "BOHAMIANN")
+def plot_optimization_paths_TESTs(ax, problem, folder):
+    data_BNN = get_optimization_history_TESTs(folder, model = "BNN")
+    data_GP = get_optimization_history_TESTs(folder, model = "GP")
+    data_BOHAMIANN = get_optimization_history_TESTs(folder, model = "BOHAMIANN")
+    
+    # data_KDE = get_optimization_history_TESTs(folder, model = "KDE", extra="")
+    # data_GMR = get_optimization_history_TESTs(folder, model = "GMR", extra="")
+    # data_SPN = get_optimization_history_TESTs(folder, model = "SPN", extra="")
+    data_KDE = get_optimization_history_TESTs(folder, model = "KDE", extra="sig10_correct")
+    data_GMR = get_optimization_history_TESTs(folder, model = "GMR", extra="sig10_correct")
+    data_SPN = get_optimization_history_TESTs(folder, model = "SPN", extra="sig10_correct")
 
     
     
@@ -229,7 +236,7 @@ if __name__ == "__main__":
     #plot_optimization_path(ax,1,2,folder_name)
     for problem in ["Test1","Test2","Test3","Test4","Test3b"]:
         fig, ax = plt.subplots()
-        plot_optimization_paths_TESTs(ax, problem)
+        plot_optimization_paths_TESTs(ax, problem, sklearn_folder)
         plt.show()
     ## COCO ##
     

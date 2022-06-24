@@ -157,7 +157,7 @@ def _safe_probability_density(norm_factors, exponents):
 class GMRegression(BaseEstimator):
     def __init__(self,optimize=False, manipulate_variance = False, 
                     n_components = 2,
-                    prior_weight = 1,
+                    prior_weight = 1e-6,
                     opt_n_iter  =40, opt_cv = 10,
                     train_epochs = 1000, 
                     sig_prior = 10,
@@ -179,7 +179,7 @@ class GMRegression(BaseEstimator):
         assert Y.ndim == 2
         if self.optimize_hyperparams:
             if X.shape[0] >= 10:
-                self.opt_cv = min(X.shape[0],30)
+                self.opt_cv = min(30,X.shape[0])
                 self._optimize( X, Y, int(self.N * (self.opt_cv-1)/(self.opt_cv)))
                 print("-- Fitted with optimized hyperparams --")
                 return
@@ -206,7 +206,8 @@ class GMRegression(BaseEstimator):
                                     max_iter=self.train_epochs, 
                                     verbose = 0,
                                     tol = 1e-6,
-                                    init_params="kmeans")
+                                    init_params="kmeans", 
+                                    n_init=20)
         gmm_sklearn.fit(XY_train)
 
         self.model = GMM_bayesian(
@@ -325,7 +326,7 @@ def obj_fun(x):
     return 0.5 * (np.sign(x-0.5) + 1)+np.sin(100*x)*0.1
 if __name__ == "__main__":
 
-    N = 200
+    N = 5
     np.random.seed(20) #weird thing happening!
     np.random.seed(1)
     X =  np.random.uniform(0,1,size = (N,1))
@@ -333,7 +334,7 @@ if __name__ == "__main__":
 
 
     if True:
-        GMR = GMRegression(optimize=False, n_components=100)
+        GMR = GMRegression(optimize=False, n_components=3)
         GMR.fit(X,y)
         plt.figure(figsize=(10, 5))
         ax = plt.subplot(111)
@@ -341,7 +342,7 @@ if __name__ == "__main__":
         mu, sd, _ = GMR.predict(x_test_list)
         mu =mu.squeeze()
         plt.plot(x_test_list, mu, color = "red")
-        plt.fill_between(x_test_list, mu-2*sd,mu+2*sd ,color="orange",alpha=0.4)
+        #plt.fill_between(x_test_list, mu-2*sd,mu+2*sd ,color="orange",alpha=0.4)
         ax.scatter(X, y, s=3, color="black")
         ax.set_xlabel("x")
         ax.set_ylabel("y")

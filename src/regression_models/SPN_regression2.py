@@ -37,10 +37,10 @@ class SumProductNetworkRegression(BaseEstimator):
                 tracks=2, channels=20, #channels*dim*tracks components
                 manipulate_variance = False
                 , train_epochs = 1000,
-                alpha0_x=5,alpha0_y=5, 
+                alpha0_x=100,alpha0_y=100, 
                 beta0_x = 1,beta0_y = 1, 
-                n_trainings = 2,
-                prior_weight = 1,
+                n_trainings = 5,
+                prior_weight = 1e-6,
                 sig_prior = 10,
                 optimize=False, opt_n_iter  =40, opt_cv = 3,
                 predictive_score = False, extra_name=""):
@@ -104,7 +104,7 @@ class SumProductNetworkRegression(BaseEstimator):
             model.em_batch_update()
             #print(abs(logp-logp_tmp))
             #if abs(logp-logp_tmp) <1e-7:
-            if abs(logp-logp_tmp) <1e-2:
+            if abs(logp-logp_tmp)/abs(logp_tmp) <1e-3:
                 counter += 1
             else:
                 counter = 0
@@ -119,7 +119,7 @@ class SumProductNetworkRegression(BaseEstimator):
         assert Y.ndim == 2
         if self.optimize_hyperparams:
             if X.shape[0] >= 10:
-                self.opt_cv =min(30,X.shape[0])
+                self.opt_cv = min(30,X.shape[0])
                 self._optimize( X, Y)
                 print("-- Fitted with optimized hyperparams --")
                 return
