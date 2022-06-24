@@ -106,12 +106,13 @@ Assuming same cost pr iterations and for all evaluations, the total optimization
 $$C_{\text{total}} = N_{\text{iter}} \cdot \left[ C_{\text{policy}} + C_{\text{observe}}\right]$$
 
 A sample efficient solver has a large $C_{\text{policy}}$ and a small $N_{\text{iter}}$, which is
-completely opposite for a simple optimization scheme like random search. Choosing the right optimization solver depends highly on $C_{\text{observe}}$.
-For small $C_{\text{observe}}$ it is favorable to find a good trade-off between $N_{\text{iter}}$
-and $C_{\text{policy}}$: In deep learning the solver Adam is very popular, due to its cheap
-but advanced policy \cite{Adam}. This project deals with a dominating observation cost, i.e. the cost of the policy is assumed
-neglectable $C_{\text{observe}}>>C_{\text{policy}}$. So focus is not on finding a cheap policy, but rather
-on improving the number of iterations to reach the minima $N_{\text{iter}}$.
+completely opposite for a simple optimization scheme like random search. Choosing the right
+optimization solver depends highly on $C_{\text{observe}}$. For small $C_{\text{observe}}$ it is
+favorable to find a good trade-off between $N_{\text{iter}}$ and $C_{\text{policy}}$: In deep
+learning the solver Adam is very popular, due to its cheap but advanced policy \cite{Adam}. This
+project deals with a dominating observation cost, i.e. the cost of the policy is assumed neglectable
+$C_{\text{observe}}>>C_{\text{policy}}$. So focus is not on finding a cheap policy, but rather on
+improving the number of iterations to reach the minima $N_{\text{iter}}$.
 
 \begin{testexample}[Surrogate-based optimization]
     %<SVR> <Radial Basis function> <Polynomal model/respons surface>
@@ -141,12 +142,11 @@ the obtained data into its decision and, thereby, faster discovers the minimum.
 
 \subsection{Exploitation and exploration}
 A carefully balanced exploration and exploitation trade-off is key to effective 
-global optimization \cite[11]{bayesoptbook}. These can also be referred to as 
-local search and global search,
+global optimization \cite[11]{bayesoptbook}. They are explained here:
 \begin{enumerate}
-    \item Local search: Exploiting the obtained information $\mathcal{D}$ to find the best point,
+    \item Exploitation: Exploiting the obtained information $\mathcal{D}$ to find the best point,
     i.e. sampling in areas where the objective function is expected to be low. 
-    \item Global search: Obtaining new information about the characteristics of the objective
+    \item Exploration: Obtaining new information about the characteristics of the objective
     function i.e. improve $\mathcal{D}$ for future decisions.
 \end{enumerate} 
 % However, all notable acquisition
@@ -183,7 +183,7 @@ $\text{evaluate}(f(x))$. The observation model is typically noisy and described 
 $$y = f(x)+\epsilon,$$ where $\epsilon$ is the measurement error, this is
 typically assumed to be Gaussian with zero mean and a variance
 $\sigma^2$ (which could depend on $x$ in a heteroskedastic setting) and implies a Gaussian observation model, 
-$$p(y|f(x),\sigma_x^2) = \mathcal{N}(y|f(x),\sigma_x^2)$$ where $f(x)$ is the mean value and
+$$p(y|f(x),\sigma_x^2) = \mathcal{N}(y|f(x),\sigma_x^2),$$ where $f(x)$ is the mean value and
 $\sigma_x^2$ is the variance (with the subscript indicating the potentially dependency on $x$). 
 % (note from now on we define $\phi := f(x)$ in order to avoid confusion and a extra set of paranteses)
 % $$p(y|x,\phi,\sigma) = \mathcal{N}(y;\phi,\sigma^2)$$ 

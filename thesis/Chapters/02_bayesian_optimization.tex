@@ -16,11 +16,6 @@ with a focus on expected improvement and a brief description of the other types.
 % with limited budget>
 
 \section{Bayesian regression}
-% \begin{testexample2}[Bayesian methodology]
-%     In Bayesian statistics $p(\theta|\mathcal{D})$ is the posterior distribution, and it is 
-% of $\theta$ is linked to the likelihood and prior via Bayes rule,
-% $$p(\theta|\mathcal{D}) = \frac{p(\mathcal{D}|\theta)p(\theta)}{p(\mathcal{D})}$$
-% \end{testexample2}
 Whereas traditional regression workflow is the following: Given data, choose the best fitting model
 parameters, make predictions using those parameters. The Bayesian framework allows us to skip the
 dependency of a single set of parameters and instead use \textit{all possible} parameters by treating the set
@@ -34,7 +29,18 @@ where the posterior $p(\theta|\mathcal{D})$ gives weighting to the proposed regr
 $p(y|x,\theta)$. Note that the second equation is true because of the probability chain rule and
 that $y$ is fully described by the parametric model $p(y|x,\theta)$ and the parameters $\theta$ are
 fully described by the posterior distribution $p(\theta|\mathcal{D})$.
-
+\begin{testexample2}[Bayesian methodology]
+    In Bayesian modelling $p(\theta|\mathcal{D})$ is the posterior distribution, and it is linked
+     to the likelihood $p(\mathcal{D}|\theta)$ and prior $p(\theta)$ via Bayes rule,
+    $$p(\theta|\mathcal{D}) = \frac{p(\mathcal{D}|\theta)p(\theta)}{p(\mathcal{D})} \propto p(\mathcal{D}|\theta)p(\theta),$$
+    where the approximation holds since $p(\theta|\mathcal{D})$ is only a function of $\theta$. 
+    In the case of regression, we always condition on $\textbf{x}$, i.e. $\mathcal{D} = \textbf{y}|\textbf{x}$, 
+    more concretely we write, 
+    $$p(\theta| \mathcal{D}) = \frac{p(\textbf{y}|\textbf{x}, \theta)p(\theta|
+    \textbf{x})}{p(\textbf{y}|\textbf{x})} \propto p(\textbf{y}|\textbf{x}, \theta)p(\theta| \textbf{x})$$
+    The modeling task to is to specify a likelihood $p(\textbf{y}|\textbf{x},\theta)$, which encodes how likely the model $\theta$
+    explian the data, and a prior $p(\theta|\textbf{x})$, which encodes our prior belief about the model. 
+\end{testexample2}
 
 \subsection{Surrogate model}
 A surrogate model in a Bayesian optimization setting is a Bayesian regression model. The most
@@ -256,8 +262,12 @@ where $y^{(k)}$ are samples from the predictive distribution.
 
 %\section{uncertainties}
 %Alatoric vs epistemic uncertainties 
+\subsection{Other acquisition functions}
+Expected improvement is just one choice of acquisition function, we now shortly present three different acquisition functions, 
+Lower confidence bound, entropy search (mutual information acquisition) and probability of improvement. As mentioned, we
+only use expected improvement in this thesis.
 
-\subsection{Lower confidense bound}
+\subsubsection{Lower confidence bound}
 Lower confidence bound acquisition function \cite[145]{bayesoptbook}\footnote{
 \cite[145]{bayesoptbook} deals with an maximization problem, and an upper confidence bound
 acquisition function is presented, however, this formulation is equivalent.} is parameterised by a
@@ -282,7 +292,7 @@ where $\beta = \Phi^{-1}(\pi)$.
 %     \label{nLCB_illustration}
 % \end{figure}
 
-\subsection{Entropy search}
+\subsubsection{Entropy search}
 Optimization policies known as policy search utilize information theory to select the next point
 which will provide the most information (i.e useful knowledge) about the objective function. 
 More specifically their acquisition function is \textit{mutual information} \cite[135-140]{bayesoptbook}, 
@@ -313,7 +323,7 @@ $p(x,y) = p(x)p(y)$, i.e. the fraction in \eqref{mutualinfo} becomes 1 and there
 
 
 
-\subsection{probability of improvement}
+\subsubsection{Probability of improvement}
 Probability of improvment acquisitionfunction is defined as follows, 
 $$PI(x) = \mathbb{P}{p(y|x,\mathcal{D})}(\max(0,y_{\min}-y)>0) =
 \mathbb{P}{p(y|x,\mathcal{D})}(y<y_{\min})$$ i.e. the probability of the prediction is an actually
