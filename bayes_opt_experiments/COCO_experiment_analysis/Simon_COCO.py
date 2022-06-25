@@ -79,7 +79,7 @@ for random_seed in range(10): #10 runs
         os.mkdir(path2)
     except:
         pass
-    for reg_model in reg_models[:1]:
+    for reg_model in reg_models:
         try:
             reg_name = reg_model.name[:6]
             path3 = f"{path2}/{reg_name}/"
