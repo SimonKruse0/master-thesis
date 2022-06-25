@@ -6,7 +6,7 @@ from src.regression_models.bohamiann import BOHAMIANN
 from src.regression_models.SPN_regression2 import SumProductNetworkRegression
 from src.regression_models.gaussian_mixture_regression2 import GMRegression
 
-from src.benchmarks.custom_test_functions.problems import Test1,Test2, Test3, Test4b, Test3b
+from src.benchmarks.custom_test_functions.problems import Test1,Test2, Test3, Test4b,Test4c,Test3c, Test3b
 import numpy as np
 import os
 
@@ -27,12 +27,13 @@ reg_models = [GMRegression(optimize=True),
 # import random
 # random.seed()
 # random.shuffle(reg_models)
-problems =  [Test1(),Test2(),Test4b(),Test3b()]
+#problems =  [Test1(),Test2(),Test4b(),Test3b()]
+problems =  [Test4c(),Test3c()]
 DATA_path = "/zhome/17/6/118138/master-thesis/bayes_opt_experiments/1D_figures_cluster"
 #DATA_path = "/home/simon/Documents/MasterThesis/master-thesis/bayes_opt_experiments/1D_figures"
 
-for reg_model in reg_models:
-    for seed in range(20):
+for seed in range(20):
+    for reg_model in reg_models:
         for problem in problems:
             np.random.seed(seed)
             plot_BO = PlotBayesOpt1D(reg_model, problem, acquisition=acquisition,

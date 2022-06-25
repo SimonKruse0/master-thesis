@@ -287,7 +287,8 @@ class RegressionTestBase(PlottingClass2):
             print(n_train)
             self._X = X_train
             self._Y = Y_train
-            self.plot(n_train,output_path)
+            if self.problem_dim==1:
+                self.plot(n_train,output_path)
 
 
         

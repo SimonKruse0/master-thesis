@@ -89,7 +89,7 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
 
     def fit(self, X, Y):
         if self.optimize_hyperparams:
-            if X.shape[0] >= self.opt_cv:
+            if X.shape[0] >= 10:
                 self.opt_cv = min(30,X.shape[0]) #leave one out!!
                 self._optimize( X, Y)
                 print("-- Fitted with optimized hyperparams --")
@@ -117,11 +117,12 @@ class NaiveGMRegression(naive_GMR, BaseEstimator):
             score = -np.mean(abs(y_test-m_pred))
             print(f"negative mean pred error = {score:0.3f}")
         else:
-            #score = -np.mean(abs(y_test-m_pred))/10
             if y_test.ndim == 0:
-                y_test = np.array([y_test, y_test])
-                X_test = X_test.repeat(2)[:,None]
-            p_predictive, p_x = self.predictive_pdf(X_test, y_test[:,None])
+                y_test = np.vstack([y_test,y_test])
+                X_test = np.vstack([X_test,X_test])
+            else:
+                y_test = y_test[:,None]
+            p_predictive, p_x = self.predictive_pdf(X_test, y_test)
             score = np.mean(np.log(p_predictive))
 
             print(f"mean log predictive = {score:0.3f}")

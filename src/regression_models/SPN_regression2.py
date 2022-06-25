@@ -181,9 +181,11 @@ class SumProductNetworkRegression(BaseEstimator):
             print(f"negative mean pred error = {score:0.3f}")
         else:
             if y_test.ndim == 0:
-                y_test = np.array([y_test, y_test])
-                X_test = X_test.repeat(2)[:,None]
-            p_predictive, p_x = self.predictive_pdf(X_test, y_test[:,None])
+                y_test = np.vstack([y_test,y_test])
+                X_test = np.vstack([X_test,X_test])
+            else:
+                y_test = y_test[:,None]
+            p_predictive, p_x = self.predictive_pdf(X_test, y_test)
             score = np.mean(np.log(p_predictive))
             # Z_pred = (y_test-m_pred)/sd_pred #std. normal distributed. 
             # score = np.mean(norm.pdf(Z_pred))
@@ -219,8 +221,9 @@ class SumProductNetworkRegression(BaseEstimator):
             },
             n_iter=self.opt_n_iter,
             cv=self.opt_cv, 
-            n_jobs=4
+            n_jobs=1
         )
+        #y = y.squeeze()
         opt.fit(X, y)
         print(" ")
         print(f"best score = {opt.best_score_}")

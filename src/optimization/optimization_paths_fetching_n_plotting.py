@@ -35,9 +35,13 @@ def get_optimization_history(coco_folder):
 
 def get_problem_name(file):
     problem = file[:5]
-    if problem == "Test3":
-        if file[:6] == "Test3b":
-            problem = "Test3b"
+    if problem == "Test3" or problem == "Test4":
+        if file[:6] == "Test3c":
+            problem = "Test3c"
+        elif file[:6] == "Test4c":
+            problem = "Test4c"
+        else:
+           problem = ".." 
     return problem
     
 def get_optimization_history_TESTs(sklearn_folder, model="BNN", extra= ""):
@@ -47,14 +51,13 @@ def get_optimization_history_TESTs(sklearn_folder, model="BNN", extra= ""):
 
     for root, dirs, files in os.walk(sklearn_folder):
         for file in files:
-            if model not in file:
+            if model not in file or not file.endswith(".txt"):
                 continue
-            if extra not in root:
-            #if extra in root:
-                continue
+                #print(model,file)
             if file.endswith(".txt"):
                 problem_name = get_problem_name(file)
-                seed = root.split("_")[-1]
+                #seed = root.split("_")[-1] #HACK
+                seed = root.split("_")[-2]
                 dat = np.loadtxt(root+"/"+file)
                 y_data = dat[:,1]
                 y_min = 1000000.
@@ -75,7 +78,8 @@ def get_mean_of_data(data, problem="Test3"):
         if problem == problem_name.split("_")[0]:
             data_series = pd.Series(data=dat["Y"], index=dat["iter"])
             data_df[problem_name]= data_series
-    return data_df
+    seeds = [c.split("_")[-1] for c in data_df.columns]
+    return data_df, seeds
 
 
 
@@ -138,10 +142,11 @@ def plot_means(ax,problem,dim, folder_names=None, search_name = None, color = "b
         print(f"couldn't get data from {modelname} for {problem_dim}")
 
 def plot_means_TESTs(ax,data_model,problem="Test3", color = "blue", modelname = ""):
-    data_df = get_mean_of_data(data_model, problem=problem)
+    data_df, seeds = get_mean_of_data(data_model, problem=problem)
+    print(modelname, data_df.shape, seeds)
     try:
         #data_df = data_df.ffill()
-        #data_df.plot(ax=ax,alpha = 0.4, color=color)#,  legend = False)
+        #data_df.plot(ax=ax,alpha = 0.01, color=color)#,  legend = False)
         means = data_df.mean(axis=1)
         ax.plot(means.index,means.values,lw=3, color = color, label=f"{modelname}")
     except:
@@ -191,12 +196,12 @@ def plot_optimization_paths_TESTs(ax, problem, folder):
     data_GP = get_optimization_history_TESTs(folder, model = "GP")
     data_BOHAMIANN = get_optimization_history_TESTs(folder, model = "BOHAMIANN")
     
-    # data_KDE = get_optimization_history_TESTs(folder, model = "KDE", extra="")
-    # data_GMR = get_optimization_history_TESTs(folder, model = "GMR", extra="")
-    # data_SPN = get_optimization_history_TESTs(folder, model = "SPN", extra="")
-    data_KDE = get_optimization_history_TESTs(folder, model = "KDE", extra="sig10_correct")
-    data_GMR = get_optimization_history_TESTs(folder, model = "GMR", extra="sig10_correct")
-    data_SPN = get_optimization_history_TESTs(folder, model = "SPN", extra="sig10_correct")
+    data_KDE = get_optimization_history_TESTs(folder, model = "KDE", extra="")
+    data_GMR = get_optimization_history_TESTs(folder, model = "GMR", extra="")
+    data_SPN = get_optimization_history_TESTs(folder, model = "SPN", extra="")
+    # data_KDE = get_optimization_history_TESTs(folder, model = "KDE", extra="sig10_correct")
+    # data_GMR = get_optimization_history_TESTs(folder, model = "GMR", extra="sig10_correct")
+    # data_SPN = get_optimization_history_TESTs(folder, model = "SPN", extra="sig10_correct")
 
     
     
@@ -230,13 +235,11 @@ if __name__ == "__main__":
     
     
     sklearn_folder = "/home/simon/Documents/MasterThesis/master-thesis/bayes_opt_experiments/1D_figures_cluster"
-    data = get_optimization_history_TESTs(sklearn_folder)
-    print(data)
-    get_mean_of_data(data)
     #plot_optimization_path(ax,1,2,folder_name)
-    for problem in ["Test1","Test2","Test3","Test4","Test3b"]:
+    for problem in ["Test1","Test2","Test3c","Test4c"]:
         fig, ax = plt.subplots()
         plot_optimization_paths_TESTs(ax, problem, sklearn_folder)
+        ax.set_yscale("log")
         plt.show()
     ## COCO ##
     
