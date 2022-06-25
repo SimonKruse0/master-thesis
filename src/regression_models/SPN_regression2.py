@@ -221,7 +221,7 @@ class SumProductNetworkRegression(BaseEstimator):
             },
             n_iter=self.opt_n_iter,
             cv=self.opt_cv, 
-            n_jobs=1
+            n_jobs=4
         )
         #y = y.squeeze()
         opt.fit(X, y)
