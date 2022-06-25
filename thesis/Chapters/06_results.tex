@@ -1,4 +1,11 @@
 \chapter{Results}
+In the following chapter we want to test the new surrogate models. Before going straight to the Bayesian optimization experiments
+we want to test out the performance of as probabilistic regression models. In this chapter to design 4 test functions, 
+which are defined to make it hard for the GP to perform well. Thereby we might find regression models, which is better?!
+When this is established we want to test out the performance as a Bayesian optimization rutine!
+
+Firstly an overview of the implementation!. 
+
 \todo{Lav systematiske resultater. Udvælg functionsklasser at kigge på}
 
 <reproducer resultater fra Arayns thesis>
@@ -21,46 +28,7 @@ normal distribution, and the bias normal priors are sat
 a bit less restrictive with a standard deviation of 2 instead. 
 This is reasonable since the data is always standardized. 
 
-\subsection{standardized data}
-Before the data reach any of the models, it is standardized. Which is 
-a scaling and translation such that the datas empirical mean and standard deviation are 0 and 1, respectively. 
-In that way is much easier to control the parameters in the models, since the data it fits and predicts
-is always on the same scale. The transformation is as follows, the first time the models see the data, 
-the empirical mean and standard deviation is recorded both for $x$ and $y$, (note $x$ can be a vector),
-giving $\mu_x$,$\mu_y$, $\sigma_x$and $\sigma_y$.
-Next, all data is transformed using the transformation, 
 
-$$T_x(\cdot) := \frac{\cdot-\mu_x}{\sigma_x}$$
-
-When we predict the $x$ is transformed, the model output a prediction 
-and then the inverse transform is mapping the prediction from the standardised
-domain to the original domain, 
- $T^{-1}_y(\hat y) := \hat y \cdot \sigma_x+\mu_x$
-
-
-\section{Model compartment on test problems}
-% Experiment section. For each experiment
-%  1. Introduction. What is the purpose of the experiment
-%  2. Data, materials, methods. Exactly how was the experiment conducted.
-%  3. Results
-%  4. Discussion. Conclusions.
-Bayesian optimization is typically performed on black-box functions, and thereby the Bayesian
-regression model is trained on data from all kinds of underlying problems. Now we want to test the
-performance of different regression models on different types of 1D problems, all in the interval $x
-\in [-100,100]$:
-
-\begin{itemize}
-  \item Test 1: A well-bahaved sine-function,
-  \item Test 2: A highly discontinuous function,
-  \item Test 3: A multi-modal objective function,
-  \item Test 4: An anisotropic objective function.
-\end{itemize}
-
-It is common to have many parameters to tune in Bayesian optimization (in 1D a human could
-potentially assist the surrogate model since the regression can be plotted and judged by eye).
-Nevertheless, we will keep the domain in 1D to establish  
-a more informative evaluation of the model performance.
-This will establish some intuition about the models and 
 
 \begin{table}[H]
   \centering
@@ -147,32 +115,177 @@ SPN is trained using EM with maximum 1000 epochs (is terminated if the progress 
 it is trained 2 times. \todo{Lav den historie}
 GMR is trained using EM but this is done by the sklearn software. 
 
+\subsection{standardized data}
+Before the data reach any of the models, it is standardized. Which is 
+a scaling and translation such that the datas empirical mean and standard deviation are 0 and 1, respectively. 
+In that way is much easier to control the parameters in the models, since the data it fits and predicts
+is always on the same scale. The transformation is as follows, the first time the models see the data, 
+the empirical mean and standard deviation is recorded both for $x$ and $y$, (note $x$ can be a vector),
+giving $\mu_x$,$\mu_y$, $\sigma_x$and $\sigma_y$.
+Next, all data is transformed using the transformation, 
+
+$$T_x(\cdot) := \frac{\cdot-\mu_x}{\sigma_x}$$
+
+When we predict the $x$ is transformed, the model output a prediction 
+and then the inverse transform is mapping the prediction from the standardised
+domain to the original domain, 
+ $T^{-1}_y(\hat y) := \hat y \cdot \sigma_x+\mu_x$
+
+ \section{Regression analysis methodology}
+ As described in the previous sections, an essential part of Bayesian optimization and the decision
+ theory built around Bayesian optimization is that the regression model is correct. We will therefore
+ look at how good the regression models are in terms of accurate prediction and 
+ correct uncertainty estimation. 
+ 
+ \subsubsection{uncertainty quantification}
+ The probibalistic model is given as 
+ $$p(y|x,\mathcal{D}) = \mathcal{N}(y|\mu_{\mathcal{D}}(x), \sigma_{\mathcal{D}}^2(x))$$
+ where the mean, and variance functions are different for all the models. 
+ Given a trained model, we quantify its ability to capture uncertainty with the average
+ predictive likelihood/ probability of the observation, given a test input $x_i$ the
+ the density of predictive distribution is evaluated in the coresponding test output $y_i$,
+ 
+ $$\overline{p(y_i|x_i,\mathcal{D})} := \frac{1}{n}\sum_{i=1}^n p(y_i|x_i,\mathcal{D})$$
+ note that the above might lead to that it is more important to classify one test point
+ really well, so what we actually would rather test is the test point evaluated in the predictive
+ posterior $$p(\textbf{y}|\textbf{x}, \mathcal{D}) = \prod p(y_i|x_i, \mathcal{D})$$
+ where it is much more convinient to deal with it in the log space, 
+  $$\log p(\textbf{y}|\textbf{x}, \mathcal{D}) = \sum \log p(y_i|x_i, \mathcal{D})$$
+ which makes it convinient to get the mean log prediction. 
+ 
+ there the bigger the mean predictive likelihood is, the better. \todo{it is not called predictive
+ likelihood!!}
+ 
+ \subsubsection{prediction quantification}
+ Here we use the mean absolute error to quantify the prediction error. The i'th test point is
+ $(x_i,y_i)$ and the mean absolute error is given as, 
+ $MAE :=\frac{1}{n}\sum_{i=1}^n |\mu_{\mathcal{D}}(x_i) - y_i| $
+ 
+ \subsubsection{Benchmark surrogate model}
+ We will benchmark our different regression models againt a simple emperical mean and
+ emperical std. normal distribution benchmark, 
+ $$p(y|x\mathcal{D}) = \mathcal{N}(y| \bar{\textbf{y}} , \bar{\sigma}^2 (\textbf{y}))$$
+ 
+ where $\bar{\textbf{y}} = \frac{1}{n}\sum_{i=1}^n \textbf{y}_i $ and $\bar{\sigma}^2 (\textbf{y}))
+ = \frac{1}{n-1}\sum_{i=1}^n (\textbf{y}_i-\bar{\textbf{y}})^2 .$ In the context of Bayesian
+ optimization, it will not provide new candidate point, as all points are equally good, therefore
+ it coresponds to random search, and will be used as random search benchmark. 
+
+
+\newpage
+\section{Model compartment on test problems (regression)}
+% Experiment section. For each experiment
+%  1. Introduction. What is the purpose of the experiment
+%  2. Data, materials, methods. Exactly how was the experiment conducted.
+%  3. Results
+%  4. Discussion. Conclusions.
+Bayesian optimization is typically performed on black-box functions, and thereby the Bayesian
+regression model is trained on data from all kinds of underlying problems. Now we want to test the
+performance of different regression models on different types of 1D problems, all in the interval $x
+\in [-100,100]$:
+
+\begin{itemize}
+  \item Test 1: A well-bahaved sine-function,
+  \item Test 2: A highly discontinuous function,
+  \item Test 3: A multi-modal objective function,
+  \item Test 4: An anisotropic objective function.
+\end{itemize}
+The figures are presented here,
+
+\begin{figure}[h]
+  \centering
+  \begin{minipage}[b]{0.24\textwidth}
+   \includegraphics[width=\textwidth]{Figures/reg_illustrations/all_reg_figures/Test1.pdf}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.24\textwidth}
+    \includegraphics[width=\textwidth]{Figures/reg_illustrations/all_reg_figures/Test2.pdf}
+   \end{minipage}
+   \hfill
+   \begin{minipage}[b]{0.24\textwidth}
+    \includegraphics[width=\textwidth]{Figures/reg_illustrations/all_reg_figures/Test3c.pdf}
+   \end{minipage}
+   \hfill
+   \begin{minipage}[b]{0.24\textwidth}
+     \includegraphics[width=\textwidth]{Figures/reg_illustrations/all_reg_figures/Test4c.pdf}
+    \end{minipage}
+
+  \label{TEST_problems}
+\end{figure}
+
+
+It is common to have many parameters to tune in Bayesian optimization (in 1D a human could
+potentially assist the surrogate model since the regression can be plotted and judged by eye).
+Nevertheless, we will keep the domain in 1D to establish  
+a more informative evaluation of the model performance.
+This will establish some intuition about the models and 
+
+% \begin{figure}[h]
+%   \centering
+%   \begin{minipage}[b]{0.44\textwidth}
+%    \includegraphics[width=\textwidth]{Figures/results_regression/Test1_dim_1_0.pdf}
+%   \end{minipage}
+%   \hfill
+%   \begin{minipage}[b]{0.44\textwidth}
+%     \includegraphics[width=\textwidth]{Figures/results_regression/Test2_dim_1_0.pdf}
+%    \end{minipage}
+%   %  \hfill
+%    \begin{minipage}[b]{0.44\textwidth}
+%     \includegraphics[width=\textwidth]{Figures/results_regression/Test3b_dim_1_0.pdf}
+%    \end{minipage}
+%    \hfill
+%    \begin{minipage}[b]{0.44\textwidth}
+%      \includegraphics[width=\textwidth]{Figures/results_regression/Test4b_dim_1_0.pdf}
+%     \end{minipage}
+
+%   \label{regression_performance}
+% \end{figure}
+
+
 \subsection*{Test1: Well-behaved problem}
 The first problem will establish some benchmark since this is a simple function to fit. Its exact definition is,
-$$f(x) = x\cdot \sin(\frac{x}{50} \pi) + 150 + \frac{x}{10} + \sin(x) \hspace{0.5cm} x \in [-100,100]$$
+$$f(x) = x\cdot \sin(\frac{x}{50} \pi) + 150 + \frac{x}{10} + \sin(x) \hspace{0.5cm} x \in [-100,100],$$
 giving a smooth wave function, with the optimium around $-80$. Note that $\sin(x)\in [-1,1]$ contribute with
-some small high frequency surface waves. This should be an easy task for the discriminative models, this is indeed 
-also what we see in the learning curve left of Figure \ref{Test1_reg_plot} where the beginning is dominated by them. 
+some small high frequency surface waves. 
 
 \begin{figure}[H]
   \centering
   \begin{minipage}[b]{0.49\textwidth}
-   \includegraphics[trim=0.5cm 0.2cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1_dim_1_0.pdf}
+   \includegraphics[width=\textwidth]{Figures/results_regression/Test1_dim_1_0.pdf}
   \end{minipage}
   \hfill
   \begin{minipage}[b]{0.49\textwidth}
-    \includegraphics[trim=0.5cm 0.2cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1_dim_1_1.pdf}
+    \includegraphics[width=\textwidth]{Figures/results_regression/Test1_dim_1_1.pdf}
    \end{minipage}
-  \caption{Mean predictive performance MAE (left) and mean predictiv probalility (right) as
-  functions of number of data points. All curves reprecent the average across 10 runs for each
-  model. The Gaussian process has the bedst predictive power, however it scores very low in the }
+  \caption{Mean relative error (point estimate using the predictive mean) (left) and exponential mean predictive log probalility (right) as
+  functions of number of training data points. All curves reprecent the average across 10 seeded runs for each
+  model.}
   \label{Test1_reg_plot}
 \end{figure}
 
-To get a deeper understanding of Figure \ref{Test1_reg_plot}, we plot one of the 10 runs for 23 data points, 
-in Figure \ref{Test1_reg_visual_1}, and for 56 data points in Figure \ref{Test1_reg_visual_2}.
+First of all, we see that all the methods are indeed performing better than the mean prediction
+(black). The average relative error for the mean prediction is constant at 30\%. All models, besides the
+Gaussian mixture regression (GMR), have an average relative error of less than 10\% after just 20 training
+points. Including more data, the Bayesian neural network and the Gaussian process have the best mean prediction, 
+the third discriminative model, BOHamiANN, seems here to be a weak learner. at 30 data points, it stays at the
+same error - even when being presented for 316 training data points in the end. 
 
-
+Looking at the right plot in Figure \ref{Test1_reg_plot}, we see that the generative models after 20
+training points, have an increasingly better uncertainty quantification compared with using the empirical
+standard deviation. %We have been choosing the hyper parameters of the generative models using crossvalidation.
+The discriminative models on the other hand perform worse than the empirical standard deviation, 
+especially the GP is doing exceptionally bad - its overconfident, the reason can be seen in Figure \ref{Test1_reg_visual_1},  
+showing one of the 10 runs for 23 data points. The GP is so certain on some predictions that it assigns
+almost 0 probability to some of the 10000 test points (i.e the we test all of the line from -100 to 100),
+ yielding very low mean log predictive likelihood. 
+%  The Bayesian neural networks learning curve stagnates around 100 data points, however,
+% it provides a decent mean log predictive likelihood. BOHamiANN performs well in the beginning 
+% but seems not expressive enough for this task. The architecture of the neural network is besides
+% they use a log-normal prior on the variance and a hyper prior on the variance parameter of the weights.
+% But it seems like the algorithm does not converge?. The mixture models are crossvalidated to maximize
+% the predive likelihood, 
+% To get a deeper understanding of Figure \ref{Test1_reg_plot}, we plot one of the 10 runs for 23 data points, 
+% in Figure \ref{Test1_reg_visual_1}, and for 56 data points in Figure \ref{Test1_reg_visual_2}.
 \begin{figure}[H]
   \centering
   \begin{minipage}[b]{0.32\textwidth}
@@ -213,86 +326,87 @@ in Figure \ref{Test1_reg_visual_1}, and for 56 data points in Figure \ref{Test1_
         \put (10,65) {KDE}
       \end{overpic}
       \end{minipage}
-
   \caption{Plots visulising the results in figure at $n_{data} = 23$}
   \label{Test1_reg_visual_1}
 \end{figure}
-
-\begin{figure}[H]
-  \centering
-  \begin{minipage}[b]{0.32\textwidth}
-    \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1b/1.pdf}
-      \put (10,65) {BNN}
-      \put (-5,40) {\small y}
-  \end{overpic}
-  \end{minipage}
-  \hfill
-  \begin{minipage}[b]{0.32\textwidth}
-    \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1b/2.pdf}
-      \put (10,65) {BOHamiANN}
-    \end{overpic}
-   \end{minipage}
-   \hfill
-   \begin{minipage}[b]{0.32\textwidth}
-    \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1b/4.pdf}
-      \put (10,65) {GP}
-    \end{overpic}
-    \end{minipage}
+% \begin{figure}[H]
+%   \centering
+%   \begin{minipage}[b]{0.32\textwidth}
+%     \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1b/1.pdf}
+%       \put (10,65) {BNN}
+%       \put (-5,40) {\small y}
+%   \end{overpic}
+%   \end{minipage}
+%   \hfill
+%   \begin{minipage}[b]{0.32\textwidth}
+%     \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1b/2.pdf}
+%       \put (10,65) {BOHamiANN}
+%     \end{overpic}
+%    \end{minipage}
+%    \hfill
+%    \begin{minipage}[b]{0.32\textwidth}
+%     \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1b/4.pdf}
+%       \put (10,65) {GP}
+%     \end{overpic}
+%     \end{minipage}
      
-   \begin{minipage}[b]{0.32\textwidth}
-    \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1b/3.pdf}
-      \put (10,65) {GMR}
-      \put (-5,40) {\small y}
-      \put (51,5) {\small x}
-    \end{overpic}
-    \end{minipage}
-  \hfill
-    \begin{minipage}[b]{0.32\textwidth}
-     \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1b/6.pdf}
-      \put (10,65) {SPN}
-     \end{overpic}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.32\textwidth}
-      \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1b/5.pdf}
-        \put (10,65) {KDE}
-      \end{overpic}
-      \end{minipage}
+%    \begin{minipage}[b]{0.32\textwidth}
+%     \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1b/3.pdf}
+%       \put (10,65) {GMR}
+%       \put (-5,40) {\small y}
+%       \put (51,5) {\small x}
+%     \end{overpic}
+%     \end{minipage}
+%   \hfill
+%     \begin{minipage}[b]{0.32\textwidth}
+%      \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1b/6.pdf}
+%       \put (10,65) {SPN}
+%      \end{overpic}
+%     \end{minipage}
+%     \hfill
+%     \begin{minipage}[b]{0.32\textwidth}
+%       \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1b/5.pdf}
+%         \put (10,65) {KDE}
+%       \end{overpic}
+%       \end{minipage}
 
-  \caption{Plots visulising the results in figure at $n_{data} = 133$}
-  \label{Test1_reg_visual_2}
-\end{figure}
-
-
-The Gaussian process is however overconfident in its prediction and assigns
-almost 0 probability to some of the 10000 test points, yielding very low mean log predictive
-likelihood. The Bayesian neural networks learning curve stagnates around 100 data points, however,
-it provides a decent mean log predictive likelihood. BOHamiANN performs well in the beginning 
-but seems not expressive enough for this task. The architecture of the neural network is besides
-they use a log-normal prior on the variance and a hyper prior on the variance parameter of the weights.
-But it seems like the algorithm does not converge?. The mixture models are crossvalidated to maximize
-the predive likelihood, 
-
+%   \caption{Plots visulising the results in figure at $n_{data} = 133$}
+%   \label{Test1_reg_visual_2}
+% \end{figure}
 \subsection*{Test2: Discontinuous problem}
 As GP and BNN have a natural assumption of continuity we want to investigate their performance
-on a discontinuous problem. The problem is a step function, ...
-
-
-This is a type of problem where we would expect the GP to not perform well, 
-BNN should be the better 
-
+on a discontinuous problem. We want to investigate their performance on the folloing step function, 
+defined as 
+$$f(x) = \sum_{i=1}^{13} u_i \bm{1}(I_{i+1}\leq x< I_{i+1}) + sin(x) \hspace{0.5cm} x \in ]-100,100]$$
+where $\bm{1}$ denoted the indicator function and
+\begin{align*}
+  I &= [-100,  -83,  -71,  -60,  -49,  -31,   -9,    3,   14,26,   37,   60,   83,  100],\\
+  u &= [181, 162, 144,  69, 106,  88, 200, 125, 144, 162, 181,88, 181, 200].
+\end{align*}
+Outside and on the boundaries $\{-100,100\}$ the function value is constant 200. This leads
+to a more deficult problem than case 1. 
 \begin{figure}[H]
   \centering
   \begin{minipage}[b]{0.49\textwidth}
-   \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test2_dim_1_0.pdf}
+   \includegraphics[width=\textwidth]{Figures/results_regression/Test2_dim_1_0.pdf}
   \end{minipage}
   \hfill
   \begin{minipage}[b]{0.49\textwidth}
-    \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test2_dim_1_1.pdf}
+    \includegraphics[width=\textwidth]{Figures/results_regression/Test2_dim_1_1.pdf}
    \end{minipage}
-  \caption{Plots visulising the results in above figure.}
+  \caption{Mean relative error (point estimate using the predictive mean) (left) and exponential mean predictive log probalility (right) as
+  functions of number of training data points. All curves reprecent the average across 10 seeded runs for each
+  model.}
+  \label{Test2_reg_plot}
 \end{figure}
-
+Looking at Figure \ref{Test2_reg_plot} left we see that this is indeed harder to fit than Test 1, as
+the reative error is not going down as fast. Comparing to Test 1 we here see that the mixtures are
+doing as well and some times better than the discriminative models. If instead we used the mode for
+the mixture regression models, we might see superior performance, as the prediction, will not be
+continuous. Looing at the Figure \ref{Test2_reg_plot} right we see the same story as Test1 that the
+mixtures regression has the best uncertainty quantification. Here SPN and KDE perfroms better than
+Gaussian mixture regression, since the mixture components has no correlation beween $x$ and $y$,
+which fits into the. Same story for BOHamiANN as Test1.
 \begin{figure}[H]
   \centering
   \begin{minipage}[b]{0.32\textwidth}
@@ -334,60 +448,38 @@ BNN should be the better
       \end{overpic}
       \end{minipage}
 
-  \caption{Plots visulising the results in figure at $n_{data} = ?$}
-  \label{bling}
+  \caption{Plots visulising the results in Figure \ref{Test2_reg_plot} at $n_{data} = ?$}
+  \label{Test2_reg_visual}
 \end{figure}
 
-% \begin{figure}[H]
-%   \centering
-%   \begin{minipage}[b]{0.49\textwidth}
-%    \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test2/1.pdf}
-%   \end{minipage}
-%   \hfill
-%   \begin{minipage}[b]{0.49\textwidth}
-%     \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test2/2.pdf}
-%    \end{minipage}
-   
-%    \begin{minipage}[b]{0.49\textwidth}
-%     \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test2/3.pdf}
-%    \end{minipage}
-%    \hfill
-%    \begin{minipage}[b]{0.49\textwidth}
-%      \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test2/4.pdf}
-%     \end{minipage}
-    
-    
-%     \begin{minipage}[b]{0.49\textwidth}
-%      \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test2/5.pdf}
-%     \end{minipage}
-%     \hfill
-%     \begin{minipage}[b]{0.49\textwidth}
-%       \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test2/6.pdf}
-%      \end{minipage}
-
-%   \caption{Plots visulising the results in above figure.}
-% \end{figure}
-
-
-
-
-\subsection{Test3: multi-modal problem}
-Multimodal problems. 
-
-Here are the more interesting problems for the mixture regression methods. 
-
+\subsection*{Test3: multi-modal problem}
+The following problem is corresponding to a multimodal problem, which could occure in simulations with
+two equally likely outcomes. We construct this problem to give the mixture models, 
+an advantage over the discriminative models. It is defined as follows, 
+$$f(x) = 50*g(x)+ 100 + 10*\sin(0.5\cdot x) + \epsilon \cdot (30 - g(x) \cdot 90), \hspace*{0.5cm}x \in
+[-100,100],$$ 
+where $\epsilon \sim \text{Cat}(0.5,0.5)$ and $g(x) = \text{sign}(x)+1 \in \{0,2\}$
+is 0 for negative $x$ and 2 for positive $x$.
 
 \begin{figure}[H]
   \centering
   \begin{minipage}[b]{0.49\textwidth}
-   \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test3_dim_1_0.pdf}
+   \includegraphics[width=\textwidth]{Figures/results_regression/Test3b_dim_1_0.pdf}
   \end{minipage}
   \hfill
   \begin{minipage}[b]{0.49\textwidth}
-    \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test3_dim_1_1.pdf}
+    \includegraphics[width=\textwidth]{Figures/results_regression/Test3b_dim_1_1.pdf}
    \end{minipage}
   \caption{Plots visulising the results in above figure.}
+  \label{Test3_reg_plot}
 \end{figure}
+
+In Figure \ref{Test3_reg_plot} left we see that none of the models are doing better than the mean
+prediction. This is obvious since the data is symmetric and jumping random between two states. The
+Bayesian neural networks are trying the fit the models, the GP is just turning itself into a mean
+prediction. In the right plot we see just like previous that the data is parallel with the axis making it perfect
+the SPN and KDE to fit. 
+
 
 \begin{figure}[H]
   \centering
@@ -431,56 +523,28 @@ Here are the more interesting problems for the mixture regression methods.
       \end{minipage}
 
   \caption{Plots visulising the results in figure at $n_{data} = ?$}
-  \label{bling}
+  \label{Test3_reg_visual}
 \end{figure}
 
-
-% \begin{figure}[H]
-%   \centering
-%   \begin{minipage}[b]{0.49\textwidth}
-%    \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test3/1.pdf}
-%   \end{minipage}
-%   \hfill
-%   \begin{minipage}[b]{0.49\textwidth}
-%     \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test3/2.pdf}
-%    \end{minipage}
-   
-%    \begin{minipage}[b]{0.49\textwidth}
-%     \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test3/3.pdf}
-%    \end{minipage}
-%    \hfill
-%    \begin{minipage}[b]{0.49\textwidth}
-%      \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test3/4.pdf}
-%     \end{minipage}
-    
-    
-%     \begin{minipage}[b]{0.49\textwidth}
-%      \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test3/5.pdf}
-%     \end{minipage}
-%     \hfill
-%     \begin{minipage}[b]{0.49\textwidth}
-%       \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test3/6.pdf}
-%      \end{minipage}
-
-%   \caption{Plots visulising the results in above figure.}
-% \end{figure}
-
-
 \subsection{Test4: anisotropic problem}
-Finally this problem has low frequency in the beginning but ends out with a very high frequency. This is a difficult
-problem for the GP as its 
+Finally, this problem has low frequency in the beginning but ends out with a very high frequency.
+This is designed to be a difficult problem for the GP as this would need a different lengthscale
+throughout the space.
 
 \begin{figure}[H]
   \centering
   \begin{minipage}[b]{0.49\textwidth}
-   \includegraphics[width=\textwidth]{Figures/results_regression/Test4_dim_1_0.pdf}
+   \includegraphics[width=\textwidth]{Figures/results_regression/Test4b_dim_1_0.pdf}
   \end{minipage}
   \hfill
   \begin{minipage}[b]{0.49\textwidth}
-    \includegraphics[width=\textwidth]{Figures/results_regression/Test4_dim_1_1.pdf}
+    \includegraphics[width=\textwidth]{Figures/results_regression/Test4b_dim_1_1.pdf}
    \end{minipage}
   \caption{Plots visulising the results in above figure.}
+  \label{Test4_reg_plot}
 \end{figure}
+
+We however see that the GP does not need the ...
 
 
 \begin{figure}[H]
@@ -525,80 +589,14 @@ problem for the GP as its
       \end{minipage}
 
   \caption{Plots visulising the results in figure at $n_{data} = ?$}
-  \label{bling}
+  \label{Test4_reg_visual}
 \end{figure}
 
-
-% \begin{figure}[H]
-%   \centering
-%   \begin{minipage}[b]{0.49\textwidth}
-%    \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test4/1.pdf}
-%   \end{minipage}
-%   \hfill
-%   \begin{minipage}[b]{0.49\textwidth}
-%     \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test4/2.pdf}
-%    \end{minipage}
-   
-%    \begin{minipage}[b]{0.49\textwidth}
-%     \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test4/3.pdf}
-%    \end{minipage}
-%    \hfill
-%    \begin{minipage}[b]{0.49\textwidth}
-%      \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test4/4.pdf}
-%     \end{minipage}
-    
-    
-%     \begin{minipage}[b]{0.49\textwidth}
-%      \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test4/5.pdf}
-%     \end{minipage}
-%     \hfill
-%     \begin{minipage}[b]{0.49\textwidth}
-%       \includegraphics[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test4/6.pdf}
-%      \end{minipage}
-
-%   \caption{Plots visulising the results in above figure.}
-% \end{figure}
+\section{COCO}
+Benchmark!!
 
 
-\section{Regression analysis}
-As described in the previous sections, an essential part of Bayesian optimization and the decision
-theory built around Bayesian optimization is that the regression model is correct. We will therefore
-look at how good the regression models are in terms of accurate prediction and 
-correct uncertainty estimation. 
 
-\subsection{uncertainty quantification}
-The probibalistic model is given as 
-$$p(y|x,\mathcal{D}) = \mathcal{N}(y|\mu_{\mathcal{D}}(x), \sigma_{\mathcal{D}}^2(x))$$
-where the mean, and variance functions are different for all the models. 
-Given a trained model, we quantify its ability to capture uncertainty with the average
-predictive likelihood/ probability of the observation, given a test input $x_i$ the
-the density of predictive distribution is evaluated in the coresponding test output $y_i$,
-
-$$\overline{p(y_i|x_i,\mathcal{D})} := \frac{1}{n}\sum_{i=1}^n p(y_i|x_i,\mathcal{D})$$
-note that the above might lead to that it is more important to classify one test point
-really well, so what we actually would rather test is the test point evaluated in the predictive
-posterior $$p(\textbf{y}|\textbf{x}, \mathcal{D}) = \prod p(y_i|x_i, \mathcal{D})$$
-where it is much more convinient to deal with it in the log space, 
- $$\log p(\textbf{y}|\textbf{x}, \mathcal{D}) = \sum \log p(y_i|x_i, \mathcal{D})$$
-which makes it convinient to get the mean log prediction. 
-
-there the bigger the mean predictive likelihood is, the better. \todo{it is not called predictive
-likelihood!!}
-
-\subsection{prediction quantification}
-Here we use the mean absolute error to quantify the prediction error. The i'th test point is
-$(x_i,y_i)$ and the mean absolute error is given as, 
-$MAE :=\frac{1}{n}\sum_{i=1}^n |\mu_{\mathcal{D}}(x_i) - y_i| $
-
-\subsection{regression benchmark}
-We will benchmark our different regression models againt a simple emperical mean and
-emperical std. normal distribution benchmark, 
-$$p(y|x\mathcal{D}) = \mathcal{N}(y| \bar{\textbf{y}} , \bar{\sigma}^2 (\textbf{y}))$$
-
-where $\bar{\textbf{y}} = \frac{1}{n}\sum_{i=1}^n \textbf{y}_i $ and 
-$\bar{\sigma}^2 (\textbf{y})) = \frac{1}{n-1}\sum_{i=1}^n (\textbf{y}_i-\bar{\textbf{y}})^2 $
-this is however not a good model for Bayesian optimization, as it will not provide a
-new candidate point, as all points are equally good. 
 
 
 \section{Mixture regression}

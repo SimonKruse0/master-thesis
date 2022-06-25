@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  24 JUN 2022 10:02
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  25 JUN 2022 21:18
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1215,18 +1215,6 @@ Package csquotes Info: Adjusting default style.
 Package csquotes Info: Redefining alias 'default' -> 'english'.
  (/home/simon/Documents/MasterThesis/master-thesis/thesis/main.aux
 
-LaTeX Warning: Label `bling' multiply defined.
-
-
-LaTeX Warning: Label `bling@cref' multiply defined.
-
-
-LaTeX Warning: Label `bling' multiply defined.
-
-
-LaTeX Warning: Label `bling@cref' multiply defined.
-
-
 LaTeX Warning: Label `f1_reg_2D' multiply defined.
 
 
@@ -1644,36 +1632,42 @@ Overfull \hbox (15.32054pt too wide) detected at line 94
 
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/06_results.tex
 Chapter 5.
+
+Overfull \hbox (17.9671pt too wide) in paragraph at lines 98--98
+[]|[]| 
+ []
+
+
+Overfull \hbox (14.86069pt too wide) in paragraph at lines 98--98
+[]|[]| 
+ []
+
+
+Overfull \hbox (1.55101pt too wide) in paragraph at lines 98--98
+[]|[]| 
+ []
+
+
+Overfull \hbox (62.0184pt too wide) in paragraph at lines 98--98
+[]|[]| 
+ []
+
 [43
 
-]
-Overfull \hbox (17.9671pt too wide) in paragraph at lines 130--130
-[]|[]| 
- []
-
-
-Overfull \hbox (14.86069pt too wide) in paragraph at lines 130--130
-[]|[]| 
- []
-
-
-Overfull \hbox (1.55101pt too wide) in paragraph at lines 130--130
-[]|[]| 
- []
-
-
-Overfull \hbox (62.0184pt too wide) in paragraph at lines 130--130
-[]|[]| 
- []
-
+] [44] [45]
+File: Figures/reg_illustrations/all_reg_figures/Test1.pdf Graphic file (type pdf)
+<use Figures/reg_illustrations/all_reg_figures/Test1.pdf>
+File: Figures/reg_illustrations/all_reg_figures/Test2.pdf Graphic file (type pdf)
+<use Figures/reg_illustrations/all_reg_figures/Test2.pdf>
+File: Figures/reg_illustrations/all_reg_figures/Test3c.pdf Graphic file (type pdf)
+<use Figures/reg_illustrations/all_reg_figures/Test3c.pdf>
+File: Figures/reg_illustrations/all_reg_figures/Test4c.pdf Graphic file (type pdf)
+<use Figures/reg_illustrations/all_reg_figures/Test4c.pdf>
 File: Figures/results_regression/Test1_dim_1_0.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test1_dim_1_0.pdf>
 File: Figures/results_regression/Test1_dim_1_1.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test1_dim_1_1.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [44]
+ [46]
 File: Figures/results_regression/Test1/1.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test1/1.pdf>
 File: Figures/results_regression/Test1/2.pdf Graphic file (type pdf)
@@ -1686,26 +1680,11 @@ File: Figures/results_regression/Test1/7_W.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test1/7_W.pdf>
 File: Figures/results_regression/Test1/6.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test1/6.pdf>
-File: Figures/results_regression/Test1b/1.pdf Graphic file (type pdf)
-<use Figures/results_regression/Test1b/1.pdf>
-File: Figures/results_regression/Test1b/2.pdf Graphic file (type pdf)
-<use Figures/results_regression/Test1b/2.pdf>
-File: Figures/results_regression/Test1b/4.pdf Graphic file (type pdf)
-<use Figures/results_regression/Test1b/4.pdf>
-File: Figures/results_regression/Test1b/3.pdf Graphic file (type pdf)
-<use Figures/results_regression/Test1b/3.pdf>
-File: Figures/results_regression/Test1b/6.pdf Graphic file (type pdf)
-<use Figures/results_regression/Test1b/6.pdf>
-File: Figures/results_regression/Test1b/5.pdf Graphic file (type pdf)
-<use Figures/results_regression/Test1b/5.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [45]
 File: Figures/results_regression/Test2_dim_1_0.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test2_dim_1_0.pdf>
 File: Figures/results_regression/Test2_dim_1_1.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test2_dim_1_1.pdf>
+ [47]
 File: Figures/results_regression/Test2/1.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test2/1.pdf>
 File: Figures/results_regression/Test2/2.pdf Graphic file (type pdf)
@@ -1718,11 +1697,11 @@ File: Figures/results_regression/Test2/6.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test2/6.pdf>
 File: Figures/results_regression/Test2/5.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test2/5.pdf>
- [46]
-File: Figures/results_regression/Test3_dim_1_0.pdf Graphic file (type pdf)
-<use Figures/results_regression/Test3_dim_1_0.pdf>
-File: Figures/results_regression/Test3_dim_1_1.pdf Graphic file (type pdf)
-<use Figures/results_regression/Test3_dim_1_1.pdf>
+File: Figures/results_regression/Test3b_dim_1_0.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test3b_dim_1_0.pdf>
+File: Figures/results_regression/Test3b_dim_1_1.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test3b_dim_1_1.pdf>
+ [48]
 File: Figures/results_regression/Test3/1.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test3/1.pdf>
 File: Figures/results_regression/Test3/2.pdf Graphic file (type pdf)
@@ -1735,14 +1714,14 @@ File: Figures/results_regression/Test3/6.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test3/6.pdf>
 File: Figures/results_regression/Test3/5.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test3/5.pdf>
+File: Figures/results_regression/Test4b_dim_1_0.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test4b_dim_1_0.pdf>
+File: Figures/results_regression/Test4b_dim_1_1.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test4b_dim_1_1.pdf>
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [47]
-File: Figures/results_regression/Test4_dim_1_0.pdf Graphic file (type pdf)
-<use Figures/results_regression/Test4_dim_1_0.pdf>
-File: Figures/results_regression/Test4_dim_1_1.pdf Graphic file (type pdf)
-<use Figures/results_regression/Test4_dim_1_1.pdf>
+ [49]
 File: Figures/results_regression/Test4/1.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test4/1.pdf>
 File: Figures/results_regression/Test4/2.pdf Graphic file (type pdf)
@@ -1755,10 +1734,7 @@ File: Figures/results_regression/Test4/6.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test4/6.pdf>
 File: Figures/results_regression/Test4/5.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test4/5.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [48] [49]
+ [50]
 File: Figures/coco_reg/f1_BOHAMIANN2.pdf Graphic file (type pdf)
 <use Figures/coco_reg/f1_BOHAMIANN2.pdf>
 File: Figures/coco_reg/f1_BOHAMIANN3.pdf Graphic file (type pdf)
@@ -1898,11 +1874,10 @@ File: Figures/coco/f24.png Graphic file (type bmp)
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-) [50] [51] [52] [53] [54] [55] [56] [57] [58
-
-] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/07_conclusion.tex
+) [51] [52] [53] [54] [55] [56] [57] [58] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/07_conclusion.tex
 Chapter 6.
 ) [59
+
 
 ]
 Overfull \hbox (31.82188pt too wide) in paragraph at lines 54--54
@@ -1955,7 +1930,7 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 61.
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 61.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 61.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: EB6408F973132B123DA0D0866A73266F;2611.
+(rerunfilecheck)             Checksum: 2608D1808EDB31C84B369756D75B8268;2705.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -1968,12 +1943,12 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 57445 strings out of 481731
- 1362563 string characters out of 5935437
- 2311039 words of memory out of 5000000
+ 57449 strings out of 481731
+ 1362626 string characters out of 5935437
+ 2307959 words of memory out of 5000000
  73353 multiletter control sequences out of 15000+600000
  551917 words of font info for 141 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  82i,21n,138p,2818b,4693s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (68 pages, 1234632 bytes).
+Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (68 pages, 1260396 bytes).
