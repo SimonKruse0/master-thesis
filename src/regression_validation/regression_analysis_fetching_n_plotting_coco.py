@@ -137,11 +137,12 @@ if __name__ == "__main__":
 
     if "coco_reg_data" in data_folder:
         for problem in list(range(3,25,6)):
-            for dim in [10]:
-                fig, ax = plt.subplots()
-                problem_name = f"f{problem}_dim_{dim}"
-                plot_regression_paths(ax, problem_name, plot_type=2)
-                plt.show()
+            for dim in [2,3,5,10,20]:
+                for type in [0,1]:
+                    fig, ax = plt.subplots()
+                    problem_name = f"f{problem}_dim_{dim}"
+                    plot_regression_paths(ax, problem_name, plot_type=type)
+                    plt.show()
     else:
         problem_name = "SimonsTest2_probibalistic_dim_1"
         while True:

@@ -1,34 +1,50 @@
-\chapter{Results}
-In the following chapter, we want to test the new surrogate models. Before going straight to the Bayesian optimization experiments
-we want to test out the performance of as probabilistic regression models. In this chapter to design 4 test functions, 
-which are defined to make it hard for the GP to perform well. Thereby we might find regression models, which is better?!
-When this is established we want to test out the performance as a Bayesian optimization rutine!
+\chapter{Implementation}
+In the following, we present how we have implemented the surrogate models and up the Bayesian Optimization, 
+which creates the results.
 
-Firstly an overview of the implementation!. 
+\subsection{Bayesian Optimization}
+The Bayesian optimization framework is implemented as a python class. It is possible to pass the class two
+different types of problem objects (COCO and sklearn test problems), and additionally, the class
+needs to be given one of the defined surrogate models (also an object). By defining the BO methodology
+in this modular fashion, we make sure that we are treating all experiments equally. 
 
-\todo{Lav systematiske resultater. Udvælg functionsklasser at kigge på}
+Initially, 5 data points are sampled randomly from the domain $\mathcal{X}$ and evaluated in $f(\cdot)$ (all 
+defined in the problem class). Next, an optimization step is performed repeatedly, until a predefined budget (i.e. 
+how many samples from $f$ the user allows) is used up. The optimization step is simply a fitting procedure, 
+followed by finding the point $x_{\text{next}}$ which maximizes the acquisition function, and
+including the point and the evaluation $f(x_{\text{next}})$ into the dataset. The maximization of the acquisition
+function is done by testing $d\cdot 5000$ random points on the domain, where $d$ is the dimension of the problem. 
 
-<reproducer resultater fra Arayns thesis>
-Egne forsøg med SPN og mixture regression
+\subsection{Surrogates}
+All surrogate models are defined as Python classes, with similar function names, i.e.
+\textit{predict}, \textit{fit} and \textit{name}, such that they fit into the BO framework
+(described in the above section). In the following, we present how all the surrogate models are
+implemented. First, we describe the implementation of the discriminative surrogate models (GP, BNN, BOHamiANN). Next,  
+we describe the implementation of the generative/mixture surrogate models (GMR, KDE, SPN). 
 
+\subsubsection{Discriminative surrogates}
+The Gaussian process regression is implemented using the GPy framework, with the Matern kernel with
+$\nu=1.5$. The hyperparamteres, i.e. the lengthscale, variance and observation variance are
+optimized by maximizing the marginalized likelihood using the limited memory quasi-newton solver
+with bounds ($10^{-3}, 2$). l-bfgs-b max 1000 iterations with 20 restarts. 
+The bounds are reasonable since the data is always standardized. 
 
-\section{Implementation}
-The Gaussian process regression is implemented using the Scikit-learn Gaussian process
-implementation with the Matern kernel with $\nu=1.5$ and the y-values are normalized for
-the prior distribution to be reasonable (mean 0 and variance 1). The lengthscale is optimized by
-maximizing the marginalized likelihood using the limited memory quasi-newton solver with bounds
-l-bfgs-b with 200 restarts. 
+%\subsubsection{BNN}
+The Bayesian neural network(BNN) is a fully connected neural network with 3 layers for 50 tanh
+nodes. It is implemented using Numpyro - which is a python library for probabilistic machine
+learning, developed by some of the people behind Pyro. Different from Pyro, Numpyro uses Jax (and
+not PyTorch) as the backend. This allows for a significantly large speedup when doing MCMC, i.e.
+NUTS sampling. The MCMC routine is still quite slow and we limit the sampling size to 500 burn-in
+samples and 500 (hopefully) posterior samples with 4 chains - this showed good empirical results on
+1D problems. The prior distribution for weights and bias is a standard normal distribution. This is
+reasonable since the data is always standardized. As we are (mostly) dealing with noise-free problems, 
+we put an informative prior of $InvGa(1000,1)$ on the observation variance i.e. giving a very small observation
+variance. 
 
-The Bayesian neural network is implemented using Numpyro - which is a python library for
-probabilistic machine learning, developed by some of the people behind Pyro, but instead of using
-PyTorch as backend, Numpyro uses Jax. This allows for a significantly large speedup when doing MCMC,
-i.e. NUTS sampling. This was however still very slow and we, therefore, limited the network size to a
-small 3 layer with 10 nodes on each layer network. The prior distribution for weights is a standard
-normal distribution, and the bias normal priors are sat 
-a bit less restrictive with a standard deviation of 2 instead. 
-This is reasonable since the data is always standardized. 
-
-
+%\subsubsection{BOHamiANN}
+The BOHamiANN model is presented in the paper \cite{BOHAMIANN} and is implemented as it is implemented default
+in "github.com/automl/pybnn", which is a fully connected Bayesian neural network with 50 tanh nodes on 3 layers. 
+I.e. Same architecture as we use for our implementation, BNN. 
 
 \begin{table}[H]
   \centering
@@ -64,7 +80,46 @@ This is reasonable since the data is always standardized.
     Maximize marginalized likelihood \\
     20 restarts of BFGS optimization
   \end{tabular} \\\hline
+  \end{tabular}}
+  \caption{Overview of chosen discriminative surrogate models 
+          }
+\end{table}
 
+\subsubsection{Generative surrogates}
+We now present how the generative/mixture models (GMR, KDE, SPN) are implemented more concretely. Firstly, 
+all the models have some hyperparameters, which we will not fix,  
+\begin{itemize}[noitemsep]
+  \item GMR: Number of components, prior weight. 
+  \item KDE: Variance of x and y components for all component,  prior weight. 
+  \item SPN: Prior on the variance of x and y components,  prior weight.
+\end{itemize}
+We select the hyperparameters using 30 fold (or leave one out for data size smaller) cross-validation, 
+where the models are scored on their mean predictive log probability, i.e. uncertainty quantification. 
+We test 40 different points using Bayesian optimization outside the crossvalidation loop. This is
+done using the Python package "scikit-optimize". 
+
+%\subsubsection{GMR}
+The Gaussian mixture regression (GMR) is implemented using the software\cite{GMR}, which takes in
+mixture components and weights trained using sklearn's Gaussian mixture model. Which we train using
+20 restarts.
+
+%\subsubsection{KDE}
+The kernel decision estimator regression is implemented using numpy and fast vector operations. As
+mentioned the standard deviation of all is mixture components in the x and y direction is found
+using cross-validation in the range between $(10^{-3}, 0.3)$. 
+
+SPN is implemented using software similar to RAT-SPN but implemented by Mikkel N. Schmidt. It is
+trained using the EM algorithm to maximize the posterior i.e. finding the MAP estimate. The
+posterior is found in closed form since the component distributions are Gaussian and the prior is
+given as an inverse gamma (i.e. a conjugate prior). Inverse gamma distributions have two parameter
+the shape $\alpha>0$ and the scale $\beta>0$, and a mean, $\frac{\beta}{\alpha-1}$ for $\alpha >1$, 
+and a variance $\frac{\beta^2}{(\alpha-1)^2(\alpha-2)}$ for $\alpha >2$. Looking at plots of the
+distribution we choose to fix $\beta =1$ and select $\alpha \in [1,200]$ using cross-validation. 
+
+\begin{table}[H]
+  \centering
+  \resizebox{\textwidth}{!}{\begin{tabular}[t]{p{.20\textwidth} | p{.40\textwidth}  | p{.40\textwidth}}
+  \textbf{Model}       & \textbf{Specification}    &   \textbf{Training} \\ \hline
   GMR& 
   \begin{tabular}[t]{l}
     Training sklearn GMM, \\
@@ -77,15 +132,6 @@ This is reasonable since the data is always standardized.
     and prior weight
   \end{tabular} \\\hline
 
-  SPN& 
-  \begin{tabular}[t]{l}
-    Trained using 3 restarts of EM of MAP,\\  
-  \end{tabular} &
-  \begin{tabular}[t]{l}
-    BO Cross-validation 30 fold,\\
-     tuning: hyperpriors and prior weight
-  \end{tabular} \\\hline
-
   KDE& 
   \begin{tabular}[t]{l}
     Gaussian around all datapoints \\
@@ -95,8 +141,18 @@ This is reasonable since the data is always standardized.
     BO Cross-validation 30 fold,\\
      testing x-variance and y-variance and prior weight\\ 
   \end{tabular} \\\hline
+
+  SPN& 
+  \begin{tabular}[t]{l}
+    Trained using 3 restarts of EM of MAP,\\  
+  \end{tabular} &
+  \begin{tabular}[t]{l}
+    BO Cross-validation 30 fold,\\
+     tuning: hyperpriors and prior weight
+  \end{tabular} \\\hline
+
   \end{tabular}}
-  \caption{Overview of chosen models  
+  \caption{Overview of chosen generative surrogate models  
           }
 \end{table}
 %\subsection{Model definintions}
@@ -116,35 +172,64 @@ it is trained 2 times. \todo{Lav den historie}
 GMR is trained using EM but this is done by the sklearn software. 
 
 \subsection{standardized data}
-Before the data reach any of the models, it is standardized. Which is 
-a scaling and translation such that the datas empirical mean and standard deviation are 0 and 1, respectively. 
-In that way is much easier to control the parameters in the models, since the data it fits and predicts
-is always on the same scale. The transformation is as follows, the first time the models see the data, 
-the empirical mean and standard deviation is recorded both for $x$ and $y$, (note $x$ can be a vector),
-giving $\mu_x$,$\mu_y$, $\sigma_x$and $\sigma_y$.
-Next, all data is transformed using the transformation, 
+Before the data reach any of the models, it is standardized. this is a scaling and a translation
+such of the data, such that the datas empirical mean and standard deviation are 0 and 1,
+respectively. Using standardized data makes it much easier to control the parameters in the models
+since the data used in fitting and prediction is always on the same scale. The first time the models
+see the data, the empirical mean and standard deviation are recorded both for $x$ and $y$, (note $x$
+can be a vector), giving $\mu_x$,$\mu_y$, $\sigma_x$and $\sigma_y$. When fitting the data, all data
+is transformed using the transformation, 
 
-$$T_x(\cdot) := \frac{\cdot-\mu_x}{\sigma_x}$$
+$$T(x,y) := \left(\frac{x-\mu_x}{\sigma_x}, \frac{y-\mu_y}{\sigma_y} \right).$$
 
-When we predict the $x$ is transformed, the model output a prediction 
-and then the inverse transform is mapping the prediction from the standardised
-domain to the original domain, 
- $T^{-1}_y(\hat y) := \hat y \cdot \sigma_x+\mu_x$
+When doing prediction i.e. calculating $p(y|x)$, we use the above transform on the input $x$, and
+the model output $y$ is transformed back to the original domain using the inverse transform, 
+$$T^{-1}_y(\hat y) :=\hat y \cdot \sigma_x+\mu_x.$$
+
+ \chapter{Results}
+ In the following chapter, we want to test the surrogate models both as regression models and as surrogate
+ models in a Bayesian optimization setting. Firstly we stay in the 1D domain on self-defined test problems, 
+ which will give an intuition about the capability of the Generative models as well as the discriminative models. 
+We have designed 4 test functions, which are defined to give an advantage to all the regression models. Secondly, 
+we go to the higher dimensional problems from the BBOB-2015 noiseless problem set. This is a popular set of problems 
+with 24 different problems for continuous black-box.
+
+
+% Bayesian optimization experiments we want to test the performance of as probabilistic regression
+% models.
+%  Thereby we might find regression models, which is better?! When this is established we want
+%  to test out the performance as a Bayesian optimization routine!
+ 
+%  Firstly an overview of the implementation!. 
+ 
+%  \todo{Lav systematiske resultater. Udvælg functionsklasser at kigge på}
+ 
+%  <reproducer resultater fra Arayns thesis>
+%  Egne forsøg med SPN og mixture regression
 
  \section{Regression analysis methodology}
  As described in the previous sections, an essential part of Bayesian optimization and the decision
  theory built around Bayesian optimization is that the regression model is correct. We will therefore
  look at how good the regression models are in terms of accurate prediction and 
- correct uncertainty estimation. 
+ correct uncertainty estimation. The following provides details on how exactly this is done. 
  
- \subsubsection{uncertainty quantification}
+
+ \subsection{Predictive power}
+ The performance of a deterministic regression model $f_w(\cdot)$ is typically measured in mean squared error or 
+ mean absolute error, i.e. 
+ $$MAE = \frac{1}{n}\sum_{i=1}^n |f_{w}(x_i) - y_i|.$$
+ For the probabilistic regression model, we want a similar measurement, and here it makes sense to 
+ use the most probable outcome of the predictive distribution, i.e. the mode. However, if it is Gaussian
+ the mode is equal the mean\footnote{Note using the mode for the mixture regression is a shame...}. Therefor the mean absolute error measurement is given as, 
+ $$MAE :=\frac{1}{n}\sum_{i=1}^n |\mu_{\mathcal{D}}(x_i) - y_i|.$$
+ \subsection{uncertainty quantification}
  The probibalistic model is given as 
  $$p(y|x,\mathcal{D}) = \mathcal{N}(y|\mu_{\mathcal{D}}(x), \sigma_{\mathcal{D}}^2(x))$$
  where the mean, and variance functions are different for all the models. 
  Given a trained model, we quantify its ability to capture uncertainty with the average
  predictive likelihood/ probability of the observation, given a test input $x_i$ the
  the density of predictive distribution is evaluated in the coresponding test output $y_i$,
- 
+
  $$\overline{p(y_i|x_i,\mathcal{D})} := \frac{1}{n}\sum_{i=1}^n p(y_i|x_i,\mathcal{D})$$
  note that the above might lead to that it is more important to classify one test point
  really well, so what we actually would rather test is the test point evaluated in the predictive
@@ -156,23 +241,15 @@ domain to the original domain,
  there the bigger the mean predictive likelihood is, the better. \todo{it is not called predictive
  likelihood!!}
  
- \subsubsection{prediction quantification}
- Here we use the mean absolute error to quantify the prediction error. The i'th test point is
- $(x_i,y_i)$ and the mean absolute error is given as, 
- $MAE :=\frac{1}{n}\sum_{i=1}^n |\mu_{\mathcal{D}}(x_i) - y_i| $
+\subsection{Benchmark surrogate model}
+We will benchmark our different regression models againt a simple emperical mean and
+emperical std. normal distribution benchmark, 
+$$p(y|x\mathcal{D}) = \mathcal{N}(y| \bar{\textbf{y}} , \bar{\sigma}^2 (\textbf{y})),$$
+where $\bar{\textbf{y}} = \frac{1}{n}\sum_{i=1}^n \textbf{y}_i $ and $\bar{\sigma}^2 (\textbf{y}))
+= \frac{1}{n-1}\sum_{i=1}^n (\textbf{y}_i-\bar{\textbf{y}})^2 .$ In the context of Bayesian
+optimization, it will not provide new candidate point, as all points are equally good, therefore
+it coresponds to random search, and will be used as random search benchmark. 
  
- \subsubsection{Benchmark surrogate model}
- We will benchmark our different regression models againt a simple emperical mean and
- emperical std. normal distribution benchmark, 
- $$p(y|x\mathcal{D}) = \mathcal{N}(y| \bar{\textbf{y}} , \bar{\sigma}^2 (\textbf{y}))$$
- 
- where $\bar{\textbf{y}} = \frac{1}{n}\sum_{i=1}^n \textbf{y}_i $ and $\bar{\sigma}^2 (\textbf{y}))
- = \frac{1}{n-1}\sum_{i=1}^n (\textbf{y}_i-\bar{\textbf{y}})^2 .$ In the context of Bayesian
- optimization, it will not provide new candidate point, as all points are equally good, therefore
- it coresponds to random search, and will be used as random search benchmark. 
-
-
-\newpage
 \section{Model compartment on test problems (regression)}
 % Experiment section. For each experiment
 %  1. Introduction. What is the purpose of the experiment
@@ -528,7 +605,7 @@ We however see that the GP does not need the ...
   \label{Test4_reg_visual}
 \end{figure}
 
-\section{Bayesian optimization on test porblems}
+\section{Bayesian optimization on test problems}
 
 \begin{figure}[H]
   \centering

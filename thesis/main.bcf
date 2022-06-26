@@ -2216,10 +2216,12 @@
     <bcf:citekey order="32">??</bcf:citekey>
     <bcf:citekey order="33">bishop</bcf:citekey>
     <bcf:citekey order="34">bishop</bcf:citekey>
-    <bcf:citekey order="35">GMR</bcf:citekey>
-    <bcf:citekey order="36">PhDthesis</bcf:citekey>
-    <bcf:citekey order="37">snoek2015scalable</bcf:citekey>
-    <bcf:citekey order="38">NIPS2016_a96d3afe</bcf:citekey>
+    <bcf:citekey order="35">BOHAMIANN</bcf:citekey>
+    <bcf:citekey order="36">GMR</bcf:citekey>
+    <bcf:citekey order="37">GMR</bcf:citekey>
+    <bcf:citekey order="38">PhDthesis</bcf:citekey>
+    <bcf:citekey order="39">snoek2015scalable</bcf:citekey>
+    <bcf:citekey order="40">NIPS2016_a96d3afe</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">
