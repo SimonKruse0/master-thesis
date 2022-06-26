@@ -1,7 +1,48 @@
-\chapter{Conclusion and further work}
+\chapter{Discussion}
+After the result have been conducted it is evident that the Gaussian process is a preferred model across the tested problems.
+however, we did find problems, where the GP was not the best. 
+\begin{itemize}
+    \item Test2
+    \item Test3
+\end{itemize}
+
+The Bayesian neural network training is difficult to know when it has converged, in general the more samples the better, 
+and the more weights the more complicated model there for more samples. We chose 500 warm-up and 500 samples, using 4
+chains, since that we have 4 cpus. Also to make sure the fitting we sat a very informative prior on a very small observation
+variance. 
+
+BOHamiANN is should have been more in focus. More samples? Or Better parameters. 
+
+Mixture regression for small amount of data does not seem smart. GMR is trained using MLE, has the most discriminative power,
+however, is also failing a lot. Essentially it is just a bit smarter version of random search, which indeed migth be
+better than an overconfident GP in certain problems. This is what we saw in ... Even for the MAP model SPN, the prior
+matters a lot. 
+
+Compartment between resluts should have used the mode instead for the mean. 
+
+
+Even though SPN is an interesting model, its relevance is only for large dimensions, where the number for data points
+or in certain cases where we want a more constraint model, i.e. that y can only come from 2 distributions thorughout the
+data. 
 
 discussion: Using a generative model as a surrogates model is a novel idea - maybe it is not a good
 idea.. Discretized regression
+
+Maybe manipulation of variance could be done, or same mean prediction?!? Or 
+mean prediction using the means of the close by x-values. 
+
+The terminology deep is not really relevant for the SPN as they are constrained by the number of dimensions..!
+
+crossvalidation for selecting the hyper paramters is not really smart for only few data. It would make more sence 
+to just place a hyperprior on the priors instead!. 
+
+\section{Mixture regression}
+The prior variance! Meant a lot!
+
+
+
+\chapter{Conclusion and further work}
+
 
 Maybe manipulation of variance could be done, or same mean prediction?!? Or 
 mean prediction using the means of the close by x-values. 

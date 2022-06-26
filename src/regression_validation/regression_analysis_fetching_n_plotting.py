@@ -7,9 +7,12 @@ from src.regression_validation.analysis_helpers import get_data2, get_names
 #main_data_folder = "/home/simon/Documents/MasterThesis/master-thesis/coco_reg_data"
 #folder_name = "/home/simon/Documents/MasterThesis/master-thesis/coco_reg_data/0522_1435"
 
-data_folder = "coco_reg_data"
+#data_folder = "coco_reg_data"
 #data_folder = "sklearn_reg_data"
+
+# FOR TEST PROLBEMS
 data_folder = "data/0624_20"
+
 #/home/simon/Documents/MasterThesis/master-thesis/data/0617_1218
 
 import pandas as pd
@@ -94,6 +97,7 @@ def plot_regression_paths(ax, problem_name, plot_type=0, only_means= False):
 
 import matplotlib.pyplot as plt
 if __name__ == "__main__":
+   
     ## plotting for thesis ##
     result_folder = "/home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/results_regression/"
     for number in ["1","2","3b","4b"]:

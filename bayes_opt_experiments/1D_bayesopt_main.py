@@ -5,6 +5,7 @@ from src.regression_models.numpyro_neural_network import NumpyroNeuralNetwork
 from src.regression_models.bohamiann import BOHAMIANN
 from src.regression_models.SPN_regression2 import SumProductNetworkRegression
 from src.regression_models.gaussian_mixture_regression2 import GMRegression
+from src.regression_models.mean_regression import MeanRegression
 
 from src.benchmarks.custom_test_functions.problems import Test1,Test2, Test3, Test4b,Test4c,Test3c, Test3b
 import numpy as np
@@ -24,13 +25,14 @@ reg_models = [GMRegression(optimize=True),
                                 num_chains=4,alpha=1000),
             SumProductNetworkRegression(optimize=True, sig_prior = 10)]
 
+reg_models = [MeanRegression()]
 # import random
 # random.seed()
 # random.shuffle(reg_models)
 #problems =  [Test1(),Test2(),Test4b(),Test3b()]
-problems =  [Test4c(),Test3c()]
+problems =  [Test1(),Test2(),Test4c(),Test3c()]
 DATA_path = "/zhome/17/6/118138/master-thesis/bayes_opt_experiments/1D_figures_cluster"
-#DATA_path = "/home/simon/Documents/MasterThesis/master-thesis/bayes_opt_experiments/1D_figures"
+DATA_path = "/home/simon/Documents/MasterThesis/master-thesis/bayes_opt_experiments/1D_figures_cluster"
 
 for seed in range(20):
     for reg_model in reg_models:
@@ -53,7 +55,9 @@ for seed in range(20):
                 #     path_more_runs = path
                 os.mkdir(path)
             except:
-                continue
+                pass
+                #continue
                 #a = input("folder already exists, ok? (y=yes) ")    
                 #pathnumber += 1
-            plot_BO.optimize(path, extension="jpg")
+            #plot_BO.optimize(path, extension="jpg")
+            plot_BO.optimize(path, extension=None)

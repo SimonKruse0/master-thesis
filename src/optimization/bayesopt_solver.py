@@ -250,7 +250,7 @@ class BayesOptSolverBase(PlottingClass2):
     def find_a_candidate_on_randomgrid(self, n_batches  = 1):
         if self.model.name == "empirical mean and std regression": #random search
             opt = OptimizationStruct()
-            opt.x_next = next(self._randomgrid(1,n=1)).squeeze()
+            opt.x_next = next(self._randomgrid(1,n=1))[0]
             self.opt = opt
             return
         
@@ -325,7 +325,7 @@ class BayesOptSolverBase(PlottingClass2):
         return np.hstack([ self._X, self._Y])
 
 class BayesOptSolver_coco(BayesOptSolverBase):
-    def __init__(self, reg_model, problem, acquisition="EI",budget = 5, n_init_samples=2, disp=False) -> None:
+    def __init__(self, reg_model, problem, acquisition="EI",budget = 35, n_init_samples=5, disp=False) -> None:
         super().__init__(reg_model,problem,acquisition, budget, disp)
         self.problem_init()
         self.init_XY_and_fit(n_init_samples)
@@ -383,6 +383,8 @@ class PlotBayesOpt1D(BayesOptSolver_sklearn):
 
             self.update_y_min()
             number = f"{i}".zfill(3)
+            if extension is None:
+                continue
             if path == "":
                 plt.show()
             else:

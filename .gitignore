@@ -22,3 +22,4 @@ sklearn_reg_data/*
 regression_experiments/1D_reg_plots/*
 thesis/Figures/*
 old_data*
+exdata_old*

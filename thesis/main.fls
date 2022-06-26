@@ -608,7 +608,7 @@ INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/06_result
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/reg_illustrations/all_reg_figures/Test1.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/reg_illustrations/all_reg_figures/Test2.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/reg_illustrations/all_reg_figures/Test3c.pdf
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/reg_illustrations/all_reg_figures/Test4c.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/reg_illustrations/all_reg_figures/Test4b.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/results_regression/Test1_dim_1_0.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/results_regression/Test1_dim_1_1.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/results_regression/Test1/1.pdf
@@ -641,6 +641,10 @@ INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/results_re
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/results_regression/Test4/3.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/results_regression/Test4/6.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/results_regression/Test4/5.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/results_baysopt/Test1.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/results_baysopt/Test2.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/results_baysopt/Test3c.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/results_baysopt/Test4c.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco_reg/f1_BOHAMIANN2.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco_reg/f1_BOHAMIANN3.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco_reg/f1_Gaussian Process - sklearn2.pdf

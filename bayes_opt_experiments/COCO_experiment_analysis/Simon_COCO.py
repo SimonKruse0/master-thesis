@@ -27,7 +27,7 @@ reg_models = [MeanRegression(),
 #     BO = BayesOptSolver_coco(reg_model,problem, budget=budget , disp=True)
 #     return BO()
 
-budget_multiplier = 30  # increase to 10, 100, ...
+budget_multiplier = 35  # increase to 10, 100, ...
 suite_name = "bbob"
 # for reg_model in reg_models:
 
@@ -57,7 +57,7 @@ suite_name = "bbob"
 #         minimal_print(problem, final=problem.index == len(suite) - 1)
 
 #run_name = datetime.today().strftime('%m%d_%H%M')
-run_name = "COCO_run"
+run_name = "COCO_run2"
 dirname=os.path.dirname
 path = os.path.join(dirname(dirname(dirname(os.path.abspath(__file__)))),f"data/{run_name}")
 try:
@@ -73,36 +73,39 @@ suite = cocoex.Suite(suite_name, "", "dimensions:2,3,5,10,20 instance_indices:1"
 minimal_print = cocoex.utilities.MiniPrint()
 K  =2
 # for K in [2,1,3,4,5,0]:
-for random_seed in range(10): #10 runs
-    try:
-        path2 = f"{path}/seed_{random_seed}"
-        os.mkdir(path2)
-    except:
-        pass
-    for reg_model in reg_models:
+for problemnumber in range(2,200,6):
+    for random_seed in range(20): #10 runs
         try:
-            reg_name = reg_model.name[:6]
-            path3 = f"{path2}/{reg_name}/"
-            os.mkdir(path3)
+            path2 = f"{path}/seed_{random_seed}"
+            os.mkdir(path2)
         except:
             pass
-        output_folder = f"BOO_{budget_multiplier}_{reg_name}_{random_seed}"
-        observer = cocoex.Observer(suite_name, "result_folder: " + output_folder)
-        for problem in suite:
-            problem.observe_with(observer) 
-            name_problem = problem.name.split(" ")[3]
-            dim = problem.name.split(" ")[-1]
-            print(name_problem)
-            if (int(name_problem[1:])-1)%6 != K: #ONLY 3, 9,18,24
-                continue
+        for reg_model in reg_models:
             try:
-                path4 = f"{path3}/{name_problem}-{dim}"
-                os.mkdir(path4)
+                reg_name = reg_model.name[:6]
+                path3 = f"{path2}/{reg_name}/"
+                os.mkdir(path3)
             except:
-                continue
+                pass
+            output_folder = f"BOO2_{budget_multiplier}_{reg_name}_{random_seed}"
+            observer = cocoex.Observer(suite_name, "result_folder: " + output_folder)
+            for id, problem in enumerate(suite):
+                if id != problemnumber:
+                    continue
+                problem.observe_with(observer) 
+                name_problem = problem.name.split(" ")[3]
+                dim = problem.name.split(" ")[-1]
+                print(name_problem)
+                # if (int(name_problem[1:])-1)%6 != K: #ONLY 3, 9,18,24
+                #     continue
+                try:
+                    path4 = f"{path3}/{name_problem}-{dim}"
+                    os.mkdir(path4)
+                except:
+                    continue
 
-            np.random.seed(random_seed)
-            BO = BayesOptSolver_coco(reg_model,problem, budget=budget_multiplier, disp=True)
-            BO()
-            minimal_print(problem, final=problem.index == len(suite) - 1)
-            #problem.free()
+                np.random.seed(random_seed)
+                BO = BayesOptSolver_coco(reg_model,problem, budget=budget_multiplier, disp=True)
+                BO()
+                minimal_print(problem, final=problem.index == len(suite) - 1)
+                #problem.free()
