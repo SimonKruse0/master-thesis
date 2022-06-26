@@ -1,10 +1,14 @@
 \chapter{Discussion}
-After the result have been conducted it is evident that the Gaussian process is a preferred model across the tested problems.
-however, we did find problems, where the GP was not the best. 
+%test results
+After the result have been conducted it is evident that the Gaussian process is a preferred model
+across the tested problems. however, we did find problems, where the GP was not the best. 
 \begin{itemize}
     \item Test2
     \item Test3
 \end{itemize}
+
+%test results
+
 
 The Bayesian neural network training is difficult to know when it has converged, in general the more samples the better, 
 and the more weights the more complicated model there for more samples. We chose 500 warm-up and 500 samples, using 4
@@ -25,6 +29,11 @@ Even though SPN is an interesting model, its relevance is only for large dimensi
 or in certain cases where we want a more constraint model, i.e. that y can only come from 2 distributions thorughout the
 data. 
 
+The reason why SPN is working well sometimes is more due to it fact that it has a prior, 
+and not the fact that it is -- Also it is hard to know exact when it has converged?!? Nah. 
+Maybe 5 restarts are too little. Bayesian nice everything please. 
+
+
 discussion: Using a generative model as a surrogates model is a novel idea - maybe it is not a good
 idea.. Discretized regression
 
@@ -42,7 +51,7 @@ The prior variance! Meant a lot!
 
 
 \chapter{Conclusion and further work}
-
+Testing using empirical expected improvements. 
 
 Maybe manipulation of variance could be done, or same mean prediction?!? Or 
 mean prediction using the means of the close by x-values. 

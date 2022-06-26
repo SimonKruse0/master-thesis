@@ -605,7 +605,11 @@ We however see that the GP does not need the ...
   \label{Test4_reg_visual}
 \end{figure}
 
-\section{Bayesian optimization on test problems}
+\section{Model compartment on test problems (Bayesian Optimization)}
+Bayesian optimization using 10 restarts, We see that the GP is in fact the best model in the simple
+problem Test1, however, for the more complicated problems the GP is not the prefered model. Recall
+that asigning 0 variance to the problem in expecpected improvement only yeilds a value in the
+expected improvement if it is increasing. 
 
 \begin{figure}[H]
   \centering
@@ -628,10 +632,40 @@ We however see that the GP does not need the ...
 \end{figure}
 
 
-\section{COCO}
-Benchmark!!
+\section{BBOB-2015 noiseless testbed}
+... Benchmark problem set. We evaluate the optimization methods on the BBOB-2015 noiseless
+testbed, which consists of 24 functions divided into five groups in terms of
+difficulty (see Table 3.1). These functions are a part of Comparing Continu-
+ous Optimizers framework (COCO) [77], which is a popular benchmarking
+testbed for continuous black-box optimization algorithms and allows for
+comprehensive evaluation of optimization methods over a set of functions
+with a wide range of characteristics (please refer to [57] for more details on
+the benchmark and specifications of each function). Due to the limitation
+of time and resources, only 15 independent trials were preformed for each
+method on each function in a set of two, three, five, and ten dimensional
 
-
+\begin{figure}[h]
+  \centering
+  \begin{minipage}[b]{0.44\textwidth}
+   \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f3.png}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.44\textwidth}
+   \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f9.png}
+  \end{minipage}
+  
+  \begin{minipage}[b]{0.44\textwidth}
+    \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f15.png}
+    %\caption{Rank}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.44\textwidth}
+    \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f21.png}
+  \end{minipage}
+  
+  \caption{COCO Test functions f3, f9,f15, and f21 in 2 dimensions}
+  \label{COCO_tests}
+\end{figure}
 
 
 

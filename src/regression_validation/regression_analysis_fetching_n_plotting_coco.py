@@ -49,11 +49,12 @@ def plot_means(ax,data_list,name_list, only_means = False,
         
         means = data_df.mean(axis=1)
         ax.plot(means.index,means.values,lw=3, color = color, label=f"{modelname}")
+    print(modelname, data_df.shape)
     colnames = data_df.columns
     return list(colnames)
 
 
-def plot_regression_paths(ax, problem_name, plot_type=0, only_means= False):
+def plot_regression_paths(ax, problem_name, plot_type=0, only_means= True):
     if plot_type == 0:
         #type = "mean_rel_error"
         type = "mean_rel_error"
@@ -75,6 +76,9 @@ def plot_regression_paths(ax, problem_name, plot_type=0, only_means= False):
     legend_names += plot_means(ax,data_list,name_list,only_means=only_means,type=type, search_name = "GMR", color = "cyan", modelname = "GMR")
     legend_names += plot_means(ax,data_list,name_list,only_means=only_means,type=type, search_name = "SPN", color = "purple", modelname = "SPN")
 
+    if len(legend_names) <65:
+        print("NOT ENOUGH DATA")
+        return
 
     if plot_type==0:
         ax.set_yscale('log')
@@ -97,7 +101,7 @@ import matplotlib.pyplot as plt
 if __name__ == "__main__":
    
     # ## plotting for thesis ##
-    # result_folder = "/home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/results_regression/"
+    result_folder = "/home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/results_regression/"
     # for number in ["1","2","3b","4b"]:
     #     for type in ["0","1"]:
     #         fig, ax = plt.subplots()
@@ -137,12 +141,20 @@ if __name__ == "__main__":
 
     if "coco_reg_data" in data_folder:
         for problem in list(range(3,25,6)):
-            for dim in [2,3,5,10,20]:
+            for dim in [2,3,5,10]:
                 for type in [0,1]:
                     fig, ax = plt.subplots()
                     problem_name = f"f{problem}_dim_{dim}"
+                    plt.xlim(10,316)
+                    ax.set_xscale("log")
                     plot_regression_paths(ax, problem_name, plot_type=type)
-                    plt.show()
+                    plt.grid()
+                    plt.tight_layout()
+                    fig = plt.gcf()
+                    fig.set_size_inches(6, 4)
+                    plt.savefig(result_folder+problem_name+f"_{type}"+".pdf")
+    
+        plt.show()
     else:
         problem_name = "SimonsTest2_probibalistic_dim_1"
         while True:

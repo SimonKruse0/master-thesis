@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  26 JUN 2022 19:27
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  26 JUN 2022 23:39
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1226,6 +1226,30 @@ LaTeX Warning: Label `f1_reg_2D' multiply defined.
 
 LaTeX Warning: Label `f1_reg_2D@cref' multiply defined.
 
+
+LaTeX Warning: Label `Test4_reg_visual' multiply defined.
+
+
+LaTeX Warning: Label `Test4_reg_visual@cref' multiply defined.
+
+
+LaTeX Warning: Label `Test4_reg_visual' multiply defined.
+
+
+LaTeX Warning: Label `Test4_reg_visual@cref' multiply defined.
+
+
+LaTeX Warning: Label `Test4_reg_visual' multiply defined.
+
+
+LaTeX Warning: Label `Test4_reg_visual@cref' multiply defined.
+
+
+LaTeX Warning: Label `Test4_reg_visual' multiply defined.
+
+
+LaTeX Warning: Label `Test4_reg_visual@cref' multiply defined.
+
 )
 \openout1 = `main.aux'.
 
@@ -1498,15 +1522,14 @@ File: Pictures/Logos/white_cmyk.pdf Graphic file (type pdf)
 
  [5
 
-] [6
-
-] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/00_introduction.tex
+] [6] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/00_introduction.tex
 Chapter 1.
 File: Pictures/GP_vs_BNN1_b.pdf Graphic file (type pdf)
 <use Pictures/GP_vs_BNN1_b.pdf>
 File: Pictures/GP_vs_BNN2.pdf Graphic file (type pdf)
 <use Pictures/GP_vs_BNN2.pdf>
 [1
+
 
 ] [2] [3]) [4] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/02_bayesian_optimization.tex
 Chapter 2.
@@ -1758,7 +1781,22 @@ File: Figures/results_baysopt/Test3c.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/Test3c.pdf>
 File: Figures/results_baysopt/Test4c.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/Test4c.pdf>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
  [52]
+File: Figures/coco/f3.png Graphic file (type bmp)
+<Figures/coco/f3.png>
+File: Figures/coco/f9.png Graphic file (type bmp)
+<Figures/coco/f9.png>
+File: Figures/coco/f15.png Graphic file (type bmp)
+<Figures/coco/f15.png>
+File: Figures/coco/f21.png Graphic file (type bmp)
+<Figures/coco/f21.png>
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
 File: Figures/coco_reg/f1_BOHAMIANN2.pdf Graphic file (type pdf)
 <use Figures/coco_reg/f1_BOHAMIANN2.pdf>
 File: Figures/coco_reg/f1_BOHAMIANN3.pdf Graphic file (type pdf)
@@ -1771,7 +1809,7 @@ File: Figures/coco_reg/f1_Naive Gaussian Mixture Regression optimized2.pdf Graph
 <use Figures/coco_reg/f1_Naive Gaussian Mixture Regression optimized2.pdf>
 File: Figures/coco_reg/f1_Naive Gaussian Mixture Regression optimized3.pdf Graphic file (type pdf)
 <use Figures/coco_reg/f1_Naive Gaussian Mixture Regression optimized3.pdf>
-
+[53]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
@@ -1898,23 +1936,106 @@ File: Figures/coco/f24.png Graphic file (type bmp)
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-) [53] [54] [55] [56] [57] [58] [59] [60] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/07_conclusion.tex
-Chapter 7.
-[61
+) [54] [55] [56] [57] [58] [59] [60] [61] [62
 
+] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/07_conclusion.tex
+Chapter 7.
+[63
 
 ]
 Chapter 8.
-) [62
+) [64
 
 ]
-Overfull \hbox (31.82188pt too wide) in paragraph at lines 54--54
+Overfull \hbox (31.82188pt too wide) in paragraph at lines 55--55
 []\TU/TimesNewRoman(0)/m/sc/10.95 Mashall Aryan. “  Sample-efficient Optimization Using Neural Networks”. []$[][][][][] [] [] [] [][][][][][][][][][][][][][][] []
  []
 
-[63
+[65
 
-] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Backpage.tex
+] [66
+
+] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Appendix.tex
+Appendix A.
+[67
+
+]
+Appendix B.
+File: Figures/results_regression/f3_dim_2_0.pdf Graphic file (type pdf)
+<use Figures/results_regression/f3_dim_2_0.pdf>
+File: Figures/results_regression/f9_dim_2_0.pdf Graphic file (type pdf)
+<use Figures/results_regression/f9_dim_2_0.pdf>
+File: Figures/results_regression/f15_dim_2_0.pdf Graphic file (type pdf)
+<use Figures/results_regression/f15_dim_2_0.pdf>
+File: Figures/results_regression/f21_dim_2_0.pdf Graphic file (type pdf)
+<use Figures/results_regression/f21_dim_2_0.pdf>
+File: Figures/results_regression/f3_dim_2_1.pdf Graphic file (type pdf)
+<use Figures/results_regression/f3_dim_2_1.pdf>
+File: Figures/results_regression/f9_dim_2_1.pdf Graphic file (type pdf)
+<use Figures/results_regression/f9_dim_2_1.pdf>
+File: Figures/results_regression/f15_dim_2_1.pdf Graphic file (type pdf)
+<use Figures/results_regression/f15_dim_2_1.pdf>
+File: Figures/results_regression/f21_dim_2_1.pdf Graphic file (type pdf)
+<use Figures/results_regression/f21_dim_2_1.pdf>
+File: Figures/results_regression/f3_dim_3_0.pdf Graphic file (type pdf)
+<use Figures/results_regression/f3_dim_3_0.pdf>
+File: Figures/results_regression/f9_dim_3_0.pdf Graphic file (type pdf)
+<use Figures/results_regression/f9_dim_3_0.pdf>
+File: Figures/results_regression/f15_dim_3_0.pdf Graphic file (type pdf)
+<use Figures/results_regression/f15_dim_3_0.pdf>
+File: Figures/results_regression/f21_dim_3_0.pdf Graphic file (type pdf)
+<use Figures/results_regression/f21_dim_3_0.pdf>
+File: Figures/results_regression/f3_dim_3_1.pdf Graphic file (type pdf)
+<use Figures/results_regression/f3_dim_3_1.pdf>
+File: Figures/results_regression/f9_dim_3_1.pdf Graphic file (type pdf)
+<use Figures/results_regression/f9_dim_3_1.pdf>
+File: Figures/results_regression/f15_dim_3_1.pdf Graphic file (type pdf)
+<use Figures/results_regression/f15_dim_3_1.pdf>
+File: Figures/results_regression/f21_dim_3_1.pdf Graphic file (type pdf)
+<use Figures/results_regression/f21_dim_3_1.pdf>
+File: Figures/results_regression/f3_dim_5_0.pdf Graphic file (type pdf)
+<use Figures/results_regression/f3_dim_5_0.pdf>
+File: Figures/results_regression/f9_dim_5_0.pdf Graphic file (type pdf)
+<use Figures/results_regression/f9_dim_5_0.pdf>
+File: Figures/results_regression/f15_dim_5_0.pdf Graphic file (type pdf)
+<use Figures/results_regression/f15_dim_5_0.pdf>
+File: Figures/results_regression/f21_dim_5_0.pdf Graphic file (type pdf)
+<use Figures/results_regression/f21_dim_5_0.pdf>
+File: Figures/results_regression/f3_dim_5_1.pdf Graphic file (type pdf)
+<use Figures/results_regression/f3_dim_5_1.pdf>
+File: Figures/results_regression/f9_dim_5_1.pdf Graphic file (type pdf)
+<use Figures/results_regression/f9_dim_5_1.pdf>
+File: Figures/results_regression/f15_dim_5_1.pdf Graphic file (type pdf)
+<use Figures/results_regression/f15_dim_5_1.pdf>
+File: Figures/results_regression/f21_dim_5_1.pdf Graphic file (type pdf)
+<use Figures/results_regression/f21_dim_5_1.pdf>
+File: Figures/results_regression/f3_dim_10_0.pdf Graphic file (type pdf)
+<use Figures/results_regression/f3_dim_10_0.pdf>
+File: Figures/results_regression/f9_dim_10_0.pdf Graphic file (type pdf)
+<use Figures/results_regression/f9_dim_10_0.pdf>
+File: Figures/results_regression/f15_dim_10_0.pdf Graphic file (type pdf)
+<use Figures/results_regression/f15_dim_10_0.pdf>
+File: Figures/results_regression/f21_dim_10_0.pdf Graphic file (type pdf)
+<use Figures/results_regression/f21_dim_10_0.pdf>
+
+Overfull \hbox (6.79997pt too wide) in paragraph at lines 171--172
+[][] 
+ []
+
+File: Figures/results_regression/f3_dim_10_1.pdf Graphic file (type pdf)
+<use Figures/results_regression/f3_dim_10_1.pdf>
+File: Figures/results_regression/f9_dim_10_1.pdf Graphic file (type pdf)
+<use Figures/results_regression/f9_dim_10_1.pdf>
+File: Figures/results_regression/f15_dim_10_1.pdf Graphic file (type pdf)
+<use Figures/results_regression/f15_dim_10_1.pdf>
+File: Figures/results_regression/f21_dim_10_1.pdf Graphic file (type pdf)
+<use Figures/results_regression/f21_dim_10_1.pdf>
+)
+Underfull \vbox (badness 3568) has occurred while \output is active []
+
+ [68
+
+] [69] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Backpage.tex
 *geometry* verbose mode - [ newgeometry ] result:
 * driver: xetex
 * paper: a4paper
@@ -1947,17 +2068,17 @@ Overfull \hbox (31.82188pt too wide) in paragraph at lines 54--54
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-) [64
+) [70
 
 
 ]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 61.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 61.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 62.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 62.
  (/home/simon/Documents/MasterThesis/master-thesis/thesis/main.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 61.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 61.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 62.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 62.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: CBDBEEB25A6B3021D13D5531709FBE42;2927.
+(rerunfilecheck)             Checksum: BDC4C97D1775E4310E74589CAC7030BB;3191.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -1970,12 +2091,12 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 57475 strings out of 481731
- 1363582 string characters out of 5935437
- 2310393 words of memory out of 5000000
- 73376 multiletter control sequences out of 15000+600000
+ 57674 strings out of 481731
+ 1371860 string characters out of 5935437
+ 2309834 words of memory out of 5000000
+ 73540 multiletter control sequences out of 15000+600000
  551917 words of font info for 141 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  82i,21n,138p,2818b,4693s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (70 pages, 1331060 bytes).
+Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (76 pages, 1368696 bytes).

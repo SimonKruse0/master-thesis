@@ -14,6 +14,8 @@ def get_optimization_history(coco_folder):
 
     for root, dirs, files in os.walk(coco_folder):
         for file in files:
+            if "BOO2" not in root:
+                continue
             if file.endswith(".dat"):
                 problem = root.split("_")[-1]
                 dim = file.split("_")[-2]
