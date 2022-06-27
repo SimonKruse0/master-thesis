@@ -2227,8 +2227,9 @@
     <bcf:citekey order="43">hansen2009real</bcf:citekey>
     <bcf:citekey order="44">PhDthesis</bcf:citekey>
     <bcf:citekey order="45">PhDthesis</bcf:citekey>
-    <bcf:citekey order="46">snoek2015scalable</bcf:citekey>
-    <bcf:citekey order="47">NIPS2016_a96d3afe</bcf:citekey>
+    <bcf:citekey order="46">PhDthesis</bcf:citekey>
+    <bcf:citekey order="47">snoek2015scalable</bcf:citekey>
+    <bcf:citekey order="48">NIPS2016_a96d3afe</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">

@@ -20,11 +20,47 @@ might be noisy. .. The PhD thesis \cite{PhDthesis} uses only 15 restarts, howeve
 conducted on 100 iterations and with only 2 initial points. We select to use 5 random samples .. no
 argument. 
 
+We established a connection between the performance of Bayesian optimization and the surrogate
+model's performance as a regression model. Note that for very small $\sigma^2$ which was the case
+for the Gaussian process (lower bounded with a observation variance of $10^{-3}$) the expected improvement
+is $$EI(x) = (y_{\min}-\mu_x)\Phi\left(\frac{y_{\min}-\mu_x}{\sigma_x}\right)+ \sigma_x
+\phi\left(\frac{y_{\min}-\mu_x}{\sigma_x}\right) \approx y_{\min}-\mu_x,$$ since the fraction $\frac{y_{\min}-\mu_x}{\sigma_x}$
+goes to infinity, the standard Gaussian pdf and cdf become 0 and 1, respectively. The connection 
+between the mixture regression performance and as Bayesian optimization should not be as clear. Indeed 
+Test3 shows an example where the mixtures ... this is due to the Gaussian approximation. Furthermore,
+we chose the easily available mean value to do predictive power of the regression models. This is a shame, 
+as the model's predictive distribution is richer than a simple mean and variance. This 
+would, however, involve tests using the approximate expected improvement. The predictive distribution
+of the Bayesian neural networks is also approximated with a Gaussian. This is however a bit more 
+reasonable as the Bayesian neural networks in the limit are equal to a Gaussian process. Futhermore,
+experiments using the approximated expected improvement with the Bayesian Neural networks were 
+conducted in \cite{PhDthesis}, with no promising results. 
 
+%Mixture vs generative models
+In this thesis, we tried using mixture regression models as surrogate models. Especially, when breaking the 
+GP and BNN's assumptions of a Gaussian observation noise they proved effective. This class of problems
+might occur in real-life simulations where the objective function can have multiple values, which are not
+just nearby values coursed by measurement noise. If one knew the "generative story" of the
+objective function values (e.g. that Test3 jumps between 2 functions), it might be possible to think about combining more Gaussain proceses in a probalistic
+graphical model, i.e. flipping a coin on what GP to use. But in the case where this generative story was not given 
+mixture regression might indeed be a smart choise. 
 
+Discriminative models is built with this one purpose of regression, whereas generative models, and conduct different 
+kind of probialistic quiries, which are usefull. Discriminative models are good for finding the paterns in data. 
 
+Variance of the prior was sat equal 10. I.e. when doing cross validation it was more keen on actually fitting a good model. 
+crossvalidation on low amount of data is... Not a general smart thing? We always learn that we should use Bayesian methods 
+on small amounts of data. 
 
+BOHamiANN is in general performing bad.. But got a comback for higher dims..?!.. It is designed to
+have a fast inference, while second to have on pair performance with the GP but with only linearly
+scaling inference.
 
+Sum product networks are the motivation why we call this deep.. 
+
+GMR was over confident.. Should have been Bayesian.
+
+GPs we never discussed the kernel. But the Matern kernel is chosen as the default in ... BayesOpt book. 
 
 %\section{Connection between a good regression model and surrogate model in BO}
 Looking a regression plots and there is a clear connection between being a good regression
@@ -104,7 +140,7 @@ And is 30 samples really scientific?
 
 
 \chapter{Conclusion and further work}
-
+The following chapter concludes the thesis and my work over the last five months. 
 
 This thesis has motivated the relevance for Bayesian optimization, developed different alternative
 surrogate models, i.e. a Bayesian NN and mixture regression models and tested those on some 
