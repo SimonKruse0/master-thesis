@@ -101,29 +101,22 @@ GPs are attractive models since they allow for exact inference, a closed-form ex
  surrogate models alternative to GPs, which can perform better on certain classes of (complex)
  problems, and have comparable performance on most classes of problems. 
 
- \section{Project limitation}
-Even though, it would be interesting to also examine different types of GPs such as deep kernel
-learning, we limit the scope of this project to deal with the following surrogate models:
+ \section{Project limitation and contibution}
+Even though, it would be interesting to examine different types of GPs such as deep kernel
+learning \cite{deepkernel}, we limit the scope of this project to deal with the following surrogate models:
 \begin{itemize}[noitemsep]
     \item GP with Matérn kernel
-    \item Bayesian neural network
-    \item Mixture regression (Gaussian mixture, kernel density estimator, sum-product networks)
+    \item Bayesian neural network (BNN)
+    \item Mixture regression (Gaussian mixture model, kernel density estimator, sum-product networks)
 \end{itemize}
 and we choose only to test the Bayesian optimization with the widely used acquisition function:
 \textit{expected improvement}. Furthermore, we only deal with problems in continuous domains
-$\mathcal{X} \in \mathbb{R}^m$.
-
-\section{Contribution}
-This thesis investigates surrogate models alternative to the isotropic GP - more concretely Bayesian NN
-and mixture regression. The proposed hypotheses are,
-
+$\mathcal{X} \in \mathbb{R}^m$. The proposed hypothesis is,
 
 \begin{enumerate}[noitemsep]
-    \item There exists classes of BO problems where GP is not a preferred model. 
-    \item Mixture regression models like SPN can be an effective surrogate model
-    performing better than GPs and Neural Networks in some complex BO problems. 
+    \item Mixture regression models and BNNs can be effective surrogate models
+    performing better than GPs in some complex BO problems. 
 \end{enumerate}
-
 
 Note that we here use "performance" to describe \textit{sample efficiency}, i.e., how few evaluations/samples
 of the objective function are necessary to find the minima. So here it is assumed that the objective
@@ -140,6 +133,7 @@ and time spend on the surrogate modeling and optimization.
 % could lead to advantages over BNNs. 
 
 \section{Related work}
+\todo{Might delete this}
 Here we give a short overview of research in different surrogates for Bayesian optimization
 and the very related field of active learning. The different surrogate models, which are in the 
 research we found, 
@@ -225,6 +219,7 @@ Following is the general notation used in this thesis, but some chapters (e.g. a
     \item $\textbf{y}$: Set of observations or samples for corresponding $\textbf{x}$.
     \item $\mathcal{D}$: Collection of samples in the optimization landscape. 
     \item $\mathcal{N}(x|\mu, \Sigma)$: The density of a normal distribution evaluated in $x$.
+    %\item $\mathcal{Cat}(x|\alpha_1, \dots, \alpha_k)$: The density of a catagorical distribution evaluated in $x$.
     \item \textit{optimization landscape}: joint set of points in the domain and the objective function
     evaluated in the points, i.e. $\{(x,f(x))\in \mathcal{X} \times \mathbb{R}| x \in \mathcal{X}\}$.
     \item $y \sim p(y)$: A realization of $y$ with the density $p(y)$
@@ -232,8 +227,8 @@ Following is the general notation used in this thesis, but some chapters (e.g. a
 
 \subsection{Bayesian notation}
 Throughout this thesis we will be using Bayesian notation, i.e. $p(x) := P(X=x)$ is the probability
-density function of the random variable $X$ evaluated in $x$. and $p(y|x) := P(Y=y|X=x)$ or $p(y|x)
-:= P(Y|X=x)$. And writing $p(y^2|x)$ means $P(Y^2=y^2|X=x)$ and \textbf{not} $P(Y=y^2|X=x)$. 
+density function of the random variable $X$ evaluated in $x$ and $p(y|x) := P(Y=y|X=x)$. %or $p(y|x):= P(Y|X=x)$. 
+Furthermore, writing $p(y^2|x)$ means $P(Y^2=y^2|X=x)$ and \textbf{not} $P(Y=y^2|X=x)$. 
 Another noteable notation is the expecation of $g(y)$ with respect to the preditive distribution 
 $$E_{p(y|x,\mathcal{D})}[g(y)] = \int g(y) p(y|x,\mathcal{D}) dy.$$
 % \begin{itemize}[noitemsep]

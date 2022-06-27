@@ -23,11 +23,11 @@ fvals = f(grid)
 # plt.xlim(0, 1)
 
 # plt.show()
-plot_type = 2
+plot_type = 1
 gp_local_min = 2
 while plot_type == 1:
     plt.figure()
-    GP_reg = GaussianProcess_GPy()
+    GP_reg = GaussianProcess_GPy(bounds=False )
     GP_reg.fit(x[:, None],y[:, None])
     m, sd, _ = GP_reg.predict(grid[:,None])
 
@@ -45,11 +45,13 @@ while plot_type == 1:
     #plt.show()
     if GP_reg.model.log_likelihood()>-15 and gp_local_min==1:
         path = "/home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures"
-        plt.savefig(f'{path}/GP_vs_BNN1_b.pdf', bbox_inches='tight')
+        #plt.savefig(f'{path}/GP_vs_BNN1_b.pdf', bbox_inches='tight')
+        plt.show()
         break
     if GP_reg.model.log_likelihood()<-15 and gp_local_min!=1:
         path = "/home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures"
-        plt.savefig(f'{path}/GP_vs_BNN1.pdf', bbox_inches='tight')
+        #plt.savefig(f'{path}/GP_vs_BNN1.pdf', bbox_inches='tight')
+        plt.show()
         break
 
 if plot_type == 2:

@@ -2,7 +2,7 @@
 Given an objective function $f: \mathcal{X} \rightarrow \mathbb{R}$, where the domain $\mathcal{X}$
 could be a subset of $\mathbb{R}^n$\footnote{The thesis only work with this subset $\mathcal{X}
 \subset \mathbb{R}^n$}, optimization is a methodology which seeks to find an optimal point, $x^*$,
-and value $f^* = f(x)$, given as
+and value $f^* = f(x^*)$, given as
 \begin{align}\label{OPT}
     x^* \in \argmin_{x \in \mathcal{X}} f(x), \hspace{1cm} f^* = \min_{x \in \mathcal{X}} f(x) = f(x^*).
 \end{align}
@@ -14,7 +14,7 @@ convex and analytically directly solvable or the domain of $f$ is very limited. 
 with linear least squares is an example of such a problem. 
 
 \begin{testexample}[Example: Direct solution method]
-    The unconstrained linear least squares, $$\min_{x\in \mathbb{R}^n} f(x) := ||Ax-b||_2^2$$
+    The unconstrained linear least squares \cite{boyd2004convex}, $$\min_{x\in \mathbb{R}^n} f(x) := ||Ax-b||_2^2$$
     where $A \in \mathbb{R}^{m\times n}$ and $b \in \mathbb{R}^m$, is a convex problem,
     i.e. finding $x^*$ such that $\nabla f(x^*) = 0$ is equivalent to finding the solution
     to the problem. Assuming $A^TA$ is invertable, linear least squares can be solved
@@ -28,8 +28,7 @@ or (for constraint problems) KKT points \cite{boyd2004convex} - this might be te
 Therefore, when the problem is not directly solvable, mathematical optimization takes an indirect
 approach: Design a sequence of experiments that reveal information about the objective function.
 This information can hopefully lead us to the solution of \eqref{OPT}. This general way of
-sequentially solving is presented in the book "Bayesian Optimization" \cite{bayesoptbook} and
-presented here as Algorithm \ref{algOPT}. 
+sequentially solving is presented in Algorithm \ref{algOPT}  \cite{bayesoptbook}. 
 
 \begin{algorithm}[H]
 \caption{Sequencial Optimization \cite{bayesoptbook} }\label{algOPT}
@@ -216,14 +215,16 @@ as it defines a Bayesian regression model over the observations.
 % \end{figure}
 
 \begin{testexample}[Bayesian Optimization]
-    Bayesian optimization is a \textit{probabilistic} surrogate-based optimization
-    methodology. Here a cheap probabilistic regression model $p(y|x)$ is fitted to the
-    the observations $\mathcal{D}$ and in contrast to (deterministic) surrogate-based
-    optimization, it is not possible right away to find the minima in the cheap
-    surrogate model; first, we need to interpret the meaning of minima in a probabilistic
-    regression model. This interpretation is done through a so-called acquisition
-    function (AQ) - more about this later. The policy is as follows,
-    $$\text{policy}_{BO}(\mathcal{D}) = \max_x AQ(p(y|x,\mathcal{D}))$$
+    Bayesian optimization is a \textit{probabilistic} surrogate-based optimization methodology. Here
+    a cheap probabilistic regression model $p(y|x)$ is fitted to the the observations $\mathcal{D}$
+    and in contrast to (deterministic) surrogate-based optimization, it is not possible right away
+    to find the minima in the cheap surrogate model; first, we need to interpret the meaning of
+    minima in a probabilistic regression model. This interpretation is done through a so-called
+    acquisition function (AQ) - more about this later. The policy in the context of Algorithm
+    \ref{algOPT} is as follows,
+    \begin{equation}\label{BayesOpt}
+        \text{policy}_{BO}(\mathcal{D}) = \max_x AQ(p(y|x,\mathcal{D}))
+    \end{equation}
 
     \begin{figure}[H]
         \begin{minipage}[c]{0.67\textwidth}

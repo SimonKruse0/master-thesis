@@ -224,8 +224,8 @@
       \strng{editornamehash}{a39670f7069dc3237dbc92fe523ad0c6}
       \strng{editorfullhash}{12a698699c223bd18ce3abc205938f9b}
       \field{extraname}{1}
-      \field{sortinit}{6}
-      \field{sortinithash}{7851c86048328b027313775d8fbd2131}
+      \field{sortinit}{7}
+      \field{sortinithash}{f615fb9c6fba11c6f962fb3fd599810e}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{Advances in Neural Information Processing Systems}
@@ -292,8 +292,8 @@
       \strng{authornamehash}{ed6793cb5ec5e5b336b96236df5b354f}
       \strng{authorfullhash}{43861213e8477bc71a2d2f7504b8848d}
       \field{extraname}{1}
-      \field{sortinit}{7}
-      \field{sortinithash}{f615fb9c6fba11c6f962fb3fd599810e}
+      \field{sortinit}{8}
+      \field{sortinithash}{1b24cab5087933ef0826a7cd3b99e994}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprintclass}{stat.ML}
@@ -321,8 +321,8 @@
       \strng{authorbibnamehash}{91333716f4cea2ae61e16efe638e9329}
       \strng{authornamehash}{91333716f4cea2ae61e16efe638e9329}
       \strng{authorfullhash}{91333716f4cea2ae61e16efe638e9329}
-      \field{sortinit}{8}
-      \field{sortinithash}{1b24cab5087933ef0826a7cd3b99e994}
+      \field{sortinit}{9}
+      \field{sortinithash}{54047ffb55bdefa0694bbd554c1b11a0}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{note}{\url{https://researcharchive.vuw.ac.nz/handle/10063/9035}}
@@ -484,8 +484,8 @@
       \strng{authorbibnamehash}{9832ff500d1e39bf1fb044ae64909f1c}
       \strng{authornamehash}{9832ff500d1e39bf1fb044ae64909f1c}
       \strng{authorfullhash}{9832ff500d1e39bf1fb044ae64909f1c}
-      \field{sortinit}{1}
-      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{sortinit}{2}
+      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Journal of global optimization}
@@ -495,6 +495,61 @@
       \field{year}{2001}
       \field{pages}{345\bibrangedash 383}
       \range{pages}{39}
+    \endentry
+    \entry{bishop}{book}{}
+      \name{author}{2}{}{%
+        {{hash=9dfd0135a5e80aa6d81cea2c10fb7f73}{%
+           family={Bishop},
+           familyi={B\bibinitperiod},
+           given={Christopher\bibnamedelima M},
+           giveni={C\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=d8299efb6248f430bb0c465c766ed702}{%
+           family={Nasrabadi},
+           familyi={N\bibinitperiod},
+           given={Nasser\bibnamedelima M},
+           giveni={N\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{777504ebb73f750912508fc1b666e109}
+      \strng{fullhash}{777504ebb73f750912508fc1b666e109}
+      \strng{bibnamehash}{777504ebb73f750912508fc1b666e109}
+      \strng{authorbibnamehash}{777504ebb73f750912508fc1b666e109}
+      \strng{authornamehash}{777504ebb73f750912508fc1b666e109}
+      \strng{authorfullhash}{777504ebb73f750912508fc1b666e109}
+      \field{sortinit}{2}
+      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{number}{4}
+      \field{title}{Pattern recognition and machine learning}
+      \field{volume}{4}
+      \field{year}{2006}
+    \endentry
+    \entry{ML_Bayesian_Pespective}{book}{}
+      \name{author}{1}{}{%
+        {{hash=fd3acabdbe6cc1c8fdbab64dd76ae135}{%
+           family={Theodoridis},
+           familyi={T\bibinitperiod},
+           given={Sergios},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Academic press}%
+      }
+      \strng{namehash}{fd3acabdbe6cc1c8fdbab64dd76ae135}
+      \strng{fullhash}{fd3acabdbe6cc1c8fdbab64dd76ae135}
+      \strng{bibnamehash}{fd3acabdbe6cc1c8fdbab64dd76ae135}
+      \strng{authorbibnamehash}{fd3acabdbe6cc1c8fdbab64dd76ae135}
+      \strng{authornamehash}{fd3acabdbe6cc1c8fdbab64dd76ae135}
+      \strng{authorfullhash}{fd3acabdbe6cc1c8fdbab64dd76ae135}
+      \field{sortinit}{2}
+      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Machine learning: a Bayesian and optimization perspective}
+      \field{year}{2015}
     \endentry
     \entry{bishop1995neural}{book}{}
       \true{moreauthor}
@@ -515,8 +570,8 @@
       \strng{authorbibnamehash}{f88a0a2cdc26d020db05dd0d5d23eb0c}
       \strng{authornamehash}{f88a0a2cdc26d020db05dd0d5d23eb0c}
       \strng{authorfullhash}{f88a0a2cdc26d020db05dd0d5d23eb0c}
-      \field{sortinit}{2}
-      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
+      \field{sortinit}{3}
+      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{Neural networks for pattern recognition}
@@ -564,8 +619,8 @@
       \strng{editorbibnamehash}{d4ecbd8dc23b451509557359f0492bea}
       \strng{editornamehash}{d4ecbd8dc23b451509557359f0492bea}
       \strng{editorfullhash}{d4ecbd8dc23b451509557359f0492bea}
-      \field{sortinit}{2}
-      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
+      \field{sortinit}{3}
+      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{Advances in Neural Information Processing Systems}
@@ -681,37 +736,6 @@
       \endverb
       \keyw{Machine Learning (cs.LG),Artificial Intelligence (cs.AI),Machine Learning (stat.ML),FOS: Computer and information sciences,FOS: Computer and information sciences}
     \endentry
-    \entry{bishop}{book}{}
-      \name{author}{2}{}{%
-        {{hash=9dfd0135a5e80aa6d81cea2c10fb7f73}{%
-           family={Bishop},
-           familyi={B\bibinitperiod},
-           given={Christopher\bibnamedelima M},
-           giveni={C\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
-        {{hash=d8299efb6248f430bb0c465c766ed702}{%
-           family={Nasrabadi},
-           familyi={N\bibinitperiod},
-           given={Nasser\bibnamedelima M},
-           giveni={N\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
-      }
-      \list{publisher}{1}{%
-        {Springer}%
-      }
-      \strng{namehash}{777504ebb73f750912508fc1b666e109}
-      \strng{fullhash}{777504ebb73f750912508fc1b666e109}
-      \strng{bibnamehash}{777504ebb73f750912508fc1b666e109}
-      \strng{authorbibnamehash}{777504ebb73f750912508fc1b666e109}
-      \strng{authornamehash}{777504ebb73f750912508fc1b666e109}
-      \strng{authorfullhash}{777504ebb73f750912508fc1b666e109}
-      \field{sortinit}{3}
-      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{number}{4}
-      \field{title}{Pattern recognition and machine learning}
-      \field{volume}{4}
-      \field{year}{2006}
-    \endentry
     \entry{hansen2009real}{thesis}{}
       \name{author}{4}{}{%
         {{hash=71bc70e7c119a2151bf105823920cf83}{%
@@ -745,8 +769,8 @@
       \strng{authornamehash}{3f8b8ead7823b392ca828a13434e631f}
       \strng{authorfullhash}{c1ed4129b5c7344347bce850932e8a78}
       \field{extraname}{1}
-      \field{sortinit}{3}
-      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
+      \field{sortinit}{4}
+      \field{sortinithash}{e071e0bcb44634fab398d68ad04e69f4}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{Real-parameter black-box optimization benchmarking 2009: Noiseless functions definitions}
@@ -796,8 +820,8 @@
       \strng{authornamehash}{3f8b8ead7823b392ca828a13434e631f}
       \strng{authorfullhash}{d729373350d63d76b88ffa4575e8cc11}
       \field{extraname}{2}
-      \field{sortinit}{3}
-      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
+      \field{sortinit}{4}
+      \field{sortinithash}{e071e0bcb44634fab398d68ad04e69f4}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Optimization Methods and Software}
@@ -963,6 +987,7 @@
     \endentry
   \enddatalist
   \missing{??}
+  \missing{deepkernel}
 \endrefsection
 \endinput
 

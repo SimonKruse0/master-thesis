@@ -8,9 +8,11 @@ from IPython.display import display
 
 
 class GaussianProcess_GPy:
-    def __init__(self, extra_name="") -> None:
+    def __init__(self, extra_name="", n_optimize = 20, bounds = True) -> None:
         self.name = f"GP"
         self.latex_architecture = r"gp.kernels.Matern52"
+        self.n_optimize = n_optimize
+        self.include_bounds = bounds
 
     def fit(self, X,Y):
         X, self.x_mean, self.x_std = normalize(X)
@@ -18,8 +20,9 @@ class GaussianProcess_GPy:
         dim = X.shape[1]
         kernel = GPy.kern.Matern52(input_dim=dim, variance=1., lengthscale=1.)
         self.model = GPy.models.GPRegression(X,Y,kernel)
-        self.model.constrain_bounded(1e-3,2)
-        self.model.optimize_restarts(num_restarts = 20)
+        if self.include_bounds:
+            self.model.constrain_bounded(1e-3,2)
+        self.model.optimize_restarts(num_restarts = self.n_optimize)
         kernel_ls = self.model.parameters[0].lengthscale[0]
         kernel_var = self.model.parameters[0].variance[0]
         noise_var = self.model.parameters[1].variance[0] #noise

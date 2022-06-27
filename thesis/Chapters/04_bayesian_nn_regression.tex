@@ -28,7 +28,7 @@ the prior and we get the predictive posterior distribution (right).
     \caption{Graphical representation of a Bayesian neural network compared to a neural network. The
     weights are assigned a probability density. Note that we often prior assume no correlation and
     a standard normal distribution, but the posterior (after observing data) might contain
-    correlations between the weights (from CYDA)}
+    correlations between the weights.}
     \label{BNN_illustration2}
 \end{figure}
 
@@ -40,8 +40,7 @@ $$p_{\text{\tiny BNN}}(y|x, \theta) = \mathcal{N}(y|f_{\textbf{w}}(x),\sigma^2)$
 
 The prior distribution of the weights (including the biases) are typically assumed uncorrelated
 standard normal distributed and the observation variance $\sigma^2$ can be assigned a lognormal or
-half-Cauchy, with support on the positive real domain, since a variance parameter can only be
-non-negative. We can write the priors of the BNN model as
+half-Cauchy, with support on the positive real domain. We can write the priors of the BNN model as
 \begin{align*}
     p(\theta = (w, \sigma)) &= \mathcal{N}(w;\textbf{0},I) \log\mathcal{N}(\sigma;\dots)
 \end{align*}
@@ -70,8 +69,9 @@ $\theta^{(k)} \sim p(\theta|\mathcal{D})$.
     f(x^{(k)}) =: \Theta_{K}(f)$$ holds according to the law of large numbers. In fact,  $$E[f(x)] =
     \lim_{K \rightarrow \infty} \Theta_{K}(f)$$ and the central limit theorem ensures that the
     variance of the unbiased estimator of the expectation decreases with number of samples, $K$, i.e.
-    $$p(\hat \Theta) \approx \mathcal{N}(\hat \Theta |\mu_f, \frac{\sigma_f^2}{K}),$$ where $\mu_f :=
-    E[f(x)] $ and $\sigma_f^2 = Var(f(x))$. \cite{??}
+    $$p(\hat \Theta)  \approx  \mathcal{N}(\hat \Theta |\mu_f,
+    \frac{\sigma_f^2}{K}),$$ where $\mu_f := E[f(x)] $ and $\sigma_f^2 =
+    Var(f(x))$. \cite[708]{ML_Bayesian_Pespective}
 \end{testexample2}
 We try to get iid samples from the posterior distribution using MCMC.
 
@@ -90,12 +90,11 @@ chain Monte Carlo (MCMC) to obtain samples from the posterior distribution.
     We can use MCMC for sampling from a probability density $p(x)$, with only the knowledge of a 
     proportional/unnormalised density $\hat p(x) \geq 0$ i.e
     $$\hat p(x) = c\cdot p(x) \propto p(x), \hspace{1cm} c = \int \hat p(x) dx,$$ where $\int \hat
-    p(x) dx$ may be intractable. The MCMC procedure constructs an ergodic Markov
-    chain/process, such that its stationary distribution is exactly $p(x)$, but only
-    with the knowledge of $\hat p(x)$. 
-    <short more details on MCMC>
+    p(x) dx$ may be intractable. The MCMC procedure constructs an \textbf{ergodic} Markov
+    chain/process, such that its \textbf{stationary} distribution is exactly $p(x)$, but only
+    with the knowledge of $\hat p(x)$. Here is a short explaination of the ergodicity and stationary:
     \begin{itemize}[noitemsep]
-        \item \textbf{Ergodic}: A Markov process which spans/visits all the space. 
+        \item \textbf{Ergodicity}: A Markov process which spans/visits all the space. 
         \item \textbf{Stationary distribution}: A Markov process has reached stationary distribution if
                             we stay there at the next sample. 
         \item \textbf{Detailed balance relation}: A way to check if a Markov chain is
@@ -207,15 +206,13 @@ Since some intuition is now established around Hamiltonian Monte Carlo,
 we look a bit at the two versions used in the thesis. Our implementation in Numpyro
 and the one from the paper, BOHamiANN, 
 
-\subsubsection{NUTS}
-<LAV om>
-Often the physical simulation in HMC goes back and forth the same path (a u-turn), and we risk getting bad samples.
+%\subsubsection{NUTS}
+Often the physical simulation in HMC goes back and forth on the same path (a u-turn), and we risk getting bad samples.
 No U-turn (NUTS) sampling avoids this, by forcing the HMC path to not take u-turns. 
 
-\subsubsection{Adaptive stochatic HMC}
-<Læs BOHamiANN paper igennem>
+% \subsubsection{Adaptive stochatic HMC}
+% <Læs BOHamiANN paper igennem>
 BOHAMIANN is using an adaptive stochastic Hamiltonian monte carlo method to train the BNN. 
-
 
 \subsection{Design and properties of Bayesian neural network}
 The architecture of a BNN is a large topic to discuss. There are certain tradeoffs to be taken into

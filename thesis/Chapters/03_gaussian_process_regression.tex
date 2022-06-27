@@ -40,7 +40,8 @@ where $\bm{\mu}$ typically is $0$ and the covariance matrix, is dependent on the
 which yields many possible outcomes for $f_*$ with an average $E[f_*] = 0$ and variance of $V[f_*] =
 1$. Note that given a realization of $\textbf{f}$, then the distribution of $f_*$ is changed due to
 the correlation $c(x_*, \textbf{x})$. Fortunately, any conditional distribution from a multivariate
-normal distribution is easy to deal with. Using appendix... the conditional distribution of $f_*$ given $\textbf{f}$ is, 
+normal distribution is easy to deal with. Using appendix \todo{Todo include in appendix} the
+conditional distribution of $f_*$ given $\textbf{f}$ is, 
 \begin{equation} \label{conditional_GP}
     p(f_*|\textbf{x}, \textbf{f}) = \mathcal{N}(f_*|c(x_*, x_*)^{-1}c(x_*, \textbf{x})\textbf{f},c(x_*, x_*)^{-1}).
 \end{equation}
@@ -64,7 +65,7 @@ marginalizing out the random variable $f_* := f(x_*)$ (as seen in
 \end{equation}
 We will soon see that the posterior $p(f_*|\mathcal{D})$ is also a normal distribution 
 with mean $\mu_*$ and variance $\sigma^2_*$ so
-using <trick in appendix> we end up with the closed from Normal distribution, 
+using \eqref{marginal_distribution} we end up with the closed form Normal distribution, 
 $$p(y_*|x_*,\mathcal{D}) = \mathcal{N}(y_*|\mu_*,\sigma^2_*+\sigma^2)$$
 
 So now, we want to calculate $p(f_*|\mathcal{D})$, this can be done using the neat properties of Gaussian
@@ -84,29 +85,30 @@ As mentioned $f(\cdot)$ is the noisefree prediction, i.e. $y
 = f(x)+ \epsilon$. So assuming iid data, and that $\epsilon$ is additive Gaussian
 noise with variance $\sigma^2$, we get the likehood, 
 \begin{align*}
-    p(\textbf{y}|\textbf{x}, \textbf{f}) = \prod_{i=1}^n p(y_i|x_i,\textbf{f}_i) = \prod_{i=1}^n \mathcal{N}(y_i|\textbf{f}_i,\sigma^2) = \mathcal{N}(\textbf{y}|\textbf{f},\sigma^2 I)
+    p(\textbf{y}|\textbf{x}, \textbf{f}) = \prod_{i=1}^n p(y_i|x_i,\textbf{f}_i) = \prod_{i=1}^n \mathcal{N}(y_i|\textbf{f}_i,\sigma^2) = \mathcal{N}(\textbf{y}|\textbf{f},\sigma^2 I).
 \end{align*}
-from \eqref{prior_gp} the prior of $\textbf{f}$ is defined using similarities between its corresponding $\textbf{x}$, giving a
+From \eqref{prior_gp} the prior of $\textbf{f}$ is defined using similarities between its corresponding $\textbf{x}$, giving a
 multivariate normal distribution, 
 $p(\textbf{f}|\textbf{x}) = \mathcal{N}(\textbf{f}|\textbf{0},c(\textbf{x}, \textbf{x}))$
 so we can specify the unomalized posterior \eqref{GP_posterior_unomalized},
 \begin{align*}
     p(\textbf{f}|\mathcal{D}) &\propto \mathcal{N}(\textbf{f}|\textbf{0}, c(\textbf{x}, \textbf{x})) \mathcal{N}(\textbf{y}|\textbf{f},\sigma^2 I).
 \end{align*}
-Now we see that, this is a product between two Gaussians using appendix ...
+Noticing that the random quantaties $\textbf{y}$ and $\textbf{f}$ are related such that we can use \eqref{posterior_distribution}, 
 we have that the posterior is the following Gaussian: 
 \begin{equation*}
-    p(\textbf{f}|\mathcal{D}) = \mathcal{N}(\textbf{f}|M^{-1} \sigma^{-2}\textbf{y}, M^{-1}) \hspace{0.5cm}M := c(\textbf{x}, \textbf{x})^{-1}+\sigma^{-2} I_n
+    p(\textbf{f}|\mathcal{D}) = \mathcal{N}(\textbf{f}|\Gamma \sigma^{-2}\textbf{y}, \Gamma) \hspace{0.5cm} \Gamma := \left(c(\textbf{x}, \textbf{x})^{-1}+\sigma^{-2} I_n \right)^{-1},
 \end{equation*}
-
-Finally, we see that both terms in the integral \eqref{posterior_function_new}, are related such
-that it is possible to use \eqref{marginal_distribution} for arriving at (we define $A :=  c(x_*,
-x_*)^{-1} c(x_*, \textbf{x})$), 
+where $\Gamma$ is defined according to \eqref{Gamma}. Finally, we see that both terms in the
+integral \eqref{posterior_function_new}, are related such that it is possible to use
+\eqref{marginal_distribution} \footnote{This can be seen by the relation between $\textbf{f}$ and
+$f_*$ in \eqref{posterior_function_new}}, for arriving at, 
 \begin{align*}
     p(f_*|\mathcal{D}) &= \mathcal{N}(f_*|\mu_*,\sigma_*^2 )\\
-    \mu_* &=  AM^{-1}\sigma^{-2}\textbf{y}\\
-    \sigma_*^2 &=  c(x_*, x_*)^{-1}+AM^{-1}A^T)
+    \mu_* &=  A\Gamma\sigma^{-2}\textbf{y}\\
+    \sigma_*^2 &=  c(x_*, x_*)^{-1}+A\Gamma A^T),
 \end{align*}
+where we define $A :=  c(x_*,x_*)^{-1} c(x_*, \textbf{x})$ agreeing with A in \eqref{marginal_distribution}.
 We now have a fully specified Gaussian process posterior function, which we sample from 
 in Figure \ref{GP_illustration2}. 
 
@@ -135,8 +137,8 @@ in Figure \ref{GP_illustration2}.
     have the form, 
     \begin{align}
         p(y) &= \mathcal{N}(y|A\mu+b,L^{-1}+A \Lambda^{-1}A^T) \label{marginal_distribution}\\
-        p(x|y) &= \mathcal{N}(x|\Gamma \mu+\Gamma [A^TL(y-b)],\Gamma )\\
-        \Gamma &:= (\Lambda +A^TLA)^{-1}
+        p(x|y) &= \mathcal{N}(x|\Gamma \mu+\Gamma [A^TL(y-b)],\Gamma ) \label{posterior_distribution}\\
+        \Gamma &:= (\Lambda +A^TLA)^{-1} \label{Gamma}
     \end{align}
 \end{testexample2}
 
@@ -145,38 +147,36 @@ in Figure \ref{GP_illustration2}.
 
 \subsection{Learning - Empirical Bayes inference}
 
-The above deviation of prediction with the Gaussian process only acknowledged $f_*$ as the unknown
+The above derivation of the prediction with the Gaussian process only acknowledged $f_*$ as the unknown
 variable, however, in \eqref{GP_likelihood} we included the observation variance $\sigma^2$
 as the unknown parameter set $\theta$. Additionally, the similarity measurement, which is done in the kernel, 
- $c(\cdot , \cdot )$, is also parameterized. We did assume those additional parameters were known because
-of the nice closed form predictive posterior. Instead we now call the variance $\sigma^2$ and
+ $c(\cdot , \cdot )$, is also parameterized. We assumed those additional parameters were known because
+of the resulting closed-form predictive posterior. Instead we now call the variance $\sigma^2$ and
 kernel parameters hyperparameters. Very often GP hyperparameters are chosen using Emperical bayes, which is simply
-to choose the hyperparameters, which maximize the marginalized likehood,  
-$$\nu = \argmin_{\nu} p(\textbf{y}|\textbf{x}, \nu)$$
+to choose the hyperparameters $\nu$, which maximize the marginalized likehood,  
+\begin{equation}\label{GP_optim}
+    \nu = \argmin_{\nu} p(\textbf{y}|\textbf{x}, \nu)
+\end{equation}
 where for a Gaussian process the marginal is given as 
 \begin{align*}
-    p(\textbf{y}|\textbf{x}, \nu) &= \int  p(\textbf{y}, \textbf{f}|\textbf{x}, \nu) d\textbf{f}\\
-    &= p(\textbf{y}|\textbf{f},\nu)p(\textbf{f}|\textbf{x},\nu) d\textbf{f}
+    p(\textbf{y}|\textbf{x}, \nu) &= \int  p(\textbf{y}, \textbf{f}|\textbf{x}, \nu) d\textbf{f} = \int p(\textbf{y}|\textbf{f},\nu)p(\textbf{f}|\textbf{x},\nu) d\textbf{f},
 \end{align*}
 where  $p(\textbf{y}|\textbf{f},\nu) = \mathcal{N}(\textbf{y}|\textbf{f},\sigma^2)$ and the prior is
 just the Gaussian $p(\textbf{f}|\textbf{x},\nu) = \mathcal{N}(\textbf{f}|0, c_{\nu}(\textbf{x}, \textbf{x}))$
-And now we can easily perform the integration using <...>, 
-$$p(\textbf{y}|\textbf{x}, \nu) = -\frac{1}{2}[(y-\mu)^T (\Sigma+N)^{-1}(y-\mu)+ \log |\Sigma+N|+n \log 2\pi]$$
+And now we can easily perform the integration using \eqref{marginal_distribution}, 
+$$p(\textbf{y}|\textbf{x}, \nu) = \mathcal{N}(\textbf{y}|0,I\sigma^2, c_{\nu}(\textbf{x}, \textbf{x})).$$
+Understanding why it makes sense to maximize the marginalized likelihood in order to get the best model
+is explained in \cite[165]{bishop}, we will skip this theory, and look at the implications. 
 
-we can define the predictive prior distribution, in the same way as \eqref{GP_predictive}, we have that
-$p(\textbf{f}| \textbf{x}) = \mathcal{N}(\textbf{f}|0, c(\textbf{x},\textbf{x}))$, thereby, 
-\begin{equation}\label{GP_predictive_prior}
-    p(\textbf{y}|\textbf{x}) = \int \mathcal{N}(\textbf{x}|\textbf{f}, I\sigma^2) p(\textbf{f}|\textbf{x})d\textbf{f}
-\end{equation}
-Using ... we arrive at 
-just observe that $p(\textbf{y}|\textbf{x}) = \mathcal{N}(\textbf{y}|0, c(\textbf{x},\textbf{x})+ \sigma^2)$
+In Figure \ref{GP_two_results} we see that using the same data, the (gradient-based) optimization of \eqref{GP_optim} converge
+to two different results, $\log p(y;\nu_1) = -14.29$, and $\log p(y;\nu_2) = -16.70$, and more local optima might exist. Therefore
+we optimize the GP with several restarts, when using it as a surrogate model. 
 
 % \todo{Model assessment becomes trivial in light of the model posterior if we
 % simply establish preferences over models according to their posterior
 % probability. When using the uniform model prior (4.6)
 %  the model posterior is proportional to the marginal likelihood alone,
 % which can be then used directly for model assessment. ??! Youtube - good video! Go through that!}
-
 \begin{figure}[H]
     \centering
     \begin{minipage}[b]{0.49\textwidth}
@@ -186,6 +186,9 @@ just observe that $p(\textbf{y}|\textbf{x}) = \mathcal{N}(\textbf{y}|0, c(\textb
     \begin{minipage}[b]{0.49\textwidth}
       \includegraphics[width=\textwidth]{Pictures/GP_vs_BNN1_b.pdf}
      \end{minipage}
-     \caption{There is large difference beween the two GPs the different lenght scales in the kernel
-     matters a lot. Left is chosen 9 out of 10 times, when minimizing the }
+     \caption{The same data fitted with two quite different GPs - note the different lenghtscales in the
+     kernel and observation variance $\sigma^2$. Left is chosen 19 out of 20 times and has and marginalized log likelihood of $-16.70$,
+     whereas 1 out of 20 runs the solution at right is given with marginalized log likelihood of
+     $-14.29$.}
+     \label{GP_two_results}
 \end{figure}

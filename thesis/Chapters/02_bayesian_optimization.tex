@@ -30,12 +30,13 @@ $p(y|x,\theta)$. Note that the second equation is true because of the probabilit
 that $y$ is fully described by the parametric model $p(y|x,\theta)$ and the parameters $\theta$ are
 fully described by the posterior distribution $p(\theta|\mathcal{D})$.
 \begin{testexample2}[Bayesian methodology]
-    In Bayesian modelling $p(\theta|\mathcal{D})$ is the posterior distribution, and it is linked
+    In Bayesian modelling, $p(\theta|\mathcal{D})$ is the posterior distribution, and it is linked
      to the likelihood $p(\mathcal{D}|\theta)$ and prior $p(\theta)$ via Bayes rule,
-    $$p(\theta|\mathcal{D}) = \frac{p(\mathcal{D}|\theta)p(\theta)}{p(\mathcal{D})} \propto p(\mathcal{D}|\theta)p(\theta),$$
-    where the approximation holds since $p(\theta|\mathcal{D})$ is only a function of $\theta$. 
-    In the case of regression, we always condition on $\textbf{x}$, i.e. $\mathcal{D} = \textbf{y}|\textbf{x}$, 
-    more concretely we write, 
+    $$p(\theta|\mathcal{D}) = \frac{p(\mathcal{D}|\theta)p(\theta)}{p(\mathcal{D})} \propto
+    p(\mathcal{D}|\theta)p(\theta),$$ where the evidens $p(\mathcal{D})$ act as a propotionality
+    constant since $p(\theta|\mathcal{D})$ is only a function of $\theta$. In the case of
+    regression, we always condition on $\textbf{x}$\footnote{By abusing notation, we could define the
+    data as "conditional data", $\mathcal{D} := \textbf{y}|\textbf{x}$}. 
     $$p(\theta| \mathcal{D}) = \frac{p(\textbf{y}|\textbf{x}, \theta)p(\theta|
     \textbf{x})}{p(\textbf{y}|\textbf{x})} \propto p(\textbf{y}|\textbf{x}, \theta)p(\theta| \textbf{x})$$
     The modeling task to is to specify a likelihood $p(\textbf{y}|\textbf{x},\theta)$, which encodes how likely the model $\theta$
@@ -43,12 +44,13 @@ fully described by the posterior distribution $p(\theta|\mathcal{D})$.
 \end{testexample2}
 
 \subsection{Surrogate model}
-A surrogate model in a Bayesian optimization setting is a Bayesian regression model. The most
-used surrogate model is a Gaussian Process. But there have been investigations on other 
-surrogates, such as Bayesian neural networks and Bayesian regression trees. These are all
-discriminative models, and another approach we focus on in this project is to model $y$ and
-$x$ jointly in a so-called generative model, $p(x,y)$. A generative model can be used implicitly
-as a surrogate from the conditional distribution of $y$ given $x$, $p(y|x)$.
+%We are now ready to define the (cheap) surrogate model $p(y|x,\mathcal{D})$ in \eqref{BayesOpt}. 
+A surrogate model in a Bayesian optimization setting (i.e. $p(y|x,\mathcal{D})$ in \eqref{BayesOpt})
+is a Bayesian regression model. The most used surrogate model is a Gaussian Process. But there have
+been investigations on other surrogates, such as Bayesian neural networks and Bayesian regression
+trees. These are all discriminative models, and another approach we focus on in this project is to
+model $y$ and $x$ jointly in a so-called generative model, $p(x,y)$. A generative model can be used
+implicitly as a surrogate from the conditional distribution of $y$ given $x$, $p(y|x)$.
 
 In this thesis, the Bayesian regression models investigated as Bayesian optimization surrogates are
 the following:
@@ -109,19 +111,19 @@ approximate inference might be flawed and inexact.
             fitting/learning. }
 \end{table}
 
-\newpage
+%\newpage
 \section{Acquisition function}
 Given a correct predictive distribution $p(y|x\mathcal{D})$ the next step in Bayesian optimization
 is to select the next location $x \in \mathcal{X}$ to sample from. The next location is chosen
 according to a so-called acquisition function (AQ function), which balances out the well-known
-concept of exploitation and exploration. It is exploitation if the next chosen location according to
-its average improvement. It is exploration if the next point is chosen in a region of high
-uncertainty and thereby helps lower the overall uncertainty. First, we will look at the acquisition
-function used in the thesis: Expected improvement. Secondly, we shortly present other different
-types of acquisition functions. In Figure \ref{Different_AQ_functions} we see three different
-acquisition functions. The expected improvement (EI) is known for being biased towards exploitation.
-In contrast, the negative lower confidence bound (LCB) has a parameter $\beta$, which can be tuned
-to make it focus more on exploration. 
+concept of exploitation and exploration. It is exploitation if the next chosen location is found
+according to its average improvement. It is exploration if the next point is chosen in a region of
+high uncertainty and thereby helps lower the overall uncertainty. First, we will look at the
+acquisition function used in the thesis: Expected improvement. Secondly, we shortly present other
+different types of acquisition functions. In Figure \ref{Different_AQ_functions} we see three
+different acquisition functions. The expected improvement (EI) is known for being biased towards
+exploitation. In contrast, the negative lower confidence bound (LCB) has a parameter $\beta$, which
+can be tuned to make it focus more on exploration. 
 \begin{figure}[H]
     \centering
     \includegraphics[trim=1cm 0cm 1cm 1cm,clip,width=\textwidth]{Pictures/illustration_AQs.pdf}
@@ -183,7 +185,7 @@ interest $x$ and the data $\mathcal{D}$ (note for the GP it is in fact not an ap
 $$p(y|x,\mathcal{D}) \approx \mathcal{N}(y|\mu(x,\mathcal{D}), \sigma^2(x,\mathcal{D}))$$ where we
 will change to a less clumpsy notation $\mathcal{N}(y|\mu_x,
 \sigma^2_x):=\mathcal{N}(y|\mu(x,\mathcal{D}), \sigma^2(x,\mathcal{D}))$. This is completely fine
-since we $x$ is fixed (and $\mathcal{D}$ is fixed) when evaluating the expected improvement in a point
+since $x$ is fixed (and $\mathcal{D}$ is fixed) when evaluating the expected improvement in a point
 $x$. %  $\sigma_x := \sigma^2(x,\mathcal{D})$ and $\mu_x := \mu(x,\mathcal{D})$
 %as evaluated functions, i.e. numbers. 
 Furthermore, the density of
@@ -193,7 +195,7 @@ density function (CDF) of a standard normal distribution is denoted, $\Phi(\cdot
 of the predictive distribution yiels closed form solution to the expected improvement function, 
 
 \begin{align*}
-    E_{\mathcal{N}(y|\mu_x, \sigma_x^2)}[\max(0,y_{\min}-y)] &= \int \max(0,y_{\min}-y) \mathcal{N}(y|\mu_x, \sigma_x^2) dy\\
+    \mathbb{E}_{\mathcal{N}(y|\mu_x, \sigma_x^2)}[\max(0,y_{\min}-y)] &= \int \max(0,y_{\min}-y) \mathcal{N}(y|\mu_x, \sigma_x^2) dy\\
     &= \int_{-\infty}^{y_{\min}} (y_{\min}-y) \frac{1}{\sigma_x}\phi\left(\frac{y-\mu_x}{\sigma_x}\right) dy\\
     &= \int_{-\infty}^{\frac{y_{\min}-\mu_x}{\sigma_x}} (y_{\min}-\mu_x-\sigma_x\epsilon) \frac{1}{\sigma_x}\phi\left(\epsilon\right) \sigma_x d\epsilon\\
     &= \int_{-\infty}^u \sigma_x \cdot (u-\epsilon) \phi(\epsilon) d\epsilon\\
@@ -222,10 +224,9 @@ We can also explicily write the expected improvement as,
 $$EI(x) = (y_{\min}-\mu_x)\Phi\left(\frac{y_{\min}-\mu_x}{\sigma_x}\right)+ \sigma_x
 \phi\left(\frac{y_{\min}-\mu_x}{\sigma_x}\right)$$ where the first part can be interpretted as
 exploitation (favouring points with a large average improvement $I(x) := (y_{\min}-\mu_x)$) and the second
-part can be seen a exploitation (favouring points with high uncertainty.). This can also be seen
+part can be seen as exploitation (favouring points with high uncertainty.). This can also be seen
 in Figure \eqref{EI_illustration}, where it is clear that the expected improvement is growing for
-growing average improvement $I(x)$ and also for growing prediction uncertainty $\sigma_x$.
-
+increasing average improvement $I(x)$ and also for increasing prediction uncertainty $\sigma_x$.
 
 % taking the derivative with
 % respect to $I(x) := (y_{\min}-\mu_x)$ and $\sigma_x$, we see that expected improvement is is
@@ -265,7 +266,7 @@ where $y^{(k)}$ are samples from the predictive distribution.
 \subsection{Other acquisition functions}
 Expected improvement is just one choice of acquisition function, we now shortly present three different acquisition functions, 
 Lower confidence bound, entropy search (mutual information acquisition) and probability of improvement. As mentioned, we
-only use expected improvement in this thesis.
+only use expected improvement in the experiments of this thesis.
 
 \subsubsection{Lower confidence bound}
 Lower confidence bound acquisition function \cite[145]{bayesoptbook}\footnote{

@@ -23,7 +23,7 @@ And they are good at dealing with incomplete data, i.e. missing values in the da
 this>. We hypothesize that it will allow for an expressive surrogate model, which competently
 can deal with complex BO tasks, as they do not assume continuity. In this thesis we will first look
 at the most simple approach to a generative model, i.e. putting an equally weighted Gaussian mixture
-component on each data point. This is also referred to as a kernel estimator (some might know this 
+component on each data point. This is also referred to as a kernel density estimator (some might know this 
 from kde-plots/estimating a distribution from data), but with a twist of including a prior
 distribution to it. Next, we look at the more intelligent models, Gaussian mixture models, which
 hopefully can capture some correlations between the variables. And finally, we look at the more
@@ -31,9 +31,9 @@ complicated sum-product networks, which introduce a generalization element and h
 neural network. To summarize, the mixture regression models are:
 
 \begin{itemize}[noitemsep]
-     \item Kernel density estimator regression,
-     \item Gaussian mixture regression,
-     \item Sum-product networks.
+     \item Kernel density estimator regression (KDE),
+     \item Gaussian mixture regression (GMR),
+     \item Sum-product networks (SPN).
  \end{itemize}
 
 %  \begin{note2}[]
