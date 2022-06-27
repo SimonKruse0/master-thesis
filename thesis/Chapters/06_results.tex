@@ -156,13 +156,13 @@ distribution we choose to fix $\beta =1$ and select $\alpha \in [1,200]$ using c
           }
 \end{table}
 %\subsection{Model definintions}
-Whereas a true Bayesian would not choose a specific type of model, but using all models
+Whereas a true Bayesian would not choose a specific type of model, but use all models
 , however, this would indeed be infeasible. We need to limit the scope, 
 For the GP, we do 20 restarts in the emperical maximization. And the manteen kernel prior
 with $\nu = 2.5$. 
-BNN, is a 50x50x50 tanh layers with standard Gaussain priors on. And a inverse gamma (1000, 1)
-prior on the noise. Trained with 100 burn in and 100 samples. 
-BOHAMIANN is similar but uses a different noise prior, and trains using adaptive HMC method. 
+BNN, is a 50x50x50 tanh layers with standard Gaussain priors on. And an inverse gamma (1000, 1)
+prior on the noise. Trained with 100 burn-in and 100 samples. 
+BOHAMIANN is similar but uses a different noise prior, and trains using the adaptive HMC method. 
 The mixture models are trained using crossvalidation scored on the mean predictive log .. posterior
 (formally speaking this is not a likelihood, but we will keep it as it is almost the same)
 The tuning parameters 
@@ -171,9 +171,9 @@ SPN is trained using EM with maximum 1000 epochs (is terminated if the progress 
 it is trained 2 times. \todo{Lav den historie}
 GMR is trained using EM but this is done by the sklearn software. 
 
-\subsection{standardized data}
+\subsection{Standardized data}
 Before the data reach any of the models, it is standardized. this is a scaling and a translation
-such of the data, such that the datas empirical mean and standard deviation are 0 and 1,
+of the data, such that the datas empirical mean and standard deviation are 0 and 1,
 respectively. Using standardized data makes it much easier to control the parameters in the models
 since the data used in fitting and prediction is always on the same scale. The first time the models
 see the data, the empirical mean and standard deviation are recorded both for $x$ and $y$, (note $x$
@@ -223,6 +223,7 @@ with 24 different problems for continuous black-box.
  the mode is equal the mean\footnote{Note using the mode for the mixture regression is a shame...}. Therefor the mean absolute error measurement is given as, 
  $$MAE :=\frac{1}{n}\sum_{i=1}^n |\mu_{\mathcal{D}}(x_i) - y_i|.$$
  \subsection{uncertainty quantification}
+ \todo{Lav om!}
  The probibalistic model is given as 
  $$p(y|x,\mathcal{D}) = \mathcal{N}(y|\mu_{\mathcal{D}}(x), \sigma_{\mathcal{D}}^2(x))$$
  where the mean, and variance functions are different for all the models. 
@@ -280,7 +281,7 @@ The functions are illustrated here,
    \end{minipage}
    \hfill
    \begin{minipage}[b]{0.24\textwidth}
-    \includegraphics[width=\textwidth]{Figures/reg_illustrations/all_reg_figures/Test3c.pdf}
+    \includegraphics[width=\textwidth]{Figures/reg_illustrations/all_reg_figures/Test3b.pdf}
    \end{minipage}
    \hfill
    \begin{minipage}[b]{0.24\textwidth}
@@ -358,13 +359,13 @@ almost 0 probability to some of the 10000 test points (i.e the we test all of th
    \end{minipage}
    \hfill
    \begin{minipage}[b]{0.32\textwidth}
-    \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1/5.pdf}
+    \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1/4.pdf}
       \put (10,65) {GP}
     \end{overpic}
     \end{minipage}
      
    \begin{minipage}[b]{0.32\textwidth}
-    \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1/4.pdf}
+    \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1/3.pdf}
       \put (10,65) {GMR}
       \put (-5,40) {\small y}
       \put (51,5) {\small x}
@@ -372,13 +373,13 @@ almost 0 probability to some of the 10000 test points (i.e the we test all of th
     \end{minipage}
   \hfill
     \begin{minipage}[b]{0.32\textwidth}
-     \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1/7_W.pdf}
+     \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1/6.pdf}
       \put (10,65) {SPN}
      \end{overpic}
     \end{minipage}
     \hfill
     \begin{minipage}[b]{0.32\textwidth}
-      \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1/6.pdf}
+      \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1/5.pdf}
         \put (10,65) {KDE}
       \end{overpic}
       \end{minipage}
@@ -606,6 +607,35 @@ We however see that the GP does not need the ...
 \end{figure}
 
 \section{Model compartment on test problems (Bayesian Optimization)}
+Now we are ready to test the models in a Bayesian optimization setting. However, realizing a bit too
+late that Test3 and test4 while being difficult to appropriate with regression functions. Test3
+contains multiple equal minima, and Test4 has a close to minima point on the boundary $x=100$, so
+testing them would not be informative. We redefine Test3 and Test4 as seen in Figure
+\ref{TEST_problems2}. They still have the same overall structure, in fact, the new Test3 is changed only
+slightly.
+
+\begin{figure}[h]
+  \centering
+  \begin{minipage}[b]{0.24\textwidth}
+   \includegraphics[width=\textwidth]{Figures/reg_illustrations/all_reg_figures/Test1.pdf}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.24\textwidth}
+    \includegraphics[width=\textwidth]{Figures/reg_illustrations/all_reg_figures/Test2.pdf}
+   \end{minipage}
+   \hfill
+   \begin{minipage}[b]{0.24\textwidth}
+    \includegraphics[width=\textwidth]{Figures/reg_illustrations/all_reg_figures/Test3c.pdf}
+   \end{minipage}
+   \hfill
+   \begin{minipage}[b]{0.24\textwidth}
+     \includegraphics[width=\textwidth]{Figures/reg_illustrations/all_reg_figures/Test4c.pdf}
+    \end{minipage}
+  \caption{All test function used in Bayesian Optimization. We redefine Test3 and Test4}
+  \label{TEST_problems2}
+\end{figure}
+
+
 Bayesian optimization using 10 restarts, We see that the GP is in fact the best model in the simple
 problem Test1, however, for the more complicated problems the GP is not the prefered model. Recall
 that asigning 0 variance to the problem in expecpected improvement only yeilds a value in the
@@ -627,39 +657,46 @@ expected improvement if it is increasing.
    \begin{minipage}[b]{0.49\textwidth}
      \includegraphics[width=\textwidth]{Figures/results_baysopt/Test4c.pdf}
     \end{minipage}
-  \caption{Bayesian optimization average accross 10 different samples of initial dataset of size 5)}
+  \caption{Bayesian optimization average accross 20 different samples of initial dataset of size 5)}
   \label{Test_bayesOpt}
 \end{figure}
 
 
-\section{BBOB-2015 noiseless testbed}
-... Benchmark problem set. We evaluate the optimization methods on the BBOB-2015 noiseless
-testbed, which consists of 24 functions divided into five groups in terms of
-difficulty (see Table 3.1). These functions are a part of Comparing Continu-
-ous Optimizers framework (COCO) [77], which is a popular benchmarking
-testbed for continuous black-box optimization algorithms and allows for
-comprehensive evaluation of optimization methods over a set of functions
-with a wide range of characteristics (please refer to [57] for more details on
-the benchmark and specifications of each function). Due to the limitation
-of time and resources, only 15 independent trials were preformed for each
-method on each function in a set of two, three, five, and ten dimensional
+\section{Test on BBOB in higher dimensions}
+So far we have looked at our self-defined 1D problems and found problems, where the GP is not the
+preferred model. We now want to go up in higher dimensions to test the models on more realistic
+problems. The tests are conducted on 2,3,5,10 dimensions on the \textit{Real-parameter black-box
+optimization benchmarking 2009: Noiseless functions definitions} (BBOB) \cite{hansen2009real}, which
+consists for 24 functions divided into 5 different categories of difficulty and are scaleable in dimensions. 
+These functions are available through Comparing Continuous Optimizers framework COCO \cite{COCO}, which is 
+a popular benchmarking testbed for continuous black-box optimization algorithms. Due to time and resource
+constraints on this thesis, we select the functions, f3, f9, f15 and f21 which are plotted in 2D in Figure \ref{COCO_tests}.
+\begin{itemize}[noitemsep]
+  \item f3: Rastrigin Function.
+  \item f9: Rotated Rosenbrock Function.
+  \item f15: Rastrigin Function transformed to be non-separable
+  \item f21: Gallagher’s Gaussian 101-me Peaks Function.
+\end{itemize}
+For more details all the 24 functions are described here \cite{hansen2009real}. First, we test the
+regression performance of surrogate models on the 4 benchmark problems in dimensions 2,3,5,10.
+Secondly, we test Bayesian optimization performance on them. 
 
 \begin{figure}[h]
   \centering
-  \begin{minipage}[b]{0.44\textwidth}
+  \begin{minipage}[b]{0.24\textwidth}
    \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f3.png}
   \end{minipage}
   \hfill
-  \begin{minipage}[b]{0.44\textwidth}
+  \begin{minipage}[b]{0.24\textwidth}
    \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f9.png}
   \end{minipage}
-  
-  \begin{minipage}[b]{0.44\textwidth}
+  \hfill
+  \begin{minipage}[b]{0.24\textwidth}
     \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f15.png}
     %\caption{Rank}
   \end{minipage}
   \hfill
-  \begin{minipage}[b]{0.44\textwidth}
+  \begin{minipage}[b]{0.24\textwidth}
     \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f21.png}
   \end{minipage}
   
@@ -667,335 +704,114 @@ method on each function in a set of two, three, five, and ten dimensional
   \label{COCO_tests}
 \end{figure}
 
+\subsection{Regression performance on BBOB}
+The testing regression performance is the same procedure as the 1D test problems. With 10 seeded random
+samples, we select $\{10, 15, 23, 36, 56, 86, 133, 205, 316\}$ points to fit the 4 BBOB problems in 4 dimensions
+(2,3,5,10). All results can be seen in the Appendix. The results are in general just like the 1D test problems, 
+that the GP has the best predictive power, the uncertainty quantification is, however, more equal between
+the generative and discriminative models. We have selected some noticeable plots here. 
 
-
-\section{Mixture regression}
-
-\begin{figure}
-  \caption{Regression of a probabilistic objective function, is not a smart choice
-  using anything else than a mixture regression model. Top we see the performance
-  of 5 different regression models fitted to an increasing amount of training data, 
-  the underlying function is tricky, as it jumps between multiple objective functions
-  yielding a violation to most of the generative models, where most are capable of
-  handling gaussian noise this is not gaussian noise and hence a very difficult problem. 
-  This kind of objective function could definitely be relevant in certain cases.}
+\begin{figure}[H]
+  \centering
+  \begin{minipage}[b]{0.32\textwidth}
+   \includegraphics[width=\textwidth]{Figures/results_regression/f3_dim_5_0.pdf}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.32\textwidth}
+    \includegraphics[width=\textwidth]{Figures/results_regression/f21_dim_3_0.pdf}
+   \end{minipage}
+   \hfill
+   \begin{minipage}[b]{0.32\textwidth}
+    \includegraphics[width=\textwidth]{Figures/results_regression/f15_dim_2_0.pdf}
+   \end{minipage}
+   
+     \begin{minipage}[b]{0.32\textwidth}
+   \includegraphics[width=\textwidth]{Figures/results_regression/f3_dim_5_1.pdf}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.32\textwidth}
+    \includegraphics[width=\textwidth]{Figures/results_regression/f21_dim_3_1.pdf}
+   \end{minipage}
+   \hfill
+   \begin{minipage}[b]{0.32\textwidth}
+    \includegraphics[width=\textwidth]{Figures/results_regression/f15_dim_2_1.pdf}
+   \end{minipage}
+   
+  \caption{Regression perforance of selected problems of BBOB. Top: Preditive power. Bottom: uncertainty quantification 
+  .Average accross 10 different samples of seeded samples from the problems.}
+  \label{BBOB_regression}
 \end{figure}
 
-One could define a generative story, flip a coin, then the data will
-be fitted with this Gaussian.! 
 
-\begin{figure}
-  \caption{Plots visulising the results in above figure.}
-\end{figure}
-
-<data generating process>
-Model do well when they are the data generating process, but if they are not, then
-they do bad. If you collect all model, 
-
-What model to chose? the standard answer of a Bayesian should be: Why choose? If there 
-is uncertainty about them, then we can just average them. Pic the maximum would be frquencialistic.
-
-Could we combine GP and SPN?
-
-ensample of models ..
-Simulation studies. 
+\subsection{Bayesian optimization performance on BBOB}
+The Bayesian optimization procedure is as follows: 1) sample 5 random points, 2) do 30 Bayesian
+optimization iterations. Since Bayesian optimization can be lucky we want to limit this by doing 20
+restarts (preferable more, however, due to time and resource limitations). The optimization of the
+acquisition function is done by $d \cdot 5000$ random guesses, to be fairer across the dimensions
+this should have been $5000^d$, however, this would have been computational unfeasible. 
 
 
-% We evaluate the optimization methods on the BBOB-2015 noiseless
-% testbed, which consists of 24 functions divided into five groups in terms of
-% difficulty (see Table 3.1). These functions are a part of Comparing Continu-
-% ous Optimizers framework (COCO) [77], which is a popular benchmarking
-% testbed for continuous black-box optimization algorithms and allows for
-% comprehensive evaluation of optimization methods over a set of functions
-% with a wide range of characteristics (please refer to [57] for more details on
-% the benchmark and specifications of each f
 
-\section{Regression analysis of GP, BOHAMIANN and NumpyNN 1D}
-
-\section{Regression analysis of GP, BOHAMIANN and NumpyNN 2D}
-
-\begin{figure}[h]
+\begin{figure}[H]
   \centering
   \begin{minipage}[b]{0.49\textwidth}
-   \includegraphics[trim=1.2cm 0.7cm 2cm 1cm,clip,width=\textwidth]{Figures/coco_reg/f1_BOHAMIANN2.pdf}
+   \includegraphics[width=\textwidth]{Figures/results_baysopt/3_2.pdf}
   \end{minipage}
   \hfill
   \begin{minipage}[b]{0.49\textwidth}
-    \includegraphics[trim=1.2cm 0.7cm 2cm 1cm,clip,width=\textwidth]{Figures/coco_reg/f1_BOHAMIANN3.pdf}
+    \includegraphics[width=\textwidth]{Figures/results_baysopt/9_2.pdf}
    \end{minipage}
-  
    \begin{minipage}[b]{0.49\textwidth}
-    \includegraphics[trim=1.2cm 0.7cm 2cm 1cm,clip,width=\textwidth]{Figures/coco_reg/f1_Gaussian Process - sklearn2.pdf}
+    \includegraphics[width=\textwidth]{Figures/results_baysopt/15_2.pdf}
    \end{minipage}
    \hfill
    \begin{minipage}[b]{0.49\textwidth}
-     \includegraphics[trim=1.2cm 0.7cm 2cm 1cm,clip,width=\textwidth]{Figures/coco_reg/f1_Gaussian Process - sklearn3.pdf}
+     \includegraphics[width=\textwidth]{Figures/results_baysopt/21_2.pdf}
     \end{minipage}
-
-    \begin{minipage}[b]{0.49\textwidth}
-      \includegraphics[trim=1.2cm 0.7cm 2cm 1cm,clip,width=\textwidth]{Figures/coco_reg/f1_Naive Gaussian Mixture Regression optimized2.pdf}
-     \end{minipage}
-     \hfill
-     \begin{minipage}[b]{0.49\textwidth}
-       \includegraphics[trim=1.2cm 0.7cm 2cm 1cm,clip,width=\textwidth]{Figures/coco_reg/f1_Naive Gaussian Mixture Regression optimized3.pdf}
-    \end{minipage}
-  \label{f1_reg_2D}
+  \caption{Bayesian optimization of BBOB in 2 dimensions, average accross 20 different samples of initial dataset of size 5)}
+  \label{BBOB_bayesOpt}
 \end{figure}
 
-\begin{figure}[h]
+
+\begin{figure}[H]
   \centering
   \begin{minipage}[b]{0.49\textwidth}
-   \includegraphics[trim=1.2cm 0.7cm 2cm 1cm,clip,width=\textwidth]{Figures/coco_reg/f1_numpyro neural network200-2002.pdf}
+   \includegraphics[width=\textwidth]{Figures/results_baysopt/3_3.pdf}
   \end{minipage}
   \hfill
   \begin{minipage}[b]{0.49\textwidth}
-    \includegraphics[trim=1.2cm 0.7cm 2cm 1cm,clip,width=\textwidth]{Figures/coco_reg/f1_numpyro neural network200-2003.pdf}
+    \includegraphics[width=\textwidth]{Figures/results_baysopt/9_3.pdf}
    \end{minipage}
-  
-  %  \begin{minipage}[b]{0.49\textwidth}
-  %   \includegraphics[trim=1.2cm 0.7cm 2cm 1cm,clip,width=\textwidth]{Figures/coco_reg/f1_SPN regression optimized2.pdf}
-  %  \end{minipage}
-  %  \hfill
-  %  \begin{minipage}[b]{0.49\textwidth}
-  %    \includegraphics[trim=1.2cm 0.7cm 2cm 1cm,clip,width=\textwidth]{Figures/coco_reg/f1_SPN regression optimized3.pdf}
-  %   \end{minipage}
-
-    \begin{minipage}[b]{0.49\textwidth}
-      \includegraphics[trim=1.2cm 0.7cm 2cm 1cm,clip,width=\textwidth]{Figures/coco/f1.pdf}
-     \end{minipage}
-     \hfill
-  \label{f1_reg_2D}
-\end{figure}
-
-\begin{figure}[h]
-  \centering
-  \begin{minipage}[b]{0.49\textwidth}
-   \includegraphics[trim=1.2cm 0.7cm 2cm 1cm,clip,width=\textwidth]{Figures/coco_reg/f23_BOHAMIANN2.pdf}
-  \end{minipage}
-  \hfill
-  \begin{minipage}[b]{0.49\textwidth}
-    \includegraphics[trim=1.2cm 0.7cm 2cm 1cm,clip,width=\textwidth]{Figures/coco_reg/f23_BOHAMIANN3.pdf}
-   \end{minipage}
-  
    \begin{minipage}[b]{0.49\textwidth}
-    \includegraphics[trim=1.2cm 0.7cm 2cm 1cm,clip,width=\textwidth]{Figures/coco_reg/f23_Gaussian Process - sklearn2.pdf}
+    \includegraphics[width=\textwidth]{Figures/results_baysopt/15_3.pdf}
    \end{minipage}
    \hfill
    \begin{minipage}[b]{0.49\textwidth}
-     \includegraphics[trim=1.2cm 0.7cm 2cm 1cm,clip,width=\textwidth]{Figures/coco_reg/f23_Gaussian Process - sklearn3.pdf}
+     \includegraphics[width=\textwidth]{Figures/results_baysopt/21_3.pdf}
     \end{minipage}
-
-    \begin{minipage}[b]{0.49\textwidth}
-      \includegraphics[trim=1.2cm 0.7cm 2cm 1cm,clip,width=\textwidth]{Figures/coco_reg/f23_Naive Gaussian Mixture Regression optimized-prior 12.pdf}
-     \end{minipage}
-     \hfill
-     \begin{minipage}[b]{0.49\textwidth}
-       \includegraphics[trim=1.2cm 0.7cm 2cm 1cm,clip,width=\textwidth]{Figures/coco_reg/f23_Naive Gaussian Mixture Regression optimized-prior 13.pdf}
-    \end{minipage}
-  \label{f23_reg_2D}
+  \caption{Bayesian optimization of BBOB in 3 dimensions average accross 20 different samples of initial dataset of size 5)}
+  \label{BBOB_bayesOpt}
 \end{figure}
 
-\begin{figure}[h]
+f3 dim 5: Interesting to look at GMR. 
+
+
+\begin{figure}[H]
   \centering
   \begin{minipage}[b]{0.49\textwidth}
-   \includegraphics[trim=1.2cm 0.7cm 2cm 1cm,clip,width=\textwidth]{Figures/coco_reg/f23_numpyro neural network200-2002.pdf}
+   \includegraphics[width=\textwidth]{Figures/results_baysopt/3_5.pdf}
   \end{minipage}
   \hfill
   \begin{minipage}[b]{0.49\textwidth}
-    \includegraphics[trim=1.2cm 0.7cm 2cm 1cm,clip,width=\textwidth]{Figures/coco_reg/f23_numpyro neural network200-2003.pdf}
+    \includegraphics[width=\textwidth]{Figures/results_baysopt/9_5.pdf}
    \end{minipage}
-  
    \begin{minipage}[b]{0.49\textwidth}
-    \includegraphics[trim=1.2cm 0.7cm 2cm 1cm,clip,width=\textwidth]{Figures/coco_reg/f23_SPN regression optimized2.pdf}
+    \includegraphics[width=\textwidth]{Figures/results_baysopt/15_5.pdf}
    \end{minipage}
    \hfill
    \begin{minipage}[b]{0.49\textwidth}
-     \includegraphics[trim=1.2cm 0.7cm 2cm 1cm,clip,width=\textwidth]{Figures/coco_reg/f23_SPN regression optimized3.pdf}
+     \includegraphics[width=\textwidth]{Figures/results_baysopt/21_5.pdf}
     \end{minipage}
-
-    \begin{minipage}[b]{0.49\textwidth}
-      \includegraphics[trim=1.2cm 0.7cm 2cm 1cm,clip,width=\textwidth]{Figures/coco/f23.png}
-     \end{minipage}
-     \hfill
-  \label{f1_reg_2D}
+  \caption{Bayesian optimization of BBOB in 5 dimensions average accross 20 different samples of initial dataset of size 5)}
+  \label{BBOB_bayesOpt5}
 \end{figure}
-
-
-
-\begin{figure}[h]
-  \caption{2D Regression plot for a few of the problems, with the correct }
-\end{figure}
-
-\section{Mixture regression on simple functions}
-Choosing a good set of design parameters is crucial, 
-the manipulation... 
-
-\begin{figure}[h]
-    \caption{Regression plot for one problem with all dims: Number of data points / dims, mean squared error, with bayesline mean prediction}
-\end{figure}
-
-\begin{figure}[h]
-    \caption{Regression plot for anther problem}
-\end{figure}
-
-% \begin{figure}[h]
-%     \centering
-%         \begin{tabular}{c|ll|l|l}
-%         \multicolumn{1}{l|}{Problem 2D} & Winner (rel error)                                              & Second                                                                                  & Third                              &  \\ \cline{1-4}
-%         f1                                                      & \multicolumn{1}{c|}{GP (0.2)}                                                           & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}Neural Network\\ (0.00001)\end{tabular}} & \multicolumn{1}{c|}{Naive (0.002)} &  \\
-%         f2                                                      & \multicolumn{1}{c|}{Naive (0.002)}                                                      &                                                                                         &                                    &  \\
-%         f3                                                      & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}Neural Network\\ (0.00001)\end{tabular}} &                                                                                         &                                    &  \\
-%         f4                                                      & \multicolumn{1}{l|}{}                                                                   &                                                                                         &                                    &  \\
-%                                                                 & \multicolumn{1}{l|}{}                                                                   &                                                                                         &                                    & 
-%         \end{tabular}
-%     \caption{Table summarizing for all problems}
-% \end{figure}
-
-\begin{figure}[h]
-    \centering
-    \input{Tables/best_minimizer_group_1.tex}
-    \caption{Distance to optima $f(x^{best})-f^*$ using Bayesian optimization with different surrogates
-    and using expected improvement with a budget of $40$ samples for group 1: "5 separable functions"}
-\end{figure}
-
-\begin{figure}[h]
-    \centering
-    \input{Tables/best_minimizer_group_2.tex}
-    \caption{Distance to optima $f(x^{best})-f^*$ using Bayesian optimization with different surrogates
-    and using expected improvement with a budget of $40$ samples for group 2: "4 functions with low or moderate conditioning"}
-\end{figure}
-\begin{figure}[h]
-    \centering
-    \input{Tables/best_minimizer_group_3.tex}
-    \caption{Distance to optima $f(x^{best})-f^*$ using Bayesian optimization with different surrogates
-    and using expected improvement with a budget of $40$ samples for group 3: "5 functions with high conditioning, unimodal"}
-\end{figure}
-\begin{figure}[h]
-    \centering
-    \input{Tables/best_minimizer_group_4.tex}
-    \caption{Distance to optima $f(x^{best})-f^*$ using Bayesian optimization with different surrogates
-    and using expected improvement with a budget of $40$ samples for group 4: "5 multi-modal functions with adequate global structure"}
-\end{figure}
-\begin{figure}[h]
-    \centering
-    \input{Tables/best_minimizer_group_5.tex}
-    \caption{Distance to optima $f(x^{best})-f^*$ using Bayesian optimization with different surrogates
-    and using expected improvement with a budget of $40$ samples for group 5: "5 multi-modal functions with weak global structure"}
-\end{figure}
-
-\begin{figure}[h]
-    \centering
-    \caption{BayesOpt plot: Number of iterations, distance to optima using EI, with bayesline random search}
-\end{figure}
-
-
-\begin{figure}[h]
-    \centering
-    \begin{minipage}[b]{0.32\textwidth}
-     \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f1.png}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.32\textwidth}
-     \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f2.png}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.32\textwidth}
-      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f3.png}
-      %\caption{Rank}
-    \end{minipage}
-    
-    \begin{minipage}[b]{0.32\textwidth}
-      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f4.png}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.32\textwidth}
-      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f5.png}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.32\textwidth}
-      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f6.png}
-    \end{minipage}
-    
-
-    \begin{minipage}[b]{0.32\textwidth}
-      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f7.png}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.32\textwidth}
-      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f8.png}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.32\textwidth}
-      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f9.png}
-    \end{minipage}
-    
-    \begin{minipage}[b]{0.32\textwidth}
-        \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f10.png}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.32\textwidth}
-      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f11.png}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.32\textwidth}
-      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f12.png}
-    \end{minipage}
-    \caption{Test functions f1 to f12}
-    \label{2DBlockcyclic}
-  \end{figure}
-  
-  \begin{figure}[h]
-    \centering
-    \begin{minipage}[b]{0.32\textwidth}
-     \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f13.png}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.32\textwidth}
-     \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f14.png}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.32\textwidth}
-      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f15.png}
-      %\caption{Rank}
-    \end{minipage}
-    
-    \begin{minipage}[b]{0.32\textwidth}
-      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f16.png}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.32\textwidth}
-      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f17.png}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.32\textwidth}
-      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f18.png}
-    \end{minipage}
-    
-
-    \begin{minipage}[b]{0.32\textwidth}
-      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f19.png}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.32\textwidth}
-      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f20.png}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.32\textwidth}
-      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f21.png}
-    \end{minipage}
-    
-    \begin{minipage}[b]{0.32\textwidth}
-        \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f22.png}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.32\textwidth}
-      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f23.png}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.32\textwidth}
-      \includegraphics[trim=2.5cm 1.3cm 2.5cm 1.3cm,clip,width=\textwidth]{Figures/coco/f24.png}
-    \end{minipage}
-    \caption{Test functions f13-24}
-    \label{f13-24}
-  \end{figure}
-  

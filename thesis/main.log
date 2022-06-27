@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  26 JUN 2022 23:39
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  27 JUN 2022 12:58
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1215,16 +1215,10 @@ Package csquotes Info: Adjusting default style.
 Package csquotes Info: Redefining alias 'default' -> 'english'.
  (/home/simon/Documents/MasterThesis/master-thesis/thesis/main.aux
 
-LaTeX Warning: Label `f1_reg_2D' multiply defined.
+LaTeX Warning: Label `BBOB_bayesOpt' multiply defined.
 
 
-LaTeX Warning: Label `f1_reg_2D@cref' multiply defined.
-
-
-LaTeX Warning: Label `f1_reg_2D' multiply defined.
-
-
-LaTeX Warning: Label `f1_reg_2D@cref' multiply defined.
+LaTeX Warning: Label `BBOB_bayesOpt@cref' multiply defined.
 
 
 LaTeX Warning: Label `Test4_reg_visual' multiply defined.
@@ -1522,14 +1516,15 @@ File: Pictures/Logos/white_cmyk.pdf Graphic file (type pdf)
 
  [5
 
-] [6] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/00_introduction.tex
+] [6
+
+] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/00_introduction.tex
 Chapter 1.
 File: Pictures/GP_vs_BNN1_b.pdf Graphic file (type pdf)
 <use Pictures/GP_vs_BNN1_b.pdf>
 File: Pictures/GP_vs_BNN2.pdf Graphic file (type pdf)
 <use Pictures/GP_vs_BNN2.pdf>
 [1
-
 
 ] [2] [3]) [4] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/02_bayesian_optimization.tex
 Chapter 2.
@@ -1691,8 +1686,8 @@ File: Figures/reg_illustrations/all_reg_figures/Test1.pdf Graphic file (type pdf
 <use Figures/reg_illustrations/all_reg_figures/Test1.pdf>
 File: Figures/reg_illustrations/all_reg_figures/Test2.pdf Graphic file (type pdf)
 <use Figures/reg_illustrations/all_reg_figures/Test2.pdf>
-File: Figures/reg_illustrations/all_reg_figures/Test3c.pdf Graphic file (type pdf)
-<use Figures/reg_illustrations/all_reg_figures/Test3c.pdf>
+File: Figures/reg_illustrations/all_reg_figures/Test3b.pdf Graphic file (type pdf)
+<use Figures/reg_illustrations/all_reg_figures/Test3b.pdf>
 File: Figures/reg_illustrations/all_reg_figures/Test4b.pdf Graphic file (type pdf)
 <use Figures/reg_illustrations/all_reg_figures/Test4b.pdf>
 File: Figures/results_regression/Test1_dim_1_0.pdf Graphic file (type pdf)
@@ -1704,14 +1699,14 @@ File: Figures/results_regression/Test1/1.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test1/1.pdf>
 File: Figures/results_regression/Test1/2.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test1/2.pdf>
-File: Figures/results_regression/Test1/5.pdf Graphic file (type pdf)
-<use Figures/results_regression/Test1/5.pdf>
 File: Figures/results_regression/Test1/4.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test1/4.pdf>
-File: Figures/results_regression/Test1/7_W.pdf Graphic file (type pdf)
-<use Figures/results_regression/Test1/7_W.pdf>
+File: Figures/results_regression/Test1/3.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test1/3.pdf>
 File: Figures/results_regression/Test1/6.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test1/6.pdf>
+File: Figures/results_regression/Test1/5.pdf Graphic file (type pdf)
+<use Figures/results_regression/Test1/5.pdf>
  [48]
 File: Figures/results_regression/Test2_dim_1_0.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test2_dim_1_0.pdf>
@@ -1773,6 +1768,14 @@ File: Figures/results_regression/Test4/5.pdf Graphic file (type pdf)
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [51]
+File: Figures/reg_illustrations/all_reg_figures/Test1.pdf Graphic file (type pdf)
+<use Figures/reg_illustrations/all_reg_figures/Test1.pdf>
+File: Figures/reg_illustrations/all_reg_figures/Test2.pdf Graphic file (type pdf)
+<use Figures/reg_illustrations/all_reg_figures/Test2.pdf>
+File: Figures/reg_illustrations/all_reg_figures/Test3c.pdf Graphic file (type pdf)
+<use Figures/reg_illustrations/all_reg_figures/Test3c.pdf>
+File: Figures/reg_illustrations/all_reg_figures/Test4c.pdf Graphic file (type pdf)
+<use Figures/reg_illustrations/all_reg_figures/Test4c.pdf>
 File: Figures/results_baysopt/Test1.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/Test1.pdf>
 File: Figures/results_baysopt/Test2.pdf Graphic file (type pdf)
@@ -1797,167 +1800,81 @@ File: Figures/coco/f21.png Graphic file (type bmp)
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-File: Figures/coco_reg/f1_BOHAMIANN2.pdf Graphic file (type pdf)
-<use Figures/coco_reg/f1_BOHAMIANN2.pdf>
-File: Figures/coco_reg/f1_BOHAMIANN3.pdf Graphic file (type pdf)
-<use Figures/coco_reg/f1_BOHAMIANN3.pdf>
-File: Figures/coco_reg/f1_Gaussian Process - sklearn2.pdf Graphic file (type pdf)
-<use Figures/coco_reg/f1_Gaussian Process - sklearn2.pdf>
-File: Figures/coco_reg/f1_Gaussian Process - sklearn3.pdf Graphic file (type pdf)
-<use Figures/coco_reg/f1_Gaussian Process - sklearn3.pdf>
-File: Figures/coco_reg/f1_Naive Gaussian Mixture Regression optimized2.pdf Graphic file (type pdf)
-<use Figures/coco_reg/f1_Naive Gaussian Mixture Regression optimized2.pdf>
-File: Figures/coco_reg/f1_Naive Gaussian Mixture Regression optimized3.pdf Graphic file (type pdf)
-<use Figures/coco_reg/f1_Naive Gaussian Mixture Regression optimized3.pdf>
 [53]
+File: Figures/results_regression/f3_dim_5_0.pdf Graphic file (type pdf)
+<use Figures/results_regression/f3_dim_5_0.pdf>
+File: Figures/results_regression/f21_dim_3_0.pdf Graphic file (type pdf)
+<use Figures/results_regression/f21_dim_3_0.pdf>
+File: Figures/results_regression/f15_dim_2_0.pdf Graphic file (type pdf)
+<use Figures/results_regression/f15_dim_2_0.pdf>
+File: Figures/results_regression/f3_dim_5_1.pdf Graphic file (type pdf)
+<use Figures/results_regression/f3_dim_5_1.pdf>
+File: Figures/results_regression/f21_dim_3_1.pdf Graphic file (type pdf)
+<use Figures/results_regression/f21_dim_3_1.pdf>
+File: Figures/results_regression/f15_dim_2_1.pdf Graphic file (type pdf)
+<use Figures/results_regression/f15_dim_2_1.pdf>
+File: Figures/results_baysopt/3_2.pdf Graphic file (type pdf)
+<use Figures/results_baysopt/3_2.pdf>
+File: Figures/results_baysopt/9_2.pdf Graphic file (type pdf)
+<use Figures/results_baysopt/9_2.pdf>
+File: Figures/results_baysopt/15_2.pdf Graphic file (type pdf)
+<use Figures/results_baysopt/15_2.pdf>
+File: Figures/results_baysopt/21_2.pdf Graphic file (type pdf)
+<use Figures/results_baysopt/21_2.pdf>
 
-LaTeX Warning: `h' float specifier changed to `ht'.
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-File: Figures/coco_reg/f1_numpyro neural network200-2002.pdf Graphic file (type pdf)
-<use Figures/coco_reg/f1_numpyro neural network200-2002.pdf>
-File: Figures/coco_reg/f1_numpyro neural network200-2003.pdf Graphic file (type pdf)
-<use Figures/coco_reg/f1_numpyro neural network200-2003.pdf>
-File: Figures/coco/f1.pdf Graphic file (type pdf)
-<use Figures/coco/f1.pdf>
+ [54]
+File: Figures/results_baysopt/3_3.pdf Graphic file (type pdf)
+<use Figures/results_baysopt/3_3.pdf>
+File: Figures/results_baysopt/9_3.pdf Graphic file (type pdf)
+<use Figures/results_baysopt/9_3.pdf>
+File: Figures/results_baysopt/15_3.pdf Graphic file (type pdf)
+<use Figures/results_baysopt/15_3.pdf>
+File: Figures/results_baysopt/21_3.pdf Graphic file (type pdf)
+<use Figures/results_baysopt/21_3.pdf>
 
-LaTeX Warning: `h' float specifier changed to `ht'.
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-File: Figures/coco_reg/f23_BOHAMIANN2.pdf Graphic file (type pdf)
-<use Figures/coco_reg/f23_BOHAMIANN2.pdf>
-File: Figures/coco_reg/f23_BOHAMIANN3.pdf Graphic file (type pdf)
-<use Figures/coco_reg/f23_BOHAMIANN3.pdf>
-File: Figures/coco_reg/f23_Gaussian Process - sklearn2.pdf Graphic file (type pdf)
-<use Figures/coco_reg/f23_Gaussian Process - sklearn2.pdf>
-File: Figures/coco_reg/f23_Gaussian Process - sklearn3.pdf Graphic file (type pdf)
-<use Figures/coco_reg/f23_Gaussian Process - sklearn3.pdf>
-File: Figures/coco_reg/f23_Naive Gaussian Mixture Regression optimized-prior 12.pdf Graphic file (type pdf)
-<use Figures/coco_reg/f23_Naive Gaussian Mixture Regression optimized-prior 12.pdf>
-File: Figures/coco_reg/f23_Naive Gaussian Mixture Regression optimized-prior 13.pdf Graphic file (type pdf)
-<use Figures/coco_reg/f23_Naive Gaussian Mixture Regression optimized-prior 13.pdf>
+ [55]
+File: Figures/results_baysopt/3_5.pdf Graphic file (type pdf)
+<use Figures/results_baysopt/3_5.pdf>
+File: Figures/results_baysopt/9_5.pdf Graphic file (type pdf)
+<use Figures/results_baysopt/9_5.pdf>
+File: Figures/results_baysopt/15_5.pdf Graphic file (type pdf)
+<use Figures/results_baysopt/15_5.pdf>
+File: Figures/results_baysopt/21_5.pdf Graphic file (type pdf)
+<use Figures/results_baysopt/21_5.pdf>
+)
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-File: Figures/coco_reg/f23_numpyro neural network200-2002.pdf Graphic file (type pdf)
-<use Figures/coco_reg/f23_numpyro neural network200-2002.pdf>
-File: Figures/coco_reg/f23_numpyro neural network200-2003.pdf Graphic file (type pdf)
-<use Figures/coco_reg/f23_numpyro neural network200-2003.pdf>
-File: Figures/coco_reg/f23_SPN regression optimized2.pdf Graphic file (type pdf)
-<use Figures/coco_reg/f23_SPN regression optimized2.pdf>
-File: Figures/coco_reg/f23_SPN regression optimized3.pdf Graphic file (type pdf)
-<use Figures/coco_reg/f23_SPN regression optimized3.pdf>
-File: Figures/coco/f23.png Graphic file (type bmp)
-<Figures/coco/f23.png>
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-(/home/simon/Documents/MasterThesis/master-thesis/thesis/Tables/best_minimizer_group_1.tex)
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-(/home/simon/Documents/MasterThesis/master-thesis/thesis/Tables/best_minimizer_group_2.tex)
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-(/home/simon/Documents/MasterThesis/master-thesis/thesis/Tables/best_minimizer_group_3.tex)
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-(/home/simon/Documents/MasterThesis/master-thesis/thesis/Tables/best_minimizer_group_4.tex)
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-(/home/simon/Documents/MasterThesis/master-thesis/thesis/Tables/best_minimizer_group_5.tex)
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-File: Figures/coco/f1.png Graphic file (type bmp)
-<Figures/coco/f1.png>
-File: Figures/coco/f2.png Graphic file (type bmp)
-<Figures/coco/f2.png>
-File: Figures/coco/f3.png Graphic file (type bmp)
-<Figures/coco/f3.png>
-File: Figures/coco/f4.png Graphic file (type bmp)
-<Figures/coco/f4.png>
-File: Figures/coco/f5.png Graphic file (type bmp)
-<Figures/coco/f5.png>
-File: Figures/coco/f6.png Graphic file (type bmp)
-<Figures/coco/f6.png>
-File: Figures/coco/f7.png Graphic file (type bmp)
-<Figures/coco/f7.png>
-File: Figures/coco/f8.png Graphic file (type bmp)
-<Figures/coco/f8.png>
-File: Figures/coco/f9.png Graphic file (type bmp)
-<Figures/coco/f9.png>
-File: Figures/coco/f10.png Graphic file (type bmp)
-<Figures/coco/f10.png>
-File: Figures/coco/f11.png Graphic file (type bmp)
-<Figures/coco/f11.png>
-File: Figures/coco/f12.png Graphic file (type bmp)
-<Figures/coco/f12.png>
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-File: Figures/coco/f13.png Graphic file (type bmp)
-<Figures/coco/f13.png>
-File: Figures/coco/f14.png Graphic file (type bmp)
-<Figures/coco/f14.png>
-File: Figures/coco/f15.png Graphic file (type bmp)
-<Figures/coco/f15.png>
-File: Figures/coco/f16.png Graphic file (type bmp)
-<Figures/coco/f16.png>
-File: Figures/coco/f17.png Graphic file (type bmp)
-<Figures/coco/f17.png>
-File: Figures/coco/f18.png Graphic file (type bmp)
-<Figures/coco/f18.png>
-File: Figures/coco/f19.png Graphic file (type bmp)
-<Figures/coco/f19.png>
-File: Figures/coco/f20.png Graphic file (type bmp)
-<Figures/coco/f20.png>
-File: Figures/coco/f21.png Graphic file (type bmp)
-<Figures/coco/f21.png>
-File: Figures/coco/f22.png Graphic file (type bmp)
-<Figures/coco/f22.png>
-File: Figures/coco/f23.png Graphic file (type bmp)
-<Figures/coco/f23.png>
-File: Figures/coco/f24.png Graphic file (type bmp)
-<Figures/coco/f24.png>
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-) [54] [55] [56] [57] [58] [59] [60] [61] [62
+ [56] [57] [58
 
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/07_conclusion.tex
 Chapter 7.
-[63
+[59
 
-]
+] [60]
 Chapter 8.
-) [64
+
+Overfull \hbox (6.02193pt too wide) in paragraph at lines 106--110
+\TU/TimesNewRoman(0)/m/n/10.95 Bayesian optimization algorithm. Unfortunately, even though the mixture regression models showed
+ []
+
+) [61
 
 ]
 Overfull \hbox (31.82188pt too wide) in paragraph at lines 55--55
 []\TU/TimesNewRoman(0)/m/sc/10.95 Mashall Aryan. “  Sample-efficient Optimization Using Neural Networks”. []$[][][][][] [] [] [] [][][][][][][][][][][][][][][] []
  []
 
-[65
+[62
 
-] [66
+] [63] [64
 
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Appendix.tex
 Appendix A.
-[67
+[65
 
 ]
 Appendix B.
@@ -2033,9 +1950,9 @@ File: Figures/results_regression/f21_dim_10_1.pdf Graphic file (type pdf)
 )
 Underfull \vbox (badness 3568) has occurred while \output is active []
 
- [68
+ [66
 
-] [69] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Backpage.tex
+] [67] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Backpage.tex
 *geometry* verbose mode - [ newgeometry ] result:
 * driver: xetex
 * paper: a4paper
@@ -2068,7 +1985,7 @@ Underfull \vbox (badness 3568) has occurred while \output is active []
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-) [70
+) [68
 
 
 ]
@@ -2078,7 +1995,7 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 62.
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 62.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 62.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: BDC4C97D1775E4310E74589CAC7030BB;3191.
+(rerunfilecheck)             Checksum: D40CDA2432319F6706AFF0377AA8331F;2841.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -2091,12 +2008,12 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 57674 strings out of 481731
- 1371860 string characters out of 5935437
- 2309834 words of memory out of 5000000
- 73540 multiletter control sequences out of 15000+600000
+ 57504 strings out of 481731
+ 1365275 string characters out of 5935437
+ 2303836 words of memory out of 5000000
+ 73415 multiletter control sequences out of 15000+600000
  551917 words of font info for 141 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 82i,21n,138p,2818b,4693s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 82i,21n,138p,2818b,5159s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (76 pages, 1368696 bytes).
+Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (74 pages, 1369096 bytes).

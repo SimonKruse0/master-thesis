@@ -29,6 +29,8 @@ def get_optimization_history(coco_folder):
 
                 best_f = float(datContent[0][2].split("(")[1].split(")")[0])
                 F = np.array(F)
+
+                assert any(np.diff(F)<=0)
                 #print(iter, F/best_f, F)
                 data[f"{problem}_{dim}"] ={"iter": iter, 
                                            "F/best_f":F/abs(best_f) }
@@ -126,7 +128,7 @@ def plot_means(ax,problem,dim, folder_names=None, search_name = None, color = "b
         folder_names = get_folders_of_similar_BO_runs(search_name)
     problem_dim = f"f{problem}_DIM{dim}"
     data_list = []
-    data_df = pd.DataFrame(index = list(range(1,31)))
+    data_df = pd.DataFrame(index = list(range(1,36)))
     for folder_name in folder_names:
         try:
             data = get_optimization_history(folder_name)[problem_dim]
@@ -137,6 +139,7 @@ def plot_means(ax,problem,dim, folder_names=None, search_name = None, color = "b
         #data_list.append(data)
     try:
         data_df = data_df.ffill()
+        data_df = data_df.iloc[4:,:]
         #data_df.plot(ax=ax,alpha = 0.4, color=color)#,  legend = False)
         means = data_df.mean(axis=1)
         ax.plot(means.index,means.values,lw=3, color = color, label=f"{modelname}")
@@ -261,14 +264,14 @@ import matplotlib.pyplot as plt
 if __name__ == "__main__":
     
     plot_folder = "/home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/results_baysopt"
-    # sklearn_folder = "/home/simon/Documents/MasterThesis/master-thesis/bayes_opt_experiments/1D_figures_cluster"
-    # #plot_optimization_path(ax,1,2,folder_name)
+    sklearn_folder = "/home/simon/Documents/MasterThesis/master-thesis/bayes_opt_experiments/1D_figures_cluster"
+
     # for problem in ["Test1","Test2","Test3c","Test4c"]:
     #     fig, ax = plt.subplots()
     #     plot_optimization_paths_TESTs(ax, problem, sklearn_folder)
     #     #ax.set_yscale("log")
     #     ax.set_xlim(5,35)
-    #     plt.savefig(plot_folder+"/"+problem+".pdf")
+    #     #plt.savefig(plot_folder+"/"+problem+".pdf")
     
     # plt.show()
     
@@ -278,7 +281,10 @@ if __name__ == "__main__":
     for problem in list(range(3,25,6)):
         #fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, sharex="all")
         #for ax,dim in zip([ax1,ax2,ax3,ax4],[3,5,10,2]):
-        for dim in [2,3,5,10,20]:
+        for dim in [2,3,5,10]:
             fig, ax = plt.subplots()
             plot_optimization_paths(ax,problem,dim)
-            plt.show()
+            ax.set_xlim(5,35)
+            plt.savefig(plot_folder+f"/{problem}_{dim}.pdf")
+
+    plt.show()

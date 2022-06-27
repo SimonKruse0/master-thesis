@@ -21,18 +21,18 @@ reg_models = [GMRegression(optimize=True),
             NaiveGMRegression(optimize=True), 
             GaussianProcess_GPy(), 
             BOHAMIANN(num_keep_samples=100), 
-            NumpyroNeuralNetwork(hidden_units = 50,num_warmup=300,num_samples=300,
+            NumpyroNeuralNetwork(hidden_units = 50,num_warmup=500,num_samples=500,
                                 num_chains=4,alpha=1000),
             SumProductNetworkRegression(optimize=True, sig_prior = 10)]
 
-reg_models = [MeanRegression()]
+#reg_models = [MeanRegression()]
 # import random
 # random.seed()
 # random.shuffle(reg_models)
 #problems =  [Test1(),Test2(),Test4b(),Test3b()]
 problems =  [Test1(),Test2(),Test4c(),Test3c()]
 DATA_path = "/zhome/17/6/118138/master-thesis/bayes_opt_experiments/1D_figures_cluster"
-DATA_path = "/home/simon/Documents/MasterThesis/master-thesis/bayes_opt_experiments/1D_figures_cluster"
+#DATA_path = "/home/simon/Documents/MasterThesis/master-thesis/bayes_opt_experiments/1D_figures_cluster"
 
 for seed in range(20):
     for reg_model in reg_models:
@@ -55,9 +55,9 @@ for seed in range(20):
                 #     path_more_runs = path
                 os.mkdir(path)
             except:
-                pass
-                #continue
+                #pass
+                continue
                 #a = input("folder already exists, ok? (y=yes) ")    
                 #pathnumber += 1
-            #plot_BO.optimize(path, extension="jpg")
-            plot_BO.optimize(path, extension=None)
+            plot_BO.optimize(path, extension="jpg")
+            #plot_BO.optimize(path, extension=None)

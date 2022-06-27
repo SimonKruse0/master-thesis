@@ -3,7 +3,7 @@ import cocoex, cocopp  # experimentation and post-processing modules
 import scipy.optimize  # to define the solver to be benchmarked
 from numpy.random import rand  # for randomised restarts
 import os, webbrowser  # to show post-processed results in the browser
-from src.optimization.bayesopt_solver import BayesOptSolver
+#from src.optimization.bayesopt_solver import BayesOptSolver
 from src.regression_models.naive_GMR import NaiveGMRegression
 from src.regression_models.mean_regression import MeanRegression
 from src.regression_models.bohamiann import BOHAMIANN
@@ -17,9 +17,6 @@ reg_models = [MeanRegression()]
 random.seed()
 random.shuffle(reg_models)
 
-def fmin(problem, budget):
-    BO = BayesOptSolver(reg_model,problem, budget, disp=False)
-    return BO()
 
 budget_multiplier = 1  # increase to 10, 100, ...
 
@@ -40,10 +37,10 @@ for reg_model in reg_models:
     for problem in suite:  # this loop will take several minutes or longer
         name_problem = problem.name.split(" ")[3]
         print(name_problem)
-        # if int(name_problem[1:])<= 10:
-        #     continue
-        x = np.linspace(problem.lower_bounds[0], problem.upper_bounds[0], 300)
-        y = np.linspace(problem.lower_bounds[1], problem.upper_bounds[1], 300)
+        if int(name_problem[1:])!= 15:
+            continue
+        x = np.linspace(problem.lower_bounds[0], problem.upper_bounds[0], 1000)
+        y = np.linspace(problem.lower_bounds[1], problem.upper_bounds[1], 1000)
         
         X,Y = np.meshgrid(x,y)
         XY = np.hstack([X.flatten()[:,None], Y.flatten()[:,None]])
@@ -52,10 +49,10 @@ for reg_model in reg_models:
         id_min = f.argmin()
         f = f.reshape(X.shape)#-f.min()
         plt.figure()
-        plt.contourf(X,Y,f,np.linspace(f.min(), f.max(),40), cmap="twilight_shifted")
+        plt.contourf(X,Y,f,np.linspace(f.min(), f.max()-5000,40), cmap="twilight_shifted")
         plt.colorbar()
         plt.plot(X.flatten()[id_min],Y.flatten()[id_min], "*r")
-
+        #plt.show()
         fig_path = "/home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/coco"
         plt.savefig(f"{fig_path}/{name_problem}.pdf")
         

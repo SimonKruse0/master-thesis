@@ -7,7 +7,30 @@ across the tested problems. however, we did find problems, where the GP was not 
     \item Test3
 \end{itemize}
 
+
+
 %test results
+
+% discussion of Test3 
+Test3: One could define a generative story, flip a coin, then the data will
+be fitted with this Gaussian.! However, if the generative story is not known..
+
+%   \caption{Regression of a probabilistic objective function, is not a smart choice
+%   using anything else than a mixture regression model. Top we see the performance
+%   of 5 different regression models fitted to an increasing amount of training data, 
+%   the underlying function is tricky, as it jumps between multiple objective functions
+%   yielding a violation to most of the generative models, where most are capable of
+%   handling gaussian noise this is not gaussian noise and hence a very difficult problem. 
+%   This kind of objective function could definitely be relevant in certain cases.}
+
+<data generating process>
+Model do well when they are the data generating process, but if they are not, then
+they do bad. If you collect all model, 
+What model to chose? the standard answer of a Bayesian should be: Why choose? If there 
+is uncertainty about them, then we can just average them. Pic the maximum would be frquencialistic.
+Could we combine GP and SPN?
+ensample of models ..
+Simulation studies. 
 
 
 The Bayesian neural network training is difficult to know when it has converged, in general the more samples the better, 
@@ -24,6 +47,8 @@ matters a lot.
 
 Compartment between resluts should have used the mode instead for the mean. 
 
+emperical expecpected improvement should be used..! Where the mode is not equal the mean and where we
+us the predictive distribution. 
 
 Even though SPN is an interesting model, its relevance is only for large dimensions, where the number for data points
 or in certain cases where we want a more constraint model, i.e. that y can only come from 2 distributions thorughout the
@@ -50,7 +75,39 @@ The prior variance! Meant a lot!
 
 
 
+\section{Bayesopt procedure}
+5 initial samples is maybe ok? Should only have done 2? 
+And is 30 samples really scientific? 
+
+
+
 \chapter{Conclusion and further work}
+This thesis has motivated the relevance for Bayesian optimization, developed different alternative
+surrogate models, i.e. a Bayesian NN and mixture regression models and tested those on some 
+test functions. Among the 4 selected BBOB problems in higher dimensions it was not possible to show that
+GP was not the prefered model. However, for the 4 small 1D test problems, we found problems, where the GP. 
+is not preferable. To the story is that the developed generative surrogates all have been approximated by
+a Gaussian. 
+
+The SPN was understood in the context of regression, which to our knowledge is a novel approach. However, 
+when diving into the definition of the SPN it became clear that it was nothing but a discretized regression model. 
+
+The kernel density estimation is an uncorrelated GMM with a component on each datapoint, this made
+it robust, but also very naive, without the prior this model would provide a local mean prediction
+with mean equal the nearest data point and variance is selected. <Lav om>
+
+The Gaussian mixture regression was included to make the more intelligent mixture components, which
+would allow for better predictive power, however, without much data the model collapsed into very
+spiky distributions, and the prior was often sat high to help out the uncertainty quantification. 
+
+The BOHamiANN did a surprisingly good job in the Bayesian optimization (for the larger high-dim problems),
+even though it had a 
+
+We showed that there is a strong connection between being a good regression model and a good Bayesian optimization
+algorithm. Unfortunately, even though the mixture regression models showed good uncertainty quantification,
+they were approximated by gaussians to perform the fast closed form Expected improvement, therefore the 
+connection is lost. 
+
 Testing using empirical expected improvements. 
 
 Maybe manipulation of variance could be done, or same mean prediction?!? Or 

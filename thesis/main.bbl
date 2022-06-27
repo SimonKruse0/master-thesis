@@ -712,6 +712,112 @@
       \field{volume}{4}
       \field{year}{2006}
     \endentry
+    \entry{hansen2009real}{thesis}{}
+      \name{author}{4}{}{%
+        {{hash=71bc70e7c119a2151bf105823920cf83}{%
+           family={Hansen},
+           familyi={H\bibinitperiod},
+           given={Nikolaus},
+           giveni={N\bibinitperiod}}}%
+        {{hash=26c9057c291085d75ddc2a410fbf2a39}{%
+           family={Finck},
+           familyi={F\bibinitperiod},
+           given={Steffen},
+           giveni={S\bibinitperiod}}}%
+        {{hash=b8e06ae62e629b7d2eddc0dcef90c5f4}{%
+           family={Ros},
+           familyi={R\bibinitperiod},
+           given={Raymond},
+           giveni={R\bibinitperiod}}}%
+        {{hash=4acb369e5202aeb8d3bbf884a9f97e96}{%
+           family={Auger},
+           familyi={A\bibinitperiod},
+           given={Anne},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {INRIA}%
+      }
+      \strng{namehash}{3f8b8ead7823b392ca828a13434e631f}
+      \strng{fullhash}{c1ed4129b5c7344347bce850932e8a78}
+      \strng{bibnamehash}{3f8b8ead7823b392ca828a13434e631f}
+      \strng{authorbibnamehash}{3f8b8ead7823b392ca828a13434e631f}
+      \strng{authornamehash}{3f8b8ead7823b392ca828a13434e631f}
+      \strng{authorfullhash}{c1ed4129b5c7344347bce850932e8a78}
+      \field{extraname}{1}
+      \field{sortinit}{3}
+      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Real-parameter black-box optimization benchmarking 2009: Noiseless functions definitions}
+      \field{type}{phdthesis}
+      \field{year}{2009}
+    \endentry
+    \entry{COCO}{article}{}
+      \name{author}{6}{}{%
+        {{hash=71bc70e7c119a2151bf105823920cf83}{%
+           family={Hansen},
+           familyi={H\bibinitperiod},
+           given={Nikolaus},
+           giveni={N\bibinitperiod}}}%
+        {{hash=4acb369e5202aeb8d3bbf884a9f97e96}{%
+           family={Auger},
+           familyi={A\bibinitperiod},
+           given={Anne},
+           giveni={A\bibinitperiod}}}%
+        {{hash=b8e06ae62e629b7d2eddc0dcef90c5f4}{%
+           family={Ros},
+           familyi={R\bibinitperiod},
+           given={Raymond},
+           giveni={R\bibinitperiod}}}%
+        {{hash=a1254980603f097fbe99149373c4bd81}{%
+           family={Mersmann},
+           familyi={M\bibinitperiod},
+           given={Olaf},
+           giveni={O\bibinitperiod}}}%
+        {{hash=08f03c75c9e9b5afea3b578b903ffc47}{%
+           family={Tu{š\bibnamedelimb }ar},
+           familyi={T\bibinitperiod},
+           given={Tea},
+           giveni={T\bibinitperiod}}}%
+        {{hash=a181522a627e011c8d20d774a2921b69}{%
+           family={Brockhoff},
+           familyi={B\bibinitperiod},
+           given={Dimo},
+           giveni={D\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Informa {UK} Limited}%
+      }
+      \strng{namehash}{3f8b8ead7823b392ca828a13434e631f}
+      \strng{fullhash}{d729373350d63d76b88ffa4575e8cc11}
+      \strng{bibnamehash}{3f8b8ead7823b392ca828a13434e631f}
+      \strng{authorbibnamehash}{3f8b8ead7823b392ca828a13434e631f}
+      \strng{authornamehash}{3f8b8ead7823b392ca828a13434e631f}
+      \strng{authorfullhash}{d729373350d63d76b88ffa4575e8cc11}
+      \field{extraname}{2}
+      \field{sortinit}{3}
+      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Optimization Methods and Software}
+      \field{month}{8}
+      \field{number}{1}
+      \field{title}{{COCO}: a platform for comparing continuous optimizers in a black-box setting}
+      \field{volume}{36}
+      \field{year}{2020}
+      \field{pages}{114\bibrangedash 144}
+      \range{pages}{31}
+      \verb{doi}
+      \verb 10.1080/10556788.2020.1808977
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1080%2F10556788.2020.1808977
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1080%2F10556788.2020.1808977
+      \endverb
+    \endentry
     \entry{snoek2015scalable}{misc}{}
       \name{author}{9}{}{%
         {{hash=b9d827c94405733235f3f953a0691fd5}{%
@@ -765,8 +871,8 @@
       \strng{authornamehash}{ed6793cb5ec5e5b336b96236df5b354f}
       \strng{authorfullhash}{43861213e8477bc71a2d2f7504b8848d}
       \field{extraname}{2}
-      \field{sortinit}{3}
-      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
+      \field{sortinit}{4}
+      \field{sortinithash}{e071e0bcb44634fab398d68ad04e69f4}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprintclass}{stat.ML}
