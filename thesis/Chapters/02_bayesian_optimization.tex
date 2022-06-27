@@ -334,6 +334,16 @@ probability it is given on closed form
 $$PI(x) = \Phi·\left(\frac{y_{\min}-\mu_x}{\sigma_x}\right)$$
 where $p(y|x\mathcal{D}) =\mathcal{N}(y|\mu_x,\sigma_x^2) =\mu_x + \sigma_x\cdot\mathcal{N}(y|0,1)$
 
+\section{Summary}
+In this chapter, we introduced Bayesian optimization and found its relevance among the large number
+of optimization algorithms: It is a leading methodology for sample-efficient optimization. Then we
+dived into the details of a surrogate model in a BO setting. This was nothing else than a cheaply
+evaluated Bayesian regression model. Finally, we introduced the second component of BO, i.e. an
+acquisition function. We derived the need closed-form of expected improvement, and shortly presented
+alternative acquisition fucntion. In the following chapter, we will introduce discriminative
+surrogate models. 
+
+
 % We then discuss the knowledge
 % gradient (Section 4.2), entropy search, and predictive entropy search (Section 4.3) acquisition functions.
 % These alternate acquisition functions are most useful in exotic problems where an assumption made by

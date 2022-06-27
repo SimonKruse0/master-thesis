@@ -115,7 +115,7 @@ all components.
 
 We will now present all the models and show how their conditional distributions are calculated concretely.
 
-\section{Kernel estimator regression}
+\section{Kernel density estimator regression}
 Maybe the most simple mixture model one could think about is to put a small variance Gaussian mixture
 component around all data points and weight all the components equally. So for $n$ datapoints,
 $\{(x_i,y_i)\}_{i=1}^n$, the generative model is given as, 
@@ -469,3 +469,17 @@ The following section presents the expectation-maximization algorithm, which is 
 train the Gaussian mixture model and the SPN. 
 
 \input{Chapters/05_b_EM.tex}
+
+\section{Summary}
+In the chapter, we introduced the seemingly, novel idea of using a generative model as a surrogate
+model in Bayesian optimization. We limited our scope to (Gaussian) mixture models, and quickly
+realized the problem of naively using the conditional as a predictive distribution for low-density
+areas. This was solved by introducing a prior (background) zero-mean Gaussian with high variance.
+How much the prior will influence the predictive distribution will be treated as a hyper parameter
+in the upcoming experiements. We continued by deriving the mean and variance of the predictive
+distribution (which will be used in the Expected improvement). We shortly introduced the different
+mixtures. illustrations of the models (in 1D) are found in the result chapter. The newly rising
+class of mixture models, SPNs, were introduced, illustrated and plotted. Finally we also shortly
+covered the training of the mixture models, i.e. using the EM algorthm to maximize the likelihood.
+With this chapter, we are soon ready to test all the surrogate models, but first,
+we need to specify the models more.  

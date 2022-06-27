@@ -1,13 +1,35 @@
 \chapter{Discussion}
-%test results
+In the following, we will discuss the results has been conducted in the previous chapter and the
+surrogate models in general. First of all, the hypothesis of the thesis was, that it is possible 
+to find classes of Bayesian optimization problems, where the GP is not preferred. 
+
 After the result have been conducted it is evident that the Gaussian process is a preferred model
-across the tested problems. however, we did find problems, where the GP was not the best. 
-\begin{itemize}
-    \item Test2
-    \item Test3
+across the tested problems. We did, however, find problems, where the GP was not the best, those are
+Test2 and Test3. Therefore, we indicate that the hypothesis is right. There might be more, and in
+fact, we only looked at 4 self-defined 1D problems and 4 BBOB problems tested. An obvious next step
+would be to test the surrogate models on all 24 BBOB problems (we test on 4) and for all dimensions
+(2,3,5,10,20,40). But first of all, we need to discuss the validation of the BO test. A better test
+would be to,
+\begin{itemize}[noitemsep]
+    \item Conduct a larger number of BO iterations (we use 30)
+    \item Use more restarts (we use 20)
 \end{itemize}
+Especially more restarts is important, in Figure \ref{...} we have plotted the BO optimization
+paths, which reveals a lot of variation depending on the restarts, it indicates that the BO result
+might be noisy. .. The PhD thesis \cite{PhDthesis} uses only 15 restarts, however, here the tests are
+conducted on 100 iterations and with only 2 initial points. We select to use 5 random samples .. no
+argument. 
 
 
+
+
+
+
+
+%\section{Connection between a good regression model and surrogate model in BO}
+Looking a regression plots and there is a clear connection between being a good regression
+model and surrogate model.! However, we actually ran BO till more than 35 data points, i.e. 
+all the figures shown above is from 36 points. 
 
 %test results
 

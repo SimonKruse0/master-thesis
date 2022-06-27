@@ -108,7 +108,17 @@ and used for predictions and discuss their properties. First, we dive into GPs.
 \input{Chapters/03_gaussian_process_regression.tex}
 \newpage
 \input{Chapters/04_bayesian_nn_regression.tex}
-
+\section{Summary}
+This chapter introduced the discriminative models, which will be tested as surrogate models in a
+Bayesian optimization setting. First, we introduced the difference between a Gaussian process and
+the more common way of defining a Bayesian regression model, i.e. a deterministic regression model
+which is made Bayesian by assigning the weights and regression output a joint uncertainty. We define
+the Bayesian neural network in this common way. Next, we introduced the Gaussian processes and found
+that they are nothing else than multivariate Gaussian distributions, yielding nice exact inference.
+We shortly discussed the hyperparameter tuning of GPs using empirical Bayes, and that we need to
+take care of local optima. Finally, we introduced Bayesian Neural networks, which are trained with
+MCMC sampling on joint probability factorized to the prior distribution and a likelihood function. 
+\todo{a bit more?}
 
 
 
