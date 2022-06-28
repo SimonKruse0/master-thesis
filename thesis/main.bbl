@@ -496,6 +496,79 @@
       \field{pages}{345\bibrangedash 383}
       \range{pages}{39}
     \endentry
+    \entry{PredEntropy}{misc}{}
+      \name{author}{3}{}{%
+        {{hash=48ac403ef8899f30cccb37d29c0c96a7}{%
+           family={Hernández-Lobato},
+           familyi={H\bibinithyphendelim L\bibinitperiod},
+           given={José\bibnamedelima Miguel},
+           giveni={J\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=5801ad316a5bf18aa79d78594de86800}{%
+           family={Hoffman},
+           familyi={H\bibinitperiod},
+           given={Matthew\bibnamedelima W.},
+           giveni={M\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+        {{hash=bf5cf30deddddad00a6341ad7a414445}{%
+           family={Ghahramani},
+           familyi={G\bibinitperiod},
+           given={Zoubin},
+           giveni={Z\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {arXiv}%
+      }
+      \strng{namehash}{dc70a48765342df376e19368d6b80ca7}
+      \strng{fullhash}{dc70a48765342df376e19368d6b80ca7}
+      \strng{bibnamehash}{dc70a48765342df376e19368d6b80ca7}
+      \strng{authorbibnamehash}{dc70a48765342df376e19368d6b80ca7}
+      \strng{authornamehash}{dc70a48765342df376e19368d6b80ca7}
+      \strng{authorfullhash}{dc70a48765342df376e19368d6b80ca7}
+      \field{sortinit}{2}
+      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Predictive Entropy Search for Efficient Global Optimization of Black-box Functions}
+      \field{year}{2014}
+      \verb{doi}
+      \verb 10.48550/ARXIV.1406.2541
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1406.2541
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1406.2541
+      \endverb
+      \keyw{Machine Learning (stat.ML),Machine Learning (cs.LG),FOS: Computer and information sciences,FOS: Computer and information sciences}
+    \endentry
+    \entry{entropysearch}{article}{}
+      \name{author}{2}{}{%
+        {{hash=0fc3fa397d36e1fb833fdafa98a2b96f}{%
+           family={Hennig},
+           familyi={H\bibinitperiod},
+           given={Philipp},
+           giveni={P\bibinitperiod}}}%
+        {{hash=be498270b9adbc80e6a8746f0727a96a}{%
+           family={Schuler},
+           familyi={S\bibinitperiod},
+           given={Christian\bibnamedelima J},
+           giveni={C\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \strng{namehash}{1aa44a91ffcf2082490a8761a07d1a94}
+      \strng{fullhash}{1aa44a91ffcf2082490a8761a07d1a94}
+      \strng{bibnamehash}{1aa44a91ffcf2082490a8761a07d1a94}
+      \strng{authorbibnamehash}{1aa44a91ffcf2082490a8761a07d1a94}
+      \strng{authornamehash}{1aa44a91ffcf2082490a8761a07d1a94}
+      \strng{authorfullhash}{1aa44a91ffcf2082490a8761a07d1a94}
+      \field{sortinit}{2}
+      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Machine Learning Research}
+      \field{number}{6}
+      \field{title}{Entropy Search for Information-Efficient Global Optimization.}
+      \field{volume}{13}
+      \field{year}{2012}
+    \endentry
     \entry{bishop}{book}{}
       \name{author}{2}{}{%
         {{hash=9dfd0135a5e80aa6d81cea2c10fb7f73}{%
@@ -551,6 +624,33 @@
       \field{title}{Machine learning: a Bayesian and optimization perspective}
       \field{year}{2015}
     \endentry
+    \entry{MCMC}{article}{}
+      \name{author}{2}{}{%
+        {{hash=0a257fbe5a59f3a17cc4e1089b887257}{%
+           family={Robert},
+           familyi={R\bibinitperiod},
+           given={Christian\bibnamedelima P},
+           giveni={C\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=4bcdcac1db8bfb2877f4889c8e2edb69}{%
+           family={Changye},
+           familyi={C\bibinitperiod},
+           given={Wu},
+           giveni={W\bibinitperiod}}}%
+      }
+      \strng{namehash}{7cea8f9139673a6ba3860c0090fab7f6}
+      \strng{fullhash}{7cea8f9139673a6ba3860c0090fab7f6}
+      \strng{bibnamehash}{7cea8f9139673a6ba3860c0090fab7f6}
+      \strng{authorbibnamehash}{7cea8f9139673a6ba3860c0090fab7f6}
+      \strng{authornamehash}{7cea8f9139673a6ba3860c0090fab7f6}
+      \strng{authorfullhash}{7cea8f9139673a6ba3860c0090fab7f6}
+      \field{sortinit}{3}
+      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:2001.06249}
+      \field{title}{Markov Chain Monte Carlo methods, a survey with some frequent misunderstandings}
+      \field{year}{2020}
+    \endentry
     \entry{NUTS}{article}{}
       \name{author}{2}{}{%
         {{hash=937991c72400f4d0e0252027c8c03f67}{%
@@ -570,8 +670,8 @@
       \strng{authorbibnamehash}{ebc3339ca457482898a36327bc5f7ca8}
       \strng{authornamehash}{ebc3339ca457482898a36327bc5f7ca8}
       \strng{authorfullhash}{ebc3339ca457482898a36327bc5f7ca8}
-      \field{sortinit}{2}
-      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
+      \field{sortinit}{3}
+      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Journal of Machine Learning Research}
@@ -688,8 +788,8 @@
       \strng{authorbibnamehash}{cc6819194087111c0aa1995a77f6dc32}
       \strng{authornamehash}{cc6819194087111c0aa1995a77f6dc32}
       \strng{authorfullhash}{cc6819194087111c0aa1995a77f6dc32}
-      \field{sortinit}{3}
-      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
+      \field{sortinit}{4}
+      \field{sortinithash}{e071e0bcb44634fab398d68ad04e69f4}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Journal of Open Source Software}
@@ -756,8 +856,8 @@
       \strng{authorbibnamehash}{0e538e9999df2db587ccf2679d4fc124}
       \strng{authornamehash}{0e538e9999df2db587ccf2679d4fc124}
       \strng{authorfullhash}{86786aa57dfc7a239799c2e82f2870c0}
-      \field{sortinit}{3}
-      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
+      \field{sortinit}{4}
+      \field{sortinithash}{e071e0bcb44634fab398d68ad04e69f4}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{Probabilistic Deep Learning using Random Sum-Product Networks}
@@ -1025,6 +1125,7 @@
   \enddatalist
   \missing{??}
   \missing{deepkernel}
+  \missing{neal}
 \endrefsection
 \endinput
 

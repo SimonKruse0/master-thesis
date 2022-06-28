@@ -31,17 +31,17 @@
 \contentsline {subsection}{\numberline {3.1.2}Learning - Empirical Bayes inference}{20}{subsection.0.3.1.2}%
 \contentsline {section}{\numberline {3.2}Bayesian neural network regression}{22}{section.0.3.2}%
 \contentsline {subsection}{\numberline {3.2.1}MCMC used in thesis}{26}{subsection.0.3.2.1}%
-\contentsline {subsection}{\numberline {3.2.2}Design and properties of Bayesian neural network}{27}{subsection.0.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.2}Design and properties of Bayesian neural network}{26}{subsection.0.3.2.2}%
 \contentsline {section}{\numberline {3.3}Summary}{27}{section.0.3.3}%
 \contentsline {chapter}{\numberline {4}Generative models as surrogate}{29}{chapter.0.4}%
 \contentsline {section}{\numberline {4.1}Conditional distribution in a Bayesian setting}{29}{section.0.4.1}%
-\contentsline {subsection}{\numberline {4.1.1}Mean and variance of predictive distribution v1}{31}{subsection.0.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.1}Mean and variance of predictive distribution}{30}{subsection.0.4.1.1}%
 \contentsline {section}{\numberline {4.2}Conditional of mixture model}{31}{section.0.4.2}%
 \contentsline {section}{\numberline {4.3}Kernel density estimator regression}{32}{section.0.4.3}%
-\contentsline {subsection}{\numberline {4.3.1}Conditional of Kernel density estimator}{33}{subsection.0.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.1}Conditional of Kernel density estimator}{32}{subsection.0.4.3.1}%
 \contentsline {section}{\numberline {4.4}Gaussian mixture regression}{33}{section.0.4.4}%
 \contentsline {subsection}{\numberline {4.4.1}Conditional of Gaussian mixture model}{33}{subsection.0.4.4.1}%
-\contentsline {section}{\numberline {4.5}Sum product networks}{34}{section.0.4.5}%
+\contentsline {section}{\numberline {4.5}Sum product networks}{33}{section.0.4.5}%
 \contentsline {subsection}{\numberline {4.5.1}SPN as a mixture model}{36}{subsection.0.4.5.1}%
 \contentsline {subsection}{\numberline {4.5.2}Conditional of SPN}{37}{subsection.0.4.5.2}%
 \contentsline {subsubsection}{calculation of responsibility}{37}{subsubsection*.25}%

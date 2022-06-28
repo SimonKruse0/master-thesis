@@ -27,7 +27,7 @@ $$p(\mathcal{D}|\theta) = \sum_z p(\mathcal{D}, z|\theta)$$
 
 %(Note that this statement true accoring to Theorem 2.1. in \cite{gupta2011theory}). 
 
-\begin{testexample2}[Expectation-maximization EM <based on \cite{bishop}]
+\begin{testexample2}[Expectation-maximization EM (based on \cite{bishop})]
     Expectation maximization is a convinient method for finding ML (or MAP) estimate of a 
     latent variable model. We consider a probibalistic model paramitised with $\theta$, 
     $$p(\textbf{X}, \textbf{Z}|\theta)$$ where we denote all latent variables \textbf{Z}, and
@@ -45,7 +45,7 @@ $$p(\mathcal{D}|\theta) = \sum_z p(\mathcal{D}, z|\theta)$$
     which is assumed to follow a distribtuion with the density $p(\textbf{Z}|\textbf{X}, \theta^{(t)})$,
     i.e. the conditional distribution of \textbf{Z} given \textbf{X} and the current parameter point estimate
     $\theta^{(t)}$: 
-    $$Q(\theta,\theta^{(t)}) := E_{p(\textbf{Z}|\textbf{X}, \theta^{(t)})}[\log p(\textbf{X}, \textbf{Z}|\theta)]$$
+    $$Q(\theta,\theta^{(t)}) := \mathbb{E}_{p(\textbf{Z}|\textbf{X}, \theta^{(t)})}[\log p(\textbf{X}, \textbf{Z}|\theta)]$$
 
     \textbf{M-step}
 
@@ -57,7 +57,7 @@ $$p(\mathcal{D}|\theta) = \sum_z p(\mathcal{D}, z|\theta)$$
         \begin{algorithmic}
         \State \textbf{Input:} dataset $\mathcal{D}$, joint model $p(\mathcal{D}, \textbf{Z}|\theta)$
         \While{Not converged}
-            \State $Q(\cdot, \theta^{(t)}) \gets E_{p(\textbf{Z}|\mathcal{D}, \theta^{(t)})}[\log p(\mathcal{D}, \textbf{Z}|\cdot)]$ \Comment{E-step}
+            \State $Q(\cdot, \theta^{(t)}) \gets \mathbb{E}_{p(\textbf{Z}|\mathcal{D}, \theta^{(t)})}[\log p(\mathcal{D}, \textbf{Z}|\cdot)]$ \Comment{E-step}
             \State $\theta^{(t+1)} \gets \arg\max_{\theta} Q(\theta|\theta^{(t)})$ \Comment{M-step}
         \EndWhile
         \State $\textbf{return: } \theta^{(end)}$
@@ -72,7 +72,7 @@ $$p(\mathcal{D}|\theta) = \sum_z p(\mathcal{D}, z|\theta)$$
     $$\sum_z p_1(z) \log p_1(z) \geq \sum_z p_1(z) \log p_2(z)$$ where $p_1(\cdot)$ and $p_2(\cdot)$
     are densities belonging to two discrete distributions of $Z$, equality if $p_1(\cdot) =
     p_2(\cdot)$. From now on we will alter the subscript on the expecations, just have in mind that
-    $$E_{\theta^{(t)}}[g(Z)]:=E_{p(\textbf{Z}|\textbf{X}, \theta^{(t)})}[g(Z)] = \sum_z g(z)
+    $$\mathbb{E}_{\theta^{(t)}}[g(Z)]:=\mathbb{E}_{p(\textbf{Z}|\textbf{X}, \theta^{(t)})}[g(Z)] = \sum_z g(z)
     p(\textbf{z}|\textbf{X}, \theta^{(t)})$$ 
     Now to the proof: From bayes rule $p(\textbf{X}|\theta) =
     \frac{p(\textbf{X}, \textbf{Z})}{p(\textbf{X})}$ we can write
@@ -80,20 +80,20 @@ $$p(\mathcal{D}|\theta) = \sum_z p(\mathcal{D}, z|\theta)$$
     Now, taking the expecation of the above w.r.t. $p(\textbf{Z}|\textbf{X}, \theta^{(t)})$,
     yields,
     \begin{align*}
-        \log p(\textbf{X}|\theta)  &= E_{\theta^{(t)}}[\log p(\textbf{X}, \textbf{Z}|\theta)]
-        -  E_{\theta^{(t)}}[\log p(\textbf{Z}|\textbf{X},\theta)]\\
-        &= Q(\theta,\theta^{(t)})+ E_{\theta^{(t)}}[\log p(\textbf{Z}|\textbf{X},\theta)]
+        \log p(\textbf{X}|\theta)  &= \mathbb{E}_{\theta^{(t)}}[\log p(\textbf{X}, \textbf{Z}|\theta)]
+        -  \mathbb{E}_{\theta^{(t)}}[\log p(\textbf{Z}|\textbf{X},\theta)]\\
+        &= Q(\theta,\theta^{(t)})+ \mathbb{E}_{\theta^{(t)}}[\log p(\textbf{Z}|\textbf{X},\theta)]
     \end{align*} 
     Since the above equation holds for any $\theta$, it also holds for $\theta^{(t)}$
     now we have, 
-    $$\log p(\textbf{X}|\theta^{(t)}) = Q(\theta^{(t)},\theta^{(t)})+ E_{\theta^{(t)}}[\log
+    $$\log p(\textbf{X}|\theta^{(t)}) = Q(\theta^{(t)},\theta^{(t)})+ \mathbb{E}_{\theta^{(t)}}[\log
     p(\textbf{Z}|\textbf{X},\theta^{(t)})]$$ 
     Subtracting the two equations, we get,  
     $$\log p(\textbf{X}|\theta) - \log p(\textbf{X}|\theta^{(t)}) = Q(\theta,\theta^{(t)})
-    -Q(\theta^{(t)},\theta^{(t)})+ E_{\theta^{(t)}}[\log p(\textbf{Z}|\textbf{X},\theta)]-
-    E_{\theta^{(t)}}[\log p(\textbf{Z}|\textbf{X},\theta^{(t)})]$$ 
+    -Q(\theta^{(t)},\theta^{(t)})+ \mathbb{E}_{\theta^{(t)}}[\log p(\textbf{Z}|\textbf{X},\theta)]-
+    \mathbb{E}_{\theta^{(t)}}[\log p(\textbf{Z}|\textbf{X},\theta^{(t)})]$$ 
     From Gibb's inequality we have
-    that $E_{\theta^{(t)}}[\log p(\textbf{Z}|\textbf{X},\theta^{(t)})]\leq E_{\theta^{(t)}}[\log
+    that $\mathbb{E}_{\theta^{(t)}}[\log p(\textbf{Z}|\textbf{X},\theta^{(t)})]\leq \mathbb{E}_{\theta^{(t)}}[\log
     p(\textbf{Z}|\textbf{X},\theta)]$ where equality only holds for $\theta^{(t)} = \theta$, giving
     \begin{align*}
         \log p(\textbf{X}|\theta) - \log p(\textbf{X}|\theta^{(t)}) \geq 
@@ -117,30 +117,20 @@ $$p(\mathcal{D}|\theta) = \sum_z p(\mathcal{D}, z|\theta)$$
 Now we are ready to calculate $Q(\theta, \theta^{(t)})$, by taking the expectation of the complete-data log likehood
 with respect to the distribution, $p(Z|X, \theta)$, 
 \begin{align*}
-    E_{p(Z|X,  \theta^{(t)})}[\log p(X,Z| \theta)] &=\sum_{i}^n  E_{p(Z|X,  \theta^{(t)})}[p(X_i,Z_i| \theta) ]\\
-    &=\sum_{i}^n  E_{p(z_i|x_i,  \theta^{(t)})}[p(x_i,z_i| \theta) ]
+    \mathbb{E}_{p(Z|X,  \theta^{(t)})}[\log p(X,Z| \theta)] &=\sum_{i}^n  \mathbb{E}_{p(Z|X,  \theta^{(t)})}[p(X_i,Z_i| \theta) ]\\
+    &=\sum_{i}^n  \mathbb{E}_{p(z_i|x_i,  \theta^{(t)})}[p(x_i,z_i| \theta) ]
 \end{align*}
 
-\begin{tcolorbox}[
-    sharp corners,
-    boxrule=0mm,
-    enhanced,
-    borderline west={4pt}{0pt}{gray},
-    colframe=drGray,
-    colback=drGray,
-    coltitle=black,
-]
-{\large \textbf{Expectation with repect to unnecessary variables}}\\
-the last equation holds since taking expecation over a function of a random variable $x$ with respect to a that random
-variable and more random variabels, $x,y$, is equivalent to the expecation with respect to just $x$, i.e. 
-\begin{align*}
-    E_{x,y}[g(x)] &= \int\int g(x) p(x,y) dy dx\\
-     &= \int g(x) \int p(x,y) dy dx \\
-    &= \int g(x) p(x) dy = E_x[g(x)]
-\end{align*}
-\end{tcolorbox}
-
-the posterior distribution is calculated the following way,
+\begin{note2}[Expectation with repect to unnecessary variables]
+    the last equation holds since taking expecation over a function of a random variable $x$ with respect to a that random
+    variable and more random variabels, $x,y$, is equivalent to the expecation with respect to just $x$, i.e. 
+    \begin{align*}
+        \mathbb{E}_{x,y}[g(x)] &= \int\int g(x) p(x,y) dy dx\\
+         &= \int g(x) \int p(x,y) dy dx \\
+        &= \int g(x) p(x) dy = \mathbb{E}_x[g(x)].
+    \end{align*}
+\end{note2}
+The posterior distribution is calculated the following way,
 \begin{align*}
     p(z|x, \theta^{(t)}) &= \frac{p(x,z|\theta^{(t)})}{p(x|\theta^{(t)})} \\
     &= \frac{p(x,z|\theta^{(t)})}{\sum_{z} p(x,z|\theta^{(t)})}\\

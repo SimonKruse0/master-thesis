@@ -14,7 +14,7 @@ where $\bm{\mu}$ typically is $0$ and the covariance matrix, is dependent on the
  $$\bm{\Sigma} = c(\textbf{x}, \textbf{x}) = \begin{bmatrix}
     c(x_1,x_1) & \dots & c(x_1,x_n)\\
     \vdots& \ddots\\
-    c(x_n,x_1) & \dots & c(x_n,x_n) \end{bmatrix},\hspace{1cm} c(x, y) := Matern(x,y)...$$ this
+    c(x_n,x_1) & \dots & c(x_n,x_n) \end{bmatrix},\hspace{1cm} c(x, y) := \text{Matérn}(x,y)...$$ this
     means that a realization of the vector $\textbf{f}$ is often close to 0 with a variance of the
     diagonal $\bm{\Sigma}$, but also with a correlation between the elements in $\textbf{f}$ given
     by the off-diagonals in $\bm{\Sigma}$. This is a very important ingredience of a GP, if
@@ -40,7 +40,7 @@ where $\bm{\mu}$ typically is $0$ and the covariance matrix, is dependent on the
 which yields many possible outcomes for $f_*$ with an average $E[f_*] = 0$ and variance of $V[f_*] =
 1$. Note that given a realization of $\textbf{f}$, then the distribution of $f_*$ is changed due to
 the correlation $c(x_*, \textbf{x})$. Fortunately, any conditional distribution from a multivariate
-normal distribution is easy to deal with. Using appendix \todo{Todo include in appendix} the
+normal distribution is easy to deal with. Using appendix \ref{GaussianConditional} the
 conditional distribution of $f_*$ given $\textbf{f}$ is, 
 \begin{equation} \label{conditional_GP}
     p(f_*|\textbf{x}, \textbf{f}) = \mathcal{N}(f_*|c(x_*, x_*)^{-1}c(x_*, \textbf{x})\textbf{f},c(x_*, x_*)^{-1}).

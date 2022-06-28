@@ -103,6 +103,8 @@
 \@writefile{toc}{\contentsline {section}{\numberline {2.2}Bayesian regression}{9}{section.0.2.2}\protected@file@percent }
 \newlabel{Predictive2}{{2.3}{9}{Bayesian regression}{equation.0.2.2.3}{}}
 \newlabel{Predictive2@cref}{{[equation][3][0,2]2.3}{[1][9][]9}}
+\abx@aux@cite{??}
+\abx@aux@segm{0}{0}{??}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2.1}Surrogate model}{10}{subsection.0.2.2.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2.2}Inference of surrogate models}{10}{subsection.0.2.2.2}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {2.1}{\ignorespaces Overview of inference methods applied on the statistical models used in this project. $E$ is the number of edges in the SPN. $n$ is the number of data points. $K \leq n$ is the number of mixture components. We will soon learn that for an SPN the number of mixture components is exponentially larger than the number of edges i.e. $E << K$. In theory MCMC methods samples from true the posterior distribution, and do not need any fitting/learning. \relax }}{11}{table.caption.5}\protected@file@percent }
@@ -124,6 +126,10 @@
 \abx@aux@segm{0}{0}{bayesoptbook}
 \abx@aux@cite{bayesoptbook}
 \abx@aux@segm{0}{0}{bayesoptbook}
+\abx@aux@cite{PredEntropy}
+\abx@aux@segm{0}{0}{PredEntropy}
+\abx@aux@cite{entropysearch}
+\abx@aux@segm{0}{0}{entropysearch}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.3.2}Other acquisition functions}{14}{subsection.0.2.3.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{Lower confidence bound}{14}{subsubsection*.10}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{Entropy search}{14}{subsubsection*.11}\protected@file@percent }
@@ -139,6 +145,8 @@
 \newlabel{GP_likelihood}{{3.2}{17}{Discriminative surrogate models}{equation.0.3.0.2}{}}
 \newlabel{GP_likelihood@cref}{{[equation][2][0,3]3.2}{[1][17][]17}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.1}Gaussian process surrogate}{17}{section.0.3.1}\protected@file@percent }
+\abx@aux@cite{bishop}
+\abx@aux@segm{0}{0}{bishop}
 \@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Left: Samples from $\mathcal  {N}(\textbf  {f}|0,\kappa (x_1,\dots  , x_{11}))$ where $x_i= 0.5(i-1)$. Illustration that a samples from a Gaussian process is just samples from the multivariate normal distribution. We could potentially choose $\textbf  {x}$ to be all of the real line, which will give us the GP - an infinitely large multivariate normal distribution (right).\relax }}{18}{figure.caption.13}\protected@file@percent }
 \newlabel{GP_illustration}{{3.1}{18}{Left: Samples from $\mathcal {N}(\textbf {f}|0,\kappa (x_1,\dots , x_{11}))$ where $x_i= 0.5(i-1)$. Illustration that a samples from a Gaussian process is just samples from the multivariate normal distribution. We could potentially choose $\textbf {x}$ to be all of the real line, which will give us the GP - an infinitely large multivariate normal distribution (right).\relax }{figure.caption.13}{}}
 \newlabel{GP_illustration@cref}{{[figure][1][0,3]3.1}{[1][18][]18}}
@@ -149,14 +157,12 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1.1}Exact predictive distribution}{18}{subsection.0.3.1.1}\protected@file@percent }
 \newlabel{GP_predictive}{{3.5}{18}{Exact predictive distribution}{equation.0.3.1.5}{}}
 \newlabel{GP_predictive@cref}{{[equation][5][0,3]3.5}{[1][18][]18}}
-\abx@aux@cite{bishop}
-\abx@aux@segm{0}{0}{bishop}
 \newlabel{marginal_distribution}{{3.6}{19}{Exact predictive distribution}{equation.0.3.1.6}{}}
-\newlabel{marginal_distribution@cref}{{[equation][6][0,3]3.6}{[1][19][]19}}
+\newlabel{marginal_distribution@cref}{{[equation][6][0,3]3.6}{[1][18][]19}}
 \newlabel{posterior_distribution}{{3.7}{19}{Exact predictive distribution}{equation.0.3.1.7}{}}
-\newlabel{posterior_distribution@cref}{{[equation][7][0,3]3.7}{[1][19][]19}}
+\newlabel{posterior_distribution@cref}{{[equation][7][0,3]3.7}{[1][18][]19}}
 \newlabel{Gamma}{{3.8}{19}{Exact predictive distribution}{equation.0.3.1.8}{}}
-\newlabel{Gamma@cref}{{[equation][8][0,3]3.8}{[1][19][]19}}
+\newlabel{Gamma@cref}{{[equation][8][0,3]3.8}{[1][18][]19}}
 \@writefile{toc}{\contentsline {subsubsection}{Posterior function distribution}{19}{subsubsection*.14}\protected@file@percent }
 \newlabel{posterior_function_new}{{3.9}{19}{Posterior function distribution}{equation.0.3.1.9}{}}
 \newlabel{posterior_function_new@cref}{{[equation][9][0,3]3.9}{[1][19][]19}}
@@ -184,25 +190,27 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces Graphical representation of a Bayesian neural network compared to a neural network. The weights are assigned a probability density. Note that we often prior assume no correlation and a standard normal distribution, but the posterior (after observing data) might contain correlations between the weights.\relax }}{23}{figure.caption.18}\protected@file@percent }
 \newlabel{BNN_illustration2}{{3.5}{23}{Graphical representation of a Bayesian neural network compared to a neural network. The weights are assigned a probability density. Note that we often prior assume no correlation and a standard normal distribution, but the posterior (after observing data) might contain correlations between the weights.\relax }{figure.caption.18}{}}
 \newlabel{BNN_illustration2@cref}{{[figure][5][0,3]3.5}{[1][22][]23}}
+\abx@aux@cite{MCMC}
+\abx@aux@segm{0}{0}{MCMC}
 \abx@aux@cite{ML_Bayesian_Pespective}
 \abx@aux@segm{0}{0}{ML_Bayesian_Pespective}
+\abx@aux@cite{neal}
+\abx@aux@segm{0}{0}{neal}
 \abx@aux@cite{NUTS}
 \abx@aux@segm{0}{0}{NUTS}
 \abx@aux@cite{BOHAMIANN}
 \abx@aux@segm{0}{0}{BOHAMIANN}
-\abx@aux@cite{BOHAMIANN}
-\abx@aux@segm{0}{0}{BOHAMIANN}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}MCMC used in thesis}{26}{subsection.0.3.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Design and properties of Bayesian neural network}{26}{subsection.0.3.2.2}\protected@file@percent }
 \abx@aux@cite{PhDthesis}
 \abx@aux@segm{0}{0}{PhDthesis}
 \abx@aux@cite{BOHAMIANN}
 \abx@aux@segm{0}{0}{BOHAMIANN}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Design and properties of Bayesian neural network}{27}{subsection.0.3.2.2}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces Prior samples from 3 layer BNN. The number of units in each of the three layers have a large influence on the BNNs ability to be expressive. Note that the inference becomes more computationally demanding with BNN size.\relax }}{27}{figure.caption.19}\protected@file@percent }
 \newlabel{n_unit_BNN}{{3.6}{27}{Prior samples from 3 layer BNN. The number of units in each of the three layers have a large influence on the BNNs ability to be expressive. Note that the inference becomes more computationally demanding with BNN size.\relax }{figure.caption.19}{}}
 \newlabel{n_unit_BNN@cref}{{[figure][6][0,3]3.6}{[1][27][]27}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.7}{\ignorespaces Example where 100 nodes on each of three layers, lead to a much more expressive model. $\sigma ^2$ follows a informative prior $InvGamma(1000,1)$, i.e. prior mean $E[\sigma ^2] \approx \frac  {1}{1000}$, and variance $\approx \frac  {1}{1000^3}$, however since the data is distributed in such a complex way the limited expressiveness of the model, forces the model to infer make $\sigma ^2$ large, i.e. including the data in the noise\relax }}{27}{figure.caption.20}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {3.3}Summary}{27}{section.0.3.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.7}{\ignorespaces Example where 100 nodes on each of three layers, lead to a much more expressive model. $\sigma ^2$ follows a informative prior $InvGamma(1000,1)$, i.e. prior mean $E[\sigma ^2] \approx \frac  {1}{1000}$, and variance $\approx \frac  {1}{1000^3}$, however since the data is distributed in such a complex way the limited expressiveness of the model, forces the model to infer make $\sigma ^2$ large, i.e. including the data in the noise\relax }}{28}{figure.caption.20}\protected@file@percent }
 \abx@aux@cite{bishop1995neural}
 \abx@aux@segm{0}{0}{bishop1995neural}
 \abx@aux@cite{ALStatisticalModels}
@@ -218,26 +226,26 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Left: Illustration of how the preditive distribution is manipulated according the the scaling function $S(x) := p(x)\cdot N\cdot \Delta $. Right: Illustration of why it makes sense to manipulate the predictive distribution $p(y|x)$, if there is a small amount of input data at a region, then the predictive distribution should transform into the uncertain prior\relax }}{30}{figure.caption.21}\protected@file@percent }
 \newlabel{pred_dist_manipulation}{{4.1}{30}{Left: Illustration of how the preditive distribution is manipulated according the the scaling function $S(x) := p(x)\cdot N\cdot \Delta $. Right: Illustration of why it makes sense to manipulate the predictive distribution $p(y|x)$, if there is a small amount of input data at a region, then the predictive distribution should transform into the uncertain prior\relax }{figure.caption.21}{}}
 \newlabel{pred_dist_manipulation@cref}{{[figure][1][0,4]4.1}{[1][30][]30}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Mean and variance of predictive distribution v1}{31}{subsection.0.4.1.1}\protected@file@percent }
-\newlabel{mean_variance_pred_mixture}{{4.1.1}{31}{Mean and variance of predictive distribution v1}{subsection.0.4.1.1}{}}
-\newlabel{mean_variance_pred_mixture@cref}{{[subsection][1][0,4,1]4.1.1}{[1][30][]31}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Mean and variance of predictive distribution}{30}{subsection.0.4.1.1}\protected@file@percent }
+\newlabel{mean_variance_pred_mixture}{{4.1.1}{30}{Mean and variance of predictive distribution}{subsection.0.4.1.1}{}}
+\newlabel{mean_variance_pred_mixture@cref}{{[subsection][1][0,4,1]4.1.1}{[1][30][]30}}
 \@writefile{toc}{\contentsline {section}{\numberline {4.2}Conditional of mixture model}{31}{section.0.4.2}\protected@file@percent }
 \newlabel{Conditional_mixture}{{4.2}{31}{Conditional of mixture model}{section.0.4.2}{}}
 \newlabel{Conditional_mixture@cref}{{[section][2][0,4]4.2}{[1][31][]31}}
 \@writefile{toc}{\contentsline {section}{\numberline {4.3}Kernel density estimator regression}{32}{section.0.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.1}Conditional of Kernel density estimator}{32}{subsection.0.4.3.1}\protected@file@percent }
 \abx@aux@cite{GMR}
 \abx@aux@segm{0}{0}{GMR}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.1}Conditional of Kernel density estimator}{33}{subsection.0.4.3.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {4.4}Gaussian mixture regression}{33}{section.0.4.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.4.1}Conditional of Gaussian mixture model}{33}{subsection.0.4.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.5}Sum product networks}{33}{section.0.4.5}\protected@file@percent }
 \abx@aux@cite{RAT_SPN}
 \abx@aux@segm{0}{0}{RAT_SPN}
-\@writefile{toc}{\contentsline {section}{\numberline {4.5}Sum product networks}{34}{section.0.4.5}\protected@file@percent }
 \newlabel{SPN_1}{{\caption@xref {SPN_1}{ on input line 200}}{34}{Sum product networks}{testexample.10}{}}
 \newlabel{SPN_1@cref}{{[section][5][0,4]4.5}{[1][34][]34}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Illustration of random constructed sum-product network (RAT-SPN) for the joint distribution $p(x_1, \dots  , x_5, y)$. The product nodes, $\otimes $, always combine 2 nodes from different scopes, while sum nodes, $\oplus $, sum all of the product nodes for similar scopes. Note the drawing is not complete; This illustarates a RAT-SPN with 3 channels, so every cluster of product nodes has size 9 and every cluster of sum nodes (except the root) has size 3.\relax }}{35}{figure.caption.22}\protected@file@percent }
 \newlabel{SPN_graph_illu}{{4.2}{35}{Illustration of random constructed sum-product network (RAT-SPN) for the joint distribution $p(x_1, \dots , x_5, y)$. The product nodes, $\otimes $, always combine 2 nodes from different scopes, while sum nodes, $\oplus $, sum all of the product nodes for similar scopes. Note the drawing is not complete; This illustarates a RAT-SPN with 3 channels, so every cluster of product nodes has size 9 and every cluster of sum nodes (except the root) has size 3.\relax }{figure.caption.22}{}}
-\newlabel{SPN_graph_illu@cref}{{[figure][2][0,4]4.2}{[1][35][]35}}
+\newlabel{SPN_graph_illu@cref}{{[figure][2][0,4]4.2}{[1][34][]35}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Graphical representation of the SPN used in Figure \ref  {SPN_fig}. The 9 green arrows are weighted and sums to 1\relax }}{35}{figure.caption.23}\protected@file@percent }
 \newlabel{SPN_fig2}{{4.3}{35}{Graphical representation of the SPN used in Figure \ref {SPN_fig}. The 9 green arrows are weighted and sums to 1\relax }{figure.caption.23}{}}
 \newlabel{SPN_fig2@cref}{{[figure][3][0,4]4.3}{[1][35][]35}}
@@ -356,9 +364,13 @@
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{toc}{\contentsline {section}{\numberline {8.1}further work}{61}{section.0.8.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {chapter}{Bibliography}{63}{chapter*.46}\protected@file@percent }
+\abx@aux@cite{bishop}
+\abx@aux@segm{0}{0}{bishop}
 \@writefile{toc}{\contentsline {chapter}{\numberline {A}Gaussian mixture rules}{65}{appendix.A}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{GaussianConditional}{{A.1}{65}{Gaussian mixture rules}{equation.A.0.1}{}}
+\newlabel{GaussianConditional@cref}{{[equation][1][2147483647,0,1]A.1}{[1][65][]65}}
 \@writefile{toc}{\contentsline {chapter}{\numberline {B}Additional results}{66}{appendix.B}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
@@ -393,8 +405,11 @@
 \abx@aux@defaultrefcontext{0}{Adam}{none/global//global/global}
 \abx@aux@defaultrefcontext{0}{deterministicsurrogatemodels}{none/global//global/global}
 \abx@aux@defaultrefcontext{0}{GlobalOptimization}{none/global//global/global}
+\abx@aux@defaultrefcontext{0}{PredEntropy}{none/global//global/global}
+\abx@aux@defaultrefcontext{0}{entropysearch}{none/global//global/global}
 \abx@aux@defaultrefcontext{0}{bishop}{none/global//global/global}
 \abx@aux@defaultrefcontext{0}{ML_Bayesian_Pespective}{none/global//global/global}
+\abx@aux@defaultrefcontext{0}{MCMC}{none/global//global/global}
 \abx@aux@defaultrefcontext{0}{NUTS}{none/global//global/global}
 \abx@aux@defaultrefcontext{0}{bishop1995neural}{none/global//global/global}
 \abx@aux@defaultrefcontext{0}{JordanPaper}{none/global//global/global}

@@ -119,7 +119,7 @@ improving the number of iterations to reach the minima $N_{\text{iter}}$.
     approximation to the objective function - this approximation is called a \textit{surrogate
     model}, $f_{\text{sur}}(x)$. Examples of surrogate models could be a radial basis function or a
     support vector regressor \cite{deterministicsurrogatemodels}. The next point is chosen as the point where the surrogate model is
-    minimized. 
+    minimized. Given the policy (in the context of algorithm \ref{algOPT}),
     $$\text{policy}_{\text{sur}}(\mathcal{D}) = \min_x f_{\text{sur}}(x)$$
     where $f_{\text{sur}}(x) \approx f(x)$ for $x$ close to the data $\mathcal{D}$. And we hope the approximation
     holds for $x$ far away from the the data.

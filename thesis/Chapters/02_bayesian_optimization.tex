@@ -35,12 +35,11 @@ fully described by the posterior distribution $p(\theta|\mathcal{D})$.
     $$p(\theta|\mathcal{D}) = \frac{p(\mathcal{D}|\theta)p(\theta)}{p(\mathcal{D})} \propto
     p(\mathcal{D}|\theta)p(\theta),$$ where the evidence $p(\mathcal{D})$ act as a propotionality
     constant since $p(\theta|\mathcal{D})$ is only a function of $\theta$. In the case of
-    regression, we always condition on $\textbf{x}$\footnote{By abusing notation, we could define the
-    data as "conditional data", $\mathcal{D} := \textbf{y}|\textbf{x}$}. 
+    regression, we always condition on $\textbf{x}$, 
     $$p(\theta| \mathcal{D}) = \frac{p(\textbf{y}|\textbf{x}, \theta)p(\theta|
     \textbf{x})}{p(\textbf{y}|\textbf{x})} \propto p(\textbf{y}|\textbf{x}, \theta)p(\theta| \textbf{x})$$
     The modeling task to is to specify a likelihood $p(\textbf{y}|\textbf{x},\theta)$, which encodes how likely the model $\theta$
-    explian the data, and a prior $p(\theta|\textbf{x})$, which encodes our prior belief about the model. 
+    explain the data, and a prior $p(\theta|\textbf{x})$, which encodes our prior belief about the model. 
 \end{testexample2}
 
 \subsection{Surrogate model}
@@ -87,9 +86,8 @@ When it is not possible to answer a probabilistic query exact, we can approximat
 exact inference is often intractable, and we need to use approximate inference. Approximate
 inference is a broad category of methods, which includes variational inference and Markov chain
 Monte Carlo (MCMC). The two Bayesian Neural networks, we deal with in this project, Bohamiann and
-Numpyro BNN are similar regression models but are inferred using two different MCMC methods,
-Hamiltonian Monte Carlo. As revealed later (see in section \ref{BNN})
-approximate inference might be inexact and wrong. 
+Numpyro BNN are similar regression models but are inferred using two different MCMC methods. As
+revealed later (see in section \ref{BNN}) approximate inference might be inexact and wrong. 
 
 \begin{table}[H]
     \centering
@@ -302,8 +300,7 @@ More specifically their acquisition function is \textit{mutual information} \cit
 \end{equation}
 which is a measurement of dependency between the random variables. If $x$ and $y$ are independent, then
 $p(x,y) = p(x)p(y)$, i.e. the fraction in \eqref{mutualinfo} becomes 1 and thereby $I(x,y) = 0$. 
-
-
+More details found in \cite{PredEntropy} and \cite{entropysearch}. 
 
 % uncertainty about the objective function over a larger volume. Expected
 % improvement (gure 7.3) and probability of improvement (gure 7.9),

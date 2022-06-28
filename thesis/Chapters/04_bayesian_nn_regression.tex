@@ -60,9 +60,9 @@ with Monte Carlo samples from posterior,
     p(y_*|x_*,\mathcal{D}) &= \int p_{\text{\tiny BNN}}(y_*|x_*, \theta)p(\theta|\mathcal{D})d\theta\\
     &\approx \frac{1}{K} \sum_{k=1}^K p_{\text{\tiny BNN}}(y_*|x_*, \theta^{(k)})
 \end{align*}
-where the integral is intractable. As indicated in the second line, we can approximated the
-integral with Monte Carlo sampling: $\theta^{(k)}$ are iid samples from the posterior distribution,
-$\theta^{(k)} \sim p(\theta|\mathcal{D})$. 
+where the integral is intractable. As indicated in the second line, we can approximated the integral
+with Monte Carlo sampling: $\theta^{(k)}$ are independent and identical (iid) samples from the
+posterior distribution, $\theta^{(k)} \sim p(\theta|\mathcal{D})$. 
 \begin{testexample2}[Monte Carlo approximation]
     Assuming we have a number of iid samples, $\theta^{(1)}, \dots, \theta^{(K)}$ drawn from the
     distribution $p(x)$, then the following appriximation $$E[f(x)] \approx \frac{1}{K} \sum_{k=1}^K
@@ -73,7 +73,9 @@ $\theta^{(k)} \sim p(\theta|\mathcal{D})$.
     \frac{\sigma_f^2}{K}),$$ where $\mu_f := E[f(x)] $ and $\sigma_f^2 =
     Var(f(x))$. \cite[708]{ML_Bayesian_Pespective}
 \end{testexample2}
-We try to get iid samples from the posterior distribution using MCMC.
+We aim to get (approximately) iid samples from the posterior distribution using MCMC. However,
+is it rarely the case that MCMC achieve iid samples. Therefore, more samples are necessary to acieve the same results. The
+closer to iid the samples are the less samples are needed \cite[12]{MCMC}.
 
 \subsection*{Posterior samples}
 For BNN the joint distribution $p(\mathcal{D},\theta)$ is available, but calulating the posterior
@@ -95,11 +97,13 @@ chain Monte Carlo (MCMC) to obtain samples from the posterior distribution.
     with the knowledge of $\hat p(x)$. Here is a short explaination of the ergodicity and stationary:
     \begin{itemize}[noitemsep]
         \item \textbf{Ergodicity}: A Markov process which spans/visits all the space. 
-        \item \textbf{Stationary distribution}: A Markov process has reached stationary distribution if
-                            we stay there at the next sample. 
-        \item \textbf{Detailed balance relation}: A way to check if a Markov chain is
-        stationary is by the detailed ballance equation: $$p(x)p(x\rightarrow y) =
-        p(y)p(y\rightarrow x)$$ note we introduce the notation $p(x\rightarrow y)$ for the
+        \item \textbf{Stationary distribution}: A Markov process is stationary if each step
+        in the chain does not alter the distribution ... 
+        % A Markov process has reached stationary distribution if
+        %                     we stay there at the next sample. 
+        \item \textbf{Detailed balance relation}: A sufficient condition to check if a Markov chain
+        is stationary is by the detailed ballance equation: $$p(x)p(x\rightarrow y) =
+        p(y)p(y\rightarrow x).$$ Note we introduce the notation $p(x\rightarrow y)$ for the
         transition probablity from x to y, this can also be interpreted as a conditional
         distribution of state $y$ given state $x$  
     \end{itemize}
@@ -199,6 +203,7 @@ The sampling procedure is as follows,
     New position is $(x_{n+1}, q_{n+1})$
     \item Accept new position with MH acceptance probability $\min(1,\frac{p(x_{n+1}, q_{n+1})}{p(x_{n}, q_{n})} )$
 \end{enumerate}
+We refer to \cite{neal} for proof that HMC is indeed a MCMC. 
 \end{testexample}
 
 \subsection{MCMC used in thesis}
@@ -241,29 +246,16 @@ are tunes adaptively doing the burn-in phase. It is implemented using
 % BO, where robust estimates are required across many different functions F with as few parameter
 % choices as possible.
 
-
-we look a bit at the two versions used in the thesis. Our implementation in Numpyro
-and the one from the paper, BOHamiANN, \cite{BOHAMIANN}. 
-
-%\subsubsection{NUTS}
-Often the physical simulation in HMC goes back and forth on the same path (a u-turn), and we risk getting bad samples.
-No U-turn (NUTS) sampling avoids this, by forcing the HMC path to not take u-turns. 
-
-% \subsubsection{Adaptive stochatic HMC}
-% <Læs BOHamiANN paper igennem>
-BOHAMIANN is using an adaptive stochastic Hamiltonian monte carlo method to train the BNN. 
-
-
-Historically, Hamiltonian Monte Carlo (HMC)
-[157] has been the most popular sampling method used in BNNs. However,
-its performance is very sensitive to a proper initialization of its two user-
-specified parameters, namely step size and number of steps, which are
-normally set by carrying out a number of initial experiments. This makes
-HMC inappropriate for the Expensive Optimization application, where new
-observations are incrementally added and the surrogate model undergoes
-change in each iteration. Fortunately, the No-U-Turn-Sampler (NUTS) [86],
-an adaptive version of HMC, resolves this limitation by eliminating the
-need for setting the number of steps in advance.
+% Historically, Hamiltonian Monte Carlo (HMC)
+% [157] has been the most popular sampling method used in BNNs. However,
+% its performance is very sensitive to a proper initialization of its two user-
+% specified parameters, namely step size and number of steps, which are
+% normally set by carrying out a number of initial experiments. This makes
+% HMC inappropriate for the Expensive Optimization application, where new
+% observations are incrementally added and the surrogate model undergoes
+% change in each iteration. Fortunately, the No-U-Turn-Sampler (NUTS) [86],
+% an adaptive version of HMC, resolves this limitation by eliminating the
+% need for setting the number of steps in advance.
 \subsection{Design and properties of Bayesian neural network}
 The architecture of a BNN is a large topic to discuss. There are certain tradeoffs to be taken into
 consideration: How expressive should the network be (i.e. how deep and how many nodes per layer)
@@ -283,14 +275,7 @@ BNN leads to a more expressive regression model. When doing Bayesian optimizatio
 amount of training data, i.e. complicated patterns in data is not possible to discover, and hence 
 highly expressive models are not important. 
 
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[width=0.5\textwidth]{Pictures/_.pdf}
-%     \caption{Number of units in each of the 3 layers have a large influence of the BNNs ability to be expressive <lav om>}
-%     \label{n_unit_BNN}
-% \end{figure}
-
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \begin{minipage}[b]{0.24\textwidth}
      \includegraphics[width=\textwidth]{Pictures/bayesian_nn_prior_samples_hidden_units_0.pdf}
@@ -322,15 +307,15 @@ $\mathcal{N}(\textbf{w}|\bm{0},I)$, and the prior distribution of the observatio
 variance is following a inverse gamma distribution $\text{InvGa}(\sigma^2|1000,1)$ yielding a quite 
 informative prior of $\sigma^2 \approx 0$, i.e. believing that there is no oberservation noise.
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \begin{minipage}[b]{0.49\textwidth}
      %\includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Figures/reg_illustrations/BayesianNN_plots/Test4_BNN500-500-hu-10-alpha-1000_n_100_seed_42.pdf}
-     \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Pictures/Test4_BNNhu-10.pdf}
+     \includegraphics[width=\textwidth]{Pictures/Test4_BNNhu-10.pdf}
     \end{minipage}
     \hfill
     \begin{minipage}[b]{0.49\textwidth}
-      \includegraphics[trim=1cm 0.7cm 1cm 1cm,clip,width=\textwidth]{Pictures/Test4_BNNhu-50.pdf}
+      \includegraphics[width=\textwidth]{Pictures/Test4_BNNhu-50.pdf}
      \end{minipage}
      \caption{Example where 100 nodes on each of three layers, lead to a much more expressive model.
      $\sigma^2$ follows a informative prior $InvGamma(1000,1)$, i.e. prior mean $E[\sigma^2] \approx

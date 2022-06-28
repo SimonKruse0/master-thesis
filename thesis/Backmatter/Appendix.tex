@@ -1,4 +1,23 @@
 \chapter{Gaussian mixture rules}
+\begin{testexample2}[Conditional of multivariate Gaussian \cite[90]{bishop}]
+  Given a joint Gaussain distribution 
+  $$p(x,y)= \mathcal{N}(x,y|\mu,\Sigma), 
+\hspace{1cm} \mu=\begin{bmatrix}
+    \mu_x \\ \mu_y
+\end{bmatrix},\hspace{0.1cm} \Sigma = \begin{bmatrix}
+    \Sigma_{xx} & \Sigma_{xy}\\ \Sigma_{yx}& \Sigma_{yy}
+\end{bmatrix}$$
+  Then the conditional distribution is defined as
+  \begin{equation}\label{GaussianConditional}
+    p(y|x,\mu, \Sigma) = \mathcal{N}(y|\mu_{y|x},\Sigma_{y|x} )
+  \end{equation}
+  where 
+  \begin{align*}
+      \mu_{y|x} &= \mu_y+\Sigma_{yx}\Sigma_{xx}^{-1}(x-\mu_x)\\
+      \Sigma_{y|x} &= \Sigma_{yy}-\Sigma_{yx}\Sigma_{xx}^{-1}\Sigma_{xy} 
+  \end{align*}
+\end{testexample2}
+
 
 \chapter{Additional results}
 

@@ -97,7 +97,13 @@ def plot_regression_paths(ax, problem_name, plot_type=0, only_means= False):
 
 import matplotlib.pyplot as plt
 if __name__ == "__main__":
-   
+    font = {'family' : 'normal',
+        'weight' : 'bold',
+        'size'   : 16}
+    import matplotlib
+    matplotlib.rc('font', **font)
+
+
     ## plotting for thesis ##
     result_folder = "/home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/results_regression/"
     for number in ["1","2","3b","4b"]:
@@ -118,16 +124,16 @@ if __name__ == "__main__":
                 if number == "1" or number == "2":
                     ax.set_yscale("log")
                     plt.ylim(1e-4,20)
-            #     ax.set_yscale("log")
+            else:
+                ax.set_yscale("linear")
             #     
-            #     
-            #         
-            #     else:
-            #         plt.ylim(-5,1)
-            ax.yaxis.label.set_size(13)
-            ax.xaxis.label.set_size(13)
+         
+
+            plt.legend(fontsize = 12)
+            # ax.yaxis.label.set_size(17)
+            # ax.xaxis.label.set_size(17)
             ax.set_title(problem_name[:5])
-            ax.title.set_size(15)
+            # ax.title.set_size(20)
             plt.grid()
             plt.tight_layout()
             fig = plt.gcf()
@@ -135,7 +141,7 @@ if __name__ == "__main__":
             plt.savefig(result_folder+problem_name+f"_{type}"+".pdf")
             #plt.savefig(result_folder+problem_name+f"_{type}_zoom"+".pdf")
     
-    plt.show()
+            plt.show()
 
     if data_folder == "coco_reg_data":
         for problem in list(range(1,25)):

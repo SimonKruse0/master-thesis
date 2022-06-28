@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  28 JUN 2022 19:31
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  28 JUN 2022 22:48
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1421,6 +1421,13 @@ Package biblatex Warning: The following entry could not be found
 (biblatex)                Please verify the spelling and rerun
 (biblatex)                LaTeX afterwards.
 
+
+Package biblatex Warning: The following entry could not be found
+(biblatex)                in the database:
+(biblatex)                neal
+(biblatex)                Please verify the spelling and rerun
+(biblatex)                LaTeX afterwards.
+
 )
 Package biblatex Info: Reference section=0 on input line 15.
 Package biblatex Info: Reference segment=0 on input line 15.
@@ -1573,6 +1580,9 @@ File: Pictures/neg_lower_confidence_illustration_1.pdf Graphic file (type pdf)
 <use Pictures/neg_lower_confidence_illustration_1.pdf>
 File: Pictures/neg_lower_confidence_illustration_3.pdf Graphic file (type pdf)
 <use Pictures/neg_lower_confidence_illustration_3.pdf>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
  [11] [12] [13] [14]) [15] [16
 
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/03_04_discriminative_surrogates.tex
@@ -1622,11 +1632,7 @@ File: Pictures/Test4_BNNhu-10.pdf Graphic file (type pdf)
 <use Pictures/Test4_BNNhu-10.pdf>
 File: Pictures/Test4_BNNhu-50.pdf Graphic file (type pdf)
 <use Pictures/Test4_BNNhu-50.pdf>
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-)) [27] [28] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_mixture_regression.tex
+) [27]) [28] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_mixture_regression.tex
 Chapter 4.
 (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_a_prior_inclusion.tex [29
 
@@ -1636,19 +1642,22 @@ File: Pictures/mixture_predictive_bayesian.pdf Graphic file (type pdf)
 <use Pictures/mixture_predictive_bayesian.pdf>
 File: Pictures/mixture_predictive_bayesian2D.pdf Graphic file (type pdf)
 <use Pictures/mixture_predictive_bayesian2D.pdf>
- [30]
-Overfull \hbox (1.85567pt too wide) in paragraph at lines 86--88
-[]\TU/TimesNewRoman(0)/m/n/10.95 And the predictive variance is calcualted, using the definition of variance, $\OML/cmm/m/it/10.95 V[]\OT1/cmr/m/n/10.95 [\OML/cmm/m/it/10.95 y\OT1/cmr/m/n/10.95 ] = \OML/cmm/m/it/10.95 E[]\OT1/cmr/m/n/10.95 [\OML/cmm/m/it/10.95 y[]\OT1/cmr/m/n/10.95 ] \OMS/cmsy/m/n/10.95 ^^@
+
+Overfull \hbox (2.59329pt too wide) in paragraph at lines 86--88
+[]\TU/TimesNewRoman(0)/m/n/10.95 And the predictive variance is calcualted, using the definition of variance, $\U/msb/m/n/10.95 V[]\OT1/cmr/m/n/10.95 [\OML/cmm/m/it/10.95 y\OT1/cmr/m/n/10.95 ] = \U/msb/m/n/10.95 E[]\OT1/cmr/m/n/10.95 [\OML/cmm/m/it/10.95 y[]\OT1/cmr/m/n/10.95 ] \OMS/cmsy/m/n/10.95 ^^@
  []
 
-) [31] [32] [33]
+[30]) [31] [32] [33]
 
 LaTeX Font Warning: Font shape `TU/TimesNewRoman(0)/m/sc' undefined
 (Font)              using `TU/TimesNewRoman(0)/m/n' instead on input line 204.
 
-[34]
 File: Pictures/SPN_illustration_graph3.pdf Graphic file (type pdf)
 <use Pictures/SPN_illustration_graph3.pdf>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [34]
 File: Pictures/SPN_illustration_graph1.pdf Graphic file (type pdf)
 <use Pictures/SPN_illustration_graph1.pdf>
 
@@ -1666,8 +1675,8 @@ File: Pictures/SPN_illustration2.pdf Graphic file (type pdf)
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [35] [36] [37] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_b_EM.tex
-Overfull \hbox (15.32054pt too wide) detected at line 94
-[] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j\OML/cmm/m/it/10.95 ^^R\OT1/cmr/m/n/10.95 ) \OMS/cmsy/m/n/10.95 ^^@ [] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j\OML/cmm/m/it/10.95 ^^R[]\OT1/cmr/m/n/10.95 ) = \OML/cmm/m/it/10.95 Q\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 ^^R; ^^R[]\OT1/cmr/m/n/10.95 ) \OMS/cmsy/m/n/10.95 ^^@ \OML/cmm/m/it/10.95 Q\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 ^^R[]; ^^R[]\OT1/cmr/m/n/10.95 ) + \OML/cmm/m/it/10.95 E[]\OT1/cmr/m/n/10.95 [[] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j[]\OML/cmm/m/it/10.95 ; ^^R\OT1/cmr/m/n/10.95 )] \OMS/cmsy/m/n/10.95 ^^@ \OML/cmm/m/it/10.95 E[]\OT1/cmr/m/n/10.95 [[] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j[]\OML/cmm/m/it/10.95 ; ^^R[]\OT1/cmr/m/n/10.95 )]
+Overfull \hbox (13.7541pt too wide) detected at line 94
+[] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j\OML/cmm/m/it/10.95 ^^R\OT1/cmr/m/n/10.95 ) \OMS/cmsy/m/n/10.95 ^^@ [] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j\OML/cmm/m/it/10.95 ^^R[]\OT1/cmr/m/n/10.95 ) = \OML/cmm/m/it/10.95 Q\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 ^^R; ^^R[]\OT1/cmr/m/n/10.95 ) \OMS/cmsy/m/n/10.95 ^^@ \OML/cmm/m/it/10.95 Q\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 ^^R[]; ^^R[]\OT1/cmr/m/n/10.95 ) + \U/msb/m/n/10.95 E[]\OT1/cmr/m/n/10.95 [[] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j[]\OML/cmm/m/it/10.95 ; ^^R\OT1/cmr/m/n/10.95 )] \OMS/cmsy/m/n/10.95 ^^@ \U/msb/m/n/10.95 E[]\OT1/cmr/m/n/10.95 [[] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j[]\OML/cmm/m/it/10.95 ; ^^R[]\OT1/cmr/m/n/10.95 )]
  []
 
 [38] [39] [40])) [41] [42
@@ -1947,7 +1956,7 @@ File: Figures/results_regression/f15_dim_10_0.pdf Graphic file (type pdf)
 File: Figures/results_regression/f21_dim_10_0.pdf Graphic file (type pdf)
 <use Figures/results_regression/f21_dim_10_0.pdf>
 
-Overfull \hbox (6.79997pt too wide) in paragraph at lines 171--172
+Overfull \hbox (6.79997pt too wide) in paragraph at lines 190--191
 [][] 
  []
 
@@ -2023,12 +2032,12 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 57542 strings out of 481731
- 1366909 string characters out of 5935437
- 2303888 words of memory out of 5000000
- 73446 multiletter control sequences out of 15000+600000
- 551949 words of font info for 145 fonts, out of 8000000 for 9000
+ 57550 strings out of 481731
+ 1367165 string characters out of 5935437
+ 2305143 words of memory out of 5000000
+ 73455 multiletter control sequences out of 15000+600000
+ 551941 words of font info for 144 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  82i,21n,138p,2818b,5216s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (74 pages, 1495000 bytes).
+Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (74 pages, 1501836 bytes).

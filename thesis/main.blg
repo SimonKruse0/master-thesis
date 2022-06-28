@@ -1,21 +1,22 @@
 [0] Config.pm:304> INFO - This is Biber 2.14 (beta)
 [0] Config.pm:307> INFO - Logfile is 'main.blg'
-[81] biber:322> INFO - === Tue Jun 28, 2022, 19:31:47
-[99] Biber.pm:415> INFO - Reading 'main.bcf'
-[171] Biber.pm:943> INFO - Found 24 citekeys in bib section 0
-[186] Biber.pm:4256> INFO - Processing section 0
-[186] Utils.pm:75> INFO - Globbing data source 'bibliography.bib'
-[186] Utils.pm:91> INFO - Globbed data source 'bibliography.bib' to bibliography.bib
-[199] Biber.pm:4455> INFO - Looking for bibtex format file 'bibliography.bib' for section 0
-[200] bibtex.pm:1653> INFO - LaTeX decoding ...
-[235] bibtex.pm:1471> INFO - Found BibTeX data source 'bibliography.bib'
-[401] Utils.pm:293> WARN - month field 'aug' in entry 'COCO' is not an integer - this will probably not sort properly.
-[445] Utils.pm:293> WARN - I didn't find a database entry for 'deepkernel' (section 0)
-[445] Utils.pm:293> WARN - I didn't find a database entry for '??' (section 0)
-[471] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[471] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[472] Biber.pm:4084> INFO - Sorting list 'none/global//global/global' of type 'entry' with template 'none' and locale 'en-US'
-[472] Biber.pm:4090> INFO - No sort tailoring available for locale 'en-US'
-[494] bbl.pm:652> INFO - Writing 'main.bbl' with encoding 'UTF-8'
-[513] bbl.pm:755> INFO - Output to main.bbl
-[513] Biber.pm:128> INFO - WARNINGS: 3
+[114] biber:322> INFO - === Tue Jun 28, 2022, 21:49:36
+[137] Biber.pm:415> INFO - Reading 'main.bcf'
+[222] Biber.pm:943> INFO - Found 28 citekeys in bib section 0
+[244] Biber.pm:4256> INFO - Processing section 0
+[245] Utils.pm:75> INFO - Globbing data source 'bibliography.bib'
+[245] Utils.pm:91> INFO - Globbed data source 'bibliography.bib' to bibliography.bib
+[261] Biber.pm:4455> INFO - Looking for bibtex format file 'bibliography.bib' for section 0
+[262] bibtex.pm:1653> INFO - LaTeX decoding ...
+[307] bibtex.pm:1471> INFO - Found BibTeX data source 'bibliography.bib'
+[584] Utils.pm:293> WARN - month field 'aug' in entry 'COCO' is not an integer - this will probably not sort properly.
+[648] Utils.pm:293> WARN - I didn't find a database entry for 'deepkernel' (section 0)
+[649] Utils.pm:293> WARN - I didn't find a database entry for '??' (section 0)
+[649] Utils.pm:293> WARN - I didn't find a database entry for 'neal' (section 0)
+[688] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[688] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[688] Biber.pm:4084> INFO - Sorting list 'none/global//global/global' of type 'entry' with template 'none' and locale 'en-US'
+[688] Biber.pm:4090> INFO - No sort tailoring available for locale 'en-US'
+[714] bbl.pm:652> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[743] bbl.pm:755> INFO - Output to main.bbl
+[743] Biber.pm:128> INFO - WARNINGS: 4

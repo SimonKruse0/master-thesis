@@ -190,8 +190,8 @@ $$T^{-1}_y(\hat y) :=\hat y \cdot \sigma_x+\mu_x.$$
 
  \chapter{Results}
  In the following chapter, we want to test the surrogate models both as regression models and as surrogate
- models in a Bayesian optimization setting. Firstly we stay in the 1D domain on self-defined test problems, 
- which will give an intuition about the capability of the generative models as well as the discriminative models. 
+ models in a Bayesian optimization setting. Firstly, we stay in the 1D domain on self-defined test problems, 
+ which will give an intuition about the capability of the generative and discriminative models. 
 We have designed 4 test functions, which are defined to give an advantage to all the regression models. Secondly, 
 we go to the higher dimensional problems from the BBOB noiseless problem set. This is a popular set of problems 
 with 24 different problems for continuous black-box optimization algorithms.
@@ -340,7 +340,7 @@ First of all, we see that all the methods are indeed performing better than the 
 (black). The average relative error for the mean prediction is constant at 30\%. All models, besides the
 Gaussian mixture regression (GMR), have an average relative error of less than 10\% after just 20 training
 points. Including more data, the Bayesian neural network and the Gaussian process have the best mean prediction, 
-the third discriminative model, BOHamiANN, seems here to be a weak learner. at 30 data points, it stays at the
+the third discriminative model, BOHamiANN, seems here to be a weak learner. After 30 data points, it stays at the
 same error - even when being presented for 316 training data points in the end. 
 
 Looking at the right plot in Figure \ref{Test1_reg_plot}, we see that the generative models after 20
