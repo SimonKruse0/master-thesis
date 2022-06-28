@@ -64,13 +64,12 @@
 \contentsline {subsection}{\numberline {6.2.1}Test4: anisotropic problem}{51}{subsection.0.6.2.1}%
 \contentsline {section}{\numberline {6.3}Model compartment on test problems (Bayesian Optimization)}{52}{section.0.6.3}%
 \contentsline {section}{\numberline {6.4}Test on BBOB in higher dimensions}{53}{section.0.6.4}%
-\contentsline {subsection}{\numberline {6.4.1}Regression performance on BBOB}{53}{subsection.0.6.4.1}%
+\contentsline {subsection}{\numberline {6.4.1}Regression performance on BBOB}{54}{subsection.0.6.4.1}%
 \contentsline {subsection}{\numberline {6.4.2}Bayesian optimization performance on BBOB}{54}{subsection.0.6.4.2}%
 \contentsline {chapter}{\numberline {7}Discussion}{59}{chapter.0.7}%
-\contentsline {section}{\numberline {7.1}Mixture regression}{61}{section.0.7.1}%
-\contentsline {section}{\numberline {7.2}Bayesopt procedure}{61}{section.0.7.2}%
-\contentsline {chapter}{\numberline {8}Conclusion and further work}{62}{chapter.0.8}%
-\contentsline {section}{\numberline {8.1}further work}{62}{section.0.8.1}%
+\contentsline {section}{\numberline {7.1}Models}{60}{section.0.7.1}%
+\contentsline {chapter}{\numberline {8}Conclusion and further work}{61}{chapter.0.8}%
+\contentsline {section}{\numberline {8.1}further work}{61}{section.0.8.1}%
 \contentsline {chapter}{Bibliography}{63}{chapter*.46}%
 \contentsline {chapter}{\numberline {A}Gaussian mixture rules}{65}{appendix.A}%
 \contentsline {chapter}{\numberline {B}Additional results}{66}{appendix.B}%

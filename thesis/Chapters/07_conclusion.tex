@@ -1,9 +1,8 @@
 \chapter{Discussion}
 In the following, we will discuss the results has been conducted in the previous chapter and the
-surrogate models in general. First of all, the hypothesis of the thesis was, that it is possible 
-to find classes of Bayesian optimization problems, where the GP is not preferred. 
+surrogate models in general. 
 
-After the result have been conducted it is evident that the Gaussian process is a preferred model
+After the results have been conducted, it is evident that the Gaussian process is a preferred model
 across the tested problems. We did, however, find problems, where the GP was not the best, those are
 Test2 and Test3. Therefore, we indicate that the hypothesis is right. There might be more, and in
 fact, we only looked at 4 self-defined 1D problems and 4 BBOB problems tested. An obvious next step
@@ -43,22 +42,26 @@ might occur in real-life simulations where the objective function can have multi
 just nearby values coursed by measurement noise. If one knew the "generative story" of the
 objective function values (e.g. that Test3 jumps between 2 functions), it might be possible to think about combining more Gaussain proceses in a probalistic
 graphical model, i.e. flipping a coin on what GP to use. But in the case where this generative story was not given 
-mixture regression might indeed be a smart choise. 
+mixture regression might indeed be a smart choice. 
 
-Discriminative models is built with this one purpose of regression, whereas generative models, and conduct different 
-kind of probialistic quiries, which are usefull. Discriminative models are good for finding the paterns in data. 
+Discriminative models are built with this one purpose of regression, whereas generative models
+conduct different kinds of probabilistic queries, which are useful. Discriminative models are good
+for finding the paterns in data. 
 
 Variance of the prior was sat equal 10. I.e. when doing cross validation it was more keen on actually fitting a good model. 
 crossvalidation on low amount of data is... Not a general smart thing? We always learn that we should use Bayesian methods 
 on small amounts of data. 
 
+
+\section{Models}
 BOHamiANN is in general performing bad.. But got a comback for higher dims..?!.. It is designed to
 have a fast inference, while second to have on pair performance with the GP but with only linearly
 scaling inference.
 
-Sum product networks are the motivation why we call this deep.. 
+Sum product networks are the motivation why we call this deep.. However, the seem to put unnecessary constraints on 
+the model. 
 
-GMR was over confident.. Should have been Bayesian.
+GMR was overconfident.. Should have been Bayesian.
 
 GPs we never discussed the kernel. But the Matern kernel is chosen as the default in ... BayesOpt book. 
 
@@ -66,30 +69,6 @@ GPs we never discussed the kernel. But the Matern kernel is chosen as the defaul
 Looking a regression plots and there is a clear connection between being a good regression
 model and surrogate model.! However, we actually ran BO till more than 35 data points, i.e. 
 all the figures shown above is from 36 points. 
-
-%test results
-
-% discussion of Test3 
-Test3: One could define a generative story, flip a coin, then the data will
-be fitted with this Gaussian.! However, if the generative story is not known..
-
-%   \caption{Regression of a probabilistic objective function, is not a smart choice
-%   using anything else than a mixture regression model. Top we see the performance
-%   of 5 different regression models fitted to an increasing amount of training data, 
-%   the underlying function is tricky, as it jumps between multiple objective functions
-%   yielding a violation to most of the generative models, where most are capable of
-%   handling gaussian noise this is not gaussian noise and hence a very difficult problem. 
-%   This kind of objective function could definitely be relevant in certain cases.}
-
-<data generating process>
-Model do well when they are the data generating process, but if they are not, then
-they do bad. If you collect all model, 
-What model to chose? the standard answer of a Bayesian should be: Why choose? If there 
-is uncertainty about them, then we can just average them. Pic the maximum would be frquencialistic.
-Could we combine GP and SPN?
-ensample of models ..
-Simulation studies. 
-
 
 The Bayesian neural network training is difficult to know when it has converged, in general the more samples the better, 
 and the more weights the more complicated model there for more samples. We chose 500 warm-up and 500 samples, using 4
@@ -110,42 +89,29 @@ us the predictive distribution.
 
 Even though SPN is an interesting model, its relevance is only for large dimensions, where the number for data points
 or in certain cases where we want a more constraint model, i.e. that y can only come from 2 distributions thorughout the
-data. 
-
-The reason why SPN is working well sometimes is more due to it fact that it has a prior, 
-and not the fact that it is -- Also it is hard to know exact when it has converged?!? Nah. 
-Maybe 5 restarts are too little. Bayesian nice everything please. 
-
-
-discussion: Using a generative model as a surrogates model is a novel idea - maybe it is not a good
-idea.. Discretized regression
-
-Maybe manipulation of variance could be done, or same mean prediction?!? Or 
-mean prediction using the means of the close by x-values. 
-
-The terminology deep is not really relevant for the SPN as they are constrained by the number of dimensions..!
+data. The terminology deep is not really relevant for the SPN as they are constrained by the number of dimensions..!
 
 crossvalidation for selecting the hyper paramters is not really smart for only few data. It would make more sence 
 to just place a hyperprior on the priors instead!. 
-
-\section{Mixture regression}
-The prior variance! Meant a lot!
-
-
-
-\section{Bayesopt procedure}
-5 initial samples is maybe ok? Should only have done 2? 
-And is 30 samples really scientific? 
-
 
 
 \chapter{Conclusion and further work}
 The following chapter concludes the thesis and my work over the last five months. 
 
+First of the all, the hypothesis conducted in the beginning was, 
+\begin{itemize}
+    \item Mixture regression models and BNNs can be effective surrogate models
+    performing better than GPs in some complex BO problems. 
+\end{itemize}
+In the results we did find two problems, where the GP is not a preferred model. This confirms that
+we successfully implemented both BNNs and Mixture regression models in the Bayesian optimization setting.  
+However, the tests were not exhaustive enough to conclude whether or not the new methods, in general, 
+are a prefered model in these cases. 
+
 This thesis has motivated the relevance for Bayesian optimization, developed different alternative
 surrogate models, i.e. a Bayesian NN and mixture regression models and tested those on some 
-test functions. Among the 4 selected BBOB problems in higher dimensions it was not possible to show that
-GP was not the prefered model. However, for the 4 small 1D test problems, we found problems, where the GP. 
+test functions. Among the 4 selected BBOB problems in higher dimensions, it was not possible to show that
+GP was not the preferred model. However, for the 4 small 1D test problems, we found problems, where the GP. 
 is not preferable. To the story is that the developed generative surrogates all have been approximated by
 a Gaussian. 
 
@@ -154,7 +120,7 @@ when diving into the definition of the SPN it became clear that it was nothing b
 
 The kernel density estimation is an uncorrelated GMM with a component on each datapoint, this made
 it robust, but also very naive, without the prior this model would provide a local mean prediction
-with mean equal the nearest data point and variance is selected. <Lav om>
+with mean equal the nearest data point and variance is selected.
 
 The Gaussian mixture regression was included to make the more intelligent mixture components, which
 would allow for better predictive power, however, without much data the model collapsed into very
@@ -168,12 +134,17 @@ algorithm. Unfortunately, even though the mixture regression models showed good 
 they were approximated by gaussians to perform the fast closed form Expected improvement, therefore the 
 connection is lost. 
 
-Testing using empirical expected improvements. 
-
-Maybe manipulation of variance could be done, or same mean prediction?!? Or 
-mean prediction using the means of the close by x-values. 
-
 \section{further work}
+As mentioned, the mixture models were forcefully approximated by a Gaussian in the BO setting, but also when testing preditive
+power with mean instead of mode. Therefore, an obvious next step in further work is to test the mixture models using approximate
+expected improvement, which uses samples from their true predictive distributions. 
+
+The investigation of this thesis was conducted to understand what model to choose. However, the standard answer
+of a Bayesian should be: "Why choose?" If there is uncertainty about them, then we can just average
+them. Picing the maximum would be frquencialistic. Could we combine GP and SPN? Ensemble of models.
+
+Avoiding cross-validation and instead include the hyperpriors and do it the Bayesian way. 
+
 Many problems have dimensions of no relevance. Here This might be relevant to investigate
 
 More dimensions of prior weighting?

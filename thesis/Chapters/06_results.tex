@@ -653,10 +653,8 @@ slightly.
 \end{figure}
 
 
-Bayesian optimization using 10 restarts, We see that the GP is in fact the best model in the simple
-problem Test1, however, for the more complicated problems the GP is not the prefered model. Recall
-that asigning 0 variance to the problem in expecpected improvement only yeilds a value in the
-expected improvement if it is increasing. 
+Bayesian optimization using 20 restarts, we see that the GP is in fact the best model in the simple
+problem Test1; however, for the more complicated problems, the GP is not the preferred model.
 
 \begin{figure}[H]
   \centering
@@ -674,13 +672,22 @@ expected improvement if it is increasing.
    \begin{minipage}[b]{0.49\textwidth}
      \includegraphics[width=\textwidth]{Figures/results_baysopt/Test4c.pdf}
     \end{minipage}
-  \caption{Bayesian optimization average accross 20 different samples of initial dataset of size 5)}
+  \caption{Bayesian optimization of the Test functions average accross 20 different samples of initial dataset of size 5.}
   \label{Test_bayesOpt}
 \end{figure}
+% Recall that assigning 0 variance to a prediction problem in expected improvement only yeilds a value in the
+% expected improvement if it is increasing. 
+Looking at Figure \ref{Test_bayesOpt} it is important first of all compare the surrogates to the black random search. E.g. 
+All of the models did worse than random search in Test3. As the regression task failed for test3 this makes sense. However, 
+noticeably, the GP in Test3 is the worst model (together with BOHamiANN) after 16 function evaluations. Test1 is the benchmark
+and here it becomes evident that BOHamiANN does not work, and GMR is as good as Random search. GP is a clear winner of test1. 
+Test 2 shows after 35 iterations that random search is better than the GP and that all the mixture models and (barely) the BNN 
+performs better than the GP. Finally, test4 shows approximatly the same results for KDE, SPN, BNN and GP, all being better than Random 
+search and BOHamiANN. 
 
 
 \section{Test on BBOB in higher dimensions}
-So far we have looked at our self-defined 1D problems and found problems, where the GP is not the
+So far, we have looked at our self-defined 1D problems and found problems, where the GP is not the
 preferred model. We now want to go up in higher dimensions to test the models on more realistic
 problems. The tests are conducted on 2,3,5,10 dimensions on the \textit{Real-parameter black-box
 optimization benchmarking 2009: Noiseless functions definitions} (BBOB) \cite{hansen2009real}, which
@@ -694,9 +701,9 @@ constraints on this thesis, we select the functions, f3, f9, f15 and f21 which a
   \item f15: Rastrigin Function transformed to be non-separable
   \item f21: Gallagher’s Gaussian 101-me Peaks Function.
 \end{itemize}
-For more details all the 24 functions are described here \cite{hansen2009real}. First, we test the
-regression performance of surrogate models on the 4 benchmark problems in dimensions 2,3,5,10.
-Secondly, we test Bayesian optimization performance on them. 
+For more details, all the 24 functions are described here \cite{hansen2009real}. First, we test the
+regression performance of surrogate models on the four benchmark problems in dimensions 2,3,5,10.
+Secondly, we test Bayesian optimization on them. 
 
 \begin{figure}[h]
   \centering
@@ -754,20 +761,19 @@ the generative and discriminative models. We have selected some noticeable plots
     \includegraphics[width=\textwidth]{Figures/results_regression/f15_dim_2_1.pdf}
    \end{minipage}
    
-  \caption{Regression perforance of selected problems of BBOB. Top: Preditive power. Bottom: uncertainty quantification 
-  .Average accross 10 different samples of seeded samples from the problems.}
+  \caption{Regression performance of selected problems of BBOB. Top: Predictive power. Bottom:
+  Uncertainty quantification. Average across 10 different samples of seeded samples from the
+  problems.}
   \label{BBOB_regression}
 \end{figure}
 
 
 \subsection{Bayesian optimization performance on BBOB}
 The Bayesian optimization procedure is as follows: 1) sample 5 random points, 2) do 30 Bayesian
-optimization iterations. Since Bayesian optimization can be lucky we want to limit this by doing 20
+optimization iterations. We want to limit optimization paths of being lucky by doing 20
 restarts (preferable more, however, due to time and resource limitations). The optimization of the
-acquisition function is done by $d \cdot 5000$ random guesses, to be fairer across the dimensions
-this should have been $5000^d$, however, this would have been computational unfeasible. 
-
-
+acquisition function is done by $d \cdot 5000$ random guesses. To be fairer across the dimensions,
+this should have been $5000^d$; however, this would have been computational infeasible. 
 
 \begin{figure}[H]
   \centering
@@ -789,7 +795,6 @@ this should have been $5000^d$, however, this would have been computational unfe
   \label{BBOB_bayesOpt}
 \end{figure}
 
-
 \begin{figure}[H]
   \centering
   \begin{minipage}[b]{0.49\textwidth}
@@ -810,8 +815,6 @@ this should have been $5000^d$, however, this would have been computational unfe
   \label{BBOB_bayesOpt}
 \end{figure}
 
-f3 dim 5: Interesting to look at GMR. 
-
 
 \begin{figure}[H]
   \centering
@@ -829,6 +832,8 @@ f3 dim 5: Interesting to look at GMR.
    \begin{minipage}[b]{0.49\textwidth}
      \includegraphics[width=\textwidth]{Figures/results_baysopt/21_5.pdf}
     \end{minipage}
-  \caption{Bayesian optimization of BBOB in 5 dimensions average accross 20 different samples of initial dataset of size 5)}
+  \caption{Bayesian optimization of BBOB in 5 dimensions average accross 20 different samples of initial dataset of size 5.}
   \label{BBOB_bayesOpt5}
 \end{figure}
+
+In general across the BBOB test we see that GP is the best surrogate model. 
