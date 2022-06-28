@@ -2,25 +2,29 @@
 \addcontentsline{toc}{section}{Abstract}
 % Abstract
 %  1. Motivation. Why do we care?
-Bayesian optimization is the leading methodology in sample-efficient optimization and
+Bayesian optimization (BO) is the leading methodology in sample-efficient optimization and
 widely used in hyperparameter tuning in machine learning and deep learning. 
 
 %  2. Problem formulation. What problem will we solve?
 %     2.b. Current state. What have others done, and why is that not enough?
-However, from a decision theory standpoint, assuming the probabilistic surrogate model to be correct
+From a decision theoretical standpoint, assuming the probabilistic surrogate model to be correct
 is crucial for the correct decision. We will investigate if other surrogate models could be better
-than a Gaussian process (GP). 
+than the BO default: Gaussian process (GP). 
 
 %  3. Approach. What is our big idea? How did we solve it?
 %     3.a. Analysis and experiments. What research did we do?
-This thesis investigates surrogate models such as Mixture regression and Bayesian neural networks
-and compares them against GP. 
+This thesis investigates surrogate models such as Mixture regression and Bayesian neural
+networks(BNN) and compares them against GP. To have a good chance of analyzing the
+models, the focus is first to understand and present the theory and second to apply the
+models in a BO setting. 
 
 %  4. Results. What is the answer?
 %  5. Conclusions. What are the implications?
-Results did show a few self-made problems where the alternative surrogates were preferred.
-
-
-
+After understanding and presenting the different surrogate models and corresponding inference
+methods. Tests were conducted on four self-made 1D Problems and a commonly used benchmarking problem
+set. The mixture and BNN regression results were promising for classes of problems with
+discontinuities and multimodality, and the GP was found best for most tests. All surrogate models
+were Gaussian approximated in the BO tests, especially this compromisation of the mixture regression models
+sparks even more promise for their positive results.tests
 
 

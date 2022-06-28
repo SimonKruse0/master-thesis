@@ -138,6 +138,12 @@ if __name__ == "__main__":
     #         #plt.savefig(result_folder+problem_name+f"_{type}_zoom"+".pdf")
     
     # plt.show()
+    font = {'family' : 'normal',
+        'weight' : 'bold',
+        'size'   : 20}
+    import matplotlib
+    matplotlib.rc('font', **font)
+
 
     if "coco_reg_data" in data_folder:
         for problem in list(range(3,25,6)):
@@ -148,8 +154,12 @@ if __name__ == "__main__":
                     plt.xlim(10,316)
                     ax.set_xscale("log")
                     plot_regression_paths(ax, problem_name, plot_type=type)
+                    ax.set_yscale("linear")
                     plt.grid()
                     plt.tight_layout()
+                    plt.legend(fontsize=12)
+                    #plot.legend(loc=2, prop={'size': 6})
+
                     fig = plt.gcf()
                     fig.set_size_inches(6, 4)
                     plt.savefig(result_folder+problem_name+f"_{type}"+".pdf")

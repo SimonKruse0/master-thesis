@@ -24,8 +24,8 @@
 \BOOKMARK [0][]{chapter.0.5}{5\040Implementation}{}% 24
 \BOOKMARK [0][]{chapter.0.6}{6\040Results}{}% 25
 \BOOKMARK [1][]{section.0.6.1}{6.1\040Regression\040analysis\040methodology}{chapter.0.6}% 26
-\BOOKMARK [1][]{section.0.6.2}{6.2\040Model\040compartment\040on\040test\040problems\040\(regression\)}{chapter.0.6}% 27
-\BOOKMARK [1][]{section.0.6.3}{6.3\040Model\040compartment\040on\040test\040problems\040\(Bayesian\040Optimization\)}{chapter.0.6}% 28
+\BOOKMARK [1][]{section.0.6.2}{6.2\040Model\040comparison\040on\040test\040problems\040\(regression\)}{chapter.0.6}% 27
+\BOOKMARK [1][]{section.0.6.3}{6.3\040Model\040comparison\040on\040test\040problems\040\(Bayesian\040Optimization\)}{chapter.0.6}% 28
 \BOOKMARK [1][]{section.0.6.4}{6.4\040Test\040on\040BBOB\040in\040higher\040dimensions}{chapter.0.6}% 29
 \BOOKMARK [0][]{chapter.0.7}{7\040Discussion}{}% 30
 \BOOKMARK [1][]{section.0.7.1}{7.1\040Models}{chapter.0.7}% 31

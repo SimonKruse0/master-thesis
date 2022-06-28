@@ -259,7 +259,7 @@ $\bar{\textbf{y}} = \frac{1}{n}\sum_{i=1}^n \textbf{y}_i $ and $\bar{\sigma}^2 (
 it is imidiately a bad model since it sees as all $x$ points/locations as equally good. We will use
 this model in the benchmark for the Bayesian optimization as it will corespond to random search. 
  
-\section{Model compartment on test problems (regression)}
+\section{Model comparison on test problems (regression)}
 % Experiment section. For each experiment
 %  1. Introduction. What is the purpose of the experiment
 %  2. Data, materials, methods. Exactly how was the experiment conducted.
@@ -623,13 +623,11 @@ becomes dense, the GP will lower its lengthscale and fit the data very well. Thi
   \label{Test4_reg_visual}
 \end{figure}
 
-\section{Model compartment on test problems (Bayesian Optimization)}
-Now we are ready to test the models in a Bayesian optimization setting. However, realizing a bit too
-late that Test3 and test4 while being difficult to appropriate with regression functions. Test3
-contains multiple equal minima, and Test4 has a close to minima point on the boundary $x=100$, so
-testing them would not be informative. We redefine Test3 and Test4 as seen in Figure
-\ref{TEST_problems2}. They still have the same overall structure, in fact, the new Test3 is changed only
-slightly.
+\section{Model comparison on test problems (Bayesian Optimization)}
+Now we are ready to test the models in a Bayesian optimization setting. Test3 contains multiple
+equal minima, and Test4 has a close to minima point on the boundary $x=100$, so testing them would
+not be informative. We redefine Test3 and Test4 as seen in Figure \ref{TEST_problems2}. They still
+have the same overall structure, so the connecting to the regression analysis should be okay. 
 
 \begin{figure}[h]
   \centering
@@ -836,4 +834,8 @@ this should have been $5000^d$; however, this would have been computational infe
   \label{BBOB_bayesOpt5}
 \end{figure}
 
-In general across the BBOB test we see that GP is the best surrogate model. 
+In large dimensions there are need for more data for the regression model to be correct? Course of dimensionality..?
+
+
+In general, across the BBOB tests, we see that GP is the best surrogate model. The other models 
+are doing worse than random search on several tests. This is unfortunate.

@@ -8,14 +8,21 @@ import matplotlib.pyplot as plt
 import jax.random as random
 
 X_sample =  np.linspace(-10,10,500)[:,None]
-fig, axs = plt.subplots(nrows=2, ncols=2, sharex="all")#, sharey="row")
+#fig, axs = plt.subplots(nrows=2, ncols=2, sharex="all")#, sharey="row")
+
+font = {'family' : 'normal',
+    'weight' : 'bold',
+    'size'   : 20}
+import matplotlib
+matplotlib.rc('font', **font)
 
 hidden_units = [1,5,20,100]
 for i,hu in enumerate(hidden_units):
 # for b, row in zip([], ax):
 #     for w, ax in zip(w_var,row):
     print(i%3,i//3)
-    ax0 = axs[i%2,i//2]
+    #ax0 = axs[i%2,i//2]
+    fig,ax0 = plt.subplots()
     NNN_regression = NumpyroNeuralNetwork(
         hidden_units=hu,
         num_chains = 4, num_warmup= 200, num_samples=10, 
@@ -32,12 +39,12 @@ for i,hu in enumerate(hidden_units):
         r = np.random.randint(1000000,size = 1)[0]
         NNN_regression.rng_key, NNN_regression.rng_key_predict = random.split(random.PRNGKey(r))
         Y = NNN_regression.model_sample(X_sample)
-        ax0.plot(X_sample,Y, color = "Black", alpha=0.2)
+        ax0.plot(X_sample,Y, color = "Black", alpha=0.4, lw=1.5)
         #plt.title(NNN_regression.text_priors)
         Y_max =max(Y_max,Y.max())
     #plt.text(-8,Y_max-4,NNN_regression.text_priors)
     ax0.set_title(f"hidden units = {NNN_regression.hidden_units}")
+    path = "/home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures"
+    plt.savefig(f'{path}/bayesian_nn_prior_samples_hidden_units_{i}.pdf', bbox_inches='tight')
 plt.show()
-# path = "/home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures"
-# plt.savefig(f'{path}/bayesian_nn_prior_samples_hidden_units.pdf', bbox_inches='tight')
 

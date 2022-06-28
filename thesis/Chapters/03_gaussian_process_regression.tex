@@ -69,7 +69,24 @@ using \eqref{marginal_distribution} we end up with the closed form Normal distri
 $$p(y_*|x_*,\mathcal{D}) = \mathcal{N}(y_*|\mu_*,\sigma^2_*+\sigma^2)$$
 
 So now, we want to calculate $p(f_*|\mathcal{D})$, this can be done using the neat properties of Gaussian
-distributions.  
+distributions. 
+
+\begin{testexample2}[Trick with normal distributions \cite[93]{bishop}]
+    Given a marginal Gaussian distribution of $x$ and a conditional Gaussian distribution
+    of $y$ given $x$ of the form, 
+    \begin{align*}
+        p(x) &= \mathcal{N}(x|\mu, \Lambda^{-1})\\
+        p(y|x) &= \mathcal{N}(y|Ax+b, L^{-1})
+    \end{align*}
+    then the marginal distribution of $y$ and the conditional distribution of $x$ given $y$
+    have the form, 
+    \begin{align}
+        p(y) &= \mathcal{N}(y|A\mu+b,L^{-1}+A \Lambda^{-1}A^T) \label{marginal_distribution}\\
+        p(x|y) &= \mathcal{N}(x|\Gamma [\Lambda \mu+A^TL(y-b)],\Gamma ) \label{posterior_distribution}\\
+        \Gamma &:= (\Lambda +A^TLA)^{-1} \label{Gamma}
+    \end{align}
+\end{testexample2}
+
 \subsubsection{Posterior function distribution}
 From observing the data $\mathcal{D} = \{x_1,y_1, \dots , x_n,y_n\} = (\textbf{x}, \textbf{y})$, we can marginalize over the noisefree
 predictions $\textbf{f} = [f(x_1), \dots, f(x_n)]$, 
@@ -124,23 +141,6 @@ in Figure \ref{GP_illustration2}.
     \label{GP_illustration2}
 \end{figure}
 
-
-
-\begin{testexample2}[Trick with normal distributions [from Bishops book?]]
-    Given a marginal Gaussian distribution of $x$ and a conditional Gaussian distribution
-    of $y$ given $x$ of the form, 
-    \begin{align*}
-        p(x) &= \mathcal{N}(x|\mu, \Lambda^{-1})\\
-        p(y|x) &= \mathcal{N}(y|Ax+b, L^{-1})
-    \end{align*}
-    then the marginal distribution of $y$ and the conditional distribution of $x$ given $y$
-    have the form, 
-    \begin{align}
-        p(y) &= \mathcal{N}(y|A\mu+b,L^{-1}+A \Lambda^{-1}A^T) \label{marginal_distribution}\\
-        p(x|y) &= \mathcal{N}(x|\Gamma \mu+\Gamma [A^TL(y-b)],\Gamma ) \label{posterior_distribution}\\
-        \Gamma &:= (\Lambda +A^TLA)^{-1} \label{Gamma}
-    \end{align}
-\end{testexample2}
 
 
 

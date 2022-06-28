@@ -60,7 +60,7 @@ with Monte Carlo samples from posterior,
     p(y_*|x_*,\mathcal{D}) &= \int p_{\text{\tiny BNN}}(y_*|x_*, \theta)p(\theta|\mathcal{D})d\theta\\
     &\approx \frac{1}{K} \sum_{k=1}^K p_{\text{\tiny BNN}}(y_*|x_*, \theta^{(k)})
 \end{align*}
-where the integral is intractable. As indecated in the second line, we can approximated the
+where the integral is intractable. As indicated in the second line, we can approximated the
 integral with Monte Carlo sampling: $\theta^{(k)}$ are iid samples from the posterior distribution,
 $\theta^{(k)} \sim p(\theta|\mathcal{D})$. 
 \begin{testexample2}[Monte Carlo approximation]
@@ -202,9 +202,48 @@ The sampling procedure is as follows,
 \end{testexample}
 
 \subsection{MCMC used in thesis}
-Since some intuition is now established around Hamiltonian Monte Carlo, 
+While being a popular sampling method for BNN inference, Hamiltonian Monte Carlo is very
+sensitive to the two parameters used in the leapfrog integration (physical simulation): the step
+size and the number of steps. These parameters are typically tuned by conducting a
+number of initial experiments, i.e. data set samples, which is not appropriate in a BO setting with
+an expensive objective function. The NUTS sampling method (No-U-Turn-Sampler) \cite{NUTS}
+is an adaptive version of HMC, which terminates the leapfrog integration when the simulation reaches
+the starting point. Thereby we avoid manually tuning of the number of steps.
+
+The paper \cite{BOHAMIANN} introduces a Bayesian optimization framework called Bayesian Optimization
+with Hamiltonian Monte Carlo Artificial Neural Networks (BOHAMIANN), which demonstrates state of the art
+performance on a wide range of optimization task. It is stochastic gradient HMC where the hyperparameters
+are tunes adaptively doing the burn-in phase. It is implemented using 
+
+
+% JEG OVERSÅ dette: 
+%  Wrapper around pybnn Bohamiann implementation. It automatically adjusts the length by the MCMC chain,
+% by performing 100 times more burnin steps than we have data points and sampling ~100 networks weights.
+
+% We now show Bayesian optimization experiments for BOHAMIANN. Unless noted otherwise,
+% we used a three layer neural network with 50 tanh units for all experiments. For the priors we
+% let p(θµ) = N (0, σ2
+% µ
+% ) be normally distributed and placed a Gamma hyperprior on σ
+% 2
+% µ
+% , which is
+% periodically updated via Gibbs sampling. For p(θ
+% 2
+% σ
+% ) we chose a log-normal prior. To approximate EI
+% we used 50 samples acquired via SGHMC sampling.
+
+
+% We found the
+% friction term and the step-size to be highly model and data-set dependent3
+% , which is unacceptable for
+% BO, where robust estimates are required across many different functions F with as few parameter
+% choices as possible.
+
+
 we look a bit at the two versions used in the thesis. Our implementation in Numpyro
-and the one from the paper, BOHamiANN, 
+and the one from the paper, BOHamiANN, \cite{BOHAMIANN}. 
 
 %\subsubsection{NUTS}
 Often the physical simulation in HMC goes back and forth on the same path (a u-turn), and we risk getting bad samples.
@@ -214,6 +253,17 @@ No U-turn (NUTS) sampling avoids this, by forcing the HMC path to not take u-tur
 % <Læs BOHamiANN paper igennem>
 BOHAMIANN is using an adaptive stochastic Hamiltonian monte carlo method to train the BNN. 
 
+
+Historically, Hamiltonian Monte Carlo (HMC)
+[157] has been the most popular sampling method used in BNNs. However,
+its performance is very sensitive to a proper initialization of its two user-
+specified parameters, namely step size and number of steps, which are
+normally set by carrying out a number of initial experiments. This makes
+HMC inappropriate for the Expensive Optimization application, where new
+observations are incrementally added and the surrogate model undergoes
+change in each iteration. Fortunately, the No-U-Turn-Sampler (NUTS) [86],
+an adaptive version of HMC, resolves this limitation by eliminating the
+need for setting the number of steps in advance.
 \subsection{Design and properties of Bayesian neural network}
 The architecture of a BNN is a large topic to discuss. There are certain tradeoffs to be taken into
 consideration: How expressive should the network be (i.e. how deep and how many nodes per layer)
@@ -233,12 +283,36 @@ BNN leads to a more expressive regression model. When doing Bayesian optimizatio
 amount of training data, i.e. complicated patterns in data is not possible to discover, and hence 
 highly expressive models are not important. 
 
-\begin{figure}[H]
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.5\textwidth]{Pictures/_.pdf}
+%     \caption{Number of units in each of the 3 layers have a large influence of the BNNs ability to be expressive <lav om>}
+%     \label{n_unit_BNN}
+% \end{figure}
+
+\begin{figure}[h]
     \centering
-    \includegraphics[width=0.5\textwidth]{Pictures/bayesian_nn_prior_samples_hidden_units.pdf}
-    \caption{Number of units in each of the 3 layers have a large influence of the BNNs ability to be expressive <lav om>}
+    \begin{minipage}[b]{0.24\textwidth}
+     \includegraphics[width=\textwidth]{Pictures/bayesian_nn_prior_samples_hidden_units_0.pdf}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.24\textwidth}
+     \includegraphics[width=\textwidth]{Pictures/bayesian_nn_prior_samples_hidden_units_1.pdf}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.24\textwidth}
+      \includegraphics[width=\textwidth]{Pictures/bayesian_nn_prior_samples_hidden_units_2.pdf}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.24\textwidth}
+      \includegraphics[width=\textwidth]{Pictures/bayesian_nn_prior_samples_hidden_units_3.pdf}
+    \end{minipage}
+    
+    \caption{Prior samples from 3 layer BNN. The number of units in each of the three layers have a
+    large influence on the BNNs ability to be expressive. Note that the inference becomes more
+    computationally demanding with BNN size.}
     \label{n_unit_BNN}
-\end{figure}
+  \end{figure}
 
 % #\subsubsection{Expressiveness of BNN}
 % The number of MCMC samples is of large importance. Theoretically speaking the more samples the better
@@ -272,3 +346,4 @@ informative prior of $\sigma^2 \approx 0$, i.e. believing that there is no obers
 % however, 
 
 
+%\subsection{Benchmark BNN model}

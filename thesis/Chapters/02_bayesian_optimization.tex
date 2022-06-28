@@ -33,7 +33,7 @@ fully described by the posterior distribution $p(\theta|\mathcal{D})$.
     In Bayesian modelling, $p(\theta|\mathcal{D})$ is the posterior distribution, and it is linked
      to the likelihood $p(\mathcal{D}|\theta)$ and prior $p(\theta)$ via Bayes rule,
     $$p(\theta|\mathcal{D}) = \frac{p(\mathcal{D}|\theta)p(\theta)}{p(\mathcal{D})} \propto
-    p(\mathcal{D}|\theta)p(\theta),$$ where the evidens $p(\mathcal{D})$ act as a propotionality
+    p(\mathcal{D}|\theta)p(\theta),$$ where the evidence $p(\mathcal{D})$ act as a propotionality
     constant since $p(\theta|\mathcal{D})$ is only a function of $\theta$. In the case of
     regression, we always condition on $\textbf{x}$\footnote{By abusing notation, we could define the
     data as "conditional data", $\mathcal{D} := \textbf{y}|\textbf{x}$}. 
@@ -46,7 +46,7 @@ fully described by the posterior distribution $p(\theta|\mathcal{D})$.
 \subsection{Surrogate model}
 %We are now ready to define the (cheap) surrogate model $p(y|x,\mathcal{D})$ in \eqref{BayesOpt}. 
 A surrogate model in a Bayesian optimization setting (i.e. $p(y|x,\mathcal{D})$ in \eqref{BayesOpt})
-is a Bayesian regression model. The most used surrogate model is a Gaussian Process. But there have
+is a Bayesian regression model. The most used surrogate model is a Gaussian Process \cite{??}. But there have
 been investigations on other surrogates, such as Bayesian neural networks and Bayesian regression
 trees. These are all discriminative models, and another approach we focus on in this project is to
 model $y$ and $x$ jointly in a so-called generative model, $p(x,y)$. A generative model can be used
@@ -68,15 +68,15 @@ in Bayesian Optimization.
 \subsection{Inference of surrogate models}
 Inference is the process of computing answers to queries about a probabilistic model after observing
 data. In Bayesian regression, the query is the predictive distribution, $p(y|x,\mathcal{D})$, as we
-are interested in the distribution of $y$ given $x$ and already observed data, $\mathcal{D}$. This
+are interested in the distribution of $y$ given $x$ and data, $\mathcal{D}$. This
 often indirectly create the posterior query, $p(\theta|\mathcal{D})$, the probability of model
 parameters $\theta$ given data $\mathcal{D}$. Lastly, it is also inference when we train a Gaussian
 mixture model or SPN using the expectation-maximization algorithm (EM) since we are iteratively
-answering the query $E_{p(z|\theta^{(k)})}[z|\theta]$.
+answering the query $\mathbb{E}_{p(z|\theta^{(k)})}[z|\theta]$.
 
 %\subsection{Exact and approximate inference}
 We distinguish between two different ways of inference: Exact and approximate inference. It is
-\textit{exact inference} when a probabilistic query is calculated exact. It is possible to
+\textit{exact inference} when a probabilistic query is calculated exactly. It is possible to
 calculate exact inference on the predictive distribution for the Gaussian mixture model, Sum product
 network, and Gaussian processes. Models which allow for exact inference have a powerful advantage
 over the models with approximate inference since we can guarantee the answers to the queries are
@@ -88,15 +88,15 @@ exact inference is often intractable, and we need to use approximate inference. 
 inference is a broad category of methods, which includes variational inference and Markov chain
 Monte Carlo (MCMC). The two Bayesian Neural networks, we deal with in this project, Bohamiann and
 Numpyro BNN are similar regression models but are inferred using two different MCMC methods,
-Hamiltonian Monte Carlo - giving different results. As revealed later (see in section \ref{BNN})
-approximate inference might be flawed and inexact. 
+Hamiltonian Monte Carlo. As revealed later (see in section \ref{BNN})
+approximate inference might be inexact and wrong. 
 
 \begin{table}[H]
     \centering
     \begin{tabular}{l|l|l}
     %\rowcolor[HTML]{C0C0C0} 
     \textbf{Model}       & \textbf{Predictive inference}    &   \textbf{Learning} \\ \hline
-    GP                          & Exact $O(n^3)$            & Emperical Bayes\\
+    GP                          & Exact $O(n^3)$            & Empirical Bayes\\
     Numpyro BNN                 & No U-Turn Sampler         & \\
     Bohamiann BNN               & Adaptive stochatic HMC    & \\
     Kernel density regression   & Exact $O(n)$              & \\
@@ -183,7 +183,7 @@ In the following derivation we assume the
 predictive distribution can be approxiamted by a normal distribution dependent on the point of
 interest $x$ and the data $\mathcal{D}$ (note for the GP it is in fact not an approximation), 
 $$p(y|x,\mathcal{D}) \approx \mathcal{N}(y|\mu(x,\mathcal{D}), \sigma^2(x,\mathcal{D}))$$ where we
-will change to a less clumpsy notation $\mathcal{N}(y|\mu_x,
+will change to a less complicated notation $\mathcal{N}(y|\mu_x,
 \sigma^2_x):=\mathcal{N}(y|\mu(x,\mathcal{D}), \sigma^2(x,\mathcal{D}))$. This is completely fine
 since $x$ is fixed (and $\mathcal{D}$ is fixed) when evaluating the expected improvement in a point
 $x$. %  $\sigma_x := \sigma^2(x,\mathcal{D})$ and $\mu_x := \mu(x,\mathcal{D})$
@@ -192,7 +192,7 @@ Furthermore, the density of
 a standard normal distribution is denoted $\phi(\cdot):=\mathcal{N}(\cdot | 0,1)$, and the cumlative
 density function (CDF) of a standard normal distribution is denoted, $\Phi(\cdot) :=
 \int_{-\infty}^{\cdot} \phi(\epsilon)d\epsilon$. We will now see that the normal approximation
-of the predictive distribution yiels closed form solution to the expected improvement function, 
+of the predictive distribution yields closed form solution to the expected improvement function, 
 
 \begin{align*}
     \mathbb{E}_{\mathcal{N}(y|\mu_x, \sigma_x^2)}[\max(0,y_{\min}-y)] &= \int \max(0,y_{\min}-y) \mathcal{N}(y|\mu_x, \sigma_x^2) dy\\

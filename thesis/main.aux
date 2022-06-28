@@ -43,9 +43,9 @@
 \@writefile{lot}{\addvspace {10\p@ }}
 \abx@aux@cite{deepkernel}
 \abx@aux@segm{0}{0}{deepkernel}
-\@writefile{lof}{\contentsline {figure}{\numberline {1.1}{\ignorespaces Gaussian process (GP) and Bayesian neural network (BNN) fitted to 18 data points. The objective function is the dashed black line. This examplifies how a discontinuity makes the standard implemented GP (optimized with emperical Bayes) overreact to all other areas in the domain $[0,1]$, while the Bayesian NN only express uncertainty where the discontinuity happens at $x = 0.5$\relax }}{2}{figure.caption.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1.1}{\ignorespaces Gaussian process (GP) and Bayesian neural network (BNN) fitted to 18 data points. The objective function is the dashed black line. This examplifies how a discontinuity makes the standard implemented GP (optimized with emperical Bayes) expresses large uncertainties to all other areas in the domain $[0,1]$, while the Bayesian NN only express uncertainty where the discontinuity happens at $x = 0.5$\relax }}{2}{figure.caption.2}\protected@file@percent }
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{GP_vs_BNN}{{1.1}{2}{Gaussian process (GP) and Bayesian neural network (BNN) fitted to 18 data points. The objective function is the dashed black line. This examplifies how a discontinuity makes the standard implemented GP (optimized with emperical Bayes) overreact to all other areas in the domain $[0,1]$, while the Bayesian NN only express uncertainty where the discontinuity happens at $x = 0.5$\relax }{figure.caption.2}{}}
+\newlabel{GP_vs_BNN}{{1.1}{2}{Gaussian process (GP) and Bayesian neural network (BNN) fitted to 18 data points. The objective function is the dashed black line. This examplifies how a discontinuity makes the standard implemented GP (optimized with emperical Bayes) expresses large uncertainties to all other areas in the domain $[0,1]$, while the Bayesian NN only express uncertainty where the discontinuity happens at $x = 0.5$\relax }{figure.caption.2}{}}
 \newlabel{GP_vs_BNN@cref}{{[figure][1][0,1]1.1}{[1][1][]2}}
 \@writefile{toc}{\contentsline {section}{\numberline {1.1}Project limitation and contibution}{2}{section.0.1.1}\protected@file@percent }
 \abx@aux@cite{BOHAMIANN}
@@ -64,8 +64,6 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.4.1}Bayesian notation}{4}{subsection.0.1.4.1}\protected@file@percent }
 \abx@aux@cite{bayesoptbook}
 \abx@aux@segm{0}{0}{bayesoptbook}
-\abx@aux@cite{boyd2004convex}
-\abx@aux@segm{0}{0}{boyd2004convex}
 \abx@aux@cite{boyd2004convex}
 \abx@aux@segm{0}{0}{boyd2004convex}
 \abx@aux@cite{bayesoptbook}
@@ -151,22 +149,24 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1.1}Exact predictive distribution}{18}{subsection.0.3.1.1}\protected@file@percent }
 \newlabel{GP_predictive}{{3.5}{18}{Exact predictive distribution}{equation.0.3.1.5}{}}
 \newlabel{GP_predictive@cref}{{[equation][5][0,3]3.5}{[1][18][]18}}
+\abx@aux@cite{bishop}
+\abx@aux@segm{0}{0}{bishop}
+\newlabel{marginal_distribution}{{3.6}{19}{Exact predictive distribution}{equation.0.3.1.6}{}}
+\newlabel{marginal_distribution@cref}{{[equation][6][0,3]3.6}{[1][19][]19}}
+\newlabel{posterior_distribution}{{3.7}{19}{Exact predictive distribution}{equation.0.3.1.7}{}}
+\newlabel{posterior_distribution@cref}{{[equation][7][0,3]3.7}{[1][19][]19}}
+\newlabel{Gamma}{{3.8}{19}{Exact predictive distribution}{equation.0.3.1.8}{}}
+\newlabel{Gamma@cref}{{[equation][8][0,3]3.8}{[1][19][]19}}
 \@writefile{toc}{\contentsline {subsubsection}{Posterior function distribution}{19}{subsubsection*.14}\protected@file@percent }
-\newlabel{posterior_function_new}{{3.6}{19}{Posterior function distribution}{equation.0.3.1.6}{}}
-\newlabel{posterior_function_new@cref}{{[equation][6][0,3]3.6}{[1][19][]19}}
-\newlabel{GP_posterior_unomalized}{{3.7}{19}{Posterior function distribution}{equation.0.3.1.7}{}}
-\newlabel{GP_posterior_unomalized@cref}{{[equation][7][0,3]3.7}{[1][19][]19}}
+\newlabel{posterior_function_new}{{3.9}{19}{Posterior function distribution}{equation.0.3.1.9}{}}
+\newlabel{posterior_function_new@cref}{{[equation][9][0,3]3.9}{[1][19][]19}}
+\newlabel{GP_posterior_unomalized}{{3.10}{19}{Posterior function distribution}{equation.0.3.1.10}{}}
+\newlabel{GP_posterior_unomalized@cref}{{[equation][10][0,3]3.10}{[1][19][]19}}
 \abx@aux@cite{bishop}
 \abx@aux@segm{0}{0}{bishop}
 \@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Left: Samples from posterior function distribution for $\mathcal  {N}(\textbf  {f}_*|m(\textbf  {x}),V(\textbf  {x}))$ where $\textbf  {x} = \{x_1,\dots  , x_{11}\}$ and $x_i= 0.5(i-1)$. Illustration that a samples from a Gaussian process is just samples from the multivariate normal distribution. We could potentially choose $\textbf  {x}$ to be all of the real line, which will give us the GP - an infinitely large multivariate normal distribution.\relax }}{20}{figure.caption.15}\protected@file@percent }
 \newlabel{GP_illustration2}{{3.2}{20}{Left: Samples from posterior function distribution for $\mathcal {N}(\textbf {f}_*|m(\textbf {x}),V(\textbf {x}))$ where $\textbf {x} = \{x_1,\dots , x_{11}\}$ and $x_i= 0.5(i-1)$. Illustration that a samples from a Gaussian process is just samples from the multivariate normal distribution. We could potentially choose $\textbf {x}$ to be all of the real line, which will give us the GP - an infinitely large multivariate normal distribution.\relax }{figure.caption.15}{}}
 \newlabel{GP_illustration2@cref}{{[figure][2][0,3]3.2}{[1][19][]20}}
-\newlabel{marginal_distribution}{{3.8}{20}{Posterior function distribution}{equation.0.3.1.8}{}}
-\newlabel{marginal_distribution@cref}{{[equation][8][0,3]3.8}{[1][19][]20}}
-\newlabel{posterior_distribution}{{3.9}{20}{Posterior function distribution}{equation.0.3.1.9}{}}
-\newlabel{posterior_distribution@cref}{{[equation][9][0,3]3.9}{[1][19][]20}}
-\newlabel{Gamma}{{3.10}{20}{Posterior function distribution}{equation.0.3.1.10}{}}
-\newlabel{Gamma@cref}{{[equation][10][0,3]3.10}{[1][19][]20}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1.2}Learning - Empirical Bayes inference}{20}{subsection.0.3.1.2}\protected@file@percent }
 \newlabel{GP_optim}{{3.11}{20}{Learning - Empirical Bayes inference}{equation.0.3.1.11}{}}
 \newlabel{GP_optim@cref}{{[equation][11][0,3]3.11}{[1][20][]20}}
@@ -186,17 +186,23 @@
 \newlabel{BNN_illustration2@cref}{{[figure][5][0,3]3.5}{[1][22][]23}}
 \abx@aux@cite{ML_Bayesian_Pespective}
 \abx@aux@segm{0}{0}{ML_Bayesian_Pespective}
+\abx@aux@cite{NUTS}
+\abx@aux@segm{0}{0}{NUTS}
+\abx@aux@cite{BOHAMIANN}
+\abx@aux@segm{0}{0}{BOHAMIANN}
+\abx@aux@cite{BOHAMIANN}
+\abx@aux@segm{0}{0}{BOHAMIANN}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}MCMC used in thesis}{26}{subsection.0.3.2.1}\protected@file@percent }
 \abx@aux@cite{PhDthesis}
 \abx@aux@segm{0}{0}{PhDthesis}
 \abx@aux@cite{BOHAMIANN}
 \abx@aux@segm{0}{0}{BOHAMIANN}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}MCMC used in thesis}{26}{subsection.0.3.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Design and properties of Bayesian neural network}{26}{subsection.0.3.2.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces Number of units in each of the 3 layers have a large influence of the BNNs ability to be expressive <lav om>\relax }}{27}{figure.caption.19}\protected@file@percent }
-\newlabel{n_unit_BNN}{{3.6}{27}{Number of units in each of the 3 layers have a large influence of the BNNs ability to be expressive <lav om>\relax }{figure.caption.19}{}}
-\newlabel{n_unit_BNN@cref}{{[figure][6][0,3]3.6}{[1][26][]27}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.7}{\ignorespaces Example where 100 nodes on each of three layers, lead to a much more expressive model. $\sigma ^2$ follows a informative prior $InvGamma(1000,1)$, i.e. prior mean $E[\sigma ^2] \approx \frac  {1}{1000}$, and variance $\approx \frac  {1}{1000^3}$, however since the data is distributed in such a complex way the limited expressiveness of the model, forces the model to infer make $\sigma ^2$ large, i.e. including the data in the noise\relax }}{27}{figure.caption.20}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Design and properties of Bayesian neural network}{27}{subsection.0.3.2.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces Prior samples from 3 layer BNN. The number of units in each of the three layers have a large influence on the BNNs ability to be expressive. Note that the inference becomes more computationally demanding with BNN size.\relax }}{27}{figure.caption.19}\protected@file@percent }
+\newlabel{n_unit_BNN}{{3.6}{27}{Prior samples from 3 layer BNN. The number of units in each of the three layers have a large influence on the BNNs ability to be expressive. Note that the inference becomes more computationally demanding with BNN size.\relax }{figure.caption.19}{}}
+\newlabel{n_unit_BNN@cref}{{[figure][6][0,3]3.6}{[1][27][]27}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.3}Summary}{27}{section.0.3.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.7}{\ignorespaces Example where 100 nodes on each of three layers, lead to a much more expressive model. $\sigma ^2$ follows a informative prior $InvGamma(1000,1)$, i.e. prior mean $E[\sigma ^2] \approx \frac  {1}{1000}$, and variance $\approx \frac  {1}{1000^3}$, however since the data is distributed in such a complex way the limited expressiveness of the model, forces the model to infer make $\sigma ^2$ large, i.e. including the data in the noise\relax }}{28}{figure.caption.20}\protected@file@percent }
 \abx@aux@cite{bishop1995neural}
 \abx@aux@segm{0}{0}{bishop1995neural}
 \abx@aux@cite{ALStatisticalModels}
@@ -278,8 +284,8 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.1.1}Uncertainty quantification}{46}{subsection.0.6.1.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.1.2}Predictive power}{47}{subsection.0.6.1.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.1.3}Benchmark surrogate model}{47}{subsection.0.6.1.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {6.2}Model compartment on test problems (regression)}{47}{section.0.6.2}\protected@file@percent }
-\newlabel{TEST_problems}{{\caption@xref {TEST_problems}{ on input line 299}}{47}{Model compartment on test problems (regression)}{figure.caption.30}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.2}Model comparison on test problems (regression)}{47}{section.0.6.2}\protected@file@percent }
+\newlabel{TEST_problems}{{\caption@xref {TEST_problems}{ on input line 299}}{47}{Model comparison on test problems (regression)}{figure.caption.30}{}}
 \newlabel{TEST_problems@cref}{{[section][2][0,6]6.2}{[1][47][]47}}
 \@writefile{lof}{\contentsline {figure}{\numberline {6.1}{\ignorespaces Mean relative error (point estimate using the predictive mean) (left) and exponential mean predictive log probalility (right) as functions of number of training data points. All curves reprecent the average across 10 seeded runs for each model.\relax }}{48}{figure.caption.31}\protected@file@percent }
 \newlabel{Test1_reg_plot}{{6.1}{48}{Mean relative error (point estimate using the predictive mean) (left) and exponential mean predictive log probalility (right) as functions of number of training data points. All curves reprecent the average across 10 seeded runs for each model.\relax }{figure.caption.31}{}}
@@ -306,7 +312,7 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {6.8}{\ignorespaces Plots visulising the results in figure at $n_{data} = ?$\relax }}{52}{figure.caption.38}\protected@file@percent }
 \newlabel{Test4_reg_visual}{{6.8}{52}{Plots visulising the results in figure at $n_{data} = ?$\relax }{figure.caption.38}{}}
 \newlabel{Test4_reg_visual@cref}{{[figure][8][0,6]6.8}{[1][51][]52}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.3}Model compartment on test problems (Bayesian Optimization)}{52}{section.0.6.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6.3}Model comparison on test problems (Bayesian Optimization)}{52}{section.0.6.3}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {6.9}{\ignorespaces All test function used in Bayesian Optimization. We redefine Test3 and Test4\relax }}{52}{figure.caption.39}\protected@file@percent }
 \newlabel{TEST_problems2}{{6.9}{52}{All test function used in Bayesian Optimization. We redefine Test3 and Test4\relax }{figure.caption.39}{}}
 \newlabel{TEST_problems2@cref}{{[figure][9][0,6]6.9}{[1][52][]52}}
@@ -389,6 +395,7 @@
 \abx@aux@defaultrefcontext{0}{GlobalOptimization}{none/global//global/global}
 \abx@aux@defaultrefcontext{0}{bishop}{none/global//global/global}
 \abx@aux@defaultrefcontext{0}{ML_Bayesian_Pespective}{none/global//global/global}
+\abx@aux@defaultrefcontext{0}{NUTS}{none/global//global/global}
 \abx@aux@defaultrefcontext{0}{bishop1995neural}{none/global//global/global}
 \abx@aux@defaultrefcontext{0}{JordanPaper}{none/global//global/global}
 \abx@aux@defaultrefcontext{0}{GMR}{none/global//global/global}

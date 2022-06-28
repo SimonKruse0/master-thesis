@@ -25,15 +25,12 @@ among a set of possible decisions. Often we try to quantify how good a decision 
 takes 20 min to go from A to B, you rate a specific song 4 out of 5, and a particular bridge design
 costs 10 million DKK. Suppose it is possible to come up with a quantification of how good a
 decision is in terms of a real number. In that case, we can formulate the optimization problem as
-a \textit{mathematical optimization problem} \cite[123]{boyd2004convex}: 
-$$\min_{x\in \mathcal{X}} f(x)$$ where the functional $f: \mathcal{X} \rightarrow \mathbb{R}$ is
-called the \textit{objective function} and $\mathcal{X}$ is the set of possible decisions (or decisions you
-consider). Note that the optimization problem is formulated as a minimization problem. If one
-identifies the optimal decision as a maximum of $f$ (instead of the minima), finding the minima in
-the negated objective function $-f(x)$ is equivalent. Throughout this thesis, we refer to
-optimization as minimizing the objective function. Solving the mathematical optimization problem is
-an active research field, and many algorithms have been developed to find the minimum of the function
-$f(\cdot)$ \cite{boyd2004convex}.
+a \textit{mathematical optimization problem} \cite[1]{boyd2004convex}: 
+$$\min_{x\in \mathcal{X}} f(x),$$ where the functional $f: \mathcal{X} \rightarrow \mathbb{R}$ is
+called the \textit{objective function} and $\mathcal{X}$ is the set of possible decisions.
+Throughout this thesis, we refer to optimization as minimizing the objective function. Solving the
+mathematical optimization problem is an active research field, and many algorithms have been
+developed to find the minimum of the function $f(\cdot)$ \cite{boyd2004convex}.
 
 Evaluation of the objective function can be cheap (e.g., if it just requires summing/multiplying
 numbers) or highly expensive (e.g., if it involves human rating, large simulation, or physical
@@ -50,7 +47,7 @@ minimizing the surrogate, and the process is repeated. Bayesian optimization see
 procedure with probability theory, where the surrogate function becomes a probabilistic (Bayesian)
 regression model. The most common surrogate model is a Gaussian Process (GP), as it encapsulates the
 uncertainty very well, and its inference procedure (computing answers to probability queries like
-$p(y|x)$) is exact.
+$p(y|x)$) is exact. %MÅSKE OMFORMULER?
 
 % Move B: establish a niche (show why there needs to be further research on your topic)
 %   4.  outline the current situation
@@ -61,12 +58,12 @@ not hold. For example, the commonly seen GP with an isotropic kernel (covariance
 is invariant to translation in input) yields a strong assumption about the continuity of the
 objective function and that the objective function behaves similarly throughout the domain
 $\mathcal{X}$. In Figure \ref{GP_vs_BNN} we see an example of how the GP's uncertainty
-quantification is going wild due to a discontinuity in the underlying objective function. in some
-areas, it is prevalent to have these discontinuities, for instance, in material discovery, where it
-is well known that materials often change very suddenly \cite{Nature_BO_paper}. To accommodate the
-strong assumptions of the GP the literature introduces more flexible kernel functions; however, this
-introduces additional hyperparameters. Since we often only deal with a small amount of data, tuning
-and computation of these more complex GPs can be significantly challenging \cite{Nature_BO_paper}.
+quantification becomes unreasonable due to a discontinuity in the underlying objective function. In
+some areas, it is prevalent to have these discontinuities, for instance, in material discovery
+\cite{Nature_BO_paper}. To accommodate the strong assumptions of the GP the literature introduces
+more flexible kernel functions; however, this introduces additional hyperparameters. Since we often
+only deal with a small amount of data, tuning and computation of these more complex GPs can be
+significantly challenging \cite{Nature_BO_paper}.
 
 % make better figure!
 \begin{figure}[H]%
@@ -76,7 +73,7 @@ and computation of these more complex GPs can be significantly challenging \cite
     \subfloat{{\includegraphics[trim=0.1cm 0.3cm 0.2cm 0.2cm,clip,width=0.46\textwidth]{Pictures/GP_vs_BNN2.pdf} }}%
     \caption{Gaussian process (GP) and Bayesian neural network (BNN) fitted to 18 data points. The objective function is the
     dashed black line. This examplifies how a discontinuity makes the standard implemented GP
-    (optimized with emperical Bayes) overreact to all other areas in the domain $[0,1]$, while the
+    (optimized with emperical Bayes) expresses large uncertainties to all other areas in the domain $[0,1]$, while the
     Bayesian NN only express uncertainty where the discontinuity happens at $x =
     0.5$}\label{GP_vs_BNN}
 \end{figure}
@@ -92,17 +89,16 @@ and computation of these more complex GPs can be significantly challenging \cite
 
 GPs are attractive models since they allow for exact inference, a closed-form expected improvement
  (see Section \ref{ExactEI}) and, in general, provide a satisfying uncertainty quantification.
- However, as we saw in the figure \ref{GP_vs_BNN} we can maybe do better - especially if we have
+ However, as we saw in the Figure \ref{GP_vs_BNN} we can maybe do better --- especially if we have
  some insights into the behavior of the objective function (i.e. yielding a more transparent
  black-box optimization problem). A better surrogate model ultimately implies fewer samples to reach
- an optimal solution, and can, thereby, potentially save work hours, lots of money, or energy
- (depending on what makes the objective function expensive).  Therefore, the investigation of the
- performance of other surrogate models is highly relevant. In this thesis, we aim to create
- surrogate models alternative to GPs, which can perform better on certain classes of (complex)
- problems, and have comparable performance on most classes of problems. 
+ an optimal solution, and can, thereby, potentially save work hours, money, or energy. Therefore,
+ the investigation of the performance of other surrogate models is highly relevant. In this thesis,
+ we aim to create surrogate models alternative to GPs, which can perform better on certain classes
+ of (complex) problems, and have comparable performance on most classes of problems. 
 
  \section{Project limitation and contibution}
-Even though, it would be interesting to examine different types of GPs such as deep kernel
+Even though it would be interesting to examine different types of GPs such as deep kernel
 learning \cite{deepkernel}, we limit the scope of this project to deal with the following surrogate models:
 \begin{itemize}[noitemsep]
     \item GP with Matérn kernel
@@ -119,10 +115,12 @@ $\mathcal{X} \in \mathbb{R}^m$. The proposed hypothesis is,
 \end{enumerate}
 
 Note that we here use "performance" to describe \textit{sample efficiency}, i.e., how few evaluations/samples
-of the objective function are necessary to find the minima. So here it is assumed that the objective
+of the objective function are necessary to find the minima. So here, it is assumed that the objective
 function is so expensive (whatever that means to the stakeholder) that its cost outweighs the power
-and time spend on the surrogate modeling and optimization.
+and time spent on the surrogate modeling and optimization.
 
+
+We test the performance of the surrogates models on 4 self-made problems and 
 
 % 1) Firstly, we want to examine what types of problems a GP surrogate is not a good choice and
 % where Bayesian neural nets (BNN) surrogates can have an advantage (inspiration found in this 2020
@@ -137,6 +135,11 @@ and time spend on the surrogate modeling and optimization.
 Here we give a short overview of research in different surrogates for Bayesian optimization
 and the very related field of active learning. The different surrogate models, which are in the 
 research we found, 
+
+Mostly the work done on surrogate models are 
+
+
+
 \begin{itemize}[noitemsep]
     \item Gaussian process
     \item Bayesian neural network

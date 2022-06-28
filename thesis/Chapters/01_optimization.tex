@@ -24,11 +24,11 @@ with linear least squares is an example of such a problem.
 %Optimization problems can easily be non-convex with multiple local minima. 
 Even if the gradient is given analytically, the problem can be non-convex, implying that the
 solution is found among a potentially infinitely large set of stationary points ($\nabla f(x) = 0$)
-or (for constraint problems) KKT points \cite{boyd2004convex} - this might be tedious or impossible.
-Therefore, when the problem is not directly solvable, mathematical optimization takes an indirect
-approach: Design a sequence of experiments that reveal information about the objective function.
-This information can hopefully lead us to the solution of \eqref{OPT}. This general way of
-sequentially solving is presented in Algorithm \ref{algOPT}  \cite{bayesoptbook}. 
+- this might be tedious or impossible. Therefore, when the problem is not directly solvable,
+mathematical optimization takes an indirect approach: Design a sequence of experiments that reveal
+information about the objective function. This information can hopefully lead us to the solution of
+\eqref{OPT}. This general way of sequentially solving is presented in Algorithm \ref{algOPT}
+\cite{bayesoptbook}. 
 
 \begin{algorithm}[H]
 \caption{Sequencial Optimization \cite{bayesoptbook} }\label{algOPT}
@@ -68,9 +68,9 @@ into Algorithm \ref{algOPT}.
     data is $|\mathcal{D}|$. Termination will happen when $|\mathcal{D}| = m$.
 \end{testexample}
 \begin{testexample}[Random search]
-    In random search a point is randomly drawn from a uniform distribution supported over the domain
+    In random search a point is randomly drawn e.g. from a uniform distribution supported over the domain
     space $\mathcal{X}$, 
-    $$\text{policy}_{RS}(\mathcal{D}) = x, \hspace{0.5cm} x \sim Unif(\mathcal{X}).$$
+    $$\text{policy}_{RS}(\mathcal{D}) = x, \hspace{0.5cm} x \sim \text{Unif}(\mathcal{X}).$$
 \end{testexample}
 \begin{testexample}[Gradient descent]
     Gradient descent (GD) is the most simple gradient-based optimization approach. The gradient of a

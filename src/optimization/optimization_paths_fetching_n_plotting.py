@@ -156,7 +156,7 @@ def plot_means_TESTs(ax,data_model,problem="Test3", color = "blue", modelname = 
     print(modelname, data_df.shape, seeds)
     try:
         #data_df = data_df.ffill()
-        data_df.plot(ax=ax,alpha = 0.1, color=color, legend = False)#,  legend = False)
+        #data_df.plot(ax=ax,alpha = 0.1, color=color, legend = False)#,  legend = False)
         means = data_df.mean(axis=1)
         ax.plot(means.index,means.values,lw=3, color = color, label=f"{modelname}")
     except:
@@ -286,15 +286,24 @@ if __name__ == "__main__":
     plot_folder = "/home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/results_baysopt"
     sklearn_folder = "/home/simon/Documents/MasterThesis/master-thesis/bayes_opt_experiments/1D_figures_cluster"
 
+    font = {'family' : 'normal',
+        'weight' : 'normal',
+        'size'   : 16}
+    import matplotlib
+    matplotlib.rc('font', **font)
+
     for problem in ["Test1","Test2","Test3c","Test4c"]:
         fig, ax = plt.subplots()
         plot_optimization_paths_TESTs(ax, problem, sklearn_folder)
         #ax.set_yscale("log")
         ax.set_xlim(5,35)
-        plt.savefig(plot_folder+"/"+problem+"_all.pdf")
-    
+        plt.tight_layout()
+        plt.legend(fontsize=12)
+        #plt.savefig(plot_folder+"/"+problem+"_all.pdf")
+        plt.savefig(plot_folder+"/"+problem+".pdf")
     plt.show()
     
+
     
     ## COCO ##
     
@@ -303,9 +312,14 @@ if __name__ == "__main__":
         #for ax,dim in zip([ax1,ax2,ax3,ax4],[3,5,10,2]):
         for dim in [2,3,5,10]:
             fig, ax = plt.subplots()
-            plot_optimization_paths(ax,problem,dim, plot_only_means = False)
+            plot_optimization_paths(ax,problem,dim, plot_only_means = True)
+            plt.grid()
             ax.set_xlim(5,35)
-            #plt.savefig(plot_folder+f"/{problem}_{dim}.pdf")
-            plt.savefig(plot_folder+f"/{problem}_{dim}_all.pdf")
+            ax.set_yscale("linear")
+            #plt.grid()
+            plt.tight_layout()
+            plt.legend(fontsize=12)
+            plt.savefig(plot_folder+f"/{problem}_{dim}.pdf")
+            #plt.savefig(plot_folder+f"/{problem}_{dim}_all.pdf")
 
-    plt.show()
+        plt.show()
