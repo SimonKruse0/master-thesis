@@ -236,7 +236,7 @@ One way to score the fit on a large test set $(x_t, y_t)_{t=1}^T$, is to simply 
 density assigned to all $y_1, ..., y_T$, i.e. 
 $$\text{Score}_1  = \frac{1}{T}\sum_{t=1}^T p(y_t|x_t,\mathcal{D}),$$ 
 however, if the regression model is really certain about one test point and guess this point correct,  
-we could have potentially $Score_1 = \infty$ as $ p(y_t|x_t,\mathcal{D})$ could be arbitraty certain about this 
+we could have potentially $\text{Score}_1 = \infty$ as $ p(y_t|x_t,\mathcal{D})$ could be arbitraty certain about this 
 1 point. Meanwhile, test points with no assigned density, i.e $p(y_t|x_t,\mathcal{D}) = 0$, will not matter. 
 
 Another way to score the fit on the large test, is to score the joint predictive density (with assumed iid 
@@ -324,12 +324,15 @@ training data. Second, 10000 test points in the $x$-interval $x \in [-100,
 easy to plot} for all the models. This is repeated for ten different random seeds to avoid one model
 being especially lucky with one instance of the training data. 
 
+%It is 90 regression experiments, since the regression models are tested on
+%9 different amont of data point and for 10 different random seeds.
+
 \subsection*{Test1: Well-behaved problem}
 The first problem will establish a benchmark since this is a simple function to fit. Its exact definition is,
 $$f(x) = x\cdot \sin(\frac{x}{50} \pi) + 150 + \frac{x}{10} + \sin(x) \hspace{0.5cm} x \in [-100,100],$$
 giving a smooth wave function, with the optimium around $-77$.
 
-\begin{figure}[b]
+\begin{figure}[bt!]
   \centering
   \begin{minipage}[b]{0.49\textwidth}
    \includegraphics[width=\textwidth]{Figures/results_regression/Test1_dim_1_0.pdf}
@@ -338,27 +341,32 @@ giving a smooth wave function, with the optimium around $-77$.
   \begin{minipage}[b]{0.49\textwidth}
     \includegraphics[width=\textwidth]{Figures/results_regression/Test1_dim_1_1.pdf}
    \end{minipage}
-  \caption{Mean relative error (point estimate using the predictive mean) (left) and exponential mean predictive log probalility (right) as
-  functions of number of training data points. All curves reprecent the average across 10 seeded runs for each
-  model.}
+  \caption{Two different performance measures of all surrogate models as a function of number of
+  training data points with 10000 testpoints. Left: Predictive power, i.e. mean relative error
+  between predictive mean and the test points (small is better). Right: Uncertainty quantification, measured
+  with exponential mean predictive log density (large is better). All lines reprecent the average
+  across 10 random seeds.}
   \label{Test1_reg_plot}
 \end{figure}
 
-First of all, we see that all the methods are indeed performing better than the mean prediction
-(black). The average relative error for the mean prediction is constant at 30\%. All models, besides the
-Gaussian mixture regression (GMR), have an average relative error of less than 10\% after just 20 training
-points. Including more data, the Bayesian neural network and the Gaussian process have the best mean prediction, 
-the third discriminative model, BOHamiANN, seems here to be a weak learner. After 30 data points, it stays at the
-same error - even when being presented for 316 training data points in the end. 
+First of all, in Figure \ref{Test1_reg_plot} left, all the methods are performing better than the
+mean prediction (black). The average relative error for the mean prediction is constant at 30\%. All
+models, besides the Gaussian mixture regression (GMR), have an average relative error of less than
+10\% after just 20 training points. Including more data, the Bayesian neural network and the
+Gaussian process has the best mean prediction. The third discriminative model, BOHamiANN, seems to
+be a "weak learner": After 30 data points, it stays at the same error - even when being presented
+for 316 training data points in the end. 
 
-Looking at the right plot in Figure \ref{Test1_reg_plot}, we see that the generative models after 20
-training points, have an increasingly better uncertainty quantification compared with using the empirical
-standard deviation. %We have been choosing the hyper parameters of the generative models using crossvalidation.
-The discriminative models on the other hand perform worse than the empirical standard deviation, 
-especially the GP is doing exceptionally bad - its overconfident, the reason can be seen in Figure \ref{Test1_reg_visual_1},  
-showing one of the 10 runs for 23 data points. The GP is so certain on some predictions that it assigns
-almost 0 probability to some of the 10000 test points (i.e the we test all of the line from -100 to 100),
- yielding very low mean log predictive likelihood. 
+In right plot in Figure \ref{Test1_reg_plot}, the generative models have an increasingly better
+uncertainty quantification compared with using the empirical standard deviation (black) after just
+20 training points.
+%We have been choosing the hyper parameters of the generative models using crossvalidation.
+The discriminative models on the other hand perform worse than the empirical standard deviation,
+especially the GP is doing exceptionally bad - its overconfident, the reason can be seen in Figure
+\ref{Test1_reg_visual_1}, showing one of the 10 regression results from fitting 36 data points. The
+GP is so certain on some predictions that it assigns almost 0 preditive density to some of the 10000
+test points (i.e the we test all of the line from -100 to 100), yielding very low mean log
+predictive density. 
 %  The Bayesian neural networks learning curve stagnates around 100 data points, however,
 % it provides a decent mean log predictive likelihood. BOHamiANN performs well in the beginning 
 % but seems not expressive enough for this task. The architecture of the neural network is besides
@@ -367,7 +375,7 @@ almost 0 probability to some of the 10000 test points (i.e the we test all of th
 % the predive likelihood, 
 % To get a deeper understanding of Figure \ref{Test1_reg_plot}, we plot one of the 10 runs for 23 data points, 
 % in Figure \ref{Test1_reg_visual_1}, and for 56 data points in Figure \ref{Test1_reg_visual_2}.
-\begin{figure}[H]
+\begin{figure}[bt!]
   \centering
   \begin{minipage}[b]{0.32\textwidth}
     \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1/1.pdf}
@@ -407,7 +415,11 @@ almost 0 probability to some of the 10000 test points (i.e the we test all of th
         \put (10,65) {KDE}
       \end{overpic}
       \end{minipage}
-  \caption{Plots visulising the results in figure at $n_{data} = 23$}
+  \caption{Plots visualizing all surrogate-models fit of 36 data points (black dots) from Test1
+  (black line). This is one of the 90 regression experiments that conduct the results in Figure
+  \ref{Test1_reg_plot}. The blue lines encapsulates
+  the 95\% credible region. The red line is the predictive mean. The green $\alpha(x) \in [0,1]$
+  denote the prior weighting for the generative models.}
   \label{Test1_reg_visual_1}
 \end{figure}
 
@@ -423,7 +435,7 @@ where $\bm{1}$ denoted the indicator function and
 \end{align*}
 Outside and on the boundaries $\{-100,100\}$ the function value is constant 200. This leads
 to a more deficult problem than case 1. 
-\begin{figure}[b]
+\begin{figure}[bt!]
   \centering
   \begin{minipage}[b]{0.49\textwidth}
    \includegraphics[width=\textwidth]{Figures/results_regression/Test2_dim_1_0.pdf}
@@ -432,23 +444,24 @@ to a more deficult problem than case 1.
   \begin{minipage}[b]{0.49\textwidth}
     \includegraphics[width=\textwidth]{Figures/results_regression/Test2_dim_1_1.pdf}
    \end{minipage}
-  \caption{Mean relative error (point estimate using the predictive mean) (left) and exponential mean predictive log probalility (right) as
-  functions of number of training data points. All curves reprecent the average across 10 seeded runs for each
-  model.}
+  \caption{Left: Predictive power (small is better). Right: Uncertainty quantification (large is
+  better). Average across 10 random seeds. More details in Figure \ref{Test1_reg_plot}.}
   \label{Test2_reg_plot}
 \end{figure}
+
+
 In Figure \ref{Test2_reg_plot} left we see that this is indeed harder to fit than Test 1, as
 the reative error is not going down as fast. Comparing to Test 1 we here see that the mixtures are
-doing as well and some times better than the discriminative models. If instead we used the mode for
+doing as well and sometimes better than the discriminative models. If instead we used the mode for
 the mixture regression models, we might see superior performance, as the prediction, will not be
-continuous. Looing at the Figure \ref{Test2_reg_plot} right we see the same story as Test1 that the
+continuous. Looking at the Figure \ref{Test2_reg_plot} right we see the same story as Test1 that the
 mixtures regression has the best uncertainty quantification. KDE and SPN (before 100 data points) perfroms better than
-Gaussian mixture regression, since the mixture components has no correlation beween $x$ and $y$,
+Gaussian mixture regression since the mixture components dimensions ($x$ and $y$) does not correlate,
 which fits into the data distribution. Same story for BOHamiANN as Test1. 
 %The uncertainty quantification 
 %of the discriminative takes a jump in the 
 
-\begin{figure}[H]
+\begin{figure}[bt!]
   \centering
   \begin{minipage}[b]{0.32\textwidth}
     \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test2/1.pdf}
@@ -489,7 +502,10 @@ which fits into the data distribution. Same story for BOHamiANN as Test1.
       \end{overpic}
       \end{minipage}
 
-  \caption{Plots visulising the results in Figure \ref{Test2_reg_plot} at $n_{data} = ?$}
+  \caption{Plots visualizing all surrogate-models fit of 36 data points (black dots) from Test2
+  (black line). This is one of 90 experiments that conduct the results in Figure
+  \ref{Test2_reg_plot}. The blue lines define the 95\% credible region. Predictive mean (red).
+  $\alpha(x) \in [0,1]$ is prior weighting (green).}
   \label{Test2_reg_visual}
 \end{figure}
 
@@ -502,7 +518,7 @@ $$f(x) = 50*g(x)+ 100 + 10*\sin(0.5\cdot x) + \epsilon \cdot (30 - g(x) \cdot 90
 where $\epsilon \sim \text{Cat}(0.5,0.5)$ and $g(x) = \text{sign}(x)+1$
 ($g(x)$ is 0 for negative $x$ and 2 for positive $x$).
 
-\begin{figure}[b]
+\begin{figure}[bt!]
   \centering
   \begin{minipage}[b]{0.49\textwidth}
    \includegraphics[width=\textwidth]{Figures/results_regression/Test3b_dim_1_0.pdf}
@@ -511,18 +527,19 @@ where $\epsilon \sim \text{Cat}(0.5,0.5)$ and $g(x) = \text{sign}(x)+1$
   \begin{minipage}[b]{0.49\textwidth}
     \includegraphics[width=\textwidth]{Figures/results_regression/Test3b_dim_1_1.pdf}
    \end{minipage}
-  \caption{Plots visulising the results in above figure.}
+  \caption{Left: Predictive power (small is better). Right: Uncertainty quantification (large is
+  better). Average across 10 random seeds. More details in Figure \ref{Test1_reg_plot}.}
   \label{Test3_reg_plot}
 \end{figure}
 
-In Figure \ref{Test3_reg_plot} left we see that none of the models are doing better than the mean
-prediction. This is obvious since the data is symmetric and jumping random between two states. The
+In Figure \ref{Test3_reg_plot} left, we see that none of the models are doing better than the mean
+prediction. This is obvious since the data is symmetric and jumps randomly between two states. The
 Bayesian neural networks are trying the fit the models, the GP is just turning itself into a mean
-prediction. In the right plot we see just like previous that the data is parallel with the axis making it perfect
+prediction. In the right plot of Figure \ref{Test3_reg_plot} we see just like previous that the data is parallel with the axis making it perfect
 the SPN and KDE to fit. 
 
 
-\begin{figure}[H]
+\begin{figure}[bt!]
   \centering
   \begin{minipage}[b]{0.32\textwidth}
     \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test3/1.pdf}
@@ -563,7 +580,10 @@ the SPN and KDE to fit.
       \end{overpic}
       \end{minipage}
 
-  \caption{Plots visulising the results in figure at $n_{data} = ?$}
+  \caption{Plots visualizing all surrogate-models fit of 36 data points (black dots) from Test3
+  (black line). This is one of 90 experiments that conduct the results in Figure
+  \ref{Test3_reg_plot}. The blue lines define the 95\% credible region. Predictive mean (red).
+  $\alpha(x) \in [0,1]$ is prior weighting (green).}
   \label{Test3_reg_visual}
 \end{figure}
 
@@ -573,7 +593,7 @@ This is designed to be a difficult problem for the GP as this would need a diffe
 throughout the space\footnote{This type of problem motivates GPs with anisotropic kernels such as deep
 kernel learning\cite{DeepKernelLearning}.}.
 
-\begin{figure}[b]
+\begin{figure}[bt!]
   \centering
   \begin{minipage}[b]{0.49\textwidth}
    \includegraphics[width=\textwidth]{Figures/results_regression/Test4b_dim_1_0.pdf}
@@ -582,7 +602,8 @@ kernel learning\cite{DeepKernelLearning}.}.
   \begin{minipage}[b]{0.49\textwidth}
     \includegraphics[width=\textwidth]{Figures/results_regression/Test4b_dim_1_1.pdf}
    \end{minipage}
-  \caption{Plots visulising the results in above figure.}
+  \caption{Left: Predictive power (small is better). Right: Uncertainty quantification (large is
+  better). Average across 10 random seeds. More details in Figure \ref{Test1_reg_plot}.}
   \label{Test4_reg_plot}
 \end{figure}
 
@@ -591,7 +612,7 @@ In Figure \ref{Test4_reg_plot} we see that the GP has the best prediction,
 In Figure \ref{Test4_reg_visual} we see that the GP does have a hard time fitting the 36 points, however, when more and more data
 becomes dense, the GP will lower its lengthscale and fit the data very well. This is seen in appendix \todo{Appendix}. 
 
-\begin{figure}[H]
+\begin{figure}[bt!]
   \centering
   \begin{minipage}[b]{0.32\textwidth}
     \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test4/1.pdf}
@@ -632,10 +653,14 @@ becomes dense, the GP will lower its lengthscale and fit the data very well. Thi
       \end{overpic}
       \end{minipage}
 
-  \caption{Plots visulising the results in figure at $n_{data} = ?$}
+  \caption{Plots visualizing all surrogate-models fit of 36 data points (black dots) from Test4
+  (black line). This is one of 90 experiments that conduct the results in Figure
+  \ref{Test4_reg_plot}. The blue lines define the 95\% credible region. Predictive mean (red).
+  $\alpha(x) \in [0,1]$ is prior weighting (green).}
   \label{Test4_reg_visual}
 \end{figure}
 
+\newpage
 \section{Model comparison on test problems (Bayesian Optimization)}
 Now we are ready to test the models in a Bayesian optimization setting. Test3 contains multiple
 equal minima, and Test4 has a close to minima point on the boundary $x=100$, so testing them would
@@ -807,9 +832,10 @@ the generative and discriminative models. We have selected some noticeable plots
     \includegraphics[width=\textwidth]{Figures/results_regression/f15_dim_2_1.pdf}
    \end{minipage}
    
-  \caption{Regression performance of selected problems of BBOB. Top: Predictive power. Bottom:
-  Uncertainty quantification. Average across 10 different samples of seeded samples from the
-  problems.}
+  \caption{Regression performance of 4 selected out of 12 problems of BBOB (f3,f9,f15,f21 in
+  dimensions 2,3,5). All plots are in Appendix \ref{BBOB_regression_all}. Top: Predictive power. Bottom: Uncertainty
+  quantification. More details in Figure \ref{Test1_reg_plot}. Average across 10 different samples
+  of seeded samples from the problems.}
   \label{BBOB_regression}
 \end{figure}
 

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  29 JUN 2022 18:57
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  29 JUN 2022 21:01
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1220,30 +1220,6 @@ LaTeX Warning: Label `BBOB_bayesOpt' multiply defined.
 
 LaTeX Warning: Label `BBOB_bayesOpt@cref' multiply defined.
 
-
-LaTeX Warning: Label `Test4_reg_visual' multiply defined.
-
-
-LaTeX Warning: Label `Test4_reg_visual@cref' multiply defined.
-
-
-LaTeX Warning: Label `Test4_reg_visual' multiply defined.
-
-
-LaTeX Warning: Label `Test4_reg_visual@cref' multiply defined.
-
-
-LaTeX Warning: Label `Test4_reg_visual' multiply defined.
-
-
-LaTeX Warning: Label `Test4_reg_visual@cref' multiply defined.
-
-
-LaTeX Warning: Label `Test4_reg_visual' multiply defined.
-
-
-LaTeX Warning: Label `Test4_reg_visual@cref' multiply defined.
-
 )
 \openout1 = `main.aux'.
 
@@ -1764,7 +1740,6 @@ File: Figures/results_regression/Test3b_dim_1_0.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test3b_dim_1_0.pdf>
 File: Figures/results_regression/Test3b_dim_1_1.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test3b_dim_1_1.pdf>
- [50]
 File: Figures/results_regression/Test3/1.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test3/1.pdf>
 File: Figures/results_regression/Test3/2.pdf Graphic file (type pdf)
@@ -1781,6 +1756,11 @@ File: Figures/results_regression/Test4b_dim_1_0.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test4b_dim_1_0.pdf>
 File: Figures/results_regression/Test4b_dim_1_1.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test4b_dim_1_1.pdf>
+ [50]
+
+LaTeX Warning: Text page 51 contains only floats.
+
+[51]
 File: Figures/results_regression/Test4/1.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test4/1.pdf>
 File: Figures/results_regression/Test4/2.pdf Graphic file (type pdf)
@@ -1793,7 +1773,7 @@ File: Figures/results_regression/Test4/6.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test4/6.pdf>
 File: Figures/results_regression/Test4/5.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test4/5.pdf>
- [51]
+ [52]
 File: Figures/reg_illustrations/all_reg_figures/Test1.pdf Graphic file (type pdf)
 <use Figures/reg_illustrations/all_reg_figures/Test1.pdf>
 File: Figures/reg_illustrations/all_reg_figures/Test2.pdf Graphic file (type pdf)
@@ -1803,7 +1783,7 @@ File: Figures/reg_illustrations/all_reg_figures/Test3c.pdf Graphic file (type pd
 File: Figures/reg_illustrations/all_reg_figures/Test4c.pdf Graphic file (type pdf)
 <use Figures/reg_illustrations/all_reg_figures/Test4c.pdf>
 
-Overfull \hbox (22.66437pt too wide) in paragraph at lines 666--673
+Overfull \hbox (22.66437pt too wide) in paragraph at lines 691--698
 []\TU/TimesNewRoman(0)/m/n/10.95 The Bayesian optimization algorithm is given five initial training data points i.e. $\OMS/cmsy/m/n/10.95 f\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 x[]; y[]\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; [] ; \OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 x[]; y[]\OT1/cmr/m/n/10.95 )\OMS/cmsy/m/n/10.95 g$
  []
 
@@ -1816,12 +1796,12 @@ File: Figures/results_baysopt/Test3c.pdf Graphic file (type pdf)
 File: Figures/results_baysopt/Test4c.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/Test4c.pdf>
 
-Underfull \vbox (badness 3838) has occurred while \output is active []
-
- [52]
-Underfull \vbox (badness 2134) has occurred while \output is active []
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [53]
+Underfull \vbox (badness 2134) has occurred while \output is active []
+
+ [54]
 File: Figures/coco/f3.png Graphic file (type bmp)
 <Figures/coco/f3.png>
 File: Figures/coco/f9.png Graphic file (type bmp)
@@ -1845,7 +1825,7 @@ File: Figures/results_regression/f15_dim_2_1.pdf Graphic file (type pdf)
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [54]
+ [55]
 File: Figures/results_baysopt/3_2.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/3_2.pdf>
 File: Figures/results_baysopt/9_2.pdf Graphic file (type pdf)
@@ -1862,7 +1842,7 @@ File: Figures/results_baysopt/15_3.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/15_3.pdf>
 File: Figures/results_baysopt/21_3.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/21_3.pdf>
- [55]
+ [56]
 File: Figures/results_baysopt/3_5.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/3_5.pdf>
 File: Figures/results_baysopt/9_5.pdf Graphic file (type pdf)
@@ -1874,11 +1854,10 @@ File: Figures/results_baysopt/21_5.pdf Graphic file (type pdf)
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [56]) [57] [58
-
-] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/07_conclusion.tex
+ [57]) [58] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/07_conclusion.tex
 Chapter 7.
 [59
+
 
 ] [60]
 Chapter 8.
@@ -1909,80 +1888,64 @@ File: Figures/results_baysopt/Test4c_all.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/Test4c_all.pdf>
 File: Figures/results_regression/f3_dim_2_0.pdf Graphic file (type pdf)
 <use Figures/results_regression/f3_dim_2_0.pdf>
-File: Figures/results_regression/f9_dim_2_0.pdf Graphic file (type pdf)
-<use Figures/results_regression/f9_dim_2_0.pdf>
-File: Figures/results_regression/f15_dim_2_0.pdf Graphic file (type pdf)
-<use Figures/results_regression/f15_dim_2_0.pdf>
-File: Figures/results_regression/f21_dim_2_0.pdf Graphic file (type pdf)
-<use Figures/results_regression/f21_dim_2_0.pdf>
-File: Figures/results_regression/f3_dim_2_1.pdf Graphic file (type pdf)
-<use Figures/results_regression/f3_dim_2_1.pdf>
-File: Figures/results_regression/f9_dim_2_1.pdf Graphic file (type pdf)
-<use Figures/results_regression/f9_dim_2_1.pdf>
-File: Figures/results_regression/f15_dim_2_1.pdf Graphic file (type pdf)
-<use Figures/results_regression/f15_dim_2_1.pdf>
-File: Figures/results_regression/f21_dim_2_1.pdf Graphic file (type pdf)
-<use Figures/results_regression/f21_dim_2_1.pdf>
 File: Figures/results_regression/f3_dim_3_0.pdf Graphic file (type pdf)
 <use Figures/results_regression/f3_dim_3_0.pdf>
-File: Figures/results_regression/f9_dim_3_0.pdf Graphic file (type pdf)
-<use Figures/results_regression/f9_dim_3_0.pdf>
-File: Figures/results_regression/f15_dim_3_0.pdf Graphic file (type pdf)
-<use Figures/results_regression/f15_dim_3_0.pdf>
-File: Figures/results_regression/f21_dim_3_0.pdf Graphic file (type pdf)
-<use Figures/results_regression/f21_dim_3_0.pdf>
+File: Figures/results_regression/f3_dim_5_0.pdf Graphic file (type pdf)
+<use Figures/results_regression/f3_dim_5_0.pdf>
+File: Figures/results_regression/f3_dim_2_1.pdf Graphic file (type pdf)
+<use Figures/results_regression/f3_dim_2_1.pdf>
 File: Figures/results_regression/f3_dim_3_1.pdf Graphic file (type pdf)
 <use Figures/results_regression/f3_dim_3_1.pdf>
+File: Figures/results_regression/f3_dim_5_1.pdf Graphic file (type pdf)
+<use Figures/results_regression/f3_dim_5_1.pdf>
+File: Figures/results_regression/f9_dim_2_0.pdf Graphic file (type pdf)
+<use Figures/results_regression/f9_dim_2_0.pdf>
+File: Figures/results_regression/f9_dim_3_0.pdf Graphic file (type pdf)
+<use Figures/results_regression/f9_dim_3_0.pdf>
+File: Figures/results_regression/f9_dim_5_0.pdf Graphic file (type pdf)
+<use Figures/results_regression/f9_dim_5_0.pdf>
+File: Figures/results_regression/f9_dim_2_1.pdf Graphic file (type pdf)
+<use Figures/results_regression/f9_dim_2_1.pdf>
 File: Figures/results_regression/f9_dim_3_1.pdf Graphic file (type pdf)
 <use Figures/results_regression/f9_dim_3_1.pdf>
-File: Figures/results_regression/f15_dim_3_1.pdf Graphic file (type pdf)
-<use Figures/results_regression/f15_dim_3_1.pdf>
-File: Figures/results_regression/f21_dim_3_1.pdf Graphic file (type pdf)
-<use Figures/results_regression/f21_dim_3_1.pdf>
+File: Figures/results_regression/f9_dim_5_1.pdf Graphic file (type pdf)
+<use Figures/results_regression/f9_dim_5_1.pdf>
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \vbox (badness 2111) has occurred while \output is active []
 
  [66
 
 ]
-File: Figures/results_regression/f3_dim_5_0.pdf Graphic file (type pdf)
-<use Figures/results_regression/f3_dim_5_0.pdf>
-File: Figures/results_regression/f9_dim_5_0.pdf Graphic file (type pdf)
-<use Figures/results_regression/f9_dim_5_0.pdf>
+File: Figures/results_regression/f15_dim_2_0.pdf Graphic file (type pdf)
+<use Figures/results_regression/f15_dim_2_0.pdf>
+File: Figures/results_regression/f15_dim_3_0.pdf Graphic file (type pdf)
+<use Figures/results_regression/f15_dim_3_0.pdf>
 File: Figures/results_regression/f15_dim_5_0.pdf Graphic file (type pdf)
 <use Figures/results_regression/f15_dim_5_0.pdf>
-File: Figures/results_regression/f21_dim_5_0.pdf Graphic file (type pdf)
-<use Figures/results_regression/f21_dim_5_0.pdf>
-File: Figures/results_regression/f3_dim_5_1.pdf Graphic file (type pdf)
-<use Figures/results_regression/f3_dim_5_1.pdf>
-File: Figures/results_regression/f9_dim_5_1.pdf Graphic file (type pdf)
-<use Figures/results_regression/f9_dim_5_1.pdf>
+File: Figures/results_regression/f15_dim_2_1.pdf Graphic file (type pdf)
+<use Figures/results_regression/f15_dim_2_1.pdf>
+File: Figures/results_regression/f15_dim_3_1.pdf Graphic file (type pdf)
+<use Figures/results_regression/f15_dim_3_1.pdf>
 File: Figures/results_regression/f15_dim_5_1.pdf Graphic file (type pdf)
 <use Figures/results_regression/f15_dim_5_1.pdf>
+File: Figures/results_regression/f21_dim_2_0.pdf Graphic file (type pdf)
+<use Figures/results_regression/f21_dim_2_0.pdf>
+File: Figures/results_regression/f21_dim_3_0.pdf Graphic file (type pdf)
+<use Figures/results_regression/f21_dim_3_0.pdf>
+File: Figures/results_regression/f21_dim_5_0.pdf Graphic file (type pdf)
+<use Figures/results_regression/f21_dim_5_0.pdf>
+File: Figures/results_regression/f21_dim_2_1.pdf Graphic file (type pdf)
+<use Figures/results_regression/f21_dim_2_1.pdf>
+File: Figures/results_regression/f21_dim_3_1.pdf Graphic file (type pdf)
+<use Figures/results_regression/f21_dim_3_1.pdf>
 File: Figures/results_regression/f21_dim_5_1.pdf Graphic file (type pdf)
 <use Figures/results_regression/f21_dim_5_1.pdf>
-File: Figures/results_regression/f3_dim_10_0.pdf Graphic file (type pdf)
-<use Figures/results_regression/f3_dim_10_0.pdf>
-File: Figures/results_regression/f9_dim_10_0.pdf Graphic file (type pdf)
-<use Figures/results_regression/f9_dim_10_0.pdf>
-File: Figures/results_regression/f15_dim_10_0.pdf Graphic file (type pdf)
-<use Figures/results_regression/f15_dim_10_0.pdf>
-File: Figures/results_regression/f21_dim_10_0.pdf Graphic file (type pdf)
-<use Figures/results_regression/f21_dim_10_0.pdf>
 
-Overfull \hbox (6.79997pt too wide) in paragraph at lines 216--217
-[][] 
- []
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-File: Figures/results_regression/f3_dim_10_1.pdf Graphic file (type pdf)
-<use Figures/results_regression/f3_dim_10_1.pdf>
-File: Figures/results_regression/f9_dim_10_1.pdf Graphic file (type pdf)
-<use Figures/results_regression/f9_dim_10_1.pdf>
-File: Figures/results_regression/f15_dim_10_1.pdf Graphic file (type pdf)
-<use Figures/results_regression/f15_dim_10_1.pdf>
-File: Figures/results_regression/f21_dim_10_1.pdf Graphic file (type pdf)
-<use Figures/results_regression/f21_dim_10_1.pdf>
-) [67] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Backpage.tex
+ [67]) [68] [69
+
+] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Backpage.tex
 *geometry* verbose mode - [ newgeometry ] result:
 * driver: xetex
 * paper: a4paper
@@ -2015,8 +1978,7 @@ File: Figures/results_regression/f21_dim_10_1.pdf Graphic file (type pdf)
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-) [68
-
+) [70
 
 ]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 62.
@@ -2025,7 +1987,7 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 62.
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 62.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 62.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 9037E2A73AD66CA4031F7D552D40CE57;3352.
+(rerunfilecheck)             Checksum: 189BAFAC92F7C80C95D751CE28713FED;3383.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -2038,12 +2000,12 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 57602 strings out of 481731
- 1369067 string characters out of 5935437
- 2305825 words of memory out of 5000000
- 73493 multiletter control sequences out of 15000+600000
+ 57564 strings out of 481731
+ 1367262 string characters out of 5935437
+ 2308331 words of memory out of 5000000
+ 73463 multiletter control sequences out of 15000+600000
  551949 words of font info for 145 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  82i,21n,138p,2818b,5216s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (76 pages, 1526640 bytes).
+Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (78 pages, 1545564 bytes).
