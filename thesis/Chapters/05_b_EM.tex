@@ -1,5 +1,5 @@
 \subsection{Expectation-maximization for mixture models}
-Mixture models can be seen as probibalistic graphical models, <fig> there one mixture component is
+Mixture models can be seen as probibalistic graphical models, there one mixture component is
 picked according to the realization of a catagorical variable $\textbf{Z}$ with parameters according
 the the mixture weights, i.e we can reformelate, 
 \begin{align}\label{mixture_pdf}
@@ -68,30 +68,31 @@ $$p(\mathcal{D}|\theta) = \sum_z p(\mathcal{D}, z|\theta)$$
     
     We will now give a short proof that maximizing $Q(\cdot|\theta^{(t)})$ maximizes the likelihood
     $p(\textbf{X}|\theta)$, where we assume that $\textbf{Z}$ is a random vector with a discrete
-    distribution. This allow us to use Gibbs inequality: 
-    $$\sum_z p_1(z) \log p_1(z) \geq \sum_z p_1(z) \log p_2(z)$$ where $p_1(\cdot)$ and $p_2(\cdot)$
+    distribution. This allow us to use Gibbs inequality \cite[68]{GIBBS}: 
+    $$\sum_z p_1(z) \log p_1(z) \geq \sum_z p_1(z) \log p_2(z),$$ 
+    where $p_1(\cdot)$ and $p_2(\cdot)$
     are densities belonging to two discrete distributions of $Z$, equality if $p_1(\cdot) =
     p_2(\cdot)$. From now on we will alter the subscript on the expecations, just have in mind that
     $$\mathbb{E}_{\theta^{(t)}}[g(Z)]:=\mathbb{E}_{p(\textbf{Z}|\textbf{X}, \theta^{(t)})}[g(Z)] = \sum_z g(z)
-    p(\textbf{z}|\textbf{X}, \theta^{(t)})$$ 
+    p(\textbf{z}|\textbf{X}, \theta^{(t)}).$$ 
     Now to the proof: From bayes rule $p(\textbf{X}|\theta) =
     \frac{p(\textbf{X}, \textbf{Z})}{p(\textbf{X})}$ we can write
-    $$\log p(\textbf{X}|\theta) = \log p(\textbf{X}, \textbf{Z}) - \log p(\textbf{Z}|\textbf{X},\theta)$$
+    $$\log p(\textbf{X}|\theta) = \log p(\textbf{X}, \textbf{Z}) - \log p(\textbf{Z}|\textbf{X},\theta).$$
     Now, taking the expecation of the above w.r.t. $p(\textbf{Z}|\textbf{X}, \theta^{(t)})$,
     yields,
     \begin{align*}
         \log p(\textbf{X}|\theta)  &= \mathbb{E}_{\theta^{(t)}}[\log p(\textbf{X}, \textbf{Z}|\theta)]
         -  \mathbb{E}_{\theta^{(t)}}[\log p(\textbf{Z}|\textbf{X},\theta)]\\
-        &= Q(\theta,\theta^{(t)})+ \mathbb{E}_{\theta^{(t)}}[\log p(\textbf{Z}|\textbf{X},\theta)]
+        &= Q(\theta,\theta^{(t)})+ \mathbb{E}_{\theta^{(t)}}[\log p(\textbf{Z}|\textbf{X},\theta)].
     \end{align*} 
     Since the above equation holds for any $\theta$, it also holds for $\theta^{(t)}$
     now we have, 
     $$\log p(\textbf{X}|\theta^{(t)}) = Q(\theta^{(t)},\theta^{(t)})+ \mathbb{E}_{\theta^{(t)}}[\log
-    p(\textbf{Z}|\textbf{X},\theta^{(t)})]$$ 
+    p(\textbf{Z}|\textbf{X},\theta^{(t)})].$$ 
     Subtracting the two equations, we get,  
     $$\log p(\textbf{X}|\theta) - \log p(\textbf{X}|\theta^{(t)}) = Q(\theta,\theta^{(t)})
     -Q(\theta^{(t)},\theta^{(t)})+ \mathbb{E}_{\theta^{(t)}}[\log p(\textbf{Z}|\textbf{X},\theta)]-
-    \mathbb{E}_{\theta^{(t)}}[\log p(\textbf{Z}|\textbf{X},\theta^{(t)})]$$ 
+    \mathbb{E}_{\theta^{(t)}}[\log p(\textbf{Z}|\textbf{X},\theta^{(t)})].$$ 
     From Gibb's inequality we have
     that $\mathbb{E}_{\theta^{(t)}}[\log p(\textbf{Z}|\textbf{X},\theta^{(t)})]\leq \mathbb{E}_{\theta^{(t)}}[\log
     p(\textbf{Z}|\textbf{X},\theta)]$ where equality only holds for $\theta^{(t)} = \theta$, giving
@@ -104,6 +105,9 @@ $$p(\mathcal{D}|\theta) = \sum_z p(\mathcal{D}, z|\theta)$$
     $\log p(\textbf{X}|\theta) $ as least as much.
 \end{testexample2}
 \newpage
+Next, we want to show how EM is used to train the Gaussian mixture models. The SPNs are also trained via
+EM, however, we skip this for now. 
+
  \subsection{EM for Gaussian mixture}
  For a Gaussian mixture the $p_k$ distributions in \eqref{mixture_pdf} is substituted by Gaussain pdfs, 
  i.e. $p_k(x) = \mathcal{N}(x| \mu_k , \Sigma_k)$
@@ -138,7 +142,7 @@ The posterior distribution is calculated the following way,
     \mathcal{N}(x|\mu_k^{(t)}, \Sigma_k^{(t)})}
 \end{align*}
 For simplificaiton we will denote, $\gamma^{(t)}(z_i) := p(z_i|x_i, \theta^{(t)})$, 
-interpreted as the probability of datapoint $x_i$ to belong to class $z_i$. Bishop \cite*{bishop}
+interpreted as the probability of datapoint $x_i$ to belong to class $z_i$. Bishop \cite{bishop}
 calls this probability function the \textit{responsibility}. We can now conclude the \textbf{E-step}.
 
 \begin{align*}
@@ -147,15 +151,17 @@ calls this probability function the \textit{responsibility}. We can now conclude
     \log(\mathcal{N}(x_i| \cdot_{z_i} , \cdot_{z_i}))\right]
 \end{align*}
 or more concretely $\theta = \{\mu_1 , \Sigma_1,w_1, \dots, \mu_K , \Sigma_K, w_K\}$, 
-$$ Q(\theta, \theta^{(t)}) = \sum_{i=1}^n \gamma^{(t)}(z_i) \log(w_{z_i})+\gamma^{(t)}(z_i) \log(\mathcal{N}(x_i| \mu_{z_i} , \Sigma_{z_i})).$$
-$Q(\cdot, \theta^{(t)})$ is a concave function - the Gaussian is log-concave and a sum of concave functions is 
-also concave - so it is sufficient and nessesary to find its maxima by the root of its derivative, 
+$$ Q(\theta, \theta^{(t)}) = \sum_{i=1}^n \gamma^{(t)}(z_i) \log(w_{z_i})+\gamma^{(t)}(z_i)
+\log(\mathcal{N}(x_i| \mu_{z_i} , \Sigma_{z_i})).$$ $Q(\cdot, \theta^{(t)})$ is a concave function
+--- the Gaussian is log-concave and a sum of concave functions is also concave --- so it is sufficient
+and nessesary to find its maxima by the root of its derivative, 
 $$\frac{d}{d \theta} Q(\theta^*, \theta^{(t)}) = 0 \iff \theta^* = \arg\max_{\theta} Q(\theta, \theta^{(t)})$$
+The paramter updates can be found in closed form in \cite[439]{bishop}.
 
-Giving the updates...
-
-\subsection*{EM for SPN}
-
+% Giving the updates
+% \begin{align*}
+%     \mu_k^* := \frac{1}{n_k}\sum_{i=1}^n \gamma^{(t)}(z_i)
+% \end{align*}
 
 % and a normal evaluation of $p(x,y|w_{old}, \theta_{old})$ combined in Bayes rule we obtain
 % $$p(z|x,y,w_{old},\theta_{old}) = \frac{p(z,x,y|w_{old},\theta_{old})}{p(x,y|w_{old},

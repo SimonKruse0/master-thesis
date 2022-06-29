@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  29 JUN 2022 21:01
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  29 JUN 2022 22:04
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1653,15 +1653,14 @@ File: Pictures/SPN_illustration2.pdf Graphic file (type pdf)
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [35] [36] [37] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_b_EM.tex
-Overfull \hbox (13.7541pt too wide) detected at line 94
-[] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j\OML/cmm/m/it/10.95 ^^R\OT1/cmr/m/n/10.95 ) \OMS/cmsy/m/n/10.95 ^^@ [] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j\OML/cmm/m/it/10.95 ^^R[]\OT1/cmr/m/n/10.95 ) = \OML/cmm/m/it/10.95 Q\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 ^^R; ^^R[]\OT1/cmr/m/n/10.95 ) \OMS/cmsy/m/n/10.95 ^^@ \OML/cmm/m/it/10.95 Q\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 ^^R[]; ^^R[]\OT1/cmr/m/n/10.95 ) + \U/msb/m/n/10.95 E[]\OT1/cmr/m/n/10.95 [[] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j[]\OML/cmm/m/it/10.95 ; ^^R\OT1/cmr/m/n/10.95 )] \OMS/cmsy/m/n/10.95 ^^@ \U/msb/m/n/10.95 E[]\OT1/cmr/m/n/10.95 [[] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j[]\OML/cmm/m/it/10.95 ; ^^R[]\OT1/cmr/m/n/10.95 )]
+Overfull \hbox (16.79578pt too wide) detected at line 95
+[] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j\OML/cmm/m/it/10.95 ^^R\OT1/cmr/m/n/10.95 ) \OMS/cmsy/m/n/10.95 ^^@ [] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j\OML/cmm/m/it/10.95 ^^R[]\OT1/cmr/m/n/10.95 ) = \OML/cmm/m/it/10.95 Q\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 ^^R; ^^R[]\OT1/cmr/m/n/10.95 ) \OMS/cmsy/m/n/10.95 ^^@ \OML/cmm/m/it/10.95 Q\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 ^^R[]; ^^R[]\OT1/cmr/m/n/10.95 ) + \U/msb/m/n/10.95 E[]\OT1/cmr/m/n/10.95 [[] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j[]\OML/cmm/m/it/10.95 ; ^^R\OT1/cmr/m/n/10.95 )] \OMS/cmsy/m/n/10.95 ^^@ \U/msb/m/n/10.95 E[]\OT1/cmr/m/n/10.95 [[] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j[]\OML/cmm/m/it/10.95 ; ^^R[]\OT1/cmr/m/n/10.95 )]\OML/cmm/m/it/10.95 :
  []
 
-[38] [39] [40])) [41] [42
-
-] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/06_results.tex
+[38] [39] [40] [41])) [42] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/06_results.tex
 Chapter 5.
 [43
+
 
 ]
 Overfull \hbox (40.77603pt too wide) in paragraph at lines 93--93
@@ -1752,15 +1751,18 @@ File: Figures/results_regression/Test3/6.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test3/6.pdf>
 File: Figures/results_regression/Test3/5.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test3/5.pdf>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [50]
 File: Figures/results_regression/Test4b_dim_1_0.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test4b_dim_1_0.pdf>
 File: Figures/results_regression/Test4b_dim_1_1.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test4b_dim_1_1.pdf>
- [50]
 
-LaTeX Warning: Text page 51 contains only floats.
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[51]
+ [51]
 File: Figures/results_regression/Test4/1.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test4/1.pdf>
 File: Figures/results_regression/Test4/2.pdf Graphic file (type pdf)
@@ -1773,7 +1775,6 @@ File: Figures/results_regression/Test4/6.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test4/6.pdf>
 File: Figures/results_regression/Test4/5.pdf Graphic file (type pdf)
 <use Figures/results_regression/Test4/5.pdf>
- [52]
 File: Figures/reg_illustrations/all_reg_figures/Test1.pdf Graphic file (type pdf)
 <use Figures/reg_illustrations/all_reg_figures/Test1.pdf>
 File: Figures/reg_illustrations/all_reg_figures/Test2.pdf Graphic file (type pdf)
@@ -1783,10 +1784,11 @@ File: Figures/reg_illustrations/all_reg_figures/Test3c.pdf Graphic file (type pd
 File: Figures/reg_illustrations/all_reg_figures/Test4c.pdf Graphic file (type pdf)
 <use Figures/reg_illustrations/all_reg_figures/Test4c.pdf>
 
-Overfull \hbox (22.66437pt too wide) in paragraph at lines 691--698
+Overfull \hbox (22.66437pt too wide) in paragraph at lines 696--703
 []\TU/TimesNewRoman(0)/m/n/10.95 The Bayesian optimization algorithm is given five initial training data points i.e. $\OMS/cmsy/m/n/10.95 f\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 x[]; y[]\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; [] ; \OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 x[]; y[]\OT1/cmr/m/n/10.95 )\OMS/cmsy/m/n/10.95 g$
  []
 
+[52]
 File: Figures/results_baysopt/Test1.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/Test1.pdf>
 File: Figures/results_baysopt/Test2.pdf Graphic file (type pdf)
@@ -1795,13 +1797,7 @@ File: Figures/results_baysopt/Test3c.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/Test3c.pdf>
 File: Figures/results_baysopt/Test4c.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/Test4c.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
  [53]
-Underfull \vbox (badness 2134) has occurred while \output is active []
-
- [54]
 File: Figures/coco/f3.png Graphic file (type bmp)
 <Figures/coco/f3.png>
 File: Figures/coco/f9.png Graphic file (type bmp)
@@ -1810,6 +1806,7 @@ File: Figures/coco/f15.png Graphic file (type bmp)
 <Figures/coco/f15.png>
 File: Figures/coco/f21.png Graphic file (type bmp)
 <Figures/coco/f21.png>
+ [54]
 File: Figures/results_regression/f3_dim_5_0.pdf Graphic file (type pdf)
 <use Figures/results_regression/f3_dim_5_0.pdf>
 File: Figures/results_regression/f21_dim_3_0.pdf Graphic file (type pdf)
@@ -1822,10 +1819,6 @@ File: Figures/results_regression/f21_dim_3_1.pdf Graphic file (type pdf)
 <use Figures/results_regression/f21_dim_3_1.pdf>
 File: Figures/results_regression/f15_dim_2_1.pdf Graphic file (type pdf)
 <use Figures/results_regression/f15_dim_2_1.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [55]
 File: Figures/results_baysopt/3_2.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/3_2.pdf>
 File: Figures/results_baysopt/9_2.pdf Graphic file (type pdf)
@@ -1834,6 +1827,10 @@ File: Figures/results_baysopt/15_2.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/15_2.pdf>
 File: Figures/results_baysopt/21_2.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/21_2.pdf>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [55]
 File: Figures/results_baysopt/3_3.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/3_3.pdf>
 File: Figures/results_baysopt/9_3.pdf Graphic file (type pdf)
@@ -1842,7 +1839,6 @@ File: Figures/results_baysopt/15_3.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/15_3.pdf>
 File: Figures/results_baysopt/21_3.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/21_3.pdf>
- [56]
 File: Figures/results_baysopt/3_5.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/3_5.pdf>
 File: Figures/results_baysopt/9_5.pdf Graphic file (type pdf)
@@ -1854,10 +1850,11 @@ File: Figures/results_baysopt/21_5.pdf Graphic file (type pdf)
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [57]) [58] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/07_conclusion.tex
+ [56]) [57] [58
+
+] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/07_conclusion.tex
 Chapter 7.
 [59
-
 
 ] [60]
 Chapter 8.
@@ -2000,12 +1997,12 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 57564 strings out of 481731
- 1367262 string characters out of 5935437
- 2308331 words of memory out of 5000000
- 73463 multiletter control sequences out of 15000+600000
+ 57567 strings out of 481731
+ 1367354 string characters out of 5935437
+ 2308371 words of memory out of 5000000
+ 73466 multiletter control sequences out of 15000+600000
  551949 words of font info for 145 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  82i,21n,138p,2818b,5216s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (78 pages, 1545564 bytes).
+Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (78 pages, 1555040 bytes).

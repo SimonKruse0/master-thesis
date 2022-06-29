@@ -332,7 +332,7 @@ The first problem will establish a benchmark since this is a simple function to 
 $$f(x) = x\cdot \sin(\frac{x}{50} \pi) + 150 + \frac{x}{10} + \sin(x) \hspace{0.5cm} x \in [-100,100],$$
 giving a smooth wave function, with the optimium around $-77$.
 
-\begin{figure}[bt!]
+\begin{figure}[bth]
   \centering
   \begin{minipage}[b]{0.49\textwidth}
    \includegraphics[width=\textwidth]{Figures/results_regression/Test1_dim_1_0.pdf}
@@ -375,7 +375,7 @@ predictive density.
 % the predive likelihood, 
 % To get a deeper understanding of Figure \ref{Test1_reg_plot}, we plot one of the 10 runs for 23 data points, 
 % in Figure \ref{Test1_reg_visual_1}, and for 56 data points in Figure \ref{Test1_reg_visual_2}.
-\begin{figure}[bt!]
+\begin{figure}[H]
   \centering
   \begin{minipage}[b]{0.32\textwidth}
     \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test1/1.pdf}
@@ -435,7 +435,7 @@ where $\bm{1}$ denoted the indicator function and
 \end{align*}
 Outside and on the boundaries $\{-100,100\}$ the function value is constant 200. This leads
 to a more deficult problem than case 1. 
-\begin{figure}[bt!]
+\begin{figure}[bth]
   \centering
   \begin{minipage}[b]{0.49\textwidth}
    \includegraphics[width=\textwidth]{Figures/results_regression/Test2_dim_1_0.pdf}
@@ -461,7 +461,7 @@ which fits into the data distribution. Same story for BOHamiANN as Test1.
 %The uncertainty quantification 
 %of the discriminative takes a jump in the 
 
-\begin{figure}[bt!]
+\begin{figure}[H]
   \centering
   \begin{minipage}[b]{0.32\textwidth}
     \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test2/1.pdf}
@@ -513,12 +513,12 @@ which fits into the data distribution. Same story for BOHamiANN as Test1.
 The following problem is corresponding to a multimodal problem, which could occure in simulations with
 two equally likely outcomes. We construct this problem to give the mixture models, 
 an advantage over the discriminative models. It is defined as follows, 
-$$f(x) = 50*g(x)+ 100 + 10*\sin(0.5\cdot x) + \epsilon \cdot (30 - g(x) \cdot 90), \hspace*{0.5cm}x \in
+$$f(x) = 50\cdot g(x)+ 100 + 10\cdot \sin(0.5\cdot x) + \epsilon \cdot (30 - g(x) \cdot 90), \hspace*{0.5cm}x \in
 [-100,100],$$ 
 where $\epsilon \sim \text{Cat}(0.5,0.5)$ and $g(x) = \text{sign}(x)+1$
 ($g(x)$ is 0 for negative $x$ and 2 for positive $x$).
 
-\begin{figure}[bt!]
+\begin{figure}[bth]
   \centering
   \begin{minipage}[b]{0.49\textwidth}
    \includegraphics[width=\textwidth]{Figures/results_regression/Test3b_dim_1_0.pdf}
@@ -539,7 +539,7 @@ prediction. In the right plot of Figure \ref{Test3_reg_plot} we see just like pr
 the SPN and KDE to fit. 
 
 
-\begin{figure}[bt!]
+\begin{figure}[H]
   \centering
   \begin{minipage}[b]{0.32\textwidth}
     \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test3/1.pdf}
@@ -591,9 +591,10 @@ the SPN and KDE to fit.
 Finally, this problem has a low frequency in the beginning but ends out with a very high frequency.
 This is designed to be a difficult problem for the GP as this would need a different lengthscale
 throughout the space\footnote{This type of problem motivates GPs with anisotropic kernels such as deep
-kernel learning\cite{DeepKernelLearning}.}.
+kernel learning\cite{DeepKernelLearning}.}. We define Test4 as follows, 
+$$200 - \frac{x^2}{200} + \max\left(10, \frac{|x|}{2}\right) \sin(\frac{x}{2} \min(3, \max(0, \left(1 + \frac{x}{100}\right)^2))) \hspace{0.5cm} x \in [-100,100]$$
 
-\begin{figure}[bt!]
+\begin{figure}[H]
   \centering
   \begin{minipage}[b]{0.49\textwidth}
    \includegraphics[width=\textwidth]{Figures/results_regression/Test4b_dim_1_0.pdf}
@@ -607,12 +608,17 @@ kernel learning\cite{DeepKernelLearning}.}.
   \label{Test4_reg_plot}
 \end{figure}
 
-In Figure \ref{Test4_reg_plot} we see that the GP has the best prediction, 
+In Figure \ref{Test4_reg_plot} left, the GP has the best predictive power. This does not contradict
+with the motivation of this Test4 (being hard for isotropic GP). In the end 316 data points covers
+the domain and the GP will lower its lengthscale (thereby allow flexibility) and fit the data very
+well, its uncertainty quantification suffers from the small lengthscale. %This is seen in appendix \todo{Appendix}. 
+Zooming in on Figure \ref{Test4_reg_visual} top right, the GP does indeed have a hard
+time fitting the 36 points,it wants a lengthscale which matches the left side, but then it barely
+fits some of the points to the right. So it stays with the lengthscale and increase the observation
+variance instead. 
 
-In Figure \ref{Test4_reg_visual} we see that the GP does have a hard time fitting the 36 points, however, when more and more data
-becomes dense, the GP will lower its lengthscale and fit the data very well. This is seen in appendix \todo{Appendix}. 
 
-\begin{figure}[bt!]
+\begin{figure}[bth]
   \centering
   \begin{minipage}[b]{0.32\textwidth}
     \begin{overpic}[trim=1cm 0.7cm 1.5cm 0.5cm,clip,width=\textwidth]{Figures/results_regression/Test4/1.pdf}
@@ -660,7 +666,6 @@ becomes dense, the GP will lower its lengthscale and fit the data very well. Thi
   \label{Test4_reg_visual}
 \end{figure}
 
-\newpage
 \section{Model comparison on test problems (Bayesian Optimization)}
 Now we are ready to test the models in a Bayesian optimization setting. Test3 contains multiple
 equal minima, and Test4 has a close to minima point on the boundary $x=100$, so testing them would
