@@ -124,15 +124,17 @@ if __name__ == "__main__":
                 if number == "1" or number == "2":
                     ax.set_yscale("log")
                     plt.ylim(1e-4,20)
+                ax.set_title(f"{problem_name[:5]} - uncertainty quantification")
             else:
                 ax.set_yscale("linear")
-            #     
+                ylim = ax.get_ylim()
+                ax.set_ylim(0,ylim[1])
+                ax.set_title(f"{problem_name[:5]} - mean prediction")
          
 
             plt.legend(fontsize = 12)
             # ax.yaxis.label.set_size(17)
             # ax.xaxis.label.set_size(17)
-            ax.set_title(problem_name[:5])
             # ax.title.set_size(20)
             plt.grid()
             plt.tight_layout()
@@ -141,7 +143,7 @@ if __name__ == "__main__":
             plt.savefig(result_folder+problem_name+f"_{type}"+".pdf")
             #plt.savefig(result_folder+problem_name+f"_{type}_zoom"+".pdf")
     
-            plt.show()
+        plt.show()
 
     if data_folder == "coco_reg_data":
         for problem in list(range(1,25)):

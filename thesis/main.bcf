@@ -2230,12 +2230,13 @@
     <bcf:citekey order="46">BOHAMIANN</bcf:citekey>
     <bcf:citekey order="47">GMR</bcf:citekey>
     <bcf:citekey order="48">GMR</bcf:citekey>
-    <bcf:citekey order="49">hansen2009real</bcf:citekey>
-    <bcf:citekey order="50">COCO</bcf:citekey>
-    <bcf:citekey order="51">hansen2009real</bcf:citekey>
-    <bcf:citekey order="52">PhDthesis</bcf:citekey>
+    <bcf:citekey order="49">DeepKernelLearning</bcf:citekey>
+    <bcf:citekey order="50">hansen2009real</bcf:citekey>
+    <bcf:citekey order="51">COCO</bcf:citekey>
+    <bcf:citekey order="52">hansen2009real</bcf:citekey>
     <bcf:citekey order="53">PhDthesis</bcf:citekey>
-    <bcf:citekey order="54">bishop</bcf:citekey>
+    <bcf:citekey order="54">PhDthesis</bcf:citekey>
+    <bcf:citekey order="55">bishop</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">

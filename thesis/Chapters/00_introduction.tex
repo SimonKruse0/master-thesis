@@ -226,7 +226,8 @@ Following is the general notation used in this thesis, but some chapters (e.g. a
     \item $\textbf{y}$: Set of observations or samples for corresponding $\textbf{x}$.
     \item $\mathcal{D}$: Collection of samples in the optimization landscape. 
     \item $\mathcal{N}(x|\mu, \Sigma)$: The density of a normal distribution evaluated in $x$.
-    %\item $\mathcal{Cat}(x|\alpha_1, \dots, \alpha_k)$: The density of a catagorical distribution evaluated in $x$.
+    \item $x \sim \text{Cat}(\alpha_0, \dots, \alpha_{k})$: A realization of $x$, which follows a
+    catagorical distribution (i.e. $\mathbb{P}(x=0) = \alpha_0$, $\mathbb{P}(x=1) = \alpha_1$ etc.)
     \item \textit{optimization landscape}: joint set of points in the domain and the objective function
     evaluated in the points, i.e. $\{(x,f(x))\in \mathcal{X} \times \mathbb{R}| x \in \mathcal{X}\}$.
     \item $y \sim p(y)$: A realization of $y$ with the density $p(y)$

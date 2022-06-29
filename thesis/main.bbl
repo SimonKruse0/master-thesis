@@ -871,6 +871,55 @@
       \endverb
       \keyw{Machine Learning (cs.LG),Artificial Intelligence (cs.AI),Machine Learning (stat.ML),FOS: Computer and information sciences,FOS: Computer and information sciences}
     \endentry
+    \entry{DeepKernelLearning}{misc}{}
+      \name{author}{4}{}{%
+        {{hash=f58290185dfd014024f7abaf3fc0d0f2}{%
+           family={Wilson},
+           familyi={W\bibinitperiod},
+           given={Andrew\bibnamedelima Gordon},
+           giveni={A\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+        {{hash=af4657fcaf2cf4bfc9b7d5c668496903}{%
+           family={Hu},
+           familyi={H\bibinitperiod},
+           given={Zhiting},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=bd2be300d445e9f6db7808f9533e66cb}{%
+           family={Salakhutdinov},
+           familyi={S\bibinitperiod},
+           given={Ruslan},
+           giveni={R\bibinitperiod}}}%
+        {{hash=b80203b0ba1299db35073382e835b485}{%
+           family={Xing},
+           familyi={X\bibinitperiod},
+           given={Eric\bibnamedelima P.},
+           giveni={E\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {arXiv}%
+      }
+      \strng{namehash}{985c28b9ec8fbdbca06934f797c84a81}
+      \strng{fullhash}{1476f536de3d67354c9a24dbddf34772}
+      \strng{bibnamehash}{985c28b9ec8fbdbca06934f797c84a81}
+      \strng{authorbibnamehash}{985c28b9ec8fbdbca06934f797c84a81}
+      \strng{authornamehash}{985c28b9ec8fbdbca06934f797c84a81}
+      \strng{authorfullhash}{1476f536de3d67354c9a24dbddf34772}
+      \field{sortinit}{4}
+      \field{sortinithash}{e071e0bcb44634fab398d68ad04e69f4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Deep Kernel Learning}
+      \field{year}{2015}
+      \verb{doi}
+      \verb 10.48550/ARXIV.1511.02222
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1511.02222
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1511.02222
+      \endverb
+      \keyw{Machine Learning (cs.LG),Artificial Intelligence (cs.AI),Methodology (stat.ME),Machine Learning (stat.ML),FOS: Computer and information sciences,FOS: Computer and information sciences}
+    \endentry
     \entry{hansen2009real}{thesis}{}
       \name{author}{4}{}{%
         {{hash=71bc70e7c119a2151bf105823920cf83}{%
@@ -904,8 +953,8 @@
       \strng{authornamehash}{3f8b8ead7823b392ca828a13434e631f}
       \strng{authorfullhash}{c1ed4129b5c7344347bce850932e8a78}
       \field{extraname}{1}
-      \field{sortinit}{4}
-      \field{sortinithash}{e071e0bcb44634fab398d68ad04e69f4}
+      \field{sortinit}{5}
+      \field{sortinithash}{5dd416adbafacc8226114bc0202d5fdd}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{Real-parameter black-box optimization benchmarking 2009: Noiseless functions definitions}

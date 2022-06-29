@@ -3,36 +3,44 @@ As the models defined in the previous chapters have not been specified enough, w
 present the specified surrogate models and methodologies for the upcoming results. Furthermore, 
 we shortly explain the implementation details of the Bayesian optimization routine. 
 
-\subsection{Bayesian Optimization}
+\section{Bayesian Optimization (BO)}\label{BO_implementation}
 The Bayesian optimization framework is implemented as a python class. It is possible to pass the class two
 different types of problem objects (COCO and sklearn test problems), and additionally, the class
 needs to be given one of the defined surrogate models (also an object). By defining the BO methodology
 in this modular fashion, we make sure that we are treating all experiments equally. 
 
-Initially, 5 data points are sampled randomly from the domain $\mathcal{X}$ and evaluated in
-$f(\cdot)$ (all defined in the problem class). Next, an optimization step is performed repeatedly,
-until a predefined budget (i.e. how many samples from $f$ the user allows) is used up. The
-optimization step is simply a fitting procedure, followed by finding the point $x_{\text{next}}$
-which maximizes the acquisition function, and including the point and the evaluation
-$f(x_{\text{next}})$ into the dataset. The maximization of the acquisition function is done by
-testing $d\cdot 5000$ random points on the domain, where $d$ is the dimension of the problem. 
+The Bayesian optimization procedure used in the experiments is as follows. Initially, 5 data points
+are sampled randomly from the domain $\mathcal{X}$ and evaluated in $f(\cdot)$ (all defined in the
+problem class). Next, an optimization step is performed repeatedly, until a predefined budget (how
+many samples from $f$ the user allows) is used up. The optimization step is simply a fitting
+procedure, followed by finding the point $x_{\text{next}}$ which maximizes the acquisition function,
+and including the point and the evaluation $f(x_{\text{next}})$ into the dataset. The maximization
+of the acquisition function is done by testing $d\cdot 5000$ random points on the domain, where $d$
+is the dimension of the problem. The acquisition function used for the experiments is the expected
+improvement in closed form, i.e. all surrogate models are approximated by a Gaussian. 
 
-\subsection{Surrogates}
+\begin{note2}[Budget]
+  In real-life Bayesian optimization, the budget could be time, money, etc. In this thesis we assume
+that these utilities are a linear function of the number of function evaluations. Therefore, we
+define the budget (used in the upcoming experiments) as the number of function evaluations.
+\end{note2}
+
+\section{Surrogates}
 All surrogate models are defined as Python classes, with similar function names, i.e.
 \textit{predict}, \textit{fit} and \textit{name}, such that they fit into the BO framework
 (described in the above section). In the following, we present how all the surrogate models are
 implemented. First, we describe the implementation of the discriminative surrogate models (GP, BNN, BOHamiANN). Next,  
 we describe the implementation of the generative/mixture surrogate models (GMR, KDE, SPN). 
 
-\subsubsection{Discriminative surrogates}
-The Gaussian process regression is implemented using the GPy framework, with the Matern kernel with
+\subsection{Discriminative surrogates}
+The \textbf{Gaussian process (GP)} regression is implemented using the GPy framework, with the Matern kernel with
 $\nu=1.5$. The hyperparamteres, i.e. the lengthscale, variance and observation variance are
 optimized by maximizing the marginalized likelihood using the limited memory quasi-newton solver
 with bounds ($10^{-3}, 2$). l-bfgs-b max 1000 iterations with 20 restarts. 
 The bounds are reasonable since the data is always standardized. 
 
 %\subsubsection{BNN}
-The Bayesian neural network(BNN) is a fully connected neural network with 3 layers for 50 tanh
+The \textbf{Bayesian neural network (BNN)} is a fully connected neural network with 3 layers for 50 tanh
 nodes. It is implemented using Numpyro - which is a python library for probabilistic machine
 learning, developed by some of the people behind Pyro. Different from Pyro, Numpyro uses Jax (and
 not PyTorch) as the backend. This allows for a significantly large speedup when doing MCMC, i.e.
@@ -44,7 +52,7 @@ we put an informative prior of $InvGa(1000,1)$ on the observation variance i.e. 
 variance. 
 
 %\subsubsection{BOHamiANN}
-The BOHamiANN model is presented in the paper \cite{BOHAMIANN} and is implemented as it is implemented default
+The \textbf{BOHamiANN} model is presented in the paper \cite{BOHAMIANN} and is implemented as it is implemented default
 in "github.com/automl/pybnn", which is a fully connected Bayesian neural network with 50 tanh nodes on 3 layers. 
 I.e. Same architecture as we use for our implementation, BNN. 
 
@@ -177,7 +185,7 @@ SPN is trained using EM with maximum 1000 epochs (is terminated if the progress 
 it is trained 2 times. \todo{Lav den historie}
 GMR is trained using EM but this is done by the sklearn software. 
 
-\subsection{Standardized data}
+\section{Standardized data}
 Before the data reach any of the models, it is standardized. this is a scaling and a translation
 of the data, such that the datas empirical mean and standard deviation are 0 and 1,
 respectively. Using standardized data makes it much easier to control the parameters in the models
@@ -190,9 +198,9 @@ $$T(x,y) := \left(\frac{x-\mu_x}{\sigma_x}, \frac{y-\mu_y}{\sigma_y} \right).$$
 
 When doing prediction i.e. calculating $p(y|x)$, we use the above transform on the input $x$, and
 the model output $y$ is transformed back to the original domain using the inverse transform, 
-$$T^{-1}_y(\hat y) :=\hat y \cdot \sigma_x+\mu_x.$$
+$$T^{-1}_y(\hat y) :=\hat y \cdot \sigma_y+\mu_y.$$
 
- \chapter{Results}
+ \chapter{Experimental results}
  In the following chapter, we want to test the surrogate models both as regression models and as surrogate
  models in a Bayesian optimization setting. Firstly, we stay in the 1D domain on self-defined test problems, 
  which will give an intuition about the capability of the generative and discriminative models. 
@@ -215,7 +223,7 @@ with 24 different problems for continuous black-box optimization algorithms.
 
  \section{Regression analysis methodology}
  As described in the previous sections, an essential part of Bayesian optimization and the decision
- theory built around Bayesian optimization is that the regression model is correct. We will therefore
+ theory built around Bayesian optimization is that the regression model is well-fitted. We will therefore
  look at how good the regression models are in terms of accurate prediction and 
  correct uncertainty estimation. The following provides details on how exactly this is done. 
 
@@ -225,30 +233,30 @@ scored on the model's ability to assign a non-zero (hopefully large) probability
 we hope for a given test point $(x_t, y_t)$, that $p(y_t|x_t,\mathcal{D})$ is large. 
 
 One way to score the fit on a large test set $(x_t, y_t)_{t=1}^T$, is to simply calculate the average
-probability assigned to all $y_1, ..., y_T$, i.e. 
-$$Score_1  = \frac{1}{T}\sum_{t=1}^T p(y_t|x_t,\mathcal{D}),$$ 
+density assigned to all $y_1, ..., y_T$, i.e. 
+$$\text{Score}_1  = \frac{1}{T}\sum_{t=1}^T p(y_t|x_t,\mathcal{D}),$$ 
 however, if the regression model is really certain about one test point and guess this point correct,  
 we could have potentially $Score_1 = \infty$ as $ p(y_t|x_t,\mathcal{D})$ could be arbitraty certain about this 
-1 point. Meanwhile, test points with assigned probability, i.e $p(y_t|x_t,\mathcal{D}) = 0$, will not matter. 
+1 point. Meanwhile, test points with no assigned density, i.e $p(y_t|x_t,\mathcal{D}) = 0$, will not matter. 
 
-Another way to score the fit on the large test, is to score the joint predictive probability (with assumed iid 
+Another way to score the fit on the large test, is to score the joint predictive density (with assumed iid 
 test data), 
-$$p(\textbf{y}|\textbf{x}, \mathcal{D}) = \prod_{y=1}^T p(y_t|x_t, \mathcal{D})$$
+$$p(\textbf{y}_T|\textbf{x}_T, \mathcal{D}) = \prod_{y=1}^T p(y_t|x_t, \mathcal{D})$$
 Now, if just one test point is assigned zero probability the regression model has failed overall. 
 Additional, on a computer with finite-precision small probabilities might underflow to 0 and course
 the score to be 0. We overcome underflow with a log transformation and take the mean value to 
-compare with different amounts of test data.
-$$ Score_2 = \frac{1}{T} \log p(\textbf{y}|\textbf{x}, \mathcal{D}) = \frac{1}{T}\sum_{t=1}^T \log p(y_t|x_t, \mathcal{D})$$
-this score, the \textit{mean predictive log probability}, we will use in the experiments conducted in this thesis. 
+compare with different amounts of test data,
+$$ \text{Score}_2 = \frac{1}{T} \log p(\textbf{y}_T|\textbf{x}_T, \mathcal{D}) = \frac{1}{T}\sum_{t=1}^T \log p(y_t|x_t, \mathcal{D}).$$
+We call this score the \textit{mean log predictive density} and it will be use in the experiments conducted in this thesis. 
 
 \subsection{Predictive power}
 The performance of a deterministic regression model $f_w(\cdot)$ is typically measured in mean squared error or 
-mean absolute error, i.e. 
+mean absolute error (MAE), i.e. 
 $$MAE = \frac{1}{T}\sum_{t=1}^T |f_{w}(x_t) - y_t|.$$ For the probabilistic regression model, we
 want a similar measurement - especially if the uncertainty quantification fails. It makes sense to use
 the most probable outcome of the predictive distribution, i.e. the mode. However, if it is Gaussian
-the mode is equal the mean. The mean absolute used in this project is given as, 
-$MAE :=\frac{1}{T}\sum_{t=1}^T |\mu_{\mathcal{D}}(x_t) - y_t|.$ However to make the performance
+the mode is equal the mean. The mean absolut error used in this project is given as, 
+$MAE :=\frac{1}{T}\sum_{t=1}^T |\mu_{\mathcal{D}}(x_t) - y_t|.$ However, to make the performance
 relateable across problems, we use the mean relative error, 
 $$\text{Mean relative error} :=\frac{1}{T}\sum_{t=1}^T \frac{|\mu_{\mathcal{D}}(x_t) - y_t|}{|y_t|}.$$
 
@@ -258,7 +266,7 @@ Before moving on with the results, we want to introduce an important benchmark s
 is a simple normal distribution with mean and variance of the training $y$-data i.e. $\textbf{y}$. More
 formally it is defined as, 
 $$p(y|x\mathcal{D}) = \mathcal{N}(y| \bar{\textbf{y}} , \bar{\sigma}^2 (\textbf{y})),$$ where
-$\bar{\textbf{y}} = \frac{1}{n}\sum_{i=1}^n \textbf{y}_i $ and $\bar{\sigma}^2 (\textbf{y})) =
+$\bar{\textbf{y}} = \frac{1}{n}\sum_{i=1}^n \textbf{y}_i $ and $\bar{\sigma}^2 (\textbf{y}) =
 \frac{1}{n}\sum_{i=1}^n (\textbf{y}_i-\bar{\textbf{y}})^2$. In the context of Bayesian optimization,
 it is imidiately a bad model since it sees as all $x$ points/locations as equally good. We will use
 this model in the benchmark for the Bayesian optimization as it will corespond to random search. 
@@ -303,29 +311,25 @@ The functions are illustrated here,
   \label{TEST_problems}
 \end{figure}
 
-It is common to have many parameters to tune in Bayesian optimization (in 1D, a human could
-potentially assist the surrogate model since the regression can be plotted and judged by eye).
-Nevertheless, we will keep the domain in 1D to establish  
-a more informative evaluation of the model performance. Along with tests of predictive power and
+It is common to have several parameters to tune in Bayesian optimization, but we will first keep the
+domain in 1D to establish a more informative evaluation of the model performance. Along with tests of predictive power and
 uncertainty quantification, we have figures of the corresponding predictive distribution for every problem, 
 model, number of training data and across all 10 random seeds. 
 
-In the following regression tests, we increase the number of training points (all seeded randomly
-selected), i.e. $n_{test} \in \{10, 15, 23, 36, 56, 86, 133, 205, 316\}$. Then we fit all
-regression/surrogate models to the training data, and then 10.000 (also random seeded) test points
-in the $x$-interval $x \in [-100, 100]$ are used to evaluate predictive power (mean relative error)
-and uncertainty quantification (mean predictive log probability)\footnote{More concretely, we 
-exp-transform this number to make it to plot} for all the models. This is
-repeated for 10 different random seeds, to avoid one model being especially lucky with one instance
-of the training data. 
+In the following regression tests, we increase the number of training points, i.e. $n_{test} \in$
+\{10, 15, 23, 36, 56, 86, 133, 205, 316\}. First, we fit all regression/surrogate models to the
+training data. Second, 10000 test points in the $x$-interval $x \in [-100,
+100]$ are used to evaluate predictive power (mean relative error) and uncertainty quantification
+(mean predictive log density)\footnote{More concretely, we exp-transform this number to make it
+easy to plot} for all the models. This is repeated for ten different random seeds to avoid one model
+being especially lucky with one instance of the training data. 
 
 \subsection*{Test1: Well-behaved problem}
 The first problem will establish a benchmark since this is a simple function to fit. Its exact definition is,
 $$f(x) = x\cdot \sin(\frac{x}{50} \pi) + 150 + \frac{x}{10} + \sin(x) \hspace{0.5cm} x \in [-100,100],$$
-giving a smooth wave function, with the optimium around $-77$. Note that $\sin(x)\in [-1,1]$ contribute with
-some small high frequency surface waves. 
+giving a smooth wave function, with the optimium around $-77$.
 
-\begin{figure}[H]
+\begin{figure}[b]
   \centering
   \begin{minipage}[b]{0.49\textwidth}
    \includegraphics[width=\textwidth]{Figures/results_regression/Test1_dim_1_0.pdf}
@@ -411,15 +415,15 @@ almost 0 probability to some of the 10000 test points (i.e the we test all of th
 As GP and BNN have a natural assumption of continuity we want to investigate their performance
 on a discontinuous problem. We want to investigate their performance on the folloing step function, 
 defined as 
-$$f(x) = \sum_{i=1}^{13} u_i \bm{1}(I_{i+1}\leq x< I_{i+1}) + sin(x) \hspace{0.5cm} x \in ]-100,100]$$
+$$f(x) = \sum_{i=1}^{13} u_i \bm{1}(I_{i}\leq x< I_{i+1}) + sin(x) \hspace{0.5cm} x \in ]-100,100]$$
 where $\bm{1}$ denoted the indicator function and
 \begin{align*}
-  I &= [-100,  -83,  -71,  -60,  -49,  -31,   -9,    3,   14,26,   37,   60,   83,  100],\\
-  u &= [181, 162, 144,  69, 106,  88, 200, 125, 144, 162, 181,88, 181, 200].
+  I &= \{-100,  -83,  -71,  -60,  -49,  -31,   -9,    3,   14,26,   37,   60,   83,  100\},\\
+  u &= \{181, 162, 144,  69, 106,  88, 200, 125, 144, 162, 181,88, 181, 200\}.
 \end{align*}
 Outside and on the boundaries $\{-100,100\}$ the function value is constant 200. This leads
 to a more deficult problem than case 1. 
-\begin{figure}[H]
+\begin{figure}[b]
   \centering
   \begin{minipage}[b]{0.49\textwidth}
    \includegraphics[width=\textwidth]{Figures/results_regression/Test2_dim_1_0.pdf}
@@ -433,14 +437,17 @@ to a more deficult problem than case 1.
   model.}
   \label{Test2_reg_plot}
 \end{figure}
-Looking at Figure \ref{Test2_reg_plot} left we see that this is indeed harder to fit than Test 1, as
+In Figure \ref{Test2_reg_plot} left we see that this is indeed harder to fit than Test 1, as
 the reative error is not going down as fast. Comparing to Test 1 we here see that the mixtures are
 doing as well and some times better than the discriminative models. If instead we used the mode for
 the mixture regression models, we might see superior performance, as the prediction, will not be
 continuous. Looing at the Figure \ref{Test2_reg_plot} right we see the same story as Test1 that the
-mixtures regression has the best uncertainty quantification. Here SPN and KDE perfroms better than
+mixtures regression has the best uncertainty quantification. KDE and SPN (before 100 data points) perfroms better than
 Gaussian mixture regression, since the mixture components has no correlation beween $x$ and $y$,
-which fits into the data distribtuion. Same story for BOHamiANN as Test1.
+which fits into the data distribution. Same story for BOHamiANN as Test1. 
+%The uncertainty quantification 
+%of the discriminative takes a jump in the 
+
 \begin{figure}[H]
   \centering
   \begin{minipage}[b]{0.32\textwidth}
@@ -495,7 +502,7 @@ $$f(x) = 50*g(x)+ 100 + 10*\sin(0.5\cdot x) + \epsilon \cdot (30 - g(x) \cdot 90
 where $\epsilon \sim \text{Cat}(0.5,0.5)$ and $g(x) = \text{sign}(x)+1$
 ($g(x)$ is 0 for negative $x$ and 2 for positive $x$).
 
-\begin{figure}[H]
+\begin{figure}[b]
   \centering
   \begin{minipage}[b]{0.49\textwidth}
    \includegraphics[width=\textwidth]{Figures/results_regression/Test3b_dim_1_0.pdf}
@@ -560,12 +567,13 @@ the SPN and KDE to fit.
   \label{Test3_reg_visual}
 \end{figure}
 
-\subsection{Test4: anisotropic problem}
+\subsection{Test4: Anisotropic problem}
 Finally, this problem has a low frequency in the beginning but ends out with a very high frequency.
 This is designed to be a difficult problem for the GP as this would need a different lengthscale
-throughout the space.
+throughout the space\footnote{This type of problem motivates GPs with anisotropic kernels such as deep
+kernel learning\cite{DeepKernelLearning}.}.
 
-\begin{figure}[H]
+\begin{figure}[b]
   \centering
   \begin{minipage}[b]{0.49\textwidth}
    \includegraphics[width=\textwidth]{Figures/results_regression/Test4b_dim_1_0.pdf}
@@ -578,9 +586,10 @@ throughout the space.
   \label{Test4_reg_plot}
 \end{figure}
 
+In Figure \ref{Test4_reg_plot} we see that the GP has the best prediction, 
+
 In Figure \ref{Test4_reg_visual} we see that the GP does have a hard time fitting the 36 points, however, when more and more data
 becomes dense, the GP will lower its lengthscale and fit the data very well. This is seen in appendix \todo{Appendix}. 
-
 
 \begin{figure}[H]
   \centering
@@ -633,7 +642,7 @@ equal minima, and Test4 has a close to minima point on the boundary $x=100$, so 
 not be informative. We redefine Test3 and Test4 as seen in Figure \ref{TEST_problems2}. They still
 have the same overall structure, so the connecting to the regression analysis should be okay. 
 
-\begin{figure}[h]
+\begin{figure}[b]
   \centering
   \begin{minipage}[b]{0.24\textwidth}
    \includegraphics[width=\textwidth]{Figures/reg_illustrations/all_reg_figures/Test1.pdf}
@@ -650,13 +659,29 @@ have the same overall structure, so the connecting to the regression analysis sh
    \begin{minipage}[b]{0.24\textwidth}
      \includegraphics[width=\textwidth]{Figures/reg_illustrations/all_reg_figures/Test4c.pdf}
     \end{minipage}
-  \caption{All test function used in Bayesian Optimization. We redefine Test3 and Test4}
+  \caption{All test function used in Bayesian Optimization. We redefine Test3 and Test4.}
   \label{TEST_problems2}
 \end{figure}
 
+The Bayesian optimization algorithm is given five initial training data points i.e. $\{(x_1, y_1),
+\dots, (x_5, y_5)\}$ corresponding to 5 objective function evaluations. Next the first BO
+optimization step is done: First, the surrogate model is fitted, the resulting predictive
+distribution is approximated by a Gaussian, and then the expecpected improvement (in closed form)
+select the next location, finally we sample $y_6$ from $f(x_{\text{next}})$ i.e.
+$\text{Observe}(x_{\text{next}})$. This procedure is repeated untill the \textit{budget}, which we
+here define as number of objective function evaluations allowed, is exhasuted. 
 
-Bayesian optimization using 20 restarts, we see that the GP is in fact the best model in the simple
-problem Test1; however, for the more complicated problems, the GP is not the preferred model.
+
+To avoid 
+lucky optimization paths 
+
+Bayesian optimization using 20 restarts, 
+ a more sound analysis would be to use introduce statistics around the tests. however, this also becomes messy quickly. 
+
+
+
+% we see that the GP is in fact the best model in the simple
+% problem Test1; however, for the more complicated problems, the GP is not the preferred model. 
 
 \begin{figure}[H]
   \centering
@@ -679,14 +704,31 @@ problem Test1; however, for the more complicated problems, the GP is not the pre
 \end{figure}
 % Recall that assigning 0 variance to a prediction problem in expected improvement only yeilds a value in the
 % expected improvement if it is increasing. 
-Looking at Figure \ref{Test_bayesOpt} it is important first of all compare the surrogates to the black random search. E.g. 
-All of the models did worse than random search in Test3. As the regression task failed for test3 this makes sense. However, 
-noticeably, the GP in Test3 is the worst model (together with BOHamiANN) after 16 function evaluations. Test1 is the benchmark
+In Figure \ref{Test_bayesOpt} it is important first of all compare the surrogates to the black random search, e.g.
+all of the models did worse than random search in Test3 (bottom left plot in \ref{Test_bayesOpt}).
+
+Comparing the BO of Test3 with the regression analysis at Figure \ref{Test3_reg_plot}, all the
+regression models had the same (insufficient) predictive power as the empirical mean benchmark
+model. In Bayesian optimization, the regression model is important for exploitation, however, if it
+has no predictive power, then the BO on Test3(bottom left plot in \ref{Test_bayesOpt}) shows that
+random search is better, as it does not bias toward any parts of the space. Noticeably, the GP in
+Test3 is the worst model (together with BOHamiANN) after 16 function evaluations. The generative
+models perform almost as good at random search, which is explained by their good uncertainty
+quantifications in Figure \ref{Test3_reg_plot} left.
+
+Test1 is the benchmark
 and here it becomes evident that BOHamiANN does not work, and GMR is as good as Random search. GP is a clear winner of test1. 
+
 Test 2 shows after 35 iterations that random search is better than the GP and that all the mixture models and (barely) the BNN 
-performs better than the GP. Finally, test4 shows approximatly the same results for KDE, SPN, BNN and GP, all being better than Random 
+performs better than the GP. 
+
+Finally, test4 shows approximatly the same results for KDE, SPN, BNN and GP, all being better than Random 
 search and BOHamiANN. 
 
+
+
+, and the uncertainty quantification was good
+for the mixture models, and
 
 \section{Test on BBOB in higher dimensions}
 So far, we have looked at our self-defined 1D problems and can conclude that our regression models

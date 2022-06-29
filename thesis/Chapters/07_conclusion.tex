@@ -30,19 +30,19 @@ need more training data point for good performance. The test conducted on BBOB w
 In the result section we tried to establish a connection between the performance of Bayesian optimization and the surrogate
 model's performance as a regression model. However, the GP which in general performed well on the BO tests, had a very
 good predictive power, but also a bad uncertainty quantification. However, in BO setting being very confident about a 
-prediction (i.e. very small predicitive variance $\sigma(x,\mathcal{D})^2 \approx 0$) yields the expected improvement, 
+prediction (i.e. very small predicitive variance $\sigma(x,\mathcal{D})^2 \approx 0$), the fraction
+$\frac{y_{\min}-\mu_x}{\sigma_x}$ goes to infinity for $\sigma_x \rightarrow 0$, resulting in the expected improvement, 
 $$EI(x) = (y_{\min}-\mu_x)\Phi\left(\frac{y_{\min}-\mu_x}{\sigma_x}\right)+ \sigma_x
-\phi\left(\frac{y_{\min}-\mu_x}{\sigma_x}\right) \approx y_{\min}-\mu_x,$$ since the fraction
-$\frac{y_{\min}-\mu_x}{\sigma_x}$ goes to infinity for $\sigma_x \rightarrow 0$, the standard
+\phi\left(\frac{y_{\min}-\mu_x}{\sigma_x}\right) \approx y_{\min}-\mu_x,$$ since the standard
 Gaussian cdf and pdf become 1 and 0, respectively. 
 
 The connection between the mixture models' good performance as regression models (good
 uncertainty quantification) and their BO performance was also not fair. The predictive distributions
 of the mixture models are much richer than the Gaussian approximation of it used in BO tests. 
-A better connection would be established if we conduct BO tests using the approximate expected
+A better connection would be established if we conducted BO tests using the approximate expected
 improvement. The predictive distribution of the Bayesian neural networks is also approximated with a
 Gaussian. This is more reasonable as the Bayesian neural networks in the limit are equal to a
-Gaussian process. Futhermore, experiments using the approximated expected improvement with the
+Gaussian process. Furthermore, experiments using the approximated expected improvement with the
 Bayesian Neural networks were conducted in \cite{PhDthesis}, with no promising results. 
 
 % %BO and 

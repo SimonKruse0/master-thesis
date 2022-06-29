@@ -95,7 +95,7 @@ def plot_regression_paths(ax, problem_name, plot_type=0, only_means= True):
         except:
             print(f"No data for {name}")
     plt.legend(by_label.values(), by_label.keys())
-    ax.set_title(problem_name)
+    
 
 import matplotlib.pyplot as plt
 if __name__ == "__main__":
@@ -154,6 +154,10 @@ if __name__ == "__main__":
                     plt.xlim(10,316)
                     ax.set_xscale("log")
                     plot_regression_paths(ax, problem_name, plot_type=type)
+                    if type == 0:
+                        ax.set_title(f"{problem_name} - mean pred")
+                    else:
+                        ax.set_title(f"{problem_name} - UQ")
                     ax.set_yscale("linear")
                     plt.grid()
                     plt.tight_layout()

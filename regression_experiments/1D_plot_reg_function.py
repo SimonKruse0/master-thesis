@@ -31,7 +31,8 @@ for problem_sklearn in [Test1(),Test2(),Test3b(),Test4b(), Test3c(),Test4c()]:
     ax.set_xlabel("x")
     ax.set_ylabel("y")
     prob_name = type(problem_sklearn).__name__[:6]
-    ax.set_title(prob_name[:5])
+    ax.set_title(prob_name[:6])
+    # ax.set_title(prob_name[:5])
     print(find_minima(plot_reg))
     ax.plot(*find_minima(plot_reg),".", markersize = 10, color="red")
     path = "/home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/reg_illustrations/all_reg_figures"
