@@ -28,7 +28,7 @@
 \contentsline {section}{\numberline {2.4}Summary}{15}{section.0.2.4}%
 \contentsline {chapter}{\numberline {3}Discriminative surrogate models}{17}{chapter.0.3}%
 \contentsline {section}{\numberline {3.1}Gaussian process surrogate}{17}{section.0.3.1}%
-\contentsline {subsection}{\numberline {3.1.1}Exact predictive distribution}{18}{subsection.0.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.1}Exact predictive distribution}{19}{subsection.0.3.1.1}%
 \contentsline {subsubsection}{Posterior function distribution}{19}{subsubsection*.14}%
 \contentsline {subsection}{\numberline {3.1.2}Learning - Empirical Bayes inference}{20}{subsection.0.3.1.2}%
 \contentsline {section}{\numberline {3.2}Bayesian neural network regression}{22}{section.0.3.2}%

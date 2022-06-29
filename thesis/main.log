@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  29 JUN 2022 22:04
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  29 JUN 2022 23:49
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1575,22 +1575,15 @@ Overfull \hbox (17.20857pt too wide) in paragraph at lines 5--12
 ]
 File: Pictures/GP_samples_mattern.pdf Graphic file (type pdf)
 <use Pictures/GP_samples_mattern.pdf>
- [18]
+ [18] [19]
 File: Pictures/GP2_samples_mattern.pdf Graphic file (type pdf)
 <use Pictures/GP2_samples_mattern.pdf>
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[19]
+ [20]
 File: Pictures/GP_vs_BNN1.pdf Graphic file (type pdf)
 <use Pictures/GP_vs_BNN1.pdf>
 File: Pictures/GP_vs_BNN1_b.pdf Graphic file (type pdf)
 <use Pictures/GP_vs_BNN1_b.pdf>
-)
-Underfull \vbox (badness 3229) has occurred while \output is active []
-
- [20] [21] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/04_bayesian_nn_regression.tex
+) [21] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/04_bayesian_nn_regression.tex
 File: Pictures/BNN_prior.pdf Graphic file (type pdf)
 <use Pictures/BNN_prior.pdf>
 File: Pictures/BNN_posterior.pdf Graphic file (type pdf)
@@ -1997,12 +1990,12 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 57567 strings out of 481731
- 1367354 string characters out of 5935437
+ 57570 strings out of 481731
+ 1367402 string characters out of 5935437
  2308371 words of memory out of 5000000
- 73466 multiletter control sequences out of 15000+600000
+ 73469 multiletter control sequences out of 15000+600000
  551949 words of font info for 145 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  82i,21n,138p,2818b,5216s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (78 pages, 1555040 bytes).
+Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (78 pages, 1571300 bytes).

@@ -14,8 +14,8 @@ where $\bm{\mu}$ typically is $0$ and the covariance matrix, is dependent on the
  $$\bm{\Sigma} = c(\textbf{x}, \textbf{x}) = \begin{bmatrix}
     c(x_1,x_1) & \dots & c(x_1,x_n)\\
     \vdots& \ddots\\
-    c(x_n,x_1) & \dots & c(x_n,x_n) \end{bmatrix},\hspace{1cm} c(x, y) := \text{Matérn}(x,y)...$$ this
-    means that a realization of the vector $\textbf{f}$ is often close to 0 with a variance of the
+    c(x_n,x_1) & \dots & c(x_n,x_n) \end{bmatrix},\hspace{1cm} c(x, y) := \text{Matérn}(x,y).$$ 
+    This means that a realization of the vector $\textbf{f}$ is often close to 0 with a variance of the
     diagonal $\bm{\Sigma}$, but also with a correlation between the elements in $\textbf{f}$ given
     by the off-diagonals in $\bm{\Sigma}$. This is a very important ingredience of a GP, if
     $c(x_1,x_2) \approx 1$ (assuming that the variances of $\textbf{f}$ are 1, then $\bm{\Sigma}$ is
@@ -55,6 +55,23 @@ conditional distribution of $f_*$ given $\textbf{f}$ is,
     large multivariate normal distribution (right).}
     \label{GP_illustration}
 \end{figure}
+
+\begin{testexample}[Matérn52 kernel]
+    The transformation of similarity between the input $x$ and the resulting covariance, $c(x,x)$, is
+    done through a kernel. While being an essential concept of GP modeling, we will not go further
+    than explaining that the kernel used in this project is the commonly used Matérn52 kernel
+    \cite[157]{TakeHumanOutOfLoop},
+    $$c(\textbf{x},\textbf{x}^*) = \sigma_0^2 \exp(-\sqrt{5}r)\cdot \left(
+    1+\sqrt{5}r+\frac{5}{3}r^2 \right)$$ where $r^2 = (\textbf{x}-\textbf{x}^*)^T \Lambda
+    (\textbf{x}-\textbf{x}^*)$ and $\Lambda^{-1}$ is a diagonal matrix of squared
+    \textit{lenghtscales}. $r$ can be interpreted as an Euclidean distance measure, weighted with
+    the lenghtscales. Large length scales means $r$ is close to 0 even for large Euclidean distances, i.e.
+    making the GP less flexibil, whereas a small length scale makes the underlying function
+    evaluations $\textbf{f}$ increasingly uncorrelated. $\sigma_0^2$ denotes the kernel variance and
+    establish an upperbound of the kernel function. It is touched whenever $r=0$ e.g. in the
+    diagonal of, $c(\textbf{x}, \textbf{x})$. Together with the kernel lengthscale, the kernel variance conduct the 
+    parameters of the kernel. These will in this thesis be seen a hypterparameters. 
+\end{testexample}
 
 \subsection{Exact predictive distribution}
 What we want is the predictive posterior distribution, $p(y_*|x_*, \mathcal{D})$, i.e. by
