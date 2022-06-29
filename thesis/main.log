@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  28 JUN 2022 22:48
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  29 JUN 2022 12:47
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1417,13 +1417,6 @@ Package biblatex Warning: The following entry could not be found
 
 Package biblatex Warning: The following entry could not be found
 (biblatex)                in the database:
-(biblatex)                deepkernel
-(biblatex)                Please verify the spelling and rerun
-(biblatex)                LaTeX afterwards.
-
-
-Package biblatex Warning: The following entry could not be found
-(biblatex)                in the database:
 (biblatex)                neal
 (biblatex)                Please verify the spelling and rerun
 (biblatex)                LaTeX afterwards.
@@ -1522,22 +1515,30 @@ File: Pictures/Logos/white_cmyk.pdf Graphic file (type pdf)
  [2
 
 
+] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Copyright.tex
+Underfull \hbox (badness 10000) in paragraph at lines 5--7
+
+ []
+
+) [1] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Approval.tex) [2
+
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Abstract.tex
 Overfull \hbox (2.38933pt too wide) in paragraph at lines 5--7
 []\TU/TimesNewRoman(0)/m/n/10.95 Bayesian optimization (BO) is the leading methodology in sample-efficient optimization and widely
  []
 
-) [3] [4
+) [3
 
-] (/home/simon/Documents/MasterThesis/master-thesis/thesis/main.toc)
+] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Acknowledgements.tex) [4
+
+] (/home/simon/Documents/MasterThesis/master-thesis/thesis/main.toc [5
+
+
+])
 \tf@toc=\write8
 \openout8 = `main.toc'.
 
- [5
-
-] [6
-
-] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/00_introduction.tex
+ [6] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/00_introduction.tex
 Chapter 1.
 File: Pictures/GP_vs_BNN1_b.pdf Graphic file (type pdf)
 <use Pictures/GP_vs_BNN1_b.pdf>
@@ -1547,6 +1548,7 @@ File: Pictures/GP_vs_BNN2.pdf Graphic file (type pdf)
 Underfull \vbox (badness 3815) has occurred while \output is active []
 
  [1
+
 
 ] [2] [3]) [4] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/02_bayesian_optimization.tex
 Chapter 2.
@@ -1696,21 +1698,24 @@ Overfull \hbox (0.73459pt too wide) in paragraph at lines 98--102
  []
 
 
-Overfull \hbox (62.0184pt too wide) in paragraph at lines 156--156
+Overfull \hbox (62.0184pt too wide) in paragraph at lines 160--160
 []|[]| 
  []
 
 
-Overfull \hbox (14.86069pt too wide) in paragraph at lines 156--156
+Overfull \hbox (14.86069pt too wide) in paragraph at lines 160--160
 []|[]| 
  []
 
 
-Overfull \hbox (1.55101pt too wide) in paragraph at lines 156--156
+Overfull \hbox (1.55101pt too wide) in paragraph at lines 160--160
 []|[]| 
  []
 
-[44] [45]
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [44] [45]
 Chapter 6.
 [46
 
@@ -1852,10 +1857,6 @@ File: Figures/results_baysopt/15_3.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/15_3.pdf>
 File: Figures/results_baysopt/21_3.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/21_3.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [55]
 File: Figures/results_baysopt/3_5.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/3_5.pdf>
 File: Figures/results_baysopt/9_5.pdf Graphic file (type pdf)
@@ -1867,38 +1868,38 @@ File: Figures/results_baysopt/21_5.pdf Graphic file (type pdf)
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [56]) [57] [58
-
-] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/07_conclusion.tex
+ [55]) [56] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/07_conclusion.tex
 Chapter 7.
+[57
 
-LaTeX Warning: Reference `...' on page 59 undefined on input line 16.
 
-[59
-
-] [60]
+] [58]
 Chapter 8.
+) [59
 
-Overfull \hbox (6.02193pt too wide) in paragraph at lines 134--138
-\TU/TimesNewRoman(0)/m/n/10.95 Bayesian optimization algorithm. Unfortunately, even though the mixture regression models showed
- []
-
-[61
-
-]) [62]
+]
 Overfull \hbox (31.82188pt too wide) in paragraph at lines 55--55
-[]\TU/TimesNewRoman(0)/m/sc/10.95 Mashall Aryan. “  Sample-efficient Optimization Using Neural Networks”. []$[][][][][] [] [] [] [][][][][][][][][][][][][][][] []
+[]\TU/TimesNewRoman(0)/m/n/10.95 Mashall Aryan. “  Sample-efficient Optimization Using Neural Networks”. []$[][][][][] [] [] [] [][][][][][][][][][][][][][][] []
  []
 
-[63
+[60
 
-] [64] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Appendix.tex
+] [61] [62
+
+] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Appendix.tex
 Appendix A.
-[65
-
+[63
 
 ]
 Appendix B.
+File: Figures/results_baysopt/Test1_all.pdf Graphic file (type pdf)
+<use Figures/results_baysopt/Test1_all.pdf>
+File: Figures/results_baysopt/Test2_all.pdf Graphic file (type pdf)
+<use Figures/results_baysopt/Test2_all.pdf>
+File: Figures/results_baysopt/Test3c_all.pdf Graphic file (type pdf)
+<use Figures/results_baysopt/Test3c_all.pdf>
+File: Figures/results_baysopt/Test4c_all.pdf Graphic file (type pdf)
+<use Figures/results_baysopt/Test4c_all.pdf>
 File: Figures/results_regression/f3_dim_2_0.pdf Graphic file (type pdf)
 <use Figures/results_regression/f3_dim_2_0.pdf>
 File: Figures/results_regression/f9_dim_2_0.pdf Graphic file (type pdf)
@@ -1931,6 +1932,12 @@ File: Figures/results_regression/f15_dim_3_1.pdf Graphic file (type pdf)
 <use Figures/results_regression/f15_dim_3_1.pdf>
 File: Figures/results_regression/f21_dim_3_1.pdf Graphic file (type pdf)
 <use Figures/results_regression/f21_dim_3_1.pdf>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [64
+
+]
 File: Figures/results_regression/f3_dim_5_0.pdf Graphic file (type pdf)
 <use Figures/results_regression/f3_dim_5_0.pdf>
 File: Figures/results_regression/f9_dim_5_0.pdf Graphic file (type pdf)
@@ -1956,7 +1963,7 @@ File: Figures/results_regression/f15_dim_10_0.pdf Graphic file (type pdf)
 File: Figures/results_regression/f21_dim_10_0.pdf Graphic file (type pdf)
 <use Figures/results_regression/f21_dim_10_0.pdf>
 
-Overfull \hbox (6.79997pt too wide) in paragraph at lines 190--191
+Overfull \hbox (6.79997pt too wide) in paragraph at lines 216--217
 [][] 
  []
 
@@ -1968,12 +1975,7 @@ File: Figures/results_regression/f15_dim_10_1.pdf Graphic file (type pdf)
 <use Figures/results_regression/f15_dim_10_1.pdf>
 File: Figures/results_regression/f21_dim_10_1.pdf Graphic file (type pdf)
 <use Figures/results_regression/f21_dim_10_1.pdf>
-)
-Underfull \vbox (badness 3568) has occurred while \output is active []
-
- [66
-
-] [67] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Backpage.tex
+) [65] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Backpage.tex
 *geometry* verbose mode - [ newgeometry ] result:
 * driver: xetex
 * paper: a4paper
@@ -2006,7 +2008,7 @@ Underfull \vbox (badness 3568) has occurred while \output is active []
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-) [68
+) [66
 
 
 ]
@@ -2016,13 +2018,10 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 62.
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 62.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 62.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 09B50AC574A31F4F5088D693B143E791;2915.
+(rerunfilecheck)             Checksum: E781EE7D45D62FA2EB9676019080B4E4;3101.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
-
-
-LaTeX Warning: There were undefined references.
 
 
 LaTeX Warning: There were multiply-defined labels.
@@ -2032,12 +2031,12 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 57550 strings out of 481731
- 1367165 string characters out of 5935437
- 2305143 words of memory out of 5000000
- 73455 multiletter control sequences out of 15000+600000
- 551941 words of font info for 144 fonts, out of 8000000 for 9000
+ 57594 strings out of 481731
+ 1368845 string characters out of 5935437
+ 2305384 words of memory out of 5000000
+ 73485 multiletter control sequences out of 15000+600000
+ 551949 words of font info for 145 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  82i,21n,138p,2818b,5216s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (74 pages, 1501836 bytes).
+Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (74 pages, 1493180 bytes).

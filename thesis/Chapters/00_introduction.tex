@@ -98,14 +98,21 @@ GPs are attractive models since they allow for exact inference, a closed-form ex
  of (complex) problems, and have comparable performance on most classes of problems. 
 
  \section{Project limitation and contibution}
-Even though it would be interesting to examine different types of GPs such as deep kernel
-learning \cite{deepkernel}, we limit the scope of this project to deal with the following surrogate models:
+We limit the scope of this project to deal with the following surrogate models:
 \begin{itemize}[noitemsep]
-    \item GP with Matérn kernel
-    \item Bayesian neural network (BNN)
-    \item Mixture regression (Gaussian mixture model, kernel density estimator, sum-product networks)
+    \item GP with Matérn kernel,
+    \item Bayesian neural network (BNN),
+    \item Mixture regression (Gaussian mixture model, kernel density estimator, sum-product networks).
 \end{itemize}
-and we choose only to test the Bayesian optimization with the widely used acquisition function:
+As the GP is the standard surrogate model, it will provide a benchmark for the other models. BNNs
+are promising models which are shares similarities with the GP\footnote{A GP is equal to an
+infinitely large BNN with Gaussian priors} and have been used in \cite{PhDthesis} and
+\cite{BOHAMIANN}. Mixture regression models are defined from the conditional distribution of
+(generative) mixture models. They are interesting to investigate in a Bayesian optimization,
+especially for classes of problems with discontinuities. Furthermore, to our knowledge mixture
+regression models in a BO setting have not been investigated before. 
+
+We choose only to test the Bayesian optimization with the widely used acquisition function:
 \textit{expected improvement}. Furthermore, we only deal with problems in continuous domains
 $\mathcal{X} \in \mathbb{R}^m$. The proposed hypothesis is,
 
@@ -119,8 +126,10 @@ of the objective function are necessary to find the minima. So here, it is assum
 function is so expensive (whatever that means to the stakeholder) that its cost outweighs the power
 and time spent on the surrogate modeling and optimization.
 
-
-We test the performance of the surrogates models on 4 self-made problems and 
+In this thesis' main focus is on understanding the essential theory behind BO, the probabilistic
+models and their inference methods. After theory has been established, we test the performance of the
+surrogates models on self-made 1D problems and try out BO in higher dimensions on a benchmarking
+problem set. 
 
 % 1) Firstly, we want to examine what types of problems a GP surrogate is not a good choice and
 % where Bayesian neural nets (BNN) surrogates can have an advantage (inspiration found in this 2020
@@ -135,11 +144,6 @@ We test the performance of the surrogates models on 4 self-made problems and
 Here we give a short overview of research in different surrogates for Bayesian optimization
 and the very related field of active learning. The different surrogate models, which are in the 
 research we found, 
-
-Mostly the work done on surrogate models are 
-
-
-
 \begin{itemize}[noitemsep]
     \item Gaussian process
     \item Bayesian neural network

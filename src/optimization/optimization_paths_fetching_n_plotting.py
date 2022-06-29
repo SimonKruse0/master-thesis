@@ -153,10 +153,11 @@ def plot_means_TESTs(ax,data_model,problem="Test3", color = "blue", modelname = 
 
     flitered_columns = [col.split("_")[-1] in seeds_list for col in data_df.columns ]
     data_df = data_df.iloc[4:,flitered_columns]
+    #data_df = data_df.iloc[:,flitered_columns]
     print(modelname, data_df.shape, seeds)
     try:
         #data_df = data_df.ffill()
-        #data_df.plot(ax=ax,alpha = 0.1, color=color, legend = False)#,  legend = False)
+        data_df.plot(ax=ax,alpha = 0.3, color=color, legend = False)#,  legend = False)
         means = data_df.mean(axis=1)
         ax.plot(means.index,means.values,lw=3, color = color, label=f"{modelname}")
     except:
@@ -295,12 +296,18 @@ if __name__ == "__main__":
     for problem in ["Test1","Test2","Test3c","Test4c"]:
         fig, ax = plt.subplots()
         plot_optimization_paths_TESTs(ax, problem, sklearn_folder)
-        #ax.set_yscale("log")
+        ##ax.set_yscale("log")
+        #ax.set_xlim(5,35)
         ax.set_xlim(5,35)
         plt.tight_layout()
-        plt.legend(fontsize=12)
-        #plt.savefig(plot_folder+"/"+problem+"_all.pdf")
-        plt.savefig(plot_folder+"/"+problem+".pdf")
+        #plt.legend(fontsize=12)
+        #plt.savefig(plot_folder+"/"+problem+".pdf")
+       
+        plt.tight_layout()
+        fig = plt.gcf()
+        fig.set_size_inches(4, 10)
+
+        plt.savefig(plot_folder+"/"+problem+"_all.pdf")
     plt.show()
     
 
@@ -316,10 +323,10 @@ if __name__ == "__main__":
             plt.grid()
             ax.set_xlim(5,35)
             ax.set_yscale("linear")
-            #plt.grid()
+            plt.grid()
             plt.tight_layout()
             plt.legend(fontsize=12)
-            plt.savefig(plot_folder+f"/{problem}_{dim}.pdf")
+            #plt.savefig(plot_folder+f"/{problem}_{dim}.pdf")
             #plt.savefig(plot_folder+f"/{problem}_{dim}_all.pdf")
 
         plt.show()

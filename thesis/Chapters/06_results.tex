@@ -100,6 +100,10 @@ where the models are scored on their mean predictive log probability, i.e. uncer
 We test 40 different points using Bayesian optimization outside the crossvalidation loop. This is
 done using the Python package "scikit-optimize". 
 
+The prior variance should be sufficiently large, such that the benefit of the model actually fitting the 
+the data is larger than just setting the prior weight high. We set the prior variance to 100 (Which is large since the 
+data is standardized). 
+
 %\subsubsection{GMR}
 The Gaussian mixture regression (GMR) is implemented using the software\cite{GMR}, which takes in
 mixture components and weights trained using sklearn's Gaussian mixture model. Which we train using
@@ -436,7 +440,7 @@ the mixture regression models, we might see superior performance, as the predict
 continuous. Looing at the Figure \ref{Test2_reg_plot} right we see the same story as Test1 that the
 mixtures regression has the best uncertainty quantification. Here SPN and KDE perfroms better than
 Gaussian mixture regression, since the mixture components has no correlation beween $x$ and $y$,
-which fits into the. Same story for BOHamiANN as Test1.
+which fits into the data distribtuion. Same story for BOHamiANN as Test1.
 \begin{figure}[H]
   \centering
   \begin{minipage}[b]{0.32\textwidth}
@@ -685,14 +689,16 @@ search and BOHamiANN.
 
 
 \section{Test on BBOB in higher dimensions}
-So far, we have looked at our self-defined 1D problems and found problems, where the GP is not the
-preferred model. We now want to go up in higher dimensions to test the models on more realistic
-problems. The tests are conducted on 2,3,5,10 dimensions on the \textit{Real-parameter black-box
-optimization benchmarking 2009: Noiseless functions definitions} (BBOB) \cite{hansen2009real}, which
-consists for 24 functions divided into 5 different categories of difficulty and are scaleable in dimensions. 
-These functions are available through Comparing Continuous Optimizers framework COCO \cite{COCO}, which is 
-a popular benchmarking testbed for continuous black-box optimization algorithms. Due to time and resource
-constraints on this thesis, we select the functions, f3, f9, f15 and f21 which are plotted in 2D in Figure \ref{COCO_tests}.
+So far, we have looked at our self-defined 1D problems and can conclude that our regression models
+work and that there exist problems in 1D where the GP is not the preferred model - in fact for Test2,Test3
+and Test4. We now want to go up in higher dimensions to test the models on more realistic problems.
+The tests are conducted on 2,3,5,10 dimensions on the \textit{Real-parameter black-box optimization
+benchmarking 2009: Noiseless functions definitions} (BBOB) \cite{hansen2009real}, which consists for
+24 functions divided into 5 different categories of difficulty and are scaleable in dimensions.
+These functions are available through Comparing Continuous Optimizers framework COCO \cite{COCO},
+which is a popular benchmarking testbed for continuous black-box optimization algorithms. Due to
+time and resource constraints on this thesis, we select the functions, f3, f9, f15 and f21 which are
+plotted in 2D in Figure \ref{COCO_tests}.
 \begin{itemize}[noitemsep]
   \item f3: Rastrigin Function.
   \item f9: Rotated Rosenbrock Function.
@@ -776,11 +782,11 @@ this should have been $5000^d$; however, this would have been computational infe
 \begin{figure}[H]
   \centering
   \begin{minipage}[b]{0.49\textwidth}
-   \includegraphics[width=\textwidth]{Figures/results_baysopt/3_2.pdf}
+   \includegraphics[trim=0cm 2cm 0cm 0.4cm,clip,width=\textwidth]{Figures/results_baysopt/3_2.pdf}
   \end{minipage}
   \hfill
   \begin{minipage}[b]{0.49\textwidth}
-    \includegraphics[width=\textwidth]{Figures/results_baysopt/9_2.pdf}
+    \includegraphics[trim=0cm 2cm 0cm 0.4cm,clip,width=\textwidth]{Figures/results_baysopt/9_2.pdf}
    \end{minipage}
    \begin{minipage}[b]{0.49\textwidth}
     \includegraphics[width=\textwidth]{Figures/results_baysopt/15_2.pdf}
@@ -796,11 +802,11 @@ this should have been $5000^d$; however, this would have been computational infe
 \begin{figure}[H]
   \centering
   \begin{minipage}[b]{0.49\textwidth}
-   \includegraphics[width=\textwidth]{Figures/results_baysopt/3_3.pdf}
+   \includegraphics[trim=0cm 2cm 0cm 0.4cm,clip,width=\textwidth]{Figures/results_baysopt/3_3.pdf}
   \end{minipage}
   \hfill
   \begin{minipage}[b]{0.49\textwidth}
-    \includegraphics[width=\textwidth]{Figures/results_baysopt/9_3.pdf}
+    \includegraphics[trim=0cm 2cm 0cm 0.4cm,clip,width=\textwidth]{Figures/results_baysopt/9_3.pdf}
    \end{minipage}
    \begin{minipage}[b]{0.49\textwidth}
     \includegraphics[width=\textwidth]{Figures/results_baysopt/15_3.pdf}
@@ -817,11 +823,11 @@ this should have been $5000^d$; however, this would have been computational infe
 \begin{figure}[H]
   \centering
   \begin{minipage}[b]{0.49\textwidth}
-   \includegraphics[width=\textwidth]{Figures/results_baysopt/3_5.pdf}
+   \includegraphics[trim=0cm 2cm 0cm 0.4cm,clip,width=\textwidth]{Figures/results_baysopt/3_5.pdf}
   \end{minipage}
   \hfill
   \begin{minipage}[b]{0.49\textwidth}
-    \includegraphics[width=\textwidth]{Figures/results_baysopt/9_5.pdf}
+    \includegraphics[trim=0cm 2cm 0cm 0.4cm,clip,width=\textwidth]{Figures/results_baysopt/9_5.pdf}
    \end{minipage}
    \begin{minipage}[b]{0.49\textwidth}
     \includegraphics[width=\textwidth]{Figures/results_baysopt/15_5.pdf}

@@ -537,8 +537,14 @@ INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmr17.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmr17.tfm
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/Logos/white_cmyk.pdf
 OUTPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Copyright.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Copyright.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Approval.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Approval.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Abstract.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Abstract.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Acknowledgements.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Frontmatter/Acknowledgements.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/main.toc
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/main.toc
 OUTPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/main.toc
@@ -546,10 +552,6 @@ INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/00_introd
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/00_introduction.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/GP_vs_BNN1_b.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/GP_vs_BNN2.pdf
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/02_bayesian_optimization.tex
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/02_bayesian_optimization.tex
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/01_optimization.tex
-INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/01_optimization.tex
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmmi9.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmsy9.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex9.tfm
@@ -565,6 +567,10 @@ INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmmib5.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy9.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy5.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmr9.tfm
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/02_bayesian_optimization.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/02_bayesian_optimization.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/01_optimization.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/01_optimization.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/BO_vs_Grid2.eps
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/BO_vs_Grid2.eps
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Pictures/BO_vs_Grid1.eps
@@ -678,6 +684,10 @@ INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/07_conclu
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/07_conclusion.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Appendix.tex
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Appendix.tex
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/results_baysopt/Test1_all.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/results_baysopt/Test2_all.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/results_baysopt/Test3c_all.pdf
+INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/results_baysopt/Test4c_all.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/results_regression/f3_dim_2_0.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/results_regression/f9_dim_2_0.pdf
 INPUT /home/simon/Documents/MasterThesis/master-thesis/thesis/Figures/results_regression/f15_dim_2_0.pdf

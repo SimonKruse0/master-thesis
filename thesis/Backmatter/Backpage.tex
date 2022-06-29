@@ -3,23 +3,23 @@
 \pagecolor{frontbackcolor}
 \color{white}
 
-Bayesian optimization is an effective framework for finding optimizers of a highly expensive (in
-terms of money, time, human attention or computational processing) or noisy objective function.
-First a prior is defined over possible functions and updated to a posterior according to already
-obtained observations/samples of the objective function. Next an acquisition function uses this
-posterior, also called an surrogate model, and is then utilized to find the next location in the
-optimization landscape to sample from. The far most common surrogate model is Gaussian Process (GP),
-partially due to its ability to represent its posterior in closed form. However, it also comes with
-short comings: Its inference, although it is exact, scales cubic with amount of samples and it
-impose strong assumptions of a well behaved objective function.
+% Bayesian optimization is an effective framework for finding optimizers of a highly expensive (in
+% terms of money, time, human attention or computational processing) or noisy objective function.
+% First a prior is defined over possible functions and updated to a posterior according to already
+% obtained observations/samples of the objective function. Next an acquisition function uses this
+% posterior, also called an surrogate model, and is then utilized to find the next location in the
+% optimization landscape to sample from. The far most common surrogate model is Gaussian Process (GP),
+% partially due to its ability to represent its posterior in closed form. However, it also comes with
+% short comings: Its inference, although it is exact, scales cubic with amount of samples and it
+% impose strong assumptions of a well behaved objective function.
 
-This thesis aims to investigate surrogate models different from GPs in order to improve on either
-the accuracy of the surrogate model or the inference cost of it. Meanwhile Bayesian Neural Networks
-(BNN) already have proven useful as surrogate models
-\cite{PhDthesis}\cite{snoek2015scalable}\cite{NIPS2016_a96d3afe} (with cost of inference, which
-scales linearly and less strong assumptions) this thesis additionally wants to investigate Sum
-Product networks (SPN). An SPN is - similarly to a BNN - a deep probabilistic model and still
-expressive but with tractable inference, which potentially could lead to advantages over BNNs.
+% This thesis aims to investigate surrogate models different from GPs in order to improve on either
+% the accuracy of the surrogate model or the inference cost of it. Meanwhile Bayesian Neural Networks
+% (BNN) already have proven useful as surrogate models
+% \cite{PhDthesis}\cite{snoek2015scalable}\cite{NIPS2016_a96d3afe} (with cost of inference, which
+% scales linearly and less strong assumptions) this thesis additionally wants to investigate Sum
+% Product networks (SPN). An SPN is - similarly to a BNN - a deep probabilistic model and still
+% expressive but with tractable inference, which potentially could lead to advantages over BNNs.
 
 
 \vspace*{\fill}
