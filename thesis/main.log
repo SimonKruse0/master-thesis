@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  30 JUN 2022 19:36
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  30 JUN 2022 23:49
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1780,10 +1780,7 @@ File: Figures/coco/f15.png Graphic file (type bmp)
 <Figures/coco/f15.png>
 File: Figures/coco/f21.png Graphic file (type bmp)
 <Figures/coco/f21.png>
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
+ [54]
 File: Figures/results_regression/f3_dim_5_0.pdf Graphic file (type pdf)
 <use Figures/results_regression/f3_dim_5_0.pdf>
 File: Figures/results_regression/f21_dim_3_0.pdf Graphic file (type pdf)
@@ -1796,13 +1793,16 @@ File: Figures/results_regression/f21_dim_3_1.pdf Graphic file (type pdf)
 <use Figures/results_regression/f21_dim_3_1.pdf>
 File: Figures/results_regression/f15_dim_2_1.pdf Graphic file (type pdf)
 <use Figures/results_regression/f15_dim_2_1.pdf>
-[54]
 File: Figures/results_baysopt/3_2.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/3_2.pdf>
 File: Figures/results_baysopt/3_3.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/3_3.pdf>
 File: Figures/results_baysopt/3_5.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/3_5.pdf>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [55]
 File: Figures/results_baysopt/9_2.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/9_2.pdf>
 File: Figures/results_baysopt/9_3.pdf Graphic file (type pdf)
@@ -1815,44 +1815,36 @@ File: Figures/results_baysopt/15_3.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/15_3.pdf>
 File: Figures/results_baysopt/15_5.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/15_5.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [55]
 File: Figures/results_baysopt/21_2.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/21_2.pdf>
 File: Figures/results_baysopt/21_3.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/21_3.pdf>
 File: Figures/results_baysopt/21_5.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/21_5.pdf>
-) [56] [57] [58
+)
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [56] [57] [58
 
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/07_conclusion.tex
 Chapter 7.
-
-LaTeX Warning: Reference `Test3' on page 59 undefined on input line 39.
-
 [59
 
 ] [60]
 Chapter 8.
-
-LaTeX Warning: Reference `TEST3' on page 61 undefined on input line 123.
-
 ) [61
 
-]
+] [62]
 Overfull \hbox (31.82188pt too wide) in paragraph at lines 55--55
 []\TU/TimesNewRoman(0)/m/n/10.95 Mashall Aryan. “  Sample-efficient Optimization Using Neural Networks”. []$[][][][][] [] [] [] [][][][][][][][][][][][][][][] []
  []
 
-[62
+[63
 
-] [63] [64
-
-] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Appendix.tex
+] [64] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Backmatter/Appendix.tex
 Appendix A.
 [65
+
 
 ]
 Appendix B.
@@ -1965,13 +1957,10 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 62.
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 62.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 62.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 7E85F565A38EFA60696E62B97FEC47E1;3427.
+(rerunfilecheck)             Checksum: CDED1FE4D9AC077BAE6AC396753952DD;3448.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
-
-
-LaTeX Warning: There were undefined references.
 
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
@@ -1979,11 +1968,11 @@ Package logreq Info: Writing requests to 'main.run.xml'.
  ) 
 Here is how much of TeX's memory you used:
  57587 strings out of 481731
- 1367738 string characters out of 5935437
- 2311849 words of memory out of 5000000
+ 1367798 string characters out of 5935437
+ 2311012 words of memory out of 5000000
  73486 multiletter control sequences out of 15000+600000
  551949 words of font info for 145 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  82i,21n,138p,2818b,5216s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (78 pages, 1602984 bytes).
+Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (78 pages, 1609552 bytes).

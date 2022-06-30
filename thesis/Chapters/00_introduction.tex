@@ -152,8 +152,8 @@ research we found,
     \item Bayesian additive regression trees (BART)
 \end{itemize}
 
-Since inference time of the GP scales cubic with the number of samples, often research in
-alternative surrogate models has its primary focus on lowering the computational complexity of
+Since inference time of the GP scales cubic with the number of samples, research in
+alternative surrogate models often focuses on lowering the computational complexity of
 inference while showing the sample efficiency is (or almost is) as good as the GPs. A popular model
 in the current time is a (deep) neural network and using a neural network as a probabilistic
 surrogate model (i.e. Bayesian Neural Network \cite{BOHAMIANN} or as basis functions in linear
@@ -163,7 +163,7 @@ complexity for a GP does not matter for the small number of samples, which is of
 highly expensive Bayesian optimization problems. 
 
 Inference complexity is also the main focus of the Ph.D. thesis "Sample-efficient Optimization Using
-Neural Networks" from 2020 \cite{PhDthesis}, but his chapter 3 showcases empirically that using Bayesian
+Neural Networks" from 2020 \cite{PhDthesis}, but chapter 3 showcases empirically that using Bayesian
 neural networks as surrogate models performed better, or at least comparable to GPs on a wide number
 of problems. The performance difference was more evident for high-dimensional problems.
 
@@ -201,7 +201,7 @@ chapters are,
     Next, the three different mixture regression models are presented: Kernel density regression, Gaussian mixture regression,
     and the novel (in a regression setting) Sum-product networks.
     \item \textbf{Results}: Testing regression and Bayesian Optimization performance
-    (sample-efficiency) on 4 homemade test functions and the popular benchmark COCO.
+    (sample-efficiency) on four homemade test functions and the popular benchmark BBOB.
     \item \textbf{Discussion} and \textbf{conclusion}
 \end{enumerate}
 

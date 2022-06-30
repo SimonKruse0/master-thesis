@@ -1089,6 +1089,65 @@
       \verb https://doi.org/10.1080%2F10556788.2020.1808977
       \endverb
     \endentry
+    \entry{BNN_GP}{misc}{}
+      \name{author}{6}{}{%
+        {{hash=1e0fa9713f9b203d0b34967a5570c302}{%
+           family={Lee},
+           familyi={L\bibinitperiod},
+           given={Jaehoon},
+           giveni={J\bibinitperiod}}}%
+        {{hash=5704cd29dde3483439ddb83ddd7d3f02}{%
+           family={Bahri},
+           familyi={B\bibinitperiod},
+           given={Yasaman},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=a465198fcf16f7c553299d4eaadd2086}{%
+           family={Novak},
+           familyi={N\bibinitperiod},
+           given={Roman},
+           giveni={R\bibinitperiod}}}%
+        {{hash=aa3475bbb938eec3f9f0d7c8d44f1e86}{%
+           family={Schoenholz},
+           familyi={S\bibinitperiod},
+           given={Samuel\bibnamedelima S.},
+           giveni={S\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=ab47b497d1b0cdaddd8594e4bd501ee5}{%
+           family={Pennington},
+           familyi={P\bibinitperiod},
+           given={Jeffrey},
+           giveni={J\bibinitperiod}}}%
+        {{hash=529bdf392a3471f000ce33ec88c41bd5}{%
+           family={Sohl-Dickstein},
+           familyi={S\bibinithyphendelim D\bibinitperiod},
+           given={Jascha},
+           giveni={J\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {arXiv}%
+      }
+      \strng{namehash}{e6ba1b4787d54e4583910cc0e22d2c6e}
+      \strng{fullhash}{269f028969df0165b5c6a1b9a0e14524}
+      \strng{bibnamehash}{e6ba1b4787d54e4583910cc0e22d2c6e}
+      \strng{authorbibnamehash}{e6ba1b4787d54e4583910cc0e22d2c6e}
+      \strng{authornamehash}{e6ba1b4787d54e4583910cc0e22d2c6e}
+      \strng{authorfullhash}{269f028969df0165b5c6a1b9a0e14524}
+      \field{sortinit}{6}
+      \field{sortinithash}{7851c86048328b027313775d8fbd2131}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Deep Neural Networks as Gaussian Processes}
+      \field{year}{2017}
+      \verb{doi}
+      \verb 10.48550/ARXIV.1711.00165
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1711.00165
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1711.00165
+      \endverb
+      \keyw{Machine Learning (stat.ML),Machine Learning (cs.LG),FOS: Computer and information sciences,FOS: Computer and information sciences}
+    \endentry
     \entry{SPNasNN}{inproceedings}{}
       \name{author}{6}{}{%
         {{hash=b7a65ac5093b490ca4aba4d8fedf8a1c}{%

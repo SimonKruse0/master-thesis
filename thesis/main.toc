@@ -34,7 +34,7 @@
 \contentsline {section}{\numberline {3.2}Bayesian neural network regression}{22}{section.0.3.2}%
 \contentsline {subsection}{\numberline {3.2.1}MCMC used in thesis}{26}{subsection.0.3.2.1}%
 \contentsline {subsection}{\numberline {3.2.2}Design and properties of Bayesian neural network}{26}{subsection.0.3.2.2}%
-\contentsline {section}{\numberline {3.3}Summary}{27}{section.0.3.3}%
+\contentsline {section}{\numberline {3.3}Summary}{28}{section.0.3.3}%
 \contentsline {chapter}{\numberline {4}Generative models as surrogate}{29}{chapter.0.4}%
 \contentsline {section}{\numberline {4.1}Conditional distribution in a Bayesian setting}{29}{section.0.4.1}%
 \contentsline {subsection}{\numberline {4.1.1}Mean and variance of predictive distribution}{30}{subsection.0.4.1.1}%
@@ -64,14 +64,14 @@
 \contentsline {section}{\numberline {6.2}Model comparison on test problems (regression)}{47}{section.0.6.2}%
 \contentsline {subsection}{\numberline {6.2.1}Test4: Anisotropic problem}{51}{subsection.0.6.2.1}%
 \contentsline {section}{\numberline {6.3}Model comparison on test problems (Bayesian Optimization)}{52}{section.0.6.3}%
-\contentsline {section}{\numberline {6.4}Test on BBOB in higher dimensions}{53}{section.0.6.4}%
+\contentsline {section}{\numberline {6.4}Test on BBOB in higher dimensions}{54}{section.0.6.4}%
 \contentsline {subsection}{\numberline {6.4.1}Regression performance on BBOB}{54}{subsection.0.6.4.1}%
 \contentsline {subsection}{\numberline {6.4.2}Bayesian optimization performance on BBOB}{55}{subsection.0.6.4.2}%
 \contentsline {chapter}{\numberline {7}Discussion}{59}{chapter.0.7}%
-\contentsline {section}{\numberline {7.1}Surrogate models}{60}{section.0.7.1}%
+\contentsline {section}{\numberline {7.1}Improvement of surrogate models}{60}{section.0.7.1}%
 \contentsline {chapter}{\numberline {8}Conclusion and further work}{61}{chapter.0.8}%
 \contentsline {section}{\numberline {8.1}Further work}{61}{section.0.8.1}%
-\contentsline {chapter}{Bibliography}{62}{chapter*.45}%
+\contentsline {chapter}{Bibliography}{63}{chapter*.45}%
 \contentsline {chapter}{\numberline {A}Gaussian mixture rules}{65}{appendix.A}%
 \contentsline {chapter}{\numberline {B}Additional results}{66}{appendix.B}%
 \contentsline {section}{\numberline {B.1}All Bayesian optimization of 1D tests results}{66}{section.B.1}%

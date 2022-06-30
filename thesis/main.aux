@@ -205,6 +205,8 @@
 \abx@aux@segm{0}{0}{bishop}
 \abx@aux@cite{ML_Bayesian_Pespective}
 \abx@aux@segm{0}{0}{ML_Bayesian_Pespective}
+\abx@aux@cite{ML_Bayesian_Pespective}
+\abx@aux@segm{0}{0}{ML_Bayesian_Pespective}
 \abx@aux@cite{neal}
 \abx@aux@segm{0}{0}{neal}
 \abx@aux@cite{NUTS}
@@ -221,7 +223,7 @@
 \newlabel{n_unit_BNN}{{3.6}{27}{Prior samples from 3 layer BNN. The number of units in each of the three layers have a large influence on the BNNs ability to be expressive. Note that the inference becomes more computationally demanding with BNN size.\relax }{figure.caption.19}{}}
 \newlabel{n_unit_BNN@cref}{{[figure][6][0,3]3.6}{[1][27][]27}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3.7}{\ignorespaces Example where 100 nodes on each of three layers, lead to a much more expressive model. $\sigma ^2$ follows a informative prior $InvGamma(1000,1)$, i.e. prior mean $E[\sigma ^2] \approx \frac  {1}{1000}$, and variance $\approx \frac  {1}{1000^3}$, however since the data is distributed in such a complex way the limited expressiveness of the model, forces the model to infer make $\sigma ^2$ large, i.e. including the data in the noise\relax }}{27}{figure.caption.20}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.3}Summary}{27}{section.0.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.3}Summary}{28}{section.0.3.3}\protected@file@percent }
 \abx@aux@cite{bishop1995neural}
 \abx@aux@segm{0}{0}{bishop1995neural}
 \abx@aux@cite{ALStatisticalModels}
@@ -323,8 +325,8 @@
 \newlabel{Test1_reg_plot}{{6.1}{48}{Two different performance measures of all surrogate models as a function of number of training data points with 10000 testpoints. Left: Predictive power, i.e. mean relative error between predictive mean and the test points (small is better). Right: Uncertainty quantification, measured with exponential mean predictive log density (large is better). All lines reprecent the average across 10 random seeds.\relax }{figure.caption.29}{}}
 \newlabel{Test1_reg_plot@cref}{{[figure][1][0,6]6.1}{[1][48][]48}}
 \@writefile{lof}{\contentsline {figure}{\numberline {6.2}{\ignorespaces Plots visualizing all surrogate-models fit of 36 data points (black dots) from Test1 (black line). This is one of the 90 regression experiments that conduct the results in Figure \ref  {Test1_reg_plot}. The blue lines encapsulates the 95\% credible region. The red line is the predictive mean. The green $\alpha (x) \in [0,1]$ denote the prior weighting for the generative models.\relax }}{49}{figure.caption.30}\protected@file@percent }
-\newlabel{Test1_reg_visual_1}{{6.2}{49}{Plots visualizing all surrogate-models fit of 36 data points (black dots) from Test1 (black line). This is one of the 90 regression experiments that conduct the results in Figure \ref {Test1_reg_plot}. The blue lines encapsulates the 95\% credible region. The red line is the predictive mean. The green $\alpha (x) \in [0,1]$ denote the prior weighting for the generative models.\relax }{figure.caption.30}{}}
-\newlabel{Test1_reg_visual_1@cref}{{[figure][2][0,6]6.2}{[1][48][]49}}
+\newlabel{Test1_reg_visual}{{6.2}{49}{Plots visualizing all surrogate-models fit of 36 data points (black dots) from Test1 (black line). This is one of the 90 regression experiments that conduct the results in Figure \ref {Test1_reg_plot}. The blue lines encapsulates the 95\% credible region. The red line is the predictive mean. The green $\alpha (x) \in [0,1]$ denote the prior weighting for the generative models.\relax }{figure.caption.30}{}}
+\newlabel{Test1_reg_visual@cref}{{[figure][2][0,6]6.2}{[1][48][]49}}
 \@writefile{lof}{\contentsline {figure}{\numberline {6.3}{\ignorespaces Left: Predictive power (small is better). Right: Uncertainty quantification (large is better). Average across 10 random seeds. More details in Figure \ref  {Test1_reg_plot}.\relax }}{49}{figure.caption.31}\protected@file@percent }
 \newlabel{Test2_reg_plot}{{6.3}{49}{Left: Predictive power (small is better). Right: Uncertainty quantification (large is better). Average across 10 random seeds. More details in Figure \ref {Test1_reg_plot}.\relax }{figure.caption.31}{}}
 \newlabel{Test2_reg_plot@cref}{{[figure][3][0,6]6.3}{[1][49][]49}}
@@ -347,43 +349,45 @@
 \newlabel{Test4_reg_visual}{{6.8}{52}{Plots visualizing all surrogate-models fit of 36 data points (black dots) from Test4 (black line). This is one of 90 experiments that conduct the results in Figure \ref {Test4_reg_plot}. The blue lines define the 95\% credible region. Predictive mean (red). $\alpha (x) \in [0,1]$ is prior weighting (green).\relax }{figure.caption.36}{}}
 \newlabel{Test4_reg_visual@cref}{{[figure][8][0,6]6.8}{[1][52][]52}}
 \@writefile{toc}{\contentsline {section}{\numberline {6.3}Model comparison on test problems (Bayesian Optimization)}{52}{section.0.6.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.9}{\ignorespaces All test function used in Bayesian Optimization. We redefine Test3 and Test4.\relax }}{53}{figure.caption.37}\protected@file@percent }
+\newlabel{TEST_problems2}{{6.9}{53}{All test function used in Bayesian Optimization. We redefine Test3 and Test4.\relax }{figure.caption.37}{}}
+\newlabel{TEST_problems2@cref}{{[figure][9][0,6]6.9}{[1][52][]53}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.10}{\ignorespaces Bayesian optimization of the four 1D Test functions average accross 20 different samples of initial dataset of size 5. BNN and GP win in Test1. SPN wins in test2. Random search wins in Test3. BNN wins in test4.\relax }}{53}{figure.caption.38}\protected@file@percent }
+\newlabel{Test_bayesOpt}{{6.10}{53}{Bayesian optimization of the four 1D Test functions average accross 20 different samples of initial dataset of size 5. BNN and GP win in Test1. SPN wins in test2. Random search wins in Test3. BNN wins in test4.\relax }{figure.caption.38}{}}
+\newlabel{Test_bayesOpt@cref}{{[figure][10][0,6]6.10}{[1][53][]53}}
 \abx@aux@cite{hansen2009real}
 \abx@aux@segm{0}{0}{hansen2009real}
 \abx@aux@cite{COCO}
 \abx@aux@segm{0}{0}{COCO}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.9}{\ignorespaces All test function used in Bayesian Optimization. We redefine Test3 and Test4.\relax }}{53}{figure.caption.37}\protected@file@percent }
-\newlabel{TEST_problems2}{{6.9}{53}{All test function used in Bayesian Optimization. We redefine Test3 and Test4.\relax }{figure.caption.37}{}}
-\newlabel{TEST_problems2@cref}{{[figure][9][0,6]6.9}{[1][52][]53}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.4}Test on BBOB in higher dimensions}{53}{section.0.6.4}\protected@file@percent }
 \abx@aux@cite{hansen2009real}
 \abx@aux@segm{0}{0}{hansen2009real}
+\@writefile{toc}{\contentsline {section}{\numberline {6.4}Test on BBOB in higher dimensions}{54}{section.0.6.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.11}{\ignorespaces COCO Test functions f3, f9,f15, and f21 in 2 dimensions\relax }}{54}{figure.caption.39}\protected@file@percent }
+\newlabel{COCO_tests}{{6.11}{54}{COCO Test functions f3, f9,f15, and f21 in 2 dimensions\relax }{figure.caption.39}{}}
+\newlabel{COCO_tests@cref}{{[figure][11][0,6]6.11}{[1][54][]54}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.4.1}Regression performance on BBOB}{54}{subsection.0.6.4.1}\protected@file@percent }
 \newlabel{BBOB_reg}{{6.4.1}{54}{Regression performance on BBOB}{subsection.0.6.4.1}{}}
 \newlabel{BBOB_reg@cref}{{[subsection][1][0,6,4]6.4.1}{[1][54][]54}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.12}{\ignorespaces Regression performance of 4 selected out of 12 problems of BBOB (f3,f9,f15,f21 in dimensions 2,3,5). All plots are in Appendix \ref  {BBOB_regression_all}. Top: Predictive power. Bottom: Uncertainty quantification. More details in Figure \ref  {Test1_reg_plot}. Average across 10 different samples of seeded samples from the problems.\relax }}{54}{figure.caption.40}\protected@file@percent }
-\newlabel{BBOB_regression}{{6.12}{54}{Regression performance of 4 selected out of 12 problems of BBOB (f3,f9,f15,f21 in dimensions 2,3,5). All plots are in Appendix \ref {BBOB_regression_all}. Top: Predictive power. Bottom: Uncertainty quantification. More details in Figure \ref {Test1_reg_plot}. Average across 10 different samples of seeded samples from the problems.\relax }{figure.caption.40}{}}
-\newlabel{BBOB_regression@cref}{{[figure][12][0,6]6.12}{[1][54][]54}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.12}{\ignorespaces Regression performance of 4 selected out of 12 problems of BBOB (f3,f9,f15,f21 in dimensions 2,3,5). All plots are in Appendix \ref  {BBOB_regression_all}. Top: Predictive power. Bottom: Uncertainty quantification. More details in Figure \ref  {Test1_reg_plot}. Average across 10 different samples of seeded samples from the problems.\relax }}{55}{figure.caption.40}\protected@file@percent }
+\newlabel{BBOB_regression}{{6.12}{55}{Regression performance of 4 selected out of 12 problems of BBOB (f3,f9,f15,f21 in dimensions 2,3,5). All plots are in Appendix \ref {BBOB_regression_all}. Top: Predictive power. Bottom: Uncertainty quantification. More details in Figure \ref {Test1_reg_plot}. Average across 10 different samples of seeded samples from the problems.\relax }{figure.caption.40}{}}
+\newlabel{BBOB_regression@cref}{{[figure][12][0,6]6.12}{[1][55][]55}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.4.2}Bayesian optimization performance on BBOB}{55}{subsection.0.6.4.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6.13}{\ignorespaces Bayesian optimization of f3 in 2,3 and 5 dimensions. Average optimization path accross 20 different samples of initial dataset of size 5. Left axis is relative distance to minima i.e. $\frac  {|y_{\qopname  \relax m{min}}-f^*|}{|f^*|}$. GP and BOHamiANN is the best model. KDE performance decently.\relax }}{55}{figure.caption.41}\protected@file@percent }
-\newlabel{BBOB_bayesOpt}{{6.13}{55}{Bayesian optimization of f3 in 2,3 and 5 dimensions. Average optimization path accross 20 different samples of initial dataset of size 5. Left axis is relative distance to minima i.e. $\frac {|y_{\min }-f^*|}{|f^*|}$. GP and BOHamiANN is the best model. KDE performance decently.\relax }{figure.caption.41}{}}
-\newlabel{BBOB_bayesOpt@cref}{{[figure][13][0,6]6.13}{[1][55][]55}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.14}{\ignorespaces Bayesian optimization of f9 in 2,3 and 5 dimensions. Average optimization path accross 20 different samples of initial dataset of size 5. Left axis is $\frac  {|y_{\qopname  \relax m{min}}-f^*|}{|f^*|}$. GP perfroms best. Mixture models are worse than random search (no KDE for the 2D problem).\relax }}{55}{figure.caption.42}\protected@file@percent }
-\newlabel{BBOB_bayesOpt1}{{6.14}{55}{Bayesian optimization of f9 in 2,3 and 5 dimensions. Average optimization path accross 20 different samples of initial dataset of size 5. Left axis is $\frac {|y_{\min }-f^*|}{|f^*|}$. GP perfroms best. Mixture models are worse than random search (no KDE for the 2D problem).\relax }{figure.caption.42}{}}
-\newlabel{BBOB_bayesOpt1@cref}{{[figure][14][0,6]6.14}{[1][55][]55}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.13}{\ignorespaces Bayesian optimization of f3 in 2,3 and 5 dimensions. Average optimization path accross 20 different samples of initial dataset of size 5. Left axis is relative distance to minima i.e. $\frac  {|y_{\qopname  \relax m{min}}-f^*|}{|f^*|}$. GP and BOHamiANN is the best model. KDE performance decently.\relax }}{56}{figure.caption.41}\protected@file@percent }
+\newlabel{BBOB_bayesOpt}{{6.13}{56}{Bayesian optimization of f3 in 2,3 and 5 dimensions. Average optimization path accross 20 different samples of initial dataset of size 5. Left axis is relative distance to minima i.e. $\frac {|y_{\min }-f^*|}{|f^*|}$. GP and BOHamiANN is the best model. KDE performance decently.\relax }{figure.caption.41}{}}
+\newlabel{BBOB_bayesOpt@cref}{{[figure][13][0,6]6.13}{[1][55][]56}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.14}{\ignorespaces Bayesian optimization of f9 in 2,3 and 5 dimensions. Average optimization path accross 20 different samples of initial dataset of size 5. Left axis is $\frac  {|y_{\qopname  \relax m{min}}-f^*|}{|f^*|}$. GP perfroms best. Mixture models are worse than random search (no KDE for the 2D problem).\relax }}{56}{figure.caption.42}\protected@file@percent }
+\newlabel{BBOB_bayesOpt1}{{6.14}{56}{Bayesian optimization of f9 in 2,3 and 5 dimensions. Average optimization path accross 20 different samples of initial dataset of size 5. Left axis is $\frac {|y_{\min }-f^*|}{|f^*|}$. GP perfroms best. Mixture models are worse than random search (no KDE for the 2D problem).\relax }{figure.caption.42}{}}
+\newlabel{BBOB_bayesOpt1@cref}{{[figure][14][0,6]6.14}{[1][56][]56}}
 \@writefile{lof}{\contentsline {figure}{\numberline {6.15}{\ignorespaces Bayesian optimization of f15 in 2,3 and 5 dimensions. Average optimization path accross 20 different samples of initial dataset of size 5. Left axis is $\frac  {|y_{\qopname  \relax m{min}}-f^*|}{|f^*|}$. GP perfroms best. Only BOHamiANN and KDE performs better than random search.\relax }}{56}{figure.caption.43}\protected@file@percent }
 \newlabel{BBOB_bayesOpt2}{{6.15}{56}{Bayesian optimization of f15 in 2,3 and 5 dimensions. Average optimization path accross 20 different samples of initial dataset of size 5. Left axis is $\frac {|y_{\min }-f^*|}{|f^*|}$. GP perfroms best. Only BOHamiANN and KDE performs better than random search.\relax }{figure.caption.43}{}}
-\newlabel{BBOB_bayesOpt2@cref}{{[figure][15][0,6]6.15}{[1][55][]56}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.16}{\ignorespaces Bayesian optimization of f21 in 2,3 and 5 dimensions. Average optimization path accross 20 different samples of initial dataset of size 5. Left axis is $\frac  {|y_{\qopname  \relax m{min}}-f^*|}{|f^*|}$. BOHamiANN and GP perfroms best. Random search is best in dim 3 untill a budget of 25.\relax }}{56}{figure.caption.44}\protected@file@percent }
-\newlabel{BBOB_bayesOpt3}{{6.16}{56}{Bayesian optimization of f21 in 2,3 and 5 dimensions. Average optimization path accross 20 different samples of initial dataset of size 5. Left axis is $\frac {|y_{\min }-f^*|}{|f^*|}$. BOHamiANN and GP perfroms best. Random search is best in dim 3 untill a budget of 25.\relax }{figure.caption.44}{}}
-\newlabel{BBOB_bayesOpt3@cref}{{[figure][16][0,6]6.16}{[1][56][]56}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.10}{\ignorespaces Bayesian optimization of the Test functions average accross 20 different samples of initial dataset of size 5.\relax }}{57}{figure.caption.38}\protected@file@percent }
-\newlabel{Test_bayesOpt}{{6.10}{57}{Bayesian optimization of the Test functions average accross 20 different samples of initial dataset of size 5.\relax }{figure.caption.38}{}}
-\newlabel{Test_bayesOpt@cref}{{[figure][10][0,6]6.10}{[1][53][]57}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.11}{\ignorespaces COCO Test functions f3, f9,f15, and f21 in 2 dimensions\relax }}{57}{figure.caption.39}\protected@file@percent }
-\newlabel{COCO_tests}{{6.11}{57}{COCO Test functions f3, f9,f15, and f21 in 2 dimensions\relax }{figure.caption.39}{}}
-\newlabel{COCO_tests@cref}{{[figure][11][0,6]6.11}{[1][54][]57}}
+\newlabel{BBOB_bayesOpt2@cref}{{[figure][15][0,6]6.15}{[1][56][]56}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.16}{\ignorespaces Bayesian optimization of f21 in 2,3 and 5 dimensions. Average optimization path accross 20 different samples of initial dataset of size 5. Left axis is $\frac  {|y_{\qopname  \relax m{min}}-f^*|}{|f^*|}$. BOHamiANN and GP perfroms best. Random search is best in dim 3 untill a budget of 25.\relax }}{57}{figure.caption.44}\protected@file@percent }
+\newlabel{BBOB_bayesOpt3}{{6.16}{57}{Bayesian optimization of f21 in 2,3 and 5 dimensions. Average optimization path accross 20 different samples of initial dataset of size 5. Left axis is $\frac {|y_{\min }-f^*|}{|f^*|}$. BOHamiANN and GP perfroms best. Random search is best in dim 3 untill a budget of 25.\relax }{figure.caption.44}{}}
+\newlabel{BBOB_bayesOpt3@cref}{{[figure][16][0,6]6.16}{[1][56][]57}}
 \abx@aux@cite{PhDthesis}
 \abx@aux@segm{0}{0}{PhDthesis}
+\abx@aux@cite{BNN_GP}
+\abx@aux@segm{0}{0}{BNN_GP}
 \abx@aux@cite{PhDthesis}
 \abx@aux@segm{0}{0}{PhDthesis}
 \@writefile{toc}{\contentsline {chapter}{\numberline {7}Discussion}{59}{chapter.0.7}\protected@file@percent }
@@ -391,18 +395,18 @@
 \@writefile{lot}{\addvspace {10\p@ }}
 \abx@aux@cite{TakeHumanOutOfLoop}
 \abx@aux@segm{0}{0}{TakeHumanOutOfLoop}
-\abx@aux@cite{BOHAMIANN}
-\abx@aux@segm{0}{0}{BOHAMIANN}
+\abx@aux@cite{DeepKernelLearning}
+\abx@aux@segm{0}{0}{DeepKernelLearning}
 \abx@aux@cite{SPNasNN}
 \abx@aux@segm{0}{0}{SPNasNN}
-\@writefile{toc}{\contentsline {section}{\numberline {7.1}Surrogate models}{60}{section.0.7.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {7.1}Improvement of surrogate models}{60}{section.0.7.1}\protected@file@percent }
 \abx@aux@cite{DeepKernelLearning}
 \abx@aux@segm{0}{0}{DeepKernelLearning}
 \@writefile{toc}{\contentsline {chapter}{\numberline {8}Conclusion and further work}{61}{chapter.0.8}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{toc}{\contentsline {section}{\numberline {8.1}Further work}{61}{section.0.8.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{Bibliography}{62}{chapter*.45}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{Bibliography}{63}{chapter*.45}\protected@file@percent }
 \abx@aux@cite{bishop}
 \abx@aux@segm{0}{0}{bishop}
 \@writefile{toc}{\contentsline {chapter}{\numberline {A}Gaussian mixture rules}{65}{appendix.A}\protected@file@percent }
@@ -459,4 +463,5 @@
 \abx@aux@defaultrefcontext{0}{DeepKernelLearning}{none/global//global/global}
 \abx@aux@defaultrefcontext{0}{hansen2009real}{none/global//global/global}
 \abx@aux@defaultrefcontext{0}{COCO}{none/global//global/global}
+\abx@aux@defaultrefcontext{0}{BNN_GP}{none/global//global/global}
 \abx@aux@defaultrefcontext{0}{SPNasNN}{none/global//global/global}

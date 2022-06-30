@@ -172,13 +172,13 @@ give proof of why its produced Markov chain stays in its stationary distribution
 % dimensionality, l. The latter property is in contrast to methods based on the deterministic numerical
 % integration, which, in general, have a rate of convergence that slows down as the dimensionality
 % increases.
-HM with its random walk transition is very simple and it comes with some serious disadvantages: Slow
+HM with its random walk transition is very simple and it comes with some severe disadvantages: Slow
 convergence speed, it might stay in the same region for a long time and produce highly correlated
 samples(i.e. not the iid samples we need for the Monte Carlo approximation to be correct) \cite[]{ML_Bayesian_Pespective}.
 The gold standard in MCMC, Hamiltonian Monte Carlo (HMC), replaces HMs random walk with
 gradient-guided movements and interpret the probability landscape as a physical system.
  
-\begin{testexample}[Hamiltonian Monte Carlo (HMC)]
+\begin{testexample}[Hamiltonian Monte Carlo (HMC) (based on \cite{ML_Bayesian_Pespective})]
 HMC exploits arguments from classical mechanics around the Hamiltonian equations.
 This method leads to more efficient sampling as the Hamiltonian interpretation allows the system to
 consider regions with high probability more - this is obtained using a gradient of the probability
@@ -209,19 +209,16 @@ We refer to \cite{neal} for proof that HMC is indeed a MCMC.
 \end{testexample}
 
 \subsection{MCMC used in thesis}
-While being a popular sampling method for BNN inference, Hamiltonian Monte Carlo is very
-sensitive to the two parameters used in the leapfrog integration (physical simulation): the step
-size and the number of steps. These parameters are typically tuned by conducting a
-number of initial experiments, i.e. data set samples, which is not appropriate in a BO setting with
-an expensive objective function. The NUTS sampling method (No-U-Turn-Sampler) \cite{NUTS}
-is an adaptive version of HMC, which terminates the leapfrog integration when the simulation reaches
-the starting point. Thereby we avoid manually tuning of the number of steps.
+While being a popular sampling method for BNN inference, Hamiltonian Monte Carlo is very sensitive
+to the two parameters used in the leapfrog integration (physical simulation): the step size and the
+number of steps. The NUTS sampling method (No-U-Turn-Sampler) \cite{NUTS} is an adaptive version of
+HMC, terminates the leapfrog integration when the simulation reaches the starting point.
+Thereby we avoid manually tuning the number of steps.
 
 The paper \cite{BOHAMIANN} introduces a Bayesian optimization framework called Bayesian Optimization
-with Hamiltonian Monte Carlo Artificial Neural Networks (BOHAMIANN), which demonstrates state of the art
-performance on a wide range of optimization task. It is stochastic gradient HMC where the hyperparameters
-are tunes adaptively doing the burn-in phase. It is implemented using 
-
+with Hamiltonian Monte Carlo Artificial Neural Networks (BOHAMIANN), demonstrating \textit{"state of the art
+performance on a wide range of optimization tasks"}. It is stochastic gradient HMC where the hyperparameters
+are tuned adaptively doing the burn-in phase.
 
 % JEG OVERSÅ dette: 
 %  Wrapper around pybnn Bohamiann implementation. It automatically adjusts the length by the MCMC chain,
@@ -259,7 +256,7 @@ are tunes adaptively doing the burn-in phase. It is implemented using
 % an adaptive version of HMC, resolves this limitation by eliminating the
 % need for setting the number of steps in advance.
 \subsection{Design and properties of Bayesian neural network}
-The architecture of a BNN is a large topic to discuss. There are certain tradeoffs to be taken into
+The architecture of a BNN is a big topic to discuss. There are certain tradeoffs to be taken into
 consideration: How expressive should the network be (i.e. how deep and how many nodes per layer)
 versus how much time do we have for the sampler to converge to the true posterior distribution? A
 challenging part of MCMC is that it is difficult to know when the samples are true samples from the
@@ -273,9 +270,9 @@ of 3 layers with 50 tanh-nodes in each layer. As we want to make sure always to 
 inference correctly, we want to be able to take a proper amount of samples, while also
 having an explicit model. Figure \eqref{n_unit_BNN} shows prior samples of BNN with a different
 number of tanh-nodes on each of the 3 layers, this provides an intuition that choosing a larger
-BNN leads to a more expressive regression model. When doing Bayesian optimization the model as a small
-amount of training data, i.e. complicated patterns in data is not possible to discover, and hence 
-highly expressive models are not important. 
+BNN leads to a more expressive regression model. When doing Bayesian optimization the models are given
+a small amount of training data, i.e. complicated patterns in data are not possible to discover, and hence 
+highly expressive models are not necessary. 
 
 \begin{figure}[H]
     \centering
@@ -304,11 +301,6 @@ highly expressive models are not important.
 % #\subsubsection{Expressiveness of BNN}
 % The number of MCMC samples is of large importance. Theoretically speaking the more samples the better
 % however, 
-
-$\mathcal{N}(\textbf{w}|\bm{0},I)$, and the prior distribution of the observation
-variance is following a inverse gamma distribution $\text{InvGa}(\sigma^2|1000,1)$ yielding a quite 
-informative prior of $\sigma^2 \approx 0$, i.e. believing that there is no oberservation noise.
-
 \begin{figure}[H]
     \centering
     \begin{minipage}[b]{0.49\textwidth}
