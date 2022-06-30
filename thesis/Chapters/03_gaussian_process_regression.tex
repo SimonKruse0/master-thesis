@@ -43,8 +43,9 @@ the correlation $c(x_*, \textbf{x})$. Fortunately, any conditional distribution 
 normal distribution is easy to deal with. Using appendix \ref{GaussianConditional} the
 conditional distribution of $f_*$ given $\textbf{f}$ is, 
 \begin{equation} \label{conditional_GP}
-    p(f_*|\textbf{x}, \textbf{f}) = \mathcal{N}(f_*|c(x_*, x_*)^{-1}c(x_*, \textbf{x})\textbf{f},c(x_*, x_*)^{-1}).
+    p(f_*|\textbf{x}, \textbf{f}) = \mathcal{N}(f_*|A\textbf{f},B),
 \end{equation}
+where $A = c(x_*, \textbf{x})c(x_*, x_*)^{-1}$ and $B = c(x_*, x_*)-c(x_*, \textbf{x})c(\textbf{x}, \textbf{x})^{-1}c(\textbf{x},x_*)$.
 \begin{figure}
     \centering
     \includegraphics[width = \textwidth]{Pictures/GP_samples_mattern.pdf}
@@ -140,11 +141,12 @@ $f_*$ in \eqref{posterior_function_new}}, for arriving at,
 \begin{align*}
     p(f_*|\mathcal{D}) &= \mathcal{N}(f_*|\mu_*,\sigma_*^2 )\\
     \mu_* &=  A\Gamma\sigma^{-2}\textbf{y}\\
-    \sigma_*^2 &=  c(x_*, x_*)^{-1}+A\Gamma A^T),
+    \sigma_*^2 &=  B+A\Gamma A^T,
 \end{align*}
-where we define $A :=  c(x_*,x_*)^{-1} c(x_*, \textbf{x})$ agreeing with A in \eqref{marginal_distribution}.
-We now have a fully specified Gaussian process posterior function, which we sample from 
-in Figure \ref{GP_illustration2}. 
+where $A :=  c(x_*,x_*)^{-1} c(x_*, \textbf{x})$ (agreeing with A in \eqref{marginal_distribution})
+and $B = c(x_*, x_*)-c(x_*, \textbf{x})c(\textbf{x}, \textbf{x})^{-1}c(\textbf{x},x_*)$. We now have
+a fully specified Gaussian process posterior function, which we sample from in Figure
+\ref{GP_illustration2}. 
 
 
 \begin{figure}[h]

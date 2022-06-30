@@ -2239,7 +2239,11 @@
     <bcf:citekey order="55">hansen2009real</bcf:citekey>
     <bcf:citekey order="56">PhDthesis</bcf:citekey>
     <bcf:citekey order="57">PhDthesis</bcf:citekey>
-    <bcf:citekey order="58">bishop</bcf:citekey>
+    <bcf:citekey order="58">TakeHumanOutOfLoop</bcf:citekey>
+    <bcf:citekey order="59">BOHAMIANN</bcf:citekey>
+    <bcf:citekey order="60">SPN</bcf:citekey>
+    <bcf:citekey order="61">DeepKernelLearning</bcf:citekey>
+    <bcf:citekey order="62">bishop</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">

@@ -237,10 +237,10 @@ increasing average improvement $I(x)$ and also for increasing prediction uncerta
 If the predictive distribution is non-Gaussian, it is either possible to approximate it as a Gaussian
 (By using the mean and variance of the predictive distribution to define the Gaussian approximation)
 or calculate the expected improvement approximately as follows, 
-\begin{align*}
+\begin{align}
     E_{p(y|x,\mathcal{D})}[\max(0,y_{\min}-y)] &= \int \max(0,y_{\min}-y) p(y|x,\mathcal{D}) dy\\
-    &\approx \frac{1}{K} \sum_{k=1}^K  \max(0,y_{\min}-y^{(k)})
-\end{align*}
+    &\approx \frac{1}{K} \sum_{k=1}^K  \max(0,y_{\min}-y^{(k)}) \label{aEI}
+\end{align}
 where $y^{(k)}$ are samples from the predictive distribution.
 
 % In the case of a parametric model

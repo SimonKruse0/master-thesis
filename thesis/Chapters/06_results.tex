@@ -535,8 +535,8 @@ where $\epsilon \sim \text{Cat}(0.5,0.5)$ and $g(x) = \text{sign}(x)+1$
 In Figure \ref{Test3_reg_plot} left, we see that none of the models are doing better than the mean
 prediction. This is obvious since the data is symmetric and jumps randomly between two states. The
 Bayesian neural networks are trying the fit the models, the GP is just turning itself into a mean
-prediction. In the right plot of Figure \ref{Test3_reg_plot} we see just like previous that the data is parallel with the axis making it perfect
-the SPN and KDE to fit. 
+prediction. In the right plot of Figure \ref{Test3_reg_plot} we see just like previous that the data
+is parallel with the axis making it perfect the SPN and KDE to fit. 
 
 
 \begin{figure}[H]
@@ -609,12 +609,12 @@ $$200 - \frac{x^2}{200} + \max\left(10, \frac{|x|}{2}\right) \sin(\frac{x}{2} \m
 \end{figure}
 
 In Figure \ref{Test4_reg_plot} left, the GP has the best predictive power. This does not contradict
-with the motivation of this Test4 (being hard for isotropic GP). In the end 316 data points covers
+the motivation of this Test4 (being hard for isotropic GP). In the end, 316 data points covers
 the domain and the GP will lower its lengthscale (thereby allowing flexibility) and fit the data very
-well, its uncertainty quantification suffers from the small lengthscale. %This is seen in appendix \todo{Appendix}. 
+well; its uncertainty quantification suffers from the small lengthscale. %This is seen in appendix \todo{Appendix}. 
 Zooming in on Figure \ref{Test4_reg_visual} top right, the GP does indeed have a hard
-time fitting the 36 points,it wants a lengthscale which matches the left side, but then it barely
-fits some of the points to the right. So it stays with the lengthscale and increase the observation
+time fitting the 36 points, it wants a lengthscale that matches the left side, but then it barely
+fits some of the points to the right. So it stays with the lengthscale and increases the observation
 variance instead. 
 
 
@@ -693,26 +693,18 @@ have the same overall structure, so the connecting to the regression analysis sh
   \label{TEST_problems2}
 \end{figure}
 
-The Bayesian optimization algorithm is given five initial training data points i.e. $\{(x_1, y_1),
-\dots, (x_5, y_5)\}$ corresponding to 5 objective function evaluations. Next the first BO
-optimization step is done: First, the surrogate model is fitted, the resulting predictive
-distribution is approximated by a Gaussian, and then the expecpected improvement (in closed form)
-select the next location, finally we sample $y_6$ from $f(x_{\text{next}})$ i.e.
-$\text{Observe}(x_{\text{next}})$. This procedure is repeated untill the \textit{budget}, which we
-here define as number of objective function evaluations allowed, is exhasuted. 
-
-
-To avoid 
-lucky optimization paths 
-
-Bayesian optimization using 20 restarts, 
- a more sound analysis would be to use introduce statistics around the tests. however, this also becomes messy quickly. 
-
-
-
+As mentioned in Section \ref{BO_implementation}, for the follwoing experiments, the Bayesian
+optimization algorithm is given five initial training data points i.e. $\{(x_1, y_1), \dots, (x_5,
+y_5)\}$ corresponding to 5 objective function evaluations. Next the first BO optimization step is
+done: First, the surrogate model is fitted, the resulting predictive distribution is approximated by
+a Gaussian, and then the expecpected improvement (in closed form) select the next location. Finally
+we sample $y_6$ from $f(x_{\text{next}})$ i.e. $\text{Observe}(x_{\text{next}})$. This procedure is
+repeated untill the \textit{budget}, which we here define as number of objective function
+evaluations allowed, is exhasuted. To avoid a single optimization path being lucky, the above is
+repeated for 20 different samples of the initial data set. 
+% a more sound analysis would be to use introduce statistics around the tests. however, this also becomes messy quickly. 
 % we see that the GP is in fact the best model in the simple
 % problem Test1; however, for the more complicated problems, the GP is not the preferred model. 
-
 \begin{figure}[H]
   \centering
   \begin{minipage}[b]{0.49\textwidth}
@@ -746,31 +738,25 @@ Test3 is the worst model (together with BOHamiANN) after 16 function evaluations
 models perform almost as good at random search, which is explained by their good uncertainty
 quantifications in Figure \ref{Test3_reg_plot} left.
 
-Test1 is the benchmark
-and here it becomes evident that BOHamiANN does not work, and GMR is as good as Random search. GP is a clear winner of test1. 
-
-Test 2 shows after 35 iterations that random search is better than the GP and that all the mixture models and (barely) the BNN 
-performs better than the GP. 
-
-Finally, test4 shows approximatly the same results for KDE, SPN, BNN and GP, all being better than Random 
-search and BOHamiANN. 
-
-
-
-, and the uncertainty quantification was good
-for the mixture models, and
+In Figure \ref{Test_bayesOpt} top left, the methods have been tested on Test1, which the benchmark
+and here it becomes evident that BOHamiANN does not work, and GMR is as good as Random search. GP is
+a clear winner of test1. Test 2 (Figure \ref{Test_bayesOpt} top right) shows after 35 iterations
+that random search is better than the GP and that all the mixture models and (barely) the BNN
+performs better than the GP. Finally, Test4 (Figure \ref{Test_bayesOpt} bottom right) shows
+approximately the same results for KDE, SPN, BNN and GP, all being better than Random search and
+BOHamiANN. 
 
 \section{Test on BBOB in higher dimensions}
 So far, we have looked at our self-defined 1D problems and can conclude that our regression models
-work and that there exist problems in 1D where the GP is not the preferred model - in fact for Test2,Test3
-and Test4. We now want to go up in higher dimensions to test the models on more realistic problems.
-The tests are conducted on 2,3,5,10 dimensions on the \textit{Real-parameter black-box optimization
-benchmarking 2009: Noiseless functions definitions} (BBOB) \cite{hansen2009real}, which consists for
-24 functions divided into 5 different categories of difficulty and are scaleable in dimensions.
-These functions are available through Comparing Continuous Optimizers framework COCO \cite{COCO},
-which is a popular benchmarking testbed for continuous black-box optimization algorithms. Due to
-time and resource constraints on this thesis, we select the functions, f3, f9, f15 and f21 which are
-plotted in 2D in Figure \ref{COCO_tests}.
+work and that there exist problems in 1D where the GP is not the preferred model - in fact for
+Test2,Test3 and Test4. We now want to go up in higher dimensions to test the models on more
+realistic problems. The tests are conducted on 2,3,5 dimensions on the \textit{Real-parameter
+black-box optimization benchmarking 2009: Noiseless functions definitions} (BBOB)
+\cite{hansen2009real}, which consists for 24 functions divided into 5 different categories of
+difficulty and are scaleable in dimensions. These functions are available through Comparing
+Continuous Optimizers framework COCO \cite{COCO}, which is a popular benchmarking testbed for
+continuous black-box optimization algorithms. We select the functions: f3, f9, f15 and
+f21 (from 3 every 6'th) which are plotted in 2D in Figure \ref{COCO_tests}.
 \begin{itemize}[noitemsep]
   \item f3: Rastrigin Function.
   \item f9: Rotated Rosenbrock Function.
@@ -778,7 +764,7 @@ plotted in 2D in Figure \ref{COCO_tests}.
   \item f21: Gallagher’s Gaussian 101-me Peaks Function.
 \end{itemize}
 For more details, all the 24 functions are described here \cite{hansen2009real}. First, we test the
-regression performance of surrogate models on the four benchmark problems in dimensions 2,3,5,10.
+regression performance of surrogate models on the four benchmark problems in dimensions 2,3 and 5.
 Secondly, we test Bayesian optimization on them. 
 
 \begin{figure}[h]
@@ -805,11 +791,13 @@ Secondly, we test Bayesian optimization on them.
 \end{figure}
 
 \subsection{Regression performance on BBOB}
-The testing regression performance is the same procedure as the 1D test problems. With 10 seeded random
-samples, we select $\{10, 15, 23, 36, 56, 86, 133, 205, 316\}$ points to fit the 4 BBOB problems in 4 dimensions
-(2,3,5,10). All results can be seen in the Appendix. The results are in general just like the 1D test problems, 
-that the GP has the best predictive power, the uncertainty quantification is, however, more equal between
-the generative and discriminative models. We have selected some noticeable plots here. 
+The testing regression performance is the same procedure as the 1D test problems. With 10 seeded
+random samples, we select $\{10, 15, 23, 36, 56, 86, 133, 205, 316\}$ points to fit the four BBOB
+problems in three dimensions (2,3,5). All results can be seen in the Appendix. The results of the
+preditive power are in general similar to the 1D test problems; the GP has the best predictive
+power. The uncertainty quantification quantification is, however, more equal between the generative
+and discriminative models. Figure \ref{BBOB_regression} shows the regression performance for 3
+representative problems, all of the $2\cdot 12$ plots can be seen in Apendix \ref{BBOB_regression_all}. 
 
 \begin{figure}[H]
   \centering
@@ -844,13 +832,16 @@ the generative and discriminative models. We have selected some noticeable plots
   \label{BBOB_regression}
 \end{figure}
 
-
 \subsection{Bayesian optimization performance on BBOB}
 The Bayesian optimization procedure is as follows: 1) sample 5 random points, 2) do 30 Bayesian
 optimization iterations. We want to limit optimization paths of being lucky by doing 20
 restarts (preferable more, however, due to time and resource limitations). The optimization of the
 acquisition function is done by $d \cdot 5000$ random guesses. To be fairer across the dimensions,
 this should have been $5000^d$; however, this would have been computational infeasible. 
+
+In large dimensions there are need for more data for the regression model to be correct? Course of
+dimensionality. In general, across the BBOB tests, we see that GP is the best surrogate model. The
+other models are doing worse than random search on several tests.
 
 \begin{figure}[H]
   \centering
@@ -913,8 +904,3 @@ this should have been $5000^d$; however, this would have been computational infe
   \label{BBOB_bayesOpt5}
 \end{figure}
 
-In large dimensions there are need for more data for the regression model to be correct? Course of dimensionality..?
-
-
-In general, across the BBOB tests, we see that GP is the best surrogate model. The other models 
-are doing worse than random search on several tests. This is unfortunate.

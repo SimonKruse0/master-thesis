@@ -114,11 +114,11 @@ regression models in a BO setting have not been investigated before.
 
 We choose only to test the Bayesian optimization with the widely used acquisition function:
 \textit{expected improvement}. Furthermore, we only deal with problems in continuous domains
-$\mathcal{X} \in \mathbb{R}^m$. The proposed hypothesis is,
+$\mathcal{X} \in \mathbb{R}^m$. The research question is,
 
 \begin{enumerate}[noitemsep]
-    \item Mixture regression models and BNNs can be effective surrogate models
-    performing better than GPs in some complex BO problems. 
+    \item Can mixture regression models and BNNs be effective surrogate models
+    performing better than GPs in some complex BO problems? 
 \end{enumerate}
 
 Note that we here use "performance" to describe \textit{sample efficiency}, i.e., how few evaluations/samples
@@ -126,8 +126,8 @@ of the objective function are necessary to find the minima. So here, it is assum
 function is so expensive (whatever that means to the stakeholder) that its cost outweighs the power
 and time spent on the surrogate modeling and optimization.
 
-In this thesis' main focus is on understanding the essential theory behind BO, the probabilistic
-models and their inference methods. After theory has been established, we test the performance of the
+The primary focus of this thesis is on understanding the essential theory behind BO, the probabilistic
+models, and their inference methods. After the theory has been established, we test the performance of the
 surrogates models on self-made 1D problems and try out BO in higher dimensions on a benchmarking
 problem set. 
 
