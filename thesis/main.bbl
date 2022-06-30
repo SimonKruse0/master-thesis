@@ -705,8 +705,8 @@
       \strng{authorbibnamehash}{f88a0a2cdc26d020db05dd0d5d23eb0c}
       \strng{authornamehash}{f88a0a2cdc26d020db05dd0d5d23eb0c}
       \strng{authorfullhash}{f88a0a2cdc26d020db05dd0d5d23eb0c}
-      \field{sortinit}{3}
-      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
+      \field{sortinit}{4}
+      \field{sortinithash}{e071e0bcb44634fab398d68ad04e69f4}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{Neural networks for pattern recognition}
@@ -806,6 +806,45 @@
       \verb{url}
       \verb https://doi.org/10.21105/joss.03054
       \endverb
+    \endentry
+    \entry{SPN}{misc}{}
+      \name{author}{2}{}{%
+        {{hash=3e2b0bc20e35ee839c381d54ed997131}{%
+           family={Poon},
+           familyi={P\bibinitperiod},
+           given={Hoifung},
+           giveni={H\bibinitperiod}}}%
+        {{hash=926269a097c38456f5b32d7efb1d1a80}{%
+           family={Domingos},
+           familyi={D\bibinitperiod},
+           given={Pedro},
+           giveni={P\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {arXiv}%
+      }
+      \strng{namehash}{07a1ea8459f4375c0ed4dd4be9d1b695}
+      \strng{fullhash}{07a1ea8459f4375c0ed4dd4be9d1b695}
+      \strng{bibnamehash}{07a1ea8459f4375c0ed4dd4be9d1b695}
+      \strng{authorbibnamehash}{07a1ea8459f4375c0ed4dd4be9d1b695}
+      \strng{authornamehash}{07a1ea8459f4375c0ed4dd4be9d1b695}
+      \strng{authorfullhash}{07a1ea8459f4375c0ed4dd4be9d1b695}
+      \field{sortinit}{4}
+      \field{sortinithash}{e071e0bcb44634fab398d68ad04e69f4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Sum-Product Networks: A New Deep Architecture}
+      \field{year}{2012}
+      \verb{doi}
+      \verb 10.48550/ARXIV.1202.3732
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1202.3732
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1202.3732
+      \endverb
+      \keyw{Machine Learning (cs.LG),Artificial Intelligence (cs.AI),Machine Learning (stat.ML),FOS: Computer and information sciences,FOS: Computer and information sciences}
     \endentry
     \entry{RAT_SPN}{misc}{}
       \name{author}{7}{}{%
@@ -1050,9 +1089,57 @@
       \verb https://doi.org/10.1080%2F10556788.2020.1808977
       \endverb
     \endentry
+    \entry{SPNasNN}{inproceedings}{}
+      \name{author}{6}{}{%
+        {{hash=b7a65ac5093b490ca4aba4d8fedf8a1c}{%
+           family={Vergari},
+           familyi={V\bibinitperiod},
+           given={Antonio},
+           giveni={A\bibinitperiod}}}%
+        {{hash=ccf70c55dd0ddddfb671a98b2afd8ead}{%
+           family={Peharz},
+           familyi={P\bibinitperiod},
+           given={Robert},
+           giveni={R\bibinitperiod}}}%
+        {{hash=55b505edb526b94a894824b6d341d6c7}{%
+           family={Di\bibnamedelima Mauro},
+           familyi={D\bibinitperiod\bibinitdelim M\bibinitperiod},
+           given={Nicola},
+           giveni={N\bibinitperiod}}}%
+        {{hash=7c3dc56f57b9380877111b52745420ed}{%
+           family={Molina},
+           familyi={M\bibinitperiod},
+           given={Alejandro},
+           giveni={A\bibinitperiod}}}%
+        {{hash=231ca1992b128d48dbc73100fd196d87}{%
+           family={Kersting},
+           familyi={K\bibinitperiod},
+           given={Kristian},
+           giveni={K\bibinitperiod}}}%
+        {{hash=2f19810cf26d0c7b8b6c5c57eba12eeb}{%
+           family={Esposito},
+           familyi={E\bibinitperiod},
+           given={Floriana},
+           giveni={F\bibinitperiod}}}%
+      }
+      \strng{namehash}{62d815420e2dedf049c29b858d33a9ff}
+      \strng{fullhash}{ed07b3b4f769e142fcf03fbfcf96d2a1}
+      \strng{bibnamehash}{62d815420e2dedf049c29b858d33a9ff}
+      \strng{authorbibnamehash}{62d815420e2dedf049c29b858d33a9ff}
+      \strng{authornamehash}{62d815420e2dedf049c29b858d33a9ff}
+      \strng{authorfullhash}{ed07b3b4f769e142fcf03fbfcf96d2a1}
+      \field{sortinit}{6}
+      \field{sortinithash}{7851c86048328b027313775d8fbd2131}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the AAAI Conference on Artificial Intelligence}
+      \field{number}{1}
+      \field{title}{Sum-product autoencoding: Encoding and decoding representations using sum-product networks}
+      \field{volume}{32}
+      \field{year}{2018}
+    \endentry
   \enddatalist
   \missing{??}
-  \missing{SPN}
   \missing{neal}
 \endrefsection
 \endinput

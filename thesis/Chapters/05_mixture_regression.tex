@@ -174,17 +174,19 @@ for all the $K$ components.
 \section{Sum product networks}
 %<What is SPN>
 
-A sum-product network (SPN) is a mixture model, which allows for exponentially many mixture
-components, but with only <linearly many parameters> and, thereby, tractable inference (i.e.
+A sum-product network (SPN) is a generalized directed acyclic graph of mixture models \cite{SPN},
+which allows for exponentially many mixture components, but with tractable inference (i.e.
 conditionalization and marginalization queries). In short, the SPN consists of a computational
 graph, with tractable leaf distributions, which are combined using products and sums nodes,
-recursively. To keep the inference of the SPN tractable, we want to maintain certain properties when
-designing the SPN graph. First we need to define a scope. 
-\begin{testexample}[Scope of nodes in SPN]
+recursively. A sum node, $\oplus$, corresponds to a mixture distribution of its children and a
+product node, $\otimes$, corresponds to an (uncorrelated) joint distribution of its children.  To
+keep the inference of the SPN tractable, we want to maintain certain properties when designing the
+SPN graph. First we need to define a scope. 
+\begin{testexample}[Scope of nodes in SPN (from \cite{RAT_SPN})]
     A scope (sc) of a leaf node is the set of random variables among each dimension of $x = \{x_1,
     \dots, x_{\text{dim}(x)} \}$ and $y$ of which the leaf distribution,
     $p_i(\cdot)$, defines a distribution function (in our implementation the leaf scopes are all
-    singletons). The scope of a sum og product node, $i$, are defined recursively, $sc(i) = \cup_{j \in
+    singletons). The scope of a sum and a product node, $i$, are defined recursively, $sc(i) = \cup_{j \in
     ch(i)} sc(j)$. 
 \end{testexample}
 
@@ -288,17 +290,8 @@ adding less flexibility.
     \label{SPN_fig}%
 \end{figure}
 
-
-\begin{note2}[SPN as neural network]
-     <Lav om> The interpretation of an SPN as a neural network cite{vergari} (what motivated us to look at them in the first place)
-    Here, imagine the weights of the sum nodes are parameters, leaf distributions are input neurons, root node is output and
-    all other nodes correspond to hidden neurons.
-    Note: the depth is at most $\log_2(\# variables)$, yielding not much depth in Bayesian optimization tasks, where the number
-    of dimensions typically is small. 
-\end{note2}
-
 \subsection{SPN as a mixture model}
-Each sum-node can be interpreted as a categorical variable \cite{??}, i.e. a weighted dice. So each
+Each sum-node can be interpreted as a categorical variable, i.e. a weighted dice. So each
 mixture component can be found by starting at the root sum-node and rolling the dice of which green
 arrow to continue the path through the SPN. If the path meets a product-node all children are
 included in the path. If the path meets a sum-node we roll a dice. Finally, if the path meets a
@@ -338,131 +331,6 @@ $$\frac{\partial L}{\partial \psi_{z}(x_{n})} = \frac{\lambda_z p_z(x_n)}{\sum_{
 Note that the gradient easily can be found using automatic differentiation. 
 
 
-% \begin{figure}
-%     \includegraphics[width=0.5\textwidth]{Pictures/1D_mixture_regression_Naive GMR_N_10.pdf}
-% \end{figure}
-
-% \subsection{Conditional of SPN}
-
-% We will soon see how it is possible to write the conditional distribution as the mixture, 
-% $$p(y|x) = \sum_{z \in \Sigma(S)} \gamma(x) p_{z_y}(y)$$
-% where $ \Sigma(S)$ is the set of all sub-networks in the SPN, $S$ - \todo{IT IS EXPONENTIALLY LARGE}.  
-% And where $p_{z_y}(y)$ is defined through $p_z(x,y)$, 
-% \begin{align*}
-%     p_z(x,y) &= \prod_{l \in \mathcal{L}eaf(z_x)} \phi_l(x)\prod_{l \in \mathcal{L}eaf(z_y)} \phi_l(y)\\
-%             &=: p_{z_x}(x) p_{z_y}(y) 
-% \end{align*}
-% where $\phi_l$ is the density of the $l$'th leafs tractable distribution. Recall that we can interpret an SPN
-% as the mixture model, 
-% $$p(x,y) = \sum_{z \in \Sigma(S)} \lambda_z p_z(x,y)$$
-% where $\lambda_z = \prod_{(q,j) \in \mathcal{E}(z)} w_{q,j}$. First we calculate the marginal density,
-% $p(x)$, 
-% \begin{align*}
-%     p(x) &= \int p(x,y)dy\\
-%     &= \int \sum_{z \in \Sigma(S)} \lambda_z p_z(x,y)dy\\
-%     %&= \sum_{z \in \Sigma(S)} \lambda_z  \int p_z(x,y)dy\\
-%     &= \sum_{z \in \Sigma(S)} \lambda_z p_{z_x}(x)\int p_{z_y}(y)dy \\
-%     &= \sum_{z \in \Sigma(S)} \lambda_z p_{z_x}(x)
-% \end{align*}
-% Now we are ready to calculate the conditional density, 
-% \begin{align*}
-%     p(y|x) &=  \frac{p(x,y)}{p(x)}\\
-%             &= \frac{\sum_{z \in \Sigma(S)} \lambda_z p_z(x,y)}{p(x)}\\
-%             &=\sum_{z \in \Sigma(S)}\frac{ \lambda_z p_{z_x}(x)}{p(x)} p_{z_y}(y)\\
-%             &=\sum_{z \in \Sigma(S)}\frac{ \lambda_z p_{z_x}(x)}{\sum_{z \in \Sigma(S)} \lambda_z p_{z_x}(x)} p_{z_y}(y)\\
-%             &=\sum_{z \in \Sigma(S)} \gamma(x) p_{z_y}(y)
-% \end{align*}
-% So we defined $\gamma(x) = \frac{ \lambda_z p_{z_x}(x)}{\sum_{z \in \Sigma(S)} \lambda_z p_{z_x}(x)}$ 
-% and this is very convinient, as we will see soon is 
-% equavalent to the derivative of the log-likehood
-% of the SPN, which is easily obtained by automatic differentiation. 
-
-
-% For convinience
-% we define each sum component as $p(z,x,y|w,\theta) := \lambda_z(w)p_z(x,y|\theta)$.
-% Evaluation of $p(x,y|w,\theta)$ will never be done as the sum over $Z$ components, 
-% instead there is a proposition. 
-
-% \begin{proposition}
-%     Consider a SPN, S, a sum node $q \in \mathcal{S}um(S)$ and a child $i \in ch(q)$,
-%     then the following relation holds, 
-%     $$\sum_{z:(q,i)\in \mathcal{E}(S_z)} \lambda_z(w) p_z(x,y|\theta) = w_{i,q}
-%     \frac{\partial S}{\partial v(q)} v(i)$$
-% \end{proposition}
-
-
-
-% \subsection{SPN as a mixture model}
-% <source> we can interpret an SPN as the mixture model, 
-% $$p(x,y) = \sum_{z \in \Sigma(S)} \lambda_z p_z(x,y)$$
-% where $\lambda_z = \prod_{(q,j) \in \mathcal{E}(z)} w_{q,j}$. And where
-% the mixture components are given as 
-% \begin{align*}
-%     p_z(x,y) &= \prod_{l \in \mathcal{L}eaf(z_x)} \phi_l(x)\prod_{l \in \mathcal{L}eaf(z_y)} \phi_l(y)\\
-%             &=: p_{z}(x) p_{z}(y) 
-% \end{align*}
-% where $\phi_l$ is the density of the $l$'th leafs tractable distribution. The last equation
-% is splitting the products up in the two marginals $p_z(x)$ and $p_z(y)$ since they are uncorrelated. 
-
-% The responsibility 
-% $$p(z|x) = \frac{ \lambda_z p_{z_x}(x)}{\sum_{z \in \Sigma(S)} }$$
-% is calculated easily using autograd. 
-
-
-
-%from [@desana]:
-% \begin{definition} 
-%     A sub-network $\bar S_z$ of $S$ is an SPN, which includes the root $S$ and then includes nodes
-%     according to the following recursive scheme: 
-% \end{definition}
-% \begin{algorithm}[H]
-%     \caption*{Collection of sub-network $S_z$ of $S$}\label{SPN4}
-%     \begin{algorithmic}
-%     %\State \textbf{Global:}  $S_z$ 
-%     \Function{Process}{node i, $S_z$}
-%     \If{$i \in \mathcal{L}eaf(S)$}
-%         \State  $\textbf{return: }$ 
-%     \EndIf
-%     %\For{$i \in I_{o}$}
-%     \If{$i\in \mathcal{S}um(S)$}
-%        %\State $S_z =S_z \cup \{j \in ch(i)\}$ \Comment{include one child of node $i$}
-%         \State $S_z =S_z.add(j \in ch(i))$ \Comment{include one child of node $i$}
-%         \State $\textbf{return: } \text{Process}(j, S_z)$
-%     \EndIf
-%     \If{$i\in \mathcal{P}rod(S)$}
-%         \State $S_z =S_z \cup \{j | j \in ch(i)\}$ \Comment{include all childen of node $i$}
-%         \For{$j \in ch(i)$}
-%             \State $\textbf{return: } \text{Process}(j,S_z)$
-%         \EndFor
-%     \EndIf
-%     \State $\textbf{return: } S_z$
-%     \EndFunction
-%     \State $S_z =  \text{Process(root,Ø)}$
-%     \end{algorithmic}
-% \end{algorithm}
-
-
-
-
-
-
-% \section{Gaussian approximation of mixture regression}
-
-
-
-% \subsection{Mean and variance of conditional SPN}
-
-% The mean of the conditional is just
-% \begin{align*}
-%     E_{p(y|x)}[y] &= \sum_{z \in \Sigma(S)} \gamma(x) \int  y p_{z_y}(y) dy \\
-%     &= \sum_{z \in \Sigma(S)} \gamma(x) \prod_{l \in \mathcal{L}eaf(z_y)} E_{\phi_l}[y]
-% \end{align*}
-
-% and the variance is found using the second moment, 
-% \begin{align*}
-%     E_{p(y|x)}[y^2] &= \sum_{z \in \Sigma(S)} \gamma(x) \int  y^2 p_{z_y}(y) dy \\
-%     &= \sum_{z \in \Sigma(S)} \gamma(x) \prod_{l \in \mathcal{L}eaf(z_y)} (Var_{\phi_l}[y]+E_{\phi_l}[y]^2)
-% \end{align*}
 \newpage
 \section{Mixture model training}
 The following section presents the expectation-maximization algorithm, which is used to 

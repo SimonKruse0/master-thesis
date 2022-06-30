@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  30 JUN 2022 10:39
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  30 JUN 2022 11:37
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1393,13 +1393,6 @@ Package biblatex Warning: The following entry could not be found
 
 Package biblatex Warning: The following entry could not be found
 (biblatex)                in the database:
-(biblatex)                SPN
-(biblatex)                Please verify the spelling and rerun
-(biblatex)                LaTeX afterwards.
-
-
-Package biblatex Warning: The following entry could not be found
-(biblatex)                in the database:
 (biblatex)                neal
 (biblatex)                Please verify the spelling and rerun
 (biblatex)                LaTeX afterwards.
@@ -1632,7 +1625,7 @@ Overfull \hbox (2.59329pt too wide) in paragraph at lines 86--88
 [30]) [31] [32] [33]
 
 LaTeX Font Warning: Font shape `TU/TimesNewRoman(0)/m/sc' undefined
-(Font)              using `TU/TimesNewRoman(0)/m/n' instead on input line 204.
+(Font)              using `TU/TimesNewRoman(0)/m/n' instead on input line 206.
 
 File: Pictures/SPN_illustration_graph3.pdf Graphic file (type pdf)
 <use Pictures/SPN_illustration_graph3.pdf>
@@ -1643,7 +1636,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 File: Pictures/SPN_illustration_graph1.pdf Graphic file (type pdf)
 <use Pictures/SPN_illustration_graph1.pdf>
 
-Underfull \hbox (badness 4832) in paragraph at lines 253--253
+Underfull \hbox (badness 4832) in paragraph at lines 255--255
 \TU/TimesNewRoman(0)/m/n/10.95 resentation of the SPN
  []
 
@@ -1995,12 +1988,12 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 57572 strings out of 481731
- 1367417 string characters out of 5935437
- 2308530 words of memory out of 5000000
- 73471 multiletter control sequences out of 15000+600000
+ 57574 strings out of 481731
+ 1367537 string characters out of 5935437
+ 2308602 words of memory out of 5000000
+ 73473 multiletter control sequences out of 15000+600000
  551949 words of font info for 145 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  82i,21n,138p,2818b,5216s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (78 pages, 1583032 bytes).
+Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (78 pages, 1581668 bytes).

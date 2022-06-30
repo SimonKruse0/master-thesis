@@ -45,7 +45,7 @@
 \contentsline {subsection}{\numberline {4.4.1}Conditional of Gaussian mixture model}{33}{subsection.0.4.4.1}%
 \contentsline {section}{\numberline {4.5}Sum product networks}{33}{section.0.4.5}%
 \contentsline {subsection}{\numberline {4.5.1}SPN as a mixture model}{36}{subsection.0.4.5.1}%
-\contentsline {subsection}{\numberline {4.5.2}Conditional of SPN}{37}{subsection.0.4.5.2}%
+\contentsline {subsection}{\numberline {4.5.2}Conditional of SPN}{36}{subsection.0.4.5.2}%
 \contentsline {subsubsection}{calculation of responsibility}{37}{subsubsection*.25}%
 \contentsline {section}{\numberline {4.6}Mixture model training}{38}{section.0.4.6}%
 \contentsline {subsection}{\numberline {4.6.1}Expectation-maximization for mixture models}{38}{subsection.0.4.6.1}%

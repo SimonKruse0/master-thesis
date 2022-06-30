@@ -93,12 +93,14 @@ chain Monte Carlo (MCMC) to obtain samples from the posterior distribution.
     proportional/unnormalised density $\hat p(x) \geq 0$ i.e
     $$\hat p(x) = c\cdot p(x) \propto p(x), \hspace{1cm} c = \int \hat p(x) dx,$$ where $\int \hat
     p(x) dx$ may be intractable. The MCMC procedure constructs an \textbf{ergodic} Markov
-    chain/process, such that its \textbf{stationary} distribution is exactly $p(x)$, but only
-    with the knowledge of $\hat p(x)$. Here is a short explaination of the ergodicity and stationary:
+    chain/process, such that its \textbf{stationary} distribution is exactly $p(x)$, but only with
+    the knowledge of $\hat p(x)$. Here is a short explaination of the ergodicity and stationary (from
+    \cite[540]{bishop}):
     \begin{itemize}[noitemsep]
-        \item \textbf{Ergodicity}: A Markov process which spans/visits all the space. 
-        \item \textbf{Stationary distribution}: A Markov process is stationary if each step
-        in the chain does not alter the distribution ... 
+        \item \textbf{Ergodicity}: A Markov chain which spans/visits all the space. 
+        \item \textbf{Stationarity}: A Markov chain is stationary if each step in the chain leaves
+        the distribution unchanged, implying that samples from the distribution remain samples from
+        the same distribution after each step.
         % A Markov process has reached stationary distribution if
         %                     we stay there at the next sample. 
         \item \textbf{Detailed balance relation}: A sufficient condition to check if a Markov chain
