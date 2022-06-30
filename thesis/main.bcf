@@ -2234,18 +2234,19 @@
     <bcf:citekey order="50">bishop</bcf:citekey>
     <bcf:citekey order="51">BOHAMIANN</bcf:citekey>
     <bcf:citekey order="52">GMR</bcf:citekey>
-    <bcf:citekey order="53">GMR</bcf:citekey>
-    <bcf:citekey order="54">DeepKernelLearning</bcf:citekey>
-    <bcf:citekey order="55">hansen2009real</bcf:citekey>
-    <bcf:citekey order="56">COCO</bcf:citekey>
-    <bcf:citekey order="57">hansen2009real</bcf:citekey>
-    <bcf:citekey order="58">PhDthesis</bcf:citekey>
+    <bcf:citekey order="53">RAT_SPN</bcf:citekey>
+    <bcf:citekey order="54">GMR</bcf:citekey>
+    <bcf:citekey order="55">DeepKernelLearning</bcf:citekey>
+    <bcf:citekey order="56">hansen2009real</bcf:citekey>
+    <bcf:citekey order="57">COCO</bcf:citekey>
+    <bcf:citekey order="58">hansen2009real</bcf:citekey>
     <bcf:citekey order="59">PhDthesis</bcf:citekey>
-    <bcf:citekey order="60">TakeHumanOutOfLoop</bcf:citekey>
-    <bcf:citekey order="61">BOHAMIANN</bcf:citekey>
-    <bcf:citekey order="62">SPNasNN</bcf:citekey>
-    <bcf:citekey order="63">DeepKernelLearning</bcf:citekey>
-    <bcf:citekey order="64">bishop</bcf:citekey>
+    <bcf:citekey order="60">PhDthesis</bcf:citekey>
+    <bcf:citekey order="61">TakeHumanOutOfLoop</bcf:citekey>
+    <bcf:citekey order="62">BOHAMIANN</bcf:citekey>
+    <bcf:citekey order="63">SPNasNN</bcf:citekey>
+    <bcf:citekey order="64">DeepKernelLearning</bcf:citekey>
+    <bcf:citekey order="65">bishop</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">

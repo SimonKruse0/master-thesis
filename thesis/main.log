@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  30 JUN 2022 11:37
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.5.4)  30 JUN 2022 19:36
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1213,14 +1213,7 @@ Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
 Package csquotes Info: Adjusting default style.
 Package csquotes Info: Redefining alias 'default' -> 'english'.
- (/home/simon/Documents/MasterThesis/master-thesis/thesis/main.aux
-
-LaTeX Warning: Label `BBOB_bayesOpt' multiply defined.
-
-
-LaTeX Warning: Label `BBOB_bayesOpt@cref' multiply defined.
-
-)
+ (/home/simon/Documents/MasterThesis/master-thesis/thesis/main.aux)
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 15.
@@ -1576,7 +1569,7 @@ Overfull \hbox (17.20857pt too wide) in paragraph at lines 5--12
 File: Pictures/GP_samples_mattern.pdf Graphic file (type pdf)
 <use Pictures/GP_samples_mattern.pdf>
  [18] [19]
-Overfull \hbox (28.67786pt too wide) in paragraph at lines 145--150
+Overfull \hbox (28.67786pt too wide) in paragraph at lines 146--151
 \TU/TimesNewRoman(0)/m/n/10.95 where $\OML/cmm/m/it/10.95 A \OT1/cmr/m/n/10.95 := \OML/cmm/m/it/10.95 c\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 x[]; x[]\OT1/cmr/m/n/10.95 )[]\OML/cmm/m/it/10.95 c\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 x[]; []\OT1/cmr/m/n/10.95 )$ \TU/TimesNewRoman(0)/m/n/10.95 (agreeing with A in []) and $\OML/cmm/m/it/10.95 B \OT1/cmr/m/n/10.95 = \OML/cmm/m/it/10.95 c\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 x[]; x[]\OT1/cmr/m/n/10.95 ) \OMS/cmsy/m/n/10.95 ^^@ \OML/cmm/m/it/10.95 c\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 x[]; []\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 c\OT1/cmr/m/n/10.95 ([]\OML/cmm/m/it/10.95 ; []\OT1/cmr/m/n/10.95 )[]\OML/cmm/m/it/10.95 c\OT1/cmr/m/n/10.95 ([]\OML/cmm/m/it/10.95 ; x[]\OT1/cmr/m/n/10.95 )$\TU/TimesNewRoman(0)/m/n/10.95 .
  []
 
@@ -1625,7 +1618,7 @@ Overfull \hbox (2.59329pt too wide) in paragraph at lines 86--88
 [30]) [31] [32] [33]
 
 LaTeX Font Warning: Font shape `TU/TimesNewRoman(0)/m/sc' undefined
-(Font)              using `TU/TimesNewRoman(0)/m/n' instead on input line 206.
+(Font)              using `TU/TimesNewRoman(0)/m/n' instead on input line 183.
 
 File: Pictures/SPN_illustration_graph3.pdf Graphic file (type pdf)
 <use Pictures/SPN_illustration_graph3.pdf>
@@ -1636,7 +1629,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 File: Pictures/SPN_illustration_graph1.pdf Graphic file (type pdf)
 <use Pictures/SPN_illustration_graph1.pdf>
 
-Underfull \hbox (badness 4832) in paragraph at lines 255--255
+Underfull \hbox (badness 4832) in paragraph at lines 232--232
 \TU/TimesNewRoman(0)/m/n/10.95 resentation of the SPN
  []
 
@@ -1649,38 +1642,24 @@ File: Pictures/SPN_illustration2.pdf Graphic file (type pdf)
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [35] [36] [37] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_b_EM.tex
+ [35] [36] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/05_b_EM.tex
 Overfull \hbox (16.79578pt too wide) detected at line 95
 [] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j\OML/cmm/m/it/10.95 ^^R\OT1/cmr/m/n/10.95 ) \OMS/cmsy/m/n/10.95 ^^@ [] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j\OML/cmm/m/it/10.95 ^^R[]\OT1/cmr/m/n/10.95 ) = \OML/cmm/m/it/10.95 Q\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 ^^R; ^^R[]\OT1/cmr/m/n/10.95 ) \OMS/cmsy/m/n/10.95 ^^@ \OML/cmm/m/it/10.95 Q\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 ^^R[]; ^^R[]\OT1/cmr/m/n/10.95 ) + \U/msb/m/n/10.95 E[]\OT1/cmr/m/n/10.95 [[] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j[]\OML/cmm/m/it/10.95 ; ^^R\OT1/cmr/m/n/10.95 )] \OMS/cmsy/m/n/10.95 ^^@ \U/msb/m/n/10.95 E[]\OT1/cmr/m/n/10.95 [[] \OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ([]\OMS/cmsy/m/n/10.95 j[]\OML/cmm/m/it/10.95 ; ^^R[]\OT1/cmr/m/n/10.95 )]\OML/cmm/m/it/10.95 :
  []
 
-[38] [39] [40] [41])) [42] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/06_results.tex
+[37] [38] [39] [40])) [41] [42
+
+] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/06_results.tex
 Chapter 5.
 [43
 
-
 ]
-Overfull \hbox (40.77603pt too wide) in paragraph at lines 93--93
+Overfull \hbox (40.77603pt too wide) in paragraph at lines 96--96
 []|[]| 
- []
-
-
-Overfull \hbox (0.73459pt too wide) in paragraph at lines 106--110
-\TU/TimesNewRoman(0)/m/n/10.95 We select the hyperparameters using 30 fold (or leave one out for data size smaller) cross-validation,
  []
 
 [44]
-Overfull \hbox (62.0184pt too wide) in paragraph at lines 168--168
-[]|[]| 
- []
-
-
-Overfull \hbox (14.86069pt too wide) in paragraph at lines 168--168
-[]|[]| 
- []
-
-
-Overfull \hbox (1.55101pt too wide) in paragraph at lines 168--168
+Overfull \hbox (41.60228pt too wide) in paragraph at lines 177--177
 []|[]| 
  []
 
@@ -1780,6 +1759,10 @@ File: Figures/reg_illustrations/all_reg_figures/Test3c.pdf Graphic file (type pd
 <use Figures/reg_illustrations/all_reg_figures/Test3c.pdf>
 File: Figures/reg_illustrations/all_reg_figures/Test4c.pdf Graphic file (type pdf)
 <use Figures/reg_illustrations/all_reg_figures/Test4c.pdf>
+
+Underfull \vbox (badness 1286) has occurred while \output is active []
+
+ [52]
 File: Figures/results_baysopt/Test1.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/Test1.pdf>
 File: Figures/results_baysopt/Test2.pdf Graphic file (type pdf)
@@ -1788,7 +1771,7 @@ File: Figures/results_baysopt/Test3c.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/Test3c.pdf>
 File: Figures/results_baysopt/Test4c.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/Test4c.pdf>
- [52] [53]
+ [53]
 File: Figures/coco/f3.png Graphic file (type bmp)
 <Figures/coco/f3.png>
 File: Figures/coco/f9.png Graphic file (type bmp)
@@ -1797,6 +1780,10 @@ File: Figures/coco/f15.png Graphic file (type bmp)
 <Figures/coco/f15.png>
 File: Figures/coco/f21.png Graphic file (type bmp)
 <Figures/coco/f21.png>
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
 File: Figures/results_regression/f3_dim_5_0.pdf Graphic file (type pdf)
 <use Figures/results_regression/f3_dim_5_0.pdf>
 File: Figures/results_regression/f21_dim_3_0.pdf Graphic file (type pdf)
@@ -1809,46 +1796,49 @@ File: Figures/results_regression/f21_dim_3_1.pdf Graphic file (type pdf)
 <use Figures/results_regression/f21_dim_3_1.pdf>
 File: Figures/results_regression/f15_dim_2_1.pdf Graphic file (type pdf)
 <use Figures/results_regression/f15_dim_2_1.pdf>
- [54]
+[54]
 File: Figures/results_baysopt/3_2.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/3_2.pdf>
+File: Figures/results_baysopt/3_3.pdf Graphic file (type pdf)
+<use Figures/results_baysopt/3_3.pdf>
+File: Figures/results_baysopt/3_5.pdf Graphic file (type pdf)
+<use Figures/results_baysopt/3_5.pdf>
 File: Figures/results_baysopt/9_2.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/9_2.pdf>
+File: Figures/results_baysopt/9_3.pdf Graphic file (type pdf)
+<use Figures/results_baysopt/9_3.pdf>
+File: Figures/results_baysopt/9_5.pdf Graphic file (type pdf)
+<use Figures/results_baysopt/9_5.pdf>
 File: Figures/results_baysopt/15_2.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/15_2.pdf>
-File: Figures/results_baysopt/21_2.pdf Graphic file (type pdf)
-<use Figures/results_baysopt/21_2.pdf>
+File: Figures/results_baysopt/15_3.pdf Graphic file (type pdf)
+<use Figures/results_baysopt/15_3.pdf>
+File: Figures/results_baysopt/15_5.pdf Graphic file (type pdf)
+<use Figures/results_baysopt/15_5.pdf>
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [55]
-File: Figures/results_baysopt/3_3.pdf Graphic file (type pdf)
-<use Figures/results_baysopt/3_3.pdf>
-File: Figures/results_baysopt/9_3.pdf Graphic file (type pdf)
-<use Figures/results_baysopt/9_3.pdf>
-File: Figures/results_baysopt/15_3.pdf Graphic file (type pdf)
-<use Figures/results_baysopt/15_3.pdf>
+File: Figures/results_baysopt/21_2.pdf Graphic file (type pdf)
+<use Figures/results_baysopt/21_2.pdf>
 File: Figures/results_baysopt/21_3.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/21_3.pdf>
-File: Figures/results_baysopt/3_5.pdf Graphic file (type pdf)
-<use Figures/results_baysopt/3_5.pdf>
-File: Figures/results_baysopt/9_5.pdf Graphic file (type pdf)
-<use Figures/results_baysopt/9_5.pdf>
-File: Figures/results_baysopt/15_5.pdf Graphic file (type pdf)
-<use Figures/results_baysopt/15_5.pdf>
 File: Figures/results_baysopt/21_5.pdf Graphic file (type pdf)
 <use Figures/results_baysopt/21_5.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [56]) [57] [58
+) [56] [57] [58
 
 ] (/home/simon/Documents/MasterThesis/master-thesis/thesis/Chapters/07_conclusion.tex
 Chapter 7.
+
+LaTeX Warning: Reference `Test3' on page 59 undefined on input line 39.
+
 [59
 
 ] [60]
 Chapter 8.
+
+LaTeX Warning: Reference `TEST3' on page 61 undefined on input line 123.
+
 ) [61
 
 ]
@@ -1981,19 +1971,19 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 
-LaTeX Warning: There were multiply-defined labels.
+LaTeX Warning: There were undefined references.
 
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 57574 strings out of 481731
- 1367537 string characters out of 5935437
- 2308602 words of memory out of 5000000
- 73473 multiletter control sequences out of 15000+600000
+ 57587 strings out of 481731
+ 1367738 string characters out of 5935437
+ 2311849 words of memory out of 5000000
+ 73486 multiletter control sequences out of 15000+600000
  551949 words of font info for 145 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  82i,21n,138p,2818b,5216s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (78 pages, 1581668 bytes).
+Output written on /home/simon/Documents/MasterThesis/master-thesis/thesis/main.xdv (78 pages, 1602984 bytes).

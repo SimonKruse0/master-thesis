@@ -2,66 +2,76 @@
 In the following, we will discuss the results from the previous chapter and the
 surrogate models in general. 
 
+% Regression analysis for BNN and BOHAMIANN showed a clear connection the thier performance! For BBOB. 
+
+
+% What model is the best?
+% To say anything more
+% informative the BO tests should have been conducted with a larger budget. 
+
 %Tests done correctly?
 From the BO results, we found that the GP showed overall best performance on the four selected BBOB
 problems in higher dimensions and Test1, while SPN won Test2, Random search won Test3, and BNN won
-Test4. Now, the question arises about how valid the results are. Looking at Figure
-\ref{BayesOpt_all} in the appendix we see how noisy the 20 BO paths are --- sometimes a method just
-luckily chooses a point close to the minimum. This is the reason why we average across the 20 seeded
-BO paths, as it will quantify the models general performance on the problem. For more robust
+Test4. Now, the question arises about how strong conclusions we can draw from this. Looking at
+Figure \ref{BayesOpt_all} in the appendix, we see how noisy the 20 BO paths are --- sometimes, a
+method luckily chooses a point close to the minimum. This is the reason why we average across the 20
+seeded BO paths, it will quantify the models' general performance on the problem. For more robust
 results, we should have included more optimization paths, however, due to time and resources only 20
-experiments were conducted. Another improvement, would be to include more BO iterations. While all
+experiments were conducted. Another improvement would be to include more BO iterations. While all
 1D tests are minimized nicely, most of the higher dimensional tests are not; naturally, regression
 in higher dimensional spaces need more training data point for good performance. The test conducted
-on BBOB with \cite{PhDthesis} used a budget of 100 function evaluations. 
+on BBOB with \cite{PhDthesis} used a budget of 100 function evaluations. Additionally, drawing 
+conclusions from the 20 optimization paths should be based on statistical tests or 
+confidence intervals rather than the average performance --- as we do here. 
 
 % Important that connection between the Bayesian regression and BO.
-In the result section we tried to establish a connection between the performance of Bayesian
+In the result section, we tried to establish a connection between the performance of Bayesian
 optimization and the surrogate model's performance as a regression model. However, the GP which in
 general performed well on the BO tests, had a very good predictive power, but also a bad uncertainty
-quantification (UQ). The GPs bad UQ was corced by its overconfident about a predictions (i.e. very
+quantification (UQ). The GPs bad UQ was caused by its overconfidence predictions (i.e. very
 small predicitive variance $\sigma(x,\mathcal{D})^2 \approx 0$), however, as long it mean
 predicition is good, it is not as important --- in the expecpected improvement, the fraction
 $\frac{y_{\min}-\mu_x}{\sigma_x}$ goes to infinity for $\sigma_x \rightarrow 0$, resulting in the
 improvement, 
 $$EI(x) = (y_{\min}-\mu_x)\Phi\left(\frac{y_{\min}-\mu_x}{\sigma_x}\right)+ \sigma_x
 \phi\left(\frac{y_{\min}-\mu_x}{\sigma_x}\right) \approx y_{\min}-\mu_x,$$ since the standard
-Gaussian cdf and pdf become 1 and 0, respectively. 
+Gaussian cdf and pdf become 1 and 0, respectively. So the connection between good regression performance
+and good BO model. ...  \ref{Test3} shows the importance of the predictive power.. 
 
-The connection between the mixture models' good performance as regression models (good uncertainty
-quantification) and their BO performance was not fair. The predictive distributions of the mixture
-models are much richer than the Gaussian approximation used in BO tests. A better connection would
-be established if we conducted BO tests using the approximate expected improvement \eqref{aEI}. The
-predictive distribution of the Bayesian neural networks is also approximated with a Gaussian. This
-is more reasonable as the Bayesian neural networks in the limit are equal to a Gaussian process.
-Furthermore, experiments using the approximated expected improvement with the Bayesian Neural
-networks were conducted in \cite{PhDthesis}, with no promising results. 
+The mixture models' good performance as regression models (good uncertainty quantification) was not
+exploited when doing BO. The predictive distributions of the mixture models are much richer than the
+Gaussian approximation used in BO tests. A better connection would be established if we conducted BO
+tests using the approximate expected improvement \eqref{aEI}. The predictive distribution of the
+Bayesian neural networks are also approximated with a Gaussian. This is more reasonable as the
+Bayesian neural networks in the limit are equal to a Gaussian process. Furthermore, experiments
+using the approximated expected improvement with the Bayesian Neural networks were conducted in
+\cite{PhDthesis}, with no promising results. 
 
 %\todo{Discriminative vs generative models}
-In this thesis, we tried using mixture regression models as surrogate models. Especially, when
-breaking the GP and BNN's assumptions of Gaussian observation noise, they proved effective. This
-class of problems might occur in real-life simulations where the objective function can have
-multiple values, which are not just nearby values coursed by measurement noise. If one knew the
-"generative story" of the objective function values (e.g. that Test3 jumps between 2 functions), it
-might be possible to think about combining more Gaussain proceses in a probalistic graphical model,
-i.e. flipping a coin on what GP to use. But in the case where this generative story was not given
-mixture regression might indeed be a smart choice. 
+In this thesis, we systematically investigated using mixture regression models as surrogate models.
+Especially when breaking the GP and BNN's assumptions of Gaussian observation noise, they proved
+effective, e.g., in Test3 \ref{Test3_reg_plot}. This class of problems might occur in real-life
+simulations where the objective function can have multiple values, not just nearby values coursed by
+measurement noise. If one knew the "generative story" of the objective function values (e.g. that
+Test3 jumps between 2 functions), it might be possible to think about combining more Gaussian
+processes in a probabilistic graphical model, i.e. flipping a coin on what GP to use. If this
+generative story is not given, mixture regression might indeed be a smart surrogate choice. 
 
 Discriminative models are built with this one purpose of regression, whereas generative models
 conduct different kinds of probabilistic queries, which are useful. Discriminative models are good
-for finding the paterns in data.
+for finding the patterns in data.
 
 \section{Surrogate models}
-We also want to discuss the surrogates in more detail,
+For the GP, the Matérn kernel is a common choice for problems with
+stationarity assumptions \cite{TakeHumanOutOfLoop}. Especially, the non-stationary test4 was not a
+good choice for the Matérn kernel. 
 
-For the GPs we never discussed the kernel. The Matérn kernel is a common choice for problems with
-stationarity assumptions \cite{TakeHumanOutOfLoop}. Especially the non-stationary test4 was not a
-good choise for the Matérn kernel. 
+Training the Bayesian neural network is challenging, as it is difficult to know when it has
+converged. In general, the more samples the better. And the higher the For more expressive BNNs
+there for more samples. 
 
-The Bayesian neural network training is challenging to know when it has converged, in general the
-more samples the better, and the more weights the more complicated model there for more samples. We
-chose 500 warm-up and 500 samples, using 4 chains, since we have 4 cpus. Also to make sure the
-fitting we sat a very informative prior on a very small observation variance. 
+We chose 500 warm-up and 500 samples, using 4 MCMC chains.  Also to make
+sure the fitting we sat a very informative prior on a very small observation variance. 
 
 BOHamiANN is in general performing bad. But got a comback for higher dims. It is designed to have a
 fast inference, while second to have on pair performance with the GP but with only linearly scaling
@@ -69,7 +79,7 @@ inference. We fixed the number of burn-in samples to 1000 and sampled every 40't
 the next 2000 samples. In the \cite{BOHAMIANN}'s code revealed that they used $100\cdot n_{\text{data}}$ burn-in
 samples and sampled every 100'th of the next 10000 samples.
 
-Sum product networks are the motivation why we include deep in this thesis\footnote{Justifying the
+Sum product networks are the motivation why we include deep in this thesis title\footnote{Justifying the
 thesis title, the thesis does work with deep Bayesian neural networks and GP (which can be
 interpreted as infinitely large BNNs).}. It can be shown that SPNs can be interpreted as deep
 neural networks \cite{SPNasNN}. The depth of the SPN is constraint to $\log_2 (d)$ where $d$ is the
@@ -85,8 +95,8 @@ the best predicitive power, however, is also failing a lot. Essentially it is ju
 version of random search, which indeed migth be better than an overconfident GP in certain problems.
 
 \chapter{Conclusion and further work}
-The following chapter concludes the thesis and my work over the last five months. Finally the 
-we also look a bit toward further work. 
+The following chapter concludes the thesis and my work. Finally we also look a bit toward
+further work. 
 
 The aim of the thesis was first to derive and understand the foundational theory of Bayesian
 optimization, the different proposed surrogate models and necessary inference methods, and secondly,
@@ -96,78 +106,29 @@ we wanted to answer the following research question:
     performing better than GPs in some complex BO problems? 
 \end{itemize}
 
-While skipping some part of the exhaustive theory, the overall theory coverage was found to be
-sufficient for conducting BO experiments with the proposed surrogates. Among more, we derived
-Expected improvement in closed form, GP inference in closed form, EM for mixture models and
-motivated MCMC. We implemented our own Bayesian NN and kernel density estimator regression 
-and adapted the RAT-SPN and GMR into a Bayesian setting. The GP and BOHamiANN was implemented
-almost straight from python libraries. 
+While skipping some parts of the exhaustive theory, the overall theory coverage was found to be
+sufficient for conducting BO experiments with the proposed surrogates. We derived the expected
+improvement in closed form, GP inference in closed form, EM for mixture models and motivated MCMC.
+We implemented our own Bayesian NN and kernel density estimator regression and adapted the RAT-SPN
+and GMR into a Bayesian setting.% The GP and BOHamiANN were implemented
+%almost straight from python libraries. 
 
-The results showed that the defined regression models can be used as surrogate models in BO
+In conclusion, the results showed that the defined regression models could be used as surrogate models in BO
 settings. If they are preferred or not is still an open question. The overall picture found from the
-results is that the GP is a prefered model for most problems, while we found a few niche cases which
-indicated promise for mixture regression. Results should have been conducted more exhasutivly, to answer the research
-question better. 
- 
-
-
-% Connect with the introduction! Hypothesis + the contributions
-
-% We throughout the thesis we had a great focus on understanding and comunicating the theory. With a balance of not
-% Going too deep into knowledge. In 
-
-% Results showed that the models can be used as surrogate models. If they are effective or not is still a question. 
-% as the results should have been conducted more exhasutivly. 
-
-
-% This thesis has motivated the relevance for Bayesian optimization, developed different alternative
-% surrogate models, i.e. a Bayesian NN and mixture regression models and tested those on some 
-% test functions. Among the 4 selected BBOB problems in higher dimensions, it was not possible to show that
-% GP was not the preferred model. However, for the 4 small 1D test problems, we found problems, where the GP. 
-% is not preferable. To the story is that the developed generative surrogates all have been approximated by
-% a Gaussian. While the test could have been more elaborate. 
-
-% First of the all, the hypothesis conducted in the beginning was, 
-% \begin{itemize}
-%     \item Mixture regression models and BNNs can be effective surrogate models
-%     performing better than GPs in some complex BO problems. 
-% \end{itemize}
-% In the results we did find two problems, where the GP is not a preferred model. This confirms that
-% we successfully implemented both BNNs and Mixture regression models in the Bayesian optimization setting.  
-% However, the tests were not exhaustive enough to conclude whether or not the new methods, in general, 
-% are a prefered model in these cases. 
-
-
-
-% The SPN was understood in the context of regression, which to our knowledge is a novel approach. However, 
-% when diving into the definition of the SPN it became clear that it was nothing but a discretized regression model. 
-
-% The kernel density estimation is an uncorrelated GMM with a component on each datapoint, this made
-% it robust, but also very naive, without the prior this model would provide a local mean prediction
-% with mean equal the nearest data point and variance is selected.
-
-% The Gaussian mixture regression was included to make the more intelligent mixture components, which
-% would allow for better predictive power, however, without much data the model collapsed into very
-% spiky distributions, and the prior was often sat high to help out the uncertainty quantification. 
-
-% The BOHamiANN did a surprisingly good job in the Bayesian optimization (for the larger high-dim problems),
-% even though it had a 
-
-% We showed that there is a strong connection between being a good regression model and a good Bayesian optimization
-% algorithm. Unfortunately, even though the mixture regression models showed good uncertainty quantification,
-% they were approximated by gaussians to perform the fast closed form Expected improvement, therefore the 
-% connection is lost. 
+results is that the GP is a preferred model for most problems, while we found a few niche cases which
+indicated promise for mixture regression. 
 
 \section{Further work}
 As mentioned, the mixture models were forcefully approximated by a Gaussian in the BO setting, but
-also when testing preditive power with mean instead of mode. Therefore, an obvious next step in
-further work is to test the mixture models using approximate expected improvement, using samples
-from their actual predictive distributions. Additionally, other types of acquisition functions
-should be tried out. 
+also when testing preditive power with mean instead of mode (e.g. \ref{TEST3}). Therefore, an
+obvious next step in further work is to test the mixture models using approximate expected
+improvement, using samples from their actual predictive distributions. Additionally, to conclude
+that one surrogate model is better than another, other types of acquisition functions should be
+tried out.
 
 The investigation of this thesis was conducted to understand what surrogate model to choose.
 However, the standard answer of a Bayesian should be: "Why choose?". If there is uncertainty about
-them, then we can just average them. It could be interesting to combine GP and mixture regression in 
+them, then we can average them. It could be interesting to combine GP and mixture regression in 
 an ensemble model.
 
 Trying out new or improved methods is an obvious next step. For example, we could try out

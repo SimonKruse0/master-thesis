@@ -63,15 +63,16 @@ where $A = c(x_*, \textbf{x})c(x_*, x_*)^{-1}$ and $B = c(x_*, x_*)-c(x_*, \text
     than explaining that the kernel used in this project is the commonly used Matérn52 kernel
     \cite[157]{TakeHumanOutOfLoop},
     $$c(\textbf{x},\textbf{x}^*) = \sigma_0^2 \exp(-\sqrt{5}r)\cdot \left(
-    1+\sqrt{5}r+\frac{5}{3}r^2 \right)$$ where $r^2 = (\textbf{x}-\textbf{x}^*)^T \Lambda
-    (\textbf{x}-\textbf{x}^*)$ and $\Lambda^{-1}$ is a diagonal matrix of squared
-    \textit{lenghtscales}. $r$ can be interpreted as an Euclidean distance measure, weighted with
-    the lenghtscales. Large length scales means $r$ is close to 0 even for large Euclidean distances, i.e.
-    making the GP less flexibil, whereas a small length scale makes the underlying function
-    evaluations $\textbf{f}$ increasingly uncorrelated. $\sigma_0^2$ denotes the kernel variance and
-    establish an upperbound of the kernel function. It is touched whenever $r=0$ e.g. in the
-    diagonal of, $c(\textbf{x}, \textbf{x})$. Together with the kernel lengthscale, the kernel variance conduct the 
-    parameters of the kernel. These will in this thesis be seen a hypterparameters. 
+    1+\sqrt{5}r+\frac{5}{3}r^2 \right)$$ where $r^2 = (\textbf{x}-\textbf{x}^*)^T \Lambda^{-1}
+    (\textbf{x}-\textbf{x}^*)$ and $\Lambda$ is a diagonal matrix of squared \textit{lenghtscales}.
+    $r$ can be interpreted as an Euclidean distance measure, weighted with the lenghtscales. Large
+    length scales means $r$ is close to 0 even for large Euclidean distances, i.e. making the GP
+    less flexibil, whereas a small length scale makes the underlying function evaluations
+    $\textbf{f}$ increasingly uncorrelated. $\sigma_0^2$ denotes the kernel variance and establish
+    an upperbound of the kernel function. Whenever the distance measure becomes 0, then the
+   kernel variance, $\sigma_0^2$, is attained (e.g. in the diagonal of $c(\textbf{x}, \textbf{x})$). Together with the kernel
+    lengthscale, the kernel variance conduct the parameters of the kernel --- we will interpret them
+    as hypterparameters. 
 \end{testexample}
 
 \subsection{Exact predictive distribution}

@@ -15,48 +15,28 @@ which will take over in areas with no data, i.e. small $p(x)$. This is discussed
 
 Using generative models as regression models is not used much in the literature. Using the
 conditional of a Gaussian mixture model (or kernel estimator) for regression has been discussed
-briefly in \cite{bishop1995neural} and using kernel estimator \cite{ALStatisticalModels} and
+briefly in \cite{bishop1995neural} and using kernel density estimator \cite{ALStatisticalModels} and
 \cite{JordanPaper} for active learning. According to these sources, the good reasons for using the
 mixtures for regression are that they can be used to represent any relations between the variables,
-e.g., $p(y|x)$ or $p(x|y)$. They are both applicable in supervised and unsupervised machine learning.
-And they are good at dealing with incomplete data, i.e. missing values in the data set <change
-this>. We hypothesize that it will allow for an expressive surrogate model, which competently
-can deal with complex BO tasks, as they do not assume continuity. In this thesis we will first look
-at the most simple approach to a generative model, i.e. putting an equally weighted Gaussian mixture
-component on each data point. This is also referred to as a kernel density estimator (some might know this 
-from kde-plots/estimating a distribution from data), but with a twist of including a prior
-distribution to it. Next, we look at the more intelligent models, Gaussian mixture models, which
-hopefully can capture some correlations between the variables. And finally, we look at the more
-complicated sum-product networks, which introduce a generalization element and have a flavor of a
-neural network. To summarize, the mixture regression models are:
+e.g., $p(y|x)$ or $p(x|y)$. They are both applicable in supervised and unsupervised machine
+learning. We hypothesize that it will allow for an expressive surrogate model, which competently can
+deal with complex BO tasks, as they do not assume continuity. In this thesis, we will first look at
+the most simple approach to a generative model, i.e. putting an equally weighted Gaussian mixture
+component on each data point. This is also referred to as a kernel density estimator (some might
+know this from kde-plots/estimating a distribution from data), but with a twist of including a prior
+distribution. Next, we look at the more intelligent models, Gaussian mixture models, which hopefully
+can capture some correlations between the variables. And finally, we look at the more complicated
+sum-product networks, which introduce a generalization element and have a flavor of a neural
+network. To summarize, the mixture regression models are:
 
 \begin{itemize}[noitemsep]
      \item Kernel density estimator regression (KDE),
      \item Gaussian mixture regression (GMR),
-     \item Sum-product networks (SPN).
+     \item Sum-product network regression (SPN).
  \end{itemize}
-
-%  \begin{note2}[]
-%     Initially, we wanted to investigate sum-product networks, until we realized that they are just
-%     mixture models. Therefore, it made sense to develop regression theory for the more simple
-%     Gaussian mixture models. However, as they are not so robust, we could deveolop the theory by
-%     placing a Gaussian distribution around all data points i.e. the Kernel density estimator. 
-%  \end{note2}
-
-
 
  \section{Conditional distribution in a Bayesian setting}\label{mixture_include_prior}
  \input{Chapters/05_a_prior_inclusion.tex}
-
-
-%  \begin{figure}[H]
-%     \centering
-%     {\includegraphics[width=0.46\textwidth]{Pictures/1D_mixture_regression_Naive GMR_N_10.pdf} }%
-%     \qquad
-%    {\includegraphics[width=0.46\textwidth]{Pictures/1D_mixture_regression_Naive GMR_N_100.pdf} }%
-%     \caption{Example of Naive GMR with prior. When data is observed $\alpha := \frac{S(x)}{S(x)+1}$ gets close
-%     to 1 and the likehood is dominant.}
-% \end{figure}
 
 
 \section{Conditional of mixture model}\label{Conditional_mixture}
@@ -111,8 +91,6 @@ all components.
     \end{align*}
 \end{testexample}
 
-
-
 We will now present all the models and show how their conditional distributions are calculated concretely.
 
 \section{Kernel density estimator regression}
@@ -121,21 +99,20 @@ component around all data points and weight all the components equally. So for $
 $\{(x_i,y_i)\}_{i=1}^n$, the generative model is given as, 
 
 $$p(x,y) = \frac{1}{N} \sum_{i=1}^n \mathcal{N}\left(\begin{bmatrix}x\\y\end{bmatrix} \middle|
-\begin{bmatrix}x_i\\y_i\end{bmatrix}, \sigma^2 I \right) = \frac{1}{N} \sum_{i=1}^n 
-\mathcal{N}(x|x_i, \sigma^2 I)\mathcal{N}(y|y_i, \sigma^2),$$
-where $\sigma^2$ is refered as the bandwidth, when the literature refers to the above as a kernel estimator. 
-Small $\sigma^2$ yields a complex model and large $\sigma^2$ yields a simple model. Therefore chosing $\sigma^2$
+\begin{bmatrix}x_i\\y_i\end{bmatrix}, \begin{bmatrix}\sigma_x^2 I & 0\\0&\sigma_y^2\end{bmatrix} \right) = \frac{1}{N} \sum_{i=1}^n 
+\mathcal{N}(x|x_i, \sigma_x^2 I)\mathcal{N}(y|y_i, \sigma_y^2),$$
+where $\sigma^2$\footnote{Here we assume $\sigma = \sigma_x = \sigma_y$.} is refered as the bandwidth, when the literature refers to the above as a kernel estimator. 
+Small $\sigma^2$ yields a complex model and large $\sigma^2$ yields a simple model. Therefore choosing $\sigma^2$
 just rigth is crucial for a good model. 
-
 
 \subsection{Conditional of Kernel density estimator}
 Since the kernel density estimator is just a Gaussian mixture model, with no correlation between
-any of the variables, yeilding i.e. $p_z(y|x) = p_z(y)$, therefor the conditional distribution is
+any of the variables, yeilding i.e. $p_z(y|x) = p_z(y)$, therefore the conditional distribution is
 given as, 
 \begin{align}
-    p(y|x) &= \sum_{z=1}^n \gamma_z(x) \mathcal{N}(y|\mu_{y}^{(z)},\Sigma_{yy}^{(z)} ),\\
-    \gamma_z(x) &= \frac{\lambda_z \mathcal{N}(x|\mu_{x}^{(z)},\Sigma_{xx}^{(z)})}{\sum_{z^*}
-\lambda_{z^*} \mathcal{N}(x|\mu_{x}^{(z^*)},\Sigma_{xx}^{(z^*)})}.
+    p(y|x) &= \sum_{z=1}^n \gamma_z(x) \mathcal{N}(y|y_z,\sigma_y^2),\\
+    \gamma_z(x) &= \frac{\lambda_z \mathcal{N}(x|x_z,\sigma_x^2)}{\sum_{z^*}
+\lambda_{z^*} \mathcal{N}(x|x_{z^*},\sigma_x^2)}.
 \end{align}
 The computational complexity of calculating the conditional or the predictive distribution is
 $O(n)$, since we reused the denominator of $\gamma_z(x)$ for all components $z$. 
@@ -302,36 +279,34 @@ amount.
 
 Denote the set of edges in the sub-network $\mathcal{E}(S_z)$.
 Now the we define a mixture coeficient, $\lambda_z$ and component for each $S_z$ as 
-$$\lambda_z := \prod_{(i,j)\in \mathcal{E}(S_z)} w_{i,j}, \hspace{1cm} p_z(x,y|\theta) := \prod_{i
-\in \mathcal{L}(S_z)} \phi_i(x,y),$$ where $\phi_i(x,y)$ is the leaf distribution at leaf node $i$
-paramitised with $\theta$. It can now be proven that the SPN can be interpreted as the following mixture
-model, 
+\begin{equation} \label{SPNmixturecomponent}
+    \lambda_z := \prod_{(i,j)\in \mathcal{E}(S_z)} w_{i,j}, \hspace{1cm} p_z(x,y|\theta) := \prod_{i
+    \in \mathcal{L}eaf(S_z)} \phi_i(x,y),
+\end{equation}
+where $\phi_i(x,y)$ is the leaf distribution at leaf node $i$. It can now be proven that the SPN can
+be interpreted as the following mixture model, 
 $$p(x,y|w,\theta) = \sum_{z=1}^Z \lambda_z(w)p_z(x,y|\theta)$$
 i.e. by the weighted sum of all $Z$ sub-networks. 
 
-
 \subsection{Conditional of SPN}
-Conviniently we can define the mixture model as 
+The mixture components of the SPN are given above \eqref{SPNmixturecomponent}, to calculate the conditional 
+we define $p_{z_x}$ and $p_{z_y}$ as follows, 
 \begin{align*}
     p_z(x,y) &= \prod_{i \in x\mathcal{L}eaf(z)} \phi_i(x)\prod_{i \in y\mathcal{L}eaf(z)} \phi_i(y)\\
             &=: p_{z_x}(x) p_{z_y}(y) 
 \end{align*}
-<obs connect til forgående sections> giving the conditional of the mixture and the responsibility
+giving the conditional of the mixture and the responsibility using section \eqref{Conditional_mixture},
 \begin{align}
-    p(y|x) &= \sum_{z=1}^n \gamma_z(x) p_{z_y}(y)\\
-    \gamma_z(x) &= \frac{ \lambda_z p_{z_x}(x)}{\sum_{z \in \Sigma(S)} \lambda_z p_{z_x}(x)}
+    p(y|x) &= \sum_{z =1}^Z \gamma_z(x) p_{z_y}(y)\\
+    \gamma_z(x) &= \frac{ \lambda_z p_{z_x}(x)}{\sum_{z^* =1}^Z \lambda_z p_{z_x}(x)}
 \end{align}
-\subsubsection{calculation of responsibility}
-The responsibility of a datapoint to belong to one mixture component, is given by
-$$\gamma_z(x) = \frac{\lambda_z p_z(x)}{\sum_{z^*} \lambda_{z^*} p_{z^*}(x)}$$
-We can prove that the responsibility is equal to the gradient of the log likehood, 
+ The responsibility of a datapoint to belong to one mixture component, $\gamma_z(x)$ is equal to the
+ gradient of the log likehood, 
 $$L:= \sum_n \log \sum_z \lambda_z \exp \psi_z(x_n)$$
 where we define $\psi_z(x_n) = \log p_z(x_n)$. Take the gradient 
-$$\frac{\partial L}{\partial \psi_{z}(x_{n})} = \frac{\lambda_z p_z(x_n)}{\sum_{z^*} \lambda_{z^*} p_{z^*}(x)}$$
-Note that the gradient easily can be found using automatic differentiation. 
+$$\frac{\partial L}{\partial \psi_{z}(x_{n})} = \frac{\lambda_z p_z(x_n)}{\sum_{z^*=1}^Z \lambda_{z^*} p_{z^*}(x)}.$$
+This is convenient as this gradient easily can be found using automatic differentiation. 
 
-
-\newpage
 \section{Mixture model training}
 The following section presents the expectation-maximization algorithm, which is used to 
 train the Gaussian mixture model and the SPN. 

@@ -1,7 +1,8 @@
 \chapter{Implementation}
 As the models defined in the previous chapters have not been specified enough, we here 
 present the specified surrogate models and methodologies for the upcoming results. Furthermore, 
-we shortly explain the implementation details of the Bayesian optimization routine. 
+we shortly explain the implementation details of the Bayesian optimization routine. All code
+can be found at \url{github.com/SimonKruse0/master-thesis}.
 
 \section{Bayesian Optimization (BO)}\label{BO_implementation}
 The Bayesian optimization framework is implemented as a python class. It is possible to pass the class two
@@ -33,28 +34,30 @@ implemented. First, we describe the implementation of the discriminative surroga
 we describe the implementation of the generative/mixture surrogate models (GMR, KDE, SPN). 
 
 \subsection{Discriminative surrogates}
-The \textbf{Gaussian process (GP)} regression is implemented using the GPy framework, with the Matern kernel with
-$\nu=1.5$. The hyperparamteres, i.e. the lengthscale, variance and observation variance are
-optimized by maximizing the marginalized likelihood using the limited memory quasi-newton solver
-with bounds ($10^{-3}, 2$). l-bfgs-b max 1000 iterations with 20 restarts. 
-The bounds are reasonable since the data is always standardized. 
+The \textbf{Gaussian process (GP)} regression is implemented using the GPy framework, with the
+Matern kernel with $\nu=2.5$. The hyperparamteres, i.e. the kernel lengthscale, kernel variance and
+observation variance are optimized by maximizing the marginalized likelihood using a limited memory
+quasi-newton solver, \textit{l-bfgs-b}, with bounds ($10^{-3}, 2$). The solver takes max 1000
+iterations with 20 restarts. The bounds are reasonable since the data is always standardized. 
 
 %\subsubsection{BNN}
-The \textbf{Bayesian neural network (BNN)} is a fully connected neural network with 3 layers for 50 tanh
-nodes. It is implemented using Numpyro - which is a python library for probabilistic machine
-learning, developed by some of the people behind Pyro. Different from Pyro, Numpyro uses Jax (and
-not PyTorch) as the backend. This allows for a significantly large speedup when doing MCMC, i.e.
-NUTS sampling. The MCMC routine is still quite slow and we limit the sampling size to 500 burn-in
-samples and 500 (hopefully) posterior samples with 4 chains - this showed good empirical results on
-1D problems. The prior distribution for weights and bias is a standard normal distribution. This is
-reasonable since the data is always standardized. As we are (mostly) dealing with noise-free problems, 
-we put an informative prior of $InvGa(1000,1)$ on the observation variance i.e. giving a very small observation
-variance. 
+The \textbf{Bayesian neural network (BNN)} is a fully connected neural network with 3 layers for 50
+tanh nodes. It is implemented using Numpyro - which is a python library for probabilistic machine
+learning developed by some of the people behind Pyro. Different from Pyro, Numpyro uses Jax (and not
+PyTorch) as the backend. This allows for a significantly large speedup when doing MCMC, i.e. NUTS
+sampling\footnote{Stated at the frontpage of www.pyro.ai}. The MCMC routine is still quite slow and
+we limit the sampling size to 500 burn-in samples and 500 (hopefully) posterior samples with 4
+chains - this showed good empirical results on 1D problems. The prior distribution for weights and
+bias is a standard normal distribution. This is reasonable since the data is always standardized. As
+we are (mostly) dealing with noise-free problems, we put an informative prior of $InvGa(1000,1)$ on
+the observation variance i.e. giving a very small observation variance. The network weights are
+assigned a standard Gaussian prior, since the data is standardized this prior is reasonable. 
 
 %\subsubsection{BOHamiANN}
 The \textbf{BOHamiANN} model is presented in the paper \cite{BOHAMIANN} and is implemented as it is implemented default
 in "github.com/automl/pybnn", which is a fully connected Bayesian neural network with 50 tanh nodes on 3 layers. 
-I.e. Same architecture as we use for our implementation, BNN. 
+I.e. Same architecture as we use for our implementation, BNN. It takes 1000 burn-in samples and 2000 samples can keeps
+every 10 of those to hopefully get iid samples. 
 
 \begin{table}[H]
   \centering
@@ -74,8 +77,8 @@ I.e. Same architecture as we use for our implementation, BNN.
   \begin{tabular}[t]{l}
     3 layers of 50 tanh nodes\\ 
     $p(\textbf{w}, b) \sim \mathcal{N}(0, \sigma_{w})$ \\
-    $p(\sigma) \sim \text{LogNormal}(??)$ \\
-    $p(\sigma_{w}) \sim \text{Gamma}(??)$
+    $p(\sigma) \sim \text{LogNormal}(0,1)$ \\
+    $p(\sigma_{w}) \sim \text{InvGamma}$
   \end{tabular} &
   \begin{tabular}[t]{l}
     Adaptive stochatic HMC \\
@@ -96,54 +99,57 @@ I.e. Same architecture as we use for our implementation, BNN.
 \end{table}
 
 \subsubsection{Generative surrogates}
-We now present how the generative/mixture models (GMR, KDE, SPN) are implemented more concretely. Firstly, 
-all the models have some hyperparameters, which we will not fix,  
-\begin{itemize}[noitemsep]
-  \item GMR: Number of components, prior weight. 
-  \item KDE: Variance of x and y components for all component,  prior weight. 
-  \item SPN: Prior on the variance of x and y components,  prior weight.
-\end{itemize}
-We select the hyperparameters using 30 fold (or leave one out for data size smaller) cross-validation, 
-where the models are scored on their mean predictive log probability, i.e. uncertainty quantification. 
-We test 40 different points using Bayesian optimization outside the crossvalidation loop. This is
-done using the Python package "scikit-optimize". 
-
-The prior variance should be sufficiently large, such that the benefit of the model actually fitting the 
-the data is larger than just setting the prior weight high. We set the prior variance to 100 (Which is large since the 
-data is standardized). 
+In the following, the implemented generative/mixture models (GMR, KDE, SPN) are presented more
+concretely. All the generative models have the "background" prior distribution defined in section
+\ref{mixture_include_prior} for the experiments. The prior is defined as, 
+$$p_{\text{prior}}(y) = \mathcal{N}(y|0,10^2).$$ Since the data is standardized, this is a
+sufficiently "uninformative" prior variance --- when selecting hyperparameters for models with the
+cross-validation scored using the uncertainty quantification(UQ), the prior weight
+$\frac{1}{\Delta}$ (see \ref{mixture_include_prior}) will not be as attractive to turn high. Besides
+the prior weight, the models have hyperparameters, which we will choose using cross-validation
+scored on UQ (more specifically, the mean log predictive density (explained here \ref{UQ_score}),
+i.e. uncertainty quantification.
+\begin{testexample}[Cross-validation of hyperparamters]
+  We select the hyperparameters using 30 fold (or leave one out for data size smaller)
+  cross-validation, where the models are scored on their mean log predictive density
+  (\ref{UQ_score}), i.e. uncertainty quantification. We test 40 different points using Bayesian
+  optimization outside the cross-validation loop. This is done using the Python package
+  \textit{scikit-optimize}. 
+\end{testexample}
 
 %\subsubsection{GMR}
-The Gaussian mixture regression (GMR) is implemented using the software\cite{GMR}, which takes in
+The \textbf{Gaussian mixture regression (GMR)} is implemented using the software\cite{GMR}, which takes in
 mixture components and weights trained using sklearn's Gaussian mixture model. Which we train using
 20 restarts.
 
 %\subsubsection{KDE}
-The kernel decision estimator regression is implemented using numpy and fast vector operations. As
+The \textbf{kernel decision estimator regression (KDE)} is implemented using numpy and fast vector operations. As
 mentioned the standard deviation of all is mixture components in the x and y direction is found
 using cross-validation in the range between $(10^{-3}, 0.3)$. 
 
-SPN is implemented using software similar to RAT-SPN but implemented by Mikkel N. Schmidt. It is
-trained using the EM algorithm to maximize the posterior i.e. finding the MAP estimate. The
-posterior is found in closed form since the component distributions are Gaussian and the prior is
-given as an inverse gamma (i.e. a conjugate prior). Inverse gamma distributions have two parameter
-the shape $\alpha>0$ and the scale $\beta>0$, and a mean, $\frac{\beta}{\alpha-1}$ for $\alpha >1$, 
-and a variance $\frac{\beta^2}{(\alpha-1)^2(\alpha-2)}$ for $\alpha >2$. Looking at plots of the
-distribution we choose to fix $\beta =1$ and select $\alpha \in [1,200]$ using cross-validation. 
+The \textbf{sum-product network (SPN)} is implemented using software similar to RAT-SPN \cite{RAT_SPN} but
+implemented by Mikkel N. Schmidt. It is trained using the EM algorithm to maximize the posterior
+i.e. finding the MAP estimate. The posterior is found in closed form since the component
+distributions are Gaussian and the prior is given as an inverse gamma (i.e. a conjugate prior).
+Inverse gamma distributions have two parameter the shape $\alpha>0$ and the scale $\beta>0$, and a
+mean, $\frac{\beta}{\alpha-1}$ for $\alpha >1$, and a variance
+$\frac{\beta^2}{(\alpha-1)^2(\alpha-2)}$ for $\alpha >2$. Looking at plots of the distribution we
+choose to fix $\beta =1$ and select $\alpha \in [1,200]$ using cross-validation. 
 
 \begin{table}[H]
   \centering
   \resizebox{\textwidth}{!}{\begin{tabular}[t]{p{.20\textwidth} | p{.40\textwidth}  | p{.40\textwidth}}
-  \textbf{Model}       & \textbf{Specification}    &   \textbf{Training} \\ \hline
+  \textbf{Model}       & \textbf{Specification}    &   \textbf{Hyperparamters} \\ \hline
   GMR& 
   \begin{tabular}[t]{l}
     Training sklearn GMM, \\
-    EM of MLE with 3 restarts.\\
-    pluggin into GMR software \cite{GMR}. 
+    MLE from EM with 20 restarts.\\
+    Model inputed into the GMR\\ 
+    framework \cite{GMR}. 
   \end{tabular} &
   \begin{tabular}[t]{l}
-    BO Cross-validation 30 fold, \\
-    tuning number of components \\ 
-    and prior weight
+    Number of components \\ 
+    Prior weight
   \end{tabular} \\\hline
 
   KDE& 
@@ -152,38 +158,26 @@ distribution we choose to fix $\beta =1$ and select $\alpha \in [1,200]$ using c
     with a x-variance and y-variance
   \end{tabular} &
   \begin{tabular}[t]{l}
-    BO Cross-validation 30 fold,\\
-     testing x-variance and y-variance and prior weight\\ 
+     Mixture components x-variance\\
+     Mixture components y-variance\\
+     Prior weight 
   \end{tabular} \\\hline
 
   SPN& 
   \begin{tabular}[t]{l}
-    Trained using 3 restarts of EM of MAP,\\  
+    RAT-SPN (20 channels, 2 tracks)\\
+    MAP found with 5 restarts of EM\\  
   \end{tabular} &
   \begin{tabular}[t]{l}
-    BO Cross-validation 30 fold,\\
-     tuning: hyperpriors and prior weight
+    Mixture components x-variance prior $\alpha_{x-dim}$ \\
+    Mixture components y-variance prior $\alpha_{y-dim}$ \\
+    Prior weight
   \end{tabular} \\\hline
 
   \end{tabular}}
   \caption{Overview of chosen generative surrogate models  
           }
 \end{table}
-%\subsection{Model definintions}
-Whereas a true Bayesian would not choose a specific type of model, but use all models
-, however, this would indeed be infeasible. We need to limit the scope, 
-For the GP, we do 20 restarts in the emperical maximization. And the manteen kernel prior
-with $\nu = 2.5$. 
-BNN, is a 50x50x50 tanh layers with standard Gaussain priors on. And an inverse gamma (1000, 1)
-prior on the noise. Trained with 100 burn-in and 100 samples. 
-BOHAMIANN is similar but uses a different noise prior, and trains using the adaptive HMC method. 
-The mixture models are trained using crossvalidation scored on the mean predictive log .. posterior
-(formally speaking this is not a likelihood, but we will keep it as it is almost the same)
-The tuning parameters 
-We do 40 iterations 
-SPN is trained using EM with maximum 1000 epochs (is terminated if the progress is stalling). 
-it is trained 2 times. \todo{Lav den historie}
-GMR is trained using EM but this is done by the sklearn software. 
 
 \section{Standardized data}
 Before the data reach any of the models, it is standardized. this is a scaling and a translation
@@ -208,26 +202,13 @@ We have designed 4 test functions, which are defined to give an advantage to all
 we go to the higher dimensional problems from the BBOB noiseless problem set. This is a popular set of problems 
 with 24 different problems for continuous black-box optimization algorithms.
 
-
-% Bayesian optimization experiments we want to test the performance of as probabilistic regression
-% models.
-%  Thereby we might find regression models, which is better?! When this is established we want
-%  to test out the performance as a Bayesian optimization routine!
- 
-%  Firstly an overview of the implementation!. 
- 
-%  \todo{Lav systematiske resultater. Udvælg functionsklasser at kigge på}
- 
-%  <reproducer resultater fra Arayns thesis>
-%  Egne forsøg med SPN og mixture regression
-
  \section{Regression analysis methodology}
  As described in the previous sections, an essential part of Bayesian optimization and the decision
  theory built around Bayesian optimization is that the regression model is well-fitted. We will therefore
  look at how good the regression models are in terms of accurate prediction and 
  correct uncertainty estimation. The following provides details on how exactly this is done. 
 
- \subsection{Uncertainty quantification}
+ \subsection{Uncertainty quantification}\label{UQ_score}
 Well-calibrated uncertainty estimation is important for a probabilistic regression model. A good fit is
 scored on the model's ability to assign a non-zero (hopefully large) probability to every test point, i.e.
 we hope for a given test point $(x_t, y_t)$, that $p(y_t|x_t,\mathcal{D})$ is large. 
@@ -329,8 +310,7 @@ being especially lucky with one instance of the training data.
 
 \subsection*{Test1: Well-behaved problem}
 The first problem will establish a benchmark since this is a simple function to fit. Its exact definition is,
-$$f(x) = x\cdot \sin(\frac{x}{50} \pi) + 150 + \frac{x}{10} + \sin(x) \hspace{0.5cm} x \in [-100,100],$$
-giving a smooth wave function, with the optimium around $-77$.
+$$f(x) = x\cdot \sin(\frac{x}{50} \pi) + 150 + \frac{x}{10} + \sin(x) \hspace{0.5cm} x \in [-100,100].$$
 
 \begin{figure}[bth]
   \centering
@@ -362,7 +342,7 @@ uncertainty quantification compared with using the empirical standard deviation 
 20 training points.
 %We have been choosing the hyper parameters of the generative models using crossvalidation.
 The discriminative models on the other hand perform worse than the empirical standard deviation,
-especially the GP is doing exceptionally bad - its overconfident, the reason can be seen in Figure
+especially the GP is doing exceptionally bad - it is overconfident, the reason can be seen in Figure
 \ref{Test1_reg_visual_1}, showing one of the 10 regression results from fitting 36 data points. The
 GP is so certain on some predictions that it assigns almost 0 preditive density to some of the 10000
 test points (i.e the we test all of the line from -100 to 100), yielding very low mean log
@@ -427,7 +407,7 @@ predictive density.
 As GP and BNN have a natural assumption of continuity we want to investigate their performance
 on a discontinuous problem. We want to investigate their performance on the folloing step function, 
 defined as 
-$$f(x) = \sum_{i=1}^{13} u_i \bm{1}(I_{i}\leq x< I_{i+1}) + sin(x) \hspace{0.5cm} x \in ]-100,100]$$
+$$f(x) = \sum_{i=1}^{13} u_i \bm{1}(I_{i}\leq x< I_{i+1}) + \sin(x) \hspace{0.5cm} x \in ]-100,100]$$
 where $\bm{1}$ denoted the indicator function and
 \begin{align*}
   I &= \{-100,  -83,  -71,  -60,  -49,  -31,   -9,    3,   14,26,   37,   60,   83,  100\},\\
@@ -450,14 +430,14 @@ to a more deficult problem than case 1.
 \end{figure}
 
 
-In Figure \ref{Test2_reg_plot} left we see that this is indeed harder to fit than Test 1, as
-the reative error is not going down as fast. Comparing to Test 1 we here see that the mixtures are
-doing as well and sometimes better than the discriminative models. If instead we used the mode for
-the mixture regression models, we might see superior performance, as the prediction, will not be
+In Figure \ref{Test2_reg_plot} left we see that this is indeed harder to fit than Test 1, as the
+relative error is not going down as fast. Comparing to Test 1 we here see that the mixtures are
+doing as well and sometimes better than the discriminative models. If, instead, we used the mode for
+the mixture regression models, we might see superior performance, as the prediction will not be
 continuous. Looking at the Figure \ref{Test2_reg_plot} right we see the same story as Test1 that the
-mixtures regression has the best uncertainty quantification. KDE and SPN (before 100 data points) perfroms better than
-Gaussian mixture regression since the mixture components dimensions ($x$ and $y$) does not correlate,
-which fits into the data distribution. Same story for BOHamiANN as Test1. 
+mixtures regression has the best uncertainty quantification. KDE and SPN (before 100 data points)
+performs better than Gaussian mixture regression since the mixture components dimensions ($x$ and
+$y$) do not correlate, which fits into the data distribution. Same story for BOHamiANN as Test1. 
 %The uncertainty quantification 
 %of the discriminative takes a jump in the 
 
@@ -513,10 +493,9 @@ which fits into the data distribution. Same story for BOHamiANN as Test1.
 The following problem is corresponding to a multimodal problem, which could occure in simulations with
 two equally likely outcomes. We construct this problem to give the mixture models, 
 an advantage over the discriminative models. It is defined as follows, 
-$$f(x) = 50\cdot g(x)+ 100 + 10\cdot \sin(0.5\cdot x) + \epsilon \cdot (30 - g(x) \cdot 90), \hspace*{0.5cm}x \in
-[-100,100],$$ 
-where $\epsilon \sim \text{Cat}(0.5,0.5)$ and $g(x) = \text{sign}(x)+1$
-($g(x)$ is 0 for negative $x$ and 2 for positive $x$).
+$$f(x) = 50\cdot g(x)+ 100 + 10\cdot \sin(0.5\cdot x) + \epsilon \cdot (30 - g(x) \cdot 90),
+\hspace*{0.5cm}x \in [-100,100],$$ where $\epsilon \sim \text{Cat}(0.5,0.5)$ and $g(x) =
+\text{sign}(x)+1$. Note that $g(x)$ is 0 for negative $x$ and 2 for positive $x$.
 
 \begin{figure}[bth]
   \centering
@@ -592,7 +571,7 @@ Finally, this problem has a low frequency in the beginning but ends out with a v
 This is designed to be a difficult problem for the GP as this would need a different lengthscale
 throughout the space\footnote{This type of problem motivates GPs with anisotropic kernels such as deep
 kernel learning\cite{DeepKernelLearning}.}. We define Test4 as follows, 
-$$200 - \frac{x^2}{200} + \max\left(10, \frac{|x|}{2}\right) \sin(\frac{x}{2} \min(3, \max(0, \left(1 + \frac{x}{100}\right)^2))) \hspace{0.5cm} x \in [-100,100]$$
+$$f(x) = 200 - \frac{x^2}{200} + \max\left(10, \frac{|x|}{2}\right) \sin(\frac{x}{2} \min(3, \max(0, \left(1 + \frac{x}{100}\right)^2))) \hspace{0.5cm} x \in [-100,100]$$
 
 \begin{figure}[H]
   \centering
@@ -609,13 +588,14 @@ $$200 - \frac{x^2}{200} + \max\left(10, \frac{|x|}{2}\right) \sin(\frac{x}{2} \m
 \end{figure}
 
 In Figure \ref{Test4_reg_plot} left, the GP has the best predictive power. This does not contradict
-the motivation of this Test4 (being hard for isotropic GP). In the end, 316 data points covers
-the domain and the GP will lower its lengthscale (thereby allowing flexibility) and fit the data very
-well; its uncertainty quantification suffers from the small lengthscale. %This is seen in appendix \todo{Appendix}. 
-Zooming in on Figure \ref{Test4_reg_visual} top right, the GP does indeed have a hard
-time fitting the 36 points, it wants a lengthscale that matches the left side, but then it barely
-fits some of the points to the right. So it stays with the lengthscale and increases the observation
-variance instead. 
+the motivation of this Test4 (being hard for isotropic GP), since 316 data points will almost cover
+the domain and the GP will lower its lengthscale (thereby allowing flexibility) and fit the data
+very well; its uncertainty quantification suffers from the small lengthscale.
+%This is seen in appendix \todo{Appendix}. 
+Zooming in on Figure \ref{Test4_reg_visual} top right, the GP does indeed have a hard time fitting
+the 36 points: It wants a large lengthscale that matches the left side, but then it barely fits some
+of the points to the right, as a compromise it keeps the large lengthscale and increases the observation
+variance. 
 
 
 \begin{figure}[bth]
@@ -670,9 +650,10 @@ variance instead.
 Now we are ready to test the models in a Bayesian optimization setting. Test3 contains multiple
 equal minima, and Test4 has a close to minima point on the boundary $x=100$, so testing them would
 not be informative. We redefine Test3 and Test4 as seen in Figure \ref{TEST_problems2}. They still
-have the same overall structure, so the connecting to the regression analysis should be okay. 
+have the same overall structure, so relating the BO experiments to the regression analysis
+should be okay. 
 
-\begin{figure}[b]
+\begin{figure}[H]
   \centering
   \begin{minipage}[b]{0.24\textwidth}
    \includegraphics[width=\textwidth]{Figures/reg_illustrations/all_reg_figures/Test1.pdf}
@@ -705,7 +686,7 @@ repeated for 20 different samples of the initial data set.
 % a more sound analysis would be to use introduce statistics around the tests. however, this also becomes messy quickly. 
 % we see that the GP is in fact the best model in the simple
 % problem Test1; however, for the more complicated problems, the GP is not the preferred model. 
-\begin{figure}[H]
+\begin{figure}[b]
   \centering
   \begin{minipage}[b]{0.49\textwidth}
    \includegraphics[width=\textwidth]{Figures/results_baysopt/Test1.pdf}
@@ -790,14 +771,35 @@ Secondly, we test Bayesian optimization on them.
   \label{COCO_tests}
 \end{figure}
 
-\subsection{Regression performance on BBOB}
+\subsection{Regression performance on BBOB}\label{BBOB_reg}
 The testing regression performance is the same procedure as the 1D test problems. With 10 seeded
 random samples, we select $\{10, 15, 23, 36, 56, 86, 133, 205, 316\}$ points to fit the four BBOB
-problems in three dimensions (2,3,5). All results can be seen in the Appendix. The results of the
-preditive power are in general similar to the 1D test problems; the GP has the best predictive
-power. The uncertainty quantification quantification is, however, more equal between the generative
-and discriminative models. Figure \ref{BBOB_regression} shows the regression performance for 3
-representative problems, all of the $2\cdot 12$ plots can be seen in Apendix \ref{BBOB_regression_all}. 
+problems in three dimensions (2,3,5). All results can be seen in the Appendix. The predictive power
+results are generally similar to the 1D test problems: The GP has the best predictive power. Also
+similar looking uncertain quantifications, beside that the BNN, however, more equal between the
+generative and the discriminative models. 
+
+First, compared to the 1D test, BNN suddenly gives relatively high
+uncertain quantifications (better than empirical std) and, unfortunately, high mean prediction
+error across all BBOB tests(besides f3 dim 2). This is strange, and something might be wrong with the model. In contrast, BOHamiANN 
+now has decent predictive power but still has bad uncertainty quantifications. 
+
+f3 seems to be an easy problem. 
+
+f21 is a difficult problem - all models'(besides BOHamiANN and BNN, which fail) mean predictions in
+(f21 dim 2) first differ from the empirical mean prediction after 30 training. This same story for
+dim 3 and dim 5. That f21 is difficult to fit can also be seen that the GP is the best, but its relative error does not
+get below 5 \% for dim 2 and 10 \% for higher dim. 
+
+
+
+ points starts to differ the uncertainty quantification 
+
+Figure \ref{BBOB_regression} shows the regression performance for 3
+representative problems, all of the $2\cdot 12$ plots can be seen in Apendix
+\ref{BBOB_regression_all}. 
+
+Doing more iterations maybe interesion
 
 \begin{figure}[H]
   \centering
@@ -834,73 +836,88 @@ representative problems, all of the $2\cdot 12$ plots can be seen in Apendix \re
 
 \subsection{Bayesian optimization performance on BBOB}
 The Bayesian optimization procedure is as follows: 1) sample 5 random points, 2) do 30 Bayesian
-optimization iterations. We want to limit optimization paths of being lucky by doing 20
-restarts (preferable more, however, due to time and resource limitations). The optimization of the
-acquisition function is done by $d \cdot 5000$ random guesses. To be fairer across the dimensions,
-this should have been $5000^d$; however, this would have been computational infeasible. 
+optimization iterations. We want to limit optimization paths of being lucky by doing 20 restarts.
+The optimization of the acquisition function is done by $d \cdot 5000$ random guesses. To be fairer
+across the dimensions, this should have been $5000^d$; however, this would have been computational
+infeasible. 
 
-In large dimensions there are need for more data for the regression model to be correct? Course of
-dimensionality. In general, across the BBOB tests, we see that GP is the best surrogate model. The
-other models are doing worse than random search on several tests.
+The BO results shown in Figures \ref{BBOB_bayesOpt}, \ref{BBOB_bayesOpt1}, \ref{BBOB_bayesOpt2},
+\ref{BBOB_bayesOpt3} is hard to make a clear analysis. In large dimensions, regression models need
+more data for good performance due to the curse of dimensionality. This hypothesis is supported by
+the relatively good performance of the random search. Nevertheless, in general, we see that the GP
+is the preferred model. BOHamiANN is surprisingly good, and BNN is doing worse than random search on
+all BO problems besides f9 dim2 and dim3 (these conclusions harmonize with the regression analysis
+in section \ref{BBOB_reg}). Among the mixture regression models, we see good performance of KDE on a
+few problems, while SPN and GMR are doing bad on all problems. 
 
 \begin{figure}[H]
   \centering
-  \begin{minipage}[b]{0.49\textwidth}
-   \includegraphics[trim=0cm 2cm 0cm 0.4cm,clip,width=\textwidth]{Figures/results_baysopt/3_2.pdf}
+  \begin{minipage}[b]{0.32\textwidth}
+   \includegraphics[trim=1cm 0.5cm 0.9cm 0.6cm,clip,width=\textwidth]{Figures/results_baysopt/3_2.pdf}
   \end{minipage}
   \hfill
-  \begin{minipage}[b]{0.49\textwidth}
-    \includegraphics[trim=0cm 2cm 0cm 0.4cm,clip,width=\textwidth]{Figures/results_baysopt/9_2.pdf}
-   \end{minipage}
-   \begin{minipage}[b]{0.49\textwidth}
-    \includegraphics[width=\textwidth]{Figures/results_baysopt/15_2.pdf}
+  \begin{minipage}[b]{0.32\textwidth}
+    \includegraphics[trim=1cm 0.5cm 0.9cm 0.6cm,clip,width=\textwidth]{Figures/results_baysopt/3_3.pdf}
    \end{minipage}
    \hfill
-   \begin{minipage}[b]{0.49\textwidth}
-     \includegraphics[width=\textwidth]{Figures/results_baysopt/21_2.pdf}
-    \end{minipage}
-  \caption{Bayesian optimization of BBOB in 2 dimensions, average accross 20 different samples of initial dataset of size 5)}
+   \begin{minipage}[b]{0.32\textwidth}
+    \includegraphics[trim=1cm 0.5cm 0.9cm 0.6cm,clip,width=\textwidth]{Figures/results_baysopt/3_5.pdf}
+   \end{minipage}
+  \caption{Bayesian optimization of f3 in 2,3 and 5 dimensions. Average optimization path accross 20 different samples of initial dataset of size 5. 
+  Left axis is relative distance to minima i.e. $\frac{|y_{\min}-f^*|}{|f^*|}$. GP and BOHamiANN is the best model. KDE performance decently.}
   \label{BBOB_bayesOpt}
 \end{figure}
 
 \begin{figure}[H]
   \centering
-  \begin{minipage}[b]{0.49\textwidth}
-   \includegraphics[trim=0cm 2cm 0cm 0.4cm,clip,width=\textwidth]{Figures/results_baysopt/3_3.pdf}
+  \begin{minipage}[b]{0.32\textwidth}
+   \includegraphics[trim=1cm 0.5cm 0.9cm 0.6cm,clip,width=\textwidth]{Figures/results_baysopt/9_2.pdf}
   \end{minipage}
   \hfill
-  \begin{minipage}[b]{0.49\textwidth}
-    \includegraphics[trim=0cm 2cm 0cm 0.4cm,clip,width=\textwidth]{Figures/results_baysopt/9_3.pdf}
-   \end{minipage}
-   \begin{minipage}[b]{0.49\textwidth}
-    \includegraphics[width=\textwidth]{Figures/results_baysopt/15_3.pdf}
+  \begin{minipage}[b]{0.32\textwidth}
+    \includegraphics[trim=1cm 0.5cm 0.9cm 0.6cm,clip,width=\textwidth]{Figures/results_baysopt/9_3.pdf}
    \end{minipage}
    \hfill
-   \begin{minipage}[b]{0.49\textwidth}
-     \includegraphics[width=\textwidth]{Figures/results_baysopt/21_3.pdf}
-    \end{minipage}
-  \caption{Bayesian optimization of BBOB in 3 dimensions average accross 20 different samples of initial dataset of size 5)}
-  \label{BBOB_bayesOpt}
+   \begin{minipage}[b]{0.32\textwidth}
+    \includegraphics[trim=1cm 0.5cm 0.9cm 0.6cm,clip,width=\textwidth]{Figures/results_baysopt/9_5.pdf}
+   \end{minipage}
+  \caption{Bayesian optimization of f9 in 2,3 and 5 dimensions. Average optimization path accross 20 different samples of initial dataset of size 5. 
+  Left axis is $\frac{|y_{\min}-f^*|}{|f^*|}$. GP perfroms best. Mixture models are worse than random search (no KDE for the 2D problem).}
+  \label{BBOB_bayesOpt1}
 \end{figure}
-
 
 \begin{figure}[H]
   \centering
-  \begin{minipage}[b]{0.49\textwidth}
-   \includegraphics[trim=0cm 2cm 0cm 0.4cm,clip,width=\textwidth]{Figures/results_baysopt/3_5.pdf}
+  \begin{minipage}[b]{0.32\textwidth}
+   \includegraphics[trim=1cm 0.5cm 0.9cm 0.6cm,clip,width=\textwidth]{Figures/results_baysopt/15_2.pdf}
   \end{minipage}
   \hfill
-  \begin{minipage}[b]{0.49\textwidth}
-    \includegraphics[trim=0cm 2cm 0cm 0.4cm,clip,width=\textwidth]{Figures/results_baysopt/9_5.pdf}
-   \end{minipage}
-   \begin{minipage}[b]{0.49\textwidth}
-    \includegraphics[width=\textwidth]{Figures/results_baysopt/15_5.pdf}
+  \begin{minipage}[b]{0.32\textwidth}
+    \includegraphics[trim=1cm 0.5cm 0.9cm 0.6cm,clip,width=\textwidth]{Figures/results_baysopt/15_3.pdf}
    \end{minipage}
    \hfill
-   \begin{minipage}[b]{0.49\textwidth}
-     \includegraphics[width=\textwidth]{Figures/results_baysopt/21_5.pdf}
-    \end{minipage}
-  \caption{Bayesian optimization of BBOB in 5 dimensions average accross 20 different samples of initial dataset of size 5.}
-  \label{BBOB_bayesOpt5}
+   \begin{minipage}[b]{0.32\textwidth}
+    \includegraphics[trim=1cm 0.5cm 0.9cm 0.6cm,clip,width=\textwidth]{Figures/results_baysopt/15_5.pdf}
+   \end{minipage}
+  \caption{Bayesian optimization of f15 in 2,3 and 5 dimensions. Average optimization path accross 20 different samples of initial dataset of size 5. 
+  Left axis is $\frac{|y_{\min}-f^*|}{|f^*|}$. GP perfroms best. Only BOHamiANN and KDE performs better than random search.}
+  \label{BBOB_bayesOpt2}
 \end{figure}
 
+\begin{figure}[H]
+  \centering
+  \begin{minipage}[b]{0.32\textwidth}
+   \includegraphics[trim=1cm 0.5cm 0.9cm 0.6cm,clip,width=\textwidth]{Figures/results_baysopt/21_2.pdf}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.32\textwidth}
+    \includegraphics[trim=1cm 0.5cm 0.9cm 0.6cm,clip,width=\textwidth]{Figures/results_baysopt/21_3.pdf}
+   \end{minipage}
+   \hfill
+   \begin{minipage}[b]{0.32\textwidth}
+    \includegraphics[trim=1cm 0.5cm 0.9cm 0.6cm,clip,width=\textwidth]{Figures/results_baysopt/21_5.pdf}
+   \end{minipage}
+  \caption{Bayesian optimization of f21 in 2,3 and 5 dimensions. Average optimization path accross 20 different samples of initial dataset of size 5. 
+  Left axis is $\frac{|y_{\min}-f^*|}{|f^*|}$. BOHamiANN and GP perfroms best. Random search is best in dim 3 untill a budget of 25.}
+  \label{BBOB_bayesOpt3}
+\end{figure}

@@ -108,9 +108,9 @@ As the GP is the standard surrogate model, it will provide a benchmark for the o
 are promising models which are shares similarities with the GP\footnote{A GP is equal to an
 infinitely large BNN with Gaussian priors} and have been used in \cite{PhDthesis} and
 \cite{BOHAMIANN}. Mixture regression models are defined from the conditional distribution of
-(generative) mixture models. They are interesting to investigate in a Bayesian optimization,
-especially for classes of problems with discontinuities. Furthermore, to our knowledge mixture
-regression models in a BO setting have not been investigated before. 
+(generative) mixture models. To our knowledge, mixture regression models in a BO setting have
+not been investigated before and they might be effective, especially for classes of problems
+with discontinuities.
 
 We choose only to test the Bayesian optimization with the widely used acquisition function:
 \textit{expected improvement}. Furthermore, we only deal with problems in continuous domains
@@ -140,7 +140,6 @@ problem set.
 % could lead to advantages over BNNs. 
 
 \section{Related work}
-\todo{Might delete this}
 Here we give a short overview of research in different surrogates for Bayesian optimization
 and the very related field of active learning. The different surrogate models, which are in the 
 research we found, 
@@ -181,7 +180,7 @@ learning, a Gaussian process is also very common, but the paper "Active Learning
 Models" \cite{ALStatisticalModels} investigates using Gaussian mixtures and kernel estimator in
 active learning, i.e. as a surrogate model for selecting the next samples. These regression
 models are not seen much in the literature; They are modeling the joint distribution of x and y, and
-using the conditional distribution $p(y|x)$ as the regression model. The results were ... ??
+using the conditional distribution $p(y|x)$ as the regression model.
 
 \section{Structure of this thesis}
 The structure of this thesis is as follows: Firstly, build up the foundation around Bayesian
